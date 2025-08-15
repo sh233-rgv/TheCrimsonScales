@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://t14ndn3kkfwm"]
+
+[ext_resource type="PackedScene" uid="uid://cj61uqdsa6bkt" path="res://Scenes/Scenario/UI/InfoView/FigureInfoItem.tscn" id="1_n7ij5"]
+[ext_resource type="Script" uid="uid://di5g5xfptm74k" path="res://Scripts/Scenario/UI/InfoView/CharacterInfoItem.cs" id="1_sdeou"]
+[ext_resource type="PackedScene" uid="uid://dbuph6sax0stv" path="res://Scenes/Scenario/UI/InfoView/InfoStat.tscn" id="3_gmqkp"]
+[ext_resource type="Texture2D" uid="uid://dupjq43l8w40r" path="res://Art/Icons/Other/Coins.svg" id="5_0kgou"]
+[ext_resource type="Texture2D" uid="uid://xcevbjw5n8no" path="res://Art/Icons/Abilities/XP.svg" id="6_v6jv0"]
+
+[node name="CharacterInfoItem" node_paths=PackedStringArray("_coinsLabel", "_xpLabel") instance=ExtResource("1_n7ij5")]
+script = ExtResource("1_sdeou")
+_coinsLabel = NodePath("MarginContainer/Content/Container/Stats/Coins/Label")
+_xpLabel = NodePath("MarginContainer/Content/Container/Stats/XP/Label")
+
+[node name="LabelContainer" parent="MarginContainer/Content" index="0"]
+custom_minimum_size = Vector2(310, 47)
+
+[node name="Coins" parent="MarginContainer/Content/Container/Stats" index="1" instance=ExtResource("3_gmqkp")]
+layout_mode = 2
+
+[node name="TextureRect" parent="MarginContainer/Content/Container/Stats/Coins" index="0"]
+texture = ExtResource("5_0kgou")
+
+[node name="Label" parent="MarginContainer/Content/Container/Stats/Coins" index="1"]
+text = "3"
+
+[node name="XP" parent="MarginContainer/Content/Container/Stats" index="2" instance=ExtResource("3_gmqkp")]
+layout_mode = 2
+
+[node name="TextureRect" parent="MarginContainer/Content/Container/Stats/XP" index="0"]
+texture = ExtResource("6_v6jv0")
+
+[node name="Label" parent="MarginContainer/Content/Container/Stats/XP" index="1"]
+text = "3"
+
+[editable path="MarginContainer/Content/Container/Stats/Health"]
+[editable path="MarginContainer/Content/Container/Stats/Coins"]
+[editable path="MarginContainer/Content/Container/Stats/XP"]

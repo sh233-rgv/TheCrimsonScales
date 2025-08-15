@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://cb3xeqoypfgdk"]
+
+[ext_resource type="PackedScene" uid="uid://cj61uqdsa6bkt" path="res://Scenes/Scenario/UI/InfoView/FigureInfoItem.tscn" id="1_4hght"]
+[ext_resource type="Script" uid="uid://dmq52wqqnsodg" path="res://Scripts/Scenario/UI/InfoView/SummonInfoItem.cs" id="1_8l6fa"]
+[ext_resource type="PackedScene" uid="uid://dbuph6sax0stv" path="res://Scenes/Scenario/UI/InfoView/InfoStat.tscn" id="3_sofk1"]
+[ext_resource type="Texture2D" uid="uid://b7grlpoqyc284" path="res://Art/Icons/Abilities/Move.svg" id="5_itfgv"]
+[ext_resource type="Texture2D" uid="uid://b5insf5u61cwx" path="res://Art/Icons/Abilities/Range.svg" id="6_lhoil"]
+
+[node name="SummonInfoItem" node_paths=PackedStringArray("_moveLabel", "_attackLabel", "_rangeLabel", "_nameLabel", "_portraitTexture", "_portraitBorder", "_healthLabel") instance=ExtResource("1_4hght")]
+script = ExtResource("1_8l6fa")
+_moveLabel = NodePath("MarginContainer/Content/Container/Stats/Move/Label")
+_attackLabel = NodePath("MarginContainer/Content/Container/Stats/Attack/Label")
+_rangeLabel = NodePath("MarginContainer/Content/Container/Stats/Range/Label")
+_nameLabel = NodePath("MarginContainer/Content/LabelContainer/Label")
+_portraitTexture = NodePath("MarginContainer/Content/Container/Portrait/MarginContainer/Portrait/TextureRect")
+_portraitBorder = NodePath("MarginContainer/Content/Container/Portrait")
+_healthLabel = NodePath("MarginContainer/Content/Container/Stats/Health/Label")
+
+[node name="Move" parent="MarginContainer/Content/Container/Stats" index="1" instance=ExtResource("3_sofk1")]
+layout_mode = 2
+
+[node name="TextureRect" parent="MarginContainer/Content/Container/Stats/Move" index="0"]
+texture = ExtResource("5_itfgv")
+
+[node name="Label" parent="MarginContainer/Content/Container/Stats/Move" index="1"]
+text = "4"
+
+[node name="Attack" parent="MarginContainer/Content/Container/Stats" index="2" instance=ExtResource("3_sofk1")]
+layout_mode = 2
+
+[node name="Label" parent="MarginContainer/Content/Container/Stats/Attack" index="1"]
+text = "3"
+
+[node name="Range" parent="MarginContainer/Content/Container/Stats" index="3" instance=ExtResource("3_sofk1")]
+layout_mode = 2
+
+[node name="TextureRect" parent="MarginContainer/Content/Container/Stats/Range" index="0"]
+texture = ExtResource("6_lhoil")
+
+[node name="Label" parent="MarginContainer/Content/Container/Stats/Range" index="1"]
+text = "3"
+
+[editable path="MarginContainer/Content/Container/Stats/Health"]
+[editable path="MarginContainer/Content/Container/Stats/Move"]
+[editable path="MarginContainer/Content/Container/Stats/Attack"]
+[editable path="MarginContainer/Content/Container/Stats/Range"]

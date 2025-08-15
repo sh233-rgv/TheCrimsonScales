@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=3 uid="uid://dl18focdn4sn2"]
+
+[ext_resource type="Script" uid="uid://bei5wabm6e43g" path="res://Scripts/Scenario/UI/AMDDrawView/AMDDrawCard.cs" id="1_hvfj5"]
+[ext_resource type="Texture2D" uid="uid://mqfp1jeh80g1" path="res://Art/AMDs/CardBack.tres" id="2_akln5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ceh5g"]
+bg_color = Color(0.15808, 0.1111, 0.0785726, 1)
+draw_center = false
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akno6"]
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="AMDDrawCard" type="Control" node_paths=PackedStringArray("_container", "_textureRect", "_cardBack")]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -184.0
+offset_top = -556.0
+offset_right = 176.0
+offset_bottom = -316.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(180, 120)
+script = ExtResource("1_hvfj5")
+_container = NodePath("Container")
+_textureRect = NodePath("Container/Mask/CardTexture")
+_cardBack = NodePath("Container/Mask/CardBack")
+
+[node name="Container" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(180, 120)
+
+[node name="TopCardShadow" type="Panel" parent="Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ceh5g")
+
+[node name="Mask" type="Panel" parent="Container"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_akno6")
+
+[node name="CardBack" type="TextureRect" parent="Container/Mask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_akln5")
+expand_mode = 1
+
+[node name="CardTexture" type="TextureRect" parent="Container/Mask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_akln5")
+expand_mode = 1

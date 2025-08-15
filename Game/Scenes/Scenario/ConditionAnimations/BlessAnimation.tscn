@@ -1,0 +1,196 @@
+[gd_scene load_steps=8 format=3 uid="uid://cb0dip7rd4wim"]
+
+[ext_resource type="PackedScene" uid="uid://btnvtl0cxfet5" path="res://Scenes/Scenario/ConditionAnimations/ConditionAnimation.tscn" id="1_ytc7j"]
+[ext_resource type="Texture2D" uid="uid://cj0tka51p356g" path="res://Art/Icons/ConditionsAndEffects/Bless/InnerRing.svg" id="2_ou0iv"]
+[ext_resource type="Texture2D" uid="uid://iqt2mmxqi06o" path="res://Art/Icons/ConditionsAndEffects/Bless/OuterRing.svg" id="3_3ffv0"]
+[ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="4_xpfdn"]
+
+[sub_resource type="Animation" id="Animation_ou0iv"]
+resource_name = "ConditionAnimation"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("InnerRing:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0.25, 0, 1, -0.3, 0.185226, 0.3, -0.185226),
+"times": PackedFloat32Array(0, 0.366667)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("InnerRing:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0.25, 0, 1, -0.3, 0.187693, 0.3, -0.187693),
+"times": PackedFloat32Array(0, 0.366667)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OuterRing:scale:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0.25, 0, 1, -0.2, 0.2989, 0.25, 0),
+"times": PackedFloat32Array(0.133333, 0.533333)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("OuterRing:scale:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0.25, 0, 1, -0.2, 0.2989, 0.25, 0),
+"times": PackedFloat32Array(0.133333, 0.533333)
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("InnerRing:rotation")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-3.14159, 0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("OuterRing:rotation")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [3.14159, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_3ffv0"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("InnerRing:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("InnerRing:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OuterRing:scale:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("OuterRing:scale:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("InnerRing:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("OuterRing:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [3.14159]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xpfdn"]
+_data = {
+&"ConditionAnimation": SubResource("Animation_ou0iv"),
+&"RESET": SubResource("Animation_3ffv0")
+}
+
+[node name="ConditionAnimation" instance=ExtResource("1_ytc7j")]
+_sfxPath = "res://Audio/SFX/MAGIC_SPELL_Fade_In_Metallic_Pingpong_Fade_mono.wav"
+_sfxDelay = 0.4
+
+[node name="AnimationPlayer" parent="ScaleContainer/Inset/AnimationContainer" index="0"]
+libraries = {
+&"": SubResource("AnimationLibrary_xpfdn")
+}
+speed_scale = 0.8
+
+[node name="InnerRing" type="Sprite2D" parent="ScaleContainer/Inset/AnimationContainer" index="1"]
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_ou0iv")
+
+[node name="OuterRing" type="Sprite2D" parent="ScaleContainer/Inset/AnimationContainer" index="2"]
+rotation = 3.14159
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("3_3ffv0")
+
+[node name="Circle" type="Node2D" parent="ScaleContainer/Inset/AnimationContainer/OuterRing" index="0"]
+
+[node name="Sprite2D" type="Sprite2D" parent="ScaleContainer/Inset/AnimationContainer/OuterRing/Circle" index="0"]
+position = Vector2(0, -124)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_xpfdn")
+
+[node name="Circle2" type="Node2D" parent="ScaleContainer/Inset/AnimationContainer/OuterRing" index="1"]
+rotation = 2.0944
+
+[node name="Sprite2D" type="Sprite2D" parent="ScaleContainer/Inset/AnimationContainer/OuterRing/Circle2" index="0"]
+position = Vector2(0, -124)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_xpfdn")
+
+[node name="Circle3" type="Node2D" parent="ScaleContainer/Inset/AnimationContainer/OuterRing" index="2"]
+rotation = 4.18879
+
+[node name="Sprite2D" type="Sprite2D" parent="ScaleContainer/Inset/AnimationContainer/OuterRing/Circle3" index="0"]
+position = Vector2(0, -124)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_xpfdn")

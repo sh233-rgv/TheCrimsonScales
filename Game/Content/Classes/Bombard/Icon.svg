@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="256"
+   height="256"
+   viewBox="0 0 64 64"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="Icon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="2.1627524"
+     inkscape:cx="142.41113"
+     inkscape:cy="154.20166"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       id="grid1"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="2"
+       spacingy="2"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="4"
+       enabled="true"
+       visible="true"
+       dotted="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       class="cls-1"
+       d="m 30.006875,57.92 a 26.5475,26.5475 0 0 1 -4.73125,-0.79875 26.04625,26.04625 0 0 1 -19.2,-23.125 h -2.95375 v -4 h 2.95 a 26.03375,26.03375 0 0 1 23.925,-23.9175 v -2.95 h 4 v 2.95 a 26.5475,26.5475 0 0 1 4.73125,0.80375 26.04125,26.04125 0 0 1 19.2,23.1175 h 2.95 v 4 h -2.9475 a 26.03375,26.03375 0 0 1 -23.92375,23.9225 v 2.94875 h -4 z m -19.9075,-23.92375 a 21.90375,21.90375 0 0 0 16.185,19.25 22.42375,22.42375 0 0 0 3.7225,0.65875 v -6.77875 h 4 v 6.7825 a 21.8825,21.8825 0 0 0 19.9125,-19.9075 h -6.77875 v -4 h 6.77875 a 21.90375,21.90375 0 0 0 -16.185,-19.25 22.40875,22.40875 0 0 0 -3.72125,-0.65875 v 6.77875 h -4 V 10.0925 a 21.8825,21.8825 0 0 0 -19.92375,19.90375 h 6.7825 v 4 z m 19.8975,0 h -2.875 v -4 h 2.875 l 0.0063,-2.875 h 4 l -0.0063,2.875 2.875,0.0062 v 4 l -2.875,-0.0063 v 2.875 h -4 z"
+       id="path1"
+       style="fill:#ffffff;stroke-width:0.125" />
+  </g>
+</svg>

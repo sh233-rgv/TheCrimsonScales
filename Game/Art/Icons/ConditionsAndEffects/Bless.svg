@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 128 128"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="Bless.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="1.0878906"
+     inkscape:cx="317.12747"
+     inkscape:cy="191.6553"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       id="grid1"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="2"
+       spacingy="2"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="4"
+       enabled="true"
+       visible="true"
+       dotted="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="Layer_2"
+       data-name="Layer 2"
+       transform="matrix(0.22032337,0,0,0.22032111,0.24962095,0.25)">
+      <g
+         id="Bless">
+        <path
+           class="cls-1"
+           d="m 289.35,573.69 a 14.59,14.59 0 0 1 -10.39,-4.3 L 9.31,299.73 a 14.68,14.68 0 0 1 0,-20.77 L 279,9.31 a 14.67,14.67 0 0 1 20.77,0 L 569.39,279 a 14.69,14.69 0 0 1 0,20.77 L 299.73,569.39 a 14.57,14.57 0 0 1 -10.38,4.3"
+           id="path1"
+           style="fill:#d6a529" />
+        <path
+           class="cls-2"
+           d="m 289.35,10 a 9.69,9.69 0 0 1 6.84,2.83 l 269.65,269.66 a 9.68,9.68 0 0 1 0,13.72 L 296.19,565.86 a 9.68,9.68 0 0 1 -13.68,0 L 12.85,296.21 a 9.68,9.68 0 0 1 0,-13.72 L 282.51,12.83 A 9.65,9.65 0 0 1 289.35,10 m 0,-10 A 19.69,19.69 0 0 0 275.42,5.78 L 5.76,275.44 a 19.68,19.68 0 0 0 0,27.82 l 269.66,269.65 a 19.65,19.65 0 0 0 27.86,0 L 572.93,303.26 a 19.66,19.66 0 0 0 0,-27.82 L 303.28,5.78 A 19.7,19.7 0 0 0 289.35,0"
+           id="path2"
+           style="fill:#ffffff" />
+        <polygon
+           class="cls-2"
+           points="216.73,330.77 252.57,268.72 288.37,206.71 324.16,268.72 360,330.77 288.37,330.77 "
+           id="polygon2"
+           style="fill:#ffffff" />
+        <path
+           class="cls-2"
+           d="m 315.37,147.74 a 27,27 0 1 1 -27,-27 27,27 0 0 1 27,27"
+           id="path3"
+           style="fill:#ffffff" />
+        <path
+           class="cls-2"
+           d="m 392.27,385.18 a 27,27 0 1 1 37.23,-8.45 27,27 0 0 1 -37.23,8.45"
+           id="path4"
+           style="fill:#ffffff" />
+        <path
+           class="cls-2"
+           d="m 157,342.92 a 27,27 0 1 1 -7.47,37.44 27,27 0 0 1 7.47,-37.44"
+           id="path5"
+           style="fill:#ffffff" />
+        <path
+           class="cls-3"
+           d="M 428.66,287.66 A 140.3,140.3 0 1 1 288.34,147.34 140.27,140.27 0 0 1 428.66,287.66 Z"
+           id="path6"
+           style="fill:none;stroke:#ffffff;stroke-width:16px;stroke-miterlimit:10" />
+        <circle
+           class="cls-3"
+           cx="288.37"
+           cy="287.66"
+           r="76.57"
+           transform="rotate(-22.5,288.36782,287.65471)"
+           id="circle6"
+           style="fill:none;stroke:#ffffff;stroke-width:16px;stroke-miterlimit:10" />
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,180 @@
+[gd_scene load_steps=9 format=3 uid="uid://b50ygjd4t0bs7"]
+
+[ext_resource type="PackedScene" uid="uid://btnvtl0cxfet5" path="res://Scenes/Scenario/ConditionAnimations/ConditionAnimation.tscn" id="1_awnv4"]
+[ext_resource type="Texture2D" uid="uid://bigmbb8ypl2yh" path="res://Art/Icons/ConditionsAndEffects/Curse.svg" id="2_jkiup"]
+[ext_resource type="Texture2D" uid="uid://ddbrq4nlcndv6" path="res://Art/Icons/ConditionsAndEffects/Curse/Bolt.svg" id="3_awnv4"]
+[ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="4_7nhg8"]
+
+[sub_resource type="Animation" id="Animation_jkiup"]
+resource_name = "ConditionAnimation"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bolt:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 3, 3, 3, 3, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.0684814, 0.5, -10.538, -0.0416667, 0, 0.0416667, 0, 4.87799, -0.025, 0, 0.025, 0, -3.20252, -0.0351481, 0, 0.0351481, 0, 1.66871, -0.0333333, 0, 0.0333333, 0, 0, -0.204071, -3.5, 0.25, 0),
+"times": PackedFloat32Array(0, 0.166667, 0.333333, 0.5, 0.7, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Bolt:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-474, -0.25, 0, 0.233333, 350.5, 0, -0.400831, 91.5, 0.25, 0),
+"times": PackedFloat32Array(0.5, 1)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CPUParticles2D:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.848155),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CPUParticles2D2:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.848155),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_awnv4"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bolt:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Bolt:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-474, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CPUParticles2D:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CPUParticles2D2:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vvigo"]
+_data = {
+&"ConditionAnimation": SubResource("Animation_jkiup"),
+&"RESET": SubResource("Animation_awnv4")
+}
+
+[sub_resource type="Curve" id="Curve_awnv4"]
+_data = [Vector2(0, 1), 0.0, 0.111574, 0, 0, Vector2(1, 0), -1.6978, 0.0, 0, 0]
+point_count = 2
+
+[node name="ConditionAnimation" instance=ExtResource("1_awnv4")]
+_sfxPath = "res://Audio/SFX/631769__robinhood76__11095-ancestor-curse-spell.wav"
+_sfxVolumeDb = -8.0
+_sfxDelay = 0.5
+
+[node name="Inset" parent="ScaleContainer" index="0"]
+self_modulate = Color(0.490196, 0.345098, 0.643137, 1)
+
+[node name="AnimationPlayer" parent="ScaleContainer/Inset/AnimationContainer" index="0"]
+libraries = {
+&"": SubResource("AnimationLibrary_vvigo")
+}
+speed_scale = 3.0
+
+[node name="Bolt" type="Node2D" parent="ScaleContainer/Inset/AnimationContainer" index="1"]
+position = Vector2(0, -474)
+
+[node name="Sprite2D" type="Sprite2D" parent="ScaleContainer/Inset/AnimationContainer/Bolt" index="0"]
+position = Vector2(-11, -37)
+texture = ExtResource("3_awnv4")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="ScaleContainer/Inset/AnimationContainer" index="2"]
+position = Vector2(3, 176)
+emitting = false
+amount = 3
+texture = ExtResource("4_7nhg8")
+lifetime = 3.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 10.0
+direction = Vector2(-0.6, -1)
+spread = 30.0
+gravity = Vector2(0, 300)
+initial_velocity_min = 350.0
+initial_velocity_max = 500.0
+scale_amount_min = 0.07
+scale_amount_max = 0.2
+scale_amount_curve = SubResource("Curve_awnv4")
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="ScaleContainer/Inset/AnimationContainer" index="3"]
+position = Vector2(3, 176)
+emitting = false
+amount = 3
+texture = ExtResource("4_7nhg8")
+lifetime = 3.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 10.0
+direction = Vector2(0.6, -1)
+spread = 30.0
+gravity = Vector2(0, 300)
+initial_velocity_min = 350.0
+initial_velocity_max = 500.0
+scale_amount_min = 0.07
+scale_amount_max = 0.2
+scale_amount_curve = SubResource("Curve_awnv4")
+
+[node name="Preview" parent="ScaleContainer/Inset/AnimationContainer" index="4"]
+texture = ExtResource("2_jkiup")

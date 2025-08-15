@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=3 uid="uid://diuy1dignnfhi"]
+
+[ext_resource type="PackedScene" uid="uid://d6v13l8hvtpu" path="res://Scenes/Scenario/OverlayTiles/OverlayTile1H.tscn" id="1_2sot3"]
+[ext_resource type="Script" uid="uid://nd3g60pr5wge" path="res://Scripts/Scenario/HexObjects/Trap.cs" id="2_uu8d5"]
+[ext_resource type="Texture2D" uid="uid://wu4apxqcxj1m" path="res://Art/OverlayTiles/BearTrap1H.png" id="3_d1ru4"]
+[ext_resource type="Texture2D" uid="uid://ck525v6ycu84g" path="res://Art/Icons/OverlayTiles/screen-impact.png" id="3_to431"]
+[ext_resource type="Texture2D" uid="uid://8y8qn4ss4e6a" path="res://Art/Icons/Abilities/Damage.svg" id="5_4nfl1"]
+[ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="5_4rank"]
+[ext_resource type="Script" uid="uid://c64vwp00ywdqo" path="res://Scripts/Scenario/HexObjects/ViewComponents/TrapViewComponent.cs" id="5_l72gb"]
+[ext_resource type="FontFile" uid="uid://c4k3lpnj0wc06" path="res://Fonts/PirataOne-Gloomhaven.ttf" id="6_hc0ff"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_c2qwa"]
+font = ExtResource("6_hc0ff")
+font_size = 35
+
+[node name="Trap1H" instance=ExtResource("1_2sot3")]
+script = ExtResource("2_uu8d5")
+ScaledDamage = true
+
+[node name="Hexagon" parent="." index="1"]
+self_modulate = Color(0.603922, 0.121569, 0.129412, 1)
+
+[node name="Sprite" parent="." index="2"]
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("3_d1ru4")
+
+[node name="Icon" parent="OverlayTileViewComponent" index="0"]
+self_modulate = Color(0.603922, 0.121569, 0.129412, 1)
+
+[node name="Icon" parent="OverlayTileViewComponent/Icon" index="0"]
+self_modulate = Color(1, 1, 1, 0.38)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("3_to431")
+
+[node name="TrapViewComponent" type="Node2D" parent="." index="4" node_paths=PackedStringArray("DamageContainer", "DamageLabel", "ConditionContainer")]
+script = ExtResource("5_l72gb")
+DamageContainer = NodePath("Damage")
+DamageLabel = NodePath("Damage/Label")
+ConditionContainer = NodePath("Conditions")
+
+[node name="Damage" type="Node2D" parent="TrapViewComponent" index="0"]
+visible = false
+
+[node name="Background" type="Sprite2D" parent="TrapViewComponent/Damage" index="0"]
+self_modulate = Color(0.603922, 0.121569, 0.129412, 1)
+scale = Vector2(0.37, 0.37)
+texture = ExtResource("5_4rank")
+
+[node name="DamageIcon" type="Sprite2D" parent="TrapViewComponent/Damage" index="1"]
+scale = Vector2(0.37, 0.37)
+texture = ExtResource("5_4nfl1")
+
+[node name="Label" type="Label" parent="TrapViewComponent/Damage" index="2"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(25, 25)
+text = "5"
+label_settings = SubResource("LabelSettings_c2qwa")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Conditions" type="Node2D" parent="TrapViewComponent" index="1"]
+position = Vector2(1, -50)

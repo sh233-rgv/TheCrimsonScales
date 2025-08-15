@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bmwifxpfnjgqk"]
+
+[ext_resource type="Script" uid="uid://dslao0hl5ihlm" path="res://Content/Classes/Bombard/BombardProjectileToken.cs" id="1_evpg0"]
+[ext_resource type="Script" uid="uid://cga0mgtsgequm" path="res://Scripts/Scenario/SnapToHexGrid.cs" id="3_052oq"]
+[ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="4_hsceu"]
+[ext_resource type="Texture2D" uid="uid://ukntvb1ygx0s" path="res://Content/Classes/Bombard/Icon.svg" id="4_jq20l"]
+
+[node name="BombardProjectile" type="Node2D"]
+z_index = 20
+script = ExtResource("1_evpg0")
+
+[node name="SnapToHexGrid" type="Node" parent="."]
+script = ExtResource("3_052oq")
+
+[node name="Icon" type="Node2D" parent="."]
+
+[node name="Background" type="Sprite2D" parent="Icon"]
+self_modulate = Color(0.54902, 0.407843, 0.231373, 1)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("4_hsceu")
+
+[node name="Background2" type="Sprite2D" parent="Icon"]
+visible = false
+self_modulate = Color(0.580392, 0.521569, 0.447059, 1)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("4_hsceu")
+
+[node name="Sprite2D" type="Sprite2D" parent="Icon"]
+scale = Vector2(0.28, 0.28)
+texture = ExtResource("4_jq20l")

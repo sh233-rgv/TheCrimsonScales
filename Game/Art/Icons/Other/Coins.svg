@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="256"
+   height="256"
+   viewBox="0 0 256 256"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="Coins.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:lockguides="true"
+     inkscape:zoom="2.2898106"
+     inkscape:cx="126.86639"
+     inkscape:cy="150.23076"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid234"
+       empspacing="4"
+       originx="0"
+       originy="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       class=""
+       id="g4"
+       transform="matrix(0.50000062,0,0,0.49999963,1.9695573e-4,-0.00234549)">
+      <path
+         d="M 264.4,95.01 C 228.8,94.95 184.2,106.2 140.2,129.1 96.27,152 61.45,182 41.01,211.3 c -20.45,29.2 -25.98,56.4 -15.92,75.8 10.07,19.3 35.53,30.4 71.22,30.4 35.69,0.1 80.29,-11.2 124.19,-34 44,-22.9 78.8,-53 99.2,-82.2 20.5,-29.2 25.9,-56.4 15.9,-75.8 -10.1,-19.3 -35.5,-30.49 -71.2,-30.49 z m 91.9,70.29 c -3.5,15.3 -11.1,31 -21.8,46.3 -22.6,32.3 -59.5,63.8 -105.7,87.8 -46.2,24.1 -93.1,36.2 -132.5,36.2 -18.6,0 -35.84,-2.8 -50.37,-8.7 l 10.59,20.4 c 10.08,19.4 35.47,30.5 71.18,30.5 35.7,0 80.3,-11.2 124.2,-34.1 44,-22.8 78.8,-52.9 99.2,-82.2 20.4,-29.2 26,-56.4 15.9,-75.7 z m 28.8,16.8 c 11.2,26.7 2.2,59.2 -19.2,89.7 -18.9,27.1 -47.8,53.4 -83.6,75.4 11.1,1.2 22.7,1.8 34.5,1.8 49.5,0 94.3,-10.6 125.9,-27.1 31.7,-16.5 49.1,-38.1 49.1,-59.9 0,-21.8 -17.4,-43.4 -49.1,-59.9 -16.1,-8.4 -35.7,-15.3 -57.6,-20 z m 106.7,124.8 c -10.2,11.9 -24.2,22.4 -40.7,31 -35,18.2 -82.2,29.1 -134.3,29.1 -21.2,0 -41.6,-1.8 -60.7,-5.2 -23.2,11.7 -46.5,20.4 -68.9,26.1 1.2,0.7 2.4,1.3 3.7,2 31.6,16.5 76.4,27.1 125.9,27.1 49.5,0 94.3,-10.6 125.9,-27.1 31.7,-16.5 49.1,-38.1 49.1,-59.9 z"
+         fill="#ffffff"
+         fill-opacity="1"
+         id="path2" />
+    </g>
+  </g>
+</svg>

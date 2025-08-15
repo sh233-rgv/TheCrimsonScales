@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 128 128"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="Enfeeble.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="1.1255704"
+     inkscape:cx="245.20901"
+     inkscape:cy="249.20699"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       id="grid1"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="2"
+       spacingy="2"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="4"
+       enabled="true"
+       visible="true"
+       dotted="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="Layer_2"
+       data-name="Layer 2"
+       transform="matrix(0.22033033,0,0,0.22032141,0.24962093,0.25)">
+      <g
+         id="Layer_1-2"
+         data-name="Layer 1">
+        <g
+           id="Layer_2-2"
+           data-name="Layer 2">
+          <g
+             id="Enfeeble">
+            <path
+               id="Background"
+               class="cls-1"
+               d="m 289.35,5 a 14.62,14.62 0 0 1 10.33,4.3 L 569.4,279 a 14.7,14.7 0 0 1 0,20.73 L 299.68,569.4 a 14.68,14.68 0 0 1 -20.76,0 L 9.3,299.7 a 14.68,14.68 0 0 1 0,-20.76 L 279,9.3 A 14.61,14.61 0 0 1 289.35,5"
+               style="fill:#5e3c58" />
+            <polygon
+               id="Colored_Notch"
+               data-name="Colored Notch"
+               class="cls-2"
+               points="289.34,343.68 253.96,308.7 67.53,308.7 289.34,528.03 511.14,308.7 324.71,308.7 "
+               style="fill:#ffffff" />
+            <g
+               id="Swords">
+              <g
+                 id="Left">
+                <path
+                   class="cls-2"
+                   d="m 245.74,249 -25.2,27.6 a 12.57,12.57 0 0 1 -8.4,-3.6 13.48,13.48 0 0 1 -5.4,-9 l 25.2,-27.6 z"
+                   id="path1"
+                   style="fill:#ffffff" />
+                <path
+                   class="cls-2"
+                   d="m 220.84,285.85 v 0 a 91.51,91.51 0 0 1 -23.4,-22.2 l 6.9,-5.4 a 180.31,180.31 0 0 1 21.3,18.9 z"
+                   id="path2"
+                   style="fill:#ffffff" />
+                <polygon
+                   class="cls-2"
+                   points="355.24,114.55 324.64,121.75 294.54,155.22 318.11,181.43 351.04,145.75 "
+                   id="polygon2"
+                   style="fill:#ffffff" />
+                <polygon
+                   class="cls-2"
+                   points="213.94,211.75 272.14,264.25 276.34,256.75 261.34,242.95 282.8,219.7 259.37,194.32 236.14,220.15 221.14,206.65 "
+                   id="polygon3"
+                   style="fill:#ffffff" />
+              </g>
+              <g
+                 id="Right">
+                <path
+                   class="cls-2"
+                   d="m 346.74,236.35 25.2,27.6 a 13.48,13.48 0 0 1 -5.4,9 12.57,12.57 0 0 1 -8.4,3.6 L 332.94,249 Z"
+                   id="path3"
+                   style="fill:#ffffff" />
+                <path
+                   class="cls-2"
+                   d="m 353,277.15 a 180.31,180.31 0 0 1 21.3,-18.9 l 6.9,5.4 a 91.18,91.18 0 0 1 -23.4,22.2 v 0 z"
+                   id="path4"
+                   style="fill:#ffffff" />
+                <polygon
+                   class="cls-2"
+                   points="302.34,256.75 306.54,264.25 364.74,211.75 357.54,206.65 342.54,220.15 254.04,121.75 223.44,114.55 227.64,145.75 317.34,242.95 "
+                   id="polygon4"
+                   style="fill:#ffffff" />
+              </g>
+            </g>
+            <path
+               id="Border"
+               class="cls-2"
+               d="m 289.34,568.7 a 9.62,9.62 0 0 1 -6.85,-2.84 L 12.83,296.19 a 9.68,9.68 0 0 1 0,-13.69 v 0 L 282.49,12.84 a 9.66,9.66 0 0 1 13.66,0 v 0 l 269.7,269.66 a 9.68,9.68 0 0 1 0,13.69 v 0 L 296.18,565.86 a 9.6,9.6 0 0 1 -6.84,2.84 m 0,10 a 19.65,19.65 0 0 0 13.92,-5.77 L 572.92,303.26 a 19.68,19.68 0 0 0 0,-27.82 v 0 L 303.26,5.76 a 19.7,19.7 0 0 0 -27.84,0 L 5.76,275.43 a 19.68,19.68 0 0 0 0,27.82 v 0 l 269.66,269.68 a 19.65,19.65 0 0 0 13.92,5.77"
+               style="fill:#ffffff" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0lqeggfigqtf"]
+
+[ext_resource type="Script" uid="uid://cg4jm2f8srtfj" path="res://Scripts/Scenario/HexObjects/Monsters/MonsterSpawnerIndicator.cs" id="1_ib4vo"]
+[ext_resource type="Texture2D" uid="uid://c63dcra22e3c3" path="res://Art/Other/MonsterSpawnerCorner.svg" id="2_vkwjk"]
+
+[node name="MonsterSpawnerIndicator" type="Node2D"]
+script = ExtResource("1_ib4vo")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_vkwjk")

@@ -1,0 +1,22 @@
+﻿using Fractural.Tasks;
+
+public class ScenarioInitializationPhase : ScenarioPhase
+{
+	public override async GDTask Activate()
+	{
+		await base.Activate();
+
+		foreach(Room room in GameController.Instance.Map.Rooms)
+		{
+			if(room.StartsRevealed)
+			{
+				await room.Reveal(null, true);
+			}
+		}
+
+		// Set initial positions of all characters
+		await GameController.Instance.CharacterManager.PlaceCharacters();
+
+		await GameController.Instance.ScenarioModel.Start();
+	}
+}

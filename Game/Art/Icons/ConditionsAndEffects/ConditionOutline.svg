@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xml:space="preserve"
+   sodipodi:docname="ConditionOutline.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:lockguides="true"
+     inkscape:zoom="1.6191406"
+     inkscape:cx="122.5959"
+     inkscape:cy="296.76237"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="2869"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"><inkscape:grid
+       type="xygrid"
+       id="grid234"
+       empspacing="4"
+       originx="0"
+       originy="0"
+       spacingy="1"
+       spacingx="1"
+       units="px" /></sodipodi:namedview><defs
+     id="defs2" /><g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"><path
+       class="cls-2"
+       d="m 256.00075,9.812844 a 8.5397338,8.5396462 0 0 1 6.02805,2.494035 L 499.66958,249.95404 a 8.5309209,8.5308334 0 0 1 0,12.09122 L 262.0288,499.68361 a 8.5309209,8.5308334 0 0 1 -12.0561,0 L 12.323103,262.04527 a 8.5309209,8.5308334 0 0 1 0,-12.09123 L 249.9727,12.306879 a 8.5044821,8.5043948 0 0 1 6.02805,-2.494035 M 256.00075,1 A 17.352669,17.352491 0 0 0 243.72433,6.093824 L 6.0747326,243.74098 a 17.343856,17.343678 0 0 0 0,24.51733 L 243.72433,505.89666 a 17.317417,17.317239 0 0 0 24.55284,0 L 505.91795,268.25831 a 17.32623,17.326052 0 0 0 0,-24.51733 L 268.27717,6.093824 A 17.361482,17.361303 0 0 0 256.00075,1"
+       id="path2"
+       style="fill:#ffffff;stroke-width:0.881289" /></g></svg>

@@ -1,0 +1,202 @@
+[gd_scene load_steps=5 format=3 uid="uid://bb10ctp48iifh"]
+
+[ext_resource type="Script" uid="uid://cjexxhlgrae2g" path="res://Scripts/BetweenScenarios/ScenarioFlowchart/ScenarioButtonOutline.cs" id="1_anoig"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_gcm5d"]
+light_mode = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bqd0o"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jo5ws"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+anti_aliasing = false
+
+[node name="ScenarioButtonOutline" type="Control" node_paths=PackedStringArray("_panel", "_directionalExtensions", "_diagonalExtensions")]
+modulate = Color(0.823529, 0.792157, 0.776471, 1)
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_anoig")
+_panel = NodePath("Panel")
+_directionalExtensions = [NodePath("Panel/Up"), NodePath("Panel/Right"), NodePath("Panel/Down"), NodePath("Panel/Left")]
+_diagonalExtensions = [NodePath("Panel/UpRight"), NodePath("Panel/DownRight"), NodePath("Panel/DownLeft"), NodePath("Panel/UpLeft")]
+
+[node name="Panel" type="Panel" parent="."]
+visibility_layer = 65537
+material = SubResource("CanvasItemMaterial_gcm5d")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(60, 60)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bqd0o")
+
+[node name="Up" type="Panel" parent="Panel"]
+visibility_layer = 65537
+material = SubResource("CanvasItemMaterial_gcm5d")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+pivot_offset = Vector2(60, 60)
+theme_override_styles/panel = SubResource("StyleBoxFlat_jo5ws")
+
+[node name="Right" type="Panel" parent="Panel"]
+visibility_layer = 65537
+material = SubResource("CanvasItemMaterial_gcm5d")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(60, 60)
+theme_override_styles/panel = SubResource("StyleBoxFlat_jo5ws")
+
+[node name="Down" type="Panel" parent="Panel"]
+visibility_layer = 65537
+material = SubResource("CanvasItemMaterial_gcm5d")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+pivot_offset = Vector2(60, 60)
+theme_override_styles/panel = SubResource("StyleBoxFlat_jo5ws")
+
+[node name="Left" type="Panel" parent="Panel"]
+visibility_layer = 65537
+material = SubResource("CanvasItemMaterial_gcm5d")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 3.14159
+pivot_offset = Vector2(60, 60)
+theme_override_styles/panel = SubResource("StyleBoxFlat_jo5ws")
+
+[node name="UpRight" type="Panel" parent="Panel"]
+visibility_layer = 65537
+material = SubResource("CanvasItemMaterial_gcm5d")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+pivot_offset = Vector2(60, 60)
+theme_override_styles/panel = SubResource("StyleBoxFlat_jo5ws")
+
+[node name="DownRight" type="Panel" parent="Panel"]
+visibility_layer = 65537
+material = SubResource("CanvasItemMaterial_gcm5d")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(60, 60)
+theme_override_styles/panel = SubResource("StyleBoxFlat_jo5ws")
+
+[node name="DownLeft" type="Panel" parent="Panel"]
+visibility_layer = 65537
+material = SubResource("CanvasItemMaterial_gcm5d")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+pivot_offset = Vector2(60, 60)
+theme_override_styles/panel = SubResource("StyleBoxFlat_jo5ws")
+
+[node name="UpLeft" type="Panel" parent="Panel"]
+visibility_layer = 65537
+material = SubResource("CanvasItemMaterial_gcm5d")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 3.14159
+pivot_offset = Vector2(60, 60)
+theme_override_styles/panel = SubResource("StyleBoxFlat_jo5ws")

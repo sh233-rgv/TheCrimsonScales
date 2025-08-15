@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 128 128"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="Chill.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="1.5917969"
+     inkscape:cx="255.68589"
+     inkscape:cy="256"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       id="grid1"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="2"
+       spacingy="2"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="4"
+       enabled="true"
+       visible="true"
+       dotted="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <clipPath
+       id="clip-path"
+       transform="translate(-10.65 -8.7)">
+      <rect
+         id="_Clipping_Path_"
+         data-name="&lt;Clipping Path&gt;"
+         class="cls-1"
+         width="600"
+         height="596.09998"
+         x="0"
+         y="0" />
+    </clipPath>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="Layer_2"
+       data-name="Layer 2"
+       transform="matrix(0.22032272,0,0,0.22032207,0.24962067,0.25)">
+      <g
+         id="Chill">
+        <g
+           class="cls-2"
+           clip-path="url(#clip-path)"
+           id="g10">
+          <path
+             class="cls-3"
+             d="m 300,582.4 a 14.59,14.59 0 0 1 -10.38,-4.3 L 20,308.43 a 14.68,14.68 0 0 1 0,-20.76 L 289.62,18 a 14.68,14.68 0 0 1 20.76,0 L 580,287.67 a 14.68,14.68 0 0 1 0,20.76 L 310.38,578.1 A 14.61,14.61 0 0 1 300,582.4"
+             transform="translate(-10.65,-8.7)"
+             id="path1"
+             style="fill:#119ac0" />
+          <path
+             class="cls-4"
+             d="m 300,18.7 a 9.62,9.62 0 0 1 6.85,2.84 l 269.66,269.67 a 9.68,9.68 0 0 1 0,13.69 L 306.85,574.56 a 9.68,9.68 0 0 1 -13.7,0 L 23.49,304.9 a 9.68,9.68 0 0 1 0,-13.69 L 293.15,21.54 A 9.62,9.62 0 0 1 300,18.7 m 0,-10 a 19.61,19.61 0 0 0 -13.92,5.77 L 16.42,284.13 a 19.68,19.68 0 0 0 0,27.84 l 269.66,269.66 a 19.68,19.68 0 0 0 27.84,0 L 583.58,312 a 19.68,19.68 0 0 0 0,-27.84 L 313.92,14.47 A 19.61,19.61 0 0 0 300,8.7"
+             transform="translate(-10.65,-8.7)"
+             id="path2"
+             style="fill:#ffffff" />
+          <circle
+             class="cls-4"
+             cx="289.51001"
+             cy="286.73001"
+             r="107.31"
+             id="circle2"
+             style="fill:#ffffff" />
+          <circle
+             class="cls-3"
+             cx="289.51001"
+             cy="286.73001"
+             r="82.970001"
+             id="circle3"
+             style="fill:#119ac0" />
+          <polyline
+             class="cls-4"
+             points="230.47 376.35 285.56 296.38 273.4 392.83 215.94 477.93 230.47 376.35"
+             id="polyline3"
+             style="fill:#ffffff" />
+          <polyline
+             class="cls-4"
+             points="318.05 390.22 305.8 323.72 347.3 377.2 360.91 447.38 318.05 390.22"
+             id="polyline4"
+             style="fill:#ffffff" />
+          <polyline
+             class="cls-4"
+             points="393 258.2 326.5 270.45 379.98 228.95 450.17 215.34 393 258.2"
+             id="polyline5"
+             style="fill:#ffffff" />
+          <polyline
+             class="cls-4"
+             points="260.98 183.25 273.23 249.74 231.73 196.27 218.12 126.08 260.98 183.25"
+             id="polyline6"
+             style="fill:#ffffff" />
+          <polyline
+             class="cls-4"
+             points="186.03 315.27 252.53 303.02 199.05 344.51 128.86 358.13 186.03 315.27"
+             id="polyline7"
+             style="fill:#ffffff" />
+          <polyline
+             class="cls-4"
+             points="379.13 345.78 299.16 290.69 395.61 302.85 480.71 360.31 379.13 345.78"
+             id="polyline8"
+             style="fill:#ffffff" />
+          <polyline
+             class="cls-4"
+             points="348.56 197.11 293.47 277.09 305.63 180.63 363.09 95.53 348.56 197.11"
+             id="polyline9"
+             style="fill:#ffffff" />
+          <polyline
+             class="cls-4"
+             points="199.9 227.69 279.87 282.78 183.42 270.61 98.32 213.16 199.9 227.69"
+             id="polyline10"
+             style="fill:#ffffff" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

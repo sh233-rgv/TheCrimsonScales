@@ -1,0 +1,354 @@
+[gd_scene load_steps=11 format=3 uid="uid://cpl0163b2ppbv"]
+
+[ext_resource type="Script" uid="uid://cjcsrsvbxjyn1" path="res://Scripts/Scenario/UI/CardSelectionView/CardSelectionView.cs" id="1_hlgn3"]
+[ext_resource type="PackedScene" uid="uid://b7ogm4op7ko2a" path="res://Scenes/Scenario/UI/CardSelectionCard.tscn" id="2_rego2"]
+[ext_resource type="Script" uid="uid://c1mtipnwlpxx3" path="res://Scripts/Scenario/UI/CardSelectionView/CardSelectionCardPreview.cs" id="3_f2apl"]
+[ext_resource type="PackedScene" uid="uid://dvex4pgry7e30" path="res://Scenes/Scenario/UI/CardView.tscn" id="4_jmr32"]
+[ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="5_17wxw"]
+[ext_resource type="Material" uid="uid://cun442tgtvgh" path="res://Materials/UIBlur.tres" id="6_mmykg"]
+[ext_resource type="StyleBox" uid="uid://dd1rndhea8oq5" path="res://Resources/BlurButton.tres" id="7_sfnjd"]
+[ext_resource type="LabelSettings" uid="uid://d235d2njdpdmg" path="res://Resources/ButtonLabel.tres" id="8_3x8lk"]
+[ext_resource type="Texture2D" uid="uid://cdmhpra8ngs7x" path="res://Art/Icons/Other/InitiativeTriangle.svg" id="9_5atsp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pk70c"]
+bg_color = Color(1, 1, 1, 0)
+border_width_top = 10
+border_width_bottom = 10
+border_color = Color(1, 1, 1, 0)
+border_blend = true
+
+[node name="CardSelectionView" type="Control" node_paths=PackedStringArray("_scrollContainer", "_itemParent", "_container", "_cardPreview", "_restButtons", "_shortRestButton", "_longRestButton", "_longRestIndicatorContainer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hlgn3")
+_itemScene = ExtResource("2_rego2")
+_scrollContainer = NodePath("MarginContainer/Container/Mask/ScrollContainer")
+_itemParent = NodePath("MarginContainer/Container/Mask/ScrollContainer/Cards")
+_container = NodePath("MarginContainer/Container/Mask")
+_cardPreview = NodePath("MarginContainer/Container/CardPreview")
+_restButtons = NodePath("MarginContainer/Container/RestButtons")
+_shortRestButton = NodePath("MarginContainer/Container/RestButtons/ShortRest/BetterButton")
+_longRestButton = NodePath("MarginContainer/Container/RestButtons/LongRest/BetterButton")
+_longRestIndicatorContainer = NodePath("MarginContainer/Container/RestButtons/LongRest/InitiativeIndicator")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Container" type="Control" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="CardPreview" type="Control" parent="MarginContainer/Container" node_paths=PackedStringArray("_cardView")]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 490.0
+offset_right = 810.0
+offset_bottom = 448.0
+scale = Vector2(1.07, 1.07)
+mouse_filter = 2
+script = ExtResource("3_f2apl")
+_cardView = NodePath("CardView")
+
+[node name="CardView" parent="MarginContainer/Container/CardPreview" instance=ExtResource("4_jmr32")]
+layout_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Mask" type="Panel" parent="MarginContainer/Container"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = 80.0
+offset_right = 590.0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pk70c")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Container/Mask"]
+clip_contents = false
+layout_direction = 3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = 10.0
+offset_right = -50.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+horizontal_scroll_mode = 0
+scroll_deadzone = 10
+
+[node name="Cards" type="Control" parent="MarginContainer/Container/Mask/ScrollContainer"]
+layout_direction = 2
+layout_mode = 2
+mouse_filter = 1
+
+[node name="RestButtons" type="Control" parent="MarginContainer/Container"]
+anchors_preset = 0
+offset_left = 30.0
+offset_right = 450.0
+offset_bottom = 80.0
+mouse_filter = 2
+
+[node name="ShortRest" type="Control" parent="MarginContainer/Container/RestButtons"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 200.0
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="BetterButton" type="BaseButton" parent="MarginContainer/Container/RestButtons/ShortRest"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = ExtResource("5_17wxw")
+
+[node name="Panel" type="Panel" parent="MarginContainer/Container/RestButtons/ShortRest/BetterButton"]
+material = ExtResource("6_mmykg")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("7_sfnjd")
+
+[node name="Label" type="Label" parent="MarginContainer/Container/RestButtons/ShortRest/BetterButton/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Short Rest"
+label_settings = ExtResource("8_3x8lk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LongRest" type="Control" parent="MarginContainer/Container/RestButtons"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="InitiativeIndicator" type="Control" parent="MarginContainer/Container/RestButtons/LongRest"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -20.0
+offset_right = 30.0
+offset_bottom = 20.0
+grow_vertical = 2
+pivot_offset = Vector2(0, 20)
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Container/RestButtons/LongRest/InitiativeIndicator"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("9_5atsp")
+expand_mode = 1
+
+[node name="BetterButton" type="BaseButton" parent="MarginContainer/Container/RestButtons/LongRest"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = ExtResource("5_17wxw")
+
+[node name="Panel" type="Panel" parent="MarginContainer/Container/RestButtons/LongRest/BetterButton"]
+material = ExtResource("6_mmykg")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("7_sfnjd")
+
+[node name="Label" type="Label" parent="MarginContainer/Container/RestButtons/LongRest/BetterButton/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Long Rest"
+label_settings = ExtResource("8_3x8lk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardPreviewContainer" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 50.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

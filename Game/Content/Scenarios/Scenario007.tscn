@@ -1,0 +1,162 @@
+[gd_scene load_steps=11 format=3 uid="uid://c5tet7oi4epmt"]
+
+[ext_resource type="PackedScene" uid="uid://cifjwk1lx2x1h" path="res://Scenes/Scenario/Scenario.tscn" id="1_irc6t"]
+[ext_resource type="Script" uid="uid://bbtc25ohouat7" path="res://Scripts/Scenario/Room.cs" id="2_ril03"]
+[ext_resource type="PackedScene" uid="uid://b3brvq4kon6jd" path="res://Content/MapTiles/L1b.tscn" id="3_ggkq4"]
+[ext_resource type="PackedScene" uid="uid://b3k6b60tknt8o" path="res://Content/MapTiles/L3a.tscn" id="4_mcvdq"]
+[ext_resource type="PackedScene" uid="uid://ysmgoyx1yw1d" path="res://Content/OverlayTiles/Corridors/Earth2H.tscn" id="5_mcvdq"]
+[ext_resource type="PackedScene" uid="uid://nm1hasddlxs" path="res://Content/OverlayTiles/Corridors/Earth1H.tscn" id="6_6u3e0"]
+[ext_resource type="PackedScene" uid="uid://nc1epxsho0mr" path="res://Content/OverlayTiles/DifficultTerrain/Water1H.tscn" id="7_4udis"]
+[ext_resource type="PackedScene" uid="uid://dlwnu4odsbcov" path="res://Scenes/Scenario/MonsterSpawner.tscn" id="9_1fcun"]
+[ext_resource type="PackedScene" uid="uid://gi5tvly6t0i1" path="res://Scenes/Scenario/Marker.tscn" id="10_6u3e0"]
+[ext_resource type="PackedScene" uid="uid://dlqet8t2xgyh" path="res://Scenes/Scenario/CharacterStartHex.tscn" id="10_w2khv"]
+
+[node name="Scenario" instance=ExtResource("1_irc6t")]
+
+[node name="Room" type="Node2D" parent="Map/Rooms" index="0"]
+script = ExtResource("2_ril03")
+StartsRevealed = true
+
+[node name="L1b" parent="Map/Rooms/Room" index="0" instance=ExtResource("3_ggkq4")]
+position = Vector2(-654.715, 0)
+
+[node name="L3a" parent="Map/Rooms/Room" index="1" instance=ExtResource("4_mcvdq")]
+position = Vector2(436.477, 0)
+
+[node name="Earth2H" parent="Map/Rooms/Room" index="2" instance=ExtResource("5_mcvdq")]
+position = Vector2(-109.119, -567)
+
+[node name="Earth2H2" parent="Map/Rooms/Room" index="3" instance=ExtResource("5_mcvdq")]
+position = Vector2(-109.119, -189)
+
+[node name="Earth2H3" parent="Map/Rooms/Room" index="4" instance=ExtResource("5_mcvdq")]
+position = Vector2(-109.119, 189)
+
+[node name="Earth2H4" parent="Map/Rooms/Room" index="5" instance=ExtResource("5_mcvdq")]
+position = Vector2(-109.119, 567)
+
+[node name="Earth1H" parent="Map/Rooms/Room" index="6" instance=ExtResource("6_6u3e0")]
+position = Vector2(0, -378)
+
+[node name="Earth1H2" parent="Map/Rooms/Room" index="7" instance=ExtResource("6_6u3e0")]
+
+[node name="Earth1H3" parent="Map/Rooms/Room" index="8" instance=ExtResource("6_6u3e0")]
+position = Vector2(0, 378)
+
+[node name="MonsterSpawner3" parent="Map/Rooms/Room" index="9" instance=ExtResource("9_1fcun")]
+position = Vector2(-982.073, -567)
+MonsterModelId = "MONSTER_MODEL.HOUND"
+MonsterType2Characters = 0
+MonsterType3Characters = 1
+
+[node name="MonsterSpawner15" parent="Map/Rooms/Room" index="10" instance=ExtResource("9_1fcun")]
+position = Vector2(-763.834, -567)
+MonsterModelId = "MONSTER_MODEL.HOUND"
+MonsterType4Characters = 0
+
+[node name="MonsterSpawner16" parent="Map/Rooms/Room" index="11" instance=ExtResource("9_1fcun")]
+position = Vector2(-872.954, -378)
+MonsterModelId = "MONSTER_MODEL.HOUND"
+MonsterType4Characters = 0
+
+[node name="MonsterSpawner4" parent="Map/Rooms/Room" index="12" instance=ExtResource("9_1fcun")]
+position = Vector2(763.834, 567)
+MonsterModelId = "MONSTER_MODEL.GIANT_VIPER"
+MonsterType4Characters = 0
+
+[node name="MonsterSpawner6" parent="Map/Rooms/Room" index="13" instance=ExtResource("9_1fcun")]
+position = Vector2(872.954, 378)
+MonsterModelId = "MONSTER_MODEL.GIANT_VIPER"
+MonsterType4Characters = 0
+
+[node name="MonsterSpawner5" parent="Map/Rooms/Room" index="14" instance=ExtResource("9_1fcun")]
+position = Vector2(982.073, 567)
+MonsterModelId = "MONSTER_MODEL.GIANT_VIPER"
+MonsterType2Characters = 0
+MonsterType3Characters = 0
+
+[node name="CharacterStartHex" parent="Map/Rooms/Room" index="15" instance=ExtResource("10_w2khv")]
+
+[node name="CharacterStartHex2" parent="Map/Rooms/Room" index="16" instance=ExtResource("10_w2khv")]
+position = Vector2(-109.119, 189)
+
+[node name="CharacterStartHex3" parent="Map/Rooms/Room" index="17" instance=ExtResource("10_w2khv")]
+position = Vector2(109.119, -189)
+
+[node name="CharacterStartHex4" parent="Map/Rooms/Room" index="18" instance=ExtResource("10_w2khv")]
+position = Vector2(109.119, 189)
+
+[node name="CharacterStartHex5" parent="Map/Rooms/Room" index="19" instance=ExtResource("10_w2khv")]
+position = Vector2(-109.119, -189)
+
+[node name="Water1H" parent="Map/Rooms/Room" index="20" instance=ExtResource("7_4udis")]
+position = Vector2(-654.715, -378)
+CannotBeDestroyed = true
+
+[node name="Marker" parent="Map/Rooms/Room/Water1H" index="4" instance=ExtResource("10_6u3e0")]
+
+[node name="Water1H2" parent="Map/Rooms/Room" index="21" instance=ExtResource("7_4udis")]
+position = Vector2(-654.715, 0)
+CannotBeDestroyed = true
+
+[node name="Marker" parent="Map/Rooms/Room/Water1H2" index="4" instance=ExtResource("10_6u3e0")]
+
+[node name="Water1H3" parent="Map/Rooms/Room" index="22" instance=ExtResource("7_4udis")]
+position = Vector2(-654.715, 378)
+CannotBeDestroyed = true
+
+[node name="Marker" parent="Map/Rooms/Room/Water1H3" index="4" instance=ExtResource("10_6u3e0")]
+
+[node name="Water1H4" parent="Map/Rooms/Room" index="23" instance=ExtResource("7_4udis")]
+position = Vector2(-218.238, -378)
+CannotBeDestroyed = true
+
+[node name="Marker" parent="Map/Rooms/Room/Water1H4" index="4" instance=ExtResource("10_6u3e0")]
+
+[node name="Water1H5" parent="Map/Rooms/Room" index="24" instance=ExtResource("7_4udis")]
+position = Vector2(-218.238, 0)
+CannotBeDestroyed = true
+
+[node name="Marker" parent="Map/Rooms/Room/Water1H5" index="4" instance=ExtResource("10_6u3e0")]
+
+[node name="Water1H6" parent="Map/Rooms/Room" index="25" instance=ExtResource("7_4udis")]
+position = Vector2(-218.238, 378)
+CannotBeDestroyed = true
+
+[node name="Marker" parent="Map/Rooms/Room/Water1H6" index="4" instance=ExtResource("10_6u3e0")]
+
+[node name="Water1H7" parent="Map/Rooms/Room" index="26" instance=ExtResource("7_4udis")]
+position = Vector2(218.238, -378)
+CannotBeDestroyed = true
+
+[node name="Marker" parent="Map/Rooms/Room/Water1H7" index="4" instance=ExtResource("10_6u3e0")]
+
+[node name="Water1H8" parent="Map/Rooms/Room" index="27" instance=ExtResource("7_4udis")]
+position = Vector2(218.238, 0)
+CannotBeDestroyed = true
+
+[node name="Marker" parent="Map/Rooms/Room/Water1H8" index="4" instance=ExtResource("10_6u3e0")]
+
+[node name="Water1H9" parent="Map/Rooms/Room" index="28" instance=ExtResource("7_4udis")]
+position = Vector2(218.238, 378)
+CannotBeDestroyed = true
+
+[node name="Marker" parent="Map/Rooms/Room/Water1H9" index="4" instance=ExtResource("10_6u3e0")]
+
+[node name="Water1H10" parent="Map/Rooms/Room" index="29" instance=ExtResource("7_4udis")]
+position = Vector2(654.715, -378)
+CannotBeDestroyed = true
+
+[node name="Marker" parent="Map/Rooms/Room/Water1H10" index="4" instance=ExtResource("10_6u3e0")]
+
+[node name="Water1H11" parent="Map/Rooms/Room" index="30" instance=ExtResource("7_4udis")]
+position = Vector2(654.715, 0)
+CannotBeDestroyed = true
+
+[node name="Marker" parent="Map/Rooms/Room/Water1H11" index="4" instance=ExtResource("10_6u3e0")]
+
+[node name="Water1H12" parent="Map/Rooms/Room" index="31" instance=ExtResource("7_4udis")]
+position = Vector2(654.715, 378)
+CannotBeDestroyed = true
+
+[node name="Marker" parent="Map/Rooms/Room/Water1H12" index="4" instance=ExtResource("10_6u3e0")]

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bk4q5mr73oy4u"]
+
+[ext_resource type="PackedScene" uid="uid://cv8xw8bgt7sj8" path="res://Scenes/UI/Popups/CardSelectionPopup/CardSelectionPopupBase.tscn" id="1_lbu3g"]
+
+[node name="CardSelectionPopup" instance=ExtResource("1_lbu3g")]
+
+[editable path="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/ConfirmButton"]

@@ -1,0 +1,197 @@
+[gd_scene load_steps=10 format=3 uid="uid://cmjlk65mr5s6w"]
+
+[ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="1_40xkq"]
+[ext_resource type="Script" uid="uid://bcfndhlyf4eom" path="res://Scripts/BetweenScenarios/ScenarioFlowchart/ScenarioButton.cs" id="1_b3sbo"]
+[ext_resource type="FontFile" uid="uid://bx5msflvryfb2" path="res://Fonts/CrimsonPro-Medium.ttf" id="1_f8tdc"]
+[ext_resource type="PackedScene" uid="uid://bb10ctp48iifh" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButtonOutline.tscn" id="2_mdlh1"]
+[ext_resource type="PackedScene" uid="uid://l8eyvlka0sad" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioFlowchartArrow.tscn" id="3_pv3h4"]
+[ext_resource type="Texture2D" uid="uid://bj03vc6rpjr3f" path="res://Art/Icons/Other/CheckMark.svg" id="4_2bmlj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_41e7t"]
+bg_color = Color(0.992157, 0.992157, 0.992157, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.137255, 0.121569, 0.12549, 1)
+corner_radius_top_left = 35
+corner_radius_top_right = 35
+corner_radius_bottom_right = 35
+corner_radius_bottom_left = 35
+corner_detail = 16
+
+[sub_resource type="LabelSettings" id="LabelSettings_cd1so"]
+font = ExtResource("1_f8tdc")
+font_size = 100
+font_color = Color(0.137255, 0.121569, 0.12549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8dgpq"]
+bg_color = Color(0.996078, 0.996078, 0.996078, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.137255, 0.121569, 0.12549, 1)
+
+[node name="ScenarioButton" type="Control" node_paths=PackedStringArray("_betterButton", "_label", "_completedContainer")]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 120.0
+offset_bottom = 120.0
+pivot_offset = Vector2(60, 60)
+script = ExtResource("1_b3sbo")
+_betterButton = NodePath("BetterButton")
+_label = NodePath("BetterButton/Circle/NumberLabel")
+_completedContainer = NodePath("BetterButton/CheckBox")
+_scenarioButtonOutlineScene = ExtResource("2_mdlh1")
+_scenarioFlowchartArrowScene = ExtResource("3_pv3h4")
+
+[node name="BetterButton" type="BaseButton" parent="."]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = ExtResource("1_40xkq")
+metadata/_custom_type_script = "uid://dir5vjdxjac3n"
+
+[node name="Circle" type="Control" parent="BetterButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -34.0
+offset_right = 34.0
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="BetterButton/Circle"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_41e7t")
+
+[node name="NumberLabel" type="Label" parent="BetterButton/Circle"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -63.0
+offset_right = 60.0
+offset_bottom = 57.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(60, 60)
+text = "99"
+label_settings = SubResource("LabelSettings_cd1so")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CheckBox" type="Control" parent="BetterButton"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 71.0
+offset_top = 66.0
+offset_right = 107.0
+offset_bottom = 102.0
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="BetterButton/CheckBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8dgpq")
+
+[node name="CheckmarkIcon" type="TextureRect" parent="BetterButton/CheckBox"]
+self_modulate = Color(0.505882, 0.815686, 0.207843, 1)
+layout_mode = 0
+offset_left = -2.0
+offset_top = -3.0
+offset_right = 40.0
+offset_bottom = 39.0
+mouse_filter = 2
+texture = ExtResource("4_2bmlj")
+expand_mode = 1

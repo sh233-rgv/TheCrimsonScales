@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://d235d2njdpdmg"]
+
+[ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="1_jjdeo"]
+
+[resource]
+font = ExtResource("1_jjdeo")
+font_size = 40

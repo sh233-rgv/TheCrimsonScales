@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://mp8cee00fmg5"]
+
+[ext_resource type="Script" uid="uid://ci83u44ry3seu" path="res://Scripts/Scenario/UI/ElementsView/ElementsViewElement.cs" id="1_c543b"]
+[ext_resource type="Texture2D" uid="uid://cw1eg163nqbbj" path="res://Art/Icons/Elements/AirEmpty.svg" id="2_450mk"]
+[ext_resource type="Texture2D" uid="uid://cvupsrpor0q1o" path="res://Art/Icons/Elements/Air.svg" id="3_8vwl0"]
+
+[node name="Element" type="Control" node_paths=PackedStringArray("_textureProgressBar")]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -35.0
+offset_right = 29.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(32, 32)
+mouse_filter = 2
+script = ExtResource("1_c543b")
+_textureProgressBar = NodePath("TextureProgressBar")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(35, 35)
+mouse_filter = 2
+max_value = 1.0
+step = 0.0
+value = 0.5
+fill_mode = 3
+nine_patch_stretch = true
+texture_under = ExtResource("2_450mk")
+texture_progress = ExtResource("3_8vwl0")

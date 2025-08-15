@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://bpwuqcoowtyi0"]
+
+[ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="1_fi50j"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_krxno"]
+
+[sub_resource type="Gradient" id="Gradient_drd2m"]
+offsets = PackedFloat32Array(0.764228, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_u7m75"]
+gradient = SubResource("Gradient_drd2m")
+
+[sub_resource type="Curve" id="Curve_h5iia"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.182482, 1), 0.0, 0.0, 0, 0, Vector2(0.357664, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_65c77"]
+curve = SubResource("Curve_h5iia")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0s4ju"]
+lifetime_randomness = 0.4
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(0, 50, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.04
+scale_max = 0.06
+scale_curve = SubResource("CurveTexture_65c77")
+color_ramp = SubResource("GradientTexture1D_u7m75")
+
+[node name="FigureActiveParticleSystemEdge" type="Node2D"]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = -1
+material = SubResource("CanvasItemMaterial_krxno")
+position = Vector2(93, 0)
+amount = 3
+texture = ExtResource("1_fi50j")
+lifetime = 1.5
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_0s4ju")

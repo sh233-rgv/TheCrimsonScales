@@ -1,0 +1,1301 @@
+[gd_scene load_steps=80 format=3 uid="uid://dc3oqbu0m8jid"]
+
+[ext_resource type="Script" uid="uid://bq2pwm6f32li" path="res://Scripts/Scenario/GameController.cs" id="1_arwlr"]
+[ext_resource type="Script" uid="uid://c7tkwbv643e6o" path="res://Scripts/Scenario/SufferDamageView.cs" id="10_ldvfj"]
+[ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="10_nbwi6"]
+[ext_resource type="Texture2D" uid="uid://b4yv18w38k747" path="res://Art/Icons/Abilities/DamageThin.svg" id="11_ldvfj"]
+[ext_resource type="Shader" uid="uid://coeiuysk5p21c" path="res://Shaders/Vignette.gdshader" id="11_lqqm2"]
+[ext_resource type="LabelSettings" uid="uid://d235d2njdpdmg" path="res://Resources/ButtonLabel.tres" id="12_lqqm2"]
+[ext_resource type="Script" uid="uid://bxjebdesq8we7" path="res://Scripts/Scenario/UI/TreasureItemRewardView.cs" id="13_d05wj"]
+[ext_resource type="PackedScene" uid="uid://bmixj6gefxlit" path="res://Scenes/Scenario/UI/ItemView.tscn" id="14_76yld"]
+[ext_resource type="Script" uid="uid://brv7qjwv4oiq6" path="res://Scripts/Scenario/CameraController.cs" id="15_67ddq"]
+[ext_resource type="Script" uid="uid://bi8xmvkxkaqm1" path="res://Scripts/Scenario/HexPin.cs" id="15_cvckm"]
+[ext_resource type="PackedScene" uid="uid://cqru53oois1nb" path="res://Scenes/Scenario/UI/ScenarioSetupOptionButton.tscn" id="15_lqqm2"]
+[ext_resource type="Script" uid="uid://bb2r1lkuwk6nx" path="res://Scripts/Scenario/UI/ScenarioSetupButtonsView.cs" id="15_nbwi6"]
+[ext_resource type="Texture2D" uid="uid://cpnu8xe3fj3i3" path="res://Art/Icons/Items/Head.svg" id="16_cvckm"]
+[ext_resource type="PackedScene" uid="uid://ug7oy7x62yfw" path="res://Scenes/Scenario/WorldButton.tscn" id="16_d05wj"]
+[ext_resource type="PackedScene" uid="uid://dwyrv7qe5xvn2" path="res://Scenes/Scenario/Selector.tscn" id="16_wuepc"]
+[ext_resource type="Script" uid="uid://djvfnnbhvsxg0" path="res://Scripts/Scenario/UI/UndoView.cs" id="17_mk8kl"]
+[ext_resource type="Script" uid="uid://b6lrvq7gmp3k5" path="res://Scripts/Scenario/UI/CardSelectionButtonsView.cs" id="17_upiru"]
+[ext_resource type="Script" uid="uid://dp4hgnklifghb" path="res://Scripts/Scenario/MovePath/MovePath.cs" id="17_v4tp5"]
+[ext_resource type="PackedScene" uid="uid://dmtp4nse86cdv" path="res://Scenes/Scenario/Waypoint.tscn" id="18_8uwbm"]
+[ext_resource type="PackedScene" uid="uid://bn1pqhuh403c3" path="res://Scenes/Scenario/UI/PortraitView/CharacterPortrait.tscn" id="18_us76b"]
+[ext_resource type="Script" uid="uid://xn2g2da1rlk8" path="res://Scripts/Scenario/AOE/AOEView.cs" id="19_28h00"]
+[ext_resource type="PackedScene" uid="uid://edi17gpprd2h" path="res://Scenes/Scenario/UI/PortraitView/MonsterGroupPortrait.tscn" id="19_mtt54"]
+[ext_resource type="PackedScene" uid="uid://b6wbd3udi4blx" path="res://Scenes/Scenario/AOE/RedHexView.tscn" id="20_alilm"]
+[ext_resource type="Script" uid="uid://b3pftvt20l7h8" path="res://Scripts/Scenario/UI/EffectInfoView/EffectInfoViewManager.cs" id="20_nbwi6"]
+[ext_resource type="PackedScene" uid="uid://bt8srppu11ov1" path="res://Scenes/Scenario/AOE/GrayHexView.tscn" id="21_wkv7e"]
+[ext_resource type="Script" uid="uid://d1m80ktp0ns5d" path="res://Scripts/Scenario/LineOfSightVisualizer.cs" id="22_4rj0i"]
+[ext_resource type="Script" uid="uid://dau4bv0rnl6l0" path="res://Scripts/Utils/CursorOverUIChecker.cs" id="23_bndsi"]
+[ext_resource type="Script" uid="uid://dfk8lfs8ihi6x" path="res://Scripts/Scenario/UI/ChoiceButtonsView/ChoiceButtonsView.cs" id="28_pgpxo"]
+[ext_resource type="PackedScene" uid="uid://sn6fhyik5ch5" path="res://Scenes/Scenario/UI/ChoiceButton.tscn" id="29_4v2ql"]
+[ext_resource type="Script" uid="uid://d4d7ijusnuvqu" path="res://Scripts/Scenario/UI/PortraitView/PortraitView.cs" id="30_05yo2"]
+[ext_resource type="Script" uid="uid://dvnj5squppncw" path="res://Scripts/Scenario/UI/EffectSelectionView/EffectSelectionView.cs" id="32_07pbp"]
+[ext_resource type="Texture2D" uid="uid://mqfp1jeh80g1" path="res://Art/AMDs/CardBack.tres" id="34_dfaft"]
+[ext_resource type="Script" uid="uid://be6tgcsu3kssh" path="res://Scripts/Scenario/UI/ElementsView/ElementsView.cs" id="36_6nwhb"]
+[ext_resource type="PackedScene" uid="uid://mp8cee00fmg5" path="res://Scenes/Scenario/UI/Element.tscn" id="36_juek3"]
+[ext_resource type="PackedScene" uid="uid://dvex4pgry7e30" path="res://Scenes/Scenario/UI/CardView.tscn" id="37_rj4pm"]
+[ext_resource type="Texture2D" uid="uid://cpv5w6250wmii" path="res://Art/Icons/Elements/FireEmpty.svg" id="38_bytl6"]
+[ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="38_grpwx"]
+[ext_resource type="Texture2D" uid="uid://7j5gn7adtbco" path="res://Art/Icons/Elements/Fire.svg" id="39_gpo0a"]
+[ext_resource type="FontFile" uid="uid://c4k3lpnj0wc06" path="res://Fonts/PirataOne-Gloomhaven.ttf" id="39_namyh"]
+[ext_resource type="Texture2D" uid="uid://baxyetpl5ckux" path="res://Art/Icons/Elements/IceEmpty.svg" id="40_vfiu8"]
+[ext_resource type="Texture2D" uid="uid://cfqfsw8vo7b1g" path="res://Art/Icons/Elements/Ice.svg" id="41_4cwam"]
+[ext_resource type="Script" uid="uid://begk81arqcfc7" path="res://Scripts/Scenario/UI/CardPlayView/CardPlayView.cs" id="41_o26ls"]
+[ext_resource type="Texture2D" uid="uid://bce7mixa1xuo1" path="res://Art/Icons/Elements/EarthEmpty.svg" id="42_1a4nl"]
+[ext_resource type="PackedScene" uid="uid://mgukk8qswcte" path="res://Scenes/Scenario/UI/CardPlayCard.tscn" id="42_mpncg"]
+[ext_resource type="Script" uid="uid://cy2hbhsbjhwne" path="res://Scripts/Scenario/UI/HintTextView.cs" id="43_4rdk8"]
+[ext_resource type="Texture2D" uid="uid://d0g5payh74ftk" path="res://Art/Icons/Elements/Earth.svg" id="43_d62nx"]
+[ext_resource type="Script" uid="uid://ih8y81syt61c" path="res://Scripts/Scenario/UI/ShortRestView.cs" id="43_hvu7s"]
+[ext_resource type="Script" uid="uid://cefpesj2xqroj" path="res://Scripts/Scenario/UI/ScenarioLostView.cs" id="43_vn1gt"]
+[ext_resource type="Script" uid="uid://bxa761yuhmqnl" path="res://Scripts/Scenario/UI/ScenarioWonView.cs" id="44_7vhok"]
+[ext_resource type="Script" uid="uid://vywttw4n4suv" path="res://Scripts/Scenario/UI/AMDDrawView/AMDDrawView.cs" id="44_j1euc"]
+[ext_resource type="Texture2D" uid="uid://b2i43ibv0m6ow" path="res://Art/Icons/Elements/LightEmpty.svg" id="44_krl23"]
+[ext_resource type="Script" uid="uid://da4wan5xkcn7v" path="res://Scripts/Scenario/UI/SpecialRulesView.cs" id="45_1uc0n"]
+[ext_resource type="PackedScene" uid="uid://dl18focdn4sn2" path="res://Scenes/Scenario/UI/AMDDrawCard.tscn" id="45_bopvg"]
+[ext_resource type="Texture2D" uid="uid://bg6ru16ao38c7" path="res://Art/Icons/Elements/Light.svg" id="45_qr3ow"]
+[ext_resource type="Texture2D" uid="uid://bfw0bpipq037p" path="res://Art/Icons/Elements/DarkEmpty.svg" id="46_ri0y1"]
+[ext_resource type="Script" uid="uid://bw1h54lu4rn7j" path="res://Scripts/Scenario/UI/DebugInfo.cs" id="47_e6ljk"]
+[ext_resource type="Texture2D" uid="uid://c28reh8e2hnaf" path="res://Art/Icons/Elements/Dark.svg" id="47_vmwrb"]
+[ext_resource type="Script" uid="uid://b5bc6ttunxi7h" path="res://Scripts/Scenario/UI/InfoView/InfoView.cs" id="48_sv35a"]
+[ext_resource type="PackedScene" uid="uid://g1nr1j3khjk5" path="res://Scenes/Scenario/UI/InfoView/InfoViewPanel.tscn" id="49_pcjy7"]
+[ext_resource type="Texture2D" uid="uid://bvs5smm6hx6rc" path="res://Art/Icons/Other/Pin.svg" id="54_uif1r"]
+[ext_resource type="Shader" uid="uid://dtwrnvi5agwii" path="res://Shaders/UIBlur.gdshader" id="55_uxp20"]
+[ext_resource type="StyleBox" uid="uid://bht73g872t3sp" path="res://Resources/BlurPanel.tres" id="56_4oqg7"]
+[ext_resource type="PackedScene" uid="uid://ct6pmvbmsh7lf" path="res://Scenes/UI/MenuButton.tscn" id="58_2qf5q"]
+[ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="59_2qf5q"]
+[ext_resource type="PackedScene" uid="uid://cpl0163b2ppbv" path="res://Scenes/UI/CardSelectionView.tscn" id="59_h6npn"]
+[ext_resource type="FontVariation" uid="uid://ciy2q5rti2m6m" path="res://Fonts/MarkaziVariation.tres" id="61_2qf5q"]
+[ext_resource type="Material" uid="uid://cun442tgtvgh" path="res://Materials/UIBlur.tres" id="64_ldvfj"]
+[ext_resource type="Texture2D" uid="uid://ba4nlrsbyojkl" path="res://Art/Icons/Other/StartHexMoveIcon.svg" id="65_h6npn"]
+[ext_resource type="Script" uid="uid://bctno8ajvg8at" path="res://Scripts/Scenario/CharacterStartHexMoveIndicator.cs" id="65_pcjy7"]
+[ext_resource type="Script" uid="uid://opd3xcxouwh5" path="res://Scripts/Scenario/UI/CurrentActionView/CurrentActionViewManager.cs" id="71_b23n0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ldvfj"]
+shader = ExtResource("11_lqqm2")
+shader_parameter/inner_radius = 0.3
+shader_parameter/outer_radius = 1.0
+shader_parameter/vignette_strength = 0.8
+shader_parameter/dither_strength = 0.03
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ijbs"]
+bg_color = Color(0.15808, 0.1111, 0.0785726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qbjvo"]
+bg_color = Color(0.15808, 0.1111, 0.0785726, 1)
+draw_center = false
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akno6"]
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4oqg7"]
+shader = ExtResource("55_uxp20")
+
+[sub_resource type="LabelSettings" id="LabelSettings_tl3ik"]
+font = ExtResource("59_2qf5q")
+font_size = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0mkyj"]
+bg_color = Color(1, 1, 1, 0.352941)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_mdo4f"]
+font = ExtResource("39_namyh")
+font_size = 100
+
+[sub_resource type="LabelSettings" id="LabelSettings_hctre"]
+font = ExtResource("39_namyh")
+font_size = 50
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "AOEView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "SpecialRulesView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin")]
+texture_filter = 2
+script = ExtResource("1_arwlr")
+CameraController = NodePath("CameraController")
+CursorOverUIChecker = NodePath("CanvasLayer/UI/CursorOverUIChecker")
+CardSelectionView = NodePath("CanvasLayer/UI/CardSelectionView")
+ShortRestView = NodePath("CanvasLayer/UI/ShortRestView")
+TreasureItemRewardView = NodePath("CanvasLayer/UI/TreasureItemRewardView")
+CardPlayView = NodePath("CanvasLayer/UI/CardPlayView")
+ChoiceButtonsView = NodePath("CanvasLayer/UI/ChoiceButtonsView")
+CardSelectionButtonsView = NodePath("CanvasLayer/UI/CardSelectionButtonsView")
+ScenarioSetupButtonsView = NodePath("CanvasLayer/UI/ScenarioSetupButtonsView")
+UndoView = NodePath("CanvasLayer/UI/UndoView")
+MovePath = NodePath("MovePath")
+AOEView = NodePath("AOEView")
+SufferDamageView = NodePath("SufferDamageView")
+PortraitView = NodePath("CanvasLayer/UI/PortraitView")
+EffectSelectionView = NodePath("CanvasLayer/UI/EffectSelectionView")
+EffectInfoViewManager = NodePath("CanvasLayer/UI/EffectSelectionView/EffectInfoViews")
+AMDDrawView = NodePath("CanvasLayer/UI/AMDDrawView")
+HintTextView = NodePath("CanvasLayer/UI/HintText")
+SpecialRulesView = NodePath("CanvasLayer/UI/SpecialRulesView")
+ElementsView = NodePath("CanvasLayer/UI/ElementsView")
+ScenarioLostView = NodePath("CanvasLayer/UI/ScenarioLostView")
+ScenarioWonView = NodePath("CanvasLayer/UI/ScenarioWonView")
+Selector = NodePath("Selector")
+CharacterStartHexMoveIndicator = NodePath("CanvasLayer/UI/CharacterStartHexMoveIndicator")
+HexPin = NodePath("HexPin")
+
+[node name="CameraController" type="Node2D" parent="." node_paths=PackedStringArray("Camera", "_movePivot")]
+script = ExtResource("15_67ddq")
+Camera = NodePath("MovePivot/Camera2D")
+_movePivot = NodePath("MovePivot")
+_moveSpeed = 1000.0
+_moveLerpSpeed = 0.4
+_zoomSpeed = 0.07
+_zoomLerpSpeed = 0.3
+_minZoom = 0.25
+_maxZoom = 1.0
+_moveRightAction = &"camera_move_right"
+_moveLeftAction = &"camera_move_left"
+_moveUpAction = &"camera_move_up"
+_moveDownAction = &"camera_move_down"
+
+[node name="MovePivot" type="Node2D" parent="CameraController"]
+
+[node name="Camera2D" type="Camera2D" parent="CameraController/MovePivot"]
+zoom = Vector2(0.6, 0.6)
+
+[node name="Selector" parent="." instance=ExtResource("16_wuepc")]
+z_index = 1000
+
+[node name="MovePath" type="Node2D" parent="." node_paths=PackedStringArray("_line2D")]
+z_index = 105
+script = ExtResource("17_v4tp5")
+_waypointScene = ExtResource("18_8uwbm")
+_line2D = NodePath("Line2D")
+
+[node name="Line2D" type="Line2D" parent="MovePath"]
+z_index = 100
+points = PackedVector2Array(0, 0, 256, 0, 256, 256, 0, 256)
+width = 20.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="AOEView" type="Node2D" parent="." node_paths=PackedStringArray("_hexParent")]
+z_index = 100
+script = ExtResource("19_28h00")
+_redHexScene = ExtResource("20_alilm")
+_grayHexScene = ExtResource("21_wkv7e")
+_hexParent = NodePath("Hexes")
+
+[node name="FollowPivot" type="Node2D" parent="AOEView"]
+
+[node name="Hexes" type="Node2D" parent="AOEView"]
+
+[node name="LineOfSightVisualizer" type="Node2D" parent="." node_paths=PackedStringArray("_line")]
+script = ExtResource("22_4rj0i")
+_line = NodePath("Line2D")
+
+[node name="Line2D" type="Line2D" parent="LineOfSightVisualizer"]
+z_index = 200
+points = PackedVector2Array(0, 0, 500, 0)
+width = 20.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="SufferDamageView" type="Node2D" parent="." node_paths=PackedStringArray("_container", "_label")]
+z_index = 2000
+script = ExtResource("10_ldvfj")
+_container = NodePath("Container")
+_label = NodePath("Container/Label")
+
+[node name="Container" type="Node2D" parent="SufferDamageView"]
+position = Vector2(0, -20)
+
+[node name="Circle" type="Sprite2D" parent="SufferDamageView/Container"]
+self_modulate = Color(0.498039, 0, 0, 0.705882)
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("10_nbwi6")
+
+[node name="Sprite2D" type="Sprite2D" parent="SufferDamageView/Container"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("11_ldvfj")
+
+[node name="Label" type="Label" parent="SufferDamageView/Container"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -23.5
+offset_right = 20.0
+offset_bottom = 23.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "42"
+label_settings = ExtResource("12_lqqm2")
+horizontal_alignment = 1
+
+[node name="HexPin" type="Node2D" parent="." node_paths=PackedStringArray("_scaleContainer", "_worldButton")]
+z_index = 2000
+script = ExtResource("15_cvckm")
+_scaleContainer = NodePath("ScaleContainer")
+_worldButton = NodePath("ScaleContainer/WorldButton")
+
+[node name="ScaleContainer" type="Node2D" parent="HexPin"]
+position = Vector2(80, -63)
+
+[node name="Sprite2D" type="Sprite2D" parent="HexPin/ScaleContainer"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("54_uif1r")
+
+[node name="WorldButton" parent="HexPin/ScaleContainer" instance=ExtResource("16_d05wj")]
+scale = Vector2(0.3, 0.3)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CursorOverUIChecker" type="Control" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("23_bndsi")
+
+[node name="Vignette" type="ColorRect" parent="CanvasLayer/UI"]
+material = SubResource("ShaderMaterial_ldvfj")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ScenarioSetupButtonsView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_startScenarioButton", "_equipmentButton", "_cardsButton")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("15_nbwi6")
+_startScenarioButton = NodePath("StartScenario")
+_equipmentButton = NodePath("OptionsContainer/EquipmentButton")
+_cardsButton = NodePath("OptionsContainer/CardsButton")
+
+[node name="StartScenario" parent="CanvasLayer/UI/ScenarioSetupButtonsView" instance=ExtResource("29_4v2ql")]
+layout_mode = 1
+offset_left = -140.0
+offset_right = 140.0
+
+[node name="Label" parent="CanvasLayer/UI/ScenarioSetupButtonsView/StartScenario/BetterButton/Panel" index="0"]
+text = "Start Scenario"
+
+[node name="OptionsContainer" type="HBoxContainer" parent="CanvasLayer/UI/ScenarioSetupButtonsView"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 550.0
+offset_top = -300.0
+offset_right = -550.0
+offset_bottom = -200.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="EquipmentButton" parent="CanvasLayer/UI/ScenarioSetupButtonsView/OptionsContainer" instance=ExtResource("15_lqqm2")]
+layout_mode = 2
+
+[node name="TextureRect" parent="CanvasLayer/UI/ScenarioSetupButtonsView/OptionsContainer/EquipmentButton/BetterButton/Panel/MarginContainer" index="0"]
+texture = ExtResource("16_cvckm")
+
+[node name="CardsButton" parent="CanvasLayer/UI/ScenarioSetupButtonsView/OptionsContainer" instance=ExtResource("15_lqqm2")]
+layout_mode = 2
+
+[node name="CardSelectionButtonsView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_startRoundButton")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("17_upiru")
+_startRoundButton = NodePath("StartRound")
+
+[node name="StartRound" parent="CanvasLayer/UI/CardSelectionButtonsView" instance=ExtResource("29_4v2ql")]
+layout_mode = 1
+
+[node name="Label" parent="CanvasLayer/UI/CardSelectionButtonsView/StartRound/BetterButton/Panel" index="0"]
+text = "Start Round"
+
+[node name="PortraitView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_portraitParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("30_05yo2")
+_characterPortraitScene = ExtResource("18_us76b")
+_monsterGroupPortraitScene = ExtResource("19_mtt54")
+_portraitParent = NodePath("Container")
+
+[node name="Container" type="Control" parent="CanvasLayer/UI/PortraitView"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 550.0
+offset_top = 50.0
+offset_right = -550.0
+offset_bottom = 200.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="CurrentActionViewManager" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_infoViewParent")]
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 50.0
+offset_bottom = 50.0
+script = ExtResource("71_b23n0")
+_infoViewParent = NodePath(".")
+
+[node name="HintText" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_container", "_label")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("43_4rdk8")
+_container = NodePath("MarginContainer")
+_label = NodePath("MarginContainer/MarginContainer/RichTextLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/HintText"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -29.0
+offset_top = 240.0
+offset_right = 29.0
+offset_bottom = 299.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="Background" type="Panel" parent="CanvasLayer/UI/HintText/MarginContainer"]
+material = ExtResource("64_ldvfj")
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("56_4oqg7")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/HintText/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 6
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/UI/HintText/MarginContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("59_2qf5q")
+theme_override_font_sizes/normal_font_size = 50
+bbcode_enabled = true
+text = "Hi"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EffectSelectionView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_effectParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("32_07pbp")
+_effectParent = NodePath("Container")
+
+[node name="Container" type="HBoxContainer" parent="CanvasLayer/UI/EffectSelectionView"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 550.0
+offset_top = -300.0
+offset_right = -550.0
+offset_bottom = -200.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="EffectInfoViews" type="Control" parent="CanvasLayer/UI/EffectSelectionView" node_paths=PackedStringArray("_infoViewParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("20_nbwi6")
+_infoViewParent = NodePath("Views")
+
+[node name="Views" type="Control" parent="CanvasLayer/UI/EffectSelectionView/EffectInfoViews"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -300.0
+offset_bottom = -300.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="CardPlayView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_cards")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("41_o26ls")
+_cards = [NodePath("Container/CardPlayCardA"), NodePath("Container/CardPlayCardB")]
+
+[node name="Container" type="Control" parent="CanvasLayer/UI/CardPlayView"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 370.0
+offset_bottom = -50.0
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CardPlayCardA" parent="CanvasLayer/UI/CardPlayView/Container" instance=ExtResource("42_mpncg")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_top = -490.0
+offset_right = 320.0
+offset_bottom = -42.0
+grow_horizontal = 1
+grow_vertical = 2
+scale = Vector2(1.07, 1.07)
+
+[node name="CardPlayCardB" parent="CanvasLayer/UI/CardPlayView/Container" instance=ExtResource("42_mpncg")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_top = 42.0
+offset_right = 320.0
+offset_bottom = 490.0
+grow_horizontal = 1
+grow_vertical = 2
+scale = Vector2(1.07, 1.07)
+pivot_offset = Vector2(0, 448)
+
+[node name="ShortRestView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_cardView", "_redrawButton", "_confirmButton")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("43_hvu7s")
+_cardView = NodePath("CardPreview/CardView")
+_redrawButton = NodePath("Redraw")
+_confirmButton = NodePath("Continue")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/UI/ShortRestView"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.3)
+
+[node name="Continue" parent="CanvasLayer/UI/ShortRestView" instance=ExtResource("29_4v2ql")]
+layout_mode = 1
+
+[node name="Redraw" parent="CanvasLayer/UI/ShortRestView" instance=ExtResource("29_4v2ql")]
+layout_mode = 1
+offset_left = 160.0
+offset_right = 400.0
+
+[node name="Label" parent="CanvasLayer/UI/ShortRestView/Redraw/BetterButton/Panel" index="0"]
+text = "Redraw"
+
+[node name="CardPreview" type="Control" parent="CanvasLayer/UI/ShortRestView"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -165.0
+offset_right = 160.0
+offset_bottom = 283.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(160, 224)
+mouse_filter = 2
+
+[node name="CardView" parent="CanvasLayer/UI/ShortRestView/CardPreview" instance=ExtResource("37_rj4pm")]
+layout_mode = 1
+
+[node name="TreasureItemRewardView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_itemView")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("13_d05wj")
+_itemView = NodePath("ItemView")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/UI/TreasureItemRewardView"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.3)
+
+[node name="ItemView" parent="CanvasLayer/UI/TreasureItemRewardView" instance=ExtResource("14_76yld")]
+custom_minimum_size = Vector2(270, 413.1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -135.0
+offset_top = -140.0
+offset_right = 135.0
+offset_bottom = 273.1
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChoiceButtonsView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_continueButton", "_skipButton")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("28_pgpxo")
+_continueButton = NodePath("Continue")
+_skipButton = NodePath("Skip")
+
+[node name="Continue" parent="CanvasLayer/UI/ChoiceButtonsView" instance=ExtResource("29_4v2ql")]
+layout_mode = 1
+
+[node name="Skip" parent="CanvasLayer/UI/ChoiceButtonsView" instance=ExtResource("29_4v2ql")]
+layout_mode = 1
+offset_left = 160.0
+offset_top = -140.0
+offset_right = 360.0
+offset_bottom = -60.0
+
+[node name="Label" parent="CanvasLayer/UI/ChoiceButtonsView/Skip/BetterButton/Panel" index="0"]
+text = "Skip"
+
+[node name="UndoView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_undoButton")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("17_mk8kl")
+_undoButton = NodePath("Undo")
+
+[node name="Undo" parent="CanvasLayer/UI/UndoView" instance=ExtResource("29_4v2ql")]
+layout_mode = 1
+offset_left = -360.0
+offset_top = -140.0
+offset_right = -160.0
+offset_bottom = -60.0
+
+[node name="Label" parent="CanvasLayer/UI/UndoView/Undo/BetterButton/Panel" index="0"]
+text = "Undo"
+
+[node name="AMDDrawView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_deckAnchor", "_discardAnchor", "_discardContainer", "_discardTopCardTextureRect")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("44_j1euc")
+_amdDrawCardscene = ExtResource("45_bopvg")
+_deckAnchor = NodePath("Deck/CardAnchor")
+_discardAnchor = NodePath("Discard/CardAnchor")
+_discardContainer = NodePath("Discard")
+_discardTopCardTextureRect = NodePath("Discard/CardAnchor/Mask/TextureRect")
+
+[node name="Deck" type="Control" parent="CanvasLayer/UI/AMDDrawView"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -410.0
+offset_top = -290.0
+offset_right = -50.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="Shadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/Deck"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7ijbs")
+
+[node name="CardAnchor" type="Control" parent="CanvasLayer/UI/AMDDrawView/Deck"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopCardShadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/Deck/CardAnchor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qbjvo")
+
+[node name="Mask" type="Panel" parent="CanvasLayer/UI/AMDDrawView/Deck/CardAnchor"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_akno6")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/AMDDrawView/Deck/CardAnchor/Mask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("34_dfaft")
+expand_mode = 1
+
+[node name="Discard" type="Control" parent="CanvasLayer/UI/AMDDrawView"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -290.0
+offset_right = 410.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="Shadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/Discard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7ijbs")
+
+[node name="CardAnchor" type="Control" parent="CanvasLayer/UI/AMDDrawView/Discard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopCardShadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/Discard/CardAnchor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qbjvo")
+
+[node name="Mask" type="Panel" parent="CanvasLayer/UI/AMDDrawView/Discard/CardAnchor"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_akno6")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/AMDDrawView/Discard/CardAnchor/Mask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("34_dfaft")
+expand_mode = 1
+
+[node name="ElementsView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_elements")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("36_6nwhb")
+_elements = [NodePath("Elements/Fire"), NodePath("Elements/Ice"), NodePath("Elements/Air"), NodePath("Elements/Earth"), NodePath("Elements/Light"), NodePath("Elements/Dark")]
+
+[node name="Elements" type="VBoxContainer" parent="CanvasLayer/UI/ElementsView"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -85.0
+offset_top = -310.0
+offset_right = -21.0
+offset_bottom = 310.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="Fire" parent="CanvasLayer/UI/ElementsView/Elements" instance=ExtResource("36_juek3")]
+layout_mode = 2
+
+[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Fire" index="0"]
+texture_under = ExtResource("38_bytl6")
+texture_progress = ExtResource("39_gpo0a")
+
+[node name="Ice" parent="CanvasLayer/UI/ElementsView/Elements" instance=ExtResource("36_juek3")]
+layout_mode = 2
+
+[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Ice" index="0"]
+texture_under = ExtResource("40_vfiu8")
+texture_progress = ExtResource("41_4cwam")
+
+[node name="Air" parent="CanvasLayer/UI/ElementsView/Elements" instance=ExtResource("36_juek3")]
+layout_mode = 2
+
+[node name="Earth" parent="CanvasLayer/UI/ElementsView/Elements" instance=ExtResource("36_juek3")]
+layout_mode = 2
+
+[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Earth" index="0"]
+texture_under = ExtResource("42_1a4nl")
+texture_progress = ExtResource("43_d62nx")
+
+[node name="Light" parent="CanvasLayer/UI/ElementsView/Elements" instance=ExtResource("36_juek3")]
+layout_mode = 2
+
+[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Light" index="0"]
+texture_under = ExtResource("44_krl23")
+texture_progress = ExtResource("45_qr3ow")
+
+[node name="Dark" parent="CanvasLayer/UI/ElementsView/Elements" instance=ExtResource("36_juek3")]
+layout_mode = 2
+
+[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Dark" index="0"]
+texture_under = ExtResource("46_ri0y1")
+texture_progress = ExtResource("47_vmwrb")
+
+[node name="InfoView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_container", "_pinButtonContainer", "_pinButton", "_panelContainer")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("48_sv35a")
+_container = NodePath("Container")
+_pinButtonContainer = NodePath("Container/Pin")
+_pinButton = NodePath("Container/Pin/BetterButton")
+_panelScene = ExtResource("49_pcjy7")
+_panelContainer = NodePath("Container/PanelContainer")
+
+[node name="Container" type="Control" parent="CanvasLayer/UI/InfoView"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_top = 400.0
+offset_right = -90.0
+offset_bottom = -50.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" parent="CanvasLayer/UI/InfoView/Container" instance=ExtResource("49_pcjy7")]
+visible = false
+layout_mode = 1
+
+[node name="PanelContainer" type="Control" parent="CanvasLayer/UI/InfoView/Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Pin" type="Control" parent="CanvasLayer/UI/InfoView/Container"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+pivot_offset = Vector2(20, 20)
+
+[node name="BetterButton" type="BaseButton" parent="CanvasLayer/UI/InfoView/Container/Pin"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = ExtResource("38_grpwx")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/InfoView/Container/Pin/BetterButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("54_uif1r")
+expand_mode = 1
+
+[node name="SpecialRulesView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_label", "_container")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("45_1uc0n")
+_label = NodePath("Container/Panel/Text")
+_container = NodePath("Container")
+
+[node name="Container" type="Control" parent="CanvasLayer/UI/SpecialRulesView"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -450.0
+offset_top = 50.0
+offset_right = -90.0
+offset_bottom = 350.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="Panel" type="Control" parent="CanvasLayer/UI/SpecialRulesView/Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/UI/SpecialRulesView/Container/Panel"]
+material = SubResource("ShaderMaterial_4oqg7")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("56_4oqg7")
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/SpecialRulesView/Container/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 10.0
+offset_bottom = 63.0
+grow_horizontal = 2
+text = "Scenario Rules"
+label_settings = SubResource("LabelSettings_tl3ik")
+horizontal_alignment = 1
+
+[node name="Divider" type="Panel" parent="CanvasLayer/UI/SpecialRulesView/Container/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 20.0
+offset_top = 70.0
+offset_right = -20.0
+offset_bottom = 74.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0mkyj")
+
+[node name="Text" type="RichTextLabel" parent="CanvasLayer/UI/SpecialRulesView/Container/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 84.0
+offset_right = -20.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("61_2qf5q")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+
+[node name="CardSelectionView" parent="CanvasLayer/UI" instance=ExtResource("59_h6npn")]
+layout_mode = 1
+
+[node name="MenuButton" parent="CanvasLayer/UI" instance=ExtResource("58_2qf5q")]
+layout_mode = 1
+
+[node name="ScenarioLostView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_retryButton", "_returnToTownButton")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("43_vn1gt")
+_retryButton = NodePath("Retry")
+_returnToTownButton = NodePath("ReturnToTown")
+
+[node name="Background" type="ColorRect" parent="CanvasLayer/UI/ScenarioLostView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.729412)
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/ScenarioLostView"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -237.0
+offset_top = 200.0
+offset_right = 237.0
+offset_bottom = 332.0
+grow_horizontal = 2
+text = "Scenario Lost"
+label_settings = SubResource("LabelSettings_mdo4f")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Retry" parent="CanvasLayer/UI/ScenarioLostView" instance=ExtResource("29_4v2ql")]
+layout_mode = 1
+offset_left = -310.0
+offset_top = -250.0
+offset_right = -10.0
+offset_bottom = -150.0
+
+[node name="Label" parent="CanvasLayer/UI/ScenarioLostView/Retry/BetterButton/Panel" index="0"]
+text = "Replay"
+
+[node name="ReturnToTown" parent="CanvasLayer/UI/ScenarioLostView" instance=ExtResource("29_4v2ql")]
+layout_mode = 1
+offset_left = 10.0
+offset_top = -250.0
+offset_right = 310.0
+offset_bottom = -150.0
+
+[node name="Label" parent="CanvasLayer/UI/ScenarioLostView/ReturnToTown/BetterButton/Panel" index="0"]
+text = "Return to Town"
+
+[node name="ScenarioWonView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_continueButton")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("44_7vhok")
+_continueButton = NodePath("ContinueButton")
+
+[node name="Background" type="ColorRect" parent="CanvasLayer/UI/ScenarioWonView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.729412)
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/ScenarioWonView"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -241.0
+offset_top = 200.0
+offset_right = 241.0
+offset_bottom = 332.0
+grow_horizontal = 2
+text = "Scenario Won"
+label_settings = SubResource("LabelSettings_mdo4f")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ContinueButton" parent="CanvasLayer/UI/ScenarioWonView" instance=ExtResource("29_4v2ql")]
+layout_mode = 1
+offset_top = -250.0
+offset_bottom = -150.0
+
+[node name="Label" parent="CanvasLayer/UI/ScenarioWonView/ContinueButton/BetterButton/Panel" index="0"]
+text = "Continue"
+
+[node name="CharacterStartHexMoveIndicator" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_icon", "_line2D")]
+modulate = Color(0.930264, 0.814778, 0.192365, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("65_pcjy7")
+_icon = NodePath("Icon")
+_line2D = NodePath("Line2D")
+
+[node name="Line2D" type="Line2D" parent="CanvasLayer/UI/CharacterStartHexMoveIndicator"]
+points = PackedVector2Array(0, 0, 100, 100)
+width = 8.0
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Icon" type="Control" parent="CanvasLayer/UI/CharacterStartHexMoveIndicator"]
+anchors_preset = 0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/CharacterStartHexMoveIndicator/Icon"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.785398
+pivot_offset = Vector2(40, 40)
+mouse_filter = 2
+texture = ExtResource("65_h6npn")
+expand_mode = 1
+
+[node name="DebugInfo" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_coordsLabel")]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 200.0
+grow_horizontal = 0
+mouse_filter = 2
+script = ExtResource("47_e6ljk")
+_coordsLabel = NodePath("CoordsLabel")
+
+[node name="CoordsLabel" type="Label" parent="CanvasLayer/UI/DebugInfo"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -92.0
+offset_top = -33.0
+offset_bottom = 33.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "(2, 2)"
+label_settings = SubResource("LabelSettings_hctre")
+
+[editable path="HexPin/ScaleContainer/WorldButton"]
+[editable path="CanvasLayer/UI/ScenarioSetupButtonsView/StartScenario"]
+[editable path="CanvasLayer/UI/ScenarioSetupButtonsView/OptionsContainer/EquipmentButton"]
+[editable path="CanvasLayer/UI/ScenarioSetupButtonsView/OptionsContainer/CardsButton"]
+[editable path="CanvasLayer/UI/CardSelectionButtonsView/StartRound"]
+[editable path="CanvasLayer/UI/ShortRestView/Redraw"]
+[editable path="CanvasLayer/UI/ChoiceButtonsView/Skip"]
+[editable path="CanvasLayer/UI/UndoView/Undo"]
+[editable path="CanvasLayer/UI/ElementsView/Elements/Fire"]
+[editable path="CanvasLayer/UI/ElementsView/Elements/Ice"]
+[editable path="CanvasLayer/UI/ElementsView/Elements/Earth"]
+[editable path="CanvasLayer/UI/ElementsView/Elements/Light"]
+[editable path="CanvasLayer/UI/ElementsView/Elements/Dark"]
+[editable path="CanvasLayer/UI/CardSelectionView"]
+[editable path="CanvasLayer/UI/ScenarioLostView/Retry"]
+[editable path="CanvasLayer/UI/ScenarioLostView/ReturnToTown"]
+[editable path="CanvasLayer/UI/ScenarioWonView/ContinueButton"]

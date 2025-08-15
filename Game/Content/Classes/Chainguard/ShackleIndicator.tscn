@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://jocfr1rcko82"]
+
+[ext_resource type="PackedScene" uid="uid://w41kadckdv77" path="res://Content/Classes/Chainguard/ChainLink.tscn" id="1_bgvbm"]
+
+[node name="Chain" type="Node2D"]
+modulate = Color(0.117647, 0.113725, 0.113725, 1)
+scale = Vector2(0.8, 0.8)
+
+[node name="ChainLink" parent="." instance=ExtResource("1_bgvbm")]
+
+[node name="ChainLink2" parent="." instance=ExtResource("1_bgvbm")]
+rotation = 1.0472
+
+[node name="ChainLink3" parent="." instance=ExtResource("1_bgvbm")]
+rotation = 2.0944
+
+[node name="ChainLink4" parent="." instance=ExtResource("1_bgvbm")]
+rotation = 3.14159
+
+[node name="ChainLink5" parent="." instance=ExtResource("1_bgvbm")]
+rotation = 4.18879
+
+[node name="Sprite2D3" parent="ChainLink5" index="3"]
+visible = false
+
+[node name="ChainLink6" parent="." instance=ExtResource("1_bgvbm")]
+rotation = 5.23599
+
+[editable path="ChainLink5"]

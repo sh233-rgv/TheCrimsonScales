@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcd5fl2d7glct"]
+
+[ext_resource type="PackedScene" uid="uid://cv8xw8bgt7sj8" path="res://Scenes/UI/Popups/CardSelectionPopup/CardSelectionPopupBase.tscn" id="1_x8dhq"]
+[ext_resource type="Script" uid="uid://dv5ay63tdm3jl" path="res://Scripts/UI/Popups/CardSelectionPopup/LevelUpCardSelectionPopup.cs" id="2_j218f"]
+
+[node name="LevelUpCardSelectionPopup" instance=ExtResource("1_x8dhq")]
+script = ExtResource("2_j218f")
+
+[node name="Label" parent="Panel/MarginContainer/VBoxContainer/Header" index="1"]
+text = "Level Up Card Selection"
+
+[node name="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Header" index="0"]
+theme_override_constants/separation = 560
+
+[node name="HandLabel" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Header/HBoxContainer" index="0"]
+text = "Available Cards"
+
+[node name="RequiredCountLabel" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Header/HBoxContainer" index="1"]
+visible = false
+
+[node name="AvailableLabel" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Header/HBoxContainer" index="2"]
+text = "Unlockable Cards"
+
+[editable path="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/ConfirmButton"]

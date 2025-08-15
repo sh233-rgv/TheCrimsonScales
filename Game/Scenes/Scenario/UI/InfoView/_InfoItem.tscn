@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://ba70utx6b3kjs"]
+
+[ext_resource type="LabelSettings" uid="uid://d235d2njdpdmg" path="res://Resources/ButtonLabel.tres" id="1_oh4lb"]
+[ext_resource type="Script" uid="uid://ck1ncviofqosh" path="res://Scripts/UI/ResizingLabel.cs" id="2_f6lyg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ka6sm"]
+
+[node name="InfoItem" type="PanelContainer"]
+custom_minimum_size = Vector2(360, 0)
+offset_right = 350.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ka6sm")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Content" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="LabelContainer" type="Control" parent="MarginContainer/Content"]
+custom_minimum_size = Vector2(280, 47)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Content/LabelContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Name"
+label_settings = ExtResource("1_oh4lb")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_f6lyg")
+_minSize = 20
+_maxSize = 40

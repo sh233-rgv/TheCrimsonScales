@@ -1,0 +1,47 @@
+REFACTOR
+Passing parameters from events through state?
+
+Monster cards element consumption
+
+FFMPEG way to extract frames from a video to use for character map animations
+ffmpeg -i input.mp4 -vf fps=1 out%d.png
+-start_number 1 frame-%04d.png
+.\ffmpeg -i C:/Projects/Gloomy/Assets/Classes/AmberAegis/file.mp4 -vf fps=10 -start_number 1 frame-%03d.png
+
+End of turn wrap-up:
+1. Perform end of turn abilities
+2. Infused elements are moved to Strong, "end of turn" conditions expire, character performs end of turn looting
+
+ZIndex
+MapTile 	-10
+CorridorTile	-1
+TerrainTiles	0
+Coin		5
+Figure 		10
+Projectile 	20
+AnimatingFigure	100
+
+Initiative
+MainInitiative: 1-99
+SortingInitiative: 10.000.000 x MainInitiative + extra shenanigans to sort between all figures
+
+Assets:
+AMD cards for all(?) classes (look on Discord if any exist yet, otherwise use tool?)
+Luminary level 9 summon full artwork
+Bombard card that should have pull instead of push(?)
+Fire knight final assets (cards, unique items)
+Amber Aegis cards
+
+Artificer v2 final assets (cards)
+Artificer summons full artwork
+
+Hierophant Impetuous Inquisition should have 28 initiative
+Hierophant Impetuous Inquisition bottom should probably state "suffer 3 or more damage [with an attack] this round"
+Hierophant Inner Reflection bottom has a typo: "If you [give] exactly one loot token"
+Hierophant Inner Reflection bottom should perhaps specify that the ally needs to be a character
+Hierophant Inspired remedy top should specify that it needs to target an ally for it to give a prayer card
+
+Brightspark summons full artwork
+Brightspark Elixir of Life has a typo: "The next [time] you would become exhausted"
+Brightspark Acquire Funding has no text about keeping the card in active, but Nourishing Formula does
+Brightspark Environmental Survey should probably note that the hex to relocate to should be empty

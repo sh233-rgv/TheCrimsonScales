@@ -1,0 +1,93 @@
+[gd_scene load_steps=5 format=3 uid="uid://l8eyvlka0sad"]
+
+[ext_resource type="Script" uid="uid://bimsg5rdgpeya" path="res://Scripts/BetweenScenarios/ScenarioFlowchart/ScenarioFlowchartArrow.cs" id="1_s57gh"]
+[ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="2_gg0tp"]
+[ext_resource type="Texture2D" uid="uid://dwfv0qnw411xy" path="res://Art/ScenarioFlowchart/ScenarioArrowHead.svg" id="3_wxnro"]
+[ext_resource type="Texture2D" uid="uid://bmb4kpbmfm5mb" path="res://Art/ScenarioFlowchart/LinkedScenariosIcon.svg" id="4_rupy6"]
+
+[node name="ScenarioFlowchartArrow" type="Control" node_paths=PackedStringArray("_container", "_linkContainer")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_s57gh")
+_container = NodePath("Container")
+_linkContainer = NodePath("Container/Link")
+
+[node name="Container" type="Control" parent="."]
+anchors_preset = 0
+offset_left = -55.0
+offset_top = -15.0
+offset_right = 55.0
+offset_bottom = 15.0
+
+[node name="Visuals" type="Control" parent="Container"]
+modulate = Color(0.137255, 0.121569, 0.12549, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Rectangle" type="ColorRect" parent="Container/Visuals"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 13.5
+offset_top = -3.0
+offset_right = -13.5
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dot" type="TextureRect" parent="Container/Visuals"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -8.0
+offset_right = 16.0
+offset_bottom = 8.0
+grow_vertical = 2
+texture = ExtResource("2_gg0tp")
+expand_mode = 1
+
+[node name="Arrow" type="TextureRect" parent="Container/Visuals"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -15.0
+offset_bottom = 15.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("3_wxnro")
+expand_mode = 1
+
+[node name="Link" type="Control" parent="Container"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -39.0
+offset_right = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(33, 15)
+
+[node name="TextureRect" type="TextureRect" parent="Container/Link"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -18.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_rupy6")
+expand_mode = 1

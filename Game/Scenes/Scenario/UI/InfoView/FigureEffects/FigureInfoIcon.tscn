@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://nylmwfb2he5b"]
+
+[ext_resource type="Texture2D" uid="uid://b37l4p8l06773" path="res://Art/Icons/ConditionsAndEffects/Poison.svg" id="1_csh3y"]
+[ext_resource type="Script" uid="uid://j5lt8lvk2v7i" path="res://Scripts/Scenario/UI/InfoView/FigureInfoItem/FigureInfoIcon.cs" id="1_ku4n6"]
+
+[node name="FigureInfoIcon" type="Control" node_paths=PackedStringArray("_iconTexture")]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("1_ku4n6")
+_iconTexture = NodePath("TextureRect")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_csh3y")
+expand_mode = 1

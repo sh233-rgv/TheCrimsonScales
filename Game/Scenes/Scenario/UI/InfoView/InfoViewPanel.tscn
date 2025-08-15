@@ -1,0 +1,97 @@
+[gd_scene load_steps=9 format=3 uid="uid://g1nr1j3khjk5"]
+
+[ext_resource type="Shader" uid="uid://dtwrnvi5agwii" path="res://Shaders/UIBlur.gdshader" id="1_dmxav"]
+[ext_resource type="Script" uid="uid://fgc6quwsx4w2" path="res://Scripts/Scenario/UI/InfoView/InfoViewPanel.cs" id="1_gl340"]
+[ext_resource type="PackedScene" uid="uid://c7xtr7p4d2mq1" path="res://Scenes/Scenario/UI/InfoView/InfoDivider.tscn" id="2_ji5i2"]
+[ext_resource type="StyleBox" uid="uid://bht73g872t3sp" path="res://Resources/BlurPanel.tres" id="2_xbdlp"]
+[ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="5_xtfsw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4oqg7"]
+shader = ExtResource("1_dmxav")
+
+[sub_resource type="LabelSettings" id="LabelSettings_tl3ik"]
+font = ExtResource("5_xtfsw")
+font_size = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0mkyj"]
+bg_color = Color(1, 1, 1, 0.352941)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="Panel" type="Control" node_paths=PackedStringArray("_itemParent", "_preferredHeightContainer", "_panel", "_scrollContainer", "_marginContainer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_gl340")
+_dividerScene = ExtResource("2_ji5i2")
+_itemParent = NodePath("ScrollContainer/MarginContainer/VBoxContainer")
+_preferredHeightContainer = NodePath("ScrollContainer/MarginContainer")
+_panel = NodePath("Panel")
+_scrollContainer = NodePath("ScrollContainer")
+_marginContainer = NodePath("ScrollContainer/MarginContainer")
+
+[node name="Panel" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_4oqg7")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("2_xbdlp")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 10.0
+offset_bottom = 63.0
+grow_horizontal = 2
+text = "Info"
+label_settings = SubResource("LabelSettings_tl3ik")
+horizontal_alignment = 1
+
+[node name="Divider" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 20.0
+offset_top = 70.0
+offset_right = -20.0
+offset_bottom = 74.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0mkyj")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = false
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 10

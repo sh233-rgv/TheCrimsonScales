@@ -1,0 +1,147 @@
+[gd_scene load_steps=23 format=3 uid="uid://cbtuwtadxyfut"]
+
+[ext_resource type="Script" uid="uid://x4kpb6u0l25u" path="res://Scripts/AppController.cs" id="1_6s6iu"]
+[ext_resource type="Script" uid="uid://bn4208bsiittm" path="res://Scripts/InputController.cs" id="2_2vstq"]
+[ext_resource type="Script" uid="uid://wrgdfn28ijtk" path="res://Scripts/SceneLoading/SceneLoader.cs" id="3_8i1ej"]
+[ext_resource type="PackedScene" uid="uid://difhafs7bmdtg" path="res://Scenes/LoadingScene.tscn" id="4_uwja4"]
+[ext_resource type="Script" uid="uid://b6viihxfb1sdv" path="res://Scripts/UI/PopupManager.cs" id="5_jovqw"]
+[ext_resource type="PackedScene" uid="uid://cxutt73ml112f" path="res://Scenes/UI/Popups/BuyItemPopup.tscn" id="6_qiebr"]
+[ext_resource type="PackedScene" uid="uid://da55w54r560l" path="res://Scenes/UI/Popups/EquipmentPopup/EquipmentPopup.tscn" id="7_tfguv"]
+[ext_resource type="PackedScene" uid="uid://b1j0wxttvh7o5" path="res://Scenes/UI/Popups/EquipItemPopup/EquipItemPopup.tscn" id="8_sayhj"]
+[ext_resource type="PackedScene" uid="uid://dxp55frmphxfv" path="res://Scenes/UI/Popups/TreasureItemRewardPopup.tscn" id="9_il2vn"]
+[ext_resource type="PackedScene" uid="uid://cgth2uvply7hc" path="res://Scenes/UI/Popups/CreateCharacterPopup/CreateCharacterPopup.tscn" id="10_qiebr"]
+[ext_resource type="PackedScene" uid="uid://61fxgg6lkbhf" path="res://Scenes/UI/Popups/CharacterInfoPopup.tscn" id="11_sayhj"]
+[ext_resource type="PackedScene" uid="uid://6c3csquaapgj" path="res://Scenes/UI/Popups/TextPopup.tscn" id="11_tfguv"]
+[ext_resource type="PackedScene" uid="uid://bk4q5mr73oy4u" path="res://Scenes/UI/Popups/CardSelectionPopup/CardSelectionPopup.tscn" id="12_6akjg"]
+[ext_resource type="PackedScene" uid="uid://dcd5fl2d7glct" path="res://Scenes/UI/Popups/CardSelectionPopup/LevelUpCardSelectionPopup.tscn" id="13_6akjg"]
+[ext_resource type="PackedScene" uid="uid://fhktc7hrkay6" path="res://Scenes/UI/Popups/MenuPopup.tscn" id="13_gkkkd"]
+[ext_resource type="PackedScene" uid="uid://fokaq7yvwl8m" path="res://Scenes/UI/Popups/CreateCampaignPopup.tscn" id="15_gd3oa"]
+[ext_resource type="PackedScene" uid="uid://b301gw0ephxqc" path="res://Scenes/UI/Popups/OptionsPopup/OptionsPopup.tscn" id="16_448tb"]
+[ext_resource type="Script" uid="uid://bu37eqpl075ak" path="res://Scripts/Audio/AudioController.cs" id="16_u3jyv"]
+[ext_resource type="PackedScene" uid="uid://dy57ybgbn2epj" path="res://Scenes/AudioStreamPlayer.tscn" id="17_7c1c5"]
+[ext_resource type="PackedScene" uid="uid://bvih1o1ec48e2" path="res://Scenes/UI/Popups/ErrorPopup.tscn" id="17_g5bd1"]
+[ext_resource type="Script" uid="uid://cwsakirhn6l0u" path="res://Scripts/UI/LongPressIndicator.cs" id="19_7txjg"]
+[ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="19_7484g"]
+
+[node name="AppController" type="Node" node_paths=PackedStringArray("InputController", "SceneLoader", "PopupManager", "AudioController")]
+script = ExtResource("1_6s6iu")
+InputController = NodePath("InputController")
+SceneLoader = NodePath("SceneLoader")
+PopupManager = NodePath("CanvasLayer/PopupManager")
+AudioController = NodePath("AudioController")
+
+[node name="InputController" type="Node" parent="."]
+script = ExtResource("2_2vstq")
+_dragThreshold = 30.0
+_skipAIDecisionAction = &"skip_ai_decision"
+
+[node name="SceneLoader" type="Node" parent="."]
+script = ExtResource("3_8i1ej")
+_loadingScene = ExtResource("4_uwja4")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="PopupManager" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("5_jovqw")
+
+[node name="BuyItemPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("6_qiebr")]
+layout_mode = 1
+
+[node name="EquipmentPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("7_tfguv")]
+layout_mode = 1
+
+[node name="EquipItemPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("8_sayhj")]
+layout_mode = 1
+
+[node name="TreasureItemRewardPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("9_il2vn")]
+layout_mode = 1
+
+[node name="CreateCharacterPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("10_qiebr")]
+layout_mode = 1
+
+[node name="CharacterInfoPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("11_sayhj")]
+layout_mode = 1
+
+[node name="LevelUpCardSelectionPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("13_6akjg")]
+layout_mode = 1
+
+[node name="CardSelectionPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("12_6akjg")]
+layout_mode = 1
+
+[node name="TextPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("11_tfguv")]
+layout_mode = 1
+
+[node name="MenuPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("13_gkkkd")]
+layout_mode = 1
+
+[node name="CreateCampaignPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("15_gd3oa")]
+layout_mode = 1
+
+[node name="OptionsPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("16_448tb")]
+layout_mode = 1
+
+[node name="ErrorPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("17_g5bd1")]
+layout_mode = 1
+
+[node name="LongPressIndicator" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("_background", "_fill")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -540.0
+offset_right = -720.0
+offset_bottom = -300.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("19_7txjg")
+_background = NodePath("Background")
+_fill = NodePath("Fill")
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/LongPressIndicator"]
+self_modulate = Color(0.450648, 0.450648, 0.450648, 0.596078)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("19_7484g")
+expand_mode = 1
+
+[node name="Fill" type="TextureRect" parent="CanvasLayer/LongPressIndicator"]
+self_modulate = Color(0.730216, 0.730216, 0.730216, 0.498039)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(120, 120)
+mouse_filter = 2
+texture = ExtResource("19_7484g")
+expand_mode = 1
+
+[node name="AudioController" type="Node" parent="." node_paths=PackedStringArray("_bgmPlayer", "_bgsPlayer")]
+script = ExtResource("16_u3jyv")
+_audioStreamPlayerScene = ExtResource("17_7c1c5")
+_bgmPlayer = NodePath("BGMStreamPlayer")
+_bgsPlayer = NodePath("BGSStreamPlayer")
+
+[node name="BGMStreamPlayer" type="AudioStreamPlayer" parent="AudioController"]
+bus = &"BGM"
+
+[node name="BGSStreamPlayer" type="AudioStreamPlayer" parent="AudioController"]
+bus = &"BGS"

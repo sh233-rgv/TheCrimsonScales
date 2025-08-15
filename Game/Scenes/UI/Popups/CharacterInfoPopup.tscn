@@ -1,0 +1,158 @@
+[gd_scene load_steps=10 format=3 uid="uid://61fxgg6lkbhf"]
+
+[ext_resource type="PackedScene" uid="uid://dp2uff21w610p" path="res://Scenes/UI/Popups/_PopupBase.tscn" id="1_0axtw"]
+[ext_resource type="Script" uid="uid://bcjfiji3t6j1u" path="res://Scripts/UI/Popups/CharacterInfoPopup.cs" id="2_pnf13"]
+[ext_resource type="Texture2D" uid="uid://diddsge2c7sli" path="res://Content/Classes/Mirefoot/MatFront.png" id="5_0aqwi"]
+[ext_resource type="LabelSettings" uid="uid://d235d2njdpdmg" path="res://Resources/ButtonLabel.tres" id="6_qmdv5"]
+[ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="7_rgjng"]
+[ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="8_bnawq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hlxgd"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jyu3w"]
+bg_color = Color(0, 0, 0, 0.305882)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rkkap"]
+bg_color = Color(0, 0, 0, 0.305882)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 8.0
+
+[node name="CharacterInfoPopup" node_paths=PackedStringArray("_matFrontTexture", "_nameLineEdit", "_header", "_cancelButton", "_confirmButton", "_deleteButton") instance=ExtResource("1_0axtw")]
+script = ExtResource("2_pnf13")
+_matFrontTexture = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/VBoxContainer/MatFront/Mask/TextureRect")
+_nameLineEdit = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Name/Name/LineEdit")
+_header = NodePath("Panel/MarginContainer/VBoxContainer/Header/Label")
+_cancelButton = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/CancelButton/BetterButton")
+_confirmButton = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/ConfirmButton/BetterButton")
+_deleteButton = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/DeleteButton/BetterButton")
+
+[node name="Panel" parent="." index="1"]
+offset_left = -521.0
+offset_top = -467.0
+offset_right = 521.0
+offset_bottom = 467.0
+
+[node name="Label" parent="Panel/MarginContainer/VBoxContainer/Header" index="1"]
+text = "Character Info"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="MatFront" type="Control" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/VBoxContainer" index="0"]
+custom_minimum_size = Vector2(970, 630)
+layout_mode = 2
+
+[node name="Mask" type="Panel" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/VBoxContainer/MatFront" index="0"]
+clip_children = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hlxgd")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/VBoxContainer/MatFront/Mask" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_0aqwi")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="Name" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content" index="1"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label" type="Control" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Name" index="0"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Name/Label" index="0"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -43.0
+offset_right = 43.0
+offset_bottom = 47.0
+grow_horizontal = 2
+text = "Name:"
+label_settings = ExtResource("6_qmdv5")
+
+[node name="Name" type="Control" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Name" index="1"]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Name/Name" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/caret_width = 2
+theme_override_fonts/font = ExtResource("7_rgjng")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/focus = SubResource("StyleBoxFlat_jyu3w")
+theme_override_styles/normal = SubResource("StyleBoxFlat_rkkap")
+placeholder_text = "..."
+caret_blink = true
+
+[node name="CancelButton" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons" index="0" instance=ExtResource("8_bnawq")]
+layout_mode = 2
+
+[node name="Label" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/CancelButton/BetterButton/Panel" index="0"]
+text = "Cancel"
+
+[node name="DeleteButton" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons" index="1" instance=ExtResource("8_bnawq")]
+modulate = Color(1, 0.368627, 0.227451, 1)
+layout_mode = 2
+
+[node name="Label" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/DeleteButton/BetterButton/Panel" index="0"]
+text = "Delete"
+
+[node name="ConfirmButton" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons" index="2" instance=ExtResource("8_bnawq")]
+layout_mode = 2
+
+[editable path="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/CancelButton"]
+[editable path="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/DeleteButton"]
+[editable path="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/ConfirmButton"]

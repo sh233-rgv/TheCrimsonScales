@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="256"
+   height="256"
+   viewBox="0 0 256 256"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="PressurePlateIcon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:lockguides="true"
+     inkscape:zoom="1.1449053"
+     inkscape:cx="-43.235016"
+     inkscape:cy="177.30724"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid234"
+       empspacing="4"
+       originx="0"
+       originy="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path232"
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:16.375;stroke-linecap:round"
+       d="M 128 46.1875 A 81.812485 81.812492 0 0 0 46.1875 128 A 81.812485 81.812492 0 0 0 128 209.8125 A 81.812485 81.812492 0 0 0 209.8125 128 A 81.812485 81.812492 0 0 0 128 46.1875 z M 128 68 A 60 60 0 0 1 188 128 A 60 60 0 0 1 128 188 A 60 60 0 0 1 68 128 A 60 60 0 0 1 128 68 z " />
+    <path
+       style="fill:#ffffff;stroke:none;stroke-width:16;stroke-linecap:round"
+       d="m 104,44 4,-36 c 0,0 0,-4 20,-4 20,0 20,4 20,4 l 4,36 z"
+       id="path342"
+       sodipodi:nodetypes="cczccc" />
+    <path
+       style="fill:#ffffff;stroke:none;stroke-width:16;stroke-linecap:round"
+       d="m 152,212 -4,36 c 0,0 0,4 -20,4 -20,0 -20,-4 -20,-4 l -4,-36 z"
+       id="path342-5"
+       sodipodi:nodetypes="cczccc" />
+    <path
+       style="fill:#ffffff;stroke:none;stroke-width:16;stroke-linecap:round"
+       d="m 212,104 36,4 c 0,0 4,0 4,20 0,20 -4,20 -4,20 l -36,4 z"
+       id="path342-6"
+       sodipodi:nodetypes="cczccc" />
+    <path
+       style="fill:#ffffff;stroke:none;stroke-width:16;stroke-linecap:round"
+       d="M 44,152 8,148 c 0,0 -4,0 -4,-20 0,-20 4,-20 4,-20 l 36,-4 z"
+       id="path342-6-2"
+       sodipodi:nodetypes="cczccc" />
+  </g>
+</svg>

@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://cxutt73ml112f"]
+
+[ext_resource type="PackedScene" uid="uid://dp2uff21w610p" path="res://Scenes/UI/Popups/_PopupBase.tscn" id="1_3un1h"]
+[ext_resource type="Script" uid="uid://b4j3wt0s4it5p" path="res://Scripts/UI/Popups/BuyItemPopup.cs" id="2_k0sdm"]
+[ext_resource type="PackedScene" uid="uid://bmixj6gefxlit" path="res://Scenes/Scenario/UI/ItemView.tscn" id="2_sf1pr"]
+[ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="2_v23de"]
+[ext_resource type="FontVariation" uid="uid://ciy2q5rti2m6m" path="res://Fonts/MarkaziVariation.tres" id="5_7q8mq"]
+
+[node name="BuyItemPopup" node_paths=PackedStringArray("_itemView", "_itemAndBuyerLabel", "_costLabel", "_cancelButton", "_confirmButton") instance=ExtResource("1_3un1h")]
+script = ExtResource("2_k0sdm")
+_itemView = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/ItemView")
+_itemAndBuyerLabel = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Label")
+_costLabel = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CostLabel")
+_cancelButton = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/CancelButton/BetterButton")
+_confirmButton = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/ConfirmButton/BetterButton")
+
+[node name="Label" parent="Panel/MarginContainer/VBoxContainer/Header" index="1"]
+text = "Buy Item"
+
+[node name="ItemView" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content" index="0" instance=ExtResource("2_sf1pr")]
+custom_minimum_size = Vector2(270, 413.1)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="RichTextLabel" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content" index="1"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("5_7q8mq")
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Buy Boots of Striding for [img={30}, color=#ef6b26]res://Content/Classes/Mirefoot/Icon.svg[/img] Mirefoot?
+"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+
+[node name="CostLabel" type="RichTextLabel" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content" index="2"]
+self_modulate = Color(1, 1, 0.247059, 1)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("5_7q8mq")
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Cost: [img={30}, color=#fff]res://Art/Icons/Other/Coins.svg[/img]20"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+
+[node name="CancelButton" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons" index="0" instance=ExtResource("2_v23de")]
+layout_mode = 2
+
+[node name="Label" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/CancelButton/BetterButton/Panel" index="0"]
+text = "Cancel"
+
+[node name="ConfirmButton" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons" index="1" instance=ExtResource("2_v23de")]
+modulate = Color(0.458824, 1, 0.372549, 1)
+layout_mode = 2
+
+[editable path="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/CancelButton"]
+[editable path="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/ConfirmButton"]

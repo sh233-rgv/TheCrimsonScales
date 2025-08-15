@@ -1,0 +1,108 @@
+[gd_scene load_steps=6 format=3 uid="uid://cl8d3myp4d0w6"]
+
+[ext_resource type="PackedScene" uid="uid://d1al6mehqtk0y" path="res://Scenes/UI/Popups/OptionsPopup/_OptionView.tscn" id="1_278m4"]
+[ext_resource type="Texture2D" uid="uid://bj03vc6rpjr3f" path="res://Art/Icons/Other/CheckMark.svg" id="2_dib36"]
+[ext_resource type="Script" uid="uid://djb675pq5ds3d" path="res://Scripts/UI/Popups/OptionsPopup/CheckmarkOptionView.cs" id="2_in0hj"]
+[ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="3_loeln"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_278m4"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="CheckmarkOptionView" node_paths=PackedStringArray("_checkmark", "_button") instance=ExtResource("1_278m4")]
+script = ExtResource("2_in0hj")
+_checkmark = NodePath("Panel/ValueContainer/BetterButton/Box/Checkmark")
+_button = NodePath("Panel/ValueContainer/BetterButton")
+
+[node name="BetterButton" type="BaseButton" parent="Panel/ValueContainer" index="0"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(60, 0)
+layout_direction = 0
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = ExtResource("3_loeln")
+metadata/_custom_type_script = "uid://dir5vjdxjac3n"
+
+[node name="Box" type="Panel" parent="Panel/ValueContainer/BetterButton" index="0"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+offset_right = 60.0
+offset_bottom = 60.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_278m4")
+
+[node name="Checkmark" type="TextureRect" parent="Panel/ValueContainer/BetterButton/Box" index="0"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = 23.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_dib36")
+expand_mode = 1

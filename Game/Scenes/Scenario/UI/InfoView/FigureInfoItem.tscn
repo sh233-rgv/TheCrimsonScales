@@ -1,0 +1,136 @@
+[gd_scene load_steps=10 format=3 uid="uid://cj61uqdsa6bkt"]
+
+[ext_resource type="PackedScene" uid="uid://ba70utx6b3kjs" path="res://Scenes/Scenario/UI/InfoView/_InfoItem.tscn" id="1_e1s8h"]
+[ext_resource type="Texture2D" uid="uid://bawa4x7v0yhht" path="res://Content/Classes/Mirefoot/Portrait.tres" id="2_gr6s2"]
+[ext_resource type="PackedScene" uid="uid://dbuph6sax0stv" path="res://Scenes/Scenario/UI/InfoView/InfoStat.tscn" id="3_gmqkp"]
+[ext_resource type="Texture2D" uid="uid://jflaun2fecvo" path="res://Art/Icons/Abilities/Health.svg" id="4_uplxl"]
+[ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="5_gyvkv"]
+[ext_resource type="PackedScene" uid="uid://27n2d0vaa0s" path="res://Scenes/Scenario/UI/InfoView/FigureEffects/FigureInfoConditionsEffect.tscn" id="5_jfqbu"]
+[ext_resource type="LabelSettings" uid="uid://dwxmsjvisoyh5" path="res://Resources/InfoViewStat.tres" id="7_e5o5d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ncvji"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6rkmb"]
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="FigureInfoItem" instance=ExtResource("1_e1s8h")]
+
+[node name="Container" type="HBoxContainer" parent="MarginContainer/Content" index="1"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Portrait" type="PanelContainer" parent="MarginContainer/Content/Container" index="0"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ncvji")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Content/Container/Portrait" index="0"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Portrait" type="Panel" parent="MarginContainer/Content/Container/Portrait/MarginContainer" index="0"]
+clip_children = 1
+custom_minimum_size = Vector2(100, 150)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6rkmb")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Content/Container/Portrait/MarginContainer/Portrait" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_gr6s2")
+expand_mode = 1
+
+[node name="Stats" type="VBoxContainer" parent="MarginContainer/Content/Container" index="1"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Health" parent="MarginContainer/Content/Container/Stats" index="0" instance=ExtResource("3_gmqkp")]
+layout_mode = 2
+
+[node name="TextureRect" parent="MarginContainer/Content/Container/Stats/Health" index="0"]
+anchors_preset = 0
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_top = 0.0
+offset_bottom = 34.0
+grow_vertical = 1
+texture = ExtResource("4_uplxl")
+
+[node name="Effects" type="VBoxContainer" parent="MarginContainer/Content" index="2"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SimpleEffects" type="Control" parent="MarginContainer/Content/Effects" index="0"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/Content/Effects/SimpleEffects" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("5_gyvkv")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[img={40}]res://Art/Icons/Abilities/ShieldCustom.svg[/img]2, [img={40}]res://Art/Icons/Abilities/Retaliate.svg[/img]2, "
+horizontal_alignment = 1
+
+[node name="Conditions" parent="MarginContainer/Content/Effects" index="1" instance=ExtResource("5_jfqbu")]
+layout_mode = 2
+
+[node name="Label" parent="MarginContainer/Content/Effects/Conditions/HBoxContainer" index="0"]
+text = "Conditions:"
+
+[node name="Immunities" parent="MarginContainer/Content/Effects" index="2" instance=ExtResource("5_jfqbu")]
+layout_mode = 2
+
+[node name="Applies" parent="MarginContainer/Content/Effects" index="3" instance=ExtResource("5_jfqbu")]
+layout_mode = 2
+
+[node name="Label" parent="MarginContainer/Content/Effects/Applies/HBoxContainer" index="0"]
+text = "Applies:"
+
+[node name="ExtraEffects" type="VBoxContainer" parent="MarginContainer/Content/Effects" index="4"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Content/Effects/ExtraEffects" index="0"]
+layout_mode = 2
+text = "Active Effects:"
+label_settings = ExtResource("7_e5o5d")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Content/Effects/ExtraEffects" index="1"]
+layout_mode = 2
+
+[node name="Effects" type="VBoxContainer" parent="MarginContainer/Content/Effects/ExtraEffects/MarginContainer" index="0"]
+layout_mode = 2
+
+[editable path="MarginContainer/Content/Container/Stats/Health"]
+[editable path="MarginContainer/Content/Effects/Conditions"]
+[editable path="MarginContainer/Content/Effects/Applies"]

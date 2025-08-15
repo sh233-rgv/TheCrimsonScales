@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://dsp4e6s2i680c"]
+
+[ext_resource type="Script" uid="uid://cuj3uxutqde8x" path="res://Scripts/UI/BetterSlider.cs" id="1_kaili"]
+[ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="2_mftj3"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_64p3q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1fjpv"]
+bg_color = Color(1, 1, 1, 1)
+expand_margin_top = 1.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a180v"]
+bg_color = Color(1, 1, 1, 1)
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[node name="BetterSlider" type="Control" node_paths=PackedStringArray("_slider", "_grabber")]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_kaili")
+_slider = NodePath("HSlider")
+_grabber = NodePath("HSlider/Grabber")
+
+[node name="HSlider" type="HSlider" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = SubResource("ImageTexture_64p3q")
+theme_override_styles/slider = SubResource("StyleBoxFlat_1fjpv")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_a180v")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_a180v")
+step = 10.0
+value = 50.0
+rounded = true
+scrollable = false
+
+[node name="Grabber" type="TextureRect" parent="HSlider"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 150.0
+offset_top = 10.0
+offset_right = -110.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(35, 35)
+texture = ExtResource("2_mftj3")
+expand_mode = 1

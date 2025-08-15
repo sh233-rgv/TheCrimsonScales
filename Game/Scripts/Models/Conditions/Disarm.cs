@@ -1,0 +1,30 @@
+﻿using Fractural.Tasks;
+
+public class Disarm : ConditionModel
+{
+	public override string Name => "Disarm";
+	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Disarm.svg";
+	public override bool RemovedAtEndOfTurn => true;
+
+	public override async GDTask Add(Figure target, ConditionNode node)
+	{
+		await base.Add(target, node);
+
+		ScenarioEvents.AbilityStartedEvent.Subscribe(this,
+			parameters => parameters.Performer == Owner && parameters.AbilityState is AttackAbility.State,
+			parameters =>
+			{
+				Node.Flash();
+				parameters.SetIsBlocked(true);
+				return GDTask.CompletedTask;
+			},
+			EffectType.MandatoryBeforeOptionals);
+	}
+
+	public override async GDTask Remove()
+	{
+		await base.Remove();
+
+		ScenarioEvents.AbilityStartedEvent.Unsubscribe(this);
+	}
+}

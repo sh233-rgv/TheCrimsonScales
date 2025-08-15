@@ -1,0 +1,74 @@
+﻿using System;
+using System.Collections.Generic;
+using Fractural.Tasks;
+
+public abstract class HierophantCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
+	where TTop : HierophantCardSide, new()
+	where TBottom : HierophantCardSide, new()
+{
+	protected override string TexturePath => "res://Content/Classes/Hierophant/Cards.jpg";
+	protected override int ColumnCount => 8;
+	protected override int RowCount => 4;
+}
+
+public abstract class HierophantCardSide : AbilityCardSide
+{
+	protected GiveAbilityCardAbility GivePrayerCardAbility(int targets = 1, int? range = null,
+		Action<GiveAbilityCardAbility.State, List<Figure>> customGetTargets = null,
+		GiveAbilityCardAbility.ConditionalAbilityCheckDelegate conditionalAbilityCheck = null)
+	{
+		return new GiveAbilityCardAbility(
+			(state, list) =>
+			{
+				Hierophant hierophant = (Hierophant)AbilityCard.OriginalOwner;
+				list.AddRange(hierophant.PrayerCards);
+			},
+			OnCardGiven, OnCardDiscarded, OnCardLost,
+			targets: targets, range: range,
+			customGetTargets: customGetTargets,
+			conditionalAbilityCheck: conditionalAbilityCheck
+		);
+	}
+
+	protected async GDTask GivePrayerCard(AbilityState abilityState, Figure target)
+	{
+		await GiveAbilityCardAbility.GiveAbilityCard(abilityState, target,
+			(state, list) =>
+			{
+				Hierophant hierophant = (Hierophant)AbilityCard.OriginalOwner;
+				list.AddRange(hierophant.PrayerCards);
+			},
+			OnCardGiven, OnCardDiscarded, OnCardLost
+		);
+	}
+
+	private async GDTask OnCardGiven(AbilityState abilityState, AbilityCard abilityCard)
+	{
+		Hierophant hierophant = (Hierophant)abilityCard.OriginalOwner;
+		hierophant.PrayerCards.Remove(abilityCard);
+
+		await GDTask.CompletedTask;
+	}
+
+	private async GDTask OnCardDiscarded(AbilityCard abilityCard)
+	{
+		abilityCard.Owner.RemoveCard(abilityCard);
+
+		Hierophant hierophant = (Hierophant)abilityCard.OriginalOwner;
+		hierophant.PrayerCards.Add(abilityCard);
+		abilityCard.SetOwner(hierophant);
+
+		await AbilityCmd.ReturnToHand(abilityCard);
+	}
+
+	private async GDTask OnCardLost(AbilityCard abilityCard)
+	{
+		abilityCard.Owner.RemoveCard(abilityCard);
+
+		Hierophant hierophant = (Hierophant)abilityCard.OriginalOwner;
+		hierophant.PrayerCards.Add(abilityCard);
+		abilityCard.SetOwner(hierophant);
+
+		await GDTask.CompletedTask;
+	}
+}

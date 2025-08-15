@@ -1,0 +1,1123 @@
+[gd_scene load_steps=52 format=3 uid="uid://dvuofg15kuckt"]
+
+[ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
+[ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
+[ext_resource type="Texture2D" uid="uid://cku1nia6lkinl" path="res://Art/ScenarioFlowchart/WoodenTable.jpg" id="2_bqd0o"]
+[ext_resource type="FontFile" uid="uid://c4k3lpnj0wc06" path="res://Fonts/PirataOne-Gloomhaven.ttf" id="4_csc1w"]
+[ext_resource type="Script" uid="uid://csa6ud0tb1nj8" path="res://Scripts/BetweenScenarios/ScenarioFlowchart/ScenarioFlowchart.cs" id="6_41e7t"]
+[ext_resource type="Script" uid="uid://caiomvdhl54wg" path="res://Scripts/BetweenScenarios/BetweenScenariosActionManager.cs" id="6_nmjfa"]
+[ext_resource type="PackedScene" uid="uid://sn6fhyik5ch5" path="res://Scenes/Scenario/UI/ChoiceButton.tscn" id="7_blgb5"]
+[ext_resource type="PackedScene" uid="uid://bb10ctp48iifh" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButtonOutline.tscn" id="8_gcm5d"]
+[ext_resource type="Texture2D" uid="uid://cpkeepf7piqqa" path="res://Art/Other/ParchmentPaper.png" id="8_ywvcx"]
+[ext_resource type="Shader" uid="uid://wgkvda4bun1e" path="res://Shaders/Outline.gdshader" id="9_fpmem"]
+[ext_resource type="Script" uid="uid://dx2d6ou7y0pb6" path="res://Scripts/BetweenScenarios/ItemShop/ItemShop.cs" id="12_4wnl8"]
+[ext_resource type="PackedScene" uid="uid://c5l6nyceg64dd" path="res://Art/ItemShop/PageAnimation.tscn" id="12_41e7t"]
+[ext_resource type="Shader" uid="uid://dsuuwudbr00f0" path="res://Shaders/Scroll.gdshader" id="12_ywvcx"]
+[ext_resource type="PackedScene" uid="uid://dwe2ry8s1wyke" path="res://Scenes/BetweenScenarios/ItemShop/ItemShopPage.tscn" id="15_807yg"]
+[ext_resource type="Texture2D" uid="uid://cdmhpra8ngs7x" path="res://Art/Icons/Other/InitiativeTriangle.svg" id="16_r0lwg"]
+[ext_resource type="PackedScene" uid="uid://xx5h6b6pu3ko" path="res://Scenes/BetweenScenarios/BetweenScenariosActionButton.tscn" id="17_3hv00"]
+[ext_resource type="Texture2D" uid="uid://cfrq1meyfpqgx" path="res://Art/ItemShop/BookCover.jpg" id="18_3hv00"]
+[ext_resource type="Texture2D" uid="uid://cgrc2ho6w58yc" path="res://Art/Icons/BetweenScenariosActions/TreasureMap.svg" id="18_nmjfa"]
+[ext_resource type="Texture2D" uid="uid://d0kjhh1qav1gd" path="res://Art/Icons/BetweenScenariosActions/Oak.svg" id="19_ywvcx"]
+[ext_resource type="Texture2D" uid="uid://bydbxbc7udwta" path="res://Art/Icons/BetweenScenariosActions/CrystalBall.svg" id="20_1ehwm"]
+[ext_resource type="Texture2D" uid="uid://cgvuos5ph5e6r" path="res://Art/Icons/BetweenScenariosActions/HazardSign.svg" id="22_ywvcx"]
+[ext_resource type="Material" uid="uid://cun442tgtvgh" path="res://Materials/UIBlur.tres" id="23_1ehwm"]
+[ext_resource type="Script" uid="uid://co64dv05t1htu" path="res://Scripts/BetweenScenarios/BetweenScenariosSidePanel.cs" id="23_5k12q"]
+[ext_resource type="Script" uid="uid://chjh44dw8f42s" path="res://Scripts/BetweenScenarios/BetweenScenariosCharacterPortraitManager.cs" id="23_cdfbw"]
+[ext_resource type="Shader" uid="uid://coeiuysk5p21c" path="res://Shaders/Vignette.gdshader" id="23_psaff"]
+[ext_resource type="PackedScene" uid="uid://drmjh44chpm2j" path="res://Scenes/BetweenScenarios/BetweenScenariosCharacterPortrait.tscn" id="24_cdfbw"]
+[ext_resource type="StyleBox" uid="uid://dgsnjspchrans" path="res://Resources/BlurBackground.tres" id="24_k7dxu"]
+[ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="27_hkul8"]
+[ext_resource type="Texture2D" uid="uid://xcevbjw5n8no" path="res://Art/Icons/Abilities/XP.svg" id="28_5k12q"]
+[ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="28_jr74k"]
+[ext_resource type="Script" uid="uid://ck1ncviofqosh" path="res://Scripts/UI/ResizingLabel.cs" id="28_psaff"]
+[ext_resource type="PackedScene" uid="uid://ct6pmvbmsh7lf" path="res://Scenes/UI/MenuButton.tscn" id="32_5k12q"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fpmem"]
+shader = ExtResource("9_fpmem")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 5.0
+shader_parameter/pattern = 1
+shader_parameter/inside = true
+shader_parameter/add_margins = false
+
+[sub_resource type="Environment" id="Environment_4wnl8"]
+ambient_light_source = 1
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ywvcx"]
+viewport_path = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ywvcx"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("12_ywvcx")
+shader_parameter/progress = 0.0
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = SubResource("ViewportTexture_ywvcx")
+shader_parameter/back_albedo = ExtResource("8_ywvcx")
+shader_parameter/alpha_scissor_threshold = 0.5
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_efp8j"]
+size = Vector2(1.5, 1)
+subdivide_width = 128
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ywvcx"]
+bg_color = Color(0.458824, 0.215686, 0.156863, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_57ue0"]
+font = ExtResource("4_csc1w")
+font_size = 70
+font_color = Color(0.969748, 0.793137, 0.50993, 1)
+outline_size = 3
+outline_color = Color(0.693772, 0.508051, 0.168401, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_807yg"]
+viewport_path = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/FrontSubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r0lwg"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = SubResource("ViewportTexture_807yg")
+metallic_specular = 0.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_xjq80"]
+viewport_path = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/BackSubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57ue0"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = SubResource("ViewportTexture_xjq80")
+metallic_specular = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_807yg"]
+bg_color = Color(0.0196078, 0.0196078, 0.0196078, 0.6)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0)
+border_blend = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5k12q"]
+shader = ExtResource("23_psaff")
+shader_parameter/inner_radius = 0.3
+shader_parameter/outer_radius = 1.0
+shader_parameter/vignette_strength = 0.8
+shader_parameter/dither_strength = 0.03
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5k12q"]
+font = ExtResource("28_jr74k")
+font_size = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_blvf2"]
+bg_color = Color(0, 0, 0, 0.588235)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wuydi"]
+bg_color = Color(1, 1, 1, 0.784314)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_seeb3"]
+font = ExtResource("28_jr74k")
+font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_1n38g"]
+font = ExtResource("28_jr74k")
+font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_f340v"]
+font = ExtResource("28_jr74k")
+font_size = 30
+
+[node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart")]
+script = ExtResource("1_rtyjh")
+BetweenScenariosSidePanel = NodePath("CanvasLayer/UI/SidePanel")
+CharacterPortraitManager = NodePath("CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/Characters")
+ScenarioFlowchart = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bqd0o")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="BetweenScenariosActionManager" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_actions", "_startActiveAction")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_nmjfa")
+_actions = [NodePath("ScenarioFlowchart"), NodePath("ItemShop")]
+_startActiveAction = NodePath("ScenarioFlowchart")
+
+[node name="ScenarioFlowchart" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("OutlineParent", "_gridContainer", "_3dContainer", "_scrollMesh", "_subViewportContainer", "_subViewport", "Button")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_41e7t")
+OutlineParent = NodePath("Container/SubViewportContainer/SubViewport/Container/Flowchart/OutlineContainer/SubViewport/Container")
+_gridContainer = NodePath("Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons")
+_3dContainer = NodePath("AnimationContainer/3D")
+_scrollMesh = NodePath("AnimationContainer/3D/SubViewport/Map/MeshInstance3D")
+_subViewportContainer = NodePath("Container/SubViewportContainer")
+_subViewport = NodePath("Container/SubViewportContainer/SubViewport")
+Button = NodePath("../ActionButtons/VBoxContainer/ScenarioFlowchartButton")
+
+[node name="Container" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -768.0
+offset_top = -540.0
+offset_right = 768.0
+offset_bottom = 484.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1536, 1024)
+render_target_update_mode = 4
+
+[node name="Container" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Flowchart" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_ywvcx")
+expand_mode = 1
+
+[node name="OutlineContainer" type="SubViewportContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart"]
+material = SubResource("ShaderMaterial_fpmem")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -969.0
+offset_top = -666.0
+offset_right = 969.0
+offset_bottom = 666.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.64, 0.64)
+pivot_offset = Vector2(969, 666)
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/OutlineContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1938, 1332)
+render_target_update_mode = 4
+
+[node name="Container" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/OutlineContainer/SubViewport"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScenarioButtonOutline" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/OutlineContainer/SubViewport/Container" node_paths=PackedStringArray("_directionalExtensions", "_diagonalExtensions") instance=ExtResource("8_gcm5d")]
+visible = false
+layout_mode = 1
+offset_right = 120.0
+offset_bottom = 120.0
+_directionalExtensions = []
+_diagonalExtensions = []
+
+[node name="Buttons" type="GridContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -969.0
+offset_top = -666.0
+offset_right = 969.0
+offset_bottom = 666.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.64, 0.64)
+pivot_offset = Vector2(969, 666)
+theme_override_constants/h_separation = 82
+theme_override_constants/v_separation = 82
+columns = 8
+
+[node name="ScenarioButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 1
+
+[node name="ScenarioButton2" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 2
+
+[node name="ScenarioButton3" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 3
+
+[node name="ScenarioButton7" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 7
+
+[node name="ScenarioButton10" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 10
+
+[node name="ScenarioButton19" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 19
+
+[node name="ScenarioButton25" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 25
+
+[node name="ScenarioButton31" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 31
+
+[node name="ScenarioButton6" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 6
+
+[node name="ScenarioButton5" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 5
+
+[node name="ScenarioButton4" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 4
+
+[node name="ScenarioButton8" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 8
+
+[node name="ScenarioButton17" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 17
+
+[node name="ScenarioButton23" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 23
+
+[node name="ScenarioButton24" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 24
+
+[node name="ScenarioButton32" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 32
+
+[node name="ScenarioButton16" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 16
+
+[node name="ScenarioButton15" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 15
+
+[node name="ScenarioButton13" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 13
+
+[node name="ScenarioButton9" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 9
+
+[node name="ScenarioButton18" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 18
+
+[node name="ScenarioButton21" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 21
+
+[node name="ScenarioButton26" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 26
+
+[node name="ScenarioButton30" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
+layout_mode = 2
+ScenarioNumber = 30
+
+[node name="AnimationContainer" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -568.0
+offset_right = 960.0
+offset_bottom = 512.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="3D" type="SubViewportContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/AnimationContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(190, 540)
+mouse_filter = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/AnimationContainer/3D"]
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 1
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="CameraController" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/AnimationContainer/3D/SubViewport"]
+
+[node name="MovePivot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/AnimationContainer/3D/SubViewport/CameraController"]
+
+[node name="RotationPivot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/AnimationContainer/3D/SubViewport/CameraController/MovePivot"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/AnimationContainer/3D/SubViewport/CameraController/MovePivot/RotationPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.873)
+cull_mask = 2
+environment = SubResource("Environment_4wnl8")
+fov = 20.8
+
+[node name="Map" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/AnimationContainer/3D/SubViewport"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/AnimationContainer/3D/SubViewport/Map"]
+layers = 2
+material_override = SubResource("ShaderMaterial_ywvcx")
+mesh = SubResource("PlaneMesh_efp8j")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/AnimationContainer/3D/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, -2.98023e-08, 1, 0, -1, -2.98023e-08, 0, 0, 0)
+layers = 2
+
+[node name="ItemShop" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("_animationPlayer", "_frontSubViewport", "_backSubViewport", "_bookSubViewportContainer", "_leftPageParent", "_rightPageParent", "_frontPageParent", "_backPageParent", "_flipLeftButton", "_flipRightButton", "_bookContainer", "_bookCover", "_frontBookCover", "_leftPageCoverInside", "_backPageCoverInside", "Button")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("12_4wnl8")
+_animationPlayer = NodePath("Book/Container/3D/SubViewport/Page/PageAnimation/AnimationPlayer")
+_forwardAnimationName = &"Page|Turn1"
+_backwardAnimationName = &"Page|Turn2"
+_openAnimationName = &"Page|TurnForward"
+_closeAnimationName = &"Page|TurnBack"
+_frontSubViewport = NodePath("Book/Container/FrontSubViewport")
+_backSubViewport = NodePath("Book/Container/BackSubViewport")
+_bookSubViewportContainer = NodePath("Book/Container/3D")
+_leftPageParent = NodePath("Book/Container/LeftPage")
+_rightPageParent = NodePath("Book/Container/RightPage")
+_frontPageParent = NodePath("Book/Container/FrontSubViewport/Page")
+_backPageParent = NodePath("Book/Container/BackSubViewport/Page")
+_itemShopPageScene = ExtResource("15_807yg")
+_flipLeftButton = NodePath("FlipLeftButton")
+_flipRightButton = NodePath("FlipRightButton")
+_bookContainer = NodePath("Book/Container")
+_bookCover = NodePath("Book/Container/BookCoverContainer/BookCover")
+_frontBookCover = NodePath("Book/Container/FrontSubViewport/BookCover")
+_leftPageCoverInside = NodePath("Book/Container/LeftPage/CoverInside")
+_backPageCoverInside = NodePath("Book/Container/BackSubViewport/CoverInside")
+Button = NodePath("../ActionButtons/VBoxContainer/ItemShopButton")
+
+[node name="Book" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -501.0
+offset_right = 600.0
+offset_bottom = 384.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(600, 442.5)
+
+[node name="Container" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(600, 442.5)
+
+[node name="RightPage" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -442.5
+offset_right = 600.0
+offset_bottom = 442.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CoverInside" type="Panel" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/RightPage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ywvcx")
+
+[node name="LeftPage" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -442.5
+offset_bottom = 442.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CoverInside" type="Panel" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/LeftPage"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -10.0
+offset_top = -10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ywvcx")
+
+[node name="BackSubViewport" type="SubViewport" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(610, 905)
+render_target_update_mode = 0
+
+[node name="CoverInside" type="Panel" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/BackSubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ywvcx")
+
+[node name="Page" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/BackSubViewport"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 610.0
+offset_bottom = 895.0
+
+[node name="FrontSubViewport" type="SubViewport" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(610, 905)
+render_target_update_mode = 0
+
+[node name="BookCover" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/FrontSubViewport"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/FrontSubViewport/BookCover"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("18_3hv00")
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/FrontSubViewport/BookCover"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -88.5
+offset_top = -255.5
+offset_right = 88.5
+offset_bottom = -163.625
+grow_horizontal = 2
+grow_vertical = 2
+text = "Catalog"
+label_settings = SubResource("LabelSettings_57ue0")
+
+[node name="Page" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/FrontSubViewport"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 10.0
+offset_right = 600.0
+offset_bottom = 895.0
+
+[node name="3D" type="SubViewportContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -650.0
+offset_right = 960.0
+offset_bottom = 650.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1920, 1300)
+render_target_update_mode = 0
+
+[node name="Page" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport"]
+
+[node name="PageAnimation" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Page" instance=ExtResource("12_41e7t")]
+
+[node name="Page" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Page/PageAnimation" index="0"]
+transform = Transform3D(68.9, 0, 0, 0, -4.37114e-06, 102.3, 0, -100, -4.47168e-06, 0, 0, 0)
+
+[node name="Front" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Page/PageAnimation/Page/Skeleton3D" index="0"]
+material_override = SubResource("StandardMaterial3D_r0lwg")
+
+[node name="Back" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Page/PageAnimation/Page/Skeleton3D" index="1"]
+material_override = SubResource("StandardMaterial3D_57ue0")
+
+[node name="AnimationPlayer" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Page/PageAnimation" index="1"]
+speed_scale = 1.4
+
+[node name="CameraController" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport"]
+
+[node name="MovePivot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/CameraController"]
+
+[node name="RotationPivot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/CameraController/MovePivot"]
+
+[node name="Camera3D" type="Camera3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/CameraController/MovePivot/RotationPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+cull_mask = 1048573
+environment = SubResource("Environment_4wnl8")
+fov = 20.8
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport"]
+
+[node name="Center" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/Center"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_807yg")
+
+[node name="BookCoverContainer" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -452.5
+offset_right = 610.0
+offset_bottom = 452.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BookCover" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/BookCoverContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/BookCoverContainer/BookCover"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("18_3hv00")
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/BookCoverContainer/BookCover"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -88.5
+offset_top = -255.5
+offset_right = 88.5
+offset_bottom = -163.625
+grow_horizontal = 2
+grow_vertical = 2
+text = "Catalog"
+label_settings = SubResource("LabelSettings_57ue0")
+
+[node name="FlipLeftButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop" instance=ExtResource("7_blgb5")]
+layout_mode = 1
+offset_left = -700.0
+offset_top = -638.5
+offset_right = -620.0
+offset_bottom = -558.5
+
+[node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipLeftButton/BetterButton/Panel" index="0"]
+visible = false
+text = "->"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipLeftButton/BetterButton/Panel" index="1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(-1, 1)
+pivot_offset = Vector2(20, 20)
+texture = ExtResource("16_r0lwg")
+expand_mode = 1
+
+[node name="FlipRightButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop" instance=ExtResource("7_blgb5")]
+layout_mode = 1
+offset_left = 620.0
+offset_top = -638.5
+offset_right = 700.0
+offset_bottom = -558.5
+
+[node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton/BetterButton/Panel" index="0"]
+visible = false
+text = "->"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton/BetterButton/Panel" index="1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("16_r0lwg")
+expand_mode = 1
+
+[node name="ActionButtons" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -150.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="ScenarioFlowchartButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" instance=ExtResource("17_3hv00")]
+modulate = Color(0.331482, 0.996455, 1, 1)
+layout_mode = 2
+
+[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/ScenarioFlowchartButton/Container/BetterButton/Panel" index="0"]
+texture = ExtResource("18_nmjfa")
+
+[node name="ItemShopButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" instance=ExtResource("17_3hv00")]
+modulate = Color(0.47451, 1, 0.72549, 1)
+layout_mode = 2
+
+[node name="TempleOfTheOakButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" instance=ExtResource("17_3hv00")]
+visible = false
+modulate = Color(1, 1, 0.647059, 1)
+layout_mode = 2
+
+[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/TempleOfTheOakButton/Container/BetterButton/Panel" index="0"]
+texture = ExtResource("19_ywvcx")
+
+[node name="EnchanterButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" instance=ExtResource("17_3hv00")]
+visible = false
+modulate = Color(1, 0.709804, 1, 1)
+layout_mode = 2
+
+[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnchanterButton/Container/BetterButton/Panel" index="0"]
+texture = ExtResource("20_1ehwm")
+
+[node name="EventButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" instance=ExtResource("17_3hv00")]
+visible = false
+modulate = Color(1, 0.671158, 0.532482, 1)
+layout_mode = 2
+
+[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EventButton/Container/BetterButton/Panel" index="0"]
+texture = ExtResource("22_ywvcx")
+
+[node name="Vignette" type="ColorRect" parent="CanvasLayer/UI"]
+material = SubResource("ShaderMaterial_5k12q")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SidePanel" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_partyNameLabel", "_newCharacterButtonContainer", "_newCharacterButton")]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 240.0
+grow_vertical = 2
+script = ExtResource("23_5k12q")
+_partyNameLabel = NodePath("MarginContainer/VBoxContainer/PartyStats/PartyNameContainer/PartyName")
+_newCharacterButtonContainer = NodePath("MarginContainer/VBoxContainer/NewCharacterButton")
+_newCharacterButton = NodePath("MarginContainer/VBoxContainer/NewCharacterButton/BetterButton")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/UI/SidePanel"]
+material = ExtResource("23_1ehwm")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("24_k7dxu")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/SidePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/SidePanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="PartyStats" type="VBoxContainer" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PartyNameContainer" type="Control" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="PartyName" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/PartyNameContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Party Name"
+label_settings = SubResource("LabelSettings_5k12q")
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+script = ExtResource("28_psaff")
+_minSize = 10
+_maxSize = 40
+
+[node name="Prosperity" type="Control" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_blvf2")
+
+[node name="ProgressBar" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
+self_modulate = Color(0.78451, 0.253912, 0.268934, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.615, 1)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wuydi")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 21.0
+offset_top = -13.0
+offset_right = 47.0
+offset_bottom = 13.0
+grow_vertical = 2
+pivot_offset = Vector2(17, 17)
+mouse_filter = 2
+texture = ExtResource("28_5k12q")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = 93.0
+grow_vertical = 2
+text = "Prosperity"
+label_settings = SubResource("LabelSettings_seeb3")
+vertical_alignment = 1
+
+[node name="Amount" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -93.0
+offset_right = -8.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "1"
+label_settings = SubResource("LabelSettings_1n38g")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Reputation" type="Control" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_blvf2")
+
+[node name="ProgressBar" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
+self_modulate = Color(0.788235, 0.615686, 0.890196, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.615, 1)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wuydi")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 21.0
+offset_top = -13.0
+offset_right = 47.0
+offset_bottom = 13.0
+grow_vertical = 2
+pivot_offset = Vector2(17, 17)
+mouse_filter = 2
+texture = ExtResource("28_5k12q")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = 93.0
+grow_vertical = 2
+text = "Reputation"
+label_settings = SubResource("LabelSettings_seeb3")
+vertical_alignment = 1
+
+[node name="Amount" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -93.0
+offset_right = -8.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "3"
+label_settings = SubResource("LabelSettings_1n38g")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Characters" type="VBoxContainer" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer" node_paths=PackedStringArray("_portraitParent")]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+alignment = 1
+script = ExtResource("23_cdfbw")
+_portraitParent = NodePath(".")
+_portraitScene = ExtResource("24_cdfbw")
+
+[node name="NewCharacterButton" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer" instance=ExtResource("27_hkul8")]
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/NewCharacterButton/BetterButton/Panel" index="0"]
+text = "New Character"
+label_settings = SubResource("LabelSettings_f340v")
+
+[node name="MenuButton" parent="CanvasLayer/UI" instance=ExtResource("32_5k12q")]
+layout_mode = 1
+
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Page/PageAnimation"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipLeftButton"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/ScenarioFlowchartButton"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/TempleOfTheOakButton"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnchanterButton"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EventButton"]
+[editable path="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/NewCharacterButton"]

@@ -1,0 +1,104 @@
+using System.Collections.Generic;
+using System.Linq;
+using Fractural.Tasks;
+
+public class EncouragedConviction : HierophantCardModel<EncouragedConviction.CardTop, EncouragedConviction.CardBottom>
+{
+	public override string Name => "Encouraged Conviction";
+	public override int Level => 3;
+	public override int Initiative => 14;
+	protected override int AtlasIndex => 29 - 16;
+
+	public class CardTop : HierophantCardSide
+	{
+		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		[
+			new AbilityCardAbility(new GrantAbility(figure =>
+				[
+					new HealAbility(2, target: Target.Self),
+					new ShieldAbility(1),
+					new RetaliateAbility(1,
+						abilityStartedSubscriptions:
+						[
+							ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(Element.Earth,
+								parameters => true,
+								async parameters =>
+								{
+									RetaliateAbility.State retaliateAbilityState = (RetaliateAbility.State)parameters.AbilityState;
+									retaliateAbilityState.AdjustRange(2);
+									await AbilityCmd.GainXP(parameters.AbilityState.Performer, 1); //TODO: This actually grants the granted figure the xp, but I guess that's also implied on the card art currently
+								}
+							)
+						]
+					)
+				]
+			))
+		];
+
+		protected override bool Round => true;
+	}
+
+	public class CardBottom : HierophantCardSide
+	{
+		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		[
+			new AbilityCardAbility(new OtherAbility(async state =>
+				{
+					Figure figure = await AbilityCmd.SelectFigure(state,
+						list =>
+						{
+							foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 3))
+							{
+								if(
+									state.Performer.AlliedWith(figure) &&
+									figure is Character character &&
+									character.Cards.Any(card => card.CardState == CardState.Hand && card.Top is HierophantPrayerCardSide))
+								{
+									list.Add(figure);
+								}
+							}
+						}
+					);
+
+					if(figure == null)
+					{
+						return;
+					}
+
+					Character character = (Character)figure;
+					AbilityCard prayerCard = await AbilityCmd.SelectAbilityCard(character,
+						list =>
+						{
+							foreach(AbilityCard card in character.Cards)
+							{
+								if(card.CardState == CardState.Hand && card.Top is HierophantPrayerCardSide)
+								{
+									list.Add(card);
+								}
+							}
+						}, CardState.Hand, false, hintText: "Select a prayer card to play for its top or bottom"
+					);
+
+					if(prayerCard == null)
+					{
+						return;
+					}
+
+					state.SetPerformed();
+
+					AbilityCardSection section = await AbilityCmd.PerformAbilityCardTopOrBottom(figure, prayerCard);
+
+					await AbilityCmd.GainXP(state.Performer, 1);
+
+					if(section == AbilityCardSection.Bottom)
+					{
+						if(await AbilityCmd.AskConsumeElement(state.Performer, Element.Light, $"Consume {Icons.Inline(Icons.GetElement(Element.Light))} to give a Prayer card?"))
+						{
+							await GivePrayerCard(state, figure);
+						}
+					}
+				}
+			))
+		];
+	}
+}

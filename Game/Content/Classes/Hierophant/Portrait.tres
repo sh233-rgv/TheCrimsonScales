@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://nl4tgo7oj84v"]
+
+[ext_resource type="Texture2D" uid="uid://g3xhp6yc14k1" path="res://Content/Classes/Hierophant/Artwork.png" id="1_26gvr"]
+
+[resource]
+atlas = ExtResource("1_26gvr")
+region = Rect2(225, 180, 400, 600)

@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://ysmgoyx1yw1d"]
+
+[ext_resource type="PackedScene" uid="uid://dpxtgytc1d70d" path="res://Scenes/Scenario/OverlayTiles/Corridor2H.tscn" id="1_tuhwf"]
+
+[node name="Earth2H" instance=ExtResource("1_tuhwf")]

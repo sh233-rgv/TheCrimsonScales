@@ -1,0 +1,32 @@
+using System.Collections.Generic;
+
+public class DistantRetribution : BombardCardModel<DistantRetribution.CardTop, DistantRetribution.CardBottom>
+{
+	public override string Name => "Distant Retribution";
+	public override int Level => 2;
+	public override int Initiative => 12;
+	protected override int AtlasIndex => 12;
+
+	public class CardTop : BombardCardSide
+	{
+		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		[
+			new AbilityCardAbility(new RetaliateAbility(2, range: 3))
+		];
+
+		protected override int XP => 1;
+		protected override bool Round => true;
+	}
+
+	public class CardBottom : BombardCardSide
+	{
+		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		[
+			new AbilityCardAbility(new MoveAbility(1)),
+
+			new AbilityCardAbility(new ShieldAbility(1))
+		];
+
+		protected override bool Round => true;
+	}
+}

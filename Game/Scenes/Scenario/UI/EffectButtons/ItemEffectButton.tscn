@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://gj8fm0iuufsx"]
+
+[ext_resource type="PackedScene" uid="uid://c8tg7vd242b32" path="res://Scenes/Scenario/UI/EffectButtons/_EffectButton.tscn" id="1_tq846"]
+[ext_resource type="Script" uid="uid://vi8j5xkjv0ob" path="res://Scripts/Scenario/UI/EffectSelectionView/ItemEffectButton.cs" id="2_tq846"]
+[ext_resource type="PackedScene" uid="uid://bmixj6gefxlit" path="res://Scenes/Scenario/UI/ItemView.tscn" id="3_tq846"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ipfx"]
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="ItemEffectButton" node_paths=PackedStringArray("_itemView", "_button", "_panel") instance=ExtResource("1_tq846")]
+script = ExtResource("2_tq846")
+_itemView = NodePath("BetterButton/Panel/MarginContainer/Mask/ItemView")
+_button = NodePath("BetterButton")
+_panel = NodePath("BetterButton/Panel")
+
+[node name="Mask" type="Panel" parent="BetterButton/Panel/MarginContainer" index="0"]
+clip_children = 1
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2ipfx")
+
+[node name="ItemView" parent="BetterButton/Panel/MarginContainer/Mask" index="0" instance=ExtResource("3_tq846")]
+custom_minimum_size = Vector2(162, 247.86)
+layout_mode = 2
+offset_left = -39.0
+offset_top = -37.0
+offset_right = 123.0
+offset_bottom = 210.86
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Mask" parent="BetterButton/Panel/MarginContainer/Mask/ItemView" index="0"]
+clip_children = 0
+
+[node name="MaxUseTokens" parent="BetterButton/Panel/MarginContainer/Mask/ItemView" index="1"]
+mouse_filter = 2
+
+[editable path="BetterButton/Panel/MarginContainer/Mask/ItemView"]

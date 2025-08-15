@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://wwedchh2y1oy"]
+
+[ext_resource type="PackedScene" uid="uid://diuy1dignnfhi" path="res://Scenes/Scenario/OverlayTiles/Trap1H.tscn" id="1_mdych"]
+[ext_resource type="Texture2D" uid="uid://dd4ww276kkrxc" path="res://Art/OverlayTiles/SpikeTrap1H.png" id="2_1tkwy"]
+
+[node name="SpikePitTrap1H" instance=ExtResource("1_mdych")]
+
+[node name="Sprite" parent="." index="2"]
+texture = ExtResource("2_1tkwy")
