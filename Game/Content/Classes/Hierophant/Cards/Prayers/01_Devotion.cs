@@ -30,7 +30,7 @@ public class Devotion : HierophantPrayerCardModel<Devotion.CardTop, Devotion.Car
 						{
 							return
 								canApplyParameters.RetaliatingFigure == state.Performer &&
-								RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, state.Performer.Hex) <= 1;
+								canApplyParameters.AbilityState.SingleTargetRangeType == RangeType.Melee;
 						},
 						async applyParameters =>
 						{
