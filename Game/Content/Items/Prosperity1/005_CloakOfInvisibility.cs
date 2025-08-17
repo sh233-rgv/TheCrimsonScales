@@ -8,4 +8,21 @@ public class CloakOfInvisibility : Prosperity1Item
 	public override ItemUseType ItemUseType => ItemUseType.Consume;
 
 	protected override int AtlasIndex => 8;
+
+	protected override void Subscribe()
+	{
+		base.Subscribe();
+
+		SubscribeDuringTurn(
+			canApply: character => character == Owner,
+			apply: async character =>
+			{
+				await Use(async user =>
+				{
+					ActionState actionState = new ActionState(character, [new ConditionAbility([Conditions.Invisible], target: Target.Self)]);
+					await actionState.Perform();
+				});
+			}
+		);
+	}
 }
