@@ -113,9 +113,11 @@ public static class AbilityCmd
 			await KillOrExhaust(potentialAttackAbilityState, target);
 		}
 
-		ScenarioEvents.AfterSufferDamage.Parameters afterSufferDamageParameters =
+		if (finalDamage > 0)
+		{
 			await ScenarioEvents.AfterSufferDamageEvent.CreatePrompt(
 				new ScenarioEvents.AfterSufferDamage.Parameters(target, finalDamage, potentialAttackAbilityState, sufferDamageParameters), potentialAttackAbilityState?.Authority ?? target);
+		}
 
 		return finalDamage;
 	}
