@@ -1,3 +1,5 @@
+using Fractural.Tasks;
+
 public class EagleEyeGoggles : Prosperity1Item
 {
 	public override string Name => "Eagle-Eye Goggles";
@@ -8,4 +10,22 @@ public class EagleEyeGoggles : Prosperity1Item
 	public override ItemUseType ItemUseType => ItemUseType.Spend;
 
 	protected override int AtlasIndex => 10;
+
+	protected override void Subscribe()
+	{
+		base.Subscribe();
+
+		SubscribeDuringAttack(
+			canApply: state => state.Performer == Owner,
+			apply: async state =>
+			{
+				await Use(async user =>
+				{
+					state.AbilitySetHasAdvantage();
+
+					await GDTask.CompletedTask;
+				});
+			}
+		);
+	}
 }
