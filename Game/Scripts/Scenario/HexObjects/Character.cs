@@ -259,6 +259,11 @@ public partial class Character : Figure
 
 			for(int i = 0; i < cardDatas.Count; i++)
 			{
+				if(IsDead)
+				{
+					break;
+				}
+
 				EffectCollection cardSideSelectionEffectCollection = ScenarioEvents.CardSideSelectionEvent.CreateEffectCollection(new ScenarioEvents.CardSideSelection.Parameters(this));
 
 				AbilityCardSectionSelectionPrompt.Answer cardSectionAnswer = await PromptManager.Prompt(
@@ -325,7 +330,10 @@ public partial class Character : Figure
 				}
 			}
 
-			await ScenarioEvents.AfterCardsPlayedEvent.CreatePrompt(new ScenarioEvents.AfterCardsPlayed.Parameters(this), this, "End turn?");
+			if(!IsDead)
+			{
+				await ScenarioEvents.AfterCardsPlayedEvent.CreatePrompt(new ScenarioEvents.AfterCardsPlayed.Parameters(this), this, "End turn?");
+			}
 		}
 	}
 
