@@ -31,7 +31,8 @@ public class EncouragedConviction : HierophantCardModel<EncouragedConviction.Car
 							)
 						]
 					)
-				]
+				],
+				range: 3
 			))
 		];
 
