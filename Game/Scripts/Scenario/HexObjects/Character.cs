@@ -91,6 +91,12 @@ public partial class Character : Figure
 			ItemModel item = Items[i];
 			item.SetOwner(null);
 		}
+
+		for(int i = Cards.Count - 1; i >= 0; i--)
+		{
+			AbilityCard card = Cards[i];
+			await card.RemoveFromActive();
+		}
 	}
 
 	public void OnRoundCardsChanged()
