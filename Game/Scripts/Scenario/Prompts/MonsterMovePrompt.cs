@@ -374,7 +374,7 @@ public class MonsterMovePrompt(
 
 				foreach((Hex hex, MoveNode moveNode) in _closedList)
 				{
-					if(!MoveHelper.CanStopAt(performer, hex))
+					if(!MoveHelper.CanStopAt(performer, hex, moveAbilityState.MoveType))
 					{
 						continue;
 					}
