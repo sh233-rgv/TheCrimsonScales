@@ -120,7 +120,7 @@ public partial class EquipmentPopup : Popup<EquipmentPopup.Request>
 				}
 			}
 
-			// Remove one handed item if a two handed item is equipped
+			// Remove one-handed item if a two-handed item is equipped
 			if(itemModel.ItemType == ItemType.TwoHands)
 			{
 				string equippedOneHandItemId = savedCharacter.EquippedBaseSlotItems[(int)ItemType.OneHand];
@@ -128,10 +128,9 @@ public partial class EquipmentPopup : Popup<EquipmentPopup.Request>
 				{
 					savedCharacter.SetEquippedBaseSlotItem(ItemType.OneHand, null);
 				}
-				//ItemModel equippedOneHandItemModel = ModelDB.GetById<ItemModel>(equippedOneHandItemId);
 			}
 
-			// Remove two handed item if a one handed item is equipped
+			// Remove two-handed item if a one-handed item is equipped
 			if(slotIndex == (int)ItemType.OneHand)
 			{
 				string equippedTwoHandsItemId = savedCharacter.EquippedBaseSlotItems[(int)ItemType.TwoHands];
@@ -150,7 +149,7 @@ public partial class EquipmentPopup : Popup<EquipmentPopup.Request>
 
 		int newSmallItemSlotCount = savedCharacter.GetSmallItemSlotCount();
 
-		if(_smallItemSlots.Count != newSmallItemSlotCount) 
+		if(_smallItemSlots.Count != newSmallItemSlotCount)
 		{
 			// Remove excess small item slots
 			for(int i = _smallItemSlots.Count - 1; i >= newSmallItemSlotCount; i--)
