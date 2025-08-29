@@ -124,7 +124,7 @@ public partial class ScenarioButton : Control
 				{
 					SavedCampaign savedCampaign = BetweenScenariosController.Instance.SavedCampaign;
 					float characterLevelSum = savedCampaign.Characters.Sum(character => character.Level);
-					int scenarioLevel = Mathf.CeilToInt((characterLevelSum / savedCampaign.Characters.Count) / 2f);
+					int scenarioLevel = Mathf.CeilToInt((characterLevelSum / savedCampaign.Characters.Count) / 2f) + AppController.Instance.SaveFile.SaveData.Options.Difficulty.Value;
 					savedCampaign.SavedScenario = new SavedScenario()
 					{
 						Id = Guid.NewGuid(),
