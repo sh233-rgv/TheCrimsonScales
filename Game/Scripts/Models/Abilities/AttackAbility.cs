@@ -18,11 +18,13 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public int AbilityPierce { get; set; }
 		public bool AbilityHasAdvantage { get; set; }
 		public bool AbilityHasDisadvantage { get; set; }
+		public bool AbilityIgnoresAllShields { get; set; }
 
 		public int SingleTargetAttackValue { get; set; }
 		public int SingleTargetPierce { get; set; }
 		public bool SingleTargetHasAdvantage { get; set; }
 		public bool SingleTargetHasDisadvantage { get; set; }
+		public bool SingleTargetIgnoresAllShields { get; set; }
 
 		public void AbilityAdjustAttackValue(int amount)
 		{
@@ -52,6 +54,13 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 			SingleTargetHasDisadvantage = true;
 		}
 
+		public void AbilitySetIgnoresAllShields()
+		{
+			AbilityIgnoresAllShields = true;
+
+			SingleTargetIgnoresAllShields = true;
+		}
+
 		public void SingleTargetAdjustAttackValue(int amount)
 		{
 			SingleTargetAttackValue += amount;
@@ -71,12 +80,18 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		{
 			SingleTargetHasDisadvantage = true;
 		}
+
+		public void SingleTargetSetIgnoresAllShields()
+		{
+			SingleTargetIgnoresAllShields = true;
+		}
 	}
 
 	public DynamicInt<State> Damage { get; protected set; }
 	public DynamicInt<State> Pierce { get; protected set; } = 0;
 	public bool HasAdvantage { get; protected set; }
 	public bool HasDisadvantage { get; protected set; }
+	public bool IgnoresAllShields { get; protected set; }
 
 	public List<ScenarioEvents.DuringAttack.Subscription> DuringAttackSubscriptions { get; protected set; } = [];
 
@@ -111,6 +126,12 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public TBuilder WithPierce(DynamicInt<State> pierce)
 		{
 			Obj.Pierce = pierce;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithIgnoresAllShields()
+		{
+			Obj.IgnoresAllShields = true;
 			return (TBuilder)this;
 		}
 
@@ -208,6 +229,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		abilityState.AbilityPierce = Pierce.GetValue(abilityState);
 		abilityState.AbilityHasAdvantage = HasAdvantage;
 		abilityState.AbilityHasDisadvantage = HasDisadvantage;
+		abilityState.AbilityIgnoresAllShields = IgnoresAllShields;
 	}
 
 	protected override async GDTask StartPerform(State abilityState)
@@ -249,6 +271,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		abilityState.SingleTargetPierce = abilityState.AbilityPierce;
 		abilityState.SingleTargetHasAdvantage = abilityState.AbilityHasAdvantage;
 		abilityState.SingleTargetHasDisadvantage = abilityState.AbilityHasDisadvantage;
+		abilityState.SingleTargetIgnoresAllShields = abilityState.AbilityIgnoresAllShields;
 	}
 
 	protected override EffectCollection CreateDuringTargetedAbilityEffectCollection(State abilityState)
