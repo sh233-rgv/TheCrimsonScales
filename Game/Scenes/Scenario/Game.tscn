@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://dc3oqbu0m8jid"]
+[gd_scene load_steps=83 format=3 uid="uid://dc3oqbu0m8jid"]
 
 [ext_resource type="Script" uid="uid://bq2pwm6f32li" path="res://Scripts/Scenario/GameController.cs" id="1_arwlr"]
 [ext_resource type="Script" uid="uid://c7tkwbv643e6o" path="res://Scripts/Scenario/SufferDamageView.cs" id="10_ldvfj"]
@@ -19,9 +19,11 @@
 [ext_resource type="Script" uid="uid://b6lrvq7gmp3k5" path="res://Scripts/Scenario/UI/CardSelectionButtonsView.cs" id="17_upiru"]
 [ext_resource type="Script" uid="uid://dp4hgnklifghb" path="res://Scripts/Scenario/MovePath/MovePath.cs" id="17_v4tp5"]
 [ext_resource type="PackedScene" uid="uid://dmtp4nse86cdv" path="res://Scenes/Scenario/Waypoint.tscn" id="18_8uwbm"]
+[ext_resource type="Script" uid="uid://l0114gsxl625" path="res://Scripts/Scenario/ScreenDistortion.cs" id="18_76yld"]
 [ext_resource type="PackedScene" uid="uid://bn1pqhuh403c3" path="res://Scenes/Scenario/UI/PortraitView/CharacterPortrait.tscn" id="18_us76b"]
 [ext_resource type="Script" uid="uid://xn2g2da1rlk8" path="res://Scripts/Scenario/AOE/AOEView.cs" id="19_28h00"]
 [ext_resource type="PackedScene" uid="uid://edi17gpprd2h" path="res://Scenes/Scenario/UI/PortraitView/MonsterGroupPortrait.tscn" id="19_mtt54"]
+[ext_resource type="Shader" uid="uid://jpto5q4v8s4" path="res://Shaders/ScreenDistortion.gdshader" id="20_76yld"]
 [ext_resource type="PackedScene" uid="uid://b6wbd3udi4blx" path="res://Scenes/Scenario/AOE/RedHexView.tscn" id="20_alilm"]
 [ext_resource type="Script" uid="uid://b3pftvt20l7h8" path="res://Scripts/Scenario/UI/EffectInfoView/EffectInfoViewManager.cs" id="20_nbwi6"]
 [ext_resource type="PackedScene" uid="uid://bt8srppu11ov1" path="res://Scenes/Scenario/AOE/GrayHexView.tscn" id="21_wkv7e"]
@@ -70,6 +72,13 @@
 [ext_resource type="Texture2D" uid="uid://ba4nlrsbyojkl" path="res://Art/Icons/Other/StartHexMoveIcon.svg" id="65_h6npn"]
 [ext_resource type="Script" uid="uid://bctno8ajvg8at" path="res://Scripts/Scenario/CharacterStartHexMoveIndicator.cs" id="65_pcjy7"]
 [ext_resource type="Script" uid="uid://opd3xcxouwh5" path="res://Scripts/Scenario/UI/CurrentActionView/CurrentActionViewManager.cs" id="71_b23n0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fcllr"]
+shader = ExtResource("20_76yld")
+shader_parameter/lens_center = Vector2(0.5, 0.5)
+shader_parameter/lens_radius = 0.5
+shader_parameter/lens_power = 1.5
+shader_parameter/edge_softness = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ldvfj"]
 shader = ExtResource("11_lqqm2")
@@ -125,8 +134,7 @@ font_size = 100
 font = ExtResource("39_namyh")
 font_size = 50
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "AOEView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "SpecialRulesView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin")]
-texture_filter = 2
+[node name="Game" type="Node" node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "AOEView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "SpecialRulesView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin")]
 script = ExtResource("1_arwlr")
 CameraController = NodePath("CameraController")
 CursorOverUIChecker = NodePath("CanvasLayer/UI/CursorOverUIChecker")
@@ -265,6 +273,17 @@ texture = ExtResource("54_uif1r")
 
 [node name="WorldButton" parent="HexPin/ScaleContainer" instance=ExtResource("16_d05wj")]
 scale = Vector2(0.3, 0.3)
+
+[node name="ScreenDistortion" type="ColorRect" parent="."]
+z_index = 50
+material = SubResource("ShaderMaterial_fcllr")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("18_76yld")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
