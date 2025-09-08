@@ -1,30 +1,46 @@
-﻿using Fractural.Tasks;
-using Godot;
+﻿using Godot;
 
 public partial class ScreenDistortion : FullScreenControl
 {
-	private ShaderMaterial _shaderMaterial;
+	private static readonly StringName LensCenterName = "lens_center";
+	private static readonly StringName LensRadiusName = "lens_radius";
+	private static readonly StringName LensPowerName = "lens_power";
 	
+	private ShaderMaterial _shaderMaterial;
+	private Node2D _target;
+
 	public override void _Ready()
 	{
 		base._Ready();
 
 		_shaderMaterial = (ShaderMaterial)Material;
+
+		SetVisible(false);
+
+		// this.DelayedCall(() =>
+		// {
+		// 	SetTarget(GameController.Instance.CharacterManager.GetCharacter(0));
+		// }, 0.1f);
 	}
 
 	public override void _Process(double delta)
 	{
 		base._Process(delta);
 
-		// Get mouse position in viewport
-		Vector2 mousePos = GetViewport().GetMousePosition();
+		if(_target == null)
+		{
+			return;
+		}
 
-		// Convert to normalized UV coordinates (0..1)
-		Vector2 uv = new Vector2(
-			mousePos.X / GetViewport().GetVisibleRect().Size.X,
-			mousePos.Y / GetViewport().GetVisibleRect().Size.Y
-		);
+		Camera2D camera = GameController.Instance.CameraController.Camera;
+		Vector2 viewportPosition = _target.GetGlobalTransformWithCanvas().Origin / GetViewport().GetVisibleRect().Size;
+		_shaderMaterial.SetShaderParameter(LensCenterName, viewportPosition);
+		_shaderMaterial.SetShaderParameter(LensRadiusName, camera.Zoom.X * 0.8f);
+	}
 
-		_shaderMaterial.SetShaderParameter("lens_center", uv);
+	public void SetTarget(Node2D target)
+	{
+		_target = target;
+		SetVisible(_target != null);
 	}
 }

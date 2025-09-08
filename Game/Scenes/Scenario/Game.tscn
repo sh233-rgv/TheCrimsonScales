@@ -275,6 +275,7 @@ texture = ExtResource("54_uif1r")
 scale = Vector2(0.3, 0.3)
 
 [node name="ScreenDistortion" type="ColorRect" parent="."]
+visible = false
 z_index = 50
 material = SubResource("ShaderMaterial_fcllr")
 anchors_preset = 15
