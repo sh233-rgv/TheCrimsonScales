@@ -76,6 +76,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fcllr"]
 shader = ExtResource("20_76yld")
 shader_parameter/lens_center = Vector2(0.5, 0.5)
+shader_parameter/camera_zoom = 1.0
 shader_parameter/lens_radius = 0.5
 shader_parameter/lens_power = 1.5
 shader_parameter/edge_softness = 1.0

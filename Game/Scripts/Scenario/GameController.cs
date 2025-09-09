@@ -10,8 +10,6 @@ using Newtonsoft.Json;
 public partial class GameController : SceneController<GameController>
 {
 	private static string DefaultSavedGame;
-	// [Export]
-	// private string _defaultSavedGame;
 
 	[Export]
 	public CameraController CameraController { get; private set; }
@@ -88,6 +86,9 @@ public partial class GameController : SceneController<GameController>
 	[Export]
 	public HexPin HexPin { get; private set; }
 
+	[Export]
+	public ScreenDistortion ScreenDistortion { get; private set; }
+
 	private readonly Stopwatch _fastForwardStopwatch = new Stopwatch();
 
 	public GameSceneRequest SceneRequest { get; private set; }
@@ -162,7 +163,7 @@ public partial class GameController : SceneController<GameController>
 			if(string.IsNullOrEmpty(DefaultSavedGame))
 			{
 				savedCampaign = SavedCampaign.Test();
-				savedCampaign.SavedScenario = new SavedScenario()
+				savedCampaign.SavedScenario = new SavedScenario
 				{
 					Id = Guid.NewGuid(),
 					AppVersion = AppController.Instance.SaveFile.SaveData.AppVersion,
@@ -325,7 +326,7 @@ public partial class GameController : SceneController<GameController>
 		}
 
 		SavedCampaign savedCampaign = SavedCampaign;
-		SavedScenario newScenario = new SavedScenario()
+		SavedScenario newScenario = new SavedScenario
 		{
 			Id = savedCampaign.SavedScenario.Id,
 			AppVersion = SavedScenario.AppVersion,
@@ -335,7 +336,7 @@ public partial class GameController : SceneController<GameController>
 			IsOnline = savedCampaign.SavedScenario.IsOnline
 		};
 
-		newScenario.ScenarioSetupState = new ScenarioSetupState()
+		newScenario.ScenarioSetupState = new ScenarioSetupState
 		{
 			CharacterScenarioSetupStates = savedCampaign.SavedScenario.ScenarioSetupState.CharacterScenarioSetupStates.ToArray(),
 			Completed = savedCampaign.SavedScenario.ScenarioSetupState.Completed
@@ -498,7 +499,7 @@ public partial class GameController : SceneController<GameController>
 		}
 		else
 		{
-			SavedCampaign.SavedScenario = new SavedScenario()
+			SavedCampaign.SavedScenario = new SavedScenario
 			{
 				Id = Guid.NewGuid(),
 				AppVersion = SavedCampaign.SavedScenario.AppVersion,
