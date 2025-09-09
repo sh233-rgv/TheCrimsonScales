@@ -97,6 +97,7 @@ public class RestoringFaith : HierophantCardModel<RestoringFaith.CardTop, Restor
 										{
 											// This card has a prayer ability active
 											await useSlotAbilityState.MoveBackUseSlot();
+											state.SetPerformed();
 										}
 									}
 								}
