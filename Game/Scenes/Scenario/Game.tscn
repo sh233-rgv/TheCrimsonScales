@@ -135,7 +135,7 @@ font_size = 100
 font = ExtResource("39_namyh")
 font_size = 50
 
-[node name="Game" type="Node" node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "AOEView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "SpecialRulesView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin")]
+[node name="Game" type="Node" node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "AOEView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "SpecialRulesView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin", "ScreenDistortion")]
 script = ExtResource("1_arwlr")
 CameraController = NodePath("CameraController")
 CursorOverUIChecker = NodePath("CanvasLayer/UI/CursorOverUIChecker")
@@ -162,6 +162,7 @@ ScenarioWonView = NodePath("CanvasLayer/UI/ScenarioWonView")
 Selector = NodePath("Selector")
 CharacterStartHexMoveIndicator = NodePath("CanvasLayer/UI/CharacterStartHexMoveIndicator")
 HexPin = NodePath("HexPin")
+ScreenDistortion = NodePath("ScreenDistortion")
 
 [node name="CameraController" type="Node2D" parent="." node_paths=PackedStringArray("Camera", "_movePivot")]
 script = ExtResource("15_67ddq")
