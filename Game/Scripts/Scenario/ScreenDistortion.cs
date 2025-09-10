@@ -21,34 +21,6 @@ public partial class ScreenDistortion : FullScreenControl
 		_shaderMaterial = (ShaderMaterial)Material;
 
 		SetVisible(false);
-
-		// this.DelayedCall(() =>
-		// {
-		// 	SetTarget(GameController.Instance.CharacterManager.GetCharacter(0));
-		//
-		// 	SetPower(1f);
-		// 	SetRadius(0.4f);
-		// 	GTweenSequenceBuilder.New()
-		// 		// Disappear
-		// 		.Append(TweenPower(1.1f, 0.2f).SetEasing(Easing.OutCubic))
-		// 		.Join(TweenRadius(0.4f, 0.2f).SetEasing(Easing.OutCubic))
-		// 		.Append(TweenPower(0.4f, 0.5f).SetEasing(Easing.OutCubic))
-		// 		.Join(TweenRadius(0.3f, 0.5f).SetEasing(Easing.OutCubic))
-		// 		.Join(_target.TweenScale(0f, 0.5f).SetEasing(Easing.Linear))
-		// 		.Append(TweenPower(1f, 0.5f).SetEasing(Easing.OutBack))
-		// 		.Join(TweenRadius(0.4f, 0.2f).SetEasing(Easing.OutCubic))
-		// 		.AppendTime(2f)
-		// 		// Appear
-		// 		.Append(TweenPower(1.1f, 0.2f).SetEasing(Easing.OutCubic))
-		// 		.Join(TweenRadius(0.4f, 0.2f).SetEasing(Easing.OutCubic))
-		// 		.Append(TweenPower(0.4f, 0.5f).SetEasing(Easing.OutCubic))
-		// 		.Join(TweenRadius(0.3f, 0.5f).SetEasing(Easing.OutCubic))
-		// 		.Append(TweenPower(1f, 0.5f).SetEasing(Easing.OutBack))
-		// 		.Join(TweenRadius(0.4f, 0.2f).SetEasing(Easing.OutCubic))
-		// 		.Join(_target.TweenScale(1f, 0.2f).SetEasing(Easing.OutCubic))
-		// 		.AppendTime(2f)
-		// 		.Build().SetMaxLoops().Play();
-		// }, 0.1f);
 	}
 
 	public override void _Process(double delta)
