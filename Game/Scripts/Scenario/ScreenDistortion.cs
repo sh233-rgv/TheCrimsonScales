@@ -38,10 +38,16 @@ public partial class ScreenDistortion : FullScreenControl
 		_shaderMaterial.SetShaderParameter(CameraZoomName, camera.Zoom.X);
 	}
 
-	public void SetTarget(Node2D target)
+	public void Open(Node2D target)
 	{
 		_target = target;
-		SetVisible(_target != null);
+		SetVisible(true);
+	}
+
+	public void Close()
+	{
+		_target = null;
+		SetVisible(false);
 	}
 
 	public void SetPower(float power)

@@ -45,6 +45,9 @@ public partial class GameController : SceneController<GameController>
 	public MovePath MovePath { get; private set; }
 
 	[Export]
+	public TeleportPath TeleportPath { get; private set; }
+
+	[Export]
 	public AOEView AOEView { get; private set; }
 
 	[Export]

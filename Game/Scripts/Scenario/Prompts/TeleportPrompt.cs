@@ -56,14 +56,7 @@ public class TeleportPrompt(TeleportAbility.State teleportAbilityState, Figure p
 
 		GameController.Instance.HexIndicatorManager.EndSettingIndicators();
 
-		List<Hex> path = new List<Hex>();
-		path.Add(performer.Hex);
-		if(_selectedHex != null)
-		{
-			path.Add(_selectedHex);
-		}
-
-		GameController.Instance.MovePath.Open(path, path);
+		GameController.Instance.TeleportPath.Open(performer.Hex, _selectedHex);
 	}
 
 	protected override void Disable()
@@ -71,7 +64,7 @@ public class TeleportPrompt(TeleportAbility.State teleportAbilityState, Figure p
 		base.Disable();
 
 		GameController.Instance.HexIndicatorManager.ClearIndicators();
-		GameController.Instance.MovePath.Close();
+		GameController.Instance.TeleportPath.Close();
 	}
 
 	private void OnIndicatorPressed(HexIndicator hexIndicator)

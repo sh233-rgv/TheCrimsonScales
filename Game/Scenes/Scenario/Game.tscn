@@ -1,6 +1,7 @@
-[gd_scene load_steps=83 format=3 uid="uid://dc3oqbu0m8jid"]
+[gd_scene load_steps=84 format=3 uid="uid://dc3oqbu0m8jid"]
 
 [ext_resource type="Script" uid="uid://bq2pwm6f32li" path="res://Scripts/Scenario/GameController.cs" id="1_arwlr"]
+[ext_resource type="Script" uid="uid://d1n1uymvup76h" path="res://Scripts/Scenario/TeleportPath/TeleportPath.cs" id="6_b23n0"]
 [ext_resource type="Script" uid="uid://c7tkwbv643e6o" path="res://Scripts/Scenario/SufferDamageView.cs" id="10_ldvfj"]
 [ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="10_nbwi6"]
 [ext_resource type="Texture2D" uid="uid://b4yv18w38k747" path="res://Art/Icons/Abilities/DamageThin.svg" id="11_ldvfj"]
@@ -135,7 +136,7 @@ font_size = 100
 font = ExtResource("39_namyh")
 font_size = 50
 
-[node name="Game" type="Node" node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "AOEView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "SpecialRulesView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin", "ScreenDistortion")]
+[node name="Game" type="Node" node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "TeleportPath", "AOEView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "SpecialRulesView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin", "ScreenDistortion")]
 script = ExtResource("1_arwlr")
 CameraController = NodePath("CameraController")
 CursorOverUIChecker = NodePath("CanvasLayer/UI/CursorOverUIChecker")
@@ -148,6 +149,7 @@ CardSelectionButtonsView = NodePath("CanvasLayer/UI/CardSelectionButtonsView")
 ScenarioSetupButtonsView = NodePath("CanvasLayer/UI/ScenarioSetupButtonsView")
 UndoView = NodePath("CanvasLayer/UI/UndoView")
 MovePath = NodePath("MovePath")
+TeleportPath = NodePath("TeleportPath")
 AOEView = NodePath("AOEView")
 SufferDamageView = NodePath("SufferDamageView")
 PortraitView = NodePath("CanvasLayer/UI/PortraitView")
@@ -196,7 +198,22 @@ _line2D = NodePath("Line2D")
 [node name="Line2D" type="Line2D" parent="MovePath"]
 z_index = 100
 points = PackedVector2Array(0, 0, 256, 0, 256, 256, 0, 256)
-width = 20.0
+width = 12.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="TeleportPath" type="Node2D" parent="." node_paths=PackedStringArray("_line2D")]
+z_index = 105
+script = ExtResource("6_b23n0")
+_waypointScene = ExtResource("18_8uwbm")
+_line2D = NodePath("Line2D")
+
+[node name="Line2D" type="Line2D" parent="TeleportPath"]
+z_index = 100
+points = PackedVector2Array(0, 0, 256, -256)
+width = 12.0
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
@@ -220,7 +237,7 @@ _line = NodePath("Line2D")
 [node name="Line2D" type="Line2D" parent="LineOfSightVisualizer"]
 z_index = 200
 points = PackedVector2Array(0, 0, 500, 0)
-width = 20.0
+width = 12.0
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2

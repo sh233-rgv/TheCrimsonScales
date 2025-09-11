@@ -106,16 +106,16 @@ public class TeleportAbility : Ability<TeleportAbility.State>
 
 		abilityState.SetPerformed();
 
-		//performer.SetZIndex(100);
-
 		ScreenDistortion screenDistortion = GameController.Instance.ScreenDistortion;
-		screenDistortion.SetTarget(GameController.Instance.CharacterManager.GetCharacter(0));
+		screenDistortion.Open(GameController.Instance.CharacterManager.GetCharacter(0));
 
 		const float animationSpeed = 1.4f;
 		const float radius = 0.7f;
 
 		screenDistortion.SetPower(1f);
 		screenDistortion.SetRadius(0.4f * radius);
+
+		AppController.Instance.AudioController.Play("res://Audio/SFX/WHOOSH_Steam_Fast_01_mono.wav", 0.9f, 1.1f, delay: 0.0f);
 
 		if(!GameController.FastForward)
 		{
@@ -133,6 +133,8 @@ public class TeleportAbility : Ability<TeleportAbility.State>
 
 		performer.SetOriginHexAndRotation(destination);
 
+		AppController.Instance.AudioController.Play("res://Audio/SFX/WHOOSH_Steam_Fast_01_mono.wav", 0.9f, 1.1f, delay: 0.0f);
+
 		if(!GameController.FastForward)
 		{
 			// Appear
@@ -147,8 +149,8 @@ public class TeleportAbility : Ability<TeleportAbility.State>
 				.Build().PlayFastForwardableAsync();
 		}
 
-		await AbilityCmd.EnterHex(abilityState, performer, abilityState.Authority, destination, true);
+		screenDistortion.Close();
 
-		//performer.SetZIndex(performer.DefaultZIndex);
+		await AbilityCmd.EnterHex(abilityState, performer, abilityState.Authority, destination, true);
 	}
 }
