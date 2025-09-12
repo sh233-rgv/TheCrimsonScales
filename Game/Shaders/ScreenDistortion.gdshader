@@ -20,7 +20,7 @@ void fragment()
 
     float r = length(scaled_offset);
 	float adjusted_radius = lens_radius * camera_zoom;
-	
+
     if (r < adjusted_radius)
 	{
         // Normalized radius [0..1]

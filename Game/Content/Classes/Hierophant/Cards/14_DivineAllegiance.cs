@@ -23,6 +23,10 @@ public class DivineAllegiance : HierophantCardModel<DivineAllegiance.CardTop, Di
 						]
 					)
 				)
+				.WithOnAbilityEndedPerformed(async state =>
+				{
+					await AbilityCmd.GainXP(state.Performer, state.UniqueTargetedFigures.Count);
+				})
 				.Build()),
 
 			new AbilityCardAbility(OtherAbility.Builder()

@@ -54,6 +54,11 @@ public abstract class TargetedAbilityState : AbilityState
 
 	public IEnumerable<Hex> GetRedAOEHexes()
 	{
+		if(AOEHexes == null)
+		{
+			yield break;
+		}
+
 		foreach((Vector2I coords, AOEHexType type) in AOEHexes)
 		{
 			Hex hex = GameController.Instance.Map.GetHex(coords);
