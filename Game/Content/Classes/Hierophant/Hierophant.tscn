@@ -13,11 +13,9 @@ self_modulate = Color(0.866667, 0.870588, 0.541176, 1)
 
 [node name="Sprite2D" parent="Mask" index="0"]
 position = Vector2(-1.25, 8.75)
-scale = Vector2(0.42, 0.42)
 texture = ExtResource("2_jk5jr")
 
 [node name="AnimatedSpriteSheet2D" parent="Mask" index="1"]
 texture = ExtResource("3_pebit")
 hframes = 12
 vframes = 13
-_frameCount = 149
