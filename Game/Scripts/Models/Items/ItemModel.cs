@@ -48,6 +48,8 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 	private object _subscriber;
 	protected ItemEffectButton.Parameters _effectButtonParameters;
 	protected ItemEffectInfoView.Parameters _effectInfoViewParameters;
+	protected EffectType GetSubscriptionEffectType => ItemUseType == ItemUseType.Always ? EffectType.MandatoryBeforeOptionals : 
+														(HasUseSlots ? EffectType.SelectableMandatory : EffectType.Selectable);
 
 	public abstract Texture2D GetTexture();
 
@@ -126,6 +128,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 	{
 		ScenarioEvents.DuringAttackEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(this, _subscriber);
+		ScenarioEvents.AMDCardDrawnEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.DuringMovementEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.CardSideSelectionEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.AfterCardsPlayedEvent.Unsubscribe(this, _subscriber);
@@ -204,7 +207,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 					await apply(applyParameters.Character);
 				}
 			},
-			HasUseSlots ? EffectType.SelectableMandatory : EffectType.Selectable,
+			GetSubscriptionEffectType,
 			order: order,
 			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
 			effectButtonParameters: _effectButtonParameters,
@@ -219,7 +222,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 					await apply(applyParameters.Character);
 				}
 			},
-			HasUseSlots ? EffectType.SelectableMandatory : EffectType.Selectable,
+			GetSubscriptionEffectType,
 			order: order,
 			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
 			effectButtonParameters: _effectButtonParameters,
@@ -234,7 +237,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 					await apply(applyParameters.Character);
 				}
 			},
-			HasUseSlots ? EffectType.SelectableMandatory : EffectType.Selectable,
+			GetSubscriptionEffectType,
 			order: order,
 			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
 			effectButtonParameters: _effectButtonParameters,
@@ -253,7 +256,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 					await apply(applyParameters.AbilityState);
 				}
 			},
-			HasUseSlots ? EffectType.SelectableMandatory : EffectType.Selectable,
+			GetSubscriptionEffectType,
 			order: order,
 			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
 			effectButtonParameters: _effectButtonParameters,
@@ -272,7 +275,26 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 					await apply(applyParameters.AbilityState);
 				}
 			},
-			HasUseSlots ? EffectType.SelectableMandatory : EffectType.Selectable,
+			GetSubscriptionEffectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: _effectButtonParameters,
+			effectInfoViewParameters: _effectInfoViewParameters);
+	}
+	
+	protected void SubscribeAMDCardDrawn(Func<ScenarioEvents.AMDCardDrawn.Parameters, bool> canApply = null, Func<ScenarioEvents.AMDCardDrawn.Parameters, GDTask> apply = null,
+		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
+	{
+		ScenarioEvents.AMDCardDrawnEvent.Subscribe(this, _subscriber,
+			canApplyParameters => canApply == null || canApply(canApplyParameters),
+			async applyParameters =>
+			{
+				if(apply != null)
+				{
+					await apply(applyParameters);
+				}
+			},
+			GetSubscriptionEffectType,
 			order: order,
 			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
 			effectButtonParameters: _effectButtonParameters,
@@ -291,7 +313,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 					await apply(applyParameters.AbilityState);
 				}
 			},
-			HasUseSlots ? EffectType.SelectableMandatory : EffectType.Selectable,
+			GetSubscriptionEffectType,
 			order: order,
 			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
 			effectButtonParameters: _effectButtonParameters,
@@ -304,7 +326,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 		ScenarioEvents.SufferDamageEvent.Subscribe(this, _subscriber,
 			canApply,
 			apply,
-			HasUseSlots ? EffectType.SelectableMandatory : EffectType.Selectable,
+			GetSubscriptionEffectType,
 			order: order,
 			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
 			effectButtonParameters: _effectButtonParameters,
@@ -317,7 +339,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 		ScenarioEvents.RetaliateEvent.Subscribe(this, _subscriber,
 			canApply,
 			apply,
-			HasUseSlots ? EffectType.SelectableMandatory : EffectType.Selectable,
+			GetSubscriptionEffectType,
 			order: order,
 			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
 			effectButtonParameters: _effectButtonParameters,
@@ -330,7 +352,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 		ScenarioEvents.InitiativesSortedEvent.Subscribe(this, _subscriber,
 			canApply,
 			apply,
-			HasUseSlots ? EffectType.SelectableMandatory : EffectType.Selectable,
+			GetSubscriptionEffectType,
 			order: order,
 			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
 			effectButtonParameters: _effectButtonParameters,
