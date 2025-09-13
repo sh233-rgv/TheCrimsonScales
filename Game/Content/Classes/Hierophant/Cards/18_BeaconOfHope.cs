@@ -52,26 +52,44 @@ public class BeaconOfHope : HierophantCardModel<BeaconOfHope.CardTop, BeaconOfHo
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
-				{
-					ScenarioEvents.AMDTerminalDrawnEvent.Subscribe(state, this,
-						parameters =>
-							state.Performer.AlliedWith(parameters.Performer) &&
-							parameters.AMDCard is BlessAMDCard,
-						async parameters =>
-						{
-							ActionState actionState = new ActionState(parameters.Performer,
-								[HealAbility.Builder().WithHealValue(6).WithTarget(Target.Self).Build()]);
-							await actionState.Perform();
+					{
+						ScenarioEvents.AMDCardDrawnEvent.Subscribe(state, this,
+							canApply: canApplyParameters =>
+								state.Performer.AlliedWith(canApplyParameters.Performer) &&
+								canApplyParameters.AMDCard is BlessAMDCard,
+							apply: async applyParameters =>
+							{
+								ScenarioEvents.AfterAttackPerformedEvent.Subscribe(state, this,
+									canApply: canApplyParameters =>
+										canApplyParameters.AbilityState == applyParameters.AbilityState,
+									apply: async parameters =>
+									{
+										ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this);
 
-							await state.AdvanceUseSlot();
-						}
-					);
+										ActionState actionState = new ActionState(parameters.AbilityState.Performer, 
+											[HealAbility.Builder()
+												.WithHealValue(6)
+												.WithTarget(Target.Self)
+												.Build()]
+										);
 
-					await GDTask.CompletedTask;
-				})
+										await actionState.Perform();
+
+										await state.AdvanceUseSlot();
+									}
+								);
+
+								await GDTask.CompletedTask;
+							}
+						);
+
+						await GDTask.CompletedTask;
+					}
+				)
 				.WithOnDeactivate(async state =>
 					{
-						ScenarioEvents.AMDTerminalDrawnEvent.Unsubscribe(state, this);
+						ScenarioEvents.AMDCardDrawnEvent.Unsubscribe(state, this);
+						ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this);
 
 						await GDTask.CompletedTask;
 					}

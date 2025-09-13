@@ -109,18 +109,6 @@ public class ScenarioEvents
 	private readonly AMDCardDrawn _amdCardDrawn = new AMDCardDrawn();
 	public static AMDCardDrawn AMDCardDrawnEvent => GameController.Instance.ScenarioEvents._amdCardDrawn;
 
-	public class AMDTerminalDrawn : ScenarioEvent<AMDTerminalDrawn.Parameters>
-	{
-		public class Parameters(AttackAbility.State abilityState, AMDCard amdCard)
-			: ParametersBase<AttackAbility.State>(abilityState)
-		{
-			public AMDCard AMDCard { get; } = amdCard;
-		}
-	}
-
-	private readonly AMDTerminalDrawn _amdTerminalDrawn = new AMDTerminalDrawn();
-	public static AMDTerminalDrawn AMDTerminalDrawnEvent => GameController.Instance.ScenarioEvents._amdTerminalDrawn;
-
 	public class AMDCardValueApplied : ScenarioEvent<AMDCardValueApplied.Parameters>
 	{
 		public class Parameters(AttackAbility.State abilityState, AMDCardValue amdCardValue)

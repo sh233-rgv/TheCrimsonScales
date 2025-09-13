@@ -21,26 +21,40 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					ScenarioEvents.AMDTerminalDrawnEvent.Subscribe(state, this,
-						canApplyParameters =>
+					ScenarioEvents.AMDCardDrawnEvent.Subscribe(state, this,
+						canApply: canApplyParameters =>
 							state.Performer.EnemiesWith(canApplyParameters.Performer) &&
 							canApplyParameters.AMDCard is CurseAMDCard,
-						async applyParameters =>
+						apply: async applyParameters =>
 						{
-							await AbilityCmd.SufferDamage(null, applyParameters.Performer, 10);
+							ScenarioEvents.AMDCardValueAppliedEvent.Subscribe(state, this,
+								canApply: canApplyParameters =>
+									canApplyParameters.AbilityState == applyParameters.AbilityState,
+								apply: async parameters =>
+								{
+									ScenarioEvents.AMDCardValueAppliedEvent.Unsubscribe(state, this);
+									if(parameters.AMDCardValue.CardType == AMDCardType.Null)
+									{
+										await AbilityCmd.SufferDamage(null, parameters.Performer, 10);
 
-							await state.AdvanceUseSlot();
-						});
+										await state.AdvanceUseSlot();
+									}
+								}
+							);
+
+							await GDTask.CompletedTask;
+						}
+					);
 
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
-					{
-						ScenarioEvents.AMDTerminalDrawnEvent.Unsubscribe(state, this);
+				{
+					ScenarioEvents.AMDCardDrawnEvent.Unsubscribe(state, this);
+					ScenarioEvents.AMDCardValueAppliedEvent.Unsubscribe(state, this); 
 
-						await GDTask.CompletedTask;
-					}
-				)
+					await GDTask.CompletedTask;
+				})
 				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.4f)))
 				.Build())
 		];
@@ -85,10 +99,9 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 				)
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.WithCustomGetTargets((state, list) =>
-					{
-						list.AddRange(state.ActionState.GetAbilityState<OtherTargetedAbility.State>(0).UniqueTargetedFigures);
-					}
-				)
+				{
+					list.AddRange(state.ActionState.GetAbilityState<OtherTargetedAbility.State>(0).UniqueTargetedFigures);
+				})
 				.Build())
 		];
 	}
