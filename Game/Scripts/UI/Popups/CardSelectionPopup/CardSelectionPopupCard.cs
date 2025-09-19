@@ -5,8 +5,6 @@ using Godot;
 public partial class CardSelectionPopupCard : Control
 {
 	[Export]
-	private Control _container;
-	[Export]
 	private TextureRect _textureRect;
 	[Export]
 	private Label _initiativeLabel;
@@ -15,7 +13,6 @@ public partial class CardSelectionPopupCard : Control
 
 	public AbilityCardModel AbilityCardModel { get; private set; }
 
-	//public bool Selected { get; private set; }
 	public bool InitiativeSelected { get; private set; }
 	public bool Grayscale { get; private set; }
 
