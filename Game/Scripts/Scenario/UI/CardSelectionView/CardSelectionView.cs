@@ -60,10 +60,11 @@ public partial class CardSelectionView : Control
 		{
 			wasOpen = true;
 
-			foreach(CardSelectionCard item in Cards)
+			for(int i = 0; i < Cards.Count; i++)
 			{
+				CardSelectionCard item = Cards[i];
 				item.Reparent(_container);
-				item.Destroy();
+				item.TweenOut(i * 0.03f);
 			}
 
 			Cards.Clear();
@@ -86,7 +87,8 @@ public partial class CardSelectionView : Control
 			_itemParent.AddChild(card);
 			cardSize = card.Size.Y;
 			card.Position = new Vector2(0f, index * card.Size.Y);
-			card.Init(abilityCard, index, wasOpen ? 0.3f : 0f, true, InitiativePressedEvent != null);
+			card.Init(abilityCard.SavedAbilityCard, true, InitiativePressedEvent != null);
+			card.TweenIn((wasOpen ? 0.3f : 0f) + index * 0.03f);
 			card.CardPressedEvent += OnCardPressed;
 			card.InitiativePressedEvent += OnInitiativePressed;
 			card.MouseEnteredEvent += OnMouseEntered;
@@ -107,10 +109,11 @@ public partial class CardSelectionView : Control
 
 	public void Close()
 	{
-		foreach(CardSelectionCard item in Cards)
+		for(int i = 0; i < Cards.Count; i++)
 		{
+			CardSelectionCard item = Cards[i];
 			item.Reparent(_container);
-			item.Destroy();
+			item.TweenOut(i * 0.03f);
 		}
 
 		Cards.Clear();

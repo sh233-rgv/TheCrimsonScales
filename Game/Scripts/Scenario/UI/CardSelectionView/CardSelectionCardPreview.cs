@@ -22,8 +22,8 @@ public partial class CardSelectionCardPreview : Control
 	public void Focus(CardSelectionCard card)
 	{
 		_focus = card;
-		_cardView.SetCard(card.AbilityCard);
-		_cardView.SetCardMaterial(card.AbilityCard.CardState);
+		_cardView.SetCard(card.SavedAbilityCard.Model);
+		//_cardView.SetCardMaterial(card.SavedAbilityCard.CardState);
 
 		Control parentContainer = GetParent<Control>();
 		float targetY = Mathf.Clamp(

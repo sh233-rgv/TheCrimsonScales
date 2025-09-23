@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://b7ogm4op7ko2a"]
 
-[ext_resource type="Script" uid="uid://d3o61kecora4w" path="res://Scripts/Scenario/UI/CardSelectionView/CardSelectionCard.cs" id="1_wsmcb"]
+[ext_resource type="Script" uid="uid://d3o61kecora4w" path="res://Scripts/UI/CardSelectionList/CardSelectionCard.cs" id="1_wsmcb"]
 [ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="2_7oly0"]
 [ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="2_jwsww"]
 [ext_resource type="LabelSettings" uid="uid://d235d2njdpdmg" path="res://Resources/ButtonLabel.tres" id="5_527i8"]
