@@ -156,6 +156,7 @@ public partial class CardSelectionList : Control
 	private void UpdateScrollRect()
 	{
 		_scrollContainer.Size = new Vector2(_cardSize.X, _scrollContainer.Size.Y);
+		_scrollContainer.Position = new Vector2(0f, _scrollContainer.Position.Y);
 		_cardParent.CustomMinimumSize = new Vector2(_cardSize.X, Cards.Count * _cardSize.Y);
 		_cardParent.Size = _cardParent.CustomMinimumSize;
 		_scrollContainer.MouseFilter = _cardParent.Size.Y > _scrollContainer.Size.Y ? MouseFilterEnum.Stop : MouseFilterEnum.Ignore;
