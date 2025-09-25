@@ -68,11 +68,7 @@ public partial class CardSelectionList : Control
 			index++;
 		}
 
-		_scrollContainer.Size = new Vector2(_cardSize.X, _scrollContainer.Size.Y);
-		_cardParent.CustomMinimumSize = new Vector2(_cardSize.X, index * _cardSize.Y);
-		_cardParent.Size = _cardParent.CustomMinimumSize;
-		_scrollContainer.MouseFilter = _cardParent.Size.Y > _scrollContainer.Size.Y ? MouseFilterEnum.Stop : MouseFilterEnum.Ignore;
-		_cardParent.MouseFilter = _cardParent.Size.Y > _scrollContainer.Size.Y ? MouseFilterEnum.Pass : MouseFilterEnum.Stop;
+		UpdateScrollRect();
 	}
 
 	public void Close()
@@ -81,7 +77,6 @@ public partial class CardSelectionList : Control
 		{
 			card.Reparent(_container);
 			card.QueueFree();
-			//item.Destroy();
 		}
 
 		Cards.Clear();
@@ -109,6 +104,7 @@ public partial class CardSelectionList : Control
 		card.TweenScale(1f, 0.2f).SetEasing(Easing.OutBack).Play();
 
 		ReorderCardsVisually();
+		UpdateScrollRect();
 	}
 
 	public void RemoveCard(SavedAbilityCard savedAbilityCard)
@@ -125,6 +121,7 @@ public partial class CardSelectionList : Control
 		}
 
 		ReorderCardsVisually();
+		UpdateScrollRect();
 	}
 
 	private CardSelectionCard CreateCard(SavedAbilityCard savedAbilityCard, float positionY)
@@ -154,6 +151,15 @@ public partial class CardSelectionList : Control
 			CardSelectionCard card = Cards[i];
 			card.TweenPositionY(GetPosition(i), 0.3f).SetEasing(Easing.OutQuad).Play();
 		}
+	}
+
+	private void UpdateScrollRect()
+	{
+		_scrollContainer.Size = new Vector2(_cardSize.X, _scrollContainer.Size.Y);
+		_cardParent.CustomMinimumSize = new Vector2(_cardSize.X, Cards.Count * _cardSize.Y);
+		_cardParent.Size = _cardParent.CustomMinimumSize;
+		_scrollContainer.MouseFilter = _cardParent.Size.Y > _scrollContainer.Size.Y ? MouseFilterEnum.Stop : MouseFilterEnum.Ignore;
+		_cardParent.MouseFilter = _cardParent.Size.Y > _scrollContainer.Size.Y ? MouseFilterEnum.Pass : MouseFilterEnum.Stop;
 	}
 
 	private void OnCardPressed(CardSelectionCard card)
