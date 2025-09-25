@@ -104,6 +104,10 @@ public partial class CardSelectionList : Control
 		CardSelectionCard card = CreateCard(savedAbilityCard, GetPosition(index));
 		Cards.Insert(index, card);
 
+		card.SetPivotOffset(card.Size * 0.5f);
+		card.SetScale(Vector2.Zero);
+		card.TweenScale(1f, 0.2f).SetEasing(Easing.OutBack).Play();
+
 		ReorderCardsVisually();
 	}
 
