@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bk4q5mr73oy4u"]
+[gd_scene load_steps=15 format=3 uid="uid://bk4q5mr73oy4u"]
 
 [ext_resource type="Script" uid="uid://ci617yd6rkyi8" path="res://Scripts/UI/Popups/CardSelectionPopup/CardSelectionPopup.cs" id="1_xq7n6"]
 [ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="2_p34pd"]
@@ -9,8 +9,7 @@
 [ext_resource type="LabelSettings" uid="uid://d235d2njdpdmg" path="res://Resources/ButtonLabel.tres" id="7_i14an"]
 [ext_resource type="Script" uid="uid://dwc0dduuaj0cq" path="res://Scripts/UI/Popups/CardSelectionPopup/CardSelectionPopupPreview.cs" id="8_6eco6"]
 [ext_resource type="PackedScene" uid="uid://dvex4pgry7e30" path="res://Scenes/Scenario/UI/CardView.tscn" id="9_3c4pn"]
-[ext_resource type="Script" uid="uid://cpmk5cj52h78k" path="res://Scripts/UI/CardSelectionList/CardSelectionList.cs" id="10_t1437"]
-[ext_resource type="PackedScene" uid="uid://b7ogm4op7ko2a" path="res://Scenes/Scenario/UI/CardSelectionCard.tscn" id="11_oufu3"]
+[ext_resource type="PackedScene" uid="uid://d01x6nmjmss3c" path="res://Scenes/UI/CardSelectionList.tscn" id="10_lmr8x"]
 [ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="12_sewgo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jr74k"]
@@ -27,14 +26,7 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ot54p"]
-bg_color = Color(1, 1, 1, 0)
-border_width_top = 10
-border_width_bottom = 10
-border_color = Color(1, 1, 1, 0)
-border_blend = true
-
-[node name="CardSelectionPopup" type="Control" node_paths=PackedStringArray("_selectedCardList", "_requiredCountLabel")]
+[node name="CardSelectionPopup" type="Control" node_paths=PackedStringArray("_handCardList", "_availableCardList", "_requiredCountLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -43,7 +35,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_xq7n6")
-_selectedCardList = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists/CardSelectionList")
+_handCardList = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists/HandCards")
+_availableCardList = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists/AvailableCards")
 _requiredCountLabel = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Header/HBoxContainer/RequiredCountLabel")
 
 [node name="Background" type="Panel" parent="."]
@@ -358,84 +351,11 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="CardSelectionList" type="Control" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists" node_paths=PackedStringArray("_scrollContainer", "_cardParent", "_container")]
-layout_mode = 2
-anchors_preset = 0
-offset_right = 470.0
-offset_bottom = 800.0
-script = ExtResource("10_t1437")
-_cardSelectionCardScene = ExtResource("11_oufu3")
-_scrollContainer = NodePath("Mask/ScrollContainer")
-_cardParent = NodePath("Mask/ScrollContainer/Cards")
-_container = NodePath("Mask")
+[node name="HandCards" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists" instance=ExtResource("10_lmr8x")]
 
-[node name="Mask" type="Panel" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists/CardSelectionList"]
-clip_contents = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ot54p")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists/CardSelectionList/Mask"]
-clip_contents = false
-layout_direction = 3
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 0
-horizontal_scroll_mode = 0
-scroll_deadzone = 10
-
-[node name="Cards" type="Control" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists/CardSelectionList/Mask/ScrollContainer"]
-layout_direction = 2
-layout_mode = 2
-mouse_filter = 1
-
-[node name="HandCards" type="ScrollContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists"]
-visible = false
-clip_contents = false
-layout_direction = 3
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -470.0
-grow_horizontal = 0
-grow_vertical = 2
-mouse_filter = 0
-horizontal_scroll_mode = 0
-scroll_deadzone = 10
-
-[node name="Cards" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists/HandCards"]
-layout_direction = 2
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="AvailableCards" type="ScrollContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists"]
-clip_contents = false
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -470.0
-grow_horizontal = 0
-grow_vertical = 2
-mouse_filter = 0
-horizontal_scroll_mode = 0
-scroll_deadzone = 10
-
-[node name="Cards" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists/AvailableCards"]
-layout_mode = 2
-theme_override_constants/separation = 0
+[node name="AvailableCards" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists" instance=ExtResource("10_lmr8x")]
+offset_left = 874.0
+offset_right = 1344.0
 
 [node name="Buttons" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 visible = false
