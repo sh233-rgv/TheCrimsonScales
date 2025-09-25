@@ -32,7 +32,6 @@ public partial class CardSelectionCard : Control
 	public event Action<CardSelectionCard> InitiativePressedEvent;
 	public event Action<CardSelectionCard> MouseEnteredEvent;
 	public event Action<CardSelectionCard> MouseExitedEvent;
-	//public event Action<CardSelectionCard> InitiativeMouseEnterEvent;
 
 	public void Init(SavedAbilityCard card, bool canSelect, bool canPressInitiative)
 	{

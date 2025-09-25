@@ -18,11 +18,11 @@ public partial class CardSelectionList : Control
 	[Export]
 	private CardSelectionCardPreview _cardPreview;
 
-	public List<CardSelectionCard> Cards { get; } = new List<CardSelectionCard>();
-
 	private Comparison<SavedAbilityCard> _sortComparison;
 
 	private Vector2 _cardSize;
+
+	public List<CardSelectionCard> Cards { get; } = new List<CardSelectionCard>();
 
 	private event Action<CardSelectionCard> CardPressedEvent;
 	private event Action<CardSelectionCard> InitiativePressedEvent;

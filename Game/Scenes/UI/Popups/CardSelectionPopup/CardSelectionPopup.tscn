@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://c7hi6q082ullr" path="res://Art/Icons/Other/CloseIcon.svg" id="5_hant3"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="6_s2rin"]
 [ext_resource type="LabelSettings" uid="uid://d235d2njdpdmg" path="res://Resources/ButtonLabel.tres" id="7_i14an"]
-[ext_resource type="Script" uid="uid://dwc0dduuaj0cq" path="res://Scripts/UI/Popups/CardSelectionPopup/CardSelectionPopupPreview.cs" id="8_6eco6"]
+[ext_resource type="Script" uid="uid://c1mtipnwlpxx3" path="res://Scripts/Scenario/UI/CardSelectionView/CardSelectionCardPreview.cs" id="8_lmr8x"]
 [ext_resource type="PackedScene" uid="uid://dvex4pgry7e30" path="res://Scenes/Scenario/UI/CardView.tscn" id="9_3c4pn"]
 [ext_resource type="PackedScene" uid="uid://d01x6nmjmss3c" path="res://Scenes/UI/CardSelectionList.tscn" id="10_lmr8x"]
 [ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="12_sewgo"]
@@ -334,7 +334,7 @@ offset_right = 160.0
 offset_bottom = 448.0
 grow_horizontal = 2
 mouse_filter = 2
-script = ExtResource("8_6eco6")
+script = ExtResource("8_lmr8x")
 _cardView = NodePath("CardView")
 
 [node name="CardView" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/CardPreview" instance=ExtResource("9_3c4pn")]
@@ -351,11 +351,13 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="HandCards" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists" instance=ExtResource("10_lmr8x")]
+[node name="HandCards" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists" node_paths=PackedStringArray("_cardPreview") instance=ExtResource("10_lmr8x")]
+_cardPreview = NodePath("../../CardPreview")
 
-[node name="AvailableCards" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists" instance=ExtResource("10_lmr8x")]
+[node name="AvailableCards" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists" node_paths=PackedStringArray("_cardPreview") instance=ExtResource("10_lmr8x")]
 offset_left = 874.0
 offset_right = 1344.0
+_cardPreview = NodePath("../../CardPreview")
 
 [node name="Buttons" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 visible = false

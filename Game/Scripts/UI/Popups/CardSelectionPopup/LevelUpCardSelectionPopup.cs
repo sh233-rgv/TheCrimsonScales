@@ -2,87 +2,52 @@
 using System.Linq;
 using Godot;
 
-public partial class LevelUpCardSelectionPopup : CardSelectionPopupBase<LevelUpCardSelectionPopup.Request>
+public partial class LevelUpCardSelectionPopup : Popup<LevelUpCardSelectionPopup.Request>
 {
-	public class Request : CardSelectionPopupBaseRequest
+	public class Request : PopupRequest
 	{
+		public SavedCharacter SavedCharacter { get; init; }
 	}
+
+	[Export]
+	private CardSelectionList _availableCardList;
+	[Export]
+	private CardSelectionList _unlockableCardList;
 
 	protected override void OnOpen()
 	{
 		base.OnOpen();
-	}
 
-	protected override void OnClosed()
-	{
-		// PopupRequest.SavedCharacter.HandAbilityCardIndices.Clear();
-		// foreach(CardSelectionPopupCard card in _leftCards)
-		// {
-		// 	SavedAbilityCard savedAbilityCard = PopupRequest.SavedCharacter.AvailableAbilityCards.Find(savedAbilityCard => savedAbilityCard.Model == card.AbilityCardModel);
-		// 	PopupRequest.SavedCharacter.HandAbilityCardIndices.Add(PopupRequest.SavedCharacter.AvailableAbilityCards.IndexOf(savedAbilityCard));
-		// }
+		List<SavedAbilityCard> availableCards = PopupRequest.SavedCharacter.AvailableAbilityCards.ToList();
+		_availableCardList.Open(availableCards, OnAvailableCardPressed, null,
+			(cardA, cardB) => cardA.Model.Initiative.CompareTo(cardB.Model.Initiative));
 
-		base.OnClosed();
-	}
+		List<SavedAbilityCard> unlockableCards =
+			PopupRequest.SavedCharacter.ClassModel.AbilityCards
+				.Where(card => availableCards.All(availableCard => availableCard.Model != card)).Select(card => new SavedAbilityCard(card)).ToList();
+		_unlockableCardList.Open(unlockableCards, OnUnlockableCardPressed, null,
+			(cardA, cardB) => GetUnlockableCardScore(cardA).CompareTo(GetUnlockableCardScore(cardB)));
 
-	protected override void AddCards()
-	{
-		if(!PopupRequest.SavedCharacter.LevelUpInProgress)
-		{
-			Log.Error("Opened the level up card selection popup while the character is not leveling up.");
-			Close();
-			return;
-		}
-
-		List<AbilityCardModel> availableCards =
-			PopupRequest.SavedCharacter.AvailableAbilityCards.Select(savedCard => savedCard.Model).ToList();
-		foreach(AbilityCardModel abilityCardModel in availableCards)
-		{
-			AddCard(abilityCardModel, true, _leftCards, false);
-		}
-
-		List<AbilityCardModel> unlockableCards =
-			PopupRequest.SavedCharacter.ClassModel.AbilityCards.Where(card => !availableCards.Contains(card)).ToList();
-		foreach(AbilityCardModel abilityCardModel in unlockableCards)
-		{
-			bool canAdd = abilityCardModel.Level <= PopupRequest.SavedCharacter.Level;
-			AddCard(abilityCardModel, false, _rightCards, canAdd, !canAdd);
-		}
-	}
-
-	protected override void SortList(List<CardSelectionPopupCard> cards, bool left)
-	{
-		if(left)
-		{
-			cards.Sort((cardA, cardB) => cardA.AbilityCardModel.Initiative.CompareTo(cardB.AbilityCardModel.Initiative));
-		}
-		else
-		{
-			cards.Sort((cardA, cardB) => GetUnlockableCardScore(cardA).CompareTo(GetUnlockableCardScore(cardB)));
-		}
-
-		for(int i = 0; i < cards.Count; i++)
-		{
-			CardSelectionPopupCard card = cards[i];
-			card.GetParent().MoveChild(card, i);
-		}
-
-		int GetUnlockableCardScore(CardSelectionPopupCard card)
+		int GetUnlockableCardScore(SavedAbilityCard card)
 		{
 			int score = 0;
 
-			score += card.AbilityCardModel.Level * 1000;
-			score += card.AbilityCardModel.Initiative * 1;
+			score += card.Model.Level * 1000;
+			score += card.Model.Initiative * 1;
 
 			return score;
 		}
 	}
 
-	protected override void OnCardPressed(CardSelectionPopupCard card)
+	private void OnAvailableCardPressed(CardSelectionCard card)
 	{
-		base.OnCardPressed(card);
+	}
 
-		PopupRequest.SavedCharacter.AddLevelUpCard(card.AbilityCardModel);
+	private void OnUnlockableCardPressed(CardSelectionCard card)
+	{
+		_availableCardList.AddCard(card.SavedAbilityCard);
+
+		PopupRequest.SavedCharacter.AddLevelUpCard(card.SavedAbilityCard.Model);
 
 		AppController.Instance.SaveFile.Save();
 
