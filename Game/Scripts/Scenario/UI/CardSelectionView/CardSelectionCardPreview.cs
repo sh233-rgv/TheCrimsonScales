@@ -11,11 +11,13 @@ public partial class CardSelectionCardPreview : Control
 	private CardSelectionCard _focus;
 
 	private GTween _tween;
+	private float _originOffset;
 
 	public override void _Ready()
 	{
 		base._Ready();
 
+		_cardView.SetModulate(Colors.Transparent);
 		Hide();
 	}
 
@@ -34,6 +36,13 @@ public partial class CardSelectionCardPreview : Control
 		if(!Visible)
 		{
 			GlobalPosition = new Vector2(GlobalPosition.X, targetY);
+		}
+		
+		_originOffset = card.GlobalPosition.X > GlobalPosition.X ? 100f : -100f;
+
+		if(!Visible)
+		{
+			_cardView.SetPosition(new Vector2(_originOffset, _cardView.Position.Y));
 		}
 
 		Show();
@@ -55,7 +64,7 @@ public partial class CardSelectionCardPreview : Control
 			float animationDuration = 0.2f * _cardView.Modulate.A;
 			_tween = GTweenSequenceBuilder.New()
 				.AppendTime(0.05f)
-				.Append(_cardView.TweenPositionX(-100f, animationDuration))
+				.Append(_cardView.TweenPositionX(_originOffset, animationDuration))
 				.Join(_cardView.TweenModulateAlpha(0f, animationDuration))
 				.AppendCallback(Hide)
 				.Build().Play();
