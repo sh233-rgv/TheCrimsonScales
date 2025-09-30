@@ -8,6 +8,8 @@ using GTweensGodot.Extensions;
 [GlobalClass]
 public partial class CardSelectionCard : Control
 {
+	public new static readonly Vector2 Size = new Vector2(470f, 68f);
+
 	[Export]
 	private Control _container;
 	[Export]
@@ -33,7 +35,7 @@ public partial class CardSelectionCard : Control
 	public event Action<CardSelectionCard> MouseEnteredEvent;
 	public event Action<CardSelectionCard> MouseExitedEvent;
 
-	public void Init(SavedAbilityCard card, bool canSelect, bool canPressInitiative)
+	public void Init(SavedAbilityCard card, bool canSelect, bool canPressInitiative, CardState? cardState = null)
 	{
 		SavedAbilityCard = card;
 
@@ -45,7 +47,10 @@ public partial class CardSelectionCard : Control
 		_cardButton.SetEnabled(canSelect, canSelect);
 		_initiativeButton.SetEnabled(canPressInitiative, canPressInitiative);
 
-		//UIHelper.SetCardMaterial(_textureRect, card.CardState);
+		if(cardState != null)
+		{
+			UIHelper.SetCardMaterial(_textureRect, cardState.Value);
+		}
 
 		_cardButton.Pressed += OnCardPressed;
 		_initiativeButton.Pressed += OnInitiativePressed;

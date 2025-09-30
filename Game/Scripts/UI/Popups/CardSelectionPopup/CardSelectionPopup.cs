@@ -48,7 +48,7 @@ public partial class CardSelectionPopup : Popup<CardSelectionPopup.Request>
 
 	private void UpdateLabel()
 	{
-		int currentHandSize = _handCardList.Cards.Count;
+		int currentHandSize = _handCardList.Cards.Count();
 		int requiredHandSize = PopupRequest.SavedCharacter.ClassModel.HandSize;
 		_requiredCountLabel.SetText($"{currentHandSize}/{requiredHandSize}");
 

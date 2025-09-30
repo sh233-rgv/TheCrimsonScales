@@ -27,7 +27,7 @@ public partial class CardSelectionCardPreview : Control
 
 		Control parentContainer = GetParent<Control>();
 		float targetY = Mathf.Clamp(
-			card.GlobalPosition.Y + card.Size.Y * 0.5f - Size.Y * 0.5f,
+			card.GlobalPosition.Y + CardSelectionCard.Size.Y * 0.5f - Size.Y * 0.5f,
 			parentContainer.GlobalPosition.Y,
 			parentContainer.GlobalPosition.Y + parentContainer.Size.Y - Size.Y);
 

@@ -85,8 +85,8 @@ public partial class CardSelectionView : Control
 		{
 			CardSelectionCard card = _itemScene.Instantiate<CardSelectionCard>();
 			_itemParent.AddChild(card);
-			cardSize = card.Size.Y;
-			card.Position = new Vector2(0f, index * card.Size.Y);
+			cardSize = CardSelectionCard.Size.Y;
+			card.Position = new Vector2(0f, index * CardSelectionCard.Size.Y);
 			card.Init(abilityCard.SavedAbilityCard, true, InitiativePressedEvent != null);
 			card.TweenIn((wasOpen ? 0.3f : 0f) + index * 0.03f);
 			card.CardPressedEvent += OnCardPressed;
@@ -97,7 +97,7 @@ public partial class CardSelectionView : Control
 			Cards.Add(card);
 			index++;
 
-			_itemWidth = card.Size.X;
+			_itemWidth = CardSelectionCard.Size.X;
 		}
 
 		_scrollContainer.Size = new Vector2(_itemWidth, _scrollContainer.Size.Y);
