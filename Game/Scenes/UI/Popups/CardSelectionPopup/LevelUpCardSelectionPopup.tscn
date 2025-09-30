@@ -296,14 +296,6 @@ text = "Available Cards"
 label_settings = ExtResource("7_iby5l")
 horizontal_alignment = 1
 
-[node name="RequiredCountLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Header/HBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-text = "9/10"
-label_settings = ExtResource("7_iby5l")
-horizontal_alignment = 1
-
 [node name="AvailableLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Header/HBoxContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2

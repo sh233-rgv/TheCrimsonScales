@@ -38,16 +38,6 @@ public partial class LevelUpCardSelectionPopup : Popup<LevelUpCardSelectionPopup
 				new CardSelectionListCategoryParameters(unavailableCards, CardSelectionListCategoryType.Unavailable, null, null)
 			],
 			(cardA, cardB) => GetUnlockableCardScore(cardA).CompareTo(GetUnlockableCardScore(cardB)));
-
-		int GetUnlockableCardScore(SavedAbilityCard card)
-		{
-			int score = 0;
-
-			score += card.Model.Level * 1000;
-			score += card.Model.Initiative * 1;
-
-			return score;
-		}
 	}
 
 	private void OnAvailableCardPressed(CardSelectionCard card)
@@ -63,5 +53,15 @@ public partial class LevelUpCardSelectionPopup : Popup<LevelUpCardSelectionPopup
 		AppController.Instance.SaveFile.Save();
 
 		Close();
+	}
+
+	private static int GetUnlockableCardScore(SavedAbilityCard card)
+	{
+		int score = 0;
+
+		score += card.Model.Level * 1000;
+		score += card.Model.Initiative * 1;
+
+		return score;
 	}
 }
