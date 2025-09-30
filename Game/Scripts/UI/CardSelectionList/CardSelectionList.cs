@@ -148,6 +148,7 @@ public partial class CardSelectionList : Control
 		float totalSize = 0f;
 		foreach(CardSelectionListCategory category in _categories)
 		{
+			category.SetPosition(new Vector2(0f, totalSize));
 			category.UpdateVisuals();
 			totalSize += category.Size.Y;
 		}
