@@ -115,7 +115,7 @@ public partial class CardSelectionListCategory : Control
 		CardSelectionCard card = _cardSelectionCardScene.Instantiate<CardSelectionCard>();
 		_cardsContainer.AddChild(card);
 		card.SetPosition(new Vector2(0f, positionY));
-		card.Init(savedAbilityCard, true, InitiativePressedEvent != null, Parameters.CardState);
+		card.Init(savedAbilityCard, true, InitiativePressedEvent != null, Parameters.Type);
 
 		card.CardPressedEvent += OnCardPressed;
 		card.InitiativePressedEvent += OnInitiativePressed;
@@ -127,7 +127,7 @@ public partial class CardSelectionListCategory : Control
 
 	private float GetPosition(int index)
 	{
-		return (Parameters.HasHeader ? _headerContainer.Size.Y : 0f) + index * CardSelectionCard.Size.Y;
+		return index * CardSelectionCard.Size.Y;
 	}
 
 	private void OnCardPressed(CardSelectionCard card)

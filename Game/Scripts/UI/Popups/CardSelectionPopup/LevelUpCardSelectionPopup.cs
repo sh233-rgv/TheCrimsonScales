@@ -24,8 +24,20 @@ public partial class LevelUpCardSelectionPopup : Popup<LevelUpCardSelectionPopup
 
 		List<SavedAbilityCard> unlockableCards =
 			PopupRequest.SavedCharacter.ClassModel.AbilityCards
-				.Where(card => availableCards.All(availableCard => availableCard.Model != card)).Select(card => new SavedAbilityCard(card)).ToList();
-		_unlockableCardList.Open(unlockableCards, OnUnlockableCardPressed, null,
+				.Where(card => availableCards.All(availableCard => availableCard.Model != card) && card.Level <= PopupRequest.SavedCharacter.Level)
+				.Select(card => new SavedAbilityCard(card)).ToList();
+
+		List<SavedAbilityCard> unavailableCards =
+			PopupRequest.SavedCharacter.ClassModel.AbilityCards
+				.Where(card => availableCards.All(availableCard => availableCard.Model != card) && card.Level > PopupRequest.SavedCharacter.Level)
+				.Select(card => new SavedAbilityCard(card)).ToList();
+
+		_unlockableCardList.Open(
+			[
+				new CardSelectionListCategoryParameters(unlockableCards, CardSelectionListCategoryType.Unlockable),
+				new CardSelectionListCategoryParameters(unavailableCards, CardSelectionListCategoryType.Unavailable)
+			], 
+			OnUnlockableCardPressed, null,
 			(cardA, cardB) => GetUnlockableCardScore(cardA).CompareTo(GetUnlockableCardScore(cardB)));
 
 		int GetUnlockableCardScore(SavedAbilityCard card)

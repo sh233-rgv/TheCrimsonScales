@@ -47,7 +47,8 @@ public partial class CardSelectionList : Control
 		Action<CardSelectionCard> cardPressed, Action<CardSelectionCard> initiativePressed,
 		Comparison<SavedAbilityCard> sortComparison)
 	{
-		CardSelectionListCategoryParameters parameters = new CardSelectionListCategoryParameters(cards, null, null, null);
+		CardSelectionListCategoryParameters parameters = new CardSelectionListCategoryParameters(cards, CardSelectionListCategoryType.None);
+		//CardSelectionListCategoryParameters parameters = new CardSelectionListCategoryParameters(cards, CardState.Discarded);
 		Open([parameters], cardPressed, initiativePressed, sortComparison);
 	}
 
@@ -99,12 +100,12 @@ public partial class CardSelectionList : Control
 		InitiativePressedEvent = null;
 	}
 
-	public void AddCard(SavedAbilityCard savedAbilityCard, CardState? cardState = null)
+	public void AddCard(SavedAbilityCard savedAbilityCard, CardSelectionListCategoryType type = CardSelectionListCategoryType.None)
 	{
 		bool added = false;
 		foreach(CardSelectionListCategory category in _categories)
 		{
-			if(category.Parameters.CardState == cardState)
+			if(category.Parameters.Type == type)
 			{
 				category.AddCard(savedAbilityCard);
 				added = true;
@@ -114,7 +115,7 @@ public partial class CardSelectionList : Control
 
 		if(!added)
 		{
-			Log.Error($"Could not add card {savedAbilityCard.Model.Name} with cardState {cardState} to any category.");
+			Log.Error($"Could not add card {savedAbilityCard.Model.Name} with CardSelectionListCategoryType {type} to any category.");
 		}
 
 		UpdateScrollRect();
@@ -151,6 +152,7 @@ public partial class CardSelectionList : Control
 		{
 			category.SetPosition(new Vector2(0f, totalSize));
 			category.UpdateVisuals();
+
 			totalSize += category.Size.Y;
 		}
 

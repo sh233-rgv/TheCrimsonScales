@@ -35,7 +35,8 @@ public partial class CardSelectionCard : Control
 	public event Action<CardSelectionCard> MouseEnteredEvent;
 	public event Action<CardSelectionCard> MouseExitedEvent;
 
-	public void Init(SavedAbilityCard card, bool canSelect, bool canPressInitiative, CardState? cardState = null)
+	public void Init(SavedAbilityCard card, bool canSelect, bool canPressInitiative,
+		CardSelectionListCategoryType cardSelectionListCategoryType = CardSelectionListCategoryType.None)
 	{
 		SavedAbilityCard = card;
 
@@ -47,10 +48,7 @@ public partial class CardSelectionCard : Control
 		_cardButton.SetEnabled(canSelect, canSelect);
 		_initiativeButton.SetEnabled(canPressInitiative, canPressInitiative);
 
-		if(cardState != null)
-		{
-			UIHelper.SetCardMaterial(_textureRect, cardState.Value);
-		}
+		UIHelper.SetCardMaterial(_textureRect, cardSelectionListCategoryType);
 
 		_cardButton.Pressed += OnCardPressed;
 		_initiativeButton.Pressed += OnInitiativePressed;

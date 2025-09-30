@@ -1,48 +1,50 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 
 public static class UIHelper
 {
 	private static readonly Color LostColor = Color.FromHtml("f8625a");
 
-	public static void SetCardMaterial(TextureRect textureRect, CardState cardState)
+	public static void SetCardMaterial(TextureRect textureRect, CardSelectionListCategoryType cardSelectionListCategoryType)
 	{
 		float grayscaleFactor = 0f;
 		Color modulateColor = Colors.White;
-		const float persistentGrayscaleFactor = -1.5f;
-		switch(cardState)
+
+		switch(cardSelectionListCategoryType)
 		{
-			case CardState.PersistentLoss:
-				grayscaleFactor = persistentGrayscaleFactor;
-				break;
-			case CardState.Persistent:
-				grayscaleFactor = persistentGrayscaleFactor;
-				break;
-			case CardState.RoundLoss:
-				grayscaleFactor = persistentGrayscaleFactor;
-				break;
-			case CardState.Round:
-				grayscaleFactor = persistentGrayscaleFactor;
-				break;
-			case CardState.Playing:
-				grayscaleFactor = 1f;
-				break;
-			case CardState.Hand:
+			case CardSelectionListCategoryType.None:
 				grayscaleFactor = 0f;
 				break;
-			case CardState.Discarded:
+
+			case CardSelectionListCategoryType.Active:
+				grayscaleFactor = -1.5f;
+				break;
+			case CardSelectionListCategoryType.Playing:
 				grayscaleFactor = 1f;
 				break;
-			case CardState.Lost:
+			case CardSelectionListCategoryType.Hand:
+				grayscaleFactor = 0f;
+				break;
+			case CardSelectionListCategoryType.Discarded:
+				grayscaleFactor = 1f;
+				break;
+			case CardSelectionListCategoryType.Lost:
 				grayscaleFactor = 1f;
 				modulateColor = LostColor;
 				break;
+
+			case CardSelectionListCategoryType.Unlockable:
+				grayscaleFactor = 0f;
+				break;
+			case CardSelectionListCategoryType.Unavailable:
+				grayscaleFactor = 0f;
+				break;
+
 			default:
-				grayscaleFactor = 1f;
-				modulateColor = LostColor;
-				break;
+				throw new ArgumentOutOfRangeException(nameof(cardSelectionListCategoryType), cardSelectionListCategoryType, null);
 		}
 
 		textureRect.SetInstanceShaderParameter("grayscaleFactor", grayscaleFactor);
-		textureRect.SelfModulate = modulateColor;
+		textureRect.SetSelfModulate(modulateColor);
 	}
 }
