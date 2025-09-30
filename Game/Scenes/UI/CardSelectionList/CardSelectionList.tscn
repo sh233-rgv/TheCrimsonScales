@@ -11,14 +11,15 @@ border_color = Color(1, 1, 1, 0)
 border_blend = true
 
 [node name="CardSelectionList" type="Control" node_paths=PackedStringArray("_scrollContainer", "_categoriesContainer", "_container")]
+custom_minimum_size = Vector2(470, 0)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 470.0
 offset_bottom = 800.0
 script = ExtResource("1_brlnn")
 _cardSelectionListCategoryScene = ExtResource("2_jltnk")
-_scrollContainer = NodePath("Mask/ScrollContainer")
-_categoriesContainer = NodePath("Mask/ScrollContainer/Categories")
+_scrollContainer = NodePath("Mask/Container/ScrollContainer")
+_categoriesContainer = NodePath("Mask/Container/ScrollContainer/Categories")
 _container = NodePath("Mask")
 
 [node name="Mask" type="Panel" parent="."]
@@ -27,12 +28,24 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -100.0
+offset_right = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ot54p")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Mask"]
+[node name="Container" type="Control" parent="Mask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_right = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Mask/Container"]
 clip_contents = false
 layout_direction = 3
 layout_mode = 1
@@ -46,7 +59,7 @@ horizontal_scroll_mode = 0
 vertical_scroll_mode = 4
 scroll_deadzone = 10
 
-[node name="Categories" type="Control" parent="Mask/ScrollContainer"]
+[node name="Categories" type="Control" parent="Mask/Container/ScrollContainer"]
 layout_direction = 2
 layout_mode = 2
 mouse_filter = 1

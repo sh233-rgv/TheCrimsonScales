@@ -7,16 +7,18 @@ using GTweensGodot.Extensions;
 
 public partial class CardSelectionView : Control
 {
-	[Export]
-	private PackedScene _itemScene;
-	[Export]
-	private ScrollContainer _scrollContainer;
-	[Export]
-	private Control _itemParent;
+	// [Export]
+	// private PackedScene _itemScene;
+	// [Export]
+	// private ScrollContainer _scrollContainer;
+	// [Export]
+	// private Control _itemParent;
 	[Export]
 	private Control _container;
 	[Export]
-	private CardSelectionCardPreview _cardPreview;
+	private CardSelectionList _cardSelectionList;
+	// [Export]
+	// private CardSelectionCardPreview _cardPreview;
 	[Export]
 	private Control _restButtons;
 	[Export]
@@ -26,14 +28,16 @@ public partial class CardSelectionView : Control
 	[Export]
 	private Control _longRestIndicatorContainer;
 
-	public List<CardSelectionCard> Cards { get; } = new List<CardSelectionCard>();
+	//public List<CardSelectionCard> Cards { get; } = new List<CardSelectionCard>();
 
 	private bool _longRestSelected;
-	private float _itemWidth;
+	//private float _itemWidth;
 	private bool _restingEnabled;
 
-	private event Action<CardSelectionCard> CardPressedEvent;
-	private event Action<CardSelectionCard> InitiativePressedEvent;
+	public IEnumerable<CardSelectionCard> Cards => _cardSelectionList.Cards;
+
+	// private event Action<CardSelectionCard> CardPressedEvent;
+	// private event Action<CardSelectionCard> InitiativePressedEvent;
 	private event Action ShortRestPressedEvent;
 	private event Action LongRestPressedEvent;
 
@@ -51,87 +55,97 @@ public partial class CardSelectionView : Control
 		Close();
 	}
 
-	public void Open(IEnumerable<AbilityCard> cards,
-		Action<CardSelectionCard> cardPressed, Action<CardSelectionCard> initiativePressed,
+	public void Open(List<AbilityCard> cards,
+		Action<CardSelectionCard> onCardPressed, Action<CardSelectionCard> onInitiativePressed,
 		Action shortRestPressed, Action longRestPressed)
 	{
-		bool wasOpen = false;
-		if(Cards.Count > 0)
-		{
-			wasOpen = true;
+		// bool wasOpen = false;
+		// if(Cards.Count > 0)
+		// {
+		// 	wasOpen = true;
+		//
+		// 	for(int i = 0; i < Cards.Count; i++)
+		// 	{
+		// 		CardSelectionCard item = Cards[i];
+		// 		item.Reparent(_container);
+		// 		item.TweenOut(i * 0.03f);
+		// 	}
+		//
+		// 	Cards.Clear();
+		// }
 
-			for(int i = 0; i < Cards.Count; i++)
-			{
-				CardSelectionCard item = Cards[i];
-				item.Reparent(_container);
-				item.TweenOut(i * 0.03f);
-			}
-
-			Cards.Clear();
-		}
-
-		CardPressedEvent = cardPressed;
-		InitiativePressedEvent = initiativePressed;
+		// CardPressedEvent = cardPressed;
+		// InitiativePressedEvent = initiativePressed;
 		ShortRestPressedEvent = shortRestPressed;
 		LongRestPressedEvent = longRestPressed;
 
-		List<AbilityCard> sortedCards = cards.ToList();
-		sortedCards.Sort((cardA, cardB) =>
-			cardA.CardState.CompareTo(cardB.CardState) * 10 + cardA.Model.Initiative.CompareTo(cardB.Model.Initiative));
+		List<CardSelectionListCategoryParameters> cardCategoryParameters = new List<CardSelectionListCategoryParameters>();
 
-		int index = 0;
-		float cardSize = 0f;
-		foreach(AbilityCard abilityCard in sortedCards)
-		{
-			CardSelectionCard card = _itemScene.Instantiate<CardSelectionCard>();
-			_itemParent.AddChild(card);
-			cardSize = CardSelectionCard.Size.Y;
-			card.Position = new Vector2(0f, index * CardSelectionCard.Size.Y);
-			card.Init(abilityCard.SavedAbilityCard, true, InitiativePressedEvent != null);
-			card.TweenIn((wasOpen ? 0.3f : 0f) + index * 0.03f);
-			card.CardPressedEvent += OnCardPressed;
-			card.InitiativePressedEvent += OnInitiativePressed;
-			card.MouseEnteredEvent += OnMouseEntered;
-			card.MouseExitedEvent += OnMouseExited;
+		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
+			[CardState.Persistent, CardState.PersistentLoss, CardState.Round, CardState.RoundLoss], CardSelectionListCategoryType.Active));
+		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
+			[CardState.Hand], CardSelectionListCategoryType.Hand));
+		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
+			[CardState.Discarded], CardSelectionListCategoryType.Discarded));
+		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
+			[CardState.Lost], CardSelectionListCategoryType.Lost));
 
-			Cards.Add(card);
-			index++;
+		_cardSelectionList.Open(cardCategoryParameters, (cardA, cardB) => cardA.Model.Initiative.CompareTo(cardB.Model.Initiative));
 
-			_itemWidth = CardSelectionCard.Size.X;
-		}
-
-		_scrollContainer.Size = new Vector2(_itemWidth, _scrollContainer.Size.Y);
-		_itemParent.CustomMinimumSize = new Vector2(_itemWidth, index * cardSize);
-		_itemParent.Size = _itemParent.CustomMinimumSize;
-		_scrollContainer.MouseFilter = _itemParent.Size.Y > _scrollContainer.Size.Y ? MouseFilterEnum.Stop : MouseFilterEnum.Ignore;
-		_itemParent.MouseFilter = _itemParent.Size.Y > _scrollContainer.Size.Y ? MouseFilterEnum.Pass : MouseFilterEnum.Stop;
+		// List<AbilityCard> sortedCards = cards.ToList();
+		// sortedCards.Sort((cardA, cardB) =>
+		// 	cardA.CardState.CompareTo(cardB.CardState) * 10 + cardA.Model.Initiative.CompareTo(cardB.Model.Initiative));
+		//
+		// int index = 0;
+		// float cardSize = 0f;
+		// foreach(AbilityCard abilityCard in sortedCards)
+		// {
+		// 	CardSelectionCard card = _itemScene.Instantiate<CardSelectionCard>();
+		// 	_itemParent.AddChild(card);
+		// 	cardSize = CardSelectionCard.Size.Y;
+		// 	card.Position = new Vector2(0f, index * CardSelectionCard.Size.Y);
+		// 	card.Init(abilityCard.SavedAbilityCard, true, InitiativePressedEvent != null);
+		// 	card.TweenIn((wasOpen ? 0.3f : 0f) + index * 0.03f);
+		// 	card.CardPressedEvent += OnCardPressed;
+		// 	card.InitiativePressedEvent += OnInitiativePressed;
+		// 	card.MouseEnteredEvent += OnMouseEntered;
+		// 	card.MouseExitedEvent += OnMouseExited;
+		//
+		// 	Cards.Add(card);
+		// 	index++;
+		//
+		// 	_itemWidth = CardSelectionCard.Size.X;
+		// }
+		//
+		// _scrollContainer.Size = new Vector2(_itemWidth, _scrollContainer.Size.Y);
+		// _itemParent.CustomMinimumSize = new Vector2(_itemWidth, index * cardSize);
+		// _itemParent.Size = _itemParent.CustomMinimumSize;
+		// _scrollContainer.MouseFilter = _itemParent.Size.Y > _scrollContainer.Size.Y ? MouseFilterEnum.Stop : MouseFilterEnum.Ignore;
+		// _itemParent.MouseFilter = _itemParent.Size.Y > _scrollContainer.Size.Y ? MouseFilterEnum.Pass : MouseFilterEnum.Stop;
 	}
 
 	public void Close()
 	{
-		for(int i = 0; i < Cards.Count; i++)
-		{
-			CardSelectionCard item = Cards[i];
-			item.Reparent(_container);
-			item.TweenOut(i * 0.03f);
-		}
+		// for(int i = 0; i < Cards.Count; i++)
+		// {
+		// 	CardSelectionCard item = Cards[i];
+		// 	item.Reparent(_container);
+		// 	item.TweenOut(i * 0.03f);
+		// }
+		//
+		// Cards.Clear();
 
-		Cards.Clear();
-
-		//SetDeferred(PropertyName.Size, new Vector2(_itemWidth, _scrollContainer.Size.Y));
-		//_scrollContainer.Size = new Vector2(_itemWidth, _scrollContainer.Size.Y);
-		_itemParent.CustomMinimumSize = new Vector2(_itemWidth, 0f);
-		_itemParent.Size = _itemParent.CustomMinimumSize;
-		_scrollContainer.MouseFilter = MouseFilterEnum.Ignore;
-		//_longRestButton.Position = new Vector2(0f, _longRestButton.Position.Y);
+		// _itemParent.CustomMinimumSize = new Vector2(_itemWidth, 0f);
+		// _itemParent.Size = _itemParent.CustomMinimumSize;
+		// _scrollContainer.MouseFilter = MouseFilterEnum.Ignore;
 
 		_longRestIndicatorContainer.Scale = Vector2.Zero;
 		_longRestButton.Position = new Vector2(0f, _longRestButton.Position.Y);
 
 		SetRestingEnabled(false);
 
-		CardPressedEvent = null;
-		InitiativePressedEvent = null;
+		// CardPressedEvent = null;
+		// InitiativePressedEvent = null;
 	}
 
 	public void SetRestingEnabled(bool enabled)
@@ -176,25 +190,34 @@ public partial class CardSelectionView : Control
 		_longRestButton.TweenPositionX(_longRestSelected ? 30 : 0, 0.1f).SetEasing(Easing.OutBack).Play();
 	}
 
-	private void OnCardPressed(CardSelectionCard card)
+	private CardSelectionListCategoryParameters CreateCategoryParameters(List<AbilityCard> cards,
+		Action<CardSelectionCard> onCardPressed, Action<CardSelectionCard> onInitiativePressed,
+		CardState[] cardStates, CardSelectionListCategoryType categoryType)
 	{
-		CardPressedEvent?.Invoke(card);
+		return new CardSelectionListCategoryParameters(
+			cards.Where(card => cardStates.Contains(card.CardState)).Select(card => card.SavedAbilityCard).ToList(),
+			categoryType, onCardPressed, onInitiativePressed);
 	}
 
-	private void OnInitiativePressed(CardSelectionCard card)
-	{
-		InitiativePressedEvent?.Invoke(card);
-	}
-
-	private void OnMouseEntered(CardSelectionCard card)
-	{
-		_cardPreview.Focus(card);
-	}
-
-	private void OnMouseExited(CardSelectionCard card)
-	{
-		_cardPreview.Unfocus(card);
-	}
+	// private void OnCardPressed(CardSelectionCard card)
+	// {
+	// 	CardPressedEvent?.Invoke(card);
+	// }
+	//
+	// private void OnInitiativePressed(CardSelectionCard card)
+	// {
+	// 	InitiativePressedEvent?.Invoke(card);
+	// }
+	//
+	// private void OnMouseEntered(CardSelectionCard card)
+	// {
+	// 	_cardPreview.Focus(card);
+	// }
+	//
+	// private void OnMouseExited(CardSelectionCard card)
+	// {
+	// 	_cardPreview.Unfocus(card);
+	// }
 
 	private void OnShortRestButtonPressed()
 	{

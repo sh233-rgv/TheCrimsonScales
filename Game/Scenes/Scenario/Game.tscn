@@ -1152,6 +1152,9 @@ bbcode_enabled = true
 [node name="CardSelectionView" parent="CanvasLayer/UI" instance=ExtResource("59_h6npn")]
 layout_mode = 1
 
+[node name="CardSelectionList" parent="CanvasLayer/UI/CardSelectionView/MarginContainer/Container" index="2"]
+offset_right = 0.0
+
 [node name="MenuButton" parent="CanvasLayer/UI" instance=ExtResource("58_2qf5q")]
 layout_mode = 1
 
@@ -1451,6 +1454,7 @@ label_settings = SubResource("LabelSettings_hctre")
 [editable path="CanvasLayer/UI/ElementsView/Elements/Light"]
 [editable path="CanvasLayer/UI/ElementsView/Elements/Dark"]
 [editable path="CanvasLayer/UI/CardSelectionView"]
+[editable path="CanvasLayer/UI/CardSelectionView/MarginContainer/Container/CardSelectionList"]
 [editable path="CanvasLayer/UI/ScenarioLostView/Retry"]
 [editable path="CanvasLayer/UI/ScenarioLostView/ReturnToTown"]
 [editable path="CanvasLayer/UI/ScenarioWonView/ContinueButton"]
