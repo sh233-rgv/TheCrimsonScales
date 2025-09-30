@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
 
 public partial class CardSelectionList : Control
@@ -33,9 +32,6 @@ public partial class CardSelectionList : Control
 		}
 	}
 
-	private event Action<CardSelectionCard> CardPressedEvent;
-	private event Action<CardSelectionCard> InitiativePressedEvent;
-
 	public override void _Ready()
 	{
 		base._Ready();
@@ -47,13 +43,12 @@ public partial class CardSelectionList : Control
 		Action<CardSelectionCard> cardPressed, Action<CardSelectionCard> initiativePressed,
 		Comparison<SavedAbilityCard> sortComparison)
 	{
-		CardSelectionListCategoryParameters parameters = new CardSelectionListCategoryParameters(cards, CardSelectionListCategoryType.None);
-		//CardSelectionListCategoryParameters parameters = new CardSelectionListCategoryParameters(cards, CardState.Discarded);
-		Open([parameters], cardPressed, initiativePressed, sortComparison);
+		CardSelectionListCategoryParameters parameters =
+			new CardSelectionListCategoryParameters(cards, CardSelectionListCategoryType.None, cardPressed, initiativePressed);
+		Open([parameters], sortComparison);
 	}
 
 	public void Open(List<CardSelectionListCategoryParameters> cardCategoryParameters,
-		Action<CardSelectionCard> cardPressed, Action<CardSelectionCard> initiativePressed,
 		Comparison<SavedAbilityCard> sortComparison)
 	{
 		foreach(CardSelectionListCategory category in _categories)
@@ -68,17 +63,12 @@ public partial class CardSelectionList : Control
 		{
 			CardSelectionListCategory category = _cardSelectionListCategoryScene.Instantiate<CardSelectionListCategory>();
 			_categoriesContainer.AddChild(category);
-			category.CardPressedEvent += OnCardPressed;
-			category.InitiativePressedEvent += OnInitiativePressed;
+			category.Init(cardSelectionListCategoryParameters, sortComparison);
 			category.CardMouseEnteredEvent += OnMouseEntered;
 			category.CardMouseExitedEvent += OnMouseExited;
-			category.Init(cardSelectionListCategoryParameters, sortComparison);
 
 			_categories.Add(category);
 		}
-
-		CardPressedEvent = cardPressed;
-		InitiativePressedEvent = initiativePressed;
 
 		UpdateScrollRect();
 	}
@@ -95,9 +85,6 @@ public partial class CardSelectionList : Control
 		_categoriesContainer.CustomMinimumSize = new Vector2(_categoriesContainer.CustomMinimumSize.X, 0f);
 		_categoriesContainer.Size = _categoriesContainer.CustomMinimumSize;
 		_scrollContainer.MouseFilter = MouseFilterEnum.Ignore;
-
-		CardPressedEvent = null;
-		InitiativePressedEvent = null;
 	}
 
 	public void AddCard(SavedAbilityCard savedAbilityCard, CardSelectionListCategoryType type = CardSelectionListCategoryType.None)
@@ -162,16 +149,6 @@ public partial class CardSelectionList : Control
 		_categoriesContainer.SetSize(_categoriesContainer.CustomMinimumSize);
 		_scrollContainer.SetMouseFilter(_categoriesContainer.Size.Y > _scrollContainer.Size.Y ? MouseFilterEnum.Stop : MouseFilterEnum.Ignore);
 		_categoriesContainer.SetMouseFilter(_categoriesContainer.Size.Y > _scrollContainer.Size.Y ? MouseFilterEnum.Pass : MouseFilterEnum.Stop);
-	}
-
-	private void OnCardPressed(CardSelectionCard card)
-	{
-		CardPressedEvent?.Invoke(card);
-	}
-
-	private void OnInitiativePressed(CardSelectionCard card)
-	{
-		InitiativePressedEvent?.Invoke(card);
 	}
 
 	private void OnMouseEntered(CardSelectionCard card)

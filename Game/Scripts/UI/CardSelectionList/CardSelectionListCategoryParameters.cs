@@ -7,15 +7,21 @@ public class CardSelectionListCategoryParameters
 	public CardSelectionListCategoryType Type { get; }
 	public string HeaderLabel { get; }
 	public string HeaderIconPath { get; }
+	
+	public Action<CardSelectionCard> CardPressedEvent { get; }
+	public Action<CardSelectionCard> InitiativePressedEvent { get; }
 
 	public bool HasHeader => !string.IsNullOrEmpty(HeaderLabel);
 
-	public CardSelectionListCategoryParameters(List<SavedAbilityCard> cards, CardSelectionListCategoryType type)
+	public CardSelectionListCategoryParameters(List<SavedAbilityCard> cards, CardSelectionListCategoryType type,
+		Action<CardSelectionCard> cardPressedEvent, Action<CardSelectionCard> initiativePressedEvent)
 	{
 		Cards = cards;
 		Type = type;
+		CardPressedEvent = cardPressedEvent;
+		InitiativePressedEvent = initiativePressedEvent;
 
-		switch(type)
+		switch(Type)
 		{
 			case CardSelectionListCategoryType.None:
 				HeaderLabel = null;
@@ -53,7 +59,7 @@ public class CardSelectionListCategoryParameters
 				break;
 
 			default:
-				throw new ArgumentOutOfRangeException(nameof(type), type, null);
+				throw new ArgumentOutOfRangeException(nameof(Type), Type, null);
 		}
 	}
 }

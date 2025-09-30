@@ -37,7 +37,7 @@ public static class UIHelper
 				grayscaleFactor = 0f;
 				break;
 			case CardSelectionListCategoryType.Unavailable:
-				grayscaleFactor = 0f;
+				grayscaleFactor = 1f;
 				break;
 
 			default:

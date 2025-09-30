@@ -24,10 +24,10 @@ public partial class CardSelectionListCategory : Control
 	public CardSelectionListCategoryParameters Parameters { get; private set; }
 	public List<CardSelectionCard> Cards { get; } = new List<CardSelectionCard>();
 
-	public event Action<CardSelectionCard> CardPressedEvent;
+	// public event Action<CardSelectionCard> CardPressedEvent;
+	//public event Action<CardSelectionCard> InitiativePressedEvent;
 	public event Action<CardSelectionCard> CardMouseEnteredEvent;
 	public event Action<CardSelectionCard> CardMouseExitedEvent;
-	public event Action<CardSelectionCard> InitiativePressedEvent;
 
 	public void Init(CardSelectionListCategoryParameters parameters, Comparison<SavedAbilityCard> sortComparison)
 	{
@@ -115,7 +115,7 @@ public partial class CardSelectionListCategory : Control
 		CardSelectionCard card = _cardSelectionCardScene.Instantiate<CardSelectionCard>();
 		_cardsContainer.AddChild(card);
 		card.SetPosition(new Vector2(0f, positionY));
-		card.Init(savedAbilityCard, true, InitiativePressedEvent != null, Parameters.Type);
+		card.Init(savedAbilityCard, true, Parameters.InitiativePressedEvent != null, Parameters.Type);
 
 		card.CardPressedEvent += OnCardPressed;
 		card.InitiativePressedEvent += OnInitiativePressed;
@@ -132,12 +132,12 @@ public partial class CardSelectionListCategory : Control
 
 	private void OnCardPressed(CardSelectionCard card)
 	{
-		CardPressedEvent?.Invoke(card);
+		Parameters.CardPressedEvent?.Invoke(card);
 	}
 
 	private void OnInitiativePressed(CardSelectionCard card)
 	{
-		InitiativePressedEvent?.Invoke(card);
+		Parameters.InitiativePressedEvent?.Invoke(card);
 	}
 
 	private void OnMouseEntered(CardSelectionCard card)
