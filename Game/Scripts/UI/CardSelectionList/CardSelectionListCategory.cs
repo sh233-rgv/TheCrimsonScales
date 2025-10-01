@@ -11,7 +11,7 @@ public partial class CardSelectionListCategory : Control
 	private PackedScene _cardSelectionCardScene;
 
 	[Export]
-	private Control _headerContainer;
+	public Control HeaderContainer;
 	[Export]
 	private Label _headerLabel;
 	[Export]
@@ -32,7 +32,7 @@ public partial class CardSelectionListCategory : Control
 		Parameters = parameters;
 		_sortComparison = sortComparison;
 
-		_headerContainer.SetVisible(Parameters.HasHeader);
+		HeaderContainer.SetVisible(Parameters.HasHeader);
 
 		if(Parameters.HasHeader)
 		{
@@ -51,12 +51,14 @@ public partial class CardSelectionListCategory : Control
 		}
 	}
 
-	public void Destroy(Control cardContainer)
+	public void Destroy(bool destroyCards)
 	{
-		foreach(CardSelectionCard item in Cards)
+		if(destroyCards)
 		{
-			item.Reparent(cardContainer);
-			item.Destroy();
+			foreach(CardSelectionCard item in Cards)
+			{
+				item.QueueFree();
+			}
 		}
 
 		QueueFree();
@@ -95,13 +97,13 @@ public partial class CardSelectionListCategory : Control
 	{
 		if(Cards.Count == 0)
 		{
-			_headerContainer.SetVisible(false);
+			HeaderContainer.SetVisible(false);
 			SetCustomMinimumSize(Vector2.Zero);
 			SetSize(CustomMinimumSize);
 			return;
 		}
 
-		_headerContainer.SetVisible(Parameters.HasHeader);
+		HeaderContainer.SetVisible(Parameters.HasHeader);
 
 		for(int i = 0; i < Cards.Count; i++)
 		{
@@ -109,7 +111,7 @@ public partial class CardSelectionListCategory : Control
 			card.TweenPositionY(GetPosition(i), 0.3f).SetEasing(Easing.OutQuad).Play();
 		}
 
-		float headerSize = Parameters.HasHeader ? _headerContainer.Size.Y : 0f;
+		float headerSize = Parameters.HasHeader ? HeaderContainer.Size.Y : 0f;
 		_cardsContainer.SetPosition(new Vector2(0f, headerSize));
 
 		float totalSize = headerSize + Cards.Count * CardSelectionCard.Size.Y;

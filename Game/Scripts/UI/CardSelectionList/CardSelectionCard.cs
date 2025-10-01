@@ -23,8 +23,6 @@ public partial class CardSelectionCard : Control
 	[Export]
 	private Control _initiativeIndicatorContainer;
 
-	private GTween _tween;
-
 	public SavedAbilityCard SavedAbilityCard { get; private set; }
 
 	public bool Selected { get; private set; }
@@ -54,34 +52,6 @@ public partial class CardSelectionCard : Control
 		_initiativeButton.Pressed += OnInitiativePressed;
 		_cardButton.MouseEntered += OnMouseEntered;
 		_cardButton.MouseExited += OnMouseExited;
-	}
-
-	public void Destroy()
-	{
-		QueueFree();
-	}
-
-	public void TweenIn(float delay)
-	{
-		Position = new Vector2(-600f, Position.Y);
-		_tween = GTweenSequenceBuilder.New()
-			.AppendTime(delay)
-			.Append(this.TweenPositionX(0f, 0.3f).SetEasing(Easing.OutBack))
-			.Build().Play();
-	}
-
-	public void TweenOut(float delay)
-	{
-		CardPressedEvent = null;
-		InitiativePressedEvent = null;
-
-		_tween?.Kill();
-
-		_tween = GTweenSequenceBuilder.New()
-			.AppendTime(delay)
-			.Append(this.TweenPositionX(-600f, 0.15f).SetEasing(Easing.InBack))
-			.AppendCallback(Destroy)
-			.Build().Play();
 	}
 
 	public void SetSelected(bool selected)

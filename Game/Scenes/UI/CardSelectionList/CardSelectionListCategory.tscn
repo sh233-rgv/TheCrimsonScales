@@ -14,7 +14,7 @@ gradient = SubResource("Gradient_xuamw")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x2ogp"]
 texture = SubResource("GradientTexture1D_sssfe")
 
-[node name="CardSelectionListCategory" type="Control" node_paths=PackedStringArray("_headerContainer", "_headerLabel", "_headerIcon", "_cardsContainer")]
+[node name="CardSelectionListCategory" type="Control" node_paths=PackedStringArray("HeaderContainer", "_headerLabel", "_headerIcon", "_cardsContainer")]
 layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
@@ -22,7 +22,7 @@ grow_horizontal = 2
 mouse_filter = 1
 script = ExtResource("1_v5t77")
 _cardSelectionCardScene = ExtResource("2_t6w8s")
-_headerContainer = NodePath("Header")
+HeaderContainer = NodePath("Header")
 _headerLabel = NodePath("Header/Panel/Label")
 _headerIcon = NodePath("Header/Panel/TextureRect")
 _cardsContainer = NodePath("Cards")

@@ -16,13 +16,13 @@ public partial class CardSelectionList : Control
 	[Export]
 	private CardSelectionCardPreview _cardPreview;
 
-	private readonly List<CardSelectionListCategory> _categories = new List<CardSelectionListCategory>();
+	public List<CardSelectionListCategory> Categories { get; } = new List<CardSelectionListCategory>();
 
 	public IEnumerable<CardSelectionCard> Cards
 	{
 		get
 		{
-			foreach(CardSelectionListCategory category in _categories)
+			foreach(CardSelectionListCategory category in Categories)
 			{
 				foreach(CardSelectionCard cardSelectionCard in category.Cards)
 				{
@@ -51,13 +51,13 @@ public partial class CardSelectionList : Control
 	public void Open(List<CardSelectionListCategoryParameters> cardCategoryParameters,
 		Comparison<SavedAbilityCard> sortComparison)
 	{
-		foreach(CardSelectionListCategory category in _categories)
+		foreach(CardSelectionListCategory category in Categories)
 		{
 			category.QueueFree();
 			//category.Destroy(_container);
 		}
 
-		_categories.Clear();
+		Categories.Clear();
 
 		foreach(CardSelectionListCategoryParameters cardSelectionListCategoryParameters in cardCategoryParameters)
 		{
@@ -67,20 +67,20 @@ public partial class CardSelectionList : Control
 			category.CardMouseEnteredEvent += OnMouseEntered;
 			category.CardMouseExitedEvent += OnMouseExited;
 
-			_categories.Add(category);
+			Categories.Add(category);
 		}
 
 		UpdateScrollRect();
 	}
 
-	public void Close()
+	public void Close(bool destroyCards = true)
 	{
-		foreach(CardSelectionListCategory category in _categories)
+		foreach(CardSelectionListCategory category in Categories)
 		{
-			category.Destroy(_container);
+			category.Destroy(destroyCards);
 		}
 
-		_categories.Clear();
+		Categories.Clear();
 
 		_categoriesContainer.CustomMinimumSize = new Vector2(_categoriesContainer.CustomMinimumSize.X, 0f);
 		_categoriesContainer.Size = _categoriesContainer.CustomMinimumSize;
@@ -90,7 +90,7 @@ public partial class CardSelectionList : Control
 	public void AddCard(SavedAbilityCard savedAbilityCard, CardSelectionListCategoryType type = CardSelectionListCategoryType.None)
 	{
 		bool added = false;
-		foreach(CardSelectionListCategory category in _categories)
+		foreach(CardSelectionListCategory category in Categories)
 		{
 			if(category.Parameters.Type == type)
 			{
@@ -111,7 +111,7 @@ public partial class CardSelectionList : Control
 	public void RemoveCard(SavedAbilityCard savedAbilityCard)
 	{
 		bool removed = false;
-		foreach(CardSelectionListCategory category in _categories)
+		foreach(CardSelectionListCategory category in Categories)
 		{
 			foreach(CardSelectionCard cardSelectionCard in category.Cards)
 			{
@@ -135,7 +135,7 @@ public partial class CardSelectionList : Control
 	private void UpdateScrollRect()
 	{
 		float totalSize = 0f;
-		foreach(CardSelectionListCategory category in _categories)
+		foreach(CardSelectionListCategory category in Categories)
 		{
 			category.SetPosition(new Vector2(0f, totalSize));
 			category.UpdateVisuals();
