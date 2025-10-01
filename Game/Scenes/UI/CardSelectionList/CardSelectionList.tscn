@@ -16,6 +16,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 470.0
 offset_bottom = 800.0
+mouse_filter = 2
 script = ExtResource("1_brlnn")
 _cardSelectionListCategoryScene = ExtResource("2_jltnk")
 _scrollContainer = NodePath("Mask/Container/ScrollContainer")
@@ -44,6 +45,7 @@ offset_left = 100.0
 offset_right = -100.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Mask/Container"]
 clip_contents = false
@@ -54,7 +56,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
+mouse_filter = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 4
 scroll_deadzone = 10

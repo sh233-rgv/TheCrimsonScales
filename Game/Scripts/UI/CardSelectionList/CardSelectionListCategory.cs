@@ -24,8 +24,6 @@ public partial class CardSelectionListCategory : Control
 	public CardSelectionListCategoryParameters Parameters { get; private set; }
 	public List<CardSelectionCard> Cards { get; } = new List<CardSelectionCard>();
 
-	// public event Action<CardSelectionCard> CardPressedEvent;
-	//public event Action<CardSelectionCard> InitiativePressedEvent;
 	public event Action<CardSelectionCard> CardMouseEnteredEvent;
 	public event Action<CardSelectionCard> CardMouseExitedEvent;
 
@@ -45,12 +43,11 @@ public partial class CardSelectionListCategory : Control
 		List<SavedAbilityCard> sortedCards = Parameters.Cards.ToList();
 		sortedCards.Sort(_sortComparison);
 
-		int index = 0;
-		foreach(SavedAbilityCard savedAbilityCard in sortedCards)
+		for(int i = 0; i < sortedCards.Count; i++)
 		{
-			CardSelectionCard card = CreateCard(savedAbilityCard, GetPosition(index));
+			SavedAbilityCard savedAbilityCard = sortedCards[i];
+			CardSelectionCard card = CreateCard(savedAbilityCard, GetPosition(i));
 			Cards.Add(card);
-			index++;
 		}
 	}
 
@@ -96,6 +93,16 @@ public partial class CardSelectionListCategory : Control
 
 	public void UpdateVisuals()
 	{
+		if(Cards.Count == 0)
+		{
+			_headerContainer.SetVisible(false);
+			SetCustomMinimumSize(Vector2.Zero);
+			SetSize(CustomMinimumSize);
+			return;
+		}
+
+		_headerContainer.SetVisible(Parameters.HasHeader);
+
 		for(int i = 0; i < Cards.Count; i++)
 		{
 			CardSelectionCard card = Cards[i];

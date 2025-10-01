@@ -7,7 +7,7 @@ public class CardSelectionListCategoryParameters
 	public CardSelectionListCategoryType Type { get; }
 	public string HeaderLabel { get; }
 	public string HeaderIconPath { get; }
-	
+
 	public Action<CardSelectionCard> CardPressedEvent { get; }
 	public Action<CardSelectionCard> InitiativePressedEvent { get; }
 
@@ -30,11 +30,11 @@ public class CardSelectionListCategoryParameters
 
 			case CardSelectionListCategoryType.Active:
 				HeaderLabel = "Active";
-				HeaderIconPath = Icons.Loot; //TODO
+				HeaderIconPath = Icons.Active;
 				break;
 			case CardSelectionListCategoryType.Playing:
 				HeaderLabel = "Playing";
-				HeaderIconPath = Icons.Loot; //TODO
+				HeaderIconPath = Icons.PlayingCards;
 				break;
 			case CardSelectionListCategoryType.Hand:
 				HeaderLabel = "Hand";

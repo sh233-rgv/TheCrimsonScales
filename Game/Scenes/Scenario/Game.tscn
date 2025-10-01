@@ -1152,9 +1152,6 @@ bbcode_enabled = true
 [node name="CardSelectionView" parent="CanvasLayer/UI" instance=ExtResource("59_h6npn")]
 layout_mode = 1
 
-[node name="CardSelectionList" parent="CanvasLayer/UI/CardSelectionView/MarginContainer/Container" index="2"]
-offset_right = 0.0
-
 [node name="MenuButton" parent="CanvasLayer/UI" instance=ExtResource("58_2qf5q")]
 layout_mode = 1
 

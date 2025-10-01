@@ -7,18 +7,10 @@ using GTweensGodot.Extensions;
 
 public partial class CardSelectionView : Control
 {
-	// [Export]
-	// private PackedScene _itemScene;
-	// [Export]
-	// private ScrollContainer _scrollContainer;
-	// [Export]
-	// private Control _itemParent;
 	[Export]
 	private Control _container;
 	[Export]
 	private CardSelectionList _cardSelectionList;
-	// [Export]
-	// private CardSelectionCardPreview _cardPreview;
 	[Export]
 	private Control _restButtons;
 	[Export]
@@ -28,16 +20,11 @@ public partial class CardSelectionView : Control
 	[Export]
 	private Control _longRestIndicatorContainer;
 
-	//public List<CardSelectionCard> Cards { get; } = new List<CardSelectionCard>();
-
 	private bool _longRestSelected;
-	//private float _itemWidth;
 	private bool _restingEnabled;
 
 	public IEnumerable<CardSelectionCard> Cards => _cardSelectionList.Cards;
 
-	// private event Action<CardSelectionCard> CardPressedEvent;
-	// private event Action<CardSelectionCard> InitiativePressedEvent;
 	private event Action ShortRestPressedEvent;
 	private event Action LongRestPressedEvent;
 
@@ -74,13 +61,13 @@ public partial class CardSelectionView : Control
 		// 	Cards.Clear();
 		// }
 
-		// CardPressedEvent = cardPressed;
-		// InitiativePressedEvent = initiativePressed;
 		ShortRestPressedEvent = shortRestPressed;
 		LongRestPressedEvent = longRestPressed;
 
 		List<CardSelectionListCategoryParameters> cardCategoryParameters = new List<CardSelectionListCategoryParameters>();
 
+		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
+			[CardState.Playing], CardSelectionListCategoryType.Playing));
 		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
 			[CardState.Persistent, CardState.PersistentLoss, CardState.Round, CardState.RoundLoss], CardSelectionListCategoryType.Active));
 		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
@@ -135,17 +122,12 @@ public partial class CardSelectionView : Control
 		//
 		// Cards.Clear();
 
-		// _itemParent.CustomMinimumSize = new Vector2(_itemWidth, 0f);
-		// _itemParent.Size = _itemParent.CustomMinimumSize;
-		// _scrollContainer.MouseFilter = MouseFilterEnum.Ignore;
+		_cardSelectionList.Close();
 
 		_longRestIndicatorContainer.Scale = Vector2.Zero;
 		_longRestButton.Position = new Vector2(0f, _longRestButton.Position.Y);
 
 		SetRestingEnabled(false);
-
-		// CardPressedEvent = null;
-		// InitiativePressedEvent = null;
 	}
 
 	public void SetRestingEnabled(bool enabled)
@@ -198,26 +180,6 @@ public partial class CardSelectionView : Control
 			cards.Where(card => cardStates.Contains(card.CardState)).Select(card => card.SavedAbilityCard).ToList(),
 			categoryType, onCardPressed, onInitiativePressed);
 	}
-
-	// private void OnCardPressed(CardSelectionCard card)
-	// {
-	// 	CardPressedEvent?.Invoke(card);
-	// }
-	//
-	// private void OnInitiativePressed(CardSelectionCard card)
-	// {
-	// 	InitiativePressedEvent?.Invoke(card);
-	// }
-	//
-	// private void OnMouseEntered(CardSelectionCard card)
-	// {
-	// 	_cardPreview.Focus(card);
-	// }
-	//
-	// private void OnMouseExited(CardSelectionCard card)
-	// {
-	// 	_cardPreview.Unfocus(card);
-	// }
 
 	private void OnShortRestButtonPressed()
 	{

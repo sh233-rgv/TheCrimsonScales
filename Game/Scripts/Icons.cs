@@ -22,6 +22,8 @@
 	public const string DiscardedCards = "res://Art/Icons/Other/DiscardedCards.svg";
 	public const string UnlockableCards = "res://Art/Icons/Other/LevelCrown.svg";
 	public const string UnavailableCards = "res://Art/Icons/Other/CloseIcon.svg";
+	public const string PlayingCards = "res://Art/Icons/Other/Card.svg";
+	public const string Active = "res://Art/Icons/Other/Active.svg";
 
 	public static string GetElement(Element element)
 	{
