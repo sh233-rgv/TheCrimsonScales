@@ -47,4 +47,29 @@ public static class UIHelper
 		textureRect.SetInstanceShaderParameter("grayscaleFactor", grayscaleFactor);
 		textureRect.SetSelfModulate(modulateColor);
 	}
+
+	public static void SetItemMaterial(TextureRect textureRect, ItemState itemState)
+	{
+		float grayscaleFactor = 0f;
+		Color modulateColor = Colors.White;
+
+		switch(itemState)
+		{
+			case ItemState.Available:
+				grayscaleFactor = 0f;
+				break;
+			case ItemState.Spent:
+				grayscaleFactor = 1f;
+				break;
+			case ItemState.Consumed:
+				grayscaleFactor = 1f;
+				modulateColor = LostColor;
+				break;
+			default:
+				throw new ArgumentOutOfRangeException(nameof(itemState), itemState, null);
+		}
+
+		textureRect.SetInstanceShaderParameter("grayscaleFactor", grayscaleFactor);
+		textureRect.SetSelfModulate(modulateColor);
+	}
 }

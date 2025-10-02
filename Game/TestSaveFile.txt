@@ -65,15 +65,20 @@
       "Gold": 30,
       "XP": 0,
       "Name": "Conclave Man",
-      "ItemIds": [],
+      "ItemIds": [
+        "PROSPERITY1_ITEM.POISON_DAGGER"
+      ],
       "EquippedBaseSlotItems": [
         null,
         null,
         null,
-        null,
+        "PROSPERITY1_ITEM.POISON_DAGGER",
         null
       ],
-      "EquippedSmallItems": []
+      "EquippedSmallItems": [
+        "PROSPERITY2_ITEM.MINOR_MANA_POTION",
+        null
+      ]
     },
     {
       "ClassModelId": "CLASS_MODEL.FIRE_KNIGHT_MODEL",
@@ -225,7 +230,7 @@
     }
   },
   "SavedScenario": {
-    "Id": "d5563b1c-e797-4355-9391-37a8d8a72305",
+    "Id": "ccda8d35-7a27-4429-99b1-ca0691b5c958",
     "AppVersion": "0.3.7",
     "ScenarioModelId": "SCENARIO_MODEL.TEST_SCENARIO",
     "Seed": 0,
@@ -253,15 +258,15 @@
         "CharacterCardSelectionStates": [
           {
             "ChosenCardReferenceIds": [
-              34,
-              36
+              26,
+              28
             ],
             "LongResting": false
           },
           {
             "ChosenCardReferenceIds": [
-              46,
-              45
+              45,
+              44
             ],
             "LongResting": false
           }
@@ -269,128 +274,40 @@
         "CurrentPromptIndex": 0,
         "SyncedActions": [],
         "Completed": true
-      },
-      {
-        "CharacterCardSelectionStates": [
-          {
-            "ChosenCardReferenceIds": [
-              35,
-              27
-            ],
-            "LongResting": false
-          },
-          {
-            "ChosenCardReferenceIds": [
-              41,
-              42
-            ],
-            "LongResting": false
-          }
-        ],
-        "CurrentPromptIndex": 16,
-        "SyncedActions": [],
-        "Completed": true
       }
     ],
     "PromptAnswers": [
       {
         "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
-        "CardReferenceId": 46,
+        "CardReferenceId": 26,
         "AbilityCardSection": 3
       },
       {
         "$type": "MovePrompt+Answer, Game",
         "Path": [
           {
+            "X": 0,
+            "Y": 1
+          },
+          {
             "X": 1,
             "Y": 0
           }
         ],
-        "MoveSpent": 1
-      },
-      {
-        "$type": "MovePrompt+Answer, Game",
-        "Skipped": true
+        "MoveSpent": 2
       },
       {
         "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
-        "CardReferenceId": 45,
+        "CardReferenceId": 28,
         "AbilityCardSection": 2
       },
       {
         "$type": "TargetSelectionPrompt+Answer, Game",
-        "FigureReferenceId": 15
-      },
-      {
-        "$type": "ScenarioEventPrompt+Answer, Game"
-      },
-      {
-        "$type": "MonsterMovePrompt+Answer, Game",
-        "Path": [
-          {
-            "X": 0,
-            "Y": -1
-          }
-        ],
-        "MoveSpent": 1
-      },
-      {
-        "$type": "MonsterTargetSelectionPrompt+Answer, Game",
-        "FigureReferenceId": 25,
-        "ImmediateCompletion": true
-      },
-      {
-        "$type": "ScenarioEventPrompt+Answer, Game"
-      },
-      {
-        "$type": "MonsterMovePrompt+Answer, Game",
-        "Path": [
-          {
-            "X": 2,
-            "Y": -2
-          }
-        ],
-        "MoveSpent": 1
-      },
-      {
-        "$type": "MonsterTargetSelectionPrompt+Answer, Game",
-        "FigureReferenceId": 25,
-        "ImmediateCompletion": true
-      },
-      {
-        "$type": "ScenarioEventPrompt+Answer, Game"
-      },
-      {
-        "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
-        "CardReferenceId": 34,
-        "AbilityCardSection": 0
+        "SelectedEffectIndex": 0
       },
       {
         "$type": "TargetSelectionPrompt+Answer, Game",
-        "FigureReferenceId": 14
-      },
-      {
-        "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
-        "CardReferenceId": 36,
-        "AbilityCardSection": 1
-      },
-      {
-        "$type": "MovePrompt+Answer, Game",
-        "Path": [
-          {
-            "X": 0,
-            "Y": 0
-          },
-          {
-            "X": 1,
-            "Y": 0
-          },
-          {
-            "X": 2,
-            "Y": 0
-          }
-        ],
-        "MoveSpent": 3
+        "FigureReferenceId": 15
       }
     ]
   }
