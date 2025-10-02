@@ -28,7 +28,10 @@ public partial class PartyInfoCharacter : Control
 	{
 		// Base info
 		_portraitTextureRect.SetTexture(character.PortraitTexture);
-		_nameLabel.SetText(character.SavedCharacter.Name);
+		this.DelayedCall(() =>
+		{
+			_nameLabel.SetText(character.SavedCharacter.Name);
+		});
 		_healthLabel.SetText($"{character.Health}/{character.MaxHealth}");
 		_xpLabel.SetText($"{character.ObtainedXP}");
 
