@@ -8,7 +8,7 @@ public partial class PartyInfoCharacter : Control
 	[Export]
 	private TextureRect _portraitTextureRect;
 	[Export]
-	private Label _nameLabel;
+	private ResizingLabel _nameLabel;
 	[Export]
 	private Label _healthLabel;
 	[Export]
@@ -63,13 +63,15 @@ public partial class PartyInfoCharacter : Control
 
 		// Items
 		List<ItemModel> equippedItems = character.Items.ToList();
+
+		// Place all base slot items
 		for(int i = 0; i < _baseItemSlots.Length; i++)
 		{
 			PartyInfoCharacterItem baseItemSlot = _baseItemSlots[i];
 			string baseSlotItem = character.SavedCharacter.EquippedBaseSlotItems[i];
 			ItemModel itemModel = ModelDB.GetById<ItemModel>(baseSlotItem);
 
-			int equippedIndex = equippedItems.FindIndex(item => item.ImmutableInstance == item);
+			int equippedIndex = equippedItems.FindIndex(item => item.ImmutableInstance == itemModel);
 
 			if(equippedIndex >= 0)
 			{
@@ -83,16 +85,36 @@ public partial class PartyInfoCharacter : Control
 			}
 		}
 
+		// Place all small items
 		int smallItemSlotCount = character.SavedCharacter.GetSmallItemSlotCount();
-
 		for(int i = 0; i < smallItemSlotCount; i++)
 		{
 			string smallSlotItem = i < character.SavedCharacter.EquippedSmallItems.Count ? character.SavedCharacter.EquippedSmallItems[i] : null;
-			ItemModel item = ModelDB.GetById<ItemModel>(smallSlotItem);
+			ItemModel itemModel = ModelDB.GetById<ItemModel>(smallSlotItem);
 
 			PartyInfoCharacterItem equipmentSlot = _partyInfoCharacterItemScene.Instantiate<PartyInfoCharacterItem>();
 			_smallItemsParent.AddChild(equipmentSlot);
-			equipmentSlot.Init(ItemType.Small, item);
+
+			int equippedIndex = equippedItems.FindIndex(item => item.ImmutableInstance == itemModel);
+
+			if(equippedIndex >= 0)
+			{
+				ItemModel equippedItem = equippedItems[equippedIndex];
+				equippedItems.RemoveAt(equippedIndex);
+				equipmentSlot.Init(ItemType.Small, equippedItem);
+			}
+			else
+			{
+				equipmentSlot.Init(ItemType.Small, itemModel);
+			}
+		}
+
+		// Place all extra equipped items
+		foreach(ItemModel equippedItem in equippedItems)
+		{
+			PartyInfoCharacterItem equipmentSlot = _partyInfoCharacterItemScene.Instantiate<PartyInfoCharacterItem>();
+			_smallItemsParent.AddChild(equipmentSlot);
+			equipmentSlot.Init(equippedItem.ItemType, equippedItem);
 		}
 	}
 

@@ -3,7 +3,8 @@ using Godot;
 
 public static class UIHelper
 {
-	private static readonly Color LostColor = Color.FromHtml("f8625a");
+	public static readonly Color SpentColor = Color.FromHtml("888888");
+	public static readonly Color LostColor = Color.FromHtml("f8625a");
 
 	public static void SetCardMaterial(TextureRect textureRect, CardSelectionListCategoryType cardSelectionListCategoryType)
 	{

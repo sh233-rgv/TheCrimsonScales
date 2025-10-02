@@ -230,7 +230,7 @@
     }
   },
   "SavedScenario": {
-    "Id": "ccda8d35-7a27-4429-99b1-ca0691b5c958",
+    "Id": "c27c11fa-bd08-4984-811e-99c4163c7dbb",
     "AppVersion": "0.3.7",
     "ScenarioModelId": "SCENARIO_MODEL.TEST_SCENARIO",
     "Seed": 0,
@@ -259,14 +259,14 @@
           {
             "ChosenCardReferenceIds": [
               26,
-              28
+              29
             ],
             "LongResting": false
           },
           {
             "ChosenCardReferenceIds": [
-              45,
-              44
+              41,
+              42
             ],
             "LongResting": false
           }
@@ -279,8 +279,12 @@
     "PromptAnswers": [
       {
         "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
-        "CardReferenceId": 26,
-        "AbilityCardSection": 3
+        "CardReferenceId": 41,
+        "AbilityCardSection": 1
+      },
+      {
+        "$type": "TargetSelectionPrompt+Answer, Game",
+        "FigureReferenceId": 16
       },
       {
         "$type": "MovePrompt+Answer, Game",
@@ -297,17 +301,8 @@
         "MoveSpent": 2
       },
       {
-        "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
-        "CardReferenceId": 28,
-        "AbilityCardSection": 2
-      },
-      {
-        "$type": "TargetSelectionPrompt+Answer, Game",
-        "SelectedEffectIndex": 0
-      },
-      {
-        "$type": "TargetSelectionPrompt+Answer, Game",
-        "FigureReferenceId": 15
+        "$type": "MovePrompt+Answer, Game",
+        "Skipped": true
       }
     ]
   }

@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 
 public partial class PartyInfoCharacterItem : Control
 {
@@ -17,6 +18,24 @@ public partial class PartyInfoCharacterItem : Control
 		if(itemModel != null)
 		{
 			UIHelper.SetItemMaterial(_itemView.TextureRect, itemModel.ItemState);
+
+			Color modulateColor = Colors.White;
+			switch(itemModel.ItemState)
+			{
+				case ItemState.Available:
+					modulateColor = Colors.White;
+					break;
+				case ItemState.Spent:
+					modulateColor = UIHelper.SpentColor;
+					break;
+				case ItemState.Consumed:
+					modulateColor = UIHelper.LostColor;
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+
+			_border.SetSelfModulate(modulateColor);
 		}
 
 		_itemTypeIcon.SetTexture(ResourceLoader.Load<Texture2D>(Icons.GetItem(itemType)));
