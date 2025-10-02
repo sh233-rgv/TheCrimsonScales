@@ -273,17 +273,23 @@
       {
         "CharacterCardSelectionStates": [
           {
-            "ChosenCardReferenceIds": [],
+            "ChosenCardReferenceIds": [
+              35,
+              27
+            ],
             "LongResting": false
           },
           {
-            "ChosenCardReferenceIds": [],
-            "LongResting": true
+            "ChosenCardReferenceIds": [
+              41,
+              42
+            ],
+            "LongResting": false
           }
         ],
         "CurrentPromptIndex": 16,
         "SyncedActions": [],
-        "Completed": false
+        "Completed": true
       }
     ],
     "PromptAnswers": [

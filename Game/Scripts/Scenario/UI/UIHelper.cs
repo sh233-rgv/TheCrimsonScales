@@ -20,7 +20,7 @@ public static class UIHelper
 				grayscaleFactor = -1.5f;
 				break;
 			case CardSelectionListCategoryType.Playing:
-				grayscaleFactor = 1f;
+				grayscaleFactor = -0.5f;
 				break;
 			case CardSelectionListCategoryType.Hand:
 				grayscaleFactor = 0f;

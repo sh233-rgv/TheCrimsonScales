@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cbtuwtadxyfut"]
+[gd_scene load_steps=24 format=3 uid="uid://cbtuwtadxyfut"]
 
 [ext_resource type="Script" uid="uid://x4kpb6u0l25u" path="res://Scripts/AppController.cs" id="1_6s6iu"]
 [ext_resource type="Script" uid="uid://bn4208bsiittm" path="res://Scripts/InputController.cs" id="2_2vstq"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://bu37eqpl075ak" path="res://Scripts/Audio/AudioController.cs" id="16_u3jyv"]
 [ext_resource type="PackedScene" uid="uid://dy57ybgbn2epj" path="res://Scenes/AudioStreamPlayer.tscn" id="17_7c1c5"]
 [ext_resource type="PackedScene" uid="uid://bvih1o1ec48e2" path="res://Scenes/UI/Popups/ErrorPopup.tscn" id="17_g5bd1"]
+[ext_resource type="PackedScene" uid="uid://c0b85tbrwp16b" path="res://Scenes/UI/Popups/PartyInfoPopup/PartyInfoPopup.tscn" id="17_pcrgh"]
 [ext_resource type="Script" uid="uid://cwsakirhn6l0u" path="res://Scripts/UI/LongPressIndicator.cs" id="19_7txjg"]
 [ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="19_7484g"]
 
@@ -83,6 +84,9 @@ layout_mode = 1
 layout_mode = 1
 
 [node name="CreateCampaignPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("15_gd3oa")]
+layout_mode = 1
+
+[node name="PartyInfoPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("17_pcrgh")]
 layout_mode = 1
 
 [node name="OptionsPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("16_448tb")]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=3 uid="uid://dc3oqbu0m8jid"]
+[gd_scene load_steps=87 format=3 uid="uid://dc3oqbu0m8jid"]
 
 [ext_resource type="Script" uid="uid://bq2pwm6f32li" path="res://Scripts/Scenario/GameController.cs" id="1_arwlr"]
 [ext_resource type="Script" uid="uid://d1n1uymvup76h" path="res://Scripts/Scenario/TeleportPath/TeleportPath.cs" id="6_b23n0"]
@@ -72,6 +72,7 @@
 [ext_resource type="Material" uid="uid://cun442tgtvgh" path="res://Materials/UIBlur.tres" id="64_ldvfj"]
 [ext_resource type="Texture2D" uid="uid://ba4nlrsbyojkl" path="res://Art/Icons/Other/StartHexMoveIcon.svg" id="65_h6npn"]
 [ext_resource type="Script" uid="uid://bctno8ajvg8at" path="res://Scripts/Scenario/CharacterStartHexMoveIndicator.cs" id="65_pcjy7"]
+[ext_resource type="Script" uid="uid://bdesfx5saafxe" path="res://Scripts/Scenario/UI/PartyButton.cs" id="68_7tbw1"]
 [ext_resource type="Texture2D" uid="uid://u3h3kga0ipcv" path="res://Art/Icons/Other/Party.svg" id="69_b2ul3"]
 [ext_resource type="Script" uid="uid://opd3xcxouwh5" path="res://Scripts/Scenario/UI/CurrentActionView/CurrentActionViewManager.cs" id="71_b23n0"]
 
@@ -1155,7 +1156,7 @@ layout_mode = 1
 [node name="MenuButton" parent="CanvasLayer/UI" instance=ExtResource("58_2qf5q")]
 layout_mode = 1
 
-[node name="PartyButton" type="Control" parent="CanvasLayer/UI"]
+[node name="PartyButton" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_button")]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -1165,6 +1166,8 @@ offset_top = 84.0
 offset_right = -10.0
 offset_bottom = 164.0
 grow_horizontal = 0
+script = ExtResource("68_7tbw1")
+_button = NodePath("BetterButton")
 
 [node name="BetterButton" type="BaseButton" parent="CanvasLayer/UI/PartyButton"]
 _import_path = NodePath("")
