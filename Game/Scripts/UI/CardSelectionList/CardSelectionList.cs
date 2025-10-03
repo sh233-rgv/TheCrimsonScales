@@ -37,6 +37,11 @@ public partial class CardSelectionList : Control
 		base._Ready();
 
 		Close();
+
+		//if(_cardPreview == null)
+		{
+			_cardPreview = AppController.Instance.CardSelectionCardPreview;
+		}
 	}
 
 	public void Open(List<SavedAbilityCard> cards,

@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://cpl0163b2ppbv"]
 
 [ext_resource type="Script" uid="uid://cjcsrsvbxjyn1" path="res://Scripts/Scenario/UI/CardSelectionView/CardSelectionView.cs" id="1_hlgn3"]
-[ext_resource type="Script" uid="uid://c1mtipnwlpxx3" path="res://Scripts/Scenario/UI/CardSelectionView/CardSelectionCardPreview.cs" id="3_f2apl"]
+[ext_resource type="Script" uid="uid://c1mtipnwlpxx3" path="res://Scripts/UI/CardSelectionCardPreview.cs" id="3_f2apl"]
 [ext_resource type="PackedScene" uid="uid://dvex4pgry7e30" path="res://Scenes/Scenario/UI/CardView.tscn" id="4_jmr32"]
 [ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="5_17wxw"]
 [ext_resource type="PackedScene" uid="uid://d01x6nmjmss3c" path="res://Scenes/UI/CardSelectionList/CardSelectionList.tscn" id="5_rego2"]

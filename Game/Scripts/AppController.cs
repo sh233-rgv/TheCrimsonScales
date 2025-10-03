@@ -14,6 +14,9 @@ public partial class AppController : SingletonNode<AppController>
 	[Export]
 	public AudioController AudioController { get; private set; }
 
+	[Export]
+	public CardSelectionCardPreview CardSelectionCardPreview { get; private set; }
+
 	public SaveFile SaveFile { get; private set; }
 
 	public override void _EnterTree()

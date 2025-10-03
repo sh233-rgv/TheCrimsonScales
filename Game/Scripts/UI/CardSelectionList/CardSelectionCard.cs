@@ -1,8 +1,6 @@
 ﻿using System;
 using Godot;
-using GTweens.Builders;
 using GTweens.Easings;
-using GTweens.Tweens;
 using GTweensGodot.Extensions;
 
 [GlobalClass]

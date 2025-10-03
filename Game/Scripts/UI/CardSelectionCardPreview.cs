@@ -8,6 +8,8 @@ public partial class CardSelectionCardPreview : Control
 	[Export]
 	private CardView _cardView;
 
+	private Control _parentContainer;
+
 	private CardSelectionCard _focus;
 
 	private GTween _tween;
@@ -17,6 +19,7 @@ public partial class CardSelectionCardPreview : Control
 	{
 		base._Ready();
 
+		_parentContainer = GetParent<Control>();
 		_cardView.SetModulate(Colors.Transparent);
 		Hide();
 	}
@@ -25,19 +28,7 @@ public partial class CardSelectionCardPreview : Control
 	{
 		_focus = card;
 		_cardView.SetCard(card.SavedAbilityCard.Model);
-		//_cardView.SetCardMaterial(card.SavedAbilityCard.CardState);
 
-		Control parentContainer = GetParent<Control>();
-		float targetY = Mathf.Clamp(
-			card.GlobalPosition.Y + CardSelectionCard.Size.Y * 0.5f - Size.Y * 0.5f,
-			parentContainer.GlobalPosition.Y,
-			parentContainer.GlobalPosition.Y + parentContainer.Size.Y - Size.Y);
-
-		if(!Visible)
-		{
-			GlobalPosition = new Vector2(GlobalPosition.X, targetY);
-		}
-		
 		_originOffset = card.GlobalPosition.X > GlobalPosition.X ? 100f : -100f;
 
 		if(!Visible)
@@ -52,8 +43,10 @@ public partial class CardSelectionCardPreview : Control
 		_tween = GTweenSequenceBuilder.New()
 			.Append(_cardView.TweenPositionX(0f, animationDuration))
 			.Join(_cardView.TweenModulateAlpha(1f, animationDuration))
-			.Join(this.TweenGlobalPositionY(targetY, 0.03f))
+			//.Join(this.TweenGlobalPositionY(targetY, 0.03f))
 			.Build().Play();
+
+		SetProcess(true);
 	}
 
 	public void Unfocus(CardSelectionCard card)
@@ -68,6 +61,48 @@ public partial class CardSelectionCardPreview : Control
 				.Join(_cardView.TweenModulateAlpha(0f, animationDuration))
 				.AppendCallback(Hide)
 				.Build().Play();
+
+			_focus = null;
+			SetProcess(false);
 		}
+	}
+
+	public override void _Process(double delta)
+	{
+		base._Process(delta);
+
+		if(_focus == null)
+		{
+			return;
+		}
+
+		Transform2D cardGlobalTransform = _focus.GetGlobalTransformWithCanvas();
+		Vector2 cardViewportPosition = cardGlobalTransform.Origin / GetViewport().GetVisibleRect().Size;
+
+		Vector2 cardSize = cardGlobalTransform.Scale * CardSelectionCard.Size;
+
+		float targetX;
+		if(cardViewportPosition.X < 0.5f)
+		{
+			targetX = _focus.GlobalPosition.X + cardSize.X + 30f;
+		}
+		else
+		{
+			targetX = _focus.GlobalPosition.X - Size.X - 50f;
+		}
+
+		targetX = Mathf.Clamp(
+			targetX,
+			_parentContainer.GlobalPosition.X,
+			_parentContainer.GlobalPosition.X + _parentContainer.Size.X - Size.X);
+
+		float targetY = _focus.GlobalPosition.Y + cardSize.Y * 0.5f - Size.Y * 0.5f;
+
+		targetY = Mathf.Clamp(
+			targetY,
+			_parentContainer.GlobalPosition.Y,
+			_parentContainer.GlobalPosition.Y + _parentContainer.Size.Y - Size.Y);
+
+		SetGlobalPosition(new Vector2(targetX, targetY));
 	}
 }
