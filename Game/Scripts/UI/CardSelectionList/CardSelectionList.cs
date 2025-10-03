@@ -13,8 +13,6 @@ public partial class CardSelectionList : Control
 	private Control _categoriesContainer;
 	[Export]
 	private Control _container;
-	[Export]
-	private CardSelectionCardPreview _cardPreview;
 
 	public List<CardSelectionListCategory> Categories { get; } = new List<CardSelectionListCategory>();
 
@@ -37,11 +35,6 @@ public partial class CardSelectionList : Control
 		base._Ready();
 
 		Close();
-
-		//if(_cardPreview == null)
-		{
-			_cardPreview = AppController.Instance.CardSelectionCardPreview;
-		}
 	}
 
 	public void Open(List<SavedAbilityCard> cards,
@@ -158,11 +151,11 @@ public partial class CardSelectionList : Control
 
 	private void OnMouseEntered(CardSelectionCard card)
 	{
-		_cardPreview?.Focus(card);
+		AppController.Instance.CardSelectionCardPreview.Focus(card);
 	}
 
 	private void OnMouseExited(CardSelectionCard card)
 	{
-		_cardPreview?.Unfocus(card);
+		AppController.Instance.CardSelectionCardPreview.Unfocus(card);
 	}
 }

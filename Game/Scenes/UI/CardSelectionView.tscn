@@ -1,8 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://cpl0163b2ppbv"]
+[gd_scene load_steps=8 format=3 uid="uid://cpl0163b2ppbv"]
 
 [ext_resource type="Script" uid="uid://cjcsrsvbxjyn1" path="res://Scripts/Scenario/UI/CardSelectionView/CardSelectionView.cs" id="1_hlgn3"]
-[ext_resource type="Script" uid="uid://c1mtipnwlpxx3" path="res://Scripts/UI/CardSelectionCardPreview.cs" id="3_f2apl"]
-[ext_resource type="PackedScene" uid="uid://dvex4pgry7e30" path="res://Scenes/Scenario/UI/CardView.tscn" id="4_jmr32"]
 [ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="5_17wxw"]
 [ext_resource type="PackedScene" uid="uid://d01x6nmjmss3c" path="res://Scenes/UI/CardSelectionList/CardSelectionList.tscn" id="5_rego2"]
 [ext_resource type="Material" uid="uid://cun442tgtvgh" path="res://Materials/UIBlur.tres" id="6_mmykg"]
@@ -43,22 +41,7 @@ theme_override_constants/margin_bottom = 50
 layout_mode = 2
 mouse_filter = 2
 
-[node name="CardPreview" type="Control" parent="MarginContainer/Container" node_paths=PackedStringArray("_cardView")]
-layout_mode = 1
-anchors_preset = 0
-offset_left = 490.0
-offset_right = 810.0
-offset_bottom = 448.0
-scale = Vector2(1.07, 1.07)
-mouse_filter = 2
-script = ExtResource("3_f2apl")
-_cardView = NodePath("CardView")
-
-[node name="CardView" parent="MarginContainer/Container/CardPreview" instance=ExtResource("4_jmr32")]
-layout_mode = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="CardSelectionList" parent="MarginContainer/Container" node_paths=PackedStringArray("_cardPreview") instance=ExtResource("5_rego2")]
+[node name="CardSelectionList" parent="MarginContainer/Container" instance=ExtResource("5_rego2")]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -66,7 +49,6 @@ offset_top = 100.0
 offset_right = 0.0
 offset_bottom = 0.0
 grow_vertical = 2
-_cardPreview = NodePath("../CardPreview")
 
 [node name="RestButtons" type="Control" parent="MarginContainer/Container"]
 anchors_preset = 0

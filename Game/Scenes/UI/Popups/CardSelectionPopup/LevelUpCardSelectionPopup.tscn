@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dcd5fl2d7glct"]
+[gd_scene load_steps=13 format=3 uid="uid://dcd5fl2d7glct"]
 
 [ext_resource type="Script" uid="uid://4jfefo84tldb" path="res://Scripts/UI/Popups/CardSelectionPopup/LevelUpCardSelectionPopup.cs" id="2_j218f"]
 [ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="2_x3pmw"]
@@ -7,8 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://c7hi6q082ullr" path="res://Art/Icons/Other/CloseIcon.svg" id="5_r6jl0"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="6_t222g"]
 [ext_resource type="LabelSettings" uid="uid://d235d2njdpdmg" path="res://Resources/ButtonLabel.tres" id="7_iby5l"]
-[ext_resource type="Script" uid="uid://c1mtipnwlpxx3" path="res://Scripts/UI/CardSelectionCardPreview.cs" id="8_oqos4"]
-[ext_resource type="PackedScene" uid="uid://dvex4pgry7e30" path="res://Scenes/Scenario/UI/CardView.tscn" id="9_ct0yu"]
 [ext_resource type="PackedScene" uid="uid://d01x6nmjmss3c" path="res://Scenes/UI/CardSelectionList/CardSelectionList.tscn" id="10_fmouy"]
 [ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="10_uah72"]
 
@@ -316,23 +314,6 @@ theme_override_constants/margin_bottom = 0
 layout_mode = 2
 mouse_filter = 2
 
-[node name="CardPreview" type="Control" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container" node_paths=PackedStringArray("_cardView")]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -160.0
-offset_right = 160.0
-offset_bottom = 448.0
-grow_horizontal = 2
-mouse_filter = 2
-script = ExtResource("8_oqos4")
-_cardView = NodePath("CardView")
-
-[node name="CardView" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/CardPreview" instance=ExtResource("9_ct0yu")]
-layout_mode = 1
-metadata/_edit_use_anchors_ = true
-
 [node name="Lists" type="Control" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container"]
 clip_contents = true
 layout_mode = 1
@@ -343,13 +324,11 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="AvailableCards" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists" node_paths=PackedStringArray("_cardPreview") instance=ExtResource("10_fmouy")]
-_cardPreview = NodePath("../../CardPreview")
+[node name="AvailableCards" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists" instance=ExtResource("10_fmouy")]
 
-[node name="UnlockableCards" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists" node_paths=PackedStringArray("_cardPreview") instance=ExtResource("10_fmouy")]
+[node name="UnlockableCards" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/CardSelection/Container/Lists" instance=ExtResource("10_fmouy")]
 offset_left = 874.0
 offset_right = 1344.0
-_cardPreview = NodePath("../../CardPreview")
 
 [node name="Buttons" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 visible = false
