@@ -40,5 +40,21 @@ public partial class PartyInfoCharacterItem : Control
 
 		_itemTypeIcon.SetTexture(ResourceLoader.Load<Texture2D>(Icons.GetItem(itemType)));
 		_itemTypeIcon.SetVisible(itemModel == null);
+
+		MouseEntered += OnMouseEntered;
+		MouseExited += OnMouseExited;
+	}
+
+	private void OnMouseEntered()
+	{
+		if(_itemView.ItemModel != null)
+		{
+			AppController.Instance.ItemPreview.Focus(this, _itemView.ItemModel);
+		}
+	}
+
+	private void OnMouseExited()
+	{
+		AppController.Instance.ItemPreview.Unfocus(this);
 	}
 }

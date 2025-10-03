@@ -43,7 +43,6 @@ public partial class CardSelectionCardPreview : Control
 		_tween = GTweenSequenceBuilder.New()
 			.Append(_cardView.TweenPositionX(0f, animationDuration))
 			.Join(_cardView.TweenModulateAlpha(1f, animationDuration))
-			//.Join(this.TweenGlobalPositionY(targetY, 0.03f))
 			.Build().Play();
 
 		SetProcess(true);

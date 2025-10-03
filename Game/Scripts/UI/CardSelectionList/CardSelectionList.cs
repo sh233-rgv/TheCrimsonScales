@@ -52,7 +52,6 @@ public partial class CardSelectionList : Control
 		foreach(CardSelectionListCategory category in Categories)
 		{
 			category.QueueFree();
-			//category.Destroy(_container);
 		}
 
 		Categories.Clear();
