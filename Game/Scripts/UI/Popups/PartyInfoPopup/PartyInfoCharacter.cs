@@ -130,7 +130,24 @@ public partial class PartyInfoCharacter : Control
 			categoryType, onCardPressed, null);
 	}
 
-	private void OnCardPressed(CardSelectionCard card)
+	private void OnCardPressed(CardSelectionCard cardSelectionCard)
 	{
+		AbilityCard card = GameController.Instance.CardManager.Get(cardSelectionCard.SavedAbilityCard);
+
+		if(card.CardState == CardState.Persistent || card.CardState == CardState.PersistentLoss)
+		{
+			AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request("Deactivate card",
+				$"Are you sure you want to {(card.CardState == CardState.Persistent ? "discard" : "lose")} {card.Model.Name}?",
+				new TextButton.Parameters("Cancel", () =>
+				{
+				}),
+				new TextButton.Parameters("Confirm", () =>
+				{
+					GameController.Instance.SyncedActionManager.PushSyncedAction(new DeactivateActiveCardSyncedAction(card.Owner, card));
+				}, TextButton.ColorType.Red)
+			));
+
+			return;
+		}
 	}
 }

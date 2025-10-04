@@ -105,6 +105,7 @@ public partial class GameController : SceneController<GameController>
 	public RandomNumberGenerator VisualRNG { get; private set; }
 
 	public PromptManager PromptManager { get; private set; }
+	public SyncedActionManager SyncedActionManager { get; private set; }
 
 	public Scenario Scenario { get; private set; }
 	public ScenarioModel ScenarioModel { get; private set; }
@@ -206,6 +207,7 @@ public partial class GameController : SceneController<GameController>
 		VisualRNG.Randomize();
 
 		PromptManager = new PromptManager();
+		SyncedActionManager = new SyncedActionManager();
 
 		PackedScene scenarioScene = ResourceLoader.Load<PackedScene>(ScenarioModel.ScenePath);
 		Scenario = scenarioScene.Instantiate<Scenario>();
