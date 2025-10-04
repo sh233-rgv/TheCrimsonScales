@@ -456,12 +456,21 @@ public class CardSelectionPhase : ScenarioPhase
 
 	private void OnShortRestPressed()
 	{
-		CharacterCardSelectionState characterCardSelectionState = GetCharacterCardSelectionState(_selectedCharacter);
-		characterCardSelectionState.LongResting = false;
-		characterCardSelectionState.ChosenCardReferenceIds.Clear();
-		SyncCharacterWithState(_selectedCharacter);
+		AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request("Short rest",
+			$"Are you sure you want to short rest?",
+			new TextButton.Parameters("Cancel", () =>
+			{
+			}),
+			new TextButton.Parameters("Confirm", () =>
+			{
+				CharacterCardSelectionState characterCardSelectionState = GetCharacterCardSelectionState(_selectedCharacter);
+				characterCardSelectionState.LongResting = false;
+				characterCardSelectionState.ChosenCardReferenceIds.Clear();
+				SyncCharacterWithState(_selectedCharacter);
 
-		TryAddSyncedAction(new ShortRestSyncedAction(_selectedCharacter));
+				TryAddSyncedAction(new ShortRestSyncedAction(_selectedCharacter));
+			}, TextButton.ColorType.Red)
+		));
 	}
 
 	private void OnLongRestPressed()
