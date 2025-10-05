@@ -24,21 +24,56 @@ public partial class PartyInfoCharacter : Control
 	[Export]
 	private Control _smallItemsParent;
 
+	private Character _character;
+
 	public void Init(Character character)
 	{
-		// Base info
-		_portraitTextureRect.SetTexture(character.PortraitTexture);
+		_character = character;
+
+		UpdateBaseInfo();
+		UpdateCards();
+		UpdateItems();
+
+		_character.HealthChangedEvent += OnHealthChanged;
+		_character.MaxHealthChangedEvent += OnMaxHealthChanged;
+		_character.XPChangedEvent += OnXPChanged;
+
+		_character.CardAddedEvent += OnCardAdded;
+		_character.CardRemovedEvent += OnCardRemoved;
+		_character.CardStateChangedEvent += OnCardStateChanged;
+
+		//TODO: Subscribe to item changes for this character and update item info accordingly
+	}
+
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+
+		_character.HealthChangedEvent -= OnHealthChanged;
+		_character.MaxHealthChangedEvent -= OnMaxHealthChanged;
+		_character.XPChangedEvent -= OnXPChanged;
+
+		_character.CardAddedEvent -= OnCardAdded;
+		_character.CardRemovedEvent -= OnCardRemoved;
+		_character.CardStateChangedEvent -= OnCardStateChanged;
+	}
+
+	private void UpdateBaseInfo()
+	{
+		_portraitTextureRect.SetTexture(_character.PortraitTexture);
 		this.DelayedCall(() =>
 		{
-			_nameLabel.SetText(character.SavedCharacter.Name);
+			_nameLabel.SetText(_character.SavedCharacter.Name);
 		});
-		_healthLabel.SetText($"{character.Health}/{character.MaxHealth}");
-		_xpLabel.SetText($"{character.ObtainedXP}");
+		_healthLabel.SetText($"{_character.Health}/{_character.MaxHealth}");
+		_xpLabel.SetText($"{_character.ObtainedXP}");
+	}
 
-		// Cards
+	private void UpdateCards()
+	{
 		List<CardSelectionListCategoryParameters> cardCategoryParameters = new List<CardSelectionListCategoryParameters>();
 
-		List<AbilityCard> cards = character.Cards;
+		List<AbilityCard> cards = _character.Cards;
 		if(cards != null && cards.Count > 0)
 		{
 			// Scenario setup completed, show all card states
@@ -56,22 +91,24 @@ public partial class PartyInfoCharacter : Control
 		else
 		{
 			// Still selecting cards and items to bring into the scenario
-			List<SavedAbilityCard> abilityCards = character.SavedCharacter.HandAbilityCardIndices
-				.Select(handAbilityCardIndex => character.SavedCharacter.AvailableAbilityCards[handAbilityCardIndex]).ToList();
+			List<SavedAbilityCard> abilityCards = _character.SavedCharacter.HandAbilityCardIndices
+				.Select(handAbilityCardIndex => _character.SavedCharacter.AvailableAbilityCards[handAbilityCardIndex]).ToList();
 
 			cardCategoryParameters.Add(new CardSelectionListCategoryParameters(abilityCards, CardSelectionListCategoryType.None, null, null));
 		}
 
 		_cardSelectionList.Open(cardCategoryParameters, (cardA, cardB) => cardA.Model.Initiative.CompareTo(cardB.Model.Initiative));
+	}
 
-		// Items
-		List<ItemModel> equippedItems = character.Items.ToList();
+	private void UpdateItems()
+	{
+		List<ItemModel> equippedItems = _character.Items.ToList();
 
 		// Place all base slot items
 		for(int i = 0; i < _baseItemSlots.Length; i++)
 		{
 			PartyInfoCharacterItem baseItemSlot = _baseItemSlots[i];
-			string baseSlotItem = character.SavedCharacter.EquippedBaseSlotItems[i];
+			string baseSlotItem = _character.SavedCharacter.EquippedBaseSlotItems[i];
 			ItemModel itemModel = ModelDB.GetById<ItemModel>(baseSlotItem);
 
 			int equippedIndex = equippedItems.FindIndex(item => item.ImmutableInstance == itemModel);
@@ -89,10 +126,10 @@ public partial class PartyInfoCharacter : Control
 		}
 
 		// Place all small items
-		int smallItemSlotCount = character.SavedCharacter.GetSmallItemSlotCount();
+		int smallItemSlotCount = _character.SavedCharacter.GetSmallItemSlotCount();
 		for(int i = 0; i < smallItemSlotCount; i++)
 		{
-			string smallSlotItem = i < character.SavedCharacter.EquippedSmallItems.Count ? character.SavedCharacter.EquippedSmallItems[i] : null;
+			string smallSlotItem = i < _character.SavedCharacter.EquippedSmallItems.Count ? _character.SavedCharacter.EquippedSmallItems[i] : null;
 			ItemModel itemModel = ModelDB.GetById<ItemModel>(smallSlotItem);
 
 			PartyInfoCharacterItem equipmentSlot = _partyInfoCharacterItemScene.Instantiate<PartyInfoCharacterItem>();
@@ -146,8 +183,36 @@ public partial class PartyInfoCharacter : Control
 					GameController.Instance.SyncedActionManager.PushSyncedAction(new DeactivateActiveCardSyncedAction(card.Owner, card));
 				}, TextButton.ColorType.Red)
 			));
-
-			return;
 		}
+	}
+
+	private void OnHealthChanged(Figure figure)
+	{
+		UpdateBaseInfo();
+	}
+
+	private void OnMaxHealthChanged(Figure figure)
+	{
+		UpdateBaseInfo();
+	}
+
+	private void OnXPChanged(Figure figure)
+	{
+		UpdateBaseInfo();
+	}
+
+	private void OnCardAdded(Character character, AbilityCard abilityCard)
+	{
+		UpdateCards();
+	}
+
+	private void OnCardRemoved(Character character, AbilityCard abilityCard)
+	{
+		UpdateCards();
+	}
+
+	private void OnCardStateChanged(Character character, AbilityCard abilityCard)
+	{
+		UpdateCards();
 	}
 }
