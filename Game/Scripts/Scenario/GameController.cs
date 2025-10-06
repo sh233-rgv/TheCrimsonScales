@@ -439,6 +439,11 @@ public partial class GameController : SceneController<GameController>
 					}
 
 					undoPerformed = true;
+
+					if(undoType == UndoType.Turn)
+					{
+						break;
+					}
 				}
 			}
 
