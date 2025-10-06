@@ -127,6 +127,8 @@ public partial class GameController : SceneController<GameController>
 
 	public static bool FastForward { get; private set; } // = true;
 
+	public int CurrentTurnTakerPromptIndex { get; private set; }
+
 	public SavedScenarioProgress SavedScenarioProgress { get; private set; }
 
 	public bool ScenarioEnded { get; private set; }
@@ -310,6 +312,11 @@ public partial class GameController : SceneController<GameController>
 		FastForwardChangedEvent?.Invoke(FastForward);
 	}
 
+	public void SetTurnTakerDecisionPrompt()
+	{
+		CurrentTurnTakerPromptIndex = SavedScenario.PromptAnswers.Count;
+	}
+
 	public bool CanUndo(UndoType undoType)
 	{
 		if(ScenarioEnded)
@@ -320,6 +327,14 @@ public partial class GameController : SceneController<GameController>
 		if(undoType == UndoType.Round)
 		{
 			return SavedScenario.CardSelectionStates.Count > 0 && SavedScenario.CardSelectionStates[0].Completed;
+		}
+
+		if(undoType == UndoType.Turn)
+		{
+			return
+				SavedScenario.CardSelectionStates.Count > 0 &&
+				SavedScenario.CardSelectionStates[0].Completed &&
+				SavedScenario.PromptAnswers.Count > CurrentTurnTakerPromptIndex;
 		}
 
 		return
@@ -357,7 +372,7 @@ public partial class GameController : SceneController<GameController>
 		newScenario.PromptAnswers.AddRange(savedCampaign.SavedScenario.PromptAnswers);
 
 		bool undoPerformed = false;
-		bool undoTurnPerformed = false;
+		//bool undoTurnPerformed = false;
 		bool undoRoundPerformed = false;
 		while(!undoPerformed || undoType != UndoType.Basic)
 		{
@@ -428,6 +443,11 @@ public partial class GameController : SceneController<GameController>
 				if(!answer.ImmediateCompletion)
 				{
 					undoPerformed = true;
+				}
+
+				if(undoType == UndoType.Turn && newScenario.PromptAnswers.Count <= CurrentTurnTakerPromptIndex)
+				{
+					break;
 				}
 
 				newScenario.PromptAnswers.RemoveAt(newScenario.PromptAnswers.Count - 1);

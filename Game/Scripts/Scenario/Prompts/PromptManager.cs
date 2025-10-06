@@ -120,6 +120,11 @@ public class PromptManager
 
 				_promptIndex++;
 
+				if(!answer.ImmediateCompletion)
+				{
+					GameController.Instance.SetTurnTakerDecisionPrompt();
+				}
+
 				if(answer.SelectedEffectIndex >= 0)
 				{
 					await prompt.EffectCollection.Effects[answer.SelectedEffectIndex].Apply();
