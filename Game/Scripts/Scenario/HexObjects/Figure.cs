@@ -151,7 +151,7 @@ public abstract partial class Figure : HexObject
 		}
 	}
 
-	public virtual async GDTask TakeFullTurn()
+	public async GDTask TakeFullTurn()
 	{
 		if(!IsDead)
 		{
@@ -402,11 +402,18 @@ public abstract partial class Figure : HexObject
 		if(!wasVisible && shouldBeVisible)
 		{
 			_figureViewComponent.Shield.Show();
-			_shieldTween = _figureViewComponent.Shield.TweenScale(1f, 0.2f).SetEasing(Easing.OutBack).PlayFastForwardable();
+			_shieldTween = _figureViewComponent.Shield
+				.TweenScale(1f, 0.2f)
+				.SetEasing(Easing.OutBack)
+				.PlayFastForwardable();
 		}
 		else if(wasVisible && !shouldBeVisible)
 		{
-			_shieldTween = _figureViewComponent.Shield.TweenScale(0f, 0.2f).OnComplete(_figureViewComponent.Shield.Hide).SetEasing(Easing.InBack).PlayFastForwardable();
+			_shieldTween = _figureViewComponent.Shield
+				.TweenScale(0f, 0.2f)
+				.OnComplete(_figureViewComponent.Shield.Hide)
+				.SetEasing(Easing.InBack)
+				.PlayFastForwardable();
 		}
 		else
 		{
@@ -437,7 +444,8 @@ public abstract partial class Figure : HexObject
 		}
 		else if(wasVisible && !shouldBeVisible)
 		{
-			_retaliateTween = _figureViewComponent.Retaliate.TweenScale(0f, 0.2f).OnComplete(_figureViewComponent.Retaliate.Hide).SetEasing(Easing.InBack).PlayFastForwardable();
+			_retaliateTween = _figureViewComponent.Retaliate.TweenScale(0f, 0.2f).OnComplete(_figureViewComponent.Retaliate.Hide)
+				.SetEasing(Easing.InBack).PlayFastForwardable();
 		}
 		else
 		{

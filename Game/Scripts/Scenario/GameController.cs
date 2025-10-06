@@ -268,7 +268,7 @@ public partial class GameController : SceneController<GameController>
 
 			if(inputEventKey.Keycode == Key.Backspace)
 			{
-				Undo();
+				Undo(UndoType.Basic);
 			}
 
 			if(inputEventKey.Keycode == Key.Escape)
@@ -310,11 +310,16 @@ public partial class GameController : SceneController<GameController>
 		FastForwardChangedEvent?.Invoke(FastForward);
 	}
 
-	public bool CanUndo()
+	public bool CanUndo(UndoType undoType)
 	{
 		if(ScenarioEnded)
 		{
 			return false;
+		}
+
+		if(undoType == UndoType.Round)
+		{
+			return SavedScenario.CardSelectionStates.Count > 0 && SavedScenario.CardSelectionStates[0].Completed;
 		}
 
 		return
@@ -325,9 +330,9 @@ public partial class GameController : SceneController<GameController>
 			 (SavedScenario.CardSelectionStates[0].SyncedActions.Count > 0 || SavedScenario.CardSelectionStates[0].Completed));
 	}
 
-	public void Undo()
+	public void Undo(UndoType undoType)
 	{
-		if(!CanUndo())
+		if(!CanUndo(undoType))
 		{
 			return;
 		}
@@ -351,22 +356,13 @@ public partial class GameController : SceneController<GameController>
 		newScenario.CardSelectionStates.AddRange(savedCampaign.SavedScenario.CardSelectionStates);
 		newScenario.PromptAnswers.AddRange(savedCampaign.SavedScenario.PromptAnswers);
 
-		// // Remove all immediate completion and skipped prompts
-		// for(int i = newScenario.PromptAnswers.Count - 1; i >= 0; i--)
-		// {
-		// 	PromptAnswer answer = newScenario.PromptAnswers[i];
-		// 	if(!answer.ImmediateCompletion && !answer.Skipped)
-		// 	{
-		// 		break;
-		// 	}
-		//
-		// 	newScenario.PromptAnswers.RemoveAt(i);
-		// }
-
-		// Check if a card selection state should be removed, otherwise just try to remove a prompt answer
 		bool undoPerformed = false;
-		while(!undoPerformed)
+		bool undoTurnPerformed = false;
+		bool undoRoundPerformed = false;
+		while(!undoPerformed || undoType != UndoType.Basic)
 		{
+			undoPerformed = false;
+
 			if(newScenario.CardSelectionStates.Count > 0)
 			{
 				CardSelectionState cardSelectionState = newScenario.CardSelectionStates[newScenario.CardSelectionStates.Count - 1];
@@ -389,6 +385,8 @@ public partial class GameController : SceneController<GameController>
 					{
 						// Change the state to no longer be completed, but keep selected cards and such the same
 						cardSelectionState.Completed = false;
+
+						undoRoundPerformed = true;
 					}
 					else
 					{
@@ -417,21 +415,14 @@ public partial class GameController : SceneController<GameController>
 				}
 			}
 
+			if(undoRoundPerformed && undoType == UndoType.Round)
+			{
+				break;
+			}
+
 			// Just remove the last prompt answer
 			if(!undoPerformed && newScenario.PromptAnswers.Count > 0)
 			{
-				// Remove all immediate completion and skipped prompts
-				// for(int i = newScenario.PromptAnswers.Count - 1; i >= 0; i--)
-				// {
-				// 	PromptAnswer answer = newScenario.PromptAnswers[i];
-				// 	if(!answer.ImmediateCompletion) // && !answer.Skipped)
-				// 	{
-				// 		break;
-				// 	}
-				//
-				// 	newScenario.PromptAnswers.RemoveAt(i);
-				// }
-
 				PromptAnswer answer = newScenario.PromptAnswers[newScenario.PromptAnswers.Count - 1];
 
 				if(!answer.ImmediateCompletion)
