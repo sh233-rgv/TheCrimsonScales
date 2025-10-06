@@ -1,0 +1,203 @@
+[gd_scene load_steps=10 format=3 uid="uid://cxg3u8opcit3d"]
+
+[ext_resource type="LabelSettings" uid="uid://co0cqpevlny13" path="res://Resources/PanelLabel.tres" id="1_e2t5o"]
+[ext_resource type="PackedScene" uid="uid://c1raw4u7yce4g" path="res://Scenes/NewCampaign/StartingGroupClass.tscn" id="2_ilx8c"]
+[ext_resource type="Texture2D" uid="uid://ukntvb1ygx0s" path="res://Content/Classes/Bombard/Icon.svg" id="3_c6sfd"]
+[ext_resource type="Texture2D" uid="uid://cjvut1gbp27rw" path="res://Content/Classes/FireKnight/Icon.svg" id="4_byxwj"]
+[ext_resource type="Texture2D" uid="uid://m8jmlvd740dq" path="res://Content/Classes/Hierophant/Icon.svg" id="5_e0waq"]
+
+[sub_resource type="Gradient" id="Gradient_2p2e3"]
+colors = PackedColorArray(0.752582, 0.752582, 0.752582, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_p1m44"]
+gradient = SubResource("Gradient_2p2e3")
+fill = 1
+fill_from = Vector2(0.527066, 0.555556)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Gradient" id="Gradient_fkfa5"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3npii"]
+gradient = SubResource("Gradient_fkfa5")
+
+[node name="StartingGroup" type="MarginContainer"]
+
+[node name="Background" type="TextureRect" parent="."]
+self_modulate = Color(0.376659, 0.376658, 0.376658, 0.341176)
+layout_mode = 2
+texture = SubResource("GradientTexture2D_p1m44")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Header" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="Background" type="TextureRect" parent="MarginContainer/VBoxContainer/Header"]
+self_modulate = Color(0.984616, 0.549261, 0.513281, 1)
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_3npii")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Header"]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -2.5
+offset_bottom = -1.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Militants"
+label_settings = ExtResource("1_e2t5o")
+horizontal_alignment = 1
+
+[node name="Divider" type="TextureRect" parent="MarginContainer/VBoxContainer/Header"]
+self_modulate = Color(0.454589, 0.0747298, 0.0835239, 1)
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = SubResource("GradientTexture1D_3npii")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Classes" type="GridContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="StartingGroupClass" parent="MarginContainer/VBoxContainer/MarginContainer/Classes" instance=ExtResource("2_ilx8c")]
+layout_mode = 2
+
+[node name="Icon" parent="MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass" index="0"]
+self_modulate = Color(0.572549, 0.521569, 0.443137, 1)
+texture = ExtResource("3_c6sfd")
+
+[node name="StartingGroupClass2" parent="MarginContainer/VBoxContainer/MarginContainer/Classes" instance=ExtResource("2_ilx8c")]
+layout_mode = 2
+
+[node name="Icon" parent="MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass2" index="0"]
+self_modulate = Color(0.772549, 0.113725, 0.129412, 1)
+texture = ExtResource("4_byxwj")
+
+[node name="StartingGroupClass3" parent="MarginContainer/VBoxContainer/MarginContainer/Classes" instance=ExtResource("2_ilx8c")]
+layout_mode = 2
+
+[node name="Icon" parent="MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass3" index="0"]
+self_modulate = Color(0.745098, 0.752941, 0.356863, 1)
+texture = ExtResource("5_e0waq")
+
+[node name="StartingGroupClass4" parent="MarginContainer/VBoxContainer/MarginContainer/Classes" instance=ExtResource("2_ilx8c")]
+layout_mode = 2
+
+[node name="Icon" parent="MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass4" index="0"]
+self_modulate = Color(0.913725, 0.411765, 0.0705882, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Divider" type="Control" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer"]
+modulate = Color(0.949121, 0.31306, 0.297705, 1)
+layout_mode = 2
+
+[node name="Horizontal" type="TextureRect" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/Divider"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -0.5
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_3npii")
+expand_mode = 1
+
+[node name="Vertical" type="TextureRect" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/Divider"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -0.5
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+pivot_offset = Vector2(120, 2)
+texture = SubResource("GradientTexture1D_3npii")
+expand_mode = 1
+
+[node name="Border" type="Control" parent="."]
+layout_mode = 2
+
+[node name="Top" type="ColorRect" parent="Border"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+color = Color(0.635294, 0.482353, 0.270588, 1)
+
+[node name="Left" type="ColorRect" parent="Border"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+color = Color(0.635294, 0.482353, 0.270588, 1)
+
+[node name="Right" type="ColorRect" parent="Border"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0.635294, 0.482353, 0.270588, 1)
+
+[node name="Bottom" type="ColorRect" parent="Border"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.635294, 0.482353, 0.270588, 1)
+
+[editable path="MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass"]
+[editable path="MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass2"]
+[editable path="MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass3"]
+[editable path="MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass4"]
