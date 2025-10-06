@@ -73,9 +73,17 @@ public partial class MenuPopup : Popup<MenuPopup.Request>
 
 	private void OnUndoRoundPressed()
 	{
-		Close();
+		AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request("Win", "Are you sure you undo to the start of the past round?",
+			new TextButton.Parameters("Cancel", () =>
+			{
+			}),
+			new TextButton.Parameters("Undo", () =>
+			{
+				Close();
 
-		GameController.Instance.Undo(UndoType.Round);
+				GameController.Instance.Undo(UndoType.Round);
+			}, TextButton.ColorType.Red)
+		));
 	}
 
 	private void OnCopyToClipboardPressed()

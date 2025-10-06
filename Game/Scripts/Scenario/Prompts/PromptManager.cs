@@ -122,7 +122,7 @@ public class PromptManager
 
 				if(!answer.ImmediateCompletion)
 				{
-					GameController.Instance.SetTurnTakerDecisionPrompt();
+					GameController.Instance.SetRelevantTurnTakerPrompt(_promptIndex);
 				}
 
 				if(answer.SelectedEffectIndex >= 0)

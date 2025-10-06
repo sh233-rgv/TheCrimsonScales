@@ -127,6 +127,8 @@ public partial class GameController : SceneController<GameController>
 
 	public static bool FastForward { get; private set; } // = true;
 
+	public Figure CurrentRelevantTurnTaker { get; private set; }
+	public int PreviousTurnTakerPromptIndex { get; private set; }
 	public int CurrentTurnTakerPromptIndex { get; private set; }
 
 	public SavedScenarioProgress SavedScenarioProgress { get; private set; }
@@ -312,9 +314,19 @@ public partial class GameController : SceneController<GameController>
 		FastForwardChangedEvent?.Invoke(FastForward);
 	}
 
-	public void SetTurnTakerDecisionPrompt()
+	public void SetRelevantTurnTakerPrompt(int promptIndex)
 	{
-		CurrentTurnTakerPromptIndex = SavedScenario.PromptAnswers.Count;
+		if(CurrentRelevantTurnTaker != Map.CurrentTurnTaker)
+		{
+			CurrentRelevantTurnTaker = Map.CurrentTurnTaker;
+			PreviousTurnTakerPromptIndex = CurrentTurnTakerPromptIndex;
+			CurrentTurnTakerPromptIndex = promptIndex;
+		}
+	}
+
+	public void ResetRelevantTurnTaker()
+	{
+		CurrentRelevantTurnTaker = null;
 	}
 
 	public bool CanUndo(UndoType undoType)
@@ -334,7 +346,7 @@ public partial class GameController : SceneController<GameController>
 			return
 				SavedScenario.CardSelectionStates.Count > 0 &&
 				SavedScenario.CardSelectionStates[0].Completed &&
-				SavedScenario.PromptAnswers.Count > CurrentTurnTakerPromptIndex;
+				SavedScenario.PromptAnswers.Count >= CurrentTurnTakerPromptIndex;
 		}
 
 		return
@@ -445,12 +457,14 @@ public partial class GameController : SceneController<GameController>
 					undoPerformed = true;
 				}
 
-				if(undoType == UndoType.Turn && newScenario.PromptAnswers.Count <= CurrentTurnTakerPromptIndex)
+				newScenario.PromptAnswers.RemoveAt(newScenario.PromptAnswers.Count - 1);
+
+				if(undoType == UndoType.Turn &&
+				   (newScenario.PromptAnswers.Count + 1 == CurrentTurnTakerPromptIndex ||
+				    newScenario.PromptAnswers.Count + 1 == PreviousTurnTakerPromptIndex))
 				{
 					break;
 				}
-
-				newScenario.PromptAnswers.RemoveAt(newScenario.PromptAnswers.Count - 1);
 			}
 		}
 
