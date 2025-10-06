@@ -39,16 +39,6 @@ texture = ExtResource("1_t6x8m")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Vignette" type="ColorRect" parent="CanvasLayer/UI"]
-material = SubResource("ShaderMaterial_p5y0s")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
 [node name="StartingGroups" type="MarginContainer" parent="CanvasLayer/UI"]
 layout_mode = 1
 anchors_preset = 8
@@ -65,41 +55,49 @@ grow_vertical = 2
 
 [node name="Groups" type="HBoxContainer" parent="CanvasLayer/UI/StartingGroups"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 40
 
 [node name="StartingGroup" parent="CanvasLayer/UI/StartingGroups/Groups" instance=ExtResource("3_fkfa5")]
 layout_mode = 2
 
+[node name="LeftHalf" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle3" index="1"]
+visible = true
+
 [node name="StartingGroup2" parent="CanvasLayer/UI/StartingGroups/Groups" instance=ExtResource("3_fkfa5")]
 layout_mode = 2
 
-[node name="Background" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/MarginContainer/VBoxContainer/Header" index="0"]
-self_modulate = Color(0.721184, 0.860275, 0.928184, 1)
+[node name="Background" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Box/MarginContainer/VBoxContainer/Header" index="0"]
+self_modulate = Color(0.721569, 0.858824, 0.929412, 1)
 
-[node name="Label" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/MarginContainer/VBoxContainer/Header" index="1"]
+[node name="Label" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Box/MarginContainer/VBoxContainer/Header" index="1"]
 text = "Protectors"
 
-[node name="Divider" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/MarginContainer/VBoxContainer/Header" index="2"]
-self_modulate = Color(0.222958, 0.547706, 0.717706, 1)
+[node name="Divider" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Box/MarginContainer/VBoxContainer/Header" index="2"]
+self_modulate = Color(0.223529, 0.54902, 0.717647, 1)
 
-[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass" index="0"]
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass" index="0"]
 self_modulate = Color(0.780392, 0.423529, 0.152941, 1)
 texture = ExtResource("4_3npii")
 
-[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass2" index="0"]
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass2" index="0"]
 self_modulate = Color(0.501961, 0.776471, 0.764706, 1)
 texture = ExtResource("5_gpolg")
 
-[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass3" index="0"]
-self_modulate = Color(0.772549, 0.113725, 0.129412, 1)
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass3" index="0"]
+self_modulate = Color(0.764706, 0.113725, 0.129412, 1)
 texture = ExtResource("6_3npii")
 
-[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass4" index="0"]
-self_modulate = Color(0.745098, 0.752941, 0.356863, 1)
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass4" index="0"]
+self_modulate = Color(0.733333, 0.741176, 0.352941, 1)
 texture = ExtResource("7_gpolg")
 
-[node name="Divider" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/MarginContainer/VBoxContainer/MarginContainer/MarginContainer" index="0"]
-modulate = Color(0.502351, 0.708712, 0.849119, 1)
+[node name="Divider" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/MarginContainer" index="0"]
+modulate = Color(0.501961, 0.709804, 0.85098, 1)
+
+[node name="Label2" parent="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer" index="1"]
+text = "Melee Damage, Monster
+Manipulation, Protection,
+Summoning, Support, and Healing."
 
 [node name="StartingGroup3" parent="CanvasLayer/UI/StartingGroups/Groups" instance=ExtResource("3_fkfa5")]
 visible = false
@@ -113,8 +111,33 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
+[node name="Vignette" type="ColorRect" parent="CanvasLayer/UI"]
+material = SubResource("ShaderMaterial_p5y0s")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass2"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass3"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass4"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle2"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle3"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle4"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle5"]
 [editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2"]
-[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass"]
-[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass2"]
-[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass3"]
-[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass4"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass2"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass3"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass4"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle2"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle3"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle4"]
+[editable path="CanvasLayer/UI/StartingGroups/Groups/StartingGroup2/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle5"]
