@@ -362,13 +362,13 @@ mouse_filter = 2
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer"]
+[node name="Header" type="Label" parent="VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer"]
 layout_mode = 2
 text = "Group Summary:"
 label_settings = SubResource("LabelSettings_c6sfd")
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer"]
+[node name="Text" type="Label" parent="VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer"]
 layout_mode = 2
 text = "Delayed Damage, Protection, Support, Healing, Debuffing, and Terrain Creation."
 label_settings = SubResource("LabelSettings_byxwj")

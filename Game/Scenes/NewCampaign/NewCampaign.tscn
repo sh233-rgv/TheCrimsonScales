@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://01qkak46738j"]
+[gd_scene load_steps=13 format=3 uid="uid://01qkak46738j"]
 
 [ext_resource type="Texture2D" uid="uid://cw111i6yk01f1" path="res://Art/Backgrounds/ArtbookBackground.jpg" id="1_t6x8m"]
 [ext_resource type="Shader" uid="uid://coeiuysk5p21c" path="res://Shaders/Vignette.gdshader" id="2_car6k"]
@@ -8,6 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://cjvut1gbp27rw" path="res://Content/Classes/FireKnight/Icon.svg" id="6_3npii"]
 [ext_resource type="Texture2D" uid="uid://cn0s6wuf3brjd" path="res://Content/Classes/Brightspark/Icon.svg" id="7_3npii"]
 [ext_resource type="Texture2D" uid="uid://m8jmlvd740dq" path="res://Content/Classes/Hierophant/Icon.svg" id="7_gpolg"]
+[ext_resource type="Texture2D" uid="uid://b7gmgb3c72jc4" path="res://Content/Classes/Hollowpact/Icon.svg" id="8_qjdro"]
+[ext_resource type="Texture2D" uid="uid://bdxfdcpsxiwol" path="res://Content/Classes/Starslinger/Icon.svg" id="9_br12y"]
+[ext_resource type="Texture2D" uid="uid://dqn1kjdvhtmvb" path="res://Content/Classes/Luminary/Icon.svg" id="10_40brb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p5y0s"]
 shader = ExtResource("2_car6k")
@@ -95,10 +98,8 @@ texture = ExtResource("7_gpolg")
 [node name="Divider" parent="CanvasLayer/UI/StartingGroups/Groups/Protectors/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/MarginContainer" index="0"]
 modulate = Color(0.501961, 0.709804, 0.85098, 1)
 
-[node name="Label2" parent="CanvasLayer/UI/StartingGroups/Groups/Protectors/VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer" index="1"]
-text = "Melee Damage, Monster
-Manipulation, Protection,
-Summoning, Support, and Healing."
+[node name="Text" parent="CanvasLayer/UI/StartingGroups/Groups/Protectors/VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer" index="1"]
+text = "Melee Damage, Monster Manipulation, Protection, Summoning, Support, and Healing"
 
 [node name="Explorers" parent="CanvasLayer/UI/StartingGroups/Groups" instance=ExtResource("3_fkfa5")]
 layout_mode = 2
@@ -113,10 +114,29 @@ text = "Explorers"
 self_modulate = Color(0.467461, 0.341239, 0.454061, 1)
 
 [node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/Explorers/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass" index="0"]
+self_modulate = Color(0.792157, 0.678431, 0.180392, 1)
 texture = ExtResource("7_3npii")
+
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/Explorers/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass2" index="0"]
+self_modulate = Color(0.807843, 0.427451, 0.188235, 1)
+texture = ExtResource("4_3npii")
+
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/Explorers/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass3" index="0"]
+self_modulate = Color(0.596078, 0.317647, 0.627451, 1)
+texture = ExtResource("8_qjdro")
+
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/Explorers/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass4" index="0"]
+self_modulate = Color(0.309804, 0.341176, 0.65098, 1)
+texture = ExtResource("9_br12y")
 
 [node name="Divider" parent="CanvasLayer/UI/StartingGroups/Groups/Explorers/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/MarginContainer" index="0"]
 modulate = Color(0.729412, 0.596078, 0.713726, 1)
+
+[node name="FullCircle" parent="CanvasLayer/UI/StartingGroups/Groups/Explorers/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle3" index="2"]
+visible = true
+
+[node name="Text" parent="CanvasLayer/UI/StartingGroups/Groups/Explorers/VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer" index="1"]
+text = "Elements, Area of Effect, Monster Manipulation, Obstacle Creation, Healing and Mobility."
 
 [node name="Trailblazers" parent="CanvasLayer/UI/StartingGroups/Groups" instance=ExtResource("3_fkfa5")]
 layout_mode = 2
@@ -130,8 +150,26 @@ text = "Trailblazers"
 [node name="Divider" parent="CanvasLayer/UI/StartingGroups/Groups/Trailblazers/VBoxContainer/Box/MarginContainer/VBoxContainer/Header" index="2"]
 self_modulate = Color(0.657703, 0.539661, 0.180139, 1)
 
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/Trailblazers/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass2" index="0"]
+self_modulate = Color(0.792157, 0.678431, 0.180392, 1)
+texture = ExtResource("7_3npii")
+
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/Trailblazers/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass3" index="0"]
+self_modulate = Color(0.698039, 0.541176, 0.74902, 1)
+texture = ExtResource("10_40brb")
+
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/Trailblazers/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass4" index="0"]
+self_modulate = Color(0.309804, 0.341176, 0.65098, 1)
+texture = ExtResource("9_br12y")
+
 [node name="Divider" parent="CanvasLayer/UI/StartingGroups/Groups/Trailblazers/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/MarginContainer" index="0"]
 modulate = Color(0.868262, 0.832309, 0.339375, 1)
+
+[node name="FullCircle" parent="CanvasLayer/UI/StartingGroups/Groups/Trailblazers/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle3" index="2"]
+visible = true
+
+[node name="Text" parent="CanvasLayer/UI/StartingGroups/Groups/Trailblazers/VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer" index="1"]
+text = "Delayed Damage, Protection, Elements, Area of Effect, Support and Healing"
 
 [node name="Naturalists" parent="CanvasLayer/UI/StartingGroups/Groups" instance=ExtResource("3_fkfa5")]
 layout_mode = 2
@@ -145,8 +183,32 @@ text = "Naturalists"
 [node name="Divider" parent="CanvasLayer/UI/StartingGroups/Groups/Naturalists/VBoxContainer/Box/MarginContainer/VBoxContainer/Header" index="2"]
 self_modulate = Color(0.271491, 0.427798, 0.304324, 1)
 
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/Naturalists/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass" index="0"]
+self_modulate = Color(0.462745, 0.776471, 0.764706, 1)
+texture = ExtResource("5_gpolg")
+
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/Naturalists/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass2" index="0"]
+self_modulate = Color(0.596078, 0.317647, 0.627451, 1)
+texture = ExtResource("8_qjdro")
+
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/Naturalists/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass3" index="0"]
+self_modulate = Color(0.698039, 0.541176, 0.74902, 1)
+texture = ExtResource("10_40brb")
+
+[node name="Icon" parent="CanvasLayer/UI/StartingGroups/Groups/Naturalists/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass4" index="0"]
+self_modulate = Color(0.94902, 0.415686, 0.141176, 1)
+
 [node name="Divider" parent="CanvasLayer/UI/StartingGroups/Groups/Naturalists/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/MarginContainer" index="0"]
 modulate = Color(0.503595, 0.69547, 0.535176, 1)
+
+[node name="FullCircle" parent="CanvasLayer/UI/StartingGroups/Groups/Naturalists/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle3" index="2"]
+visible = true
+
+[node name="FullCircle" parent="CanvasLayer/UI/StartingGroups/Groups/Naturalists/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle4" index="2"]
+visible = true
+
+[node name="Text" parent="CanvasLayer/UI/StartingGroups/Groups/Naturalists/VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer" index="1"]
+text = "Melee Damage, Summoning, Elements, Support, Area of Effect, Debuffing, and Terrain Creation"
 
 [node name="Vignette" type="ColorRect" parent="CanvasLayer/UI"]
 material = SubResource("ShaderMaterial_p5y0s")
