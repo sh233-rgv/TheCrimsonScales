@@ -1,5 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://cxg3u8opcit3d"]
+[gd_scene load_steps=15 format=3 uid="uid://cxg3u8opcit3d"]
 
+[ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="1_byxwj"]
 [ext_resource type="LabelSettings" uid="uid://co0cqpevlny13" path="res://Resources/PanelLabel.tres" id="1_e2t5o"]
 [ext_resource type="PackedScene" uid="uid://c1raw4u7yce4g" path="res://Scenes/NewCampaign/StartingGroupClass.tscn" id="2_ilx8c"]
 [ext_resource type="Texture2D" uid="uid://ukntvb1ygx0s" path="res://Content/Classes/Bombard/Icon.svg" id="3_c6sfd"]
@@ -32,22 +33,100 @@ font_size = 30
 font = ExtResource("6_ilx8c")
 font_size = 25
 
-[node name="StartingGroup" type="MarginContainer"]
+[node name="StartingGroup" type="BaseButton"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(248, 542)
+layout_direction = 0
+layout_mode = 3
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 248.0
+offset_bottom = 516.0
+grow_horizontal = 1
+grow_vertical = 1
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = ExtResource("1_byxwj")
+metadata/_custom_type_script = "uid://dir5vjdxjac3n"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+offset_right = 248.0
+offset_bottom = 516.0
+mouse_filter = 2
 theme_override_constants/separation = 20
 
 [node name="Box" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Background" type="TextureRect" parent="VBoxContainer/Box"]
 self_modulate = Color(0.376659, 0.376658, 0.376658, 0.341176)
 layout_mode = 2
+mouse_filter = 2
 texture = SubResource("GradientTexture2D_p1m44")
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Box"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
@@ -55,11 +134,13 @@ theme_override_constants/margin_bottom = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Box/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="Header" type="Control" parent="VBoxContainer/Box/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Background" type="TextureRect" parent="VBoxContainer/Box/MarginContainer/VBoxContainer/Header"]
 self_modulate = Color(0.984616, 0.549261, 0.513281, 1)
@@ -70,6 +151,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = SubResource("GradientTexture1D_3npii")
 expand_mode = 1
 
@@ -97,14 +179,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
 texture = SubResource("GradientTexture1D_3npii")
 expand_mode = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Box/MarginContainer/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Classes" type="GridContainer" parent="VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 2
@@ -138,10 +223,12 @@ self_modulate = Color(0.913725, 0.411765, 0.0705882, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Divider" type="Control" parent="VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/MarginContainer"]
 modulate = Color(0.949121, 0.31306, 0.297705, 1)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Horizontal" type="TextureRect" parent="VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/MarginContainer/Divider"]
 custom_minimum_size = Vector2(0, 2)
@@ -154,6 +241,7 @@ offset_top = -0.5
 offset_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = SubResource("GradientTexture1D_3npii")
 expand_mode = 1
 
@@ -170,11 +258,13 @@ grow_horizontal = 2
 grow_vertical = 2
 rotation = 1.5708
 pivot_offset = Vector2(120, 2)
+mouse_filter = 2
 texture = SubResource("GradientTexture1D_3npii")
 expand_mode = 1
 
 [node name="Border" type="Control" parent="VBoxContainer/Box"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Top" type="ColorRect" parent="VBoxContainer/Box/Border"]
 custom_minimum_size = Vector2(0, 4)
@@ -182,6 +272,7 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
+mouse_filter = 2
 color = Color(0.635294, 0.482353, 0.270588, 1)
 
 [node name="Left" type="ColorRect" parent="VBoxContainer/Box/Border"]
@@ -190,6 +281,7 @@ layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.635294, 0.482353, 0.270588, 1)
 
 [node name="Right" type="ColorRect" parent="VBoxContainer/Box/Border"]
@@ -201,6 +293,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.635294, 0.482353, 0.270588, 1)
 
 [node name="Bottom" type="ColorRect" parent="VBoxContainer/Box/Border"]
@@ -212,18 +305,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
 color = Color(0.635294, 0.482353, 0.270588, 1)
 
 [node name="Details" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Details"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 20
 
 [node name="ComplexityRating" type="VBoxContainer" parent="VBoxContainer/Details/VBoxContainer"]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/Details/VBoxContainer/ComplexityRating"]
 layout_mode = 2
@@ -233,6 +330,7 @@ horizontal_alignment = 1
 
 [node name="Rating" type="HBoxContainer" parent="VBoxContainer/Details/VBoxContainer/ComplexityRating"]
 layout_mode = 2
+mouse_filter = 2
 alignment = 1
 
 [node name="RatingCircle" parent="VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating" instance=ExtResource("7_c6sfd")]
@@ -258,9 +356,11 @@ layout_mode = 2
 
 [node name="Summary" type="MarginContainer" parent="VBoxContainer/Details/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Details/VBoxContainer/Summary"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer"]
 layout_mode = 2
@@ -274,13 +374,6 @@ text = "Delayed Damage, Protection, Support, Healing, Debuffing, and Terrain Cre
 label_settings = SubResource("LabelSettings_byxwj")
 horizontal_alignment = 1
 autowrap_mode = 2
-
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer"]
-visible = false
-layout_mode = 2
-bbcode_enabled = true
-text = "<i>Delayed Damage, Protection, Support, Healing, Debuffing, and Terrain Creation."
-fit_content = true
 
 [editable path="VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass"]
 [editable path="VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass2"]

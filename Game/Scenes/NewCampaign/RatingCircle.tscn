@@ -7,11 +7,13 @@
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 3
 anchors_preset = 0
+mouse_filter = 2
 
 [node name="Outline" type="TextureRect" parent="."]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 texture = ExtResource("1_rvocv")
 expand_mode = 1
 
@@ -24,11 +26,13 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 20.0
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="TextureRect" type="TextureRect" parent="LeftHalf"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 texture = ExtResource("2_okr7m")
 expand_mode = 1
 
@@ -37,5 +41,6 @@ visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 texture = ExtResource("2_okr7m")
 expand_mode = 1
