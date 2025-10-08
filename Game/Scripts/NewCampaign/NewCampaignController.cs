@@ -1,36 +1,17 @@
 ﻿using Godot;
 
-public partial class MainMenuController : SceneController<MainMenuController>
+public partial class NewCampaignController : SceneController<NewCampaignController>
 {
-	[Export]
-	private BetterButton _continueButton;
-	[Export]
-	private BetterButton _newGameButton;
-	[Export]
-	private BetterButton _optionsButton;
-	[Export]
-	private BetterButton _exitButton;
-
-	private MainMenuSceneRequest _sceneRequest;
+	private NewCampaignSceneRequest _sceneRequest;
 
 	public override void _EnterTree()
 	{
-		_sceneRequest = AppController.Instance.SceneLoader.CurrentSceneRequest as MainMenuSceneRequest;
+		_sceneRequest = AppController.Instance.SceneLoader.CurrentSceneRequest as NewCampaignSceneRequest;
 
 		if(_sceneRequest == null)
 		{
-			_sceneRequest = new MainMenuSceneRequest();
+			_sceneRequest = new NewCampaignSceneRequest();
 		}
-
-		bool continueAvailable = AppController.Instance.SaveFile.SaveData.SavedCampaign != null;
-		_continueButton.GetParent<Control>().SetVisible(continueAvailable);
-
-		_continueButton.Pressed += OnContinuePressed;
-		_newGameButton.Pressed += OnNewGamePressed;
-		_optionsButton.Pressed += OnOptionsPressed;
-		_exitButton.Pressed += OnExitPressed;
-
-		_exitButton.GetParent<Control>().SetVisible(Platform.DeskTop);
 	}
 
 	public override void _Ready()
