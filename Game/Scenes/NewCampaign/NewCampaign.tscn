@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://01qkak46738j"]
+[gd_scene load_steps=25 format=3 uid="uid://01qkak46738j"]
 
 [ext_resource type="Script" uid="uid://dydkneeqo4x6j" path="res://Scripts/NewCampaign/NewCampaignController.cs" id="1_h7fbo"]
 [ext_resource type="Texture2D" uid="uid://cw111i6yk01f1" path="res://Art/Backgrounds/ArtbookBackground.jpg" id="1_t6x8m"]
 [ext_resource type="FontVariation" uid="uid://ciy2q5rti2m6m" path="res://Fonts/MarkaziVariation.tres" id="2_40brb"]
 [ext_resource type="Shader" uid="uid://coeiuysk5p21c" path="res://Shaders/Vignette.gdshader" id="2_car6k"]
+[ext_resource type="Script" uid="uid://t06u8i6g46gl" path="res://Scripts/NewCampaign/NewCampaignStep.cs" id="3_2s3v0"]
 [ext_resource type="PackedScene" uid="uid://cxg3u8opcit3d" path="res://Scenes/NewCampaign/StartingGroup.tscn" id="3_fkfa5"]
 [ext_resource type="LabelSettings" uid="uid://co0cqpevlny13" path="res://Resources/PanelLabel.tres" id="3_h7fbo"]
 [ext_resource type="Texture2D" uid="uid://c7vwv1jbenth1" path="res://Content/Classes/Chainguard/Icon.svg" id="4_3npii"]
@@ -14,10 +15,47 @@
 [ext_resource type="Texture2D" uid="uid://b7gmgb3c72jc4" path="res://Content/Classes/Hollowpact/Icon.svg" id="8_qjdro"]
 [ext_resource type="Texture2D" uid="uid://bdxfdcpsxiwol" path="res://Content/Classes/Starslinger/Icon.svg" id="9_br12y"]
 [ext_resource type="Texture2D" uid="uid://dqn1kjdvhtmvb" path="res://Content/Classes/Luminary/Icon.svg" id="10_40brb"]
+[ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="14_lqwu3"]
+[ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="15_xjx63"]
+[ext_resource type="Script" uid="uid://e1u4nmwejxw5" path="res://Scripts/Scenario/UI/ChoiceButtonsView/ChoiceButton.cs" id="18_qdqnt"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lqwu3"]
 font = ExtResource("2_40brb")
 font_size = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xjx63"]
+bg_color = Color(0, 0, 0, 0.305882)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2s3v0"]
+bg_color = Color(0, 0, 0, 0.305882)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 8.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_2s3v0"]
+font = ExtResource("14_lqwu3")
+font_size = 60
+
+[sub_resource type="LabelSettings" id="LabelSettings_qdqnt"]
+font = ExtResource("14_lqwu3")
+font_size = 60
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p5y0s"]
 shader = ExtResource("2_car6k")
@@ -27,8 +65,11 @@ shader_parameter/vignette_strength = 0.8
 shader_parameter/dither_strength = 0.03
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 
-[node name="NewCampaign" type="Node"]
+[node name="NewCampaign" type="Node" node_paths=PackedStringArray("_steps", "_backButton", "_confirmButton")]
 script = ExtResource("1_h7fbo")
+_steps = [NodePath("CanvasLayer/UI/StartingGroup"), NodePath("CanvasLayer/UI/EnterName")]
+_backButton = NodePath("CanvasLayer/UI/BackButton/BetterButton")
+_confirmButton = NodePath("CanvasLayer/UI/ConfirmButton/BetterButton")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -59,6 +100,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("3_2s3v0")
 
 [node name="Header" type="Label" parent="CanvasLayer/UI/StartingGroup"]
 layout_mode = 1
@@ -258,6 +300,107 @@ visible = true
 [node name="Text" parent="CanvasLayer/UI/StartingGroup/StartingGroups/Groups/Naturalists/VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer" index="1"]
 text = "Melee Damage, Summoning, Elements, Support, Area of Effect, Debuffing, and Terrain Creation"
 
+[node name="EnterName" type="Control" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_2s3v0")
+
+[node name="Header" type="Label" parent="CanvasLayer/UI/EnterName"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -465.0
+offset_top = 50.0
+offset_right = 465.0
+offset_bottom = 187.0
+grow_horizontal = 2
+text = "Enter a Name for your Party"
+label_settings = SubResource("LabelSettings_lqwu3")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/EnterName"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -565.0
+offset_top = 180.0
+offset_right = 565.0
+offset_bottom = 221.0
+grow_horizontal = 2
+text = "The classes not included in the chosen group can be unlocked during the campaign."
+label_settings = ExtResource("3_h7fbo")
+horizontal_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/UI/EnterName"]
+custom_minimum_size = Vector2(800, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -50.0
+offset_right = 400.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/caret_width = 2
+theme_override_fonts/font = ExtResource("14_lqwu3")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/focus = SubResource("StyleBoxFlat_xjx63")
+theme_override_styles/normal = SubResource("StyleBoxFlat_2s3v0")
+placeholder_text = "..."
+alignment = 1
+max_length = 20
+caret_blink = true
+
+[node name="BackButton" parent="CanvasLayer/UI/EnterName" instance=ExtResource("15_xjx63")]
+visible = false
+custom_minimum_size = Vector2(300, 120)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_top = -180.0
+offset_right = 300.0
+offset_bottom = -100.0
+grow_vertical = 0
+
+[node name="Label" parent="CanvasLayer/UI/EnterName/BackButton/BetterButton/Panel" index="0"]
+text = "Back"
+label_settings = SubResource("LabelSettings_2s3v0")
+
+[node name="ConfirmButton" parent="CanvasLayer/UI/EnterName" instance=ExtResource("15_xjx63")]
+visible = false
+modulate = Color(0.458824, 1, 0.372549, 1)
+custom_minimum_size = Vector2(300, 120)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -220.0
+offset_right = 150.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" parent="CanvasLayer/UI/EnterName/ConfirmButton/BetterButton/Panel" index="0"]
+label_settings = SubResource("LabelSettings_qdqnt")
+
 [node name="Vignette" type="ColorRect" parent="CanvasLayer/UI"]
 material = SubResource("ShaderMaterial_p5y0s")
 layout_mode = 1
@@ -267,6 +410,41 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="BackButton" parent="CanvasLayer/UI" node_paths=PackedStringArray("BetterButton") instance=ExtResource("15_xjx63")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_top = -180.0
+offset_right = 300.0
+offset_bottom = -100.0
+grow_vertical = 0
+script = ExtResource("18_qdqnt")
+BetterButton = NodePath("BetterButton")
+_startActive = false
+
+[node name="Label" parent="CanvasLayer/UI/BackButton/BetterButton/Panel" index="0"]
+text = "Cancel"
+
+[node name="ConfirmButton" parent="CanvasLayer/UI" node_paths=PackedStringArray("BetterButton") instance=ExtResource("15_xjx63")]
+modulate = Color(0.458824, 1, 0.372549, 1)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -180.0
+offset_right = 100.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("18_qdqnt")
+BetterButton = NodePath("BetterButton")
+_startActive = false
 
 [editable path="CanvasLayer/UI/StartingGroup/StartingGroups/Groups/Militants"]
 [editable path="CanvasLayer/UI/StartingGroup/StartingGroups/Groups/Militants/VBoxContainer/Box/MarginContainer/VBoxContainer/MarginContainer/Classes/StartingGroupClass"]
@@ -318,3 +496,7 @@ mouse_filter = 2
 [editable path="CanvasLayer/UI/StartingGroup/StartingGroups/Groups/Naturalists/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle3"]
 [editable path="CanvasLayer/UI/StartingGroup/StartingGroups/Groups/Naturalists/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle4"]
 [editable path="CanvasLayer/UI/StartingGroup/StartingGroups/Groups/Naturalists/VBoxContainer/Details/VBoxContainer/ComplexityRating/Rating/RatingCircle5"]
+[editable path="CanvasLayer/UI/EnterName/BackButton"]
+[editable path="CanvasLayer/UI/EnterName/ConfirmButton"]
+[editable path="CanvasLayer/UI/BackButton"]
+[editable path="CanvasLayer/UI/ConfirmButton"]

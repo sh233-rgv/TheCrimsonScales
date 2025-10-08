@@ -22,11 +22,11 @@ public class SavedCampaign
 
 	public event Action CharactersChangedEvent;
 
-	public static SavedCampaign New(string partyName)
+	public static SavedCampaign New()
 	{
 		SavedCampaign savedCampaign = new SavedCampaign()
 		{
-			PartyName = partyName,
+			PartyName = string.Empty,
 			Characters =
 			[
 			],
@@ -80,7 +80,8 @@ public class SavedCampaign
 
 	public static SavedCampaign Test()
 	{
-		SavedCampaign savedCampaign = New("Party Time");
+		SavedCampaign savedCampaign = New();
+		savedCampaign.SetPartyName("Party Time");
 
 		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), "Swampguy");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), "Bombo");
@@ -94,6 +95,11 @@ public class SavedCampaign
 		savedCampaign.Characters[0].AddItem(ModelDB.Item<PoisonDagger>());
 
 		return savedCampaign;
+	}
+
+	public void SetPartyName(string name)
+	{
+		PartyName = name;
 	}
 
 	public SavedItem GetSavedItem(ItemModel itemModel)

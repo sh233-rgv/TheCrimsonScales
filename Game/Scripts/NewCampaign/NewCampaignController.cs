@@ -1,8 +1,23 @@
 ﻿using Godot;
+using GTweens.Builders;
+using GTweensGodot.Extensions;
 
 public partial class NewCampaignController : SceneController<NewCampaignController>
 {
+	[Export]
+	private NewCampaignStep[] _steps;
+
+	[Export]
+	private ChoiceButton _backButton;
+	[Export]
+	private ChoiceButton _confirmButton;
+
 	private NewCampaignSceneRequest _sceneRequest;
+
+	private int _stepIndex;
+	private NewCampaignStep _currentStep;
+
+	public SavedCampaign Campaign { get; private set; }
 
 	public override void _EnterTree()
 	{
@@ -18,63 +33,76 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 	{
 		base._Ready();
 
+		Campaign = SavedCampaign.New();
+
+		_backButton.BetterButton.Pressed += OnBackPressed;
+		_confirmButton.BetterButton.Pressed += OnConfirmPressed;
+
 		AppController.Instance.AudioController.SetBGM("res://Audio/BGM/Call to Adventure FULL LOOP TomMusic.ogg");
 		AppController.Instance.AudioController.SetBGS(null);
+
+		SetStep(0);
 	}
 
-	private void OnContinuePressed()
+	public void AdvanceStep()
 	{
-		SavedCampaign savedCampaign = AppController.Instance.SaveFile.SaveData.SavedCampaign;
-		if(savedCampaign.SavedScenario == null)
+		if(_stepIndex == _steps.Length - 1)
 		{
-			AppController.Instance.SceneLoader.RequestSceneChange(new BetweenScenariosSceneRequest(savedCampaign));
+			// Final step completed, time to start the campaign!
+			AppController.Instance.SaveFile.SaveData.SavedCampaign = Campaign;
+
+			AppController.Instance.SaveFile.Save();
+
+			AppController.Instance.SceneLoader.RequestSceneChange(
+				new BetweenScenariosSceneRequest(AppController.Instance.SaveFile.SaveData.SavedCampaign));
+
+			return;
+		}
+
+		SetStep(_stepIndex + 1);
+	}
+
+	public void UpdateConfirmVisible()
+	{
+		_confirmButton.SetActive(_currentStep?.ConfirmButtonActive ?? false);
+	}
+
+	private void SetStep(int newStepIndex)
+	{
+		NewCampaignStep oldStep = _currentStep;
+
+		_stepIndex = newStepIndex;
+		_currentStep = _steps[_stepIndex];
+
+		if(oldStep == null)
+		{
+			_currentStep.Activate();
 		}
 		else
 		{
-			AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(savedCampaign));
+			GTweenSequenceBuilder.New()
+				.AppendCallback(oldStep.Deactivate)
+				.AppendCallback(UpdateConfirmVisible)
+				.AppendTime(0.5f)
+				.AppendCallback(_currentStep.Activate)
+				.AppendCallback(UpdateConfirmVisible)
+				.Build().Play();
 		}
 	}
 
-	private void OnNewGamePressed()
+	private void OnBackPressed()
 	{
-		if(AppController.Instance.SaveFile.SaveData.SavedCampaign == null)
+		if(_stepIndex == 0)
 		{
-			StartNewCampaign();
+			AppController.Instance.SceneLoader.RequestSceneChange(new MainMenuSceneRequest());
+			return;
 		}
-		else
-		{
-			AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request("Are you sure?",
-				"Are you sure you want to start a new campaign?\nThis will overwrite your saved campaign and can not be undone!",
-				new TextButton.Parameters("Cancel",
-					() =>
-					{
-					}
-				),
-				new TextButton.Parameters("New Campaign",
-					() =>
-					{
-						StartNewCampaign();
-					},
-					TextButton.ColorType.Red,
-					width: 300
-				)
-			));
-		}
+
+		SetStep(_stepIndex - 1);
 	}
 
-	private void OnOptionsPressed()
+	private void OnConfirmPressed()
 	{
-		AppController.Instance.PopupManager.RequestPopup(new OptionsPopup.Request());
-	}
-
-	private void StartNewCampaign()
-	{
-		AppController.Instance.SceneLoader.RequestSceneChange(new NewCampaignSceneRequest());
-		//AppController.Instance.PopupManager.RequestPopup(new CreateCampaignPopup.Request());
-	}
-
-	private void OnExitPressed()
-	{
-		GetTree().Quit();
+		AdvanceStep();
 	}
 }
