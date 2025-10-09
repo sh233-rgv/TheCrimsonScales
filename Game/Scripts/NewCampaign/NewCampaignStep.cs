@@ -12,19 +12,21 @@ public partial class NewCampaignStep : Control
 		base._Ready();
 
 		SetModulate(Colors.Transparent);
+		Hide();
 	}
 
 	public virtual void Activate()
 	{
 		Active = true;
 
-		this.TweenModulateAlpha(1f, 0.5f);
+		Show();
+		this.TweenModulateAlpha(1f, 0.5f).Play();
 	}
 
 	public virtual void Deactivate()
 	{
 		Active = false;
 
-		this.TweenModulateAlpha(0f, 0.5f);
+		this.TweenModulateAlpha(0f, 0.5f).OnComplete(Hide).Play();
 	}
 }

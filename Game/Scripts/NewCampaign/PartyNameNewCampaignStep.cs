@@ -1,11 +1,11 @@
-﻿namespace Godot.NewCampaign;
+﻿using Godot;
 
 public partial class PartyNameNewCampaignStep : NewCampaignStep
 {
 	[Export]
 	private LineEdit _nameLineEdit;
 
-	public virtual bool ConfirmButtonActive => !string.IsNullOrEmpty(_nameLineEdit.Text);
+	public override bool ConfirmButtonActive => !string.IsNullOrEmpty(_nameLineEdit.Text);
 
 	public override void _Ready()
 	{
@@ -27,6 +27,7 @@ public partial class PartyNameNewCampaignStep : NewCampaignStep
 	{
 		if(Active)
 		{
+			NewCampaignController.Instance.SetPartyName(newText);
 			NewCampaignController.Instance.UpdateConfirmVisible();
 		}
 	}

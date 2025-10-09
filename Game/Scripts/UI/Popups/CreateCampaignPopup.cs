@@ -48,7 +48,7 @@ public partial class CreateCampaignPopup : Popup<CreateCampaignPopup.Request>
 	{
 		Close();
 
-		AppController.Instance.SaveFile.SaveData.SavedCampaign = SavedCampaign.New();
+		AppController.Instance.SaveFile.SaveData.SavedCampaign = SavedCampaign.New(_nameLineEdit.Text, StartingGroup.Militants);
 
 		AppController.Instance.SaveFile.Save();
 

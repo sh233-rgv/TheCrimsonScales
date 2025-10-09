@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://cxg3u8opcit3d"]
 
-[ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="1_byxwj"]
+[ext_resource type="Script" uid="uid://ur10y2c2d0qy" path="res://Scripts/NewCampaign/NewCampaignStartingGroup.cs" id="1_byxwj"]
 [ext_resource type="LabelSettings" uid="uid://co0cqpevlny13" path="res://Resources/PanelLabel.tres" id="1_e2t5o"]
 [ext_resource type="PackedScene" uid="uid://c1raw4u7yce4g" path="res://Scenes/NewCampaign/StartingGroupClass.tscn" id="2_ilx8c"]
 [ext_resource type="Texture2D" uid="uid://ukntvb1ygx0s" path="res://Content/Classes/Bombard/Icon.svg" id="3_c6sfd"]
@@ -33,7 +33,7 @@ font_size = 30
 font = ExtResource("6_ilx8c")
 font_size = 25
 
-[node name="StartingGroup" type="BaseButton"]
+[node name="StartingGroup" type="BaseButton" node_paths=PackedStringArray("_button")]
 _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
@@ -105,6 +105,7 @@ shortcut = null
 shortcut_feedback = true
 shortcut_in_tooltip = true
 script = ExtResource("1_byxwj")
+_button = NodePath(".")
 metadata/_custom_type_script = "uid://dir5vjdxjac3n"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]

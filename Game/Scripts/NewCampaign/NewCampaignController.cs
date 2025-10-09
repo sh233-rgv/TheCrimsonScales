@@ -17,7 +17,8 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 	private int _stepIndex;
 	private NewCampaignStep _currentStep;
 
-	public SavedCampaign Campaign { get; private set; }
+	public string PartyName { get; private set; }
+	public StartingGroup StartingGroup { get; private set; }
 
 	public override void _EnterTree()
 	{
@@ -33,8 +34,6 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 	{
 		base._Ready();
 
-		Campaign = SavedCampaign.New();
-
 		_backButton.BetterButton.Pressed += OnBackPressed;
 		_confirmButton.BetterButton.Pressed += OnConfirmPressed;
 
@@ -44,17 +43,12 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 		SetStep(0);
 	}
 
-	public void AdvanceStep()
+	public void NextStep()
 	{
 		if(_stepIndex == _steps.Length - 1)
 		{
 			// Final step completed, time to start the campaign!
-			AppController.Instance.SaveFile.SaveData.SavedCampaign = Campaign;
-
-			AppController.Instance.SaveFile.Save();
-
-			AppController.Instance.SceneLoader.RequestSceneChange(
-				new BetweenScenariosSceneRequest(AppController.Instance.SaveFile.SaveData.SavedCampaign));
+			StartCampaign();
 
 			return;
 		}
@@ -67,6 +61,16 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 		_confirmButton.SetActive(_currentStep?.ConfirmButtonActive ?? false);
 	}
 
+	public void SetPartyName(string partyName)
+	{
+		PartyName = partyName;
+	}
+
+	public void SetStartingParty(StartingGroup startingGroup)
+	{
+		StartingGroup = startingGroup;
+	}
+
 	private void SetStep(int newStepIndex)
 	{
 		NewCampaignStep oldStep = _currentStep;
@@ -77,6 +81,7 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 		if(oldStep == null)
 		{
 			_currentStep.Activate();
+			UpdateConfirmVisible();
 		}
 		else
 		{
@@ -88,6 +93,18 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 				.AppendCallback(UpdateConfirmVisible)
 				.Build().Play();
 		}
+	}
+
+	private void StartCampaign()
+	{
+		SavedCampaign campaign = SavedCampaign.New(PartyName, StartingGroup);
+
+		AppController.Instance.SaveFile.SaveData.SavedCampaign = campaign;
+
+		AppController.Instance.SaveFile.Save();
+
+		AppController.Instance.SceneLoader.RequestSceneChange(
+			new BetweenScenariosSceneRequest(AppController.Instance.SaveFile.SaveData.SavedCampaign));
 	}
 
 	private void OnBackPressed()
@@ -103,6 +120,6 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 
 	private void OnConfirmPressed()
 	{
-		AdvanceStep();
+		NextStep();
 	}
 }
