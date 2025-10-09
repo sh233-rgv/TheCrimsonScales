@@ -8,9 +8,10 @@ public class Scenario009 : ScenarioModel
 	public override string ScenePath => "res://Content/Scenarios/Scenario009.tscn";
 	public override int ScenarioNumber => 9;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
-	public override IEnumerable<ScenarioConnection> Connections => [];
+	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario013>()];
 
-	protected override ScenarioGoals CreateScenarioGoals() => new CustomScenarioGoals("Kill all revealed enemies and loot the treasure chest to win this scenario.");
+	protected override ScenarioGoals CreateScenarioGoals() =>
+		new CustomScenarioGoals("Kill all revealed enemies and loot the treasure chest to win this scenario.");
 
 	private bool _lootedTreasure;
 	private readonly List<Door> _firstDoors = new List<Door>();
@@ -112,7 +113,8 @@ public class Scenario009 : ScenarioModel
 
 				foreach(Hex otherHex in hexes)
 				{
-					int otherDistance = Mathf.Min(RangeHelper.Distance(_firstDoors[0].Hex, otherHex), RangeHelper.Distance(_firstDoors[1].Hex, otherHex));
+					int otherDistance = Mathf.Min(RangeHelper.Distance(_firstDoors[0].Hex, otherHex),
+						RangeHelper.Distance(_firstDoors[1].Hex, otherHex));
 					if(otherDistance > minDistance)
 					{
 						break;
