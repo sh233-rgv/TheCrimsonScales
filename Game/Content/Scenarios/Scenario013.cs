@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Fractural.Tasks;
 
 public class Scenario013 : ScenarioModel
