@@ -8,7 +8,7 @@ public class Scenario009 : ScenarioModel
 	public override string ScenePath => "res://Content/Scenarios/Scenario009.tscn";
 	public override int ScenarioNumber => 9;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
-	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario013>()];
+	//public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario013>()];
 
 	protected override ScenarioGoals CreateScenarioGoals() =>
 		new CustomScenarioGoals("Kill all revealed enemies and loot the treasure chest to win this scenario.");
