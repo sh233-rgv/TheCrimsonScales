@@ -2,8 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://w41kadckdv77" path="res://Content/Classes/Chainguard/ChainLink.tscn" id="1_bgvbm"]
 
-[node name="Chain" type="Node2D"]
+[node name="ShackleIndicator" type="Node2D"]
 modulate = Color(0.117647, 0.113725, 0.113725, 1)
+z_index = 6
 scale = Vector2(0.8, 0.8)
 
 [node name="ChainLink" parent="." instance=ExtResource("1_bgvbm")]
