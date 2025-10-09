@@ -14,7 +14,7 @@ public class RustySpikes : ChainguardCardModel<RustySpikes.CardTop, RustySpikes.
 			new AbilityCardAbility(CreateTrapAbility.Builder()
 				.WithDamage(3)
 				.WithConditions(Conditions.Poison1)
-				// .WithCustomAsset("cs-poison-trap.png")
+				.WithCustomAsset("res://Content/Classes/Chainguard/Traps/ChainguardPoisonTrap.tscn")
 				.Build())
 		];
 

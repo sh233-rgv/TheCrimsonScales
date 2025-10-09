@@ -15,7 +15,7 @@ public class ClampingSnare : ChainguardLevelUpCardModel<ClampingSnare.CardTop, C
 			new AbilityCardAbility(CreateTrapAbility.Builder()
 				.WithDamage(5)
 				.WithConditions(Conditions.Muddle)
-				// .WithCustomAsset("cs-rope-trap.png")
+				.WithCustomAsset("res://Content/Classes/Chainguard/Traps/ChainguardTrap.tscn")
 				.Build()),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
@@ -36,7 +36,7 @@ public class ClampingSnare : ChainguardLevelUpCardModel<ClampingSnare.CardTop, C
 									await AbilityCmd.SufferDamage(null, figure, 2);
 								}
 							}
-							
+
 							await state.ActionState.RequestDiscardOrLose();
 						}
 					);
@@ -63,7 +63,8 @@ public class ClampingSnare : ChainguardLevelUpCardModel<ClampingSnare.CardTop, C
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build()),
 			new AbilityCardAbility(ShieldAbility.Builder()
 				.WithShieldValue(3)
-				.WithCustomCanApply(parameters => parameters.FromAttack && 
+				.WithCustomCanApply(parameters =>
+					parameters.FromAttack &&
 					parameters.PotentialAttackAbilityState.Performer.HasCondition(Chainguard.Shackle))
 				.Build()),
 		];

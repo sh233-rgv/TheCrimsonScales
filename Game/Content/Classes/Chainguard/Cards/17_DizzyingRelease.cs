@@ -29,7 +29,7 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 					SwingAbility.State swingAbilityState = state.ActionState.GetAbilityState<SwingAbility.State>(0);
 					figures.AddRange(swingAbilityState.UniqueTargetedFigures);
 				})
-				.WithConditionalAbilityCheck(async state => 
+				.WithConditionalAbilityCheck(async state =>
 				{
 					await GDTask.CompletedTask;
 
@@ -54,9 +54,10 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 					{
 						ScenarioEvents.SwingDirectionCheckEvent.Subscribe(state, this,
 							canApply: parameters => state == parameters.AbilityState,
-							apply: async parameters => 
+							apply: async parameters =>
 							{
-								bool clockwise = MoveHelper.IsClockwise(state.Performer.Hex, swingAbilityState.TargetedHexes[0], swingAbilityState.SingleTargetState.ForcedMovementHexes[0]);
+								bool clockwise = MoveHelper.IsClockwise(state.Performer.Hex, swingAbilityState.TargetedHexes[0],
+									swingAbilityState.SingleTargetState.ForcedMovementHexes[0]);
 								parameters.SetRequiredSwingDirection(clockwise ? SwingDirectionType.Clockwise : SwingDirectionType.Counterclockwise);
 
 								ScenarioEvents.SwingDirectionCheckEvent.Unsubscribe(state, this);
@@ -68,7 +69,7 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 
 					await GDTask.CompletedTask;
 				})
-				.WithConditionalAbilityCheck(async state => 
+				.WithConditionalAbilityCheck(async state =>
 				{
 					SwingAbility.State swingAbilityState = state.ActionState.GetAbilityState<SwingAbility.State>(0);
 					int remainingSwing = swingAbilityState.AbilitySwing - swingAbilityState.SingleTargetState.ForcedMovementHexes.Count;
@@ -97,13 +98,13 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 					SwingAbility.State firstState = state.ActionState.GetAbilityState<SwingAbility.State>(0);
 					PushAbility.State secondState = state.ActionState.GetAbilityState<PushAbility.State>(1);
 					SwingAbility.State thirdState = state.ActionState.GetAbilityState<SwingAbility.State>(2);
-					state.AbilityAdjustAttackValue(firstState.SingleTargetState.ForcedMovementHexes.Count + 
-						secondState.SingleTargetState.ForcedMovementHexes.Count + 
-						thirdState.SingleTargetState.ForcedMovementHexes.Count);
+					state.AbilityAdjustAttackValue(firstState.SingleTargetState.ForcedMovementHexes.Count +
+					                               secondState.SingleTargetState.ForcedMovementHexes.Count +
+					                               thirdState.SingleTargetState.ForcedMovementHexes.Count);
 
 					await GDTask.CompletedTask;
 				})
-				.WithConditionalAbilityCheck(async state => 
+				.WithConditionalAbilityCheck(async state =>
 				{
 					await GDTask.CompletedTask;
 
@@ -123,11 +124,11 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 			new AbilityCardAbility(CreateTrapAbility.Builder()
 				.WithDamage(3)
 				.WithConditions(Conditions.Wound1)
-				// .WithCustomAsset("cs-wood-spike-trap.png")
+				.WithCustomAsset("res://Content/Classes/Chainguard/Traps/ChainguardWoodSpikeTrap.tscn")
 				.Build()),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
-				.WithOnActivate(async state => 
+				.WithOnActivate(async state =>
 				{
 					CreateTrapAbility.State createTrapState = state.ActionState.GetAbilityState<CreateTrapAbility.State>(0);
 
@@ -148,7 +149,7 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 
 					await GDTask.CompletedTask;
 				})
-				.WithOnDeactivate(async state => 
+				.WithOnDeactivate(async state =>
 				{
 					ScenarioEvents.TrapTriggeredEvent.Unsubscribe(state, this);
 
