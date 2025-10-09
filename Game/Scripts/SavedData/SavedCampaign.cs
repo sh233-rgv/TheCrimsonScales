@@ -9,6 +9,9 @@ public class SavedCampaign
 	public string PartyName { get; set; }
 
 	[JsonProperty]
+	public StartingGroup StartingGroup { get; set; }
+
+	[JsonProperty]
 	public List<SavedCharacter> Characters { get; set; } = new List<SavedCharacter>();
 
 	[JsonProperty]
@@ -30,6 +33,7 @@ public class SavedCampaign
 		SavedCampaign savedCampaign = new SavedCampaign()
 		{
 			PartyName = partyName,
+			StartingGroup = startingGroup,
 			Characters =
 			[
 			],
@@ -38,7 +42,7 @@ public class SavedCampaign
 			},
 		};
 
-		ClassModel[] unlockedClassModels = startingGroup switch
+		ClassModel[] unlockedClassModels = savedCampaign.StartingGroup switch
 		{
 			StartingGroup.Militants =>
 			[
@@ -83,6 +87,7 @@ public class SavedCampaign
 			savedCampaign.UnlockClass(unlockedClassModel);
 		}
 
+		// Unlock the first scenario
 		savedCampaign.SavedScenarioProgresses.ScenarioProgresses.Add(
 			ModelDB.GetId<Scenario001>().ToString(),
 			new SavedScenarioProgress()
@@ -92,6 +97,7 @@ public class SavedCampaign
 			}
 		);
 
+		// Unlock the first set of items
 		ItemModel[] itemModels =
 		[
 			ModelDB.Item<AmuletOfLife>(),
