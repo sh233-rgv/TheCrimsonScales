@@ -105,46 +105,62 @@ public class MonsterSummonAbility : Ability<MonsterSummonAbility.State>
 
 	protected override async GDTask Perform(State abilityState)
 	{
-		// Target a hex within range
+		// Target a hex within range closest to an enemy
 		Hex targetedHex = await AbilityCmd.SelectHex(abilityState, list =>
 			{
-				//TODO: Make sure the hex is closest to an enemy
+				List<Hex> possibleHexes = new List<Hex>();
+
 				if(_getValidHexes == null)
 				{
-					RangeHelper.FindHexesInRange(abilityState.Performer.Hex, 1, true, list);
+					RangeHelper.FindHexesInRange(abilityState.Performer.Hex, 1, true, possibleHexes);
 
-					for(int i = list.Count - 1; i >= 0; i--)
+					for(int i = possibleHexes.Count - 1; i >= 0; i--)
 					{
-						Hex hex = list[i];
+						Hex hex = possibleHexes[i];
 
 						if(!hex.IsEmpty())
 						{
-							list.RemoveAt(i);
+							possibleHexes.RemoveAt(i);
 						}
 					}
 				}
 				else
 				{
-					_getValidHexes(abilityState, list);
+					_getValidHexes(abilityState, possibleHexes);
+				}
+
+				int closestRange = int.MaxValue;
+
+				foreach(Hex hex in possibleHexes)
+				{
+					foreach(Figure figure in GameController.Instance.Map.Figures)
+					{
+						if(abilityState.Performer.EnemiesWith(figure))
+						{
+							int range = RangeHelper.Distance(hex, figure.Hex);
+							if(range == closestRange)
+							{
+								list.Add(hex);
+							}
+							else if(range < closestRange)
+							{
+								closestRange = range;
+								list.Clear();
+								list.Add(hex);
+							}
+						}
+					}
 				}
 			},
 			hintText: $"Select a hex to summon {(abilityState.MonsterType == MonsterType.Normal ?
-				"a normal" : "an elite")} {abilityState.MonsterModel.Name} in"
+				"a normal" : "an elite")} {abilityState.MonsterModel.Name} in",
+			mandatory: abilityState.Authority is not Character
 		);
 
 		if(targetedHex != null)
 		{
-			// PackedScene summonScene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Summon.tscn");
-			// Summon summon = summonScene.Instantiate<Summon>();
-			// GameController.Instance.Map.AddChild(summon);
-			// await summon.Init(targetedHex);
-			// summon.Spawn(_summonStats, (Character)abilityState.Performer, _name, _texturePath);
-			// abilityState.SetSummonedMonster(summon);
 			Monster monster = await AbilityCmd.SummonMonster(abilityState.MonsterModel, abilityState.MonsterType, targetedHex);
 			abilityState.SetSummonedMonster(monster);
-
-			// summon.Scale = Vector2.Zero;
-			// await summon.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardableAsync();
 		}
 	}
 }
