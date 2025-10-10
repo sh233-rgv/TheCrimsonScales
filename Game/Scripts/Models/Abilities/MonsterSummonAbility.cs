@@ -1,0 +1,150 @@
+﻿using System;
+using System.Collections.Generic;
+using Fractural.Tasks;
+
+/// <summary>
+/// An <see cref="Ability{T}"/> that creates a summon ally.
+/// </summary>
+public class MonsterSummonAbility : Ability<MonsterSummonAbility.State>
+{
+	public class State : AbilityState
+	{
+		public MonsterModel MonsterModel { get; private set; }
+		public MonsterType MonsterType { get; private set; }
+		public Monster SummonedMonster { get; private set; }
+
+		public void SetMonsterModel(MonsterModel monsterModel)
+		{
+			MonsterModel = monsterModel;
+		}
+
+		public void SetMonsterType(MonsterType monsterType)
+		{
+			MonsterType = monsterType;
+		}
+
+		public void SetSummonedMonster(Monster monster)
+		{
+			SummonedMonster = monster;
+		}
+	}
+
+	private MonsterModel _monsterModel;
+	private MonsterType _monsterType;
+	private Action<State, List<Hex>> _getValidHexes;
+
+	/// <summary>
+	/// A builder extending <see cref="ActiveAbility{T}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods
+	/// for values defined in MonsterSummonAbility. Enables inheritors of MonsterSummonAbility to further extend the builder.
+	/// </summary>
+	/// <typeparam name="TBuilder"></typeparam> Any builder extending this AbstractBuilder.
+	/// <typeparam name="TAbility"></typeparam> Any ability extending MonsterSummonAbility.
+	public new class AbstractBuilder<TBuilder, TAbility> : Ability<State>.AbstractBuilder<TBuilder, TAbility>,
+		AbstractBuilder<TBuilder, TAbility>.IMonsterModelStep,
+		AbstractBuilder<TBuilder, TAbility>.IMonsterTypeStep
+		where TBuilder : AbstractBuilder<TBuilder, TAbility>
+		where TAbility : MonsterSummonAbility, new()
+	{
+		public interface IMonsterModelStep
+		{
+			IMonsterTypeStep WithMonsterModel(MonsterModel monsterModel);
+		}
+
+		public interface IMonsterTypeStep
+		{
+			TBuilder WithMonsterType(MonsterType monsterType);
+		}
+
+		public IMonsterTypeStep WithMonsterModel(MonsterModel monsterModel)
+		{
+			Obj._monsterModel = monsterModel;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithMonsterType(MonsterType monsterType)
+		{
+			Obj._monsterType = monsterType;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithGetValidHexes(
+			Action<State, List<Hex>> getValidHexes)
+		{
+			Obj._getValidHexes = getValidHexes;
+			return (TBuilder)this;
+		}
+	}
+
+	/// <summary>
+	/// A concrete implementation of the AbstractBuilder. Required to actually use the builder,
+	/// as abstract builders cannot be instantiated.
+	/// </summary>
+	public class MonsterSummonBuilder : AbstractBuilder<MonsterSummonBuilder, MonsterSummonAbility>
+	{
+		internal MonsterSummonBuilder() { }
+	}
+
+	/// <summary>
+	/// A convenience method that returns an instance of SummonBuilder.
+	/// </summary>
+	/// <returns></returns>
+	public static MonsterSummonBuilder.IMonsterModelStep Builder()
+	{
+		return new MonsterSummonBuilder();
+	}
+
+	public MonsterSummonAbility() { }
+
+	protected override void InitializeState(State abilityState)
+	{
+		base.InitializeState(abilityState);
+
+		abilityState.SetMonsterModel(_monsterModel);
+		abilityState.SetMonsterType(_monsterType);
+	}
+
+	protected override async GDTask Perform(State abilityState)
+	{
+		// Target a hex within range
+		Hex targetedHex = await AbilityCmd.SelectHex(abilityState, list =>
+			{
+				//TODO: Make sure the hex is closest to an enemy
+				if(_getValidHexes == null)
+				{
+					RangeHelper.FindHexesInRange(abilityState.Performer.Hex, 1, true, list);
+
+					for(int i = list.Count - 1; i >= 0; i--)
+					{
+						Hex hex = list[i];
+
+						if(!hex.IsEmpty())
+						{
+							list.RemoveAt(i);
+						}
+					}
+				}
+				else
+				{
+					_getValidHexes(abilityState, list);
+				}
+			},
+			hintText: $"Select a hex to summon {(abilityState.MonsterType == MonsterType.Normal ?
+				"a normal" : "an elite")} {abilityState.MonsterModel.Name} in"
+		);
+
+		if(targetedHex != null)
+		{
+			// PackedScene summonScene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Summon.tscn");
+			// Summon summon = summonScene.Instantiate<Summon>();
+			// GameController.Instance.Map.AddChild(summon);
+			// await summon.Init(targetedHex);
+			// summon.Spawn(_summonStats, (Character)abilityState.Performer, _name, _texturePath);
+			// abilityState.SetSummonedMonster(summon);
+			Monster monster = await AbilityCmd.SummonMonster(abilityState.MonsterModel, abilityState.MonsterType, targetedHex);
+			abilityState.SetSummonedMonster(monster);
+
+			// summon.Scale = Vector2.Zero;
+			// await summon.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardableAsync();
+		}
+	}
+}

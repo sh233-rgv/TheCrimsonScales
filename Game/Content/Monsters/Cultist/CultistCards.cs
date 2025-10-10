@@ -148,7 +148,11 @@ public class CultistAbilityCard5 : CultistAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		//TODO: Summon ability
+		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
+			.WithMonsterModel(ModelDB.Monster<LivingBones>())
+			.WithMonsterType(MonsterType.Normal)
+			.Build()),
+
 		new MonsterAbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
 			{
@@ -166,7 +170,11 @@ public class CultistAbilityCard6 : CultistAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		//TODO: Summon ability
+		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
+			.WithMonsterModel(ModelDB.Monster<LivingBones>())
+			.WithMonsterType(MonsterType.Normal)
+			.Build()),
+
 		new MonsterAbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
 			{

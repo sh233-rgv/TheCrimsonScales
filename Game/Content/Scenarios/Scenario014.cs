@@ -59,5 +59,19 @@ public class Scenario014 : ScenarioModel
 				}
 			}
 		);
+
+		ScenarioEvents.AbilityStartedEvent.Subscribe(this,
+			parameters =>
+				parameters.AbilityState is MonsterSummonAbility.State &&
+				parameters.Performer is Monster monster &&
+				monster.MonsterModel == ModelDB.Monster<Cultist>(),
+			async parameters =>
+			{
+				MonsterSummonAbility.State monsterSummonAbilityState = (MonsterSummonAbility.State)parameters.AbilityState;
+				monsterSummonAbilityState.SetMonsterModel(ModelDB.Monster<LivingCorpse>());
+
+				await GDTask.CompletedTask;
+			}
+		);
 	}
 }
