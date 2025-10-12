@@ -12,6 +12,7 @@ public class MonsterSummonAbility : Ability<MonsterSummonAbility.State>
 		public MonsterModel MonsterModel { get; private set; }
 		public MonsterType MonsterType { get; private set; }
 		public Monster SummonedMonster { get; private set; }
+		public int? ForcedHitPoints { get; private set; }
 
 		public void SetMonsterModel(MonsterModel monsterModel)
 		{
@@ -26,6 +27,11 @@ public class MonsterSummonAbility : Ability<MonsterSummonAbility.State>
 		public void SetSummonedMonster(Monster monster)
 		{
 			SummonedMonster = monster;
+		}
+
+		public void SetForcedHitPoints(int hitPoints)
+		{
+			ForcedHitPoints = hitPoints;
 		}
 	}
 
@@ -161,6 +167,11 @@ public class MonsterSummonAbility : Ability<MonsterSummonAbility.State>
 		{
 			Monster monster = await AbilityCmd.SummonMonster(abilityState.MonsterModel, abilityState.MonsterType, targetedHex);
 			abilityState.SetSummonedMonster(monster);
+
+			if(abilityState.ForcedHitPoints.HasValue)
+			{
+				monster.SetHealth(abilityState.ForcedHitPoints.Value);
+			}
 		}
 	}
 }
