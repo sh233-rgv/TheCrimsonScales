@@ -493,7 +493,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 				}
 
 				ScenarioCheckEvents.CanBeTargetedCheck.Parameters canBeTargetedParameters =
-					ScenarioCheckEvents.CanBeTargetedCheckEvent.Fire(new ScenarioCheckEvents.CanBeTargetedCheck.Parameters(performer, figure));
+					ScenarioCheckEvents.CanBeTargetedCheckEvent.Fire(
+						new ScenarioCheckEvents.CanBeTargetedCheck.Parameters(abilityState, performer, figure));
 
 				if(!canBeTargetedParameters.CanBeTargeted)
 				{
@@ -673,6 +674,15 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 	protected async GDTask ForcedMovement(T abilityState, Hex origin, Figure target, int distance, ForcedMovementType type, Func<string> hintText)
 	{
+		ScenarioCheckEvents.ImmuneToForcedMovementCheck.Parameters immuneToForcedMovementParameters =
+			ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Fire(
+				new ScenarioCheckEvents.ImmuneToForcedMovementCheck.Parameters(target));
+
+		if(immuneToForcedMovementParameters.ImmuneToForcedMovement)
+		{
+			return;
+		}
+
 		List<Vector2I> path = null;
 		SwingDirectionType? requiredDirection = null;
 
