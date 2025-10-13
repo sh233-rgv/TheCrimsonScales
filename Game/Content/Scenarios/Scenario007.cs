@@ -8,7 +8,7 @@ public class Scenario007 : ScenarioModel
 	public override string ScenePath => "res://Content/Scenarios/Scenario007.tscn";
 	public override int ScenarioNumber => 7;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
-	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario008>()];
+	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario008>(), new ScenarioConnection<Scenario010>()];
 
 	protected override ScenarioGoals CreateScenarioGoals() => new CustomScenarioGoals("Find all three Golden Eggs to win this scenario.");
 

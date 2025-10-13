@@ -57,6 +57,9 @@ public partial class Objective : Figure
 				parameters.SetImmuneToForcedMovement();
 			}
 		);
+
+		// Set CanTakeTurn to false, as objectives can never take turns
+		CanTakeTurn = false;
 	}
 
 	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
@@ -70,7 +73,10 @@ public partial class Objective : Figure
 
 	public override void RoundEnd()
 	{
-		// Don't set CanTakeTurn to true, as objectives can never take turns
+		base.RoundEnd();
+
+		// Set CanTakeTurn to false, as objectives can never take turns
+		CanTakeTurn = false;
 	}
 
 	protected override Initiative GetInitiative()
