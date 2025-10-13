@@ -53,11 +53,16 @@ public abstract partial class Figure : HexObject
 	public event Action<Figure> ConditionsChangedEvent;
 	public event Action<Figure> DestroyedEvent;
 
+	public override void _Ready()
+	{
+		base._Ready();
+
+		_figureViewComponent = GetViewComponent<FigureViewComponent>();
+	}
+
 	public override async GDTask Init(Hex originHex, int rotationIndex = 0, bool hexCanBeNull = false)
 	{
 		await base.Init(originHex, rotationIndex, hexCanBeNull);
-
-		_figureViewComponent = GetViewComponent<FigureViewComponent>();
 
 		_figureViewComponent.Shield.Scale = Vector2.Zero;
 
@@ -345,7 +350,7 @@ public abstract partial class Figure : HexObject
 
 	protected abstract Initiative GetInitiative();
 
-	public void RoundEnd()
+	public virtual void RoundEnd()
 	{
 		CanTakeTurn = true;
 	}
