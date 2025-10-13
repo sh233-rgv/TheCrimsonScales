@@ -14,12 +14,15 @@ public class Scenario013 : ScenarioModel
 	{
 		await base.StartAfterFirstRoomRevealed();
 
+		UpdateScenarioText($"All Living Corpses add {Icons.Inline(Icons.Targets)} 1 on all their attacks.");
+
 		GameController.Instance.Map.Treasures[0].SetItemLoot(AbilityCmd.GetRandomAvailableStone());
 
-		foreach(Character character in GameController.Instance.CharacterManager.Characters)
-		{
-			await AbilityCmd.AddCondition(null, character, Conditions.Poison1);
-		}
+		//TODO: Scenario effect
+		// foreach(Character character in GameController.Instance.CharacterManager.Characters)
+		// {
+		// 	await AbilityCmd.AddCondition(null, character, Conditions.Poison1);
+		// }
 
 		ScenarioEvents.AbilityStartedEvent.Subscribe(this,
 			parameters =>
@@ -32,6 +35,26 @@ public class Scenario013 : ScenarioModel
 				attackAbilityState.AdjustTargets(1);
 
 				await GDTask.CompletedTask;
+			}
+		);
+
+		ScenarioCheckEvents.AIMoveParametersCheckEvent.Subscribe(this,
+			parameters =>
+				parameters.Performer is Monster monster &&
+				monster.MonsterModel == ModelDB.Monster<LivingCorpse>(),
+			parameters =>
+			{
+				parameters.AdjustTargets(1);
+			}
+		);
+
+		ScenarioCheckEvents.TargetsCheckEvent.Subscribe(this,
+			parameters =>
+				parameters.Figure is Monster monster &&
+				monster.MonsterModel == ModelDB.Monster<LivingCorpse>(),
+			parameters =>
+			{
+				parameters.AdjustTargets(1);
 			}
 		);
 	}

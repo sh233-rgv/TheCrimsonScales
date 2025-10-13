@@ -35,6 +35,8 @@ public class Scenario010 : ScenarioModel
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(AbilityCmd.GetRandomAvailableStone());
 
+		//TODO: Scenario effect
+
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
 			parameters => true,
 			async parameters =>
