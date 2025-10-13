@@ -18,17 +18,17 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 	public virtual async GDTask StartBeforeFirstRoomRevealed()
 	{
+		ScenarioGoals = CreateScenarioGoals();
+		UpdateScenarioText(null);
+
 		await GDTask.CompletedTask;
 	}
 
 	public virtual async GDTask StartAfterFirstRoomRevealed()
 	{
-		ScenarioGoals = CreateScenarioGoals();
 		ScenarioGoals.Start();
 
 		ScenarioEvents.RoomRevealedEvent.Subscribe(this, parameters => true, OnRoomRevealed);
-
-		UpdateScenarioText(null);
 
 		await GDTask.CompletedTask;
 	}
