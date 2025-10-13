@@ -10,9 +10,9 @@ public class Scenario013 : ScenarioModel
 
 	public override string BGSPath => "res://Audio/BGS/Cave.ogg";
 
-	public override async GDTask Start()
+	public override async GDTask StartAfterFirstRoomRevealed()
 	{
-		await base.Start();
+		await base.StartAfterFirstRoomRevealed();
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(AbilityCmd.GetRandomAvailableStone());
 

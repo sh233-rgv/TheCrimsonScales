@@ -18,9 +18,9 @@ public class Scenario002 : ScenarioModel
 	private Door _door1;
 	private Door _door2;
 
-	public override async GDTask Start()
+	public override async GDTask StartAfterFirstRoomRevealed()
 	{
-		await base.Start();
+		await base.StartAfterFirstRoomRevealed();
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(AbilityCmd.GetRandomAvailableStone());
 
@@ -80,7 +80,8 @@ public class Scenario002 : ScenarioModel
 					{
 						foreach(Figure figure in hex.GetHexObjectsOfType<Figure>())
 						{
-							ActionState actionState = new ActionState(figure, [HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()]);
+							ActionState actionState =
+								new ActionState(figure, [HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()]);
 							await actionState.Perform();
 						}
 					}

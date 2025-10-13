@@ -16,9 +16,9 @@ public class Scenario009 : ScenarioModel
 	private bool _lootedTreasure;
 	private readonly List<Door> _firstDoors = new List<Door>();
 
-	public override async GDTask Start()
+	public override async GDTask StartAfterFirstRoomRevealed()
 	{
-		await base.Start();
+		await base.StartAfterFirstRoomRevealed();
 
 		UpdateScenarioText("The doors are locked.\nSomething will happen once all enemies in this room are killed.");
 

@@ -14,9 +14,9 @@ public class Scenario014 : ScenarioModel
 	private bool _firstDoorOpened;
 	private int _cultistMurderCount = 0;
 
-	public override async GDTask Start()
+	public override async GDTask StartAfterFirstRoomRevealed()
 	{
-		await base.Start();
+		await base.StartAfterFirstRoomRevealed();
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<DizzyingTincture>());
 		GameController.Instance.Map.Treasures[1].SetItemLoot(ModelDB.Item<OrbOfFortune>());
