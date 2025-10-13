@@ -1,14 +1,19 @@
-﻿using Fractural.Tasks;
+﻿using System.Collections.Generic;
+using Fractural.Tasks;
 
 public partial class Objective : Figure
 {
-	public override string DisplayName => Name;
-	public override string DebugName => Name;
+	private string _name;
+
+	public override string DisplayName => _name;
+	public override string DebugName => _name;
 
 	public override AMDCardDeck AMDCardDeck => null;
 
-	public void Init(int health)
+	public void Init(int health, string name)
 	{
+		_name = name;
+
 		SetMaxHealth(health);
 		SetHealth(health);
 	}
@@ -41,10 +46,10 @@ public partial class Objective : Figure
 		};
 	}
 
-	// public override void AddInfoItemParameters(List<InfoItemParameters> parametersList)
-	// {
-	// 	base.AddInfoItemParameters(parametersList);
-	//
-	// 	parametersList.Add(new SummonInfoItem.Parameters(this));
-	// }
+	public override void AddInfoItemParameters(List<InfoItemParameters> parametersList)
+	{
+		base.AddInfoItemParameters(parametersList);
+
+		parametersList.Add(new ObjectiveInfoItem.Parameters(this));
+	}
 }

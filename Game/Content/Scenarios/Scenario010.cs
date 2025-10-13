@@ -21,7 +21,7 @@ public class Scenario010 : ScenarioModel
 			2 * (GameController.Instance.SavedCampaign.Characters.Count + GameController.Instance.SavedScenario.ScenarioLevel + 1);
 		foreach(Objective objective in objectives)
 		{
-			objective.Init(objectiveHealth);
+			objective.Init(objectiveHealth, "Supply Crate");
 		}
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(AbilityCmd.GetRandomAvailableStone());
