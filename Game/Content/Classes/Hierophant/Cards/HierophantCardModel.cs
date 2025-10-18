@@ -6,7 +6,7 @@ public abstract class HierophantLevelUpCardModel<TTop, TBottom> : AtlasAbilityCa
 	where TTop : HierophantCardSide, new()
 	where TBottom : HierophantCardSide, new()
 {
-	protected override string TexturePath => "res://Content/Classes/Hierophant/LevelUpCards.png";
+	protected override string TexturePath => "res://Content/Classes/Hierophant/LevelUpCards.jpg";
 	protected override int ColumnCount => 5;
 	protected override int RowCount => 4;
 }
@@ -15,7 +15,7 @@ public abstract class HierophantCardModel<TTop, TBottom> : AtlasAbilityCardModel
 	where TTop : HierophantCardSide, new()
 	where TBottom : HierophantCardSide, new()
 {
-	protected override string TexturePath => "res://Content/Classes/Hierophant/Cards.png";
+	protected override string TexturePath => "res://Content/Classes/Hierophant/Cards.jpg";
 	protected override int ColumnCount => 4;
 	protected override int RowCount => 4;
 }
