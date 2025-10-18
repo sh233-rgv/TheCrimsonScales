@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://caiomvdhl54wg" path="res://Scripts/BetweenScenarios/BetweenScenariosActionManager.cs" id="6_nmjfa"]
 [ext_resource type="PackedScene" uid="uid://sn6fhyik5ch5" path="res://Scenes/Scenario/UI/ChoiceButton.tscn" id="7_blgb5"]
 [ext_resource type="PackedScene" uid="uid://bb10ctp48iifh" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButtonOutline.tscn" id="8_gcm5d"]
-[ext_resource type="Texture2D" uid="uid://cpkeepf7piqqa" path="res://Art/Other/ParchmentPaper.png" id="8_ywvcx"]
+[ext_resource type="Texture2D" uid="uid://cpkeepf7piqqa" path="res://Art/ScenarioFlowchart/ParchmentPaper.png" id="8_ywvcx"]
 [ext_resource type="Shader" uid="uid://wgkvda4bun1e" path="res://Shaders/Outline.gdshader" id="9_fpmem"]
 [ext_resource type="Script" uid="uid://dx2d6ou7y0pb6" path="res://Scripts/BetweenScenarios/ItemShop/ItemShop.cs" id="12_4wnl8"]
 [ext_resource type="PackedScene" uid="uid://c5l6nyceg64dd" path="res://Art/ItemShop/PageAnimation.tscn" id="12_41e7t"]
