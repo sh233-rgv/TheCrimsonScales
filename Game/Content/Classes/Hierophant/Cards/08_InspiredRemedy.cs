@@ -38,7 +38,10 @@ public class InspiredRemedy : HierophantCardModel<InspiredRemedy.CardTop, Inspir
 				)
 				.WithAfterHealPerformedSubscription(
 					ScenarioEvents.AfterHealPerformed.Subscription.New(
-						canApplyFunction: canApplyParameters => canApplyParameters.AbilityState.GetCustomValue<bool>(this, "UnderHalfHP"),
+						canApplyFunction: canApplyParameters => 
+							canApplyParameters.Performer.AlliedWith(canApplyParameters.AbilityState.Target) && 
+							canApplyParameters.AbilityState.Target is Character &&
+							canApplyParameters.AbilityState.GetCustomValue<bool>(this, "UnderHalfHP"),
 						applyFunction: async applyParameters =>
 						{
 							await GivePrayerCard(applyParameters.AbilityState, applyParameters.AbilityState.Target);
