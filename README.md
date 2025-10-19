@@ -24,6 +24,7 @@ The Crimson Scales was created by various creators. The creators whose contribut
 - Alexandr Elichev
 - Quasilocal
 - TH3 DISC1PLE
+- Themris
 - Dareth
 
 The Music and Sound Effects are the property of various artists, including but not limited to:
@@ -38,6 +39,10 @@ These pieces of Audio are licensed to be used for this product specifically, and
 Included are the following plugins created by various authors, used under the MIT License:
 - [GDTask](https://github.com/Fractural/GDTask)
 - [GTweensGodot](https://github.com/Guillemsc/GTweensGodot)
+
+Contributors:
+- Sergey Burgsdorf
+- NastoK
 
 Most of the other Code and Godot asset files used in this project were made by Bas Hoogeboom. These are licensed as follows:
 
