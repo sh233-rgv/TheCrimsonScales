@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://csnnc1qoqt4hp"]
+[gd_scene load_steps=11 format=3 uid="uid://csnnc1qoqt4hp"]
 
 [ext_resource type="Shader" uid="uid://1deu7u58adcl" path="res://Shaders/CrystalBall.gdshader" id="1_t6yio"]
 [ext_resource type="Texture2D" uid="uid://cku1nia6lkinl" path="res://Art/ScenarioFlowchart/WoodenTable.jpg" id="2_11pii"]
@@ -10,11 +10,13 @@ shader_parameter/screen_texture = ExtResource("2_11pii")
 shader_parameter/fresnel_color = Color(0.964706, 0.54902, 0.988235, 1)
 shader_parameter/fresnel_amount = 3.0
 shader_parameter/distortion = 0.86
+shader_parameter/animation_speed = 1.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_nji8d"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_11pii"]
-noise_type = 0
+noise_type = 3
+frequency = 0.02
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3tvgr"]
 in_3d_space = true
@@ -22,22 +24,15 @@ seamless = true
 normalize = false
 noise = SubResource("FastNoiseLite_11pii")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_n1eix"]
-fractal_type = 0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kwqul"]
-seamless = true
-noise = SubResource("FastNoiseLite_n1eix")
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xfsrk"]
 render_priority = 0
 shader = ExtResource("1_t6yio")
 shader_parameter/screen_texture = ExtResource("2_11pii")
 shader_parameter/height_map = SubResource("NoiseTexture2D_3tvgr")
-shader_parameter/parallax_texture = SubResource("NoiseTexture2D_kwqul")
 shader_parameter/fresnel_color = Color(0.977807, 0.685518, 0.990998, 1)
 shader_parameter/fresnel_amount = 3.0
 shader_parameter/distortion = 0.86
+shader_parameter/animation_speed = 0.035
 
 [sub_resource type="SphereMesh" id="SphereMesh_tngcg"]
 
@@ -66,4 +61,4 @@ material_override = SubResource("StandardMaterial3D_3tvgr")
 mesh = SubResource("QuadMesh_n1eix")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.459)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)

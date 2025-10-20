@@ -4,10 +4,10 @@ render_mode blend_mix, depth_draw_opaque, unshaded;
 //uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear_mipmap;
 uniform sampler2D screen_texture : source_color;
 uniform sampler2D height_map : source_color;
-uniform sampler2D parallax_texture : source_color;
 uniform vec4 fresnel_color : source_color;
 uniform float fresnel_amount = 1;
 uniform float distortion = 1;
+uniform float animation_speed = 1;
 
 float fresnel(float amount, vec3 normal, vec3 view)
 {
@@ -22,12 +22,12 @@ vec2 parallax_mapping_uv_offset_1_step(float height, float amplitude, vec3 view_
     return height * (vector.xz / vector.y);
 }
 
-vec2 parallax_mapping_uv(sampler2D height, float amplitude, vec2 uv, vec3 tangent, vec3 normal, vec3 binormal, vec3 view)
+vec2 parallax_mapping_uv(float height, float amplitude, vec2 uv, vec3 tangent, vec3 normal, vec3 binormal, vec3 view)
 {
 	float depth = amplitude / 10.0;
 	mat3 tangent_matrix = mat3(tangent, normal, -binormal); // VIEW TO TANGENT SPACE
 	vec3 view_tangent = transpose(tangent_matrix) * view;
-	float parallaxHeight = texture(height, uv).r;
+	float parallaxHeight = height;//texture(height, uv).r;
     vec2 parallaxOffset = parallax_mapping_uv_offset_1_step(parallaxHeight, depth, view_tangent);
     return parallaxOffset + uv;
 }
@@ -39,19 +39,17 @@ void fragment()
 	vec2 scaled_offset = vec2(n.x / aspect, n.y);
 	scaled_offset /= abs(VERTEX.z);
 	
-	//vec2 adjustedUVs = UV + vec2(0, TIME);
-	vec2 parallaxUV = parallax_mapping_uv(height_map, 2.0, UV, TANGENT, NORMAL, BINORMAL, VIEW);
-	//vec3 parallax_color = texture(parallax_texture, parallaxUV).rgb;
+	vec2 heightmap_uv = UV + vec2(0, TIME * animation_speed);
+	vec2 parallaxUV = parallax_mapping_uv(texture(height_map, heightmap_uv).r, 2.0, UV, TANGENT, NORMAL, BINORMAL, VIEW);
 
 	// final distortion
 	vec2 final_uv = parallaxUV + scaled_offset * distortion;
 
 	ALBEDO = texture(screen_texture, final_uv).rgb;
 	
-	//ALBEDO = mix()
-	
 	float basic_fresnel = fresnel(fresnel_amount, NORMAL, VIEW);
 	ALBEDO = mix(ALBEDO, fresnel_color.rgb, basic_fresnel);
+	ALBEDO += basic_fresnel * 0.2;
 	
 	ALPHA = 1.0;
 }
