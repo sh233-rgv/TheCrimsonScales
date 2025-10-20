@@ -35,6 +35,7 @@ The Music and Sound Effects are the property of various artists, including but n
 - Robinhood76
 
 These pieces of Audio are licensed to be used for this product specifically, and cannot be used in other games or products.
+They have been removed from the repo to make sure they're not misused. The game still works without them.
 
 Included are the following plugins created by various authors, used under the MIT License:
 - [GDTask](https://github.com/Fractural/GDTask)
@@ -70,6 +71,5 @@ SOFTWARE.
 
 ### License TLDR:
 You can fork or download the project and do your own thing. If you plan to distribute something you made using this project, you:
-- CANNOT use the audio files
 - MUST credit Cephalofair appropriately under its license
 - CAN use the code and project files however the hell you want, any credits are much appreciated.
