@@ -9,6 +9,8 @@ As you might know, The Crimson Scales, created by Boardgame613, is the famous fa
 Available for both Windows and Android, you can play from the comfort of your computer or even on the go on your commute!
 
 ## Installation
+Builds can be downloaded on [itch.io](https://bas-hoogeboom.itch.io/the-crimson-scales).
+
 Download the source code through GIT or GitHub, and open the project in [Godot](https://godotengine.org/) 4.4.1 .NET with C# support.
 
 ## Contributing
@@ -46,7 +48,7 @@ Contributors:
 - NastoK
 
 Most of the other Code and Godot asset files used in this project were made by Bas Hoogeboom. These are licensed as follows:
-
+~~~~
 MIT License
 
 Copyright (c) 2025 Bas Hoogeboom
@@ -68,8 +70,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
+~~~~
 ### License TLDR:
 You can fork or download the project and do your own thing. If you plan to distribute something you made using this project, you:
-- MUST credit Cephalofair appropriately under its license
+- MUST credit Cephalofair appropriately under its license. If you want to adapt official content, it is best to contact them regarding legal matters.
 - CAN use the code and project files however the hell you want, any credits are much appreciated.
