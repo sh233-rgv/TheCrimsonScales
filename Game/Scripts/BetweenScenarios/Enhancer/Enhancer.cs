@@ -7,12 +7,18 @@ public partial class Enhancer : BetweenScenariosAction
 	private SubViewport _subViewport;
 
 	[Export]
-	private Node3D _3dRoot;
+	private AnimationPlayer _animationPlayer;
+	[Export]
+	private StringName _moveInAnimationName;
+	[Export]
+	private StringName _moveOutAnimationName;
 
-	private bool _animating;
+	[Export]
+	private Node3D _3dRoot;
+	[Export]
+	private Node3D _crystalBall;
 
 	protected override bool SelectCharacter => true;
-	protected override bool CustomTransitioning => _animating;
 
 	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder)
 	{
@@ -21,6 +27,19 @@ public partial class Enhancer : BetweenScenariosAction
 		_3dRoot.SetVisible(true);
 
 		_subViewport.SetUpdateMode(SubViewport.UpdateMode.WhenVisible);
+		_crystalBall.SetVisible(false);
+
+		sequenceBuilder
+			.AppendTime(0.4f)
+			.AppendCallback((() =>
+			{
+				_animationPlayer.Play(_moveInAnimationName);
+				this.DelayedCall(() =>
+				{
+					_crystalBall.SetVisible(true);
+				});
+			}))
+			.AppendTime(1f);
 	}
 
 	protected override void AfterAnimateIn()
@@ -30,6 +49,10 @@ public partial class Enhancer : BetweenScenariosAction
 
 	protected override void AnimateOut(GTweenSequenceBuilder sequenceBuilder)
 	{
+		sequenceBuilder.AppendTime(1f);
+
+		_animationPlayer.Play(_moveOutAnimationName);
+
 		base.AnimateOut(sequenceBuilder);
 	}
 
@@ -37,7 +60,7 @@ public partial class Enhancer : BetweenScenariosAction
 	{
 		base.AfterAnimateOut();
 
-		_3dRoot.SetVisible(true);
+		_3dRoot.SetVisible(false);
 
 		_subViewport.SetUpdateMode(SubViewport.UpdateMode.Disabled);
 	}
