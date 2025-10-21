@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=64 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -25,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://d0kjhh1qav1gd" path="res://Art/Icons/BetweenScenariosActions/Oak.svg" id="19_ywvcx"]
 [ext_resource type="Texture2D" uid="uid://bydbxbc7udwta" path="res://Art/Icons/BetweenScenariosActions/CrystalBall.svg" id="20_1ehwm"]
 [ext_resource type="Shader" uid="uid://dknumicevgl1y" path="res://Shaders/CrystalBallTop.gdshader" id="21_lv8vq"]
+[ext_resource type="Shader" uid="uid://dcgendyiah7dg" path="res://Shaders/CrystallBallNew.tres" id="22_7gbn5"]
 [ext_resource type="Texture2D" uid="uid://cgvuos5ph5e6r" path="res://Art/Icons/BetweenScenariosActions/HazardSign.svg" id="22_ywvcx"]
 [ext_resource type="Material" uid="uid://cun442tgtvgh" path="res://Materials/UIBlur.tres" id="23_1ehwm"]
 [ext_resource type="Script" uid="uid://co64dv05t1htu" path="res://Scripts/BetweenScenarios/BetweenScenariosSidePanel.cs" id="23_5k12q"]
@@ -150,7 +151,9 @@ shader_parameter/distortion = 1.41
 shader_parameter/animation_speed = 0.15
 shader_parameter/alpha = 0.5
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lv8vq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jvldq"]
+render_priority = 0
+shader = ExtResource("22_7gbn5")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5k12q"]
 shader = ExtResource("23_psaff")
@@ -973,6 +976,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.013, 0)
 
 [node name="Ball" type="MeshInstance3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/AnimationContainer/3D/SubViewport/Root/CrystalBall/Ball"]
 transform = Transform3D(-1, -8.44439e-08, -2.26267e-08, 0, 0.258819, -0.965926, 8.74228e-08, -0.965926, -0.258819, 0, 0.000139952, 0)
+visible = false
 layers = 4
 material_override = SubResource("ShaderMaterial_t8hrt")
 mesh = SubResource("SphereMesh_jvldq")
@@ -980,16 +984,16 @@ skeleton = NodePath("../../../..")
 
 [node name="Top" type="MeshInstance3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/AnimationContainer/3D/SubViewport/Root/CrystalBall/Ball"]
 transform = Transform3D(-1, -8.44439e-08, -2.26267e-08, 0, 0.258819, -0.965926, 8.74228e-08, -0.965926, -0.258819, 0, 0.000139952, 0)
+visible = false
 layers = 4
 material_override = SubResource("ShaderMaterial_7gbn5")
 mesh = SubResource("SphereMesh_jvldq")
 skeleton = NodePath("../../../..")
 
 [node name="Ball2" type="MeshInstance3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/AnimationContainer/3D/SubViewport/Root/CrystalBall/Ball"]
-transform = Transform3D(-1, -8.44439e-08, -2.26267e-08, 0, 0.258819, -0.965926, 8.74228e-08, -0.965926, -0.258819, 0, 0.000139952, 0)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0.000139952, 0)
 layers = 4
-material_override = SubResource("StandardMaterial3D_lv8vq")
+material_override = SubResource("ShaderMaterial_jvldq")
 mesh = SubResource("SphereMesh_jvldq")
 skeleton = NodePath("../../../..")
 
@@ -1008,8 +1012,7 @@ environment = SubResource("Environment_4wnl8")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/AnimationContainer/3D/SubViewport/Root"]
 transform = Transform3D(0.7127, -0.502156, 0.489794, 0, 0.69824, 0.715863, -0.701469, -0.510196, 0.497636, 0, 0, 0)
 layers = 4
-light_color = Color(0.859671, 0.859671, 0, 1)
-light_energy = 1.433
+light_color = Color(0.989348, 1, 0.687726, 1)
 light_cull_mask = 4293918724
 sky_mode = 1
 
