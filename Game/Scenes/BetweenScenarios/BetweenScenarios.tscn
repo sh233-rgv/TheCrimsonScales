@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=71 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -164,6 +164,42 @@ render_priority = 1
 shader = ExtResource("22_7gbn5")
 shader_parameter/heightmap = SubResource("NoiseTexture2D_jvldq")
 shader_parameter/heightmap2 = SubResource("NoiseTexture2D_tquji")
+
+[sub_resource type="Animation" id="Animation_7gbn5"]
+resource_name = "CrystalBallFall"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CrystalBall:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.566667, 0.7),
+"transitions": PackedFloat32Array(2.54912, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 3, -1), Vector3(0, 0, -1), Vector3(0, 0.1, -1), Vector3(0, 0, -1)]
+}
+
+[sub_resource type="Animation" id="Animation_t8hrt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CrystalBall:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, -1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jvldq"]
+_data = {
+&"CrystalBallFall": SubResource("Animation_7gbn5"),
+&"RESET": SubResource("Animation_t8hrt")
+}
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5k12q"]
 shader = ExtResource("23_psaff")
@@ -1025,6 +1061,11 @@ layers = 4
 light_color = Color(0.989348, 1, 0.687726, 1)
 light_cull_mask = 4293918724
 sky_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/AnimationContainer/3D/SubViewport/Root"]
+libraries = {
+&"": SubResource("AnimationLibrary_jvldq")
+}
 
 [node name="ActionButtons" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager"]
 layout_mode = 1
