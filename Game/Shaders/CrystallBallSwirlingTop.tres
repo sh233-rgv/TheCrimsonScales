@@ -1,6 +1,6 @@
 [gd_resource type="VisualShader" load_steps=53 format=3 uid="uid://dcgendyiah7dg"]
 
-[ext_resource type="Script" uid="uid://dwaot3d2unux0" path="res://addons/ShaderLib_v2_2_4/UV/ParallaxMappingUV.gd" id="1_ela8m"]
+[ext_resource type="Script" uid="uid://dwaot3d2unux0" path="res://addons/ShaderLib_v2_2_4/UV/ParallaxMappingUV.gd" id="1_odcoe"]
 
 [sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_yo4mv"]
 function = 31
@@ -64,7 +64,7 @@ operator = 2
 [sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_cgnk3"]
 default_input_values = [0, null, 1, 10.0]
 initialized = true
-script = ExtResource("1_ela8m")
+script = ExtResource("1_odcoe")
 
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_ge58a"]
 parameter_name = "heightmap"
@@ -99,7 +99,7 @@ op_type = 0
 [sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_y6odb"]
 default_input_values = [0, null, 1, 10.0]
 initialized = true
-script = ExtResource("1_ela8m")
+script = ExtResource("1_odcoe")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ldujk"]
 frequency = 0.0025
@@ -148,7 +148,7 @@ operator = 2
 [sub_resource type="VisualShaderNodeFresnel" id="VisualShaderNodeFresnel_ge58a"]
 
 [sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_wks6p"]
-constant = 0.96
+constant = 0.8
 
 [sub_resource type="Gradient" id="Gradient_yo4mv"]
 colors = PackedColorArray(0.171746, 0.0056225, 0.210316, 1, 0.230019, 0.000164246, 0.292325, 1)
@@ -201,7 +201,7 @@ void fragment() {
 
 
 // FloatConstant:6
-	float n_out6p0 = 0.960000;
+	float n_out6p0 = 0.800000;
 
 
 // FloatConstant:4
@@ -355,7 +355,7 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-397.903, -149.887)
+graph_offset = Vector2(-338.903, -143.887)
 modes/specular = 1
 nodes/fragment/0/position = Vector2(400, 160)
 nodes/fragment/2/node = SubResource("VisualShaderNodeFloatConstant_yo4mv")

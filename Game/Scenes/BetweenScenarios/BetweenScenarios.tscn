@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=68 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -24,7 +24,8 @@
 [ext_resource type="Shader" uid="uid://1deu7u58adcl" path="res://Shaders/CrystalBall.gdshader" id="19_lv8vq"]
 [ext_resource type="Texture2D" uid="uid://d0kjhh1qav1gd" path="res://Art/Icons/BetweenScenariosActions/Oak.svg" id="19_ywvcx"]
 [ext_resource type="Texture2D" uid="uid://bydbxbc7udwta" path="res://Art/Icons/BetweenScenariosActions/CrystalBall.svg" id="20_1ehwm"]
-[ext_resource type="Shader" uid="uid://dcgendyiah7dg" path="res://Shaders/CrystallBallNew.tres" id="22_7gbn5"]
+[ext_resource type="Shader" uid="uid://csl6uc8relo7u" path="res://Shaders/CrystallBallSwirlingBack.tres" id="21_7gbn5"]
+[ext_resource type="Shader" uid="uid://dcgendyiah7dg" path="res://Shaders/CrystallBallSwirlingTop.tres" id="22_7gbn5"]
 [ext_resource type="Texture2D" uid="uid://cgvuos5ph5e6r" path="res://Art/Icons/BetweenScenariosActions/HazardSign.svg" id="22_ywvcx"]
 [ext_resource type="Material" uid="uid://cun442tgtvgh" path="res://Materials/UIBlur.tres" id="23_1ehwm"]
 [ext_resource type="Script" uid="uid://co64dv05t1htu" path="res://Scripts/BetweenScenarios/BetweenScenariosSidePanel.cs" id="23_5k12q"]
@@ -152,8 +153,14 @@ noise = SubResource("FastNoiseLite_t8hrt")
 seamless = true
 noise = SubResource("FastNoiseLite_jvldq")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jvldq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tquji"]
 render_priority = 0
+shader = ExtResource("21_7gbn5")
+shader_parameter/heightmap = SubResource("NoiseTexture2D_jvldq")
+shader_parameter/heightmap2 = SubResource("NoiseTexture2D_tquji")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jvldq"]
+render_priority = 1
 shader = ExtResource("22_7gbn5")
 shader_parameter/heightmap = SubResource("NoiseTexture2D_jvldq")
 shader_parameter/heightmap2 = SubResource("NoiseTexture2D_tquji")
@@ -975,12 +982,21 @@ layers = 4
 material_override = ExtResource("18_1n38g")
 
 [node name="Ball" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/AnimationContainer/3D/SubViewport/Root/CrystalBall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.013, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03, 0)
 
 [node name="Distortion" type="MeshInstance3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/AnimationContainer/3D/SubViewport/Root/CrystalBall/Ball"]
 transform = Transform3D(-1, -8.44439e-08, -2.26267e-08, 0, 0.258819, -0.965926, 8.74228e-08, -0.965926, -0.258819, 0, 0.000139952, 0)
 layers = 4
 material_override = SubResource("ShaderMaterial_t8hrt")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_jvldq")
+skeleton = NodePath("../../../..")
+
+[node name="SwirlingBack" type="MeshInstance3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/AnimationContainer/3D/SubViewport/Root/CrystalBall/Ball"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0.000139952, 0)
+layers = 4
+material_override = SubResource("ShaderMaterial_tquji")
+cast_shadow = 0
 mesh = SubResource("SphereMesh_jvldq")
 skeleton = NodePath("../../../..")
 
@@ -1051,7 +1067,8 @@ layout_mode = 2
 texture = ExtResource("19_ywvcx")
 
 [node name="EnhancerButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" instance=ExtResource("17_3hv00")]
-modulate = Color(1, 0.709804, 1, 1)
+visible = false
+modulate = Color(0.994686, 0.586915, 1, 1)
 layout_mode = 2
 
 [node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnhancerButton/Container/BetterButton/Panel" index="0"]
