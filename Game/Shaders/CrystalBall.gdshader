@@ -14,7 +14,7 @@ float fresnel(float amount, vec3 normal, vec3 view)
 	return pow((1.0 - clamp(dot(normalize(normal), normalize(view)), 0.0, 1.0 )), amount);
 }
 
-vec2 parallax_mapping_uv_offset_1_step(float height, float amplitude, vec3 view_dir_tangent) 
+vec2 parallax_mapping_uv_offset_1_step(float height, float amplitude, vec3 view_dir_tangent)
 {
     height = height * amplitude - amplitude / 2.0;
     vec3 vector = view_dir_tangent;
@@ -38,7 +38,7 @@ void fragment()
 	float aspect = VIEWPORT_SIZE.x / VIEWPORT_SIZE.y;
 	vec2 scaled_offset = vec2(n.x / aspect, n.y);
 	scaled_offset /= abs(VERTEX.z);
-	
+
 	vec2 heightmap_uv = UV + vec2(0, TIME * animation_speed);
 	vec2 parallaxUV = parallax_mapping_uv(texture(height_map, heightmap_uv).r, 2.0, UV, TANGENT, NORMAL, BINORMAL, VIEW);
 
@@ -46,10 +46,10 @@ void fragment()
 	vec2 final_uv = parallaxUV + scaled_offset * distortion;
 
 	ALBEDO = texture(screen_texture, final_uv).rgb;
-	
+
 	float basic_fresnel = fresnel(fresnel_amount, NORMAL, VIEW);
 	ALBEDO = mix(ALBEDO, fresnel_color.rgb, basic_fresnel);
 	ALBEDO += basic_fresnel * 0.2;
-	
+
 	ALPHA = 1.0;
 }
