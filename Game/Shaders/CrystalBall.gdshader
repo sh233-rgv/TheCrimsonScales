@@ -9,6 +9,7 @@ uniform vec4 fresnel_color : source_color;
 uniform float fresnel_amount = 1;
 uniform float distortion = 1;
 uniform float animation_speed = 1;
+uniform float alpha = 1;
 
 float fresnel(float amount, vec3 normal, vec3 view)
 {
@@ -52,5 +53,5 @@ void fragment()
 	ALBEDO = mix(ALBEDO, fresnel_color.rgb, basic_fresnel);
 	ALBEDO += basic_fresnel * 0.2;
 
-	ALPHA = 1.0;
+	ALPHA = mix(alpha, 1.0, basic_fresnel);
 }
