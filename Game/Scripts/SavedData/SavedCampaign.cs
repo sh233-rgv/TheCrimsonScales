@@ -26,6 +26,9 @@ public class SavedCampaign
 	[JsonProperty]
 	public SavedScenario SavedScenario { get; set; }
 
+	[JsonProperty]
+	public List<PartyAchievement> CollectedPartyAchievements { get; } = [];
+
 	public event Action CharactersChangedEvent;
 
 	public static SavedCampaign New(string partyName, StartingGroup startingGroup)
@@ -200,5 +203,10 @@ public class SavedCampaign
 		Characters.Remove(savedCharacter);
 
 		CharactersChangedEvent?.Invoke();
+	}
+
+	public void AddPartyAchievement(PartyAchievement partyAchievement)
+	{
+		CollectedPartyAchievements.AddIfNew(partyAchievement);
 	}
 }

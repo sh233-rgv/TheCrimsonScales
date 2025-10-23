@@ -703,6 +703,29 @@ public static class AbilityCmd
 		return section;
 	}
 
+	public static async GDTask PermanentlyGiveItem(Character character, ItemModel itemModel, bool staysOnlyIfCompleted = false)
+	{
+		ItemModel item = itemModel.ToMutable();
+		item.Init(character);
+		character.AddItem(item);
+
+		await PromptManager.Prompt(new TreasureItemRewardPrompt(character, itemModel, null), character);
+
+		void OnScenarioEnd(bool backToTown, bool won, SavedScenarioProgress savedScenarioProgress)
+		{
+			if(staysOnlyIfCompleted && !won)
+			{
+				return;
+			}
+
+			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(itemModel);
+			savedItem.AddUnlocked(1);
+			character.SavedCharacter.AddItem(itemModel);
+		}
+
+		GameController.Instance.EndEvent += OnScenarioEnd;
+	}
+
 	public static ItemModel GetRandomAvailableOrb()
 	{
 		return GetRandomAvailableItem(
