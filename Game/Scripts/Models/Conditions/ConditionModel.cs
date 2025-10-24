@@ -14,22 +14,15 @@ public abstract class ConditionModel : AbstractModel<ConditionModel>, IEventSubs
 	public virtual bool RemovedByHeal => false;
 	public virtual string ConditionAnimationScenePath => null;
 	public virtual bool ShowOnFigure => true;
-
-#pragma warning disable IDE1006 // Naming Styles
-
 	protected bool _appliedDuringThisTurn;
-#pragma warning restore IDE1006 // Naming Styles
-
-
 	protected Figure Owner { get; private set; }
-	public ConditionNode Node { get; private set; }
+	public ConditionNode Node { get; protected set; }
 
 	public virtual async GDTask Add(Figure target, ConditionNode node)
 	{
-		
 		Owner = target;
 		Node = node;
-		Owner.Conditions.Add(this);
+		Owner.Conditions.Insert(0, this);
 
 		if(target.TakingTurn)
 		{
@@ -56,8 +49,7 @@ public abstract class ConditionModel : AbstractModel<ConditionModel>, IEventSubs
 
 	public virtual GDTask Remove()
 	{
-		ConditionNode node = this.Node;
-		node?.Destroy();
+		Node?.Destroy();
 		Owner.Conditions.Remove(this);
 
 		ScenarioEvents.InflictConditionDuplicatesCheckEvent.Unsubscribe(this);
@@ -83,12 +75,12 @@ public abstract class ConditionModel : AbstractModel<ConditionModel>, IEventSubs
 		return GDTask.CompletedTask;
 	}
 
-	private bool TurnEndedCanApply(ScenarioEvents.FigureTurnEndedConditionsFallOff.Parameters parameters)
+	protected bool TurnEndedCanApply(ScenarioEvents.FigureTurnEndedConditionsFallOff.Parameters parameters)
 	{
 		return parameters.Figure == Owner;
 	}
 
-	private async GDTask TurnEndedApply(ScenarioEvents.FigureTurnEndedConditionsFallOff.Parameters parameters)
+	protected async GDTask TurnEndedApply(ScenarioEvents.FigureTurnEndedConditionsFallOff.Parameters parameters)
 	{
 		if(_appliedDuringThisTurn)
 		{

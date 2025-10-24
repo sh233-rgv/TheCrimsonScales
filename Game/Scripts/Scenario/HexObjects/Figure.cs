@@ -9,12 +9,7 @@ using GTweensGodot.Extensions;
 
 public abstract partial class Figure : HexObject
 {
-#pragma warning disable IDE1006 // Naming Styles
-
 	protected FigureViewComponent _figureViewComponent;
-#pragma warning restore IDE1006 // Naming Styles
-
-
 	private int _shield;
 	private bool _shieldExtraValue;
 

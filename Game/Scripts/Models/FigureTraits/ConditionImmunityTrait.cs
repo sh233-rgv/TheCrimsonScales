@@ -1,5 +1,6 @@
 ﻿using Fractural.Tasks;
 using Godot;
+using System.Linq;
 
 public class ConditionImmunityTrait : FigureTrait
 {
@@ -27,18 +28,11 @@ public class ConditionImmunityTrait : FigureTrait
 		ScenarioEvents.InflictConditionEvent.Subscribe(figure, this,
 			parameters =>
 			{
-				foreach(ConditionModel condition1 in parameters.Condition.ImmunityCompareBaseCondition)
-				{
-					foreach(ConditionModel condition2 in _conditionModel.ImmunityCompareBaseCondition)
-					{
-						if(parameters.Target == figure && condition1 == condition2)
-						{
-							return true;
-
-						}
-					}
-				}
-				return false;
+				return parameters.Target == figure &&
+					parameters.Condition?.ImmunityCompareBaseCondition != null &&
+					_conditionModel?.ImmunityCompareBaseCondition != null &&
+					parameters.Condition.ImmunityCompareBaseCondition
+						.Any(c1 => _conditionModel.ImmunityCompareBaseCondition.Contains(c1));
 			},
 			async parameters =>
 			{

@@ -21,18 +21,11 @@ public class AllNegativeConditionImmunityTrait : FigureTrait
 
 		ScenarioEvents.InflictConditionEvent.Subscribe(figure, this, parameters =>
 			{
-				foreach(ConditionModel condition1 in parameters.Condition.ImmunityCompareBaseCondition)
-				{
-					foreach(ConditionModel condition2 in NegativeConditionModels)
-					{
-						if(parameters.Target == figure && condition1 == condition2)
-						{
-							return true;
-
-						}
-					}
-				}
-				return false;
+				return parameters.Target == figure &&
+					parameters.Condition?.ImmunityCompareBaseCondition != null &&
+					NegativeConditionModels != null &&
+					parameters.Condition.ImmunityCompareBaseCondition
+						.Any(c1 => NegativeConditionModels.Contains(c1));
 			},
 			async parameters =>
 			{
