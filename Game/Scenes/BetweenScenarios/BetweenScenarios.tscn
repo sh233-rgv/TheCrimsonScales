@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=89 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -29,12 +29,14 @@
 [ext_resource type="Texture2D" uid="uid://cgvuos5ph5e6r" path="res://Art/Icons/BetweenScenariosActions/HazardSign.svg" id="22_ywvcx"]
 [ext_resource type="Material" uid="uid://cun442tgtvgh" path="res://Materials/UIBlur.tres" id="23_1ehwm"]
 [ext_resource type="Script" uid="uid://co64dv05t1htu" path="res://Scripts/BetweenScenarios/BetweenScenariosSidePanel.cs" id="23_5k12q"]
+[ext_resource type="Shader" uid="uid://dpr1nhb31kvce" path="res://Shaders/ShadowCatcher.gdshader" id="23_6rvjw"]
 [ext_resource type="Script" uid="uid://chjh44dw8f42s" path="res://Scripts/BetweenScenarios/BetweenScenariosCharacterPortraitManager.cs" id="23_cdfbw"]
+[ext_resource type="Script" uid="uid://d0y7qlayk04fe" path="res://Scripts/BetweenScenarios/SanctuaryOfTheGreatOak/SanctuaryOfTheGreatOak.cs" id="23_gyc5w"]
 [ext_resource type="Shader" uid="uid://coeiuysk5p21c" path="res://Shaders/Vignette.gdshader" id="23_psaff"]
 [ext_resource type="PackedScene" uid="uid://vw723d5w85gv" path="res://Art/BetweenScenarios/TitheBowl.fbx" id="23_t8hrt"]
 [ext_resource type="PackedScene" uid="uid://drmjh44chpm2j" path="res://Scenes/BetweenScenarios/BetweenScenariosCharacterPortrait.tscn" id="24_cdfbw"]
-[ext_resource type="Texture2D" path="res://Art/natural-wooden-background.jpg" id="24_jvldq"]
 [ext_resource type="StyleBox" uid="uid://dgsnjspchrans" path="res://Resources/BlurBackground.tres" id="24_k7dxu"]
+[ext_resource type="Texture2D" uid="uid://i20crnpy2d6" path="res://Art/BetweenScenarios/natural-wooden-background.jpg" id="24_tquji"]
 [ext_resource type="Texture2D" uid="uid://c0g8n1f0aqnub" path="res://Art/BetweenScenarios/RedCloth.jpg" id="25_tquji"]
 [ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="27_hkul8"]
 [ext_resource type="Texture2D" uid="uid://xcevbjw5n8no" path="res://Art/Icons/Abilities/XP.svg" id="28_5k12q"]
@@ -184,9 +186,145 @@ _data = {
 &"RESET": SubResource("Animation_t8hrt")
 }
 
+[sub_resource type="Animation" id="Animation_6rvjw"]
+resource_name = "TitheBowlMoveIn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.27, 1),
+"update": 0,
+"values": [Vector3(0, 6.28319, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.27, 1),
+"update": 0,
+"values": [Vector3(8, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_gyc5w"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_j84ia"]
+resource_name = "TitheBowlMoveOut"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.766667),
+"transitions": PackedFloat32Array(2.37842, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(8, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.366667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.174533)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.366667),
+"transitions": PackedFloat32Array(1, 2.63902),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.06, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.766667),
+"transitions": PackedFloat32Array(2.82843, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 3.14159, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j84ia"]
+_data = {
+&"RESET": SubResource("Animation_gyc5w"),
+&"TitheBowlMoveIn": SubResource("Animation_6rvjw"),
+&"TitheBowlMoveOut": SubResource("Animation_j84ia")
+}
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jvldq"]
 albedo_color = Color(0.90798, 0.712438, 0.787805, 1)
-albedo_texture = ExtResource("24_jvldq")
+albedo_texture = ExtResource("24_tquji")
 roughness = 0.51
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_tquji"]
@@ -205,9 +343,21 @@ normal_texture = SubResource("NoiseTexture2D_6rvjw")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6rvjw"]
 albedo_color = Color(0.680343, 0.488732, 0.57168, 1)
-albedo_texture = ExtResource("24_jvldq")
+albedo_texture = ExtResource("24_tquji")
 metallic_specular = 0.08
 roughness = 0.59
+
+[sub_resource type="Environment" id="Environment_6rvjw"]
+ambient_light_source = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gyc5w"]
+render_priority = 0
+shader = ExtResource("23_6rvjw")
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/shadow_opacity = 1.0
+shader_parameter/shadow_max_opacity = 0.7
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_j84ia"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5k12q"]
 shader = ExtResource("23_psaff")
@@ -286,7 +436,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("6_nmjfa")
-_actions = [NodePath("ScenarioFlowchart"), NodePath("ItemShop"), NodePath("Enhancer")]
+_actions = [NodePath("ScenarioFlowchart"), NodePath("ItemShop"), NodePath("Enhancer"), NodePath("SanctuaryOfTheGreatOak")]
 _startActiveAction = NodePath("ScenarioFlowchart")
 
 [node name="ScenarioFlowchart" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("OutlineParent", "_gridContainer", "_3dContainer", "_scrollMesh", "_subViewportContainer", "_subViewport", "_3dRoot", "Button")]
@@ -1074,6 +1224,7 @@ transform = Transform3D(0.7127, -0.502156, 0.489794, 0, 0.69824, 0.715863, -0.70
 layers = 4
 light_color = Color(0.989348, 1, 0.687726, 1)
 light_cull_mask = 4293918724
+shadow_caster_mask = 4293918724
 sky_mode = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/Container/3D/SubViewport/Root"]
@@ -1081,7 +1232,27 @@ libraries = {
 &"": SubResource("AnimationLibrary_jvldq")
 }
 
-[node name="TempleOfTheOak" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager"]
+[node name="SanctuaryOfTheGreatOak" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("_3dRoot", "_animationPlayer", "Button")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("23_gyc5w")
+_3dRoot = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot")
+_animationPlayer = NodePath("AnimationPlayer")
+_moveInAnimationName = &"TitheBowlMoveIn"
+_moveOutAnimationName = &"TitheBowlMoveOut"
+Button = NodePath("../ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak"]
+libraries = {
+&"": SubResource("AnimationLibrary_j84ia")
+}
+
+[node name="Shared3D" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1090,7 +1261,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Container" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/TempleOfTheOak"]
+[node name="Container" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1099,7 +1270,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="3D" type="SubViewportContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/TempleOfTheOak/Container"]
+[node name="3D" type="SubViewportContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1109,45 +1280,60 @@ grow_vertical = 2
 mouse_filter = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="CanvasLayer/UI/BetweenScenariosActionManager/TempleOfTheOak/Container/3D"]
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D"]
 transparent_bg = true
 handle_input_locally = false
 msaa_3d = 1
 size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
-[node name="Root" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/TempleOfTheOak/Container/3D/SubViewport"]
+[node name="Root" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport"]
 
-[node name="TitheBowl" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/TempleOfTheOak/Container/3D/SubViewport/Root"]
+[node name="TitheBowlRoot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root"]
 
-[node name="TitheBowl" parent="CanvasLayer/UI/BetweenScenariosActionManager/TempleOfTheOak/Container/3D/SubViewport/Root/TitheBowl" instance=ExtResource("23_t8hrt")]
+[node name="TitheBowlContainer" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.68)
 
-[node name="Circle" parent="CanvasLayer/UI/BetweenScenariosActionManager/TempleOfTheOak/Container/3D/SubViewport/Root/TitheBowl/TitheBowl" index="0"]
-transform = Transform3D(47.8925, 51.0521, 2.23156e-06, 0, -3.0598e-06, 70, 51.0521, -47.8925, -2.09345e-06, 0, 0, 0)
-layers = 8
+[node name="MoveContainer" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer"]
+
+[node name="RotationContainer" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer"]
+
+[node name="TitheBowl" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer" instance=ExtResource("23_t8hrt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Circle" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl" index="0"]
+transform = Transform3D(-33.4565, 37.1572, 1.62419e-06, 0, -2.18557e-06, 50, 37.1572, 33.4565, 1.46243e-06, 0, 0, 0)
+layers = 524288
 surface_material_override/0 = SubResource("StandardMaterial3D_jvldq")
 surface_material_override/1 = SubResource("StandardMaterial3D_tquji")
 surface_material_override/2 = SubResource("StandardMaterial3D_6rvjw")
 
-[node name="CameraController" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/TempleOfTheOak/Container/3D/SubViewport/Root"]
+[node name="CameraController" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root"]
 
-[node name="MovePivot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/TempleOfTheOak/Container/3D/SubViewport/Root/CameraController"]
+[node name="MovePivot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/CameraController"]
 
-[node name="RotationPivot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/TempleOfTheOak/Container/3D/SubViewport/Root/CameraController/MovePivot"]
+[node name="RotationPivot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/CameraController/MovePivot"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/TempleOfTheOak/Container/3D/SubViewport/Root/CameraController/MovePivot/RotationPivot"]
+[node name="Camera3D" type="Camera3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/CameraController/MovePivot/RotationPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.2)
-cull_mask = 8
-environment = SubResource("Environment_4wnl8")
+cull_mask = 524288
+environment = SubResource("Environment_6rvjw")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/TempleOfTheOak/Container/3D/SubViewport/Root"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root"]
 transform = Transform3D(0.7127, -0.502156, 0.489794, 0, 0.69824, 0.715863, -0.701469, -0.510196, 0.497636, 0, 0, 0)
-layers = 8
+layers = 524288
 light_color = Color(0.988235, 1, 0.858824, 1)
-light_cull_mask = 4293918728
+light_cull_mask = 4294443016
+shadow_enabled = true
+shadow_caster_mask = 4294443008
 sky_mode = 1
+
+[node name="ShadowPlane" type="MeshInstance3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, -0.01, 0)
+layers = 524288
+material_override = SubResource("ShaderMaterial_gyc5w")
+mesh = SubResource("PlaneMesh_j84ia")
 
 [node name="ActionButtons" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager"]
 layout_mode = 1
@@ -1181,11 +1367,11 @@ texture = ExtResource("18_nmjfa")
 modulate = Color(0.47451, 1, 0.72549, 1)
 layout_mode = 2
 
-[node name="TempleOfTheOakButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" instance=ExtResource("17_3hv00")]
+[node name="SanctuaryOfTheGreatOakButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" instance=ExtResource("17_3hv00")]
 modulate = Color(1, 1, 0.647059, 1)
 layout_mode = 2
 
-[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/TempleOfTheOakButton/Container/BetterButton/Panel" index="0"]
+[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton/Container/BetterButton/Panel" index="0"]
 texture = ExtResource("19_ywvcx")
 
 [node name="EnhancerButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" instance=ExtResource("17_3hv00")]
@@ -1436,9 +1622,9 @@ layout_mode = 1
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipLeftButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/Container/3D/SubViewport/Root/CrystalBall/CrystalBallHolder"]
-[editable path="CanvasLayer/UI/BetweenScenariosActionManager/TempleOfTheOak/Container/3D/SubViewport/Root/TitheBowl/TitheBowl"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/ScenarioFlowchartButton"]
-[editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/TempleOfTheOakButton"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnhancerButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EventButton"]
 [editable path="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/NewCharacterButton"]

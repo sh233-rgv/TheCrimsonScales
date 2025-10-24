@@ -1,43 +1,46 @@
 ﻿using Godot;
 using GTweens.Builders;
 
-public partial class Enhancer : BetweenScenariosAction
+public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 {
 	[Export]
-	private SubViewport _subViewport;
+	private Node3D _3dRoot;
 
 	[Export]
 	private AnimationPlayer _animationPlayer;
+
 	[Export]
 	private StringName _moveInAnimationName;
 	[Export]
 	private StringName _moveOutAnimationName;
 
-	[Export]
-	private Node3D _3dRoot;
-	[Export]
-	private Node3D _crystalBall;
-
 	protected override bool SelectCharacter => true;
+
+	public override void _Ready()
+	{
+		base._Ready();
+
+		_3dRoot.SetVisible(false);
+	}
 
 	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder, BetweenScenariosAction previousActiveAction)
 	{
 		base.AnimateIn(sequenceBuilder, previousActiveAction);
 
-		_3dRoot.SetVisible(true);
-
-		_subViewport.SetUpdateMode(SubViewport.UpdateMode.WhenVisible);
-		_crystalBall.SetVisible(false);
-
 		sequenceBuilder
-			.AppendTime(0.4f)
+			.AppendTime(previousActiveAction is ItemShop ? 0.5f : 0f)
+			//.AppendTime(0.4f)
 			.AppendCallback((() =>
 			{
-				_animationPlayer.Play(_moveInAnimationName);
 				this.DelayedCall(() =>
 				{
-					_crystalBall.SetVisible(true);
+					_3dRoot.SetVisible(true);
 				});
+				_animationPlayer.Play(_moveInAnimationName);
+				// this.DelayedCall(() =>
+				// {
+				// 	_crystalBall.SetVisible(true);
+				// });
 			}))
 			.AppendTime(1f);
 	}
@@ -49,7 +52,11 @@ public partial class Enhancer : BetweenScenariosAction
 
 	protected override void AnimateOut(GTweenSequenceBuilder sequenceBuilder)
 	{
-		sequenceBuilder.AppendTime(1f);
+		sequenceBuilder.AppendTime(1f).AppendCallback(() =>
+		{
+			_3dRoot.SetVisible(false);
+			_animationPlayer.Play("RESET");
+		});
 
 		_animationPlayer.Play(_moveOutAnimationName);
 
@@ -61,7 +68,5 @@ public partial class Enhancer : BetweenScenariosAction
 		base.AfterAnimateOut();
 
 		_3dRoot.SetVisible(false);
-
-		_subViewport.SetUpdateMode(SubViewport.UpdateMode.Disabled);
 	}
 }
