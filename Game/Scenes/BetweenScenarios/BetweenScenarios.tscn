@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=94 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -39,8 +39,8 @@
 [ext_resource type="Texture2D" uid="uid://i20crnpy2d6" path="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/natural-wooden-background.jpg" id="24_tquji"]
 [ext_resource type="Texture2D" uid="uid://c0g8n1f0aqnub" path="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/RedCloth.jpg" id="25_tquji"]
 [ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="27_hkul8"]
-[ext_resource type="Texture2D" uid="uid://cuduuf2n7cydr" path="res://Art/Other/Coin.png" id="27_j84ia"]
-[ext_resource type="PackedScene" uid="uid://ra88v5tsfvhh" path="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/Coin.fbx" id="27_w2guo"]
+[ext_resource type="PackedScene" uid="uid://bm8we16yjsmag" path="res://Scenes/BetweenScenarios/SanctuaryOfTheGreatOak/DonationCoin.tscn" id="27_j84ia"]
+[ext_resource type="Script" uid="uid://d2lbo81ici357" path="res://Scripts/BetweenScenarios/SanctuaryOfTheGreatOak/SyncingBody.cs" id="27_w2guo"]
 [ext_resource type="Texture2D" uid="uid://xcevbjw5n8no" path="res://Art/Icons/Abilities/XP.svg" id="28_5k12q"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="28_jr74k"]
 [ext_resource type="Script" uid="uid://ck1ncviofqosh" path="res://Scripts/UI/ResizingLabel.cs" id="28_psaff"]
@@ -238,6 +238,18 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = false
+tracks/4/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(8, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_6rvjw"]
 resource_name = "TitheBowlMoveIn"
@@ -265,6 +277,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector3(8, 0, 0), Vector3(0, 0, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(8, 0, 0), Vector3(0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_j84ia"]
 resource_name = "TitheBowlMoveOut"
@@ -287,14 +311,14 @@ tracks/1/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoo
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.366667),
+"times": PackedFloat32Array(0, 0.766667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.174533)]
+"values": [Vector3(0, 0, 0), Vector3(0, 3.14159, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
-tracks/2/enabled = true
+tracks/2/enabled = false
 tracks/2/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
@@ -306,7 +330,7 @@ tracks/2/keys = {
 }
 tracks/3/type = "value"
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
@@ -315,6 +339,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(2.82843, 1),
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0, 3.14159, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.78),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(8, 0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_j84ia"]
@@ -349,12 +385,16 @@ albedo_texture = ExtResource("24_tquji")
 metallic_specular = 0.08
 roughness = 0.59
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ad0h"]
-albedo_texture = ExtResource("27_j84ia")
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_j84ia"]
+rough = true
+bounce = 0.5
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_w2guo"]
-height = 0.0231689
-radius = 0.125977
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8ad0h"]
+height = 1.0
+radius = 1.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fobax"]
+size = Vector3(1, 2, 1)
 
 [sub_resource type="Environment" id="Environment_6rvjw"]
 ambient_light_source = 1
@@ -1241,7 +1281,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_jvldq")
 }
 
-[node name="SanctuaryOfTheGreatOak" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("_3dRoot", "_animationPlayer", "Button")]
+[node name="SanctuaryOfTheGreatOak" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("_3dRoot", "_animationPlayer", "_donationCoinContainer", "_syncingBody", "_bowlVisualContainer", "Button")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1254,6 +1294,10 @@ _3dRoot = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot")
 _animationPlayer = NodePath("AnimationPlayer")
 _moveInAnimationName = &"TitheBowlMoveIn"
 _moveOutAnimationName = &"TitheBowlMoveOut"
+_donationCoinScene = ExtResource("27_j84ia")
+_donationCoinContainer = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/Coins")
+_syncingBody = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D")
+_bowlVisualContainer = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D/TitheBowl")
 Button = NodePath("../ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak"]
@@ -1308,6 +1352,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.68)
 [node name="RotationContainer" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer"]
 
 [node name="TitheBowl" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer" instance=ExtResource("23_t8hrt")]
+visible = false
 
 [node name="Circle" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl" index="0"]
 transform = Transform3D(-33.4565, 37.1572, 1.62419e-06, 0, -2.18557e-06, 50, 37.1572, 33.4565, 1.46243e-06, 0, 0, 0)
@@ -1316,19 +1361,63 @@ surface_material_override/0 = SubResource("StandardMaterial3D_jvldq")
 surface_material_override/1 = SubResource("StandardMaterial3D_tquji")
 surface_material_override/2 = SubResource("StandardMaterial3D_6rvjw")
 
-[node name="Coin" type="RigidBody3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.157611, 0)
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot" node_paths=PackedStringArray("_nodeToFollow")]
+physics_material_override = SubResource("PhysicsMaterial_j84ia")
+script = ExtResource("27_w2guo")
+_nodeToFollow = NodePath("../TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl")
 
-[node name="Coin" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl/Coin" instance=ExtResource("27_w2guo")]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49, 0)
+shape = SubResource("CylinderShape3D_8ad0h")
 
-[node name="Plane" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl/Coin/Coin" index="0"]
-transform = Transform3D(15, 0, 0, 0, -6.55671e-07, 20, 0, -15, -8.74228e-07, 0, 0, 0)
+[node name="CollisionShape3D10" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_8ad0h")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+shape = SubResource("BoxShape3D_fobax")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0.7, 0, 0.7)
+shape = SubResource("BoxShape3D_fobax")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+shape = SubResource("BoxShape3D_fobax")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0.7, 0, -0.7)
+shape = SubResource("BoxShape3D_fobax")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+shape = SubResource("BoxShape3D_fobax")
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -0.7, 0, -0.7)
+shape = SubResource("BoxShape3D_fobax")
+
+[node name="CollisionShape3D8" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+shape = SubResource("BoxShape3D_fobax")
+
+[node name="CollisionShape3D9" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -0.7, 0, 0.7)
+shape = SubResource("BoxShape3D_fobax")
+
+[node name="TitheBowl" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D" instance=ExtResource("23_t8hrt")]
+transform = Transform3D(1, 0, 4.46638e-06, 0, 1, 0, -4.46638e-06, 0, 1, 0, 0, 0)
+
+[node name="Circle" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D/TitheBowl" index="0"]
+transform = Transform3D(-33.4565, 37.1572, 1.62419e-06, 0, -2.18557e-06, 50, 37.1572, 33.4565, 1.46243e-06, 0, 0, 0)
 layers = 524288
-material_override = SubResource("StandardMaterial3D_8ad0h")
+surface_material_override/0 = SubResource("StandardMaterial3D_jvldq")
+surface_material_override/1 = SubResource("StandardMaterial3D_tquji")
+surface_material_override/2 = SubResource("StandardMaterial3D_6rvjw")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl/Coin"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0103882, 0)
-shape = SubResource("CylinderShape3D_w2guo")
+[node name="Coins" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.635, 0, -0.68)
 
 [node name="CameraController" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root"]
 
@@ -1645,7 +1734,7 @@ layout_mode = 1
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/Container/3D/SubViewport/Root/CrystalBall/CrystalBallHolder"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl"]
-[editable path="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl/Coin/Coin"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D/TitheBowl"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/ScenarioFlowchartButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnhancerButton"]
