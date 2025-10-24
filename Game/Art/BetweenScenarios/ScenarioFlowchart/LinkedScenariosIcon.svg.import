@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwfv0qnw411xy"
-path.s3tc="res://.godot/imported/ScenarioArrowHead.svg-04a9e6dd674100c3f3c1dceb29df61b8.s3tc.ctex"
-path.etc2="res://.godot/imported/ScenarioArrowHead.svg-04a9e6dd674100c3f3c1dceb29df61b8.etc2.ctex"
+uid="uid://bmb4kpbmfm5mb"
+path.s3tc="res://.godot/imported/LinkedScenariosIcon.svg-f2a09ccdf71ca796f7bca7b043d2c5f7.s3tc.ctex"
+path.etc2="res://.godot/imported/LinkedScenariosIcon.svg-f2a09ccdf71ca796f7bca7b043d2c5f7.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://Art/ScenarioFlowchart/ScenarioArrowHead.svg"
-dest_files=["res://.godot/imported/ScenarioArrowHead.svg-04a9e6dd674100c3f3c1dceb29df61b8.s3tc.ctex", "res://.godot/imported/ScenarioArrowHead.svg-04a9e6dd674100c3f3c1dceb29df61b8.etc2.ctex"]
+source_file="res://Art/BetweenScenarios/ScenarioFlowchart/LinkedScenariosIcon.svg"
+dest_files=["res://.godot/imported/LinkedScenariosIcon.svg-f2a09ccdf71ca796f7bca7b043d2c5f7.s3tc.ctex", "res://.godot/imported/LinkedScenariosIcon.svg-f2a09ccdf71ca796f7bca7b043d2c5f7.etc2.ctex"]
 
 [params]
 

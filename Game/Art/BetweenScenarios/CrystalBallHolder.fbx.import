@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://b3ggvb5s1of6w"
-path="res://.godot/imported/CrystalBallHolder.fbx-e4d0f1cce9e8b12c6f5a965c129a4580.scn"
+path="res://.godot/imported/CrystalBallHolder.fbx-7c56ad8979d9544d24f663faaaa93f47.scn"
 
 [deps]
 
-source_file="res://Art/Models/CrystalBallHolder.fbx"
-dest_files=["res://.godot/imported/CrystalBallHolder.fbx-e4d0f1cce9e8b12c6f5a965c129a4580.scn"]
+source_file="res://Art/BetweenScenarios/CrystalBallHolder.fbx"
+dest_files=["res://.godot/imported/CrystalBallHolder.fbx-7c56ad8979d9544d24f663faaaa93f47.scn"]
 
 [params]
 

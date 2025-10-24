@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvxentaxnsw52"
-path.s3tc="res://.godot/imported/PaperTexture.jpg-fc1164f47e5ff12cf62cafd09f69491d.s3tc.ctex"
-path.etc2="res://.godot/imported/PaperTexture.jpg-fc1164f47e5ff12cf62cafd09f69491d.etc2.ctex"
+uid="uid://cfrq1meyfpqgx"
+path.s3tc="res://.godot/imported/BookCover.jpg-4e4488114fd8858add73383a668ddb74.s3tc.ctex"
+path.etc2="res://.godot/imported/BookCover.jpg-4e4488114fd8858add73383a668ddb74.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://Art/ItemShop/PaperTexture.jpg"
-dest_files=["res://.godot/imported/PaperTexture.jpg-fc1164f47e5ff12cf62cafd09f69491d.s3tc.ctex", "res://.godot/imported/PaperTexture.jpg-fc1164f47e5ff12cf62cafd09f69491d.etc2.ctex"]
+source_file="res://Art/BetweenScenarios/ItemShop/BookCover.jpg"
+dest_files=["res://.godot/imported/BookCover.jpg-4e4488114fd8858add73383a668ddb74.s3tc.ctex", "res://.godot/imported/BookCover.jpg-4e4488114fd8858add73383a668ddb74.etc2.ctex"]
 
 [params]
 

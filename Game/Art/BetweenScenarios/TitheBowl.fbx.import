@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dpudi5js8o0ft"
-path="res://.godot/imported/PageAnimation.fbx-8f5a2577a1176e291a5ffa76703f983b.scn"
+uid="uid://vw723d5w85gv"
+path="res://.godot/imported/TitheBowl.fbx-293862922033773ee06634eb34d8a917.scn"
 
 [deps]
 
-source_file="res://Art/ItemShop/PageAnimation.fbx"
-dest_files=["res://.godot/imported/PageAnimation.fbx-8f5a2577a1176e291a5ffa76703f983b.scn"]
+source_file="res://Art/BetweenScenarios/TitheBowl.fbx"
+dest_files=["res://.godot/imported/TitheBowl.fbx-293862922033773ee06634eb34d8a917.scn"]
 
 [params]
 
