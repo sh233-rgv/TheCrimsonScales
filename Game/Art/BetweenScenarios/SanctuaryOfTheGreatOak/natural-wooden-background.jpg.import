@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://i20crnpy2d6"
-path.s3tc="res://.godot/imported/natural-wooden-background.jpg-2f5938720b57a78359ce5d2c23a542fe.s3tc.ctex"
-path.etc2="res://.godot/imported/natural-wooden-background.jpg-2f5938720b57a78359ce5d2c23a542fe.etc2.ctex"
+path.s3tc="res://.godot/imported/natural-wooden-background.jpg-908e421a9f0a2129a167b5d427286293.s3tc.ctex"
+path.etc2="res://.godot/imported/natural-wooden-background.jpg-908e421a9f0a2129a167b5d427286293.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://Art/BetweenScenarios/natural-wooden-background.jpg"
-dest_files=["res://.godot/imported/natural-wooden-background.jpg-2f5938720b57a78359ce5d2c23a542fe.s3tc.ctex", "res://.godot/imported/natural-wooden-background.jpg-2f5938720b57a78359ce5d2c23a542fe.etc2.ctex"]
+source_file="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/natural-wooden-background.jpg"
+dest_files=["res://.godot/imported/natural-wooden-background.jpg-908e421a9f0a2129a167b5d427286293.s3tc.ctex", "res://.godot/imported/natural-wooden-background.jpg-908e421a9f0a2129a167b5d427286293.etc2.ctex"]
 
 [params]
 

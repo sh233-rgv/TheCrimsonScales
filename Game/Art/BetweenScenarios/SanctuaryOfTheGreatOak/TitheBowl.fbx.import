@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://vw723d5w85gv"
-path="res://.godot/imported/TitheBowl.fbx-293862922033773ee06634eb34d8a917.scn"
+path="res://.godot/imported/TitheBowl.fbx-93bbc270db49c1ed4d2724aec515e10b.scn"
 
 [deps]
 
-source_file="res://Art/BetweenScenarios/TitheBowl.fbx"
-dest_files=["res://.godot/imported/TitheBowl.fbx-293862922033773ee06634eb34d8a917.scn"]
+source_file="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/TitheBowl.fbx"
+dest_files=["res://.godot/imported/TitheBowl.fbx-93bbc270db49c1ed4d2724aec515e10b.scn"]
 
 [params]
 

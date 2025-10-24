@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=93 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -33,12 +33,14 @@
 [ext_resource type="Script" uid="uid://chjh44dw8f42s" path="res://Scripts/BetweenScenarios/BetweenScenariosCharacterPortraitManager.cs" id="23_cdfbw"]
 [ext_resource type="Script" uid="uid://d0y7qlayk04fe" path="res://Scripts/BetweenScenarios/SanctuaryOfTheGreatOak/SanctuaryOfTheGreatOak.cs" id="23_gyc5w"]
 [ext_resource type="Shader" uid="uid://coeiuysk5p21c" path="res://Shaders/Vignette.gdshader" id="23_psaff"]
-[ext_resource type="PackedScene" uid="uid://vw723d5w85gv" path="res://Art/BetweenScenarios/TitheBowl.fbx" id="23_t8hrt"]
+[ext_resource type="PackedScene" uid="uid://vw723d5w85gv" path="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/TitheBowl.fbx" id="23_t8hrt"]
 [ext_resource type="PackedScene" uid="uid://drmjh44chpm2j" path="res://Scenes/BetweenScenarios/BetweenScenariosCharacterPortrait.tscn" id="24_cdfbw"]
 [ext_resource type="StyleBox" uid="uid://dgsnjspchrans" path="res://Resources/BlurBackground.tres" id="24_k7dxu"]
-[ext_resource type="Texture2D" uid="uid://i20crnpy2d6" path="res://Art/BetweenScenarios/natural-wooden-background.jpg" id="24_tquji"]
-[ext_resource type="Texture2D" uid="uid://c0g8n1f0aqnub" path="res://Art/BetweenScenarios/RedCloth.jpg" id="25_tquji"]
+[ext_resource type="Texture2D" uid="uid://i20crnpy2d6" path="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/natural-wooden-background.jpg" id="24_tquji"]
+[ext_resource type="Texture2D" uid="uid://c0g8n1f0aqnub" path="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/RedCloth.jpg" id="25_tquji"]
 [ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="27_hkul8"]
+[ext_resource type="Texture2D" uid="uid://cuduuf2n7cydr" path="res://Art/Other/Coin.png" id="27_j84ia"]
+[ext_resource type="PackedScene" uid="uid://ra88v5tsfvhh" path="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/Coin.fbx" id="27_w2guo"]
 [ext_resource type="Texture2D" uid="uid://xcevbjw5n8no" path="res://Art/Icons/Abilities/XP.svg" id="28_5k12q"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="28_jr74k"]
 [ext_resource type="Script" uid="uid://ck1ncviofqosh" path="res://Scripts/UI/ResizingLabel.cs" id="28_psaff"]
@@ -186,33 +188,6 @@ _data = {
 &"RESET": SubResource("Animation_t8hrt")
 }
 
-[sub_resource type="Animation" id="Animation_6rvjw"]
-resource_name = "TitheBowlMoveIn"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(0.27, 1),
-"update": 0,
-"values": [Vector3(0, 6.28319, 0), Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(0.27, 1),
-"update": 0,
-"values": [Vector3(8, 0, 0), Vector3(0, 0, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_gyc5w"]
 length = 0.001
 tracks/0/type = "value"
@@ -262,6 +237,33 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_6rvjw"]
+resource_name = "TitheBowlMoveIn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.27, 1),
+"update": 0,
+"values": [Vector3(0, 6.28319, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.27, 1),
+"update": 0,
+"values": [Vector3(8, 0, 0), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_j84ia"]
@@ -346,6 +348,13 @@ albedo_color = Color(0.680343, 0.488732, 0.57168, 1)
 albedo_texture = ExtResource("24_tquji")
 metallic_specular = 0.08
 roughness = 0.59
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ad0h"]
+albedo_texture = ExtResource("27_j84ia")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_w2guo"]
+height = 0.0231689
+radius = 0.125977
 
 [sub_resource type="Environment" id="Environment_6rvjw"]
 ambient_light_source = 1
@@ -1299,7 +1308,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.68)
 [node name="RotationContainer" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer"]
 
 [node name="TitheBowl" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer" instance=ExtResource("23_t8hrt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Circle" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl" index="0"]
 transform = Transform3D(-33.4565, 37.1572, 1.62419e-06, 0, -2.18557e-06, 50, 37.1572, 33.4565, 1.46243e-06, 0, 0, 0)
@@ -1307,6 +1315,20 @@ layers = 524288
 surface_material_override/0 = SubResource("StandardMaterial3D_jvldq")
 surface_material_override/1 = SubResource("StandardMaterial3D_tquji")
 surface_material_override/2 = SubResource("StandardMaterial3D_6rvjw")
+
+[node name="Coin" type="RigidBody3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.157611, 0)
+
+[node name="Coin" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl/Coin" instance=ExtResource("27_w2guo")]
+
+[node name="Plane" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl/Coin/Coin" index="0"]
+transform = Transform3D(15, 0, 0, 0, -6.55671e-07, 20, 0, -15, -8.74228e-07, 0, 0, 0)
+layers = 524288
+material_override = SubResource("StandardMaterial3D_8ad0h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl/Coin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0103882, 0)
+shape = SubResource("CylinderShape3D_w2guo")
 
 [node name="CameraController" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root"]
 
@@ -1623,6 +1645,7 @@ layout_mode = 1
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/Container/3D/SubViewport/Root/CrystalBall/CrystalBallHolder"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl/Coin/Coin"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/ScenarioFlowchartButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnhancerButton"]
