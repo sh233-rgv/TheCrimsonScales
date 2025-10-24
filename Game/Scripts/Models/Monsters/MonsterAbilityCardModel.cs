@@ -84,7 +84,6 @@ public abstract class MonsterAbilityCardModel : AbstractModel<MonsterAbilityCard
 	{
 		//CheckOrRegisterElementConsumption(possibleElements);
 
-		GD.Print("A");
 		return new DynamicInt<TState>(state =>
 		{
 			return CheckElementConsumed(state, possibleElements) ? consumedValue : normalValue;

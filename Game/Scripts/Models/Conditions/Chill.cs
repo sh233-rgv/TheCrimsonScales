@@ -32,12 +32,10 @@ public class Chill : ConditionModel
         {
 			SubscribeToChill();
         }
-		GD.Print(Name + Node);
 	}
 
 	public override GDTask Remove()
 	{
-		GD.Print("A");
 		if(NumChill() > 1)
 		{
 			Node?.Destroy();
