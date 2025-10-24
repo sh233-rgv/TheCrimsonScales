@@ -168,20 +168,13 @@ public abstract class MonsterAbilityCardModel : AbstractModel<MonsterAbilityCard
 
 	protected static bool CheckElementConsumed(Monster monster, IReadOnlyCollection<Element> possibleElements)
 	{
-		foreach(Element element in monster.MonsterGroup.AbilityCardConsumedElements)
-		{
-			GD.Print(element);
-		}
-		GD.Print("Length " + monster.MonsterGroup.AbilityCardConsumedElements.Count);
 		foreach(Element element in possibleElements)
 		{
 			if(monster.MonsterGroup.AbilityCardConsumedElements.Contains(element))
 			{
-				GD.Print(true);
 				return true;
 			}
 		}
-		GD.Print(false);
 		return false;
 	}
 
