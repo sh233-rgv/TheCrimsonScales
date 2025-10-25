@@ -54,11 +54,14 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 				this.DelayedCall(() =>
 				{
 					_bowlVisualContainer.SetVisible(true);
+				}, 0.1f);
+				this.DelayedCall(() =>
+				{
 					for(int i = 0; i < 3; i++)
 					{
 						CreateDonationCoin();
 					}
-				}, 0.1f);
+				}, 0.2f);
 				_animationPlayer.Play(_moveInAnimationName);
 				// this.DelayedCall(() =>
 				// {
@@ -73,7 +76,15 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 					{
 						coin.Launch();
 					}
-				}, 0.8f);
+				}, 0.6f);
+
+				this.DelayedCall(() =>
+				{
+					foreach(DonationCoin coin in _donationCoins)
+					{
+						coin.SetSleeping(true);
+					}
+				}, 1.4f);
 			})
 			.AppendTime(1f)
 			.AppendCallback(() =>
@@ -92,6 +103,11 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 
 	protected override void AnimateOut(GTweenSequenceBuilder sequenceBuilder)
 	{
+		foreach(DonationCoin coin in _donationCoins)
+		{
+			coin.SetSleeping(true);
+		}
+
 		sequenceBuilder.AppendTime(1f).AppendCallback(() =>
 		{
 			_3dRoot.SetVisible(false);
@@ -124,8 +140,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 		DonationCoin coin = _donationCoinScene.Instantiate<DonationCoin>();
 		_donationCoinContainer.AddChild(coin);
 		coin.SetGlobalPosition(
-			_syncingBody.GlobalPosition + Vector3.Up * 0.05f +
-			0.1f * new Vector3(GD.Randf(), GD.Randf(), 0.3f * GD.Randf()));
+			_syncingBody.GlobalPosition + Vector3.Up * 0.1f +
+			0.2f * new Vector3(GD.Randf(), GD.Randf(), 0.3f * GD.Randf()));
 		_donationCoins.Add(coin);
 	}
 }

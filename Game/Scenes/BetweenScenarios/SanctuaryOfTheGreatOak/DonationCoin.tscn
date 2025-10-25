@@ -20,7 +20,8 @@ input_ray_pickable = false
 mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_ass6a")
 continuous_cd = true
-angular_damp = 4.0
+linear_damp = 4.0
+angular_damp = 6.0
 script = ExtResource("1_6v3y5")
 
 [node name="Coin" parent="." instance=ExtResource("1_ass6a")]

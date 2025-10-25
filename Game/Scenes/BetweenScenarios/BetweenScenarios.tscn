@@ -360,6 +360,17 @@ _data = {
 &"TitheBowlMoveOut": SubResource("Animation_j84ia")
 }
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_j84ia"]
+rough = true
+bounce = 0.5
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8ad0h"]
+height = 1.0
+radius = 1.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fobax"]
+size = Vector3(1, 2, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jvldq"]
 albedo_color = Color(0.90798, 0.712438, 0.787805, 1)
 albedo_texture = ExtResource("24_tquji")
@@ -384,17 +395,6 @@ albedo_color = Color(0.680343, 0.488732, 0.57168, 1)
 albedo_texture = ExtResource("24_tquji")
 metallic_specular = 0.08
 roughness = 0.59
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_j84ia"]
-rough = true
-bounce = 0.5
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_8ad0h"]
-height = 1.0
-radius = 1.0
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_fobax"]
-size = Vector3(1, 2, 1)
 
 [sub_resource type="Environment" id="Environment_6rvjw"]
 ambient_light_source = 1
@@ -1351,15 +1351,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.68)
 
 [node name="RotationContainer" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer"]
 
-[node name="TitheBowl" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer" instance=ExtResource("23_t8hrt")]
-visible = false
-
-[node name="Circle" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl" index="0"]
-transform = Transform3D(-33.4565, 37.1572, 1.62419e-06, 0, -2.18557e-06, 50, 37.1572, 33.4565, 1.46243e-06, 0, 0, 0)
-layers = 524288
-surface_material_override/0 = SubResource("StandardMaterial3D_jvldq")
-surface_material_override/1 = SubResource("StandardMaterial3D_tquji")
-surface_material_override/2 = SubResource("StandardMaterial3D_6rvjw")
+[node name="TitheBowl" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer"]
 
 [node name="AnimatableBody3D" type="AnimatableBody3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot" node_paths=PackedStringArray("_nodeToFollow")]
 physics_material_override = SubResource("PhysicsMaterial_j84ia")
@@ -1733,7 +1725,6 @@ layout_mode = 1
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipLeftButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/Container/3D/SubViewport/Root/CrystalBall/CrystalBallHolder"]
-[editable path="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/TitheBowlContainer/MoveContainer/RotationContainer/TitheBowl"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D/TitheBowl"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/ScenarioFlowchartButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton"]
