@@ -13,8 +13,9 @@ public abstract class ConditionModel : AbstractModel<ConditionModel>, IEventSubs
 	public virtual bool IsNegative => !IsPositive;
 	public virtual bool RemovedByHeal => false;
 	public virtual string ConditionAnimationScenePath => null;
-	public virtual bool ShowOnFigure => true;
+
 	protected bool _appliedDuringThisTurn;
+	
 	protected Figure Owner { get; private set; }
 	public ConditionNode Node { get; protected set; }
 
@@ -91,4 +92,8 @@ public abstract class ConditionModel : AbstractModel<ConditionModel>, IEventSubs
 			await AbilityCmd.RemoveCondition(Owner, ImmutableInstance);
 		}
 	}
+	public virtual bool ShouldShowOnFigure(Figure figure)
+    {
+		return true;
+    }
 }

@@ -16,35 +16,32 @@ public class Chill : ConditionModel
 	public override async GDTask Add(Figure target, ConditionNode node)
 	{
 		await base.Add(target, node);
+
 		_appliedDuringThisTurn = false;
-		int totalChill = NumChill();
+		int totalChill = GetChillCount();
 		if(totalChill > 1)
 		{
-			Node.Destroy();
-			Node = null;
 			Chill secondChill = (Chill)Owner.Conditions.Where(c => c.ImmutableInstance ==
 				Conditions.Chill).Skip(1).FirstOrDefault();
 			ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.Unsubscribe(secondChill);
 			SetChillText();
 			ScenarioEvents.InflictConditionDuplicatesCheckEvent.Unsubscribe(this);
 		}
-        else
-        {
+		else
+		{
 			SubscribeToChill();
-        }
+		}
 	}
 
 	public override GDTask Remove()
 	{
-		if(NumChill() > 1)
+		if(GetChillCount() > 1)
 		{
-			Node?.Destroy();
-			Node = null;
 			Owner.Conditions.Remove(this);
 			SetChillText();
 			ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.Unsubscribe(this);
-			Chill firstChill = (Chill)Owner.Conditions.Where(c => c.ImmutableInstance == Conditions.Chill).FirstOrDefault();
-			ScenarioEvents.FigureTurnEndingEvent.Subscribe(firstChill, cansubscribe => true, subscription =>
+			Chill firstChill = (Chill)Owner.Conditions.FirstOrDefault(c => c.ImmutableInstance == Conditions.Chill);
+			ScenarioEvents.FigureTurnEndingEvent.Subscribe(firstChill, cansubscribe => true, parameters =>
 				{
 					ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.Subscribe(firstChill, TurnEndedCanApply,
 						TurnEndedApply, EffectType.MandatoryBeforeOptionals);
@@ -62,10 +59,10 @@ public class Chill : ConditionModel
 	}
 	
 	private void SetChillText()
-    {
+	{
 		Chill lastChill = (Chill)Owner.Conditions.LastOrDefault(c => c.ImmutableInstance == Conditions.Chill);
-		lastChill.Node.SetStackText(NumChill() == 1 ? null : NumChill().ToString());
-    }
+		lastChill.Node.SetStackText(GetChillCount() == 1 ? null : GetChillCount().ToString());
+	}
 	
 	protected override GDTask DuplicatesCheckApply(ScenarioEvents.InflictConditionDuplicatesCheck.Parameters parameters)
 	{
@@ -91,7 +88,7 @@ public class Chill : ConditionModel
 						 (parameters.AbilityState is AttackAbility.State || parameters.AbilityState is MoveAbility.State),
 			parameters =>
 			{
-				int currentStacks = NumChill();
+				int currentStacks = GetChillCount();
 
 				if(parameters.AbilityState is AttackAbility.State attackState)
 				{
@@ -107,9 +104,13 @@ public class Chill : ConditionModel
 			EffectType.MandatoryBeforeOptionals
 		);
 	}
-	
-	private int NumChill()
+	public override bool ShouldShowOnFigure(Figure figure)
+    {
+		return !figure.HasCondition(Conditions.Chill);
+    }
+
+	private int GetChillCount()
 	{
 		return Owner.Conditions.Count(c => c.ImmutableInstance == Conditions.Chill);
-    }
+	}
 }
