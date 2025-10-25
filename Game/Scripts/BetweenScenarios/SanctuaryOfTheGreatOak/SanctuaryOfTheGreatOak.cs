@@ -44,7 +44,6 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 
 		sequenceBuilder
 			.AppendTime(previousActiveAction is ItemShop ? 0.5f : 0f)
-			//.AppendTime(0.4f)
 			.AppendCallback((() =>
 			{
 				this.DelayedCall(() =>
@@ -63,10 +62,6 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 					}
 				}, 0.2f);
 				_animationPlayer.Play(_moveInAnimationName);
-				// this.DelayedCall(() =>
-				// {
-				// 	_crystalBall.SetVisible(true);
-				// });
 			}))
 			.AppendCallback(() =>
 			{
@@ -74,7 +69,7 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 				{
 					foreach(DonationCoin coin in _donationCoins)
 					{
-						coin.Launch();
+						coin.ApplyImpulse((float)GD.RandRange(0.1f, 1f) * Vector3.Right * 0.3f, Vector3.Zero);
 					}
 				}, 0.6f);
 
@@ -84,16 +79,9 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 					{
 						coin.SetSleeping(true);
 					}
-				}, 1.4f);
+				}, 2f);
 			})
-			.AppendTime(1f)
-			.AppendCallback(() =>
-			{
-				// foreach(DonationCoin coin in _donationCoins)
-				// {
-				// 	coin.Launch();
-				// }
-			});
+			.AppendTime(1f);
 	}
 
 	protected override void AfterAnimateIn()
@@ -105,7 +93,7 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 	{
 		foreach(DonationCoin coin in _donationCoins)
 		{
-			coin.SetSleeping(true);
+			coin.SetSleeping(false);
 		}
 
 		sequenceBuilder.AppendTime(1f).AppendCallback(() =>
