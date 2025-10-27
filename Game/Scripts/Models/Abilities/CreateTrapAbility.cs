@@ -118,22 +118,28 @@ public class CreateTrapAbility : Ability<CreateTrapAbility.State>
 
 	protected override async GDTask Perform(State abilityState)
 	{
-		List<Hex> targetHexes = await AbilityCmd.SelectHexes(abilityState, list =>
-			{
-				if(CustomSelectHexes != null) 
-				{
-					CustomSelectHexes(abilityState, list);
-				}
-				else
-				{
-					list.AddRange(RangeHelper.GetHexesInRange(abilityState.Performer.Hex, abilityState.AbilityRange).Where(hex => hex.IsEmpty()));
-				}
-			}, 
-			minSelectionCount: 0, 
-			maxSelectionCount: TrapCount, 
-			autoSelectIfMaxCountIsValidCount: false, 
-			hintText: (TrapCount == 1) ? $"Select a hex to place the trap" : $"Select up to {TrapCount} hexes to place the traps");
+		List<Hex> possibleHexes = new();
+		if (CustomSelectHexes != null)
+		{
+			CustomSelectHexes(abilityState, possibleHexes);
+		}
+		else
+		{
+			possibleHexes.AddRange(
+				RangeHelper.GetHexesInRange(abilityState.Performer.Hex, abilityState.AbilityRange)
+					.Where(hex => hex.IsEmpty())
+			);
+		}
+		int minCount = Mandatory ? Math.Min(TrapCount, possibleHexes.Count) : 0;
 
+		List<Hex> targetHexes = await AbilityCmd.SelectHexes(
+			abilityState,
+			list => list.AddRange(possibleHexes),
+			minSelectionCount: minCount,
+			maxSelectionCount: TrapCount,
+			autoSelectIfMaxCountIsValidCount: false,
+			hintText: (TrapCount == 1) ? $"Select a hex to place the trap" : $"Select up to {TrapCount} hexes to place the traps"
+		);
 		if(targetHexes.Count > 0)
 		{
 			foreach(Hex hex in targetHexes)

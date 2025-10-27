@@ -13,6 +13,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 	public class State : TargetedAbilityState<SingleTargetState>
 	{
 		public List<Figure> KilledTargets { get; } = new List<Figure>();
+		public List<Figure> DamagedTargets { get; } = new List<Figure>();
 
 		public int AbilityAttackValue { get; set; }
 		public int AbilityPierce { get; set; }
@@ -341,6 +342,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 
 			if(finalDamage > 0)
 			{
+				abilityState.DamagedTargets.Add(target);
 				GTweenSequenceBuilder.New()
 					.AppendTime(0.25f)
 					.Append(target.TweenGlobalPosition(targetOrigin + normal * Map.HexSize * 0.2f, 0.15f).SetEasing(Easing.OutQuart))

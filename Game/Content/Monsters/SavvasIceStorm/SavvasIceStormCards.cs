@@ -1,160 +1,222 @@
 ﻿using System.Collections.Generic;
+using Fractural.Tasks;
 using Godot;
 
-public abstract class SavvasIceStormAbilityCard : MonsterAbilityCardModel
+public abstract class SavvasIcestormAbilityCard : MonsterAbilityCardModel
 {
-	public override string CardsAtlasPath => "res://Content/Monsters/SavvasIceStorm/Cards.jpg";
+	public override string CardsAtlasPath => "res://Content/Monsters/SavvasIcestorm/Cards.jpg";
 
 	public static IEnumerable<MonsterAbilityCardModel> Deck { get; } =
 	[
-		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard0>(),
-		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard1>(),
-		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard2>(),
-		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard3>(),
-		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard4>(),
-		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard5>(),
-		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard6>(),
-		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard7>()
+		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard0>(),
+		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard1>(),
+		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard2>(),
+		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard3>(),
+		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard4>(),
+		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard5>(),
+		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard6>(),
+		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard7>()
 	];
 }
 
-public class SavvasIceStormAbilityCard0 : SavvasIceStormAbilityCard
+public class SavvasIcestormAbilityCard0 : SavvasIcestormAbilityCard
 {
-	public override int Initiative => 65;
+	public override int Initiative => 70;
 	public override int CardIndex => 0;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 3, targets: 3, conditions: [Conditions.Curse])),
+		new MonsterAbilityCardAbility(PushAbility.Builder()
+			.WithPush(2)
+			.WithTarget(Target.Enemies | Target.TargetAll)
+			.WithDuringTargetedAbilitySubscriptions(ConsumeElementCheckSubscription<ScenarioEvents.DuringTargetedAbility.Parameters>(monster, [Element.Air],
+				applyFunction: async parameters =>
+				{
+					parameters.AbilityState.AbilityAdjustPush(2);
+					await GDTask.CompletedTask;
+				}
+			))
+			.Build()),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1, extraRange: +1)),
 	];
+
+	public override IEnumerable<MonsterAbilityCardElementConsumption> ElementConsumptions { get; } =
+		[MonsterAbilityCardElementConsumption.Consume(Element.Air)];
 }
 
-public class SavvasIceStormAbilityCard1 : SavvasIceStormAbilityCard
+public class SavvasIcestormAbilityCard1 : SavvasIcestormAbilityCard
 {
-	public override int Initiative => 60;
+	public override int Initiative => 98;
 	public override int CardIndex => 1;
-	public override bool Reshuffles => true;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, pierce: 3,
-			aoePattern: new AOEPattern([
-				new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-				new AOEHex(new Vector2I(1, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(2, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(3, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(4, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(5, 0), AOEHexType.Red),
-			])
-		)),
+		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
+			.WithMonsterModel(ModelDB.Monster<WindDemon>())
+			.WithMonsterType(MonsterType.Normal)
+			.Build()),
 	];
+
+	public override IEnumerable<MonsterAbilityCardElementInfusion> ElementInfusions { get; } =
+		[MonsterAbilityCardElementInfusion.Infuse(Element.Air)];
 }
 
-public class SavvasIceStormAbilityCard2 : SavvasIceStormAbilityCard
+public class SavvasIcestormAbilityCard2 : SavvasIcestormAbilityCard
 {
-	public override int Initiative => 60;
+	public override int Initiative => 98;
 	public override int CardIndex => 2;
-	public override bool Reshuffles => true;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, pierce: 3,
-			aoePattern: new AOEPattern([
-				new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-				new AOEHex(new Vector2I(1, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(2, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(3, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(4, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(5, 0), AOEHexType.Red),
-			])
-		)),
+		
+		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
+			.WithMonsterModel(ModelDB.Monster<FrostDemon>())
+			.WithMonsterType(MonsterType.Normal)
+			.Build()),
 	];
+
+	public override IEnumerable<MonsterAbilityCardElementInfusion> ElementInfusions { get; } =
+		[MonsterAbilityCardElementInfusion.Infuse(Element.Ice)];
 }
 
-public class SavvasIceStormAbilityCard3 : SavvasIceStormAbilityCard
+public class SavvasIcestormAbilityCard3 : SavvasIcestormAbilityCard
 {
-	public override int Initiative => 84;
+	public override int Initiative => 19;
 	public override int CardIndex => 3;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, target: Target.Enemies | Target.TargetAll)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, range: 4, conditions: [Conditions.Wound1])),
+		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1, extraRange: -1)),
+		new MonsterAbilityCardAbility(OtherActiveAbility.Builder()
+			.WithOnActivate(async state =>
+			{
+				ScenarioEvents.SufferDamageEvent.Subscribe(monster, this,
+						canApplyParameters =>
+							RangeHelper.Distance(state.Performer.Hex, canApplyParameters.Figure.Hex) <= 2,
+						async parameters =>
+						{
+							parameters.AdjustShield(1);
+						});
+				ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(monster, this,
+					parameters => parameters.Figure == monster,
+					parameters =>
+					{
+						parameters.Add(new FigureInfoTextExtraEffect.Parameters(
+							$"Self and all allies within {Icons.Inline(Icons.Range)}2 gain {Icons.Inline(Icons.Shield)}1"));
+					}
+				);
+				await GDTask.CompletedTask;
+			})
+			.WithOnDeactivate(async state =>
+			{
+				ScenarioEvents.SufferDamageEvent.Unsubscribe(monster, this);
+				ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(monster, this);
+
+				await GDTask.CompletedTask;
+			})
+			.Build()
+		),
 	];
+
+	public override IEnumerable<MonsterAbilityCardElementInfusion> ElementInfusions { get; } =
+		[MonsterAbilityCardElementInfusion.Infuse(Element.Ice)];
 }
 
-public class SavvasIceStormAbilityCard4 : SavvasIceStormAbilityCard
+public class SavvasIcestormAbilityCard4 : SavvasIcestormAbilityCard
 {
-	public override int Initiative => 75;
+	public override int Initiative => 14;
 	public override int CardIndex => 4;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, conditions: [Conditions.Poison1])),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, range: 5, conditions: [Conditions.Immobilize])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0, duringAttackSubscriptions: [
+			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Ice],
+				applyFunction: async parameters =>
+				{
+					parameters.AbilityState.AbilityAdjustAttackValue(+2);
+					parameters.AbilityState.AbilityAddCondition(Conditions.Immobilize);
+					await GDTask.CompletedTask;
+				}
+			)
+		])),
+		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2).Build())
 	];
+
+	public override IEnumerable<MonsterAbilityCardElementInfusion> ElementInfusions { get; } =
+		[MonsterAbilityCardElementInfusion.Infuse(Element.Air)];
+
+	public override IEnumerable<MonsterAbilityCardElementConsumption> ElementConsumptions { get; } =
+		[MonsterAbilityCardElementConsumption.Consume(Element.Ice)];
 }
 
-public class SavvasIceStormAbilityCard5 : SavvasIceStormAbilityCard
+public class SavvasIcestormAbilityCard5 : SavvasIcestormAbilityCard
 {
-	public override int Initiative => 75;
+	public override int Initiative => 14;
 	public override int CardIndex => 5;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, -2, target: Target.Enemies | Target.TargetAll, conditions: [Conditions.Disarm])),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 3, targets: 2)),
-	];
-}
-
-public class SavvasIceStormAbilityCard6 : SavvasIceStormAbilityCard
-{
-	public override int Initiative => 96;
-	public override int CardIndex => 6;
-
-	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
-	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, -2, range: 6)),
-		new MonsterAbilityCardAbility(OtherAbility.Builder()
-			.WithPerformAbility(async state =>
-			{
-				AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
-				foreach(Figure target in attackAbilityState.UniqueTargetedFigures)
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(4).Build()),
+		new MonsterAbilityCardAbility(HealAbility.Builder()
+			.WithHealValue(2)
+			.WithRange(3)
+			.WithDuringHealSubscription(ConsumeElementCheckSubscription<ScenarioEvents.DuringHeal.Parameters>(monster, [Element.Ice],
+				applyFunction: async parameters =>
 				{
-					Hex hex = await AbilityCmd.SelectHex(state, list =>
-					{
-						foreach(Hex neighbourHex in target.Hex.Neighbours)
-						{
-							if(neighbourHex.IsEmpty())
-							{
-								list.Add(neighbourHex);
-							}
-						}
-					});
-
-					// if(hex != null && await GameController.Instance.Map.CreateMonster(ModelDB.Monster<SavvasIceStorm>(), MonsterType.Normal, hex.Coords, true))
-					// {
-					// 	state.SetPerformed();
-					// 	break;
-					// }
+					parameters.AbilityState.AbilityAdjustHealValue(3);
+					await GDTask.CompletedTask;
 				}
-			})
-			.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-			.Build())
+			))
+			.Build()),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0,
+			conditionalAbilityCheck: ConsumeElementAbilityCheck<AttackAbility.State>([Element.Air])))
 	];
+
+	public override IEnumerable<MonsterAbilityCardElementConsumption> ElementConsumptions { get; } =
+		[MonsterAbilityCardElementConsumption.Consume([Element.Ice, Element.Air])];
 }
 
-public class SavvasIceStormAbilityCard7 : SavvasIceStormAbilityCard
+public class SavvasIcestormAbilityCard6 : SavvasIcestormAbilityCard
 {
-	public override int Initiative => 54;
-	public override int CardIndex => 7;
+	public override int Initiative => 47;
+	public override int CardIndex => 6;
+	public override bool Reshuffles => true;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(ConditionAbility.Builder()
-			.WithConditions(Conditions.Wound1, Conditions.Poison1)
+			.WithConditions(Conditions.Disarm)
+			.WithRange(1)
 			.WithTarget(Target.Enemies | Target.TargetAll)
 			.Build()),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 4)),
+		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1))
 	];
+
+	public override IEnumerable<MonsterAbilityCardElementInfusion> ElementInfusions { get; } =
+		[MonsterAbilityCardElementInfusion.Infuse(Element.Air)];
+}
+
+public class SavvasIcestormAbilityCard7 : SavvasIcestormAbilityCard
+{
+	public override int Initiative => 35;
+	public override int CardIndex => 7;
+	public override bool Reshuffles => true;
+
+	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
+	[
+		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1, aoePattern: new AOEPattern([
+			new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+			new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
+		])))
+	];
+
+	public override IEnumerable<MonsterAbilityCardElementInfusion> ElementInfusions { get; } =
+		[MonsterAbilityCardElementInfusion.Infuse(Element.Ice)];
 }

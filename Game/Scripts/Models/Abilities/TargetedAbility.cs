@@ -217,6 +217,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 	public Action<T, List<Figure>> CustomGetTargets { get; private set; }
 
+	public List<ScenarioEvents.DuringTargetedAbility.Subscription> DuringTargetedAbilitySubscriptions { get; protected set; } = [];
+
 	/// <summary>
 	/// A builder extending <see cref="Ability{T}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods
 	/// for values defined in TargetedAbility. Enables inheritors of TargetedAbility to further extend the builder.
@@ -318,6 +320,19 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			return (TBuilder)this;
 		}
 
+		public TBuilder WithDuringTargetedAbilitySubscriptions(ScenarioEvents.DuringTargetedAbility.Subscription movementSubscription)
+		{
+			Obj.DuringTargetedAbilitySubscriptions.Add(movementSubscription);
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithDuringTargetedAbilitySubscriptions(
+			List<ScenarioEvents.DuringTargetedAbility.Subscription> movementSubscriptions)
+		{
+			Obj.DuringTargetedAbilitySubscriptions = movementSubscriptions;
+			return (TBuilder)this;
+		}
+
 		/// <summary>
 		/// Overriding so we can set default values.
 		/// </summary>
@@ -351,6 +366,20 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 		abilityState.AbilityPush = Push;
 		abilityState.AbilityPull = Pull;
 		abilityState.AbilitySwing = Swing;
+	}
+
+	protected override async GDTask StartPerform(T abilityState)
+	{
+		await base.StartPerform(abilityState);
+
+		ScenarioEvents.DuringTargetedAbilityEvent.Subscribe(abilityState, this, DuringTargetedAbilitySubscriptions);
+	}
+
+	protected override async GDTask EndPerform(T abilityState)
+	{
+		await base.EndPerform(abilityState);
+
+		ScenarioEvents.DuringTargetedAbilityEvent.Unsubscribe(DuringTargetedAbilitySubscriptions);
 	}
 
 	protected override async GDTask Perform(T abilityState)

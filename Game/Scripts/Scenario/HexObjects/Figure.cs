@@ -272,7 +272,7 @@ public abstract partial class Figure : HexObject
 	public async GDTask<ConditionNode> AddCondition(ConditionModel condition)
 	{
 		ConditionNode conditionNode = null;
-		if(condition.ShowOnFigure)
+		if(condition.ShouldShowOnFigure(this))
 		{
 			conditionNode = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Condition.tscn").Instantiate<ConditionNode>();
 			_figureViewComponent.ConditionParent.AddChild(conditionNode);
@@ -304,6 +304,14 @@ public abstract partial class Figure : HexObject
 
 		ReorderConditions();
 	}
+
+	public async GDTask RemoveAllChill()
+    {
+        while (HasCondition(global::Conditions.Chill))
+        {
+			await RemoveCondition(global::Conditions.Chill);
+        }
+    }
 
 	public void SetAlignment(Alignment alignment)
 	{

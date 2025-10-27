@@ -55,6 +55,16 @@ public class ScenarioEvents
 	// private readonly AttackAbilityStart _attackAbilityStart = new AttackAbilityStart();
 	// public static AttackAbilityStart AttackAbilityStartEvent => GameController.Instance.ScenarioEvents._attackAbilityStart;
 
+	public class DuringTargetedAbility : ScenarioEvent<DuringTargetedAbility.Parameters>
+	{
+		public class Parameters(TargetedAbilityState abilityState) : ParametersBase<TargetedAbilityState>(abilityState)
+		{
+		}
+	}
+
+	private readonly DuringTargetedAbility _duringTargetedAbility = new DuringTargetedAbility();
+	public static DuringTargetedAbility DuringTargetedAbilityEvent => GameController.Instance.ScenarioEvents._duringTargetedAbility;
+
 	public class DuringAttack : ScenarioEvent<DuringAttack.Parameters>
 	{
 		public class Parameters(AttackAbility.State abilityState) : ParametersBase<AttackAbility.State>(abilityState)
