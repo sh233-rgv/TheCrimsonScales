@@ -97,6 +97,7 @@ public class SavvasIcestormAbilityCard3 : SavvasIcestormAbilityCard
 						async parameters =>
 						{
 							parameters.AdjustShield(1);
+							await GDTask.CompletedTask;
 						});
 				ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(monster, this,
 					parameters => parameters.Figure == monster,
