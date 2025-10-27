@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dpmqdyuhfskkk"
-path.s3tc="res://.godot/imported/Cards.jpg-fd64cc4fe5ca5efa5d206e7b10a4c798.s3tc.ctex"
-path.etc2="res://.godot/imported/Cards.jpg-fd64cc4fe5ca5efa5d206e7b10a4c798.etc2.ctex"
+path.s3tc="res://.godot/imported/Cards.jpg-0d6f0c99a1ea60c0b8ad0b781d50d529.s3tc.ctex"
+path.etc2="res://.godot/imported/Cards.jpg-0d6f0c99a1ea60c0b8ad0b781d50d529.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://Content/Monsters/SavvasIceStorm/Cards.jpg"
-dest_files=["res://.godot/imported/Cards.jpg-fd64cc4fe5ca5efa5d206e7b10a4c798.s3tc.ctex", "res://.godot/imported/Cards.jpg-fd64cc4fe5ca5efa5d206e7b10a4c798.etc2.ctex"]
+source_file="res://Content/Monsters/SavvasIcestorm/Cards.jpg"
+dest_files=["res://.godot/imported/Cards.jpg-0d6f0c99a1ea60c0b8ad0b781d50d529.s3tc.ctex", "res://.godot/imported/Cards.jpg-0d6f0c99a1ea60c0b8ad0b781d50d529.etc2.ctex"]
 
 [params]
 

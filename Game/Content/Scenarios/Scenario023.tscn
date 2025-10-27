@@ -86,43 +86,43 @@ position = Vector2(-1091.19, 378)
 
 [node name="MonsterSpawner" parent="Map/Rooms/Room" index="14" instance=ExtResource("8_u456i")]
 position = Vector2(0, 378)
-MonsterModelId = "MONSTER_MODEL.FROZEN_CADAVER"
+MonsterModelId = "LIVING_CORPSE.FROZEN_CADAVER"
 MonsterType2Characters = 0
 
 [node name="MonsterSpawner2" parent="Map/Rooms/Room" index="15" instance=ExtResource("8_u456i")]
 position = Vector2(218.238, 756)
-MonsterModelId = "MONSTER_MODEL.FROZEN_CADAVER"
+MonsterModelId = "LIVING_CORPSE.FROZEN_CADAVER"
 MonsterType3Characters = 0
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner5" parent="Map/Rooms/Room" index="16" instance=ExtResource("8_u456i")]
 position = Vector2(327.358, 945)
-MonsterModelId = "MONSTER_MODEL.HARROWER_ICECRAWLERS"
+MonsterModelId = "HARROWER_INFESTER.HARROWER_ICECRAWLERS"
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner6" parent="Map/Rooms/Room" index="17" instance=ExtResource("8_u456i")]
 position = Vector2(545.596, 567)
-MonsterModelId = "MONSTER_MODEL.HARROWER_ICECRAWLERS"
+MonsterModelId = "HARROWER_INFESTER.HARROWER_ICECRAWLERS"
 MonsterType2Characters = 1
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner7" parent="Map/Rooms/Room" index="18" instance=ExtResource("8_u456i")]
 position = Vector2(436.477, 378)
-MonsterModelId = "MONSTER_MODEL.HARROWER_ICECRAWLERS"
+MonsterModelId = "HARROWER_INFESTER.HARROWER_ICECRAWLERS"
 MonsterType3Characters = 0
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner3" parent="Map/Rooms/Room" index="19" instance=ExtResource("8_u456i")]
 position = Vector2(545.596, 945)
-MonsterModelId = "MONSTER_MODEL.FROZEN_CADAVER"
+MonsterModelId = "LIVING_CORPSE.FROZEN_CADAVER"
 MonsterType2Characters = 0
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner4" parent="Map/Rooms/Room" index="20" instance=ExtResource("8_u456i")]
 position = Vector2(0, 1134)
-MonsterModelId = "MONSTER_MODEL.FROZEN_CADAVER"
+MonsterModelId = "LIVING_CORPSE.FROZEN_CADAVER"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 MonsterType4Characters = 1
@@ -157,58 +157,58 @@ position = Vector2(545.596, -945)
 
 [node name="MonsterSpawner8" parent="Map/Rooms/Room2" index="7" instance=ExtResource("8_u456i")]
 position = Vector2(545.596, -189)
-MonsterModelId = "MONSTER_MODEL.FROZEN_CADAVER"
+MonsterModelId = "LIVING_CORPSE.FROZEN_CADAVER"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner9" parent="Map/Rooms/Room2" index="8" instance=ExtResource("8_u456i")]
 position = Vector2(1200.31, -189)
-MonsterModelId = "MONSTER_MODEL.FROZEN_CADAVER"
+MonsterModelId = "LIVING_CORPSE.FROZEN_CADAVER"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner12" parent="Map/Rooms/Room2" index="9" instance=ExtResource("8_u456i")]
 position = Vector2(1527.67, -378)
-MonsterModelId = "MONSTER_MODEL.FROZEN_CADAVER"
+MonsterModelId = "LIVING_CORPSE.FROZEN_CADAVER"
 MonsterType2Characters = 0
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner10" parent="Map/Rooms/Room2" index="10" instance=ExtResource("8_u456i")]
 position = Vector2(218.238, -378)
-MonsterModelId = "MONSTER_MODEL.FROZEN_CADAVER"
+MonsterModelId = "LIVING_CORPSE.FROZEN_CADAVER"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner11" parent="Map/Rooms/Room2" index="11" instance=ExtResource("8_u456i")]
 position = Vector2(545.596, -567)
-MonsterModelId = "MONSTER_MODEL.FROZEN_CADAVER"
+MonsterModelId = "LIVING_CORPSE.FROZEN_CADAVER"
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner13" parent="Map/Rooms/Room2" index="12" instance=ExtResource("8_u456i")]
 position = Vector2(763.834, -945)
-MonsterModelId = "MONSTER_MODEL.HAIL_DEMON"
+MonsterModelId = "WIND_DEMON.HAIL_DEMON"
 MonsterType2Characters = 0
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner14" parent="Map/Rooms/Room2" index="13" instance=ExtResource("8_u456i")]
 position = Vector2(982.073, -945)
-MonsterModelId = "MONSTER_MODEL.HAIL_DEMON"
+MonsterModelId = "WIND_DEMON.HAIL_DEMON"
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner15" parent="Map/Rooms/Room2" index="14" instance=ExtResource("8_u456i")]
 position = Vector2(1091.19, -756)
-MonsterModelId = "MONSTER_MODEL.HAIL_DEMON"
+MonsterModelId = "WIND_DEMON.HAIL_DEMON"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 
 [node name="MonsterSpawner16" parent="Map/Rooms/Room2" index="15" instance=ExtResource("8_u456i")]
 position = Vector2(1309.43, -756)
-MonsterModelId = "MONSTER_MODEL.HAIL_DEMON"
+MonsterModelId = "WIND_DEMON.HAIL_DEMON"
 MonsterType4Characters = 0
 
 [node name="Room3" type="Node2D" parent="Map/Rooms" index="2"]
@@ -238,42 +238,42 @@ position = Vector2(2291.5, 945)
 
 [node name="MonsterSpawner" parent="Map/Rooms/Room3" index="7" instance=ExtResource("8_u456i")]
 position = Vector2(2291.5, 567)
-MonsterModelId = "MONSTER_MODEL.HAIL_DEMON"
+MonsterModelId = "WIND_DEMON.HAIL_DEMON"
 MonsterType2Characters = 1
 MonsterType3Characters = 0
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner2" parent="Map/Rooms/Room3" index="8" instance=ExtResource("8_u456i")]
 position = Vector2(1964.15, 756)
-MonsterModelId = "MONSTER_MODEL.HAIL_DEMON"
+MonsterModelId = "WIND_DEMON.HAIL_DEMON"
 MonsterType3Characters = 0
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner3" parent="Map/Rooms/Room3" index="9" instance=ExtResource("8_u456i")]
 position = Vector2(2291.5, 189)
-MonsterModelId = "MONSTER_MODEL.HAIL_DEMON"
+MonsterModelId = "WIND_DEMON.HAIL_DEMON"
 MonsterType3Characters = 0
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner4" parent="Map/Rooms/Room3" index="10" instance=ExtResource("8_u456i")]
 position = Vector2(2073.26, 189)
-MonsterModelId = "MONSTER_MODEL.HARROWER_ICECRAWLERS"
+MonsterModelId = "HARROWER_INFESTER.HARROWER_ICECRAWLERS"
 MonsterType3Characters = 0
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner5" parent="Map/Rooms/Room3" index="11" instance=ExtResource("8_u456i")]
 position = Vector2(2182.38, 0)
-MonsterModelId = "MONSTER_MODEL.HARROWER_ICECRAWLERS"
+MonsterModelId = "HARROWER_INFESTER.HARROWER_ICECRAWLERS"
 MonsterType2Characters = 0
 
 [node name="MonsterSpawner6" parent="Map/Rooms/Room3" index="12" instance=ExtResource("8_u456i")]
 position = Vector2(1964.15, 378)
-MonsterModelId = "MONSTER_MODEL.HARROWER_ICECRAWLERS"
+MonsterModelId = "HARROWER_INFESTER.HARROWER_ICECRAWLERS"
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner7" parent="Map/Rooms/Room3" index="13" instance=ExtResource("8_u456i")]
 position = Vector2(1745.91, 378)
-MonsterModelId = "MONSTER_MODEL.HARROWER_ICECRAWLERS"
+MonsterModelId = "HARROWER_INFESTER.HARROWER_ICECRAWLERS"
 MonsterType2Characters = 0
 MonsterType3Characters = 1
 
