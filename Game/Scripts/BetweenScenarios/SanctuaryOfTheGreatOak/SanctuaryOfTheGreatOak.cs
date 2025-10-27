@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Godot;
 using GTweens.Builders;
 
@@ -24,9 +25,12 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 	[Export]
 	private Node3D _bowlVisualContainer;
 
+	[Export]
+	private ChoiceButton _donateButton;
+
 	protected override bool SelectCharacter => true;
 
-	private List<DonationCoin> _donationCoins;
+	private readonly List<DonationCoin> _donationCoins = new List<DonationCoin>();
 
 	public override void _Ready()
 	{
@@ -35,7 +39,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 		_3dRoot.SetVisible(false);
 		_bowlVisualContainer.SetVisible(false);
 
-		_donationCoins = _3dRoot.GetChildrenOfType<DonationCoin>();
+		_donateButton.SetActive(false);
+		_donateButton.BetterButton.Pressed += OnDonatePressed;
 	}
 
 	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder, BetweenScenariosAction previousActiveAction)
@@ -65,6 +70,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 			}))
 			.AppendCallback(() =>
 			{
+				UpdateDonateButton();
+
 				this.DelayedCall(() =>
 				{
 					foreach(DonationCoin coin in _donationCoins)
@@ -91,6 +98,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 
 	protected override void AnimateOut(GTweenSequenceBuilder sequenceBuilder)
 	{
+		UpdateDonateButton();
+
 		foreach(DonationCoin coin in _donationCoins)
 		{
 			coin.SetSleeping(false);
@@ -104,6 +113,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 		});
 
 		_animationPlayer.Play(_moveOutAnimationName);
+
+		_donateButton.SetActive(false);
 
 		base.AnimateOut(sequenceBuilder);
 	}
@@ -131,5 +142,20 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 			_syncingBody.GlobalPosition + Vector3.Up * 0.1f +
 			0.2f * new Vector3(GD.Randf(), GD.Randf(), 0.3f * GD.Randf()));
 		_donationCoins.Add(coin);
+	}
+
+	private void UpdateDonateButton()
+	{
+		SavedCharacter selectedCharacter = BetweenScenariosController.Instance.CharacterPortraitManager.SelectedPortrait?.SavedCharacter;
+		_donateButton.SetActive(selectedCharacter != null && selectedCharacter.CanDonate);
+	}
+
+	private void OnDonatePressed()
+	{
+		SavedCharacter selectedCharacter = BetweenScenariosController.Instance.CharacterPortraitManager.SelectedPortrait?.SavedCharacter;
+		if(selectedCharacter == null || !selectedCharacter.CanDonate)
+		{
+			return;
+		}
 	}
 }

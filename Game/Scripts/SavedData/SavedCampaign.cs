@@ -29,6 +29,9 @@ public class SavedCampaign
 	[JsonProperty]
 	public List<PartyAchievement> CollectedPartyAchievements { get; } = [];
 
+	[JsonProperty]
+	public SavedSanctuaryOfTheGreatOak SanctuaryOfTheGreatOak { get; } = new SavedSanctuaryOfTheGreatOak();
+
 	public event Action CharactersChangedEvent;
 
 	public static SavedCampaign New(string partyName, StartingGroup startingGroup)

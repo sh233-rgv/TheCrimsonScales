@@ -369,7 +369,7 @@ height = 1.0
 radius = 1.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fobax"]
-size = Vector3(1, 2, 1)
+size = Vector3(1, 5, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jvldq"]
 albedo_color = Color(0.90798, 0.712438, 0.787805, 1)
@@ -1281,7 +1281,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_jvldq")
 }
 
-[node name="SanctuaryOfTheGreatOak" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("_3dRoot", "_animationPlayer", "_donationCoinContainer", "_syncingBody", "_bowlVisualContainer", "Button")]
+[node name="SanctuaryOfTheGreatOak" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("_3dRoot", "_animationPlayer", "_donationCoinContainer", "_syncingBody", "_bowlVisualContainer", "_donateButton", "Button")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1298,12 +1298,25 @@ _donationCoinScene = ExtResource("27_j84ia")
 _donationCoinContainer = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/Coins")
 _syncingBody = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D")
 _bowlVisualContainer = NodePath("../Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D/TitheBowl")
+_donateButton = NodePath("DonationButton")
 Button = NodePath("../ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak"]
 libraries = {
 &"": SubResource("AnimationLibrary_j84ia")
 }
+
+[node name="DonationButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak" instance=ExtResource("7_blgb5")]
+layout_mode = 1
+anchors_preset = 8
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = 250.0
+offset_bottom = 350.0
+grow_vertical = 2
+
+[node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/DonationButton/BetterButton/Panel" index="0"]
+text = "Donate"
 
 [node name="Shared3D" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager"]
 layout_mode = 1
@@ -1363,7 +1376,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49, 0)
 shape = SubResource("CylinderShape3D_8ad0h")
 
 [node name="CollisionShape3D10" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 shape = SubResource("CylinderShape3D_8ad0h")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D"]
@@ -1725,6 +1738,7 @@ layout_mode = 1
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipLeftButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/Container/3D/SubViewport/Root/CrystalBall/CrystalBallHolder"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/DonationButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D/TitheBowl"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/ScenarioFlowchartButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton"]

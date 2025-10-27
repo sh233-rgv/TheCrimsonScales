@@ -7,7 +7,7 @@ public abstract partial class BetweenScenariosAction : Control
 	[Export]
 	public BetweenScenariosActionButton Button { get; private set; }
 
-	private bool _transitioning;
+	protected bool _transitioning;
 
 	public bool Active { get; private set; }
 
