@@ -278,8 +278,6 @@ public abstract partial class Figure : HexObject
 			_figureViewComponent.ConditionParent.AddChild(conditionNode);
 			conditionNode.Init(condition);
 		}
-
-		Conditions.Add(condition);
 		//ConditionNodes.Add(condition, conditionNode);
 
 		ConditionsChangedEvent?.Invoke(this);
@@ -294,9 +292,6 @@ public abstract partial class Figure : HexObject
 	public async GDTask RemoveCondition(ConditionModel conditionModel)
 	{
 		ConditionModel condition = GetCondition(conditionModel);
-		ConditionNode node = condition.Node;
-		node?.Destroy();
-		Conditions.Remove(condition);
 
 		ConditionsChangedEvent?.Invoke(this);
 
@@ -497,6 +492,7 @@ public abstract partial class Figure : HexObject
 	private void ReorderConditions()
 	{
 		List<ConditionNode> nodes = Conditions.Where(condition => condition.Node != null).Select(condition => condition.Node).ToList();
+		GD.Print(nodes.Count());
 
 		int conditionCount = nodes.Count;
 		int index = 0;
