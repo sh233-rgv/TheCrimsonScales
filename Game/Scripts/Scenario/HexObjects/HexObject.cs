@@ -10,7 +10,7 @@ public partial class HexObject : Node2D, IReferenced
 	public HexObjectShape HexObjectShape { get; private set; }
 
 	[Export]
-	public bool CannotBeDestroyed { get; private set; }
+	public bool CannotBeDestroyed { get; set; }
 
 	public Hex Hex { get; private set; }
 	public int RotationIndex { get; private set; }
