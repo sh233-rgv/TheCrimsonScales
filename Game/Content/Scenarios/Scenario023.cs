@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using System.Linq;
 
 public class Scenario023 : ScenarioModel
 {
@@ -19,7 +20,8 @@ public class Scenario023 : ScenarioModel
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<IronSnare>()); 
 
 		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this,
-			parameters => !parameters.ForgoneAction,
+			parameters => !parameters.ForgoneAction && RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 2)
+								.Where(figure => figure.HasCondition(Conditions.Chill) && (parameters.Performer.AlliedWith(figure) || parameters.Performer == figure)).Any(),
 			async parameters =>
 			{
 				parameters.ForgoAction();
@@ -29,13 +31,8 @@ public class Scenario023 : ScenarioModel
 					{
 						Figure figure = await AbilityCmd.SelectFigure(state, list =>
 						{
-							foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 2))
-							{
-								if(state.Authority.AlliedWith(figure) || state.Authority == figure)
-								{
-									list.Add(figure);
-								}
-							}
+							list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 2)
+								.Where(figure => state.Authority.AlliedWith(figure) || state.Authority == figure));
 						});
 
 						if(figure == null)
