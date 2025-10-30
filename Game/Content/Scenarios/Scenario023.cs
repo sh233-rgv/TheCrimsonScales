@@ -47,7 +47,7 @@ public class Scenario023 : ScenarioModel
 			},
 			EffectType.Selectable,
 			effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Chill)),
-			effectInfoViewParameters: new TextEffectInfoView.Parameters($"Remove all {Icons.Inline(Icons.GetCondition(Conditions.Chill))} from self or one of your summons.")
+			effectInfoViewParameters: new TextEffectInfoView.Parameters($"Remove all {Icons.Inline(Icons.GetCondition(Conditions.Chill))} from self or one of your summons within {Icons.Inline(Icons.Range)} 2.")
 		);
 	}
 }

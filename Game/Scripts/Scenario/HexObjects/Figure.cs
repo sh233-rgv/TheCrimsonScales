@@ -300,6 +300,17 @@ public abstract partial class Figure : HexObject
 		ReorderConditions();
 	}
 
+	public async GDTask RemoveAllNegativeConditions()
+	{
+		foreach(ConditionModel condition in Conditions)
+        {
+            if (condition.IsNegative)
+            {
+				await RemoveCondition(condition);
+            }
+        }
+	}
+
 	public async GDTask RemoveAllChill()
     {
         while (HasCondition(global::Conditions.Chill))
