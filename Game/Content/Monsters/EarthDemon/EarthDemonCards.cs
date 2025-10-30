@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Fractural.Tasks;
 using Godot;
 using Fractural.Tasks;
 
@@ -32,8 +33,8 @@ public class EarthDemonAbilityCard0 : EarthDemonAbilityCard
 			.WithConditions(Conditions.Immobilize)
 			.WithRange(3)
 			.WithTarget(Target.Enemies | Target.TargetAll)
-			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<ConditionAbility.State>([Element.Earth]))
-			.Build()),
+			.WithConditionalAbilityCheck(async state => CheckElementConsumed(monster, [Element.Earth]))
+			.Build())
 	];
 
 	public override IEnumerable<MonsterAbilityCardElementConsumption> ElementConsumptions { get; } =
@@ -74,17 +75,21 @@ public class EarthDemonAbilityCard3 : EarthDemonAbilityCard
 	public override int CardIndex => 3;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
-    [
-        new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 4, duringAttackSubscriptions: [
-			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Earth],
-				applyFunction: async parameters =>
-				{
-					parameters.AbilityState.AdjustTargets(1);
-					await GDTask.CompletedTask;
-				}
-			)
-		])),
-    ];
+	[
+		new MonsterAbilityCardAbility(AttackAbility(monster, extraDamage: +0, range: 4, 
+			duringAttackSubscriptions:
+			[
+				ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Earth],
+					applyFunction: async parameters =>
+					{
+						parameters.AbilityState.AdjustTargets(1);
+
+						await GDTask.CompletedTask;
+					}
+				)
+			]
+		)),
+	];
 
 	public override IEnumerable<MonsterAbilityCardElementConsumption> ElementConsumptions { get; } =
 		[MonsterAbilityCardElementConsumption.Consume(Element.Earth)];
@@ -113,15 +118,19 @@ public class EarthDemonAbilityCard5 : EarthDemonAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, target: Target.Enemies | Target.TargetAll, duringAttackSubscriptions: [
-			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Earth],
-				applyFunction: async parameters =>
-				{
-					parameters.AbilityState.AbilityAdjustPush(1);
-					await GDTask.CompletedTask;
-				}
-			)
-		])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, extraDamage: -1, target: Target.Enemies | Target.TargetAll, 
+			duringAttackSubscriptions:
+			[
+				ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Earth],
+					applyFunction: async parameters =>
+					{
+						parameters.AbilityState.SingleTargetAdjustPush(1);
+
+						await GDTask.CompletedTask;
+					}
+				)
+			]
+		)),
 	];
 
 	public override IEnumerable<MonsterAbilityCardElementConsumption> ElementConsumptions { get; } =
@@ -136,15 +145,19 @@ public class EarthDemonAbilityCard6 : EarthDemonAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, duringAttackSubscriptions: [
-			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Air],
-				applyFunction: async parameters =>
-				{
-					parameters.AbilityState.AbilityAdjustAttackValue(-2);
-					await GDTask.CompletedTask;
-				}
-			)
-		])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, extraDamage: +0, 
+			duringAttackSubscriptions:
+			[
+				ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Air],
+					applyFunction: async parameters =>
+					{
+						parameters.AbilityState.SingleTargetAdjustAttackValue(-2);
+
+						await GDTask.CompletedTask;
+					}
+				)
+			]
+		)),
 	];
 
 	public override IEnumerable<MonsterAbilityCardElementConsumption> ElementConsumptions { get; } =
@@ -159,12 +172,14 @@ public class EarthDemonAbilityCard7 : EarthDemonAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, aoePattern: new AOEPattern([
-			new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-			new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-			new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-			new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
-		])))
+		new MonsterAbilityCardAbility(AttackAbility(monster, extraDamage: -1, 
+			aoePattern: new AOEPattern([
+				new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+				new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+				new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.NorthEast), AOEHexType.Red),
+			])
+		))
 	];
 
 	public override IEnumerable<MonsterAbilityCardElementInfusion> ElementInfusions { get; } =
