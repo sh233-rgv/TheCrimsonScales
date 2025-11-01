@@ -175,20 +175,22 @@ public class Scenario026 : ScenarioModel
 			""";
 			UpdateScenarioText(_text);
 		}
-		else if (parameters.Room == GameController.Instance.Map.Rooms[2])
-        {
-		int icyFireThermalStoneHealth = GameController.Instance.SavedCampaign.Characters.Count * 6;
+		else if(parameters.Room == GameController.Instance.Map.Rooms[2])
+		{
+			int icyFireThermalStoneHealth = GameController.Instance.SavedCampaign.Characters.Count * 6;
 			_text = $"""
 			The boulder marked represents the Icy Flame thermal stone and has {icyFireThermalStoneHealth} hit points. Each time a character or character summonattacks an Icy Flame thermal stone, they immediately gain {Icons.Inline(Icons.GetCondition(Conditions.Wound1))} and {Icons.Inline(Icons.GetCondition(Conditions.Chill))}.
 
 			When a character or character summon destroys the Icy Flame thermal stone, they immediately remove all negative conditions from self.
 			""";
 			UpdateScenarioText(_text);
-        }
+		}
+
+		await base.OnRoomRevealed(parameters);
 	}
 	
 	protected override void UpdateScenarioText(string text)
-    {
+	{
 		string displayText = $"""
 			Destroy {5 - _thermalStonesDestroyed} more Thermal Stones to win this scenario.
 

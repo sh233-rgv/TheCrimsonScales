@@ -291,6 +291,7 @@ public class Scenario024 : ScenarioModel
 								ScenarioEvents.DuringAttackEvent.Unsubscribe(parameters.Performer, _markerD);
 								ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(parameters.Performer, _markerD);
 							}
+							await GDTask.CompletedTask;
 						})
 						.Build()]);
 					await actionState.Perform();

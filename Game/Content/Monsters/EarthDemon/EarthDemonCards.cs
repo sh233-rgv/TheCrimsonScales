@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
-using Fractural.Tasks;
 
 public abstract class EarthDemonAbilityCard : MonsterAbilityCardModel
 {
@@ -33,7 +32,7 @@ public class EarthDemonAbilityCard0 : EarthDemonAbilityCard
 			.WithConditions(Conditions.Immobilize)
 			.WithRange(3)
 			.WithTarget(Target.Enemies | Target.TargetAll)
-			.WithConditionalAbilityCheck(async state => CheckElementConsumed(monster, [Element.Earth]))
+			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<ConditionAbility.State>([Element.Earth]))
 			.Build())
 	];
 
