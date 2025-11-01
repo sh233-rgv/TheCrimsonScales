@@ -141,6 +141,11 @@ public abstract partial class Figure : HexObject
 		HealthChangedEvent?.Invoke(this);
 	}
 
+	public bool IsDamaged()
+    {
+		return Health < MaxHealth;
+    }
+
 	public virtual void UpdateInitiative()
 	{
 		Initiative oldInitiative = Initiative;
@@ -298,17 +303,6 @@ public abstract partial class Figure : HexObject
 		await condition.Remove();
 
 		ReorderConditions();
-	}
-
-	public async GDTask RemoveAllNegativeConditions()
-	{
-		foreach(ConditionModel condition in Conditions)
-        {
-            if (condition.IsNegative)
-            {
-				await RemoveCondition(condition);
-            }
-        }
 	}
 
 	public async GDTask RemoveAllChill()
@@ -503,7 +497,6 @@ public abstract partial class Figure : HexObject
 	private void ReorderConditions()
 	{
 		List<ConditionNode> nodes = Conditions.Where(condition => condition.Node != null).Select(condition => condition.Node).ToList();
-		GD.Print(nodes.Count());
 
 		int conditionCount = nodes.Count;
 		int index = 0;
