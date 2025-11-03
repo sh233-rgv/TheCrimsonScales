@@ -32,7 +32,7 @@ public abstract partial class Figure : HexObject
 	public Alignment Alignment { get; private set; }
 	public Alignment Enemies { get; private set; }
 
-	public bool TakingTurn { get; set; }
+	public bool TakingTurn { get; private set; }
 
 	public Initiative Initiative { get; private set; }
 
@@ -346,37 +346,6 @@ public abstract partial class Figure : HexObject
 		}
 
 		return Enemies.HasFlag(figure.Alignment);
-	}
-
-	public bool CanSwapWith(Figure swapFigure)
-	{
-		if(swapFigure.Hex.TryGetHexObjectOfType(out Obstacle obstacle) && !_flying)
-		{
-			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
-				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
-					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(this, swapFigure.Hex, obstacle, true));
-
-			if(!canEnterObstacleParameters.CanEnter)
-			{
-				return false;
-			}
-		}
-
-		List<Figure> otherFigures = swapFigure.Hex.GetHexObjectsOfType<Figure>().ToList();
-		otherFigures.Remove(swapFigure);
-		if(otherFigures.Count() > 0)
-		{
-			ScenarioCheckEvents.CanEnterHexWithFigureCheck.Parameters canEnterHexWithFigureCheckParameters =
-				ScenarioCheckEvents.CanEnterHexWithFigureCheckEvent.Fire(
-					new ScenarioCheckEvents.CanEnterHexWithFigureCheck.Parameters(this, swapFigure.Hex, otherFigures[0], true));
-
-			if(!canEnterHexWithFigureCheckParameters.CanEnter)
-			{
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	public virtual void AddCoin()

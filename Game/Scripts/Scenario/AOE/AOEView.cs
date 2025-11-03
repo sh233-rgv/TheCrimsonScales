@@ -10,8 +10,6 @@ public partial class AOEView : Node2D
 	[Export]
 	private PackedScene _redHexScene;
 	[Export]
-	private PackedScene _yellowHexScene;
-	[Export]
 	private PackedScene _grayHexScene;
 	[Export]
 	private PackedScene _emptyHexScene;
@@ -58,9 +56,6 @@ public partial class AOEView : Node2D
 			{
 				case AOEHexType.Red:
 					hexScene = _redHexScene;
-					break;
-				case AOEHexType.Yellow:
-					hexScene = _yellowHexScene;
 					break;
 				case AOEHexType.Gray:
 					_hasGrayHex = true;

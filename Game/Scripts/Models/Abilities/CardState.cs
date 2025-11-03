@@ -1,7 +1,6 @@
 ﻿public enum CardState
 {
-	PersistentLoss = -7,
-	PersistentNoDeactivate = -6,
+	PersistentLoss = -6,
 	Persistent = -5,
 	RoundLoss = -4,
 	Round = -3,

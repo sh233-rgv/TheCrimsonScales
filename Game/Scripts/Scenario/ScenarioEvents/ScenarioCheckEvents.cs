@@ -408,15 +408,6 @@ public class ScenarioCheckEvents
 				};
 			}
 
-			public void SetInitiative(int initiative)
-			{
-				Initiative = new Initiative
-				{
-					MainInitiative = initiative,
-					SortingInitiative = initiative * 10000000
-				};
-			}
-
 			public void SetSortingInitiative(int sortingInitiative)
 			{
 				Initiative = new Initiative

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Fractural.Tasks;
 using Godot;
 using GTweensGodot.Extensions;
@@ -10,8 +9,6 @@ public class SingleTargetState
 {
 	public Figure Target { get; init; }
 	public List<Hex> ForcedMovementHexes { get; } = new List<Hex>();
-	public List<Hex> PullHexes { get; } = new List<Hex>();
-	public List<Hex> PushHexes { get; } = new List<Hex>();
 }
 
 public abstract class TargetedAbilityState<TSingleTargetState> : TargetedAbilityState
@@ -73,24 +70,6 @@ public abstract class TargetedAbilityState : AbilityState
 			Hex hex = GameController.Instance.Map.GetHex(coords);
 
 			if(hex != null && type == AOEHexType.Red)
-			{
-				yield return hex;
-			}
-		}
-	}
-
-	public IEnumerable<Hex> GetYellowAOEHexes()
-	{
-		if(AOEHexes == null)
-		{
-			yield break;
-		}
-
-		foreach((Vector2I coords, AOEHexType type) in AOEHexes)
-		{
-			Hex hex = GameController.Instance.Map.GetHex(coords);
-
-			if(hex != null && type == AOEHexType.Yellow)
 			{
 				yield return hex;
 			}
@@ -499,8 +478,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 					}
 				}
 
-				if(abilityState.Authority.AlliedWith(figure, false) &&
-					!abilityState.AbilityTarget.HasFlag(Target.Self) &&
+				if(abilityState.Authority.AlliedWith(figure, false) && 
+					!abilityState.AbilityTarget.HasFlag(Target.Self) && 
 					!abilityState.AbilityTarget.HasFlag(Target.Allies))
 				{
 					remove = true;
@@ -521,7 +500,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 					remove = true;
 				}
 
-				if(abilityState.AbilityTarget.HasFlag(Target.SelfCountsForTargets) &&
+				if(abilityState.AbilityTarget.HasFlag(Target.SelfCountsForTargets) && 
 					abilityState.SingleTargetStates.Count + 1 == abilityState.AbilityTargets &&
 				   	!abilityState.UniqueTargetedFigures.Contains(performer) && abilityState.Performer != figure)
 				{
@@ -777,14 +756,6 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 				Vector2I coords = path[i];
 				Hex hex = GameController.Instance.Map.GetHex(coords);
 				abilityState.SingleTargetState.ForcedMovementHexes.Add(hex);
-				if(type == ForcedMovementType.Pull)
-				{
-					abilityState.SingleTargetState.PullHexes.Add(hex);
-				}
-				if (type == ForcedMovementType.Push)
-                {
-                    abilityState.SingleTargetState.PushHexes.Add(hex);
-                }
 
 				await target.TweenGlobalPosition(hex.GlobalPosition, 0.2f).PlayFastForwardableAsync();
 				await AbilityCmd.EnterHex(abilityState, target, abilityState.Authority, hex, true);

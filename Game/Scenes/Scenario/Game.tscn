@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=3 uid="uid://dc3oqbu0m8jid"]
+[gd_scene load_steps=87 format=3 uid="uid://dc3oqbu0m8jid"]
 
 [ext_resource type="Script" uid="uid://bq2pwm6f32li" path="res://Scripts/Scenario/GameController.cs" id="1_arwlr"]
 [ext_resource type="Script" uid="uid://d1n1uymvup76h" path="res://Scripts/Scenario/TeleportPath/TeleportPath.cs" id="6_b23n0"]
@@ -27,7 +27,6 @@
 [ext_resource type="Shader" uid="uid://jpto5q4v8s4" path="res://Shaders/ScreenDistortion.gdshader" id="20_76yld"]
 [ext_resource type="PackedScene" uid="uid://b6wbd3udi4blx" path="res://Scenes/Scenario/AOE/RedHexView.tscn" id="20_alilm"]
 [ext_resource type="Script" uid="uid://b3pftvt20l7h8" path="res://Scripts/Scenario/UI/EffectInfoView/EffectInfoViewManager.cs" id="20_nbwi6"]
-[ext_resource type="PackedScene" uid="uid://sbub0wyso5d3" path="res://Scenes/Scenario/AOE/YellowHexView.tscn" id="20_tj20u"]
 [ext_resource type="PackedScene" uid="uid://bt8srppu11ov1" path="res://Scenes/Scenario/AOE/GrayHexView.tscn" id="21_wkv7e"]
 [ext_resource type="Script" uid="uid://d1m80ktp0ns5d" path="res://Scripts/Scenario/LineOfSightVisualizer.cs" id="22_4rj0i"]
 [ext_resource type="Script" uid="uid://dau4bv0rnl6l0" path="res://Scripts/Utils/CursorOverUIChecker.cs" id="23_bndsi"]
@@ -228,7 +227,6 @@ antialiased = true
 z_index = 100
 script = ExtResource("19_28h00")
 _redHexScene = ExtResource("20_alilm")
-_yellowHexScene = ExtResource("20_tj20u")
 _grayHexScene = ExtResource("21_wkv7e")
 _hexParent = NodePath("Hexes")
 

@@ -1,9 +1,8 @@
 ﻿using System;
 
-public class ConfirmPrompt(EffectCollection effectCollection, Func<string> getHintText, bool mandatory = false)
+public class ConfirmPrompt(EffectCollection effectCollection, Func<string> getHintText)
 	: Prompt<ConfirmPrompt.Answer>(effectCollection, getHintText)
 {
-	protected override bool CanSkip => !mandatory;
 	public class Answer : PromptAnswer
 	{
 		public bool Confirmed { get; init; }

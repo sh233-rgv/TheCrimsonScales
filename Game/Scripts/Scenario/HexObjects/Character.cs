@@ -287,7 +287,7 @@ public partial class Character : Figure
 
 			for(int i = 0; i < cardDatas.Count; i++)
 			{
-				if(IsDead || !TakingTurn)
+				if(IsDead)
 				{
 					break;
 				}

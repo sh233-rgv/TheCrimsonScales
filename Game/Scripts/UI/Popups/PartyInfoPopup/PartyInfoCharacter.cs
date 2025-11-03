@@ -80,7 +80,7 @@ public partial class PartyInfoCharacter : Control
 			cardCategoryParameters.Add(CreateCategoryParameters(cards, OnCardPressed,
 				[CardState.Playing], CardSelectionListCategoryType.Playing));
 			cardCategoryParameters.Add(CreateCategoryParameters(cards, OnCardPressed,
-				[CardState.Persistent, CardState.PersistentLoss, CardState.PersistentNoDeactivate, CardState.Round, CardState.RoundLoss], CardSelectionListCategoryType.Active));
+				[CardState.Persistent, CardState.PersistentLoss, CardState.Round, CardState.RoundLoss], CardSelectionListCategoryType.Active));
 			cardCategoryParameters.Add(CreateCategoryParameters(cards, OnCardPressed,
 				[CardState.Hand], CardSelectionListCategoryType.Hand));
 			cardCategoryParameters.Add(CreateCategoryParameters(cards, OnCardPressed,
