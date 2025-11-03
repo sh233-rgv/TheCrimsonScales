@@ -5,7 +5,7 @@ public class Infect : ConditionModel
 	public override string Name => "Infect";
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Infect.svg";
 	public override bool RemovedByHeal => true;
-	public override ConditionModel[] ImmunityCompareBaseCondition => [Conditions.Poison1];
+	public override ConditionModel[] ImmunityCompareBaseConditions => [Conditions.Poison1];
 	public override bool IsNegative => true;
 
 	public override async GDTask Add(Figure target, ConditionNode node)

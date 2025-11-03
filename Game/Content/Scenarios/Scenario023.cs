@@ -21,7 +21,8 @@ public class Scenario023 : ScenarioModel
 
 		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this,
 			parameters => !parameters.ForgoneAction && RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 2)
-								.Where(figure => figure.HasCondition(Conditions.Chill) && (parameters.Performer.AlliedWith(figure) || parameters.Performer == figure)).Any(),
+								.Where(figure => figure.HasCondition(Conditions.Chill) &&
+								((figure is Summon summon && summon.Owner == parameters.Performer) || parameters.Performer == figure)).Any(),
 			async parameters =>
 			{
 				parameters.ForgoAction();
@@ -32,7 +33,7 @@ public class Scenario023 : ScenarioModel
 						Figure figure = await AbilityCmd.SelectFigure(state, list =>
 						{
 							list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 2)
-								.Where(figure => state.Authority.AlliedWith(figure) || state.Authority == figure));
+								.Where(figure => (figure is Summon summon && summon.Owner == parameters.Performer) || parameters.Performer == figure));
 						});
 
 						if(figure == null)
@@ -40,7 +41,7 @@ public class Scenario023 : ScenarioModel
 							return;
 						}
 
-						await figure.RemoveAllChill();
+						await AbilityCmd.RemoveAllChill(figure);
 					})
 					.Build()]);
 				await actionState.Perform();

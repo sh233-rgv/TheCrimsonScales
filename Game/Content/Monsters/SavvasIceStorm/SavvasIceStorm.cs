@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class SavvasIcestorm : MonsterModel
+public class SavvasIceStorm : MonsterModel
 {
 	public override MonsterStats[] NormalLevelStats =>
 	[
@@ -138,11 +138,11 @@ public class SavvasIcestorm : MonsterModel
 		},
 	];
 
-	public override string Name => "Savvas Icestorm";
+	public override string Name => "Savvas Ice Storm";
 
-	public override string AssetPath => "res://Content/Monsters/SavvasIcestorm";
+	public override string AssetPath => "res://Content/Monsters/SavvasIceStorm";
 
 	public override int MaxStandeeCount => 4;
 
-	public override IEnumerable<MonsterAbilityCardModel> Deck => SavvasIcestormAbilityCard.Deck;
+	public override IEnumerable<MonsterAbilityCardModel> Deck => SavvasIceStormAbilityCard.Deck;
 }

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://df4eodmemwws1"
-path="res://.godot/imported/Portrait.jpg-71d1a9b2132e0449c509e20e7beda17b.ctex"
+path="res://.godot/imported/Portrait.jpg-e5979f721cac44a809fd96a05853c8a6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Monsters/SavvasIcestorm/Portrait.jpg"
-dest_files=["res://.godot/imported/Portrait.jpg-71d1a9b2132e0449c509e20e7beda17b.ctex"]
+source_file="res://Content/Monsters/SavvasIceStorm/Portrait.jpg"
+dest_files=["res://.godot/imported/Portrait.jpg-e5979f721cac44a809fd96a05853c8a6.ctex"]
 
 [params]
 
