@@ -218,12 +218,14 @@ public static class AbilityCmd
 		await GDTask.CompletedTask;
 	}
 
-	public static async GDTask DestroyObstacle(Obstacle obstacle)
+	public static async GDTask<bool> DestroyObstacle(Obstacle obstacle)
 	{
 		if(!obstacle.CannotBeDestroyed)
 		{
 			await obstacle.Destroy();
+			return true;
 		}
+		return false;
 	}
 
 	public static async GDTask DestroyDifficultTerrain(DifficultTerrain difficultTerrain)
