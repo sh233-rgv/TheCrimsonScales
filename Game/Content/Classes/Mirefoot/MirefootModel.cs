@@ -15,6 +15,7 @@ public class MirefootModel : ClassModel
 	public override IList<AbilityCardModel> AbilityCards { get; } =
 	[
 		ModelDB.Card<BloodThinner>(),
+		ModelDB.Card<BloodThinner>(),
 		ModelDB.Card<Bogstep>(),
 		ModelDB.Card<DeathSentence>(),
 		ModelDB.Card<GroundSolvent>(),
