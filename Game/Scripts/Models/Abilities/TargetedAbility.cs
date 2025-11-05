@@ -96,6 +96,7 @@ public abstract class TargetedAbilityState : AbilityState
 			}
 		}
 	}
+  
 	public void SetTarget(Target target)
 	{
 		AbilityTarget = target;
@@ -146,7 +147,7 @@ public abstract class TargetedAbilityState : AbilityState
 		SingleTargetConditionModels.Remove(conditionModel);
 	}
 
-	public void AbilityAddAOEPattern(AOEPattern aoePattern)
+	public void AbilitySetAOEPattern(AOEPattern aoePattern)
     {
 		AbilityAOEPattern = aoePattern;
     }
@@ -407,7 +408,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			}
 			else
 			{
-				Figure focus = await abilityState.ActionState.GetFocus();
+				Figure focus = await abilityState.ActionState.GetFocus(abilityState);
+
 				MonsterAOEPrompt.Answer aoeAnswer =
 					await PromptManager.Prompt(
 						new MonsterAOEPrompt(abilityState, abilityState.AbilityAOEPattern, abilityState.AbilityRange, abilityState.AbilityRangeType, focus, null,
@@ -578,7 +580,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			{
 				//List<FocusNode> bestFocusNodes = await abilityState.Performer.GetBestFocusNodes();
 				//Figure focus = bestFocusNodes.Count > 0 ? bestFocusNodes[0].Focus : null;
-				Figure focus = await abilityState.ActionState.GetFocus();
+				Figure focus = await abilityState.ActionState.GetFocus(abilityState);
+
 				MonsterTargetSelectionPrompt.Answer targetAnswer = await PromptManager.Prompt(
 					new MonsterTargetSelectionPrompt(getValidTargets, true, focus, duringTargetedAbilityEffectCollection,
 						() => _getTargetingHintText(abilityState)), abilityState.Authority);
