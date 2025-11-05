@@ -305,14 +305,6 @@ public abstract partial class Figure : HexObject
 		ReorderConditions();
 	}
 
-	public async GDTask RemoveAllChill()
-    {
-        while (HasCondition(global::Conditions.Chill))
-        {
-			await RemoveCondition(global::Conditions.Chill);
-        }
-    }
-
 	public void SetAlignment(Alignment alignment)
 	{
 		Alignment = alignment;

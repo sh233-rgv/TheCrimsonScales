@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Fractural.Tasks;
 using Godot;
 
@@ -45,7 +44,7 @@ public class Scenario026 : ScenarioModel
 				{
 					_thermalStonesDestroyed++;
 					UpdateScenarioText(_text);
-					await applyParameters.PotentialAbilityState.Performer.RemoveAllChill();
+					await AbilityCmd.RemoveAllChill(applyParameters.PotentialAbilityState.Performer);
 					await AbilityCmd.CreateDifficultTerrain(objective.Hex, ResourceLoader.Load<PackedScene>("res://Content/OverlayTiles/DifficultTerrain/Water1H.tscn"));
 					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(this, objective);
 					ScenarioEvents.FigureKilledEvent.Unsubscribe(this, objective);
@@ -133,7 +132,8 @@ public class Scenario026 : ScenarioModel
 
 		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this,
 			parameters => !parameters.ForgoneAction && RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 2)
-								.Where(figure => figure.HasCondition(Conditions.Chill) && (parameters.Performer.AlliedWith(figure) || parameters.Performer == figure)).Any(),
+								.Where(figure => figure.HasCondition(Conditions.Chill) &&
+								((figure is Summon summon && summon.Owner == parameters.Performer) || parameters.Performer == figure)).Any(),
 			async parameters =>
 			{
 				parameters.ForgoAction();
@@ -144,7 +144,7 @@ public class Scenario026 : ScenarioModel
 						Figure figure = await AbilityCmd.SelectFigure(state, list =>
 						{
 							list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 2)
-								.Where(figure => state.Authority.AlliedWith(figure) || state.Authority == figure));
+								.Where(figure => (figure is Summon summon && summon.Owner == parameters.Performer) || parameters.Performer == figure));
 						});
 
 						if(figure == null)
@@ -152,7 +152,7 @@ public class Scenario026 : ScenarioModel
 							return;
 						}
 
-						await figure.RemoveAllChill();
+						await AbilityCmd.RemoveAllChill(figure);
 					})
 					.Build()]);
 				await actionState.Perform();

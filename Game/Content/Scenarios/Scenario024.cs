@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Fractural.Tasks;
-using Fractural.Tasks.Triggers;
 using Godot;
 
 public class Scenario024 : ScenarioModel
@@ -61,12 +58,12 @@ public class Scenario024 : ScenarioModel
 
 		foreach(HazardousTerrain hotCoal in _hotCoals)
         {
-			hotCoal.CannotBeDestroyed = true;
+			hotCoal.SetCannotBeDestroyed(true);
         }
 
 		List<Obstacle> obstacles = GameController.Instance.Map.GetChildrenOfType<Obstacle>();
 		_dome = obstacles[obstacles.Count() - 1];
-		_dome.CannotBeDestroyed = true;
+		_dome.SetCannotBeDestroyed(true);
 
 		//Scenario Win Condition
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
@@ -83,7 +80,8 @@ public class Scenario024 : ScenarioModel
 		//Remove Chill forgo action
 		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this,
 			parameters => !parameters.ForgoneAction && RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 2)
-								.Where(figure => figure.HasCondition(Conditions.Chill) && (parameters.Performer.AlliedWith(figure) || parameters.Performer == figure)).Any(),
+								.Where(figure => figure.HasCondition(Conditions.Chill) &&
+								((figure is Summon summon && summon.Owner == parameters.Performer) || parameters.Performer == figure)).Any(),
 			async parameters =>
 			{
 				parameters.ForgoAction();
@@ -94,7 +92,7 @@ public class Scenario024 : ScenarioModel
 						Figure figure = await AbilityCmd.SelectFigure(state, list =>
 						{
 							list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 2)
-								.Where(figure => state.Authority.AlliedWith(figure) || state.Authority == figure));
+								.Where(figure => (figure is Summon summon && summon.Owner == parameters.Performer) || parameters.Performer == figure));
 						});
 
 						if(figure == null)
@@ -102,7 +100,7 @@ public class Scenario024 : ScenarioModel
 							return;
 						}
 
-						await figure.RemoveAllChill();
+						await AbilityCmd.RemoveAllChill(figure);
 					})
 					.Build()]);
 				await actionState.Perform();
@@ -119,16 +117,16 @@ public class Scenario024 : ScenarioModel
 
 		if(parameters.OpenedDoor == _door1)
 		{
-			UpdateScenarioText(
-				$"While adjacent to the hexes marked {Icons.Marker(Marker.Type.a)}, {Icons.Marker(Marker.Type.b)}, {Icons.Marker(Marker.Type.c)}, {Icons.Marker(Marker.Type.d)}," +
-					"each character may forgo the top or bottom action of their turn to pick up the letter representing each Orb and gain the following bonus: " + System.Environment.NewLine +
-					$"{Icons.Marker(Marker.Type.a)}: Add +1{Icons.Inline(Icons.Move)} to all your move abilities" + System.Environment.NewLine +
-					$"{Icons.Marker(Marker.Type.b)}: Add {Icons.Inline(Icons.Pierce)} 2 to all your attack abilities" + System.Environment.NewLine +
-					$"{Icons.Marker(Marker.Type.c)}: You are unaffected by {Icons.Inline(Icons.Retaliate)}" + System.Environment.NewLine +
-					$"{Icons.Marker(Marker.Type.d)}: Add {Icons.Inline(Icons.GetCondition(Conditions.Chill))} to all your attack abilities" + System.Environment.NewLine +
-					"Each character may only hold a maximum of one orb. If any character exhausts while holding an orb, the scenario is lost." + System.Environment.NewLine +
-					$"While occupying the K1b tile, at the end of each character and character summons turn, if they have no {Icons.Inline(Icons.GetCondition(Conditions.Chill))} tokens they gain {Icons.Inline(Icons.GetCondition(Conditions.Chill))}." +
-					$" The Hot Coal hexes represents Warm Fires and cannot be removed. If a character ends their turn within {Icons.Inline(Icons.Range)} 1 of a Warm Fire, they ignore this effect.");
+			UpdateScenarioText($"""
+				While adjacent to the hexes marked {Icons.Marker(Marker.Type.a)}, {Icons.Marker(Marker.Type.b)}, {Icons.Marker(Marker.Type.c)}, {Icons.Marker(Marker.Type.d)}, each character may forgo the top or bottom action of their turn to pick up the letter representing each Orb and gain the following bonus:
+				{Icons.Marker(Marker.Type.a)}: Add +1{Icons.Inline(Icons.Move)} to all your move abilities
+				{Icons.Marker(Marker.Type.b)}: Add {Icons.Inline(Icons.Pierce)} 2 to all your attack abilities
+				{Icons.Marker(Marker.Type.c)}: You are unaffected by {Icons.Inline(Icons.Retaliate)}
+				{Icons.Marker(Marker.Type.d)}: Add {Icons.Inline(Icons.GetCondition(Conditions.Chill))} to all your attack abilities
+				Each character may only hold a maximum of one orb. If any character exhausts while holding an orb, the scenario is lost.
+				While occupying the K1b tile, at the end of each character and character summons turn, if they have no {Icons.Inline(Icons.GetCondition(Conditions.Chill))} tokens they gain {Icons.Inline(Icons.GetCondition(Conditions.Chill))}.
+				The Hot Coal hexes represents Warm Fires and cannot be removed. If a character ends their turn within {Icons.Inline(Icons.Range)} 1 of a Warm Fire, they ignore this effect.
+				""");
 
 			//lose if character exhausts with an orb
 			ScenarioEvents.FigureKilledEvent.Subscribe(this, canApplyParamaters => canApplyParamaters.Figure is Character character && _charactersWithOrbs.ContainsKey(character),
@@ -237,10 +235,12 @@ public class Scenario024 : ScenarioModel
 
 		if(parameters.OpenedDoor == _door3)
 		{
-			UpdateScenarioText($"While occupying the K2b tile, all characters gain {Icons.Inline(Icons.GetCondition(Conditions.Chill))} at the end of their turn." +
-				$" The Hot Coal hexes represents Warm Fires and cannot be removed. If a character ends their turn within {Icons.Inline(Icons.Range)} 1 of a Warm Fire, they ignore this effect." +
-				" The dome is represented by the altar. The altar cannot be destroyed. Each character may forgo the top or bottom action of their turn while adjacent to the dome to" +
-				" place the orb in the dome.");
+			UpdateScenarioText($"""
+				While occupying the K2b tile, all characters gain {Icons.Inline(Icons.GetCondition(Conditions.Chill))} at the end of their turn
+
+				The Hot Coal hexes represents Warm Fires and cannot be removed. If a character ends their turn within {Icons.Inline(Icons.Range)} 1 of a Warm Fire, they ignore this effect
+				The dome is represented by the altar. The altar cannot be destroyed. Each character may forgo the top or bottom action of their turn while adjacent to the dome to place the orb in the dome.
+				""");
 
 			//Gain Chill at end of round
 			ScenarioEvents.FigureTurnEndedEvent.Subscribe(this, _door3,

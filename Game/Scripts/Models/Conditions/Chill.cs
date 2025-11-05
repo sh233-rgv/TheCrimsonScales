@@ -11,7 +11,7 @@ public class Chill : ConditionModel
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Chill.svg";
 	public override bool CanBeUpgraded => true;
 	public override bool RemovedAtEndOfTurn => true;
-	public override ConditionModel[] ImmunityCompareBaseCondition => [Conditions.Immobilize, Conditions.Muddle];
+	public override ConditionModel[] ImmunityCompareBaseConditions => [Conditions.Immobilize, Conditions.Muddle];
 
 	public override async GDTask Add(Figure target, ConditionNode node)
 	{

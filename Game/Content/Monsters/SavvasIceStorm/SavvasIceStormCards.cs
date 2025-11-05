@@ -2,24 +2,24 @@
 using Fractural.Tasks;
 using Godot;
 
-public abstract class SavvasIcestormAbilityCard : MonsterAbilityCardModel
+public abstract class SavvasIceStormAbilityCard : MonsterAbilityCardModel
 {
-	public override string CardsAtlasPath => "res://Content/Monsters/SavvasIcestorm/Cards.jpg";
+	public override string CardsAtlasPath => "res://Content/Monsters/SavvasIceStorm/Cards.jpg";
 
 	public static IEnumerable<MonsterAbilityCardModel> Deck { get; } =
 	[
-		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard0>(),
-		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard1>(),
-		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard2>(),
-		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard3>(),
-		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard4>(),
-		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard5>(),
-		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard6>(),
-		ModelDB.MonsterAbilityCard<SavvasIcestormAbilityCard7>()
+		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard0>(),
+		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard1>(),
+		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard2>(),
+		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard3>(),
+		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard4>(),
+		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard5>(),
+		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard6>(),
+		ModelDB.MonsterAbilityCard<SavvasIceStormAbilityCard7>()
 	];
 }
 
-public class SavvasIcestormAbilityCard0 : SavvasIcestormAbilityCard
+public class SavvasIceStormAbilityCard0 : SavvasIceStormAbilityCard
 {
 	public override int Initiative => 70;
 	public override int CardIndex => 0;
@@ -29,10 +29,10 @@ public class SavvasIcestormAbilityCard0 : SavvasIcestormAbilityCard
 		new MonsterAbilityCardAbility(PushAbility.Builder()
 			.WithPush(2)
 			.WithTarget(Target.Enemies | Target.TargetAll)
-			.WithDuringTargetedAbilitySubscriptions(ConsumeElementCheckSubscription<ScenarioEvents.DuringTargetedAbility.Parameters>(monster, [Element.Air],
+			.WithAbilityStartedSubscription(ConsumeElementCheckSubscription<ScenarioEvents.AbilityStarted.Parameters>(monster, [Element.Air],
 				applyFunction: async parameters =>
 				{
-					parameters.AbilityState.AbilityAdjustPush(2);
+					((PushAbility.State)parameters.AbilityState).AbilityAdjustPush(2);
 					await GDTask.CompletedTask;
 				}
 			))
@@ -44,7 +44,7 @@ public class SavvasIcestormAbilityCard0 : SavvasIcestormAbilityCard
 		[MonsterAbilityCardElementConsumption.Consume(Element.Air)];
 }
 
-public class SavvasIcestormAbilityCard1 : SavvasIcestormAbilityCard
+public class SavvasIceStormAbilityCard1 : SavvasIceStormAbilityCard
 {
 	public override int Initiative => 98;
 	public override int CardIndex => 1;
@@ -61,7 +61,7 @@ public class SavvasIcestormAbilityCard1 : SavvasIcestormAbilityCard
 		[MonsterAbilityCardElementInfusion.Infuse(Element.Air)];
 }
 
-public class SavvasIcestormAbilityCard2 : SavvasIcestormAbilityCard
+public class SavvasIceStormAbilityCard2 : SavvasIceStormAbilityCard
 {
 	public override int Initiative => 98;
 	public override int CardIndex => 2;
@@ -79,7 +79,7 @@ public class SavvasIcestormAbilityCard2 : SavvasIcestormAbilityCard
 		[MonsterAbilityCardElementInfusion.Infuse(Element.Ice)];
 }
 
-public class SavvasIcestormAbilityCard3 : SavvasIcestormAbilityCard
+public class SavvasIceStormAbilityCard3 : SavvasIceStormAbilityCard
 {
 	public override int Initiative => 19;
 	public override int CardIndex => 3;
@@ -124,7 +124,7 @@ public class SavvasIcestormAbilityCard3 : SavvasIcestormAbilityCard
 		[MonsterAbilityCardElementInfusion.Infuse(Element.Ice)];
 }
 
-public class SavvasIcestormAbilityCard4 : SavvasIcestormAbilityCard
+public class SavvasIceStormAbilityCard4 : SavvasIceStormAbilityCard
 {
 	public override int Initiative => 14;
 	public override int CardIndex => 4;
@@ -151,7 +151,7 @@ public class SavvasIcestormAbilityCard4 : SavvasIcestormAbilityCard
 		[MonsterAbilityCardElementConsumption.Consume(Element.Ice)];
 }
 
-public class SavvasIcestormAbilityCard5 : SavvasIcestormAbilityCard
+public class SavvasIceStormAbilityCard5 : SavvasIceStormAbilityCard
 {
 	public override int Initiative => 14;
 	public override int CardIndex => 5;
@@ -178,7 +178,7 @@ public class SavvasIcestormAbilityCard5 : SavvasIcestormAbilityCard
 		[MonsterAbilityCardElementConsumption.Consume([Element.Ice, Element.Air])];
 }
 
-public class SavvasIcestormAbilityCard6 : SavvasIcestormAbilityCard
+public class SavvasIceStormAbilityCard6 : SavvasIceStormAbilityCard
 {
 	public override int Initiative => 47;
 	public override int CardIndex => 6;
@@ -199,7 +199,7 @@ public class SavvasIcestormAbilityCard6 : SavvasIcestormAbilityCard
 		[MonsterAbilityCardElementInfusion.Infuse(Element.Air)];
 }
 
-public class SavvasIcestormAbilityCard7 : SavvasIcestormAbilityCard
+public class SavvasIceStormAbilityCard7 : SavvasIceStormAbilityCard
 {
 	public override int Initiative => 35;
 	public override int CardIndex => 7;

@@ -30,10 +30,10 @@ public class SunDemonAbilityCard0 : SunDemonAbilityCard
 		new MonsterAbilityCardAbility(HealAbility.Builder()
 			.WithHealValue(3)
 			.WithRange(3)
-			.WithDuringHealSubscription(ConsumeElementCheckSubscription<ScenarioEvents.DuringHeal.Parameters>(monster, [Element.Light],
+			.WithAbilityStartedSubscription(ConsumeElementCheckSubscription<ScenarioEvents.AbilityStarted.Parameters>(monster, [Element.Light],
 				applyFunction: async parameters =>
 				{
-					parameters.AbilityState.AbilityTarget = Target.Allies | Target.TargetAll;
+					((HealAbility.State)parameters.AbilityState).SetTarget(Target.Allies | Target.TargetAll);
 					await GDTask.CompletedTask;
 				}
 			))

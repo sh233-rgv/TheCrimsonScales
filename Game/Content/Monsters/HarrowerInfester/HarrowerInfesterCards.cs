@@ -103,10 +103,12 @@ public class HarrowerInfesterAbilityCard5 : HarrowerInfesterAbilityCard
 			{
 				AttackAbility.State attackState = state.ActionState.GetAbilityState<AttackAbility.State>(1);
 				for(int i = 0; i < attackState.DamagedTargets.Count; i++)
+				{
 					await HealAbility.Builder()
 						.WithHealValue(2)
 						.WithTarget(Target.Self)
 						.Build().Perform(state.ActionState);
+				}
 			})
 			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<OtherAbility.State>([Element.Dark]))
 			.Build())

@@ -90,6 +90,7 @@ public class FrozenCadaverAbilityCard3 : FrozenCadaverAbilityCard
 	[
 		new MonsterAbilityCardAbility(AttackAbility(monster, +2, conditions: [Conditions.Chill])),
 	];
+	
 	public override IEnumerable<MonsterAbilityCardElementInfusion> ElementInfusions { get; } =
 		[MonsterAbilityCardElementInfusion.Infuse(Element.Ice)];
 }

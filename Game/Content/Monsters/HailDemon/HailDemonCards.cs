@@ -27,18 +27,16 @@ public class HailDemonAbilityCard0 : HailDemonAbilityCard
 	public override int CardIndex => 0;
 	public override bool Reshuffles => true;
 
-	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster)
-	{
-		return [
+	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
+	[
 		new MonsterAbilityCardAbility(AttackAbility(monster, +1, range: 3,
 			target: Target.TargetAll | Target.Enemies, customGetTargets: (state, figures) =>
 				{
 					IEnumerable<Figure> figuresRange3 = RangeHelper.GetFiguresInRange(state.Performer.Hex, 3, includeOrigin: false);
 					figures.AddRange(figuresRange3.Where(figure => figure.EnemiesWith(state.Performer) && figure.HasCondition(Conditions.Chill)));
 				}
-		)),
+		))
 	];
-	}
 
 	public override IEnumerable<MonsterAbilityCardElementInfusion> ElementInfusions { get; } =
 		[MonsterAbilityCardElementInfusion.Infuse(Element.Air)];
@@ -49,19 +47,17 @@ public class HailDemonAbilityCard1 : HailDemonAbilityCard
 	public override int Initiative => 38;
 	public override int CardIndex => 1;
 
-	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster)
-	{
-		return [
-			new MonsterAbilityCardAbility(AttackAbility(monster, +1, extraRange: +1, duringAttackSubscriptions: [
-				ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Air],
-				applyFunction: async parameters =>
-				{
-					parameters.AbilityState.AbilityAddCondition(Conditions.Chill);
-					await GDTask.CompletedTask;
-				}
-			)]))
-		];
-	}
+	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
+	[
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1, extraRange: +1, duringAttackSubscriptions: [
+			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Air],
+			applyFunction: async parameters =>
+			{
+				parameters.AbilityState.AbilityAddCondition(Conditions.Chill);
+				await GDTask.CompletedTask;
+			}
+		)]))
+	];
 
 	public override IEnumerable<MonsterAbilityCardElementConsumption> ElementConsumptions { get; } =
 		[MonsterAbilityCardElementConsumption.Consume(Element.Air)];
@@ -72,9 +68,8 @@ public class HailDemonAbilityCard2 : HailDemonAbilityCard
 	public override int Initiative => 05;
 	public override int CardIndex => 2;
 
-	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster)
-	{
-		return [
+	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
+	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
 		new MonsterAbilityCardAbility(AttackAbility(monster, +0, duringAttackSubscriptions: [
 			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Air],
@@ -86,7 +81,6 @@ public class HailDemonAbilityCard2 : HailDemonAbilityCard
 			)
 		])),
 	];
-	}
 
 	public override IEnumerable<MonsterAbilityCardElementConsumption> ElementConsumptions { get; } =
 		[MonsterAbilityCardElementConsumption.Consume(Element.Air)];
@@ -97,9 +91,8 @@ public class HailDemonAbilityCard3 : HailDemonAbilityCard
 	public override int Initiative => 30;
 	public override int CardIndex => 3;
 
-	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster)
-	{
-		return [
+	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
+	[
 		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()),
 		new MonsterAbilityCardAbility(ConditionAbility.Builder()
 			.WithConditions(Conditions.Chill)
@@ -110,7 +103,6 @@ public class HailDemonAbilityCard3 : HailDemonAbilityCard
 				})
 			.Build()),
 	];
-	}
 }
 
 public class HailDemonAbilityCard4 : HailDemonAbilityCard
@@ -118,9 +110,8 @@ public class HailDemonAbilityCard4 : HailDemonAbilityCard
 	public override int Initiative => 26;
 	public override int CardIndex => 4;
 
-	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster)
-	{
-		return [
+	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
+	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
 		new MonsterAbilityCardAbility(AttackAbility(monster, -1)),
 		new MonsterAbilityCardAbility(CreateTrapAbility.Builder()
@@ -159,7 +150,6 @@ public class HailDemonAbilityCard4 : HailDemonAbilityCard
 			.WithMandatory(true)
 			.Build())
 	];
-	}
 }
 
 public class HailDemonAbilityCard5 : HailDemonAbilityCard
@@ -167,9 +157,8 @@ public class HailDemonAbilityCard5 : HailDemonAbilityCard
 	public override int Initiative => 10;
 	public override int CardIndex => 5;
 
-	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster)
-	{
-		return [
+	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
+	[
 		new MonsterAbilityCardAbility(RetaliateAbility.Builder()
 			.WithRetaliateValue(3)
 			.WithRange(3)
@@ -177,7 +166,6 @@ public class HailDemonAbilityCard5 : HailDemonAbilityCard
 		new MonsterAbilityCardAbility(AttackAbility(monster, -1, extraRange: +1,
 			conditionalAbilityCheck: ConsumeElementAbilityCheck<AttackAbility.State>([Element.Air]))),
 	];
-	}
 
 	public override IEnumerable<MonsterAbilityCardElementConsumption> ElementConsumptions { get; } =
 		[MonsterAbilityCardElementConsumption.Consume(Element.Air)];
@@ -189,9 +177,8 @@ public class HailDemonAbilityCard6 : HailDemonAbilityCard
 	public override int Initiative => 22;
 	public override int CardIndex => 6;
 
-	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster)
-	{
-		return [
+	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
+	[
 		new MonsterAbilityCardAbility(PullAbility.Builder().WithPull(2).WithRange(3).Build()),
 		new MonsterAbilityCardAbility(AttackAbility(monster, -1, aoePattern: new AOEPattern([
 			new AOEHex(Vector2I.Zero, AOEHexType.Gray),
@@ -200,7 +187,6 @@ public class HailDemonAbilityCard6 : HailDemonAbilityCard
 			new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
 		])))
 	];
-	}
 
 	public override IEnumerable<MonsterAbilityCardElementInfusion> ElementInfusions { get; } =
 		[MonsterAbilityCardElementInfusion.Infuse(Element.Air)];
@@ -211,12 +197,10 @@ public class HailDemonAbilityCard7 : HailDemonAbilityCard
 	public override int Initiative => 19;
 	public override int CardIndex => 7;
 
-	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster)
-	{
-		return [
+	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
+	[
 		new MonsterAbilityCardAbility(AttackAbility(monster, -1, range: 2, target: Target.Enemies | Target.TargetAll)),
 	];
-	}
 
 	public override IEnumerable<MonsterAbilityCardElementInfusion> ElementInfusions { get; } =
 		[MonsterAbilityCardElementInfusion.Consume([Element.Ice], Element.Air)];
