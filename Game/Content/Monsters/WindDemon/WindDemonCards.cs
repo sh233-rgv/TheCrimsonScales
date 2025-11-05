@@ -79,7 +79,8 @@ public class WindDemonAbilityCard3 : WindDemonAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, targets: 2, duringAttackSubscriptions: [
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1, targets: 2, duringAttackSubscriptions:
+		[
 			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Air],
 				applyFunction: async parameters =>
 				{
@@ -113,14 +114,15 @@ public class WindDemonAbilityCard4 : WindDemonAbilityCard
 					new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
 				]),
-				duringAttackSubscriptions: [
+				duringAttackSubscriptions:
+				[
 					ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(
 						monster,
 						[Element.Air],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);
-							parameters.AbilityState.AbilityAddAOEPattern(new AOEPattern([
+							parameters.AbilityState.AbilitySetAOEPattern(new AOEPattern([
 								new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 								new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 								new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
@@ -151,7 +153,8 @@ public class WindDemonAbilityCard5 : WindDemonAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +1, duringAttackSubscriptions: [
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1, duringAttackSubscriptions:
+		[
 			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Air],
 				applyFunction: async parameters =>
 				{
@@ -178,7 +181,8 @@ public class WindDemonAbilityCard6 : WindDemonAbilityCard
 			.WithPush(1)
 			.WithTarget(Target.Enemies | Target.TargetAll)
 			.Build()),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, duringAttackSubscriptions: [
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0, duringAttackSubscriptions:
+		[
 			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Earth],
 				applyFunction: async parameters =>
 				{
@@ -187,7 +191,6 @@ public class WindDemonAbilityCard6 : WindDemonAbilityCard
 				}
 			)
 		])),
-
 	];
 
 	public override IEnumerable<MonsterAbilityCardElementConsumption> ElementConsumptions { get; } =
