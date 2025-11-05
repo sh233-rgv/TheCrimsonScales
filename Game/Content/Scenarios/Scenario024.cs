@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Fractural.Tasks;
-using Fractural.Tasks.Triggers;
 using Godot;
 
 public class Scenario024 : ScenarioModel
