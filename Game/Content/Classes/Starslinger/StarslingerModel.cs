@@ -24,6 +24,7 @@ public class StarslingerModel : ClassModel
 		ModelDB.Card<SolarEclipse>(),
 		ModelDB.Card<Starstruck>(),
 		ModelDB.Card<Supernova>(),
+
 		ModelDB.Card<ForceField>(),
 		ModelDB.Card<GravitationalFlip>(),
 		ModelDB.Card<LostInTheStars>(),
@@ -44,6 +45,5 @@ public class StarslingerModel : ClassModel
 		ModelDB.Card<Sungaze>(),
 		ModelDB.Card<InterplanarVoyage>(),
 		ModelDB.Card<PierceTheFirmament>(),
-
 	];
 }
