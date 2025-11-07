@@ -82,11 +82,19 @@ public abstract class TargetedAbilityState : AbilityState
 	public void SetTarget(Target target)
 	{
 		AbilityTarget = target;
+		if (target.HasFlag(global::Target.TargetAll))
+        {
+			AbilityTargets = int.MaxValue;
+        }
 	}
 
 	public void AdjustTarget(Target target)
 	{
 		AbilityTarget |= target;
+		if (target.HasFlag(global::Target.TargetAll))
+        {
+			AbilityTargets = int.MaxValue;
+        }
 	}
 
 	public void AdjustTargets(int amount)
@@ -457,14 +465,9 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 					}
 				}
 
-				if(abilityState.Authority.AlliedWith(figure, false) &&
+				if(abilityState.Authority.AlliedWith(figure, true) &&
 					!abilityState.AbilityTarget.HasFlag(Target.Self) &&
 					!abilityState.AbilityTarget.HasFlag(Target.Allies))
-				{
-					remove = true;
-				}
-
-				if(abilityState.AbilityTarget.HasFlag(Target.Enemies) && abilityState.Authority == figure)
 				{
 					remove = true;
 				}

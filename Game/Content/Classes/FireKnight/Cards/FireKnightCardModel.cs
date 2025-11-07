@@ -25,7 +25,7 @@ public abstract class FireKnightCardSide : AbilityCardSide
 	protected const string LadderIconPath = "res://Content/Classes/FireKnight/LadderIcon.svg";
 
 	protected GiveItemAbility GiveFireKnightItemAbility(IList<ItemModel> possibleItemModels,
-		int targets = 1, int range = 1, Target target = Target.Allies,
+		int targets = 1, int range = 1, Target target = Target.Allies | Target.MustTargetCharacters,
 		Action<GiveItemAbility.State, List<Figure>> customGetTargets = null,
 		Func<AbilityState, ItemModel, GDTask> onItemGiven = null,
 		GiveItemAbility.ConditionalAbilityCheckDelegate conditionalAbilityCheck = null)
@@ -36,7 +36,7 @@ public abstract class FireKnightCardSide : AbilityCardSide
 				FireKnight fireKnight = (FireKnight)AbilityCard.OriginalOwner;
 				foreach(ItemModel item in fireKnight.FireKnightItems)
 				{
-					if(possibleItemModels.Contains(item.ImmutableInstance))
+					if(possibleItemModels.Contains(item.ImmutableInstance) || possibleItemModels.Contains(item))
 					{
 						list.Add(item);
 					}
