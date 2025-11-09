@@ -1,7 +1,6 @@
 using System.Linq;
 using Fractural.Tasks;
 using System.Collections.Generic;
-using Godot;
 
 public class Scenario004 : ScenarioModel
 {
@@ -11,11 +10,12 @@ public class Scenario004 : ScenarioModel
 	//public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario005>()];
 
 	protected override ScenarioGoals CreateScenarioGoals() =>
-		new CustomScenarioGoals("Kill all enemies and cure four sick warriors to win this scenario." + 
-			System.Environment.NewLine + System.Environment.NewLine +
-			"Any character may forgo the top action of their turn to perform a" + 
-			$"“{Icons.Inline(Icons.Heal)}1, {Icons.Inline(Icons.Range)}2” ability.");
+		new CustomScenarioGoals("Kill all enemies and cure four sick warriors to win this scenario." +
+		                        System.Environment.NewLine + System.Environment.NewLine +
+		                        "Any character may forgo the top action of their turn to perform a" +
+		                        $"“{Icons.Inline(Icons.Heal)}1, {Icons.Inline(Icons.Range)}2” ability.");
 
+	private int _revealedWarriors = 0;
 	private List<InfectedWarrior> _infectedWarriors = [];
 	private bool _roomRevealed = false;
 
@@ -31,7 +31,8 @@ public class Scenario004 : ScenarioModel
 		Map map = GameController.Instance.Map;
 
 		ItemModel itemModel = ModelDB.Item<PoxAntidote>();
-		Character character = (Character)map.Figures.FirstOrDefault(figure => figure is Character character && character.SavedCharacter.HasItem(itemModel), null);
+		Character character =
+			(Character)map.Figures.FirstOrDefault(figure => figure is Character character && character.SavedCharacter.HasItem(itemModel), null);
 
 		bool poxAntidoteGiven = GameController.Instance.SavedScenarioProgress.CustomValues.ContainsKey("PoxAntidoteGiven");
 
@@ -50,22 +51,25 @@ public class Scenario004 : ScenarioModel
 			character = (Character)await AbilityCmd.SelectFigure(authority: null,
 				figures => figures.AddRange(GameController.Instance.Map.Figures.Where(figure => figure is Character)),
 				mandatory: true, autoSelectIfOne: true, hintText:
-					$"Select a character to receive Pox Antidote." + System.Environment.NewLine + System.Environment.NewLine + 
-					"During this scenario, this item is equipped" + System.Environment.NewLine +
-					$"without it occupying an {Icons.Inline(Icons.GetItem(ItemType.Small))} item slot.");
+				$"Select a character to receive Pox Antidote." + System.Environment.NewLine + System.Environment.NewLine +
+				"During this scenario, this item is equipped" + System.Environment.NewLine +
+				$"without it occupying an {Icons.Inline(Icons.GetItem(ItemType.Small))} item slot.");
 
-			GameController.Instance.SavedScenarioProgress.CustomValues.Add("PoxAntidoteGiven", true);
+			GameController.Instance.EndEvent += (backToTown, won, savedScenarioProgress) =>
+			{
+				GameController.Instance.SavedScenarioProgress.CustomValues.Add("PoxAntidoteGiven", true);
+			};
 		}
 
 		if(character != null)
-		{ 
+		{
 			await AbilityCmd.PermanentlyGiveItem(character, itemModel);
 		}
 
 		// Allow using Heal 1 instead of any top action
 		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this,
 			parameters => !parameters.ForgoneAction &&
-				(parameters.AbilityCardSide.IsTop || parameters.AbilityCardSide.IsBasicTop),
+			              (parameters.AbilityCardSide.IsTop || parameters.AbilityCardSide.IsBasicTop),
 			async parameters =>
 			{
 				parameters.ForgoAction();
@@ -82,7 +86,7 @@ public class Scenario004 : ScenarioModel
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
 			parameters =>
 			{
-				if(_infectedWarriors.Count < 4 || _infectedWarriors.Any(infectedWarrior => !infectedWarrior.IsHealed))
+				if(_revealedWarriors < 4 || _infectedWarriors.Any())
 				{
 					return false;
 				}
@@ -112,9 +116,9 @@ public class Scenario004 : ScenarioModel
 		{
 			UpdateScenarioText(
 				$"City Archers and City Guards suffer from {Icons.Inline(Icons.GetCondition(Conditions.Infect))}" +
-				"They are considered allies to you." + 
+				"They are considered allies to you." +
 				"If you perform a heal ability targeting the infected warrior, you have successfully cured them.");
-			
+
 			_roomRevealed = true;
 		}
 
@@ -132,26 +136,28 @@ public class Scenario004 : ScenarioModel
 	private async GDTask SpawnGuard(Marker marker)
 	{
 		MonsterModel monsterModel = marker.MarkerType == Marker.Type.a ? ModelDB.Monster<CityArcher>() : ModelDB.Monster<CityGuard>();
+		int guardLevel = GameController.Instance.SavedScenario.ScenarioLevel > 0 ? GameController.Instance.SavedScenario.ScenarioLevel - 1 : 0;
 
-		Monster monster = await AbilityCmd.SpawnMonster(monsterModel, MonsterType.Normal, marker.Hex);
+		Monster monster = await AbilityCmd.SpawnMonster(monsterModel, MonsterType.Normal, marker.Hex, guardLevel);
 
-		monster.SetAlignment(Alignment.Characters);
-		monster.SetEnemies(Alignment.Enemies);
+		monster.SetAlignment(Alignment.Other);
+		monster.SetEnemies(Alignment.Other);
 		monster.SetHealth(4);
 		monster.SetMaxHealth(4);
 		await AbilityCmd.AddCondition(null, monster, Conditions.Infect);
 
 		InfectedWarrior infectedWarrior = new();
-		await infectedWarrior.Init(monster);
-		_infectedWarriors.Add(infectedWarrior);
+		await infectedWarrior.Init(monster, _infectedWarriors);
+
+		_revealedWarriors++;
 	}
 
 	public class InfectedWarrior
 	{
-		public bool IsHealed = false;
-
-		public async GDTask Init(Monster monster)
+		public async GDTask Init(Monster monster, List<InfectedWarrior> infectedWarriors)
 		{
+			infectedWarriors.Add(this);
+
 			ScenarioCheckEvents.CanTakeTurnCheckEvent.Subscribe(monster, this,
 				parameters => parameters.Figure == monster,
 				parameters =>
@@ -173,7 +179,7 @@ public class Scenario004 : ScenarioModel
 			// Can be targeted only with a heal
 			ScenarioCheckEvents.CanBeTargetedCheckEvent.Subscribe(monster, this,
 				parameters =>
-					parameters.PotentialTarget == monster && 
+					parameters.PotentialTarget == monster &&
 					parameters.PotentialAbilityState != null &&
 					parameters.PotentialAbilityState is not HealAbility.State,
 				parameters =>
@@ -212,33 +218,35 @@ public class Scenario004 : ScenarioModel
 				parameters => parameters.Figure == monster && parameters.Condition == Conditions.Infect,
 				async parameters =>
 				{
-					IsHealed = true;
-
-					monster.MonsterGroup.RegisterMonster(monster);
-					GameController.Instance.Map.RegisterFigure(monster);
+					monster.SetAlignment(Alignment.Characters);
+					monster.SetEnemies(Alignment.Enemies);
 
 					await Unsubscribe(monster);
+
+					infectedWarriors.Remove(this);
 				}
 			);
 
 			ScenarioEvents.AfterHealPerformedEvent.Subscribe(monster, this,
 				parameters => parameters.AbilityState.Target == monster,
-				async parameters => 
+				async parameters =>
 				{
-					IsHealed = true;
-
-					monster.MonsterGroup.RegisterMonster(monster);
-					GameController.Instance.Map.RegisterFigure(monster);
+					monster.SetAlignment(Alignment.Characters);
+					monster.SetEnemies(Alignment.Enemies);
 
 					await Unsubscribe(monster);
+
+					infectedWarriors.Remove(this);
 				}
 			);
 
 			ScenarioEvents.FigureKilledEvent.Subscribe(monster, this,
 				parameters => parameters.Figure == monster,
-				async parameters => 
+				async parameters =>
 				{
 					await Unsubscribe(monster);
+
+					infectedWarriors.Remove(this);
 				}
 			);
 
@@ -256,6 +264,8 @@ public class Scenario004 : ScenarioModel
 			ScenarioEvents.RemoveConditionEvent.Unsubscribe(monster, this);
 			ScenarioEvents.AfterHealPerformedEvent.Unsubscribe(monster, this);
 			ScenarioEvents.FigureKilledEvent.Unsubscribe(monster, this);
+
+			await GDTask.CompletedTask;
 		}
 	}
 }

@@ -204,6 +204,14 @@ public static class AbilityCmd
 		return false;
 	}
 
+	public static async GDTask RemoveAllChill(Figure target)
+    {
+        while (target.HasCondition(Conditions.Chill))
+        {
+			await RemoveCondition(target, Conditions.Chill);
+        }
+    }
+
 	public static async GDTask GainXP(Figure figure, int xp)
 	{
 		if(figure is Character character)
@@ -271,14 +279,14 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask<Monster> SummonMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex)
+	public static async GDTask<Monster> SummonMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex, int? monsterLevel = null)
 	{
-		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, true);
+		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, true, monsterLevel);
 	}
 
-	public static async GDTask<Monster> SpawnMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex)
+	public static async GDTask<Monster> SpawnMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex, int? monsterLevel = null)
 	{
-		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, false);
+		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, false, monsterLevel);
 	}
 
 	public static async GDTask<T> CreateOverlayTile<T>(Hex hex, PackedScene scene)
