@@ -31,15 +31,7 @@ public class Seize : RuinmawCardModel<Seize.CardTop, Seize.CardBottom>
 						GameController.Instance.Map.AddChild(coinStack);
 						await coinStack.Init(conditionAbilityState.UniqueTargetedFigures[0].Hex);
 
-						coinStack.ZIndex = 100;
-						coinStack.TweenGlobalJump(state.Performer.Hex.GlobalPosition, 0.5f * Map.HexSize, 0.3f).PlayFastForwardable();
-						coinStack.TweenScale(0f, 0.35f).SetEasing(Easing.InBack).PlayFastForwardable();
-
-						await GDTask.DelayFastForwardable(0.3f);
-
-						await coinStack.Destroy();
-
-						((Character)state.Performer).AddCoin();
+						await coinStack.Loot(state.Performer);
                     }
 
 					await GDTask.CompletedTask;
