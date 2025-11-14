@@ -116,12 +116,31 @@ public class ScenarioEvents
 	private readonly AMDCardValueApplied _amdCardValueApplied = new AMDCardValueApplied();
 	public static AMDCardValueApplied AMDCardValueAppliedEvent => GameController.Instance.ScenarioEvents._amdCardValueApplied;
 
+	public class EmpowerAdded : ScenarioEvent<EmpowerAdded.Parameters>
+	{
+		public class Parameters(Figure figure)
+			: ParametersBase
+		{
+			public Figure EmpoweredFigure { get; private set; } = figure;
+			public bool ShuffleDrawPile { get; private set; } = true;
+
+			public void SetShuffleDrawPile(bool shuffleDrawPile)
+            {
+				ShuffleDrawPile = shuffleDrawPile;
+            }
+		}
+	}
+
+	private readonly EmpowerAdded _empowerAdded = new EmpowerAdded();
+	public static EmpowerAdded EmpowerAddedEvent => GameController.Instance.ScenarioEvents._empowerAdded;
+	
 	public class DuringHeal : ScenarioEvent<DuringHeal.Parameters>
 	{
 		public class Parameters(HealAbility.State abilityState) : ParametersBase<HealAbility.State>(abilityState)
 		{
 		}
 	}
+	
 
 	private readonly DuringHeal _duringHeal = new DuringHeal();
 	public static DuringHeal DuringHealEvent => GameController.Instance.ScenarioEvents._duringHeal;
@@ -274,7 +293,7 @@ public class ScenarioEvents
 	{
 		public class Parameters : ParametersBase
 		{
-			public AttackAbility.State PotentialAttackAbilityState { get; }
+			public AbilityState AbilityState { get; }
 			public Figure Figure { get; }
 			public int InitialDamage { get; }
 			public int CalculatedCurrentDamage { get; private set; }
@@ -287,15 +306,16 @@ public class ScenarioEvents
 			public bool HasWard { get; private set; }
 			public bool HasBrittle { get; private set; }
 
-			public bool FromAttack => PotentialAttackAbilityState != null;
+			public bool FromAttack { get; private set; }
 
 			public bool WouldSufferDamage => CalculatedCurrentDamage > 0 && !DamagePrevented;
 
-			public Parameters(AttackAbility.State potentialAttackAbilityState, Figure figure, int initialDamage)
+			public Parameters(AbilityState abilityState, Figure figure, int initialDamage, bool fromAttack)
 			{
-				PotentialAttackAbilityState = potentialAttackAbilityState;
+				AbilityState = abilityState;
 				Figure = figure;
 				InitialDamage = initialDamage;
+				FromAttack = fromAttack;
 
 				CalculateCurrentDamage();
 			}
@@ -343,10 +363,15 @@ public class ScenarioEvents
 					return;
 				}
 
-				bool ignoresShield = PotentialAttackAbilityState?.SingleTargetIgnoresAllShields ?? false;
+				int finalShieldValue = 0;
+				if(FromAttack)
+				{
+					bool ignoresShield = ((AttackAbility.State)AbilityState).SingleTargetIgnoresAllShields;
 
-				int finalPierce = Mathf.Max(PotentialAttackAbilityState?.SingleTargetPierce ?? 0, 0);
-				int finalShieldValue = ignoresShield ? 0 : Mathf.Max(Shield - finalPierce, 0) + UnpierceableShield;
+					int finalPierce = Mathf.Max(((AttackAbility.State)AbilityState).SingleTargetPierce, 0);
+					finalShieldValue = ignoresShield ? 0 : Mathf.Max(Shield - finalPierce, 0) + UnpierceableShield;
+				}
+
 				int finalDamage = Mathf.Max(InitialDamage - finalShieldValue, 0);
 
 				if(HasBrittle)
@@ -369,13 +394,11 @@ public class ScenarioEvents
 
 	public class JustBeforeSufferDamage : ScenarioEvent<JustBeforeSufferDamage.Parameters>
 	{
-		public class Parameters(
-			Figure figure, int damage, AttackAbility.State potentialAttackAbilityState, SufferDamage.Parameters sufferDamageParameters)
-			: ParametersBase
+		public class Parameters(Figure figure, int damage, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
 		{
 			public Figure Figure { get; } = figure;
 			public int Damage { get; } = damage;
-			public AttackAbility.State PotentialAttackAbilityState { get; } = potentialAttackAbilityState;
+			public AbilityState AbilityState { get; } = abilityState;
 			public SufferDamage.Parameters SufferDamageParameters { get; } = sufferDamageParameters;
 
 			public bool Prevented { get; private set; }
@@ -392,13 +415,11 @@ public class ScenarioEvents
 
 	public class AfterSufferDamage : ScenarioEvent<AfterSufferDamage.Parameters>
 	{
-		public class Parameters(
-			Figure figure, int damage, AttackAbility.State potentialAttackAbilityState, SufferDamage.Parameters sufferDamageParameters)
-			: ParametersBase
+		public class Parameters(Figure figure, int damage, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
 		{
 			public Figure Figure { get; } = figure;
 			public int Damage { get; } = damage;
-			public AttackAbility.State PotentialAttackAbilityState { get; } = potentialAttackAbilityState;
+			public AbilityState AbilityState { get; } = abilityState;
 			public SufferDamage.Parameters SufferDamageParameters { get; } = sufferDamageParameters;
 		}
 	}
