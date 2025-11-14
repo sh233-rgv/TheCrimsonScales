@@ -7,7 +7,7 @@ using Godot;
 public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOfTheBeast.CardBottom>
 {
 	public override string Name => "Belly of the Beast";
-	public override int Level => 1;
+	public override int Level => 9;
 	public override int Initiative => 42;
 	protected override int AtlasIndex => 29;
 

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
+using GTweens.Easings;
 
 public class Seize : RuinmawCardModel<Seize.CardTop, Seize.CardBottom>
 {
@@ -20,9 +22,23 @@ public class Seize : RuinmawCardModel<Seize.CardTop, Seize.CardBottom>
 				.WithPerformAbility(async state =>
 				{
 					ConditionAbility.State conditionAbilityState = state.ActionState.GetAbilityState<ConditionAbility.State>(0);
+					
 
 					if (conditionAbilityState.UniqueTargetedFigures.Count > 0)
-                    {
+					{
+						PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/CoinStack.tscn");
+						CoinStack coinStack = scene.Instantiate<CoinStack>();
+						GameController.Instance.Map.AddChild(coinStack);
+						await coinStack.Init(conditionAbilityState.UniqueTargetedFigures[0].Hex);
+
+						coinStack.ZIndex = 100;
+						coinStack.TweenGlobalJump(state.Performer.Hex.GlobalPosition, 0.5f * Map.HexSize, 0.3f).PlayFastForwardable();
+						coinStack.TweenScale(0f, 0.35f).SetEasing(Easing.InBack).PlayFastForwardable();
+
+						await GDTask.DelayFastForwardable(0.3f);
+
+						await coinStack.Destroy();
+
 						((Character)state.Performer).AddCoin();
                     }
 
