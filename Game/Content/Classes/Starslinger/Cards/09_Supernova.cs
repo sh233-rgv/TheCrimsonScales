@@ -56,10 +56,6 @@ public class Supernova : StarslingerCardModel<Supernova.CardTop, Supernova.CardB
 						async parameters =>
 						{
 							parameters.AbilityState.SingleTargetAdjustAttackValue(2);
-							if(state.UseSlotIndex == 1)
-							{
-								await AbilityCmd.InfuseElement(Element.Light);
-							}
 
 							await state.AdvanceUseSlot();
 						}
@@ -76,7 +72,7 @@ public class Supernova : StarslingerCardModel<Supernova.CardTop, Supernova.CardB
 				.WithUseSlots(
 				[
 					new UseSlot(new Vector2(0.2889934f, 0.38399956f), GainXP),
-					new UseSlot(new Vector2(0.5f, 0.38399956f)),
+					new UseSlot(new Vector2(0.5f, 0.38399956f), Light),
 					new UseSlot(new Vector2(0.7025001f, 0.38399956f), GainXP)
 					//TODO: Fix use slot positions
 				])
@@ -85,5 +81,10 @@ public class Supernova : StarslingerCardModel<Supernova.CardTop, Supernova.CardB
 
 		protected override bool Persistent => true;
 		protected override bool Loss => true;
+
+		private async GDTask Light(AbilityState state)
+        {
+			await AbilityCmd.InfuseElement(Element.Light);
+        }
 	}
 }

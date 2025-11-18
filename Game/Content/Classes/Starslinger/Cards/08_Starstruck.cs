@@ -56,7 +56,7 @@ public class Starstruck : StarslingerCardModel<Starstruck.CardTop, Starstruck.Ca
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
 				.WithRange(1)
-				.WithOnAbilityEnded(async state =>
+				.WithOnAbilityEndedPerformed(async state =>
 				{
 					if (state.Target.AlliedWith(state.Performer))
                     {

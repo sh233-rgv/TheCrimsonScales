@@ -39,12 +39,9 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 						}
 					}
 				})
-				.WithOnAbilityEnded(async state =>
+				.WithOnAbilityEndedPerformed(async state =>
 					{
-						if (state.Performed)
-						{
-							await AbilityCmd.GainXP(state.Performer, 1);
-						}
+						await AbilityCmd.GainXP(state.Performer, 1);
 					}
 				)
 				.Build())
@@ -68,20 +65,6 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 									.Build()
 							]);
 							await moveAbility.Perform();
-							ActionState healAbility = new ActionState(state.Performer, [
-								HealAbility.Builder()
-									.WithHealValue(1)
-									.WithRange(3)
-									.Build()
-							]);
-							switch(state.UseSlotIndex)
-							{
-								case 0:
-								case 2:
-								case 4:
-									await healAbility.Perform();
-									break;
-							}
 
 							await state.AdvanceUseSlot();
 						}
@@ -98,11 +81,11 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 				)
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
+					new UseSlot(new Vector2(0.16650043f, 0.3549993f), Heal),
 					new UseSlot(new Vector2(0.36999783f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
+					new UseSlot(new Vector2(0.57749975f, 0.3549993f), Heal),
 					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
+					new UseSlot(new Vector2(0.57749975f, 0.3549993f), Heal),
 					//TODO: Fix positions
 				])
 				.Build())
@@ -110,5 +93,17 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 
 		protected override bool Persistent => true;
 		protected override bool Loss => true;
-	}
+		
+
+		private async GDTask Heal(AbilityState state)
+		{
+			ActionState healAbility = new ActionState(state.Performer, [
+				HealAbility.Builder()
+					.WithHealValue(1)
+					.WithRange(3)
+					.Build()
+			]);
+			await healAbility.Perform();
+		}
+    }
 }

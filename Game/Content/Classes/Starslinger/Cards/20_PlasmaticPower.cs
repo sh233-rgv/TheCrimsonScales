@@ -87,6 +87,8 @@ public class PlasmaticPower : StarslingerCardModel<PlasmaticPower.CardTop, Plasm
 				.WithOnDeactivate(async state =>
                 {
 					ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
+
+					await GDTask.CompletedTask;
                 })
 				.WithConditionalAbilityCheck(async state =>
 				{

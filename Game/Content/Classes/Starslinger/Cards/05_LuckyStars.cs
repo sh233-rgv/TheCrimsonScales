@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Fractural.Tasks;
 
 public class LuckyStars : StarslingerCardModel<LuckyStars.CardTop, LuckyStars.CardBottom>
 {
@@ -24,10 +25,16 @@ public class LuckyStars : StarslingerCardModel<LuckyStars.CardTop, LuckyStars.Ca
 						async parameters =>
 						{
 							((AttackAbility.State)parameters.AbilityState).AbilityAdjustAttackValue(2);
-							await AbilityCmd.GainXP(parameters.Performer, 1);
+							parameters.AbilityState.SetCustomValue(this, "Undamaged", 1);
+
+							await GDTask.CompletedTask;
 						}
 					)
 				)
+				.WithOnAbilityEndedPerformed(async state =>
+				{
+					await AbilityCmd.GainXP(state.Performer, state.GetCustomValue<int>(this, "Undamaged"));
+				})
 				.Build())
 		];
 	}

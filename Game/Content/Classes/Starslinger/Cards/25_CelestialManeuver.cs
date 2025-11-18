@@ -6,7 +6,7 @@ using System;
 
 public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop, CelestialManeuver.CardBottom>
 {
-	public override string Name => "CelestialManeuver";
+	public override string Name => "Celestial Maneuver";
 	public override int Level => 8;
 	public override int Initiative => 88;
 	protected override int AtlasIndex => 25;
@@ -63,6 +63,8 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 								applyFunction: async parameters =>
 								{
 									parameters.AbilityState.AdjustMoveValue(2);
+
+									await GDTask.CompletedTask;
 								},
 								effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Move)}")
 							)
@@ -109,6 +111,8 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 								applyFunction: async parameters =>
 								{
 									parameters.AbilityState.AdjustMoveValue(2);
+									
+									await GDTask.CompletedTask;
 								},
 								effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Move)}")
 							)

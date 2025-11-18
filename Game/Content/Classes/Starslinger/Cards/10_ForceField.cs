@@ -30,26 +30,6 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 						async applyParameters =>
 						{
 							applyParameters.AdjustShield(1);
-							ActionState healAbility = new ActionState(state.Performer, [
-								HealAbility.Builder()
-									.WithHealValue(1)
-									.WithRange(1)
-									.Build()
-							]);
-							switch(state.UseSlotIndex)
-							{
-								case 0:
-								case 2:
-								case 4:
-									ScenarioEvents.AfterAttackPerformedEvent.Subscribe(state, this,
-										canApplyParameters => true,
-										async applyParameters =>
-										{
-											await healAbility.Perform();
-											ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this);
-										});
-									break;
-							}
 
 							await state.AdvanceUseSlot();
 						}
@@ -70,11 +50,11 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 				)
 				.WithUseSlots(
 					[
-						new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
+						new UseSlot(new Vector2(0.16650043f, 0.3549993f), Heal),
 						new UseSlot(new Vector2(0.36999783f, 0.3549993f), GainXP),
-						new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
+						new UseSlot(new Vector2(0.57749975f, 0.3549993f), Heal),
 						new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP),
-						new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
+						new UseSlot(new Vector2(0.57749975f, 0.3549993f), Heal),
 						new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP),
 					]
 				)
@@ -83,6 +63,23 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 
 		protected override bool Persistent => true;
 		protected override bool Loss => true;
+
+		private async GDTask Heal(AbilityState state)
+		{
+			ActionState healAbility = new ActionState(state.Performer, [
+				HealAbility.Builder()
+					.WithHealValue(1)
+					.WithRange(1)
+					.Build()
+			]);
+            ScenarioEvents.AbilityEndedEvent.Subscribe(state, this,
+				canApplyParameters => true,
+				async applyParameters =>
+				{
+					await healAbility.Perform();
+					ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
+				});
+        }
 	}
 
 	public class CardBottom : StarslingerCardSide
@@ -94,7 +91,7 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 				.WithTarget(Target.Self)
 				.Build()),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
-				.WithOnActivate(async state => { })
+				.WithOnActivate(async state => { await GDTask.CompletedTask; })
 				.WithOnDeactivate(
 					async state =>
                     {

@@ -21,7 +21,7 @@ public class StoneMeteorite : StarslingerCardModel<StoneMeteorite.CardTop, Stone
 						parameters => !parameters.Performer.IsDamaged(),
 						async parameters =>
 						{
-							((AttackAbility.State)parameters.AbilityState).AbilityAddAOEPattern(new AOEPattern([
+							((AttackAbility.State)parameters.AbilityState).AbilitySetAOEPattern(new AOEPattern([
 								new AOEHex(Vector2I.Zero, AOEHexType.Red),
 								new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 							]));

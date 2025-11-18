@@ -32,8 +32,6 @@ public class Sungaze : StarslingerCardModel<Sungaze.CardTop, Sungaze.CardBottom>
 				)
 				.Build())
 		];
-
-		protected override IEnumerable<Element> Elements => [Element.Dark];
 	}
 
 	public class CardBottom : StarslingerCardSide
@@ -65,12 +63,9 @@ public class Sungaze : StarslingerCardModel<Sungaze.CardTop, Sungaze.CardBottom>
 						}
 					}
 				})
-				.WithOnAbilityEnded(async state =>
+				.WithOnAbilityEndedPerformed(async state =>
 					{
-						if (state.Performed)
-						{
-							await AbilityCmd.GainXP(state.Performer, 1);
-						}
+						await AbilityCmd.GainXP(state.Performer, 1);
 					}
 				)
 				.Build())

@@ -48,14 +48,10 @@ public class Equinox : StarslingerCardModel<Equinox.CardTop, Equinox.CardBottom>
 						}
 					}
 				})
-				.WithAfterTargetConfirmedSubscription(
-					ScenarioEvents.ConditionAfterTargetConfirmed.Subscription.New(
-						parameters => true,
-						async parameters =>
-						{
-							await AbilityCmd.GainXP(parameters.Performer, 1);
-						}
-					)
+				.WithOnAbilityEndedPerformed(async state =>
+					{
+						await AbilityCmd.GainXP(state.Performer, 1);
+					}
 				)
 				.Build())
 		];

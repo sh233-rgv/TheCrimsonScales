@@ -68,6 +68,8 @@ public class ShiftingChasma : StarslingerCardModel<ShiftingChasma.CardTop, Shift
 							await GDTask.CompletedTask;
 						}
 					);
+
+					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
 				{
