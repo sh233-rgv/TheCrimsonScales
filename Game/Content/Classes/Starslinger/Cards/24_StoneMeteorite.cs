@@ -25,6 +25,8 @@ public class StoneMeteorite : StarslingerCardModel<StoneMeteorite.CardTop, Stone
 								new AOEHex(Vector2I.Zero, AOEHexType.Red),
 								new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 							]));
+							parameters.AbilityState.SetCustomValue(this, "Undamaged", 1);
+
 							await GDTask.CompletedTask;
 						}
 					)
@@ -38,6 +40,10 @@ public class StoneMeteorite : StarslingerCardModel<StoneMeteorite.CardTop, Stone
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Stun))}")
 				))
+				.WithOnAbilityEndedPerformed(async state =>
+				{
+					await AbilityCmd.GainXP(state.Performer, state.GetCustomValue<int>(this, "Undamaged"));
+				})
 				.Build()),
 		];
 
