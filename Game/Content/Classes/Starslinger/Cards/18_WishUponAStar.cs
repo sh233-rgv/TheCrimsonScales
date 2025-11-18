@@ -29,8 +29,6 @@ public class WishUponAStar : StarslingerCardModel<WishUponAStar.CardTop, WishUpo
 				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Dark))
 				.Build())
 		];
-
-		protected override IEnumerable<Element> Elements => [Element.Dark];
 	}
 
 	public class CardBottom : StarslingerCardSide

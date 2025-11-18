@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Godot;
 using System.Linq;
 using Fractural.Tasks;
+using System.Diagnostics;
 
 public class LightPollution : StarslingerCardModel<LightPollution.CardTop, LightPollution.CardBottom>
 {
@@ -38,18 +39,21 @@ public class LightPollution : StarslingerCardModel<LightPollution.CardTop, Light
 					}
 				})
 				.WithTarget(Target.Allies | Target.TargetAll)
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return state.ActionState.GetAbilityState<ConditionAbility.State>(0).Performed;
+				})
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					ConditionAbility.State conditionAbilityState = abilityState.ActionState.GetAbilityState<ConditionAbility.State>(0);
 
-					if(conditionAbilityState.Performed)
+					foreach(Hex yellowHex in conditionAbilityState.GetYellowAOEHexes())
 					{
-						foreach(Hex yellowHex in conditionAbilityState.GetYellowAOEHexes())
+						foreach(Figure figure in yellowHex.GetHexObjectsOfType<Figure>())
 						{
-							foreach(Figure figure in yellowHex.GetHexObjectsOfType<Figure>())
-							{
-								list.Add(figure);
-							}
+							list.Add(figure);
 						}
 					}
 				})
@@ -70,7 +74,6 @@ public class LightPollution : StarslingerCardModel<LightPollution.CardTop, Light
 					ScenarioEvents.AbilityStarted.Subscription.New(canApplyParameters => true,
 						async parameters =>
 						{
-
 							List<Figure> targetedFiguresThisTurn = [];
 							targetedFiguresThisTurn.AddRange(
 								parameters.Performer.TurnPerformedActionStates

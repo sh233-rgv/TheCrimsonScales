@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Fractural.Tasks;
 using Godot;
 
 public class Starstruck : StarslingerCardModel<Starstruck.CardTop, Starstruck.CardBottom>
@@ -27,18 +28,21 @@ public class Starstruck : StarslingerCardModel<Starstruck.CardTop, Starstruck.Ca
 					ConditionAbility.Builder().WithConditions(Conditions.Bless).WithTarget(Target.Self).Build(),
 					AttackAbility.Builder().WithDamage(3).WithPierce(1).Build()
 				])
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed;
+				})
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);
 
-					if(attackAbilityState.Performed)
+					foreach(Hex yellowHex in attackAbilityState.GetYellowAOEHexes())
 					{
-						foreach(Hex yellowHex in attackAbilityState.GetYellowAOEHexes())
+						foreach(Figure figure in yellowHex.GetHexObjectsOfType<Figure>())
 						{
-							foreach(Figure figure in yellowHex.GetHexObjectsOfType<Figure>())
-							{
-								list.Add(figure);
-							}
+							list.Add(figure);
 						}
 					}
 				})

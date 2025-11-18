@@ -16,12 +16,12 @@ public class Supernova : StarslingerCardModel<Supernova.CardTop, Supernova.CardB
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
 				.WithRange(3)
-				.WithAbilityStartedSubscription(
-					ScenarioEvents.AbilityStarted.Subscription.New(
+				.WithDuringAttackSubscription(
+					ScenarioEvents.DuringAttack.Subscription.New(
 						parameters => !parameters.Performer.IsDamaged(),
 						async parameters =>
 						{
-							((AttackAbility.State)parameters.AbilityState).AbilityAdjustAttackValue(1);
+							parameters.AbilityState.SingleTargetAdjustAttackValue(1);
 
 							await GDTask.CompletedTask;
 						}

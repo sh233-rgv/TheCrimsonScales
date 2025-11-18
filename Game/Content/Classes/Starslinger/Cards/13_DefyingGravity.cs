@@ -50,18 +50,21 @@ public class DefyingGravity : StarslingerCardModel<DefyingGravity.CardTop, Defyi
 				[
 					MoveAbility.Builder().WithDistance(2).Build()
 				])
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed;
+				})
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);
 
-					if(attackAbilityState.Performed)
+					foreach(Hex yellowHex in attackAbilityState.GetYellowAOEHexes())
 					{
-						foreach(Hex yellowHex in attackAbilityState.GetYellowAOEHexes())
+						foreach(Figure figure in yellowHex.GetHexObjectsOfType<Figure>())
 						{
-							foreach(Figure figure in yellowHex.GetHexObjectsOfType<Figure>())
-							{
-								list.Add(figure);
-							}
+							list.Add(figure);
 						}
 					}
 				})

@@ -25,7 +25,7 @@ public class StoneMeteorite : StarslingerCardModel<StoneMeteorite.CardTop, Stone
 								new AOEHex(Vector2I.Zero, AOEHexType.Red),
 								new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 							]));
-							await AbilityCmd.GainXP(parameters.Performer, 1);
+							await GDTask.CompletedTask;
 						}
 					)
 				)
@@ -39,28 +39,10 @@ public class StoneMeteorite : StarslingerCardModel<StoneMeteorite.CardTop, Stone
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Stun))}")
 				))
 				.Build()),
-			new AbilityCardAbility(HealAbility.Builder()
-				.WithHealValue(2)
-				.WithTarget(Target.Allies | Target.TargetAll)
-				.WithCustomGetTargets((abilityState, list) =>
-				{
-					ConditionAbility.State conditionAbilityState = abilityState.ActionState.GetAbilityState<ConditionAbility.State>(0);
-
-					if(conditionAbilityState.Performed)
-					{
-						foreach(Hex yellowHex in conditionAbilityState.GetYellowAOEHexes())
-						{
-							foreach(Figure figure in yellowHex.GetHexObjectsOfType<Figure>())
-							{
-								list.Add(figure);
-							}
-						}
-					}
-				})
-				.Build())
 		];
 
 		protected override int XP => 1;
+		protected override bool Loss => true;
 	}
 
 	public class CardBottom : StarslingerCardSide

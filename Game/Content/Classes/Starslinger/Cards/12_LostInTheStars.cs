@@ -26,7 +26,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 					state.Performer.RemoveFromMap();
 					state.Performer.TweenScale(0f, 0.15f).SetEasing(Easing.InBack).PlayFastForwardable();
 
-					state.Performer.TakingTurn = false;
+					state.Performer.SetTakingTurn(false);
 
 					foreach(AbilityCard card in ((Character)state.Performer).RoundCards)
 					{
@@ -60,7 +60,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 									Hex firstHex = null;
 									foreach(Hex hex in hexes)
 									{
-										if(hex.IsEmpty())
+										if(hex.IsUnoccupied() && MoveHelper.CanStopAt(state.Performer, hex))
 										{
 											firstHex = hex;
 											break;
@@ -77,7 +77,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 									foreach(Hex otherHex in hexes)
 									{
 										int otherDistance = RangeHelper.Distance(characterToken.Hex, otherHex);
-										if(otherHex.IsUnoccupied() && otherDistance == distance)
+										if(otherHex.IsUnoccupied() && otherDistance == distance && MoveHelper.CanStopAt(state.Performer, otherHex))
 										{
 											possibleEndHexes.Add(otherHex);
 										}
@@ -88,7 +88,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 							applyParameters.Figure.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
 							await AbilityCmd.EnterHex(state, applyParameters.Figure, applyParameters.Figure, returnHex, true);
 							
-							characterToken.RemoveFromMap();
+							await characterToken.Destroy();
 							characterToken.TweenScale(0f, 0.15f).SetEasing(Easing.InBack).PlayFastForwardable();
 						}
 					);

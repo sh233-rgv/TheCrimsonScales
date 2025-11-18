@@ -26,6 +26,7 @@ public class Sungaze : StarslingerCardModel<Sungaze.CardTop, Sungaze.CardBottom>
 						if (healAbilityState.UniqueTargetedFigures.Count == 1)
 						{
 							await AbilityCmd.AddCondition(state, healAbilityState.UniqueTargetedFigures[0], Conditions.Bless);
+							state.SetPerformed();
 						}
 						await GDTask.CompletedTask;
 					}
@@ -48,18 +49,21 @@ public class Sungaze : StarslingerCardModel<Sungaze.CardTop, Sungaze.CardBottom>
 				.Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed;
+				})
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);
 
-					if(attackAbilityState.Performed)
+					foreach(Hex yellowHex in attackAbilityState.GetYellowAOEHexes())
 					{
-						foreach(Hex yellowHex in attackAbilityState.GetYellowAOEHexes())
+						foreach(Figure figure in yellowHex.GetHexObjectsOfType<Figure>())
 						{
-							foreach(Figure figure in yellowHex.GetHexObjectsOfType<Figure>())
-							{
-								list.Add(figure);
-							}
+							list.Add(figure);
 						}
 					}
 				})

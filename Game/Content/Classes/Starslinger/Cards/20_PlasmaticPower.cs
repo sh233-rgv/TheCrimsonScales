@@ -16,19 +16,21 @@ public class PlasmaticPower : StarslingerCardModel<PlasmaticPower.CardTop, Plasm
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
+					int heals = 0;
+
 					ScenarioEvents.AfterHealPerformedEvent.Subscribe(state, this,
 						canApplyParameters => canApplyParameters.Performer == state.Performer &&
 							canApplyParameters.AbilityState.UniqueTargetedFigures.Any(f => f.AlliedWith(canApplyParameters.Performer)),
 						async applyParameters =>
 						{
-							_heals += applyParameters.AbilityState.UniqueTargetedFigures
+							heals += applyParameters.AbilityState.UniqueTargetedFigures
    								.Count(f => f.AlliedWith(applyParameters.Performer));
 							ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
 							ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
 								canApplyParameters => canApplyParameters.Performer == state.Performer,
 								async applyParameters =>
 								{
-									applyParameters.AbilityState.SingleTargetAdjustAttackValue(_heals);
+									applyParameters.AbilityState.SingleTargetAdjustAttackValue(heals);
 									await GDTask.CompletedTask;
 								}
 							);
@@ -39,7 +41,7 @@ public class PlasmaticPower : StarslingerCardModel<PlasmaticPower.CardTop, Plasm
 						canApplyParameters => true,
 						async applyParameters =>
 						{
-							_heals = 0;
+							heals = 0;
 							ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
 							await GDTask.CompletedTask;
 						}
@@ -57,8 +59,6 @@ public class PlasmaticPower : StarslingerCardModel<PlasmaticPower.CardTop, Plasm
 				)
 				.Build())
 		];
-
-		private int _heals = 0;
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;

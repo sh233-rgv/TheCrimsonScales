@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 using System.Linq;
+using Fractural.Tasks;
 
 public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop, InterplanarVoyage.CardBottom>
 {
@@ -31,18 +32,21 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
 				.WithTarget(Target.Allies | Target.TargetAll)
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed;
+				})
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);
 
-					if(attackAbilityState.Performed)
+					foreach(Hex yellowHex in attackAbilityState.GetYellowAOEHexes())
 					{
-						foreach(Hex yellowHex in attackAbilityState.GetYellowAOEHexes())
+						foreach(Figure figure in yellowHex.GetHexObjectsOfType<Figure>())
 						{
-							foreach(Figure figure in yellowHex.GetHexObjectsOfType<Figure>())
-							{
-								list.Add(figure);
-							}
+							list.Add(figure);
 						}
 					}
 				})
@@ -63,9 +67,10 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 
 					Hex performerHex = state.Performer.Hex;
 					Hex swappedHex = swapped.Hex;
-					state.Performer.RemoveFromMap();
 					await AbilityCmd.EnterHex(state, swapped, state.Authority, performerHex, true);
 					await AbilityCmd.EnterHex(state, state.Performer, state.Authority, swappedHex, true);
+					//TODO: Make this a proper teleport
+					state.SetPerformed();
 				})
 				.Build())
 		];
@@ -102,9 +107,10 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 
 					Hex performerHex = state.Performer.Hex;
 					Hex swappedHex = swapped.Hex;
-					state.Performer.RemoveFromMap();
 					await AbilityCmd.EnterHex(state, swapped, state.Authority, performerHex, true);
 					await AbilityCmd.EnterHex(state, state.Performer, state.Authority, swappedHex, true);
+					//TODO: Make this a proper teleport
+					state.SetPerformed();
 				})
 				.Build())
 		];

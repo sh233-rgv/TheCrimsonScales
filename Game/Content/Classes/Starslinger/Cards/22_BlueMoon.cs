@@ -21,7 +21,7 @@ public class BlueMoon : StarslingerCardModel<BlueMoon.CardTop, BlueMoon.CardBott
 						{
 							await AbilityCmd.InfuseElement(Element.Dark);
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+{Icons.GetElement(Element.Dark)}")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.GetElement(Element.Dark)}")
 				))
 				.WithAOEPattern(new AOEPattern([
 							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
@@ -31,29 +31,28 @@ public class BlueMoon : StarslingerCardModel<BlueMoon.CardTop, BlueMoon.CardBott
 				.Build()),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(4)
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed;
+				})
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);
 
-					if(attackAbilityState.Performed)
+					foreach(Hex yellowHex in attackAbilityState.GetYellowAOEHexes())
 					{
-						foreach(Hex yellowHex in attackAbilityState.GetYellowAOEHexes())
+						foreach(Figure figure in yellowHex.GetHexObjectsOfType<Figure>())
 						{
-							foreach(Figure figure in yellowHex.GetHexObjectsOfType<Figure>())
-							{
-								list.Add(figure);
-							}
+							list.Add(figure);
 						}
 					}
 				})
-				.WithAfterHealPerformedSubscription(
-					ScenarioEvents.AfterHealPerformed.Subscription.New(
-						parameters => true,
-						async parameters =>
-						{
-							await AbilityCmd.GainXP(parameters.Performer, 1);
-						}
-					)
+				.WithOnAbilityEndedPerformed(async state =>
+					{
+						await AbilityCmd.GainXP(state.Performer, 1);
+					}
 				)
 				.Build())
 		];

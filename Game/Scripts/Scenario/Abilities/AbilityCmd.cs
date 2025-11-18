@@ -270,14 +270,13 @@ public static class AbilityCmd
 
 	public static async GDTask LootHex(Figure figure, Hex hex)
 	{
-		foreach(LootableObject lootableObject in hex?.GetHexObjectsOfType<LootableObject>() ?? Enumerable.Empty<LootableObject>())
+		foreach(LootableObject lootableObject in hex.GetHexObjectsOfType<LootableObject>())
 		{
 			if(lootableObject.CanLoot(figure))
 			{
 				await lootableObject.Loot(figure);
 			}
 		}
-		await GDTask.CompletedTask;
 	}
 
 	public static async GDTask<Monster> SummonMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex, int? monsterLevel = null)

@@ -52,6 +52,7 @@ public class CrashingFlare : StarslingerCardModel<CrashingFlare.CardTop, Crashin
 				.WithPerformAbility(async state =>
                 {
 					await AbilityCmd.InfuseElement(Element.Light);
+					state.SetPerformed();
                 })
 				.WithConditionalAbilityCheck(async state =>
 				{

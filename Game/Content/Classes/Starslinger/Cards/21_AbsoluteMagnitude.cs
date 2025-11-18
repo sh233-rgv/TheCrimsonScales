@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using Fractural.Tasks;
 
 public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop, AbsoluteMagnitude.CardBottom>
 {
@@ -32,9 +34,11 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 
 					Hex performerHex = state.Performer.Hex;
 					Hex swappedHex = swapped.Hex;
-					state.Performer.RemoveFromMap();
 					await AbilityCmd.EnterHex(state, swapped, state.Authority, performerHex, true);
 					await AbilityCmd.EnterHex(state, state.Performer, state.Authority, swappedHex, true);
+					//TODO: Make this a proper teleport
+
+					state.SetPerformed();
 
 					await AbilityCmd.GainXP(state.Performer, 1);
 				})
@@ -58,6 +62,13 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 					{
 						await AbilityCmd.SufferDamage(null, singleTargetState.Target, singleTargetState.PushHexes.Count);
 					}
+					state.SetPerformed();
+				})
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return state.ActionState.GetAbilityState<PushAbility.State>(0).SingleTargetStates.Any(state => state.PushHexes.Count > 0);
 				})
 				.Build())
 		];

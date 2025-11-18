@@ -14,17 +14,17 @@ public class PierceTheFirmament : StarslingerCardModel<PierceTheFirmament.CardTo
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(6)
-				.WithAbilityStartedSubscription(
-					ScenarioEvents.AbilityStarted.Subscription.New(
+				.WithDuringAttackSubscription(
+					ScenarioEvents.DuringAttack.Subscription.New(
 						parameters => !parameters.Performer.IsDamaged(),
 						async parameters =>
 						{
-							((AttackAbility.State)parameters.AbilityState).AbilityAdjustRange(5);
-							((AttackAbility.State)parameters.AbilityState).AbilitySetRangeType(RangeType.Range);
-							await AbilityCmd.GainXP(parameters.Performer, 1);
+							parameters.AbilityState.SingleTargetAdjustRange(5);
+							parameters.AbilityState.SingleTargetSetRangeType(RangeType.Range);
+
+							await GDTask.CompletedTask;
 						}
 					)
 				)

@@ -19,13 +19,13 @@ public class LuckyStars : StarslingerCardModel<LuckyStars.CardTop, LuckyStars.Ca
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
 				.WithRange(3)
-				.WithAbilityStartedSubscription(
-					ScenarioEvents.AbilityStarted.Subscription.New(
+				.WithDuringAttackSubscription(
+					ScenarioEvents.DuringAttack.Subscription.New(
 						parameters => !parameters.Performer.IsDamaged(),
 						async parameters =>
 						{
-							((AttackAbility.State)parameters.AbilityState).AbilityAdjustAttackValue(2);
-							parameters.AbilityState.SetCustomValue(this, "Undamaged", 1);
+							parameters.AbilityState.SingleTargetAdjustAttackValue(2);
+							parameters.AbilityState.SetCustomValue(this, "Undamaged", parameters.AbilityState.GetCustomValue<int>(this, "Undamaged") + 1);
 
 							await GDTask.CompletedTask;
 						}

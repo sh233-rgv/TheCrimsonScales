@@ -91,11 +91,23 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 				.WithTarget(Target.Self)
 				.Build()),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
-				.WithOnActivate(async state => { await GDTask.CompletedTask; })
+				.WithOnActivate(async state =>
+				{
+					ScenarioEvents.RoundEndedEvent.Subscribe(state, this,
+						parameters => true,
+						async parameters =>
+						{
+							await AbilityCmd.RemoveCondition(state.Performer, Conditions.Invisible);
+							
+						}
+					);
+				})
 				.WithOnDeactivate(
 					async state =>
                     {
-                        await AbilityCmd.RemoveCondition(state.Performer, Conditions.Invisible);
+						ScenarioEvents.RoundEndedEvent.Unsubscribe(state, this);
+
+						await GDTask.CompletedTask;
                     }
 				)
 				.WithMandatory(true)

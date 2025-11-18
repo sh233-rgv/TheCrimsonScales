@@ -32,7 +32,7 @@ public abstract partial class Figure : HexObject
 	public Alignment Alignment { get; private set; }
 	public Alignment Enemies { get; private set; }
 
-	public bool TakingTurn { get; set; }
+	public bool TakingTurn { get; private set; }
 
 	public Initiative Initiative { get; private set; }
 
@@ -534,4 +534,9 @@ public abstract partial class Figure : HexObject
 			index++;
 		}
 	}
+
+	public void SetTakingTurn(bool takingTurn)
+    {
+		TakingTurn = takingTurn;
+    }
 }

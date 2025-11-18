@@ -26,14 +26,10 @@ public class GravitationalFlip : StarslingerCardModel<GravitationalFlip.CardTop,
 						lootAbilityState.LootedHexes
 							.SelectMany(hex => RangeHelper.GetFiguresInRange(hex, 1))
 							.Where(f => f.EnemiesWith(state.Performer))
-							.Except(targets)
 					);
 				})
 				.Build())
 		];
-
-		protected override int XP => 2;
-		protected override bool Loss => true;
 	}
 
 	public class CardBottom : StarslingerCardSide
