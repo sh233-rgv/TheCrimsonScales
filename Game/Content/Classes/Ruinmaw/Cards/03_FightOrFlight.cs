@@ -27,9 +27,9 @@ public class FightOrFlight : RuinmawCardModel<FightOrFlight.CardTop, FightOrFlig
 						}
 					)
 				)
-				.WithOnAbilityEnded(async state =>
+				.WithOnAbilityEndedPerformed(async state =>
 					{
-						if (state.Performed && IsSated(state.Performer))
+						if (IsSated(state.Performer))
 						{
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
