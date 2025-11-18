@@ -61,6 +61,24 @@ public abstract class TargetedAbilityState : AbilityState
 
 	public abstract Figure Target { get; }
 
+	public IEnumerable<Hex> GetEmptyAOEHexes()
+	{
+		if(AOEHexes == null)
+		{
+			yield break;
+		}
+
+		foreach((Vector2I coords, AOEHexType type) in AOEHexes)
+		{
+			Hex hex = GameController.Instance.Map.GetHex(coords);
+
+			if(hex != null && type == AOEHexType.Empty)
+			{
+				yield return hex;
+			}
+		}
+	}
+
 	public IEnumerable<Hex> GetRedAOEHexes()
 	{
 		if(AOEHexes == null)

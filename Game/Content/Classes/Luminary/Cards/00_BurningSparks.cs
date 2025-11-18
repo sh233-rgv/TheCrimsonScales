@@ -6,8 +6,8 @@ public class BurningSparks : LuminaryCardModel<BurningSparks.CardTop, BurningSpa
 {
 	public override string Name => "Faith Calling";
 	public override int Level => 1;
-	public override int Initiative => 13;
-	protected override int AtlasIndex => 13 - 0;
+	public override int Initiative => 33;
+	protected override int AtlasIndex => 0;
 
 	public class CardTop : LuminaryCardSide
 	{
