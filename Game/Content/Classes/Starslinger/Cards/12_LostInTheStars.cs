@@ -19,9 +19,9 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					HexObject characterToken = ResourceLoader.Load<PackedScene>("res://Content/Classes/Starslinger/StarslingerToken.tscn").Instantiate<HexObject>();
+					StarslingerTokenLostInTheStars characterToken = ResourceLoader.Load<PackedScene>("res://Content/Classes/Starslinger/StarslingerTokenLostInTheStars.tscn").Instantiate<StarslingerTokenLostInTheStars>();
 					GameController.Instance.Map.AddChild(characterToken);
-					await characterToken.Init(state.Performer.Hex);
+					await characterToken.Init(state.Performer, state.Performer.Hex);
 
 					state.Performer.RemoveFromMap();
 					state.Performer.TweenScale(0f, 0.15f).SetEasing(Easing.InBack).PlayFastForwardable();
