@@ -30,7 +30,7 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 						async parameters =>
 						{
 							((AttackAbility.State)parameters.AbilityState).AbilityAdjustPierce(2);
-							((AttackAbility.State)parameters.AbilityState).AbilityAddConditionPreAbility(Conditions.Poison1);
+							((AttackAbility.State)parameters.AbilityState).AbilityAddCondition(Conditions.Poison1);
 							await GDTask.CompletedTask;
 						}
 					)

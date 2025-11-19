@@ -139,24 +139,12 @@ public abstract class TargetedAbilityState : AbilityState
 		if(conditionModel.CanStack)
 		{
 			AbilityConditionModels.Add(conditionModel);
-			SingleTargetConditionModels.Add(conditionModel);
+			SingleTargetConditionModels?.Add(conditionModel);
 		}
 		else
 		{
 			AbilityConditionModels.AddIfNew(conditionModel);
-			SingleTargetConditionModels.AddIfNew(conditionModel);
-		}
-	}
-
-	public void AbilityAddConditionPreAbility(ConditionModel conditionModel)
-	{
-		if(conditionModel.CanStack)
-		{
-			AbilityConditionModels.Add(conditionModel);
-		}
-		else
-		{
-			AbilityConditionModels.AddIfNew(conditionModel);
+			SingleTargetConditionModels?.AddIfNew(conditionModel);
 		}
 	}
 

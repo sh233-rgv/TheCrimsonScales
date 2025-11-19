@@ -31,7 +31,7 @@ public class RavenousRoar : RuinmawCardModel<RavenousRoar.CardTop, RavenousRoar.
 						parameters => IsSated(parameters.Performer),
 						async parameters =>
 						{
-							((TargetedAbilityState)parameters.AbilityState).AbilityAddConditionPreAbility(Conditions.Wound1);
+							((TargetedAbilityState)parameters.AbilityState).AbilityAddCondition(Conditions.Wound1);
 							await GDTask.CompletedTask;
 						}
 					)

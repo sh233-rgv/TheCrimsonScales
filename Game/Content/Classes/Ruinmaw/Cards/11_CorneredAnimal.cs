@@ -22,7 +22,7 @@ public class CorneredAnimal : RuinmawCardModel<CorneredAnimal.CardTop, CorneredA
 						parameters => IsSated(parameters.Performer),
 						async parameters =>
 						{
-							((HealAbility.State)parameters.AbilityState).AbilityAddConditionPreAbility(Conditions.Ward);
+							((HealAbility.State)parameters.AbilityState).AbilityAddCondition(Conditions.Ward);
 							await GDTask.CompletedTask;
 						}
 					)

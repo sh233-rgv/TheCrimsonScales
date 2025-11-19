@@ -21,7 +21,7 @@ public class RendAndMutilate : RuinmawCardModel<RendAndMutilate.CardTop, RendAnd
 						async parameters =>
 						{
 							((AttackAbility.State)parameters.AbilityState).AbilityAdjustAttackValue(-4);
-							((AttackAbility.State)parameters.AbilityState).AbilityAddConditionPreAbility(Conditions.Wound1);
+							((AttackAbility.State)parameters.AbilityState).AbilityAddCondition(Conditions.Wound1);
 							_loss = false;
 							await GDTask.CompletedTask;
 						}
