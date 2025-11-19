@@ -401,6 +401,16 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 		}
 	}
 
+	public void Unsubscribe(AbilityState subscriberA)
+	{
+		EventSubscriberPair subscriberPair = ScenarioEvents.FindSubscriber(subscriberA);
+		if (subscriberPair == null)
+        {
+            return;
+        }
+		Unsubscribe(subscriberPair);
+	}
+
 	public void Unsubscribe(List<Subscription> subscriptions)
 	{
 		if(subscriptions != null)

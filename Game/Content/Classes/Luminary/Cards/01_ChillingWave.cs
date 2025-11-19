@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -45,12 +46,39 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+			new AbilityCardAbility(OtherActiveAbility.Builder()
+				.WithOnActivate(async state =>
+				{
+					foreach(AbilityCard abilityCard in ((Character)state.Performer).Cards)
+					{
+						foreach(ActionState actionState in abilityCard.ActiveActionStates)
+						{
+							if(actionState.AbilityStates.Any(abilityState => abilityState.GetCustomValue<bool>("Glow", "IsGlow")))
+							{
+								await actionState.RequestDiscardOrLose();
+							}
+						}
+					}
+					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
+						canApply: parameters => parameters.AbilityState.GetCustomValue<bool>("Glow", "Glow Ability"),
+						apply: async parameters =>
+                        {
+                            if (parameters.AbilityState is TargetedAbilityState targetedAbilityState)
+                            {
+                                //targetedAbilityState.AbilityAddConditionPre
+                            }
+							await state.ActionState.RequestDiscardOrLose();
+                        },
+						order: 1);
+					await GDTask.CompletedTask;
+				})
+				.WithOnDeactivate(async state =>
+				{
+					ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
+
+					await GDTask.CompletedTask;
+				})
 				.Build()),
-			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(1)
-				.Build())
 		];
 	}
 }

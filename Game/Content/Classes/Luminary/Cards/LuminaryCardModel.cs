@@ -57,5 +57,65 @@ public abstract class LuminaryCardSide : AbilityCardSide
 			)
 			.Build());
 	}
+
+	protected AbilityCardAbility Glow(Element element, Ability ability)
+    {
+        return new AbilityCardAbility(OtherActiveAbility.Builder()
+			.WithOnActivate(async state =>
+			{
+				foreach(AbilityCard abilityCard in ((Character)state.Performer).Cards)
+                {
+                    foreach(ActionState actionState in abilityCard.ActiveActionStates)
+                    {
+                        if(actionState.AbilityStates.Any(abilityState => abilityState.GetCustomValue<bool>("Glow", "Active Glow")))
+                        {
+                            await actionState.RequestDiscardOrLose();
+                        }
+                    }
+                }
+
+				ScenarioEvents.FigureTurnStartedEvent.Subscribe(state, this,
+					canApplyParameters => canApplyParameters.Figure == state.Performer && GameController.Instance.ElementManager.GetState(element) > ElementState.Inert,
+					async applyParameters =>
+					{
+						if(await AbilityCmd.AskConsumeElement(state.Performer, element))
+						{
+							ActionState actionState = new(state.Performer,[ability]);
+							await actionState.Perform();
+						}
+					},
+					EffectType.Selectable,
+					canApplyMultipleTimesInEffectCollection: true,
+					effectButtonParameters: new IconEffectButton.Parameters("res://Content/Classes/Luminary/Glow.svg"),
+					effectInfoViewParameters: new TextEffectInfoView.Parameters($"Perform {Icons.Inline("res://Content/Classes/Luminary/Glow.svg")}"));
+
+				ScenarioEvents.AbilityEndedEvent.Subscribe(state, this,
+					canApplyParameters => canApplyParameters.Performer == state.Performer && GameController.Instance.ElementManager.GetState(element) > ElementState.Inert,
+					async applyParameters =>
+					{
+						if(await AbilityCmd.AskConsumeElement(state.Performer, element))
+						{
+							ActionState actionState = new(state.Performer,[ability]);
+							await actionState.Perform();
+						}
+					},
+					EffectType.Selectable,
+					canApplyMultipleTimesInEffectCollection: true,
+					effectButtonParameters: new IconEffectButton.Parameters("res://Content/Classes/Luminary/Glow.svg"),
+					effectInfoViewParameters: new TextEffectInfoView.Parameters($"Perform {Icons.Inline("res://Content/Classes/Luminary/Glow.svg")}"));
+
+				state.SetCustomValue("Glow", "Active Glow", true);
+				state.SetCustomValue("Glow", "Glow Perform", ability);
+				await GDTask.CompletedTask;
+			})
+			.WithOnDeactivate(async state =>
+			{
+				ScenarioEvents.FigureTurnStartedEvent.Unsubscribe(state, this);
+				ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
+
+				await GDTask.CompletedTask;
+			})
+			.Build());
+    }
 	
 }

@@ -28,6 +28,24 @@ public class ScenarioEvents
 		return newEventSubscriberPair;
 	}
 
+	public static EventSubscriberPair FindSubscriber(object subscriberA)
+	{
+		if(subscriberA == null)
+		{
+			throw new Exception("The given subscriber is null.");
+		}
+
+		foreach(EventSubscriberPair eventSubscriberPair in EventSubscriberPairs)
+		{
+			if(eventSubscriberPair.SubscriberA == subscriberA)
+			{
+				return eventSubscriberPair;
+			}
+		}
+
+		return null;
+	}
+
 	public class GenericChoice : ScenarioEvent<GenericChoice.Parameters>
 	{
 		public class Parameters() : ParametersBase
