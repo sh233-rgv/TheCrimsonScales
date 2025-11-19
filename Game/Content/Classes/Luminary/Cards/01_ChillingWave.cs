@@ -49,27 +49,16 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					foreach(AbilityCard abilityCard in ((Character)state.Performer).Cards)
-					{
-						foreach(ActionState actionState in abilityCard.ActiveActionStates)
-						{
-							if(actionState.AbilityStates.Any(abilityState => abilityState.GetCustomValue<bool>("Glow", "IsGlow")))
-							{
-								await actionState.RequestDiscardOrLose();
-							}
-						}
-					}
 					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
 						canApply: parameters => parameters.AbilityState.GetCustomValue<bool>("Glow", "Glow Ability"),
 						apply: async parameters =>
                         {
                             if (parameters.AbilityState is TargetedAbilityState targetedAbilityState)
                             {
-                                //targetedAbilityState.AbilityAddConditionPre
+                                targetedAbilityState.AbilityAddCondition(Conditions.Stun);
                             }
 							await state.ActionState.RequestDiscardOrLose();
-                        },
-						order: 1);
+                        });
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
@@ -79,6 +68,32 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
 					await GDTask.CompletedTask;
 				})
 				.Build()),
+			new AbilityCardAbility(OtherAbility.Builder()
+				.WithPerformAbility(async state =>
+				{
+					Figure figure = await AbilityCmd.SelectFigure(state, list =>
+					{
+						foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1))
+						{
+							if(state.Authority.EnemiesWith(figure) && figure.HasCondition(Chainguard.Shackle))
+							{
+								list.Add(figure);
+							}
+						}
+					});
+
+					if(figure == null)
+					{
+						return;
+					}
+
+					await AbilityCmd.SufferDamage(null, figure, 1);
+				})
+				.Build())
 		];
+
+		protected override int XP => 2;
+		protected override bool Round => true;
+		protected override bool Loss => true;
 	}
 }
