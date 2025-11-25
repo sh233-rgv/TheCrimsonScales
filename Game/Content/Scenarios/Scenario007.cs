@@ -423,7 +423,7 @@ public class Scenario007 : ScenarioModel
 			}
 			case 8: // 9C
 			{
-				await AbilityCmd.InfuseWildElement(character);
+				await AbilityCmd.InfuseWildElement(authority: character);
 
 				switch(GameController.Instance.CharacterManager.Characters.Count)
 				{

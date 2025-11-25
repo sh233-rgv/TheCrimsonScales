@@ -24,8 +24,7 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
 						new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Empty),
 					]
 				))
-				.WithDuringAttackSubscriptions(
-				[
+				.WithDuringAttackSubscription(
 					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Dark,
 						applyFunction: async parameters =>
 						{
@@ -34,12 +33,11 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
 							await GDTask.CompletedTask;
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Stun))}")
-					),
-				])
+					)
+				)
 				.Build()),
 			Scuttle(1, [Element.Ice]),
 		];
-		protected override int XP => 1;
 	}
 
 	public class CardBottom : LuminaryCardSide
@@ -58,6 +56,7 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
                                 targetedAbilityState.AbilityAddCondition(Conditions.Stun);
                             }
 							await state.ActionState.RequestDiscardOrLose();
+							//TODO: Add Remove Immediately
                         });
 					await GDTask.CompletedTask;
 				})
@@ -71,23 +70,22 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					Figure figure = await AbilityCmd.SelectFigure(state, list =>
+					foreach(AbilityCard abilityCard in ((Character)state.Performer).Cards)
 					{
-						foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1))
+						AbilityState glowState =
+							abilityCard.ActiveActionStates
+								.SelectMany(a => a.AbilityStates)
+								.FirstOrDefault(s => s.GetCustomValue<bool>("Glow", "Active Glow"));
+						if (glowState != null)
 						{
-							if(state.Authority.EnemiesWith(figure) && figure.HasCondition(Chainguard.Shackle))
-							{
-								list.Add(figure);
-							}
+							Ability ability = glowState.GetCustomValue<Ability>("Glow", "Glow Perform");
+							ActionState actionState = new(state.Performer,[ability]);
+							await actionState.Perform();
+							state.SetPerformed();
+							break;
 						}
-					});
-
-					if(figure == null)
-					{
-						return;
 					}
-
-					await AbilityCmd.SufferDamage(null, figure, 1);
+					await GDTask.CompletedTask;
 				})
 				.Build())
 		];

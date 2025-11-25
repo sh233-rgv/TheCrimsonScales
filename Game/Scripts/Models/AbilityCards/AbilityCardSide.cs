@@ -55,7 +55,7 @@ public abstract class AbilityCardSide
 
 				foreach(Element element in Elements)
 				{
-					await AbilityCmd.InfuseElement(element);
+					await AbilityCmd.InfuseElement(element, actionState.Authority);
 				}
 
 				CardState resultingState = CardState.Discarded;

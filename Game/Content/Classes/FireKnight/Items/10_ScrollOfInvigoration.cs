@@ -14,7 +14,7 @@
 			{
 				await Use(async user =>
 				{
-					await AbilityCmd.InfuseElement(Element.Fire);
+					await AbilityCmd.InfuseElement(Element.Fire, Owner);
 
 					ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription moveSubscription =
 						ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.New(

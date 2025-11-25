@@ -1,6 +1,10 @@
-﻿public enum AOEHexType
+﻿using System;
+
+[Flags]
+public enum AOEHexType
 {
-	Red,
-	Gray,
-	Empty,
+	Red = 1,
+	Gray = 2,
+	Empty = 4,
+	Marked = 8,
 }

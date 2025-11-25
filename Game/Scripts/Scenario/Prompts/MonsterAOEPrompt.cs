@@ -33,7 +33,7 @@ public class MonsterAOEPrompt(
 
 		foreach(AOEHex pivotAOEHex in pattern.Hexes)
 		{
-			if(pivotAOEHex.Type == AOEHexType.Gray)
+			if(pivotAOEHex.Type.HasFlag(AOEHexType.Gray))
 			{
 				hasGrayHex = true;
 			}
@@ -89,7 +89,7 @@ public class MonsterAOEPrompt(
 			{
 				foreach(AOEHex pivotAOEHex in pattern.Hexes)
 				{
-					if(hasGrayHex && pivotAOEHex.Type != AOEHexType.Gray)
+					if(hasGrayHex && !pivotAOEHex.Type.HasFlag(AOEHexType.Gray))
 					{
 						continue;
 					}
@@ -101,7 +101,7 @@ public class MonsterAOEPrompt(
 					Vector2I pivotOffset = -pivotAOEHex.LocalCoords;
 					foreach(AOEHex aoeHex in pattern.Hexes)
 					{
-						if(aoeHex.Type != AOEHexType.Red)
+						if(!aoeHex.Type.HasFlag(AOEHexType.Red))
 						{
 							continue;
 						}

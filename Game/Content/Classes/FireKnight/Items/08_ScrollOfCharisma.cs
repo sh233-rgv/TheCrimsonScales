@@ -11,7 +11,7 @@ public class ScrollOfCharisma : FireKnightItem
 
 	protected override List<ItemUseSlot> GetUseSlots() =>
 	[
-		new ItemUseSlot(new Vector2(0.3234997f, 0.81101197f), async item => await AbilityCmd.InfuseElement(Element.Fire)),
+		new ItemUseSlot(new Vector2(0.3234997f, 0.81101197f), async item => await AbilityCmd.InfuseElement(Element.Fire, Owner)),
 		new ItemUseSlot(new Vector2(0.6015022f, 0.81101197f))
 	];
 

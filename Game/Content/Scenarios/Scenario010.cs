@@ -64,12 +64,12 @@ public class Scenario010 : ScenarioModel
 					{
 						if(_crateKillCount < 1)
 						{
-							await AbilityCmd.InfuseElement(Element.Fire, true);
+							await AbilityCmd.InfuseElement(Element.Fire, null, immediately: true);
 						}
 
 						if(_crateKillCount < 3)
 						{
-							await AbilityCmd.InfuseElement(Element.Air, true);
+							await AbilityCmd.InfuseElement(Element.Air, null, immediately: true);
 						}
 					}
 				}
@@ -90,12 +90,12 @@ public class Scenario010 : ScenarioModel
 					{
 						if(_crateKillCount < 2)
 						{
-							await AbilityCmd.InfuseElement(Element.Ice, true);
+							await AbilityCmd.InfuseElement(Element.Ice, null, immediately: true);
 						}
 
 						if(_crateKillCount < 4)
 						{
-							await AbilityCmd.InfuseElement(Element.Earth, true);
+							await AbilityCmd.InfuseElement(Element.Earth, null, immediately: true);
 						}
 					}
 				}

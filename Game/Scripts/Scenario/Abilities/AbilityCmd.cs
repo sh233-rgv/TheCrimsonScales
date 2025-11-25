@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using Fractural.Tasks;
 using Godot;
@@ -511,12 +513,12 @@ public static class AbilityCmd
 		ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
 	}
 
-	public static GDTask InfuseWildElement(Figure authority)
+	public static GDTask InfuseWildElement(Figure authority, AbilityState state = null)
 	{
-		return InfuseElement(authority, Elements.All);
+		return InfuseElement(Elements.All, authority,  state);
 	}
 
-	public static GDTask InfuseElement(Figure authority, IReadOnlyCollection<Element> possibleElements)
+	public static GDTask InfuseElement(IReadOnlyCollection<Element> possibleElements, Figure authority, AbilityState state = null)
 	{
 		List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
 			new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
@@ -525,7 +527,7 @@ public static class AbilityCmd
 			subscriptions.Add(ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.New(
 				applyFunction: async parameters =>
 				{
-					await InfuseElement(possibleElement);
+					await InfuseElement(possibleElement, authority, state);
 				},
 				effectType: EffectType.SelectableMandatory,
 				effectButtonParameters: new IconEffectButton.Parameters(Icons.GetElement(possibleElement)),
@@ -536,16 +538,22 @@ public static class AbilityCmd
 		return GenericChoice(authority, subscriptions);
 	}
 
-	public static async GDTask InfuseElement(Element element, bool immediately = false)
+	public static async GDTask InfuseElement(Element element, Figure authority, AbilityState state = null, bool immediately = false)
 	{
-		if(immediately)
-		{
-			GameController.Instance.ElementManager.InfuseImmediately(element);
-		}
-		else
-		{
-			GameController.Instance.ElementManager.StartInfuse(element);
-		}
+		ScenarioEvents.InfuseElement.Parameters parameters =
+			await ScenarioEvents.InfuseElementEvent.CreatePrompt(
+				new ScenarioEvents.InfuseElement.Parameters(element, state, authority));
+		if (parameters.CanInfuse)
+        {
+			if(immediately)
+			{
+				GameController.Instance.ElementManager.InfuseImmediately(parameters.Element);
+			}
+			else
+			{
+				GameController.Instance.ElementManager.StartInfuse(parameters.Element);
+			}
+        }
 
 		await GDTask.CompletedTask;
 	}

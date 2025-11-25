@@ -49,7 +49,7 @@ public class MonsterMovePrompt(
 		{
 			foreach(AOEHex pivotAOEHex in aiMoveParameters.AOEPattern.Hexes)
 			{
-				if(pivotAOEHex.Type == AOEHexType.Gray)
+				if(pivotAOEHex.Type.HasFlag(AOEHexType.Gray))
 				{
 					hasGrayHex = true;
 				}
@@ -178,7 +178,7 @@ public class MonsterMovePrompt(
 					{
 						foreach(AOEHex pivotAOEHex in aiMoveParameters.AOEPattern.Hexes)
 						{
-							if(hasGrayHex && pivotAOEHex.Type != AOEHexType.Gray)
+							if(hasGrayHex && !pivotAOEHex.Type.HasFlag(AOEHexType.Gray))
 							{
 								continue;
 							}
@@ -190,7 +190,7 @@ public class MonsterMovePrompt(
 							Vector2I pivotOffset = -pivotAOEHex.LocalCoords;
 							foreach(AOEHex aoeHex in aiMoveParameters.AOEPattern.Hexes)
 							{
-								if(aoeHex.Type != AOEHexType.Red)
+								if(!aoeHex.Type.HasFlag(AOEHexType.Red))
 								{
 									continue;
 								}
@@ -360,7 +360,7 @@ public class MonsterMovePrompt(
 				{
 					foreach(AOEHex pivotAOEHex in aiMoveParameters.AOEPattern.Hexes)
 					{
-						if(hasGrayHex && pivotAOEHex.Type != AOEHexType.Gray)
+						if(hasGrayHex && !pivotAOEHex.Type.HasFlag(AOEHexType.Gray))
 						{
 							continue;
 						}
@@ -368,7 +368,7 @@ public class MonsterMovePrompt(
 						Vector2I pivotOffset = -pivotAOEHex.LocalCoords;
 						foreach(AOEHex aoeHex in aiMoveParameters.AOEPattern.Hexes)
 						{
-							if(aoeHex.Type != AOEHexType.Red)
+							if(!aoeHex.Type.HasFlag(AOEHexType.Red))
 							{
 								continue;
 							}

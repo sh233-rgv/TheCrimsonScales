@@ -1,0 +1,127 @@
+using System.Collections.Generic;
+using System.Linq;
+using Fractural.Tasks;
+using Godot;
+
+public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardBottom>
+{
+	public override string Name => "Floodlight";
+	public override int Level => 1;
+	public override int Initiative => 71;
+	protected override int AtlasIndex => 19;
+
+	public class CardTop : LuminaryCardSide
+	{
+		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		[
+			new AbilityCardAbility(AttackAbility.Builder()
+				.WithDamage(4)
+				.WithConditions(Conditions.Poison1)
+				.WithAOEPattern(new AOEPattern(
+					[
+						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Empty),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Empty),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthWest), AOEHexType.Empty),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
+					]
+				))
+				.Build()),
+			new AbilityCardAbility(HealAbility.Builder()
+				.WithHealValue(2)
+				.WithCustomGetTargets((state, targets) =>
+				{
+					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
+					targets.AddRange(attackAbilityState.GetEmptyAOEHexes().SelectMany(hex => hex.GetHexObjectsOfType<Figure>()));
+				})
+				.WithConditionalAbilityCheck(async state =>
+				{
+                    return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed &&
+						await AbilityCmd.AskConsumeElement(state.Performer, Element.Ice);
+                })
+				.Build()),
+			Scuttle(2, [Element.Light]),
+		];
+
+		protected override int XP => 1;
+	}
+
+	public class CardBottom : LuminaryCardSide
+	{
+		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		[
+			new AbilityCardAbility(OtherActiveAbility.Builder()
+				.WithOnActivate(async state =>
+                {
+                    ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
+						parameters =>
+						{
+							return parameters.Target == state.Performer &&
+								parameters.Condition?.ImmunityCompareBaseConditions != null &&
+								Conditions.Immobilize.ImmunityCompareBaseConditions != null &&
+								parameters.Condition.ImmunityCompareBaseConditions
+									.Any(c1 => Conditions.Immobilize.ImmunityCompareBaseConditions.Contains(c1));
+						},
+						async parameters =>
+						{
+							parameters.SetPrevented(true);
+
+							await GDTask.CompletedTask;
+						}
+					);
+
+					ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Subscribe(state, this,
+						parameters => parameters.Figure == state.Performer,
+						parameters =>
+						{
+							parameters.AddImmunity(Conditions.Immobilize);
+						}
+					);
+					await GDTask.CompletedTask;
+                })
+				.WithOnDeactivate(async state =>
+                {
+                    ScenarioEvents.InflictConditionEvent.Unsubscribe(state, this);
+                    ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Unsubscribe(state, this);
+                    await GDTask.CompletedTask;
+                })
+				.Build()),
+			new AbilityCardAbility(UseSlotAbility.Builder()
+				.WithOnActivate(async state =>
+                {
+                    ScenarioEvents.InfuseElementEvent.Subscribe(state, this,
+						parameters => parameters.Authority == state.Performer && parameters.Element == Element.Dark
+							&& parameters.AbilityState != state,
+						async parameters =>
+						{
+							parameters.SetCanInfuse(false);
+							ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
+							//TODO: Probably a better way to not duplicate any elements than this ^
+							await AbilityCmd.InfuseWildElement(state.Authority, state);
+							Element element = state.UseSlotIndex == 0 ? Element.Light : (state.UseSlotIndex == 1) ? Element.Fire : Element.Ice;
+							await AbilityCmd.InfuseElement(element, state.Authority, state);
+
+							await state.AdvanceUseSlot();
+						}
+					);
+					await GDTask.CompletedTask;
+                })
+				.WithOnDeactivate(async state =>
+                {
+                    ScenarioEvents.InfuseElementEvent.Unsubscribe(state, this);
+                    await GDTask.CompletedTask;
+                })
+				.WithUseSlots(
+				[
+					new UseSlot(new Vector2(0.16650043f, 0.3549993f), GainXP),
+					new UseSlot(new Vector2(0.36999783f, 0.3549993f), GainXP),
+					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					//TODO: Fix use slot positioning
+				])
+				.Build())
+		];
+
+		protected override bool Persistent => true;
+		protected override bool Loss => true;
+	}
+}

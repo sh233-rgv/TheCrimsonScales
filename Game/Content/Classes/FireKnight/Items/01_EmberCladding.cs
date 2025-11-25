@@ -29,7 +29,7 @@ public class EmberCladding : FireKnightItem
 				{
 					await AbilityCmd.SufferDamage(null, parameters.Figure, 2);
 
-					await AbilityCmd.InfuseElement(Element.Fire);
+					await AbilityCmd.InfuseElement(Element.Fire, Owner);
 				});
 
 				await GDTask.CompletedTask;

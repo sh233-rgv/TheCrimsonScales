@@ -13,7 +13,7 @@ public class ScrollOfProtection : FireKnightItem
 
 	protected override List<ItemUseSlot> GetUseSlots() =>
 	[
-		new ItemUseSlot(new Vector2(0.32149974f, 0.7880109f), async item => await AbilityCmd.InfuseElement(Element.Fire)),
+		new ItemUseSlot(new Vector2(0.32149974f, 0.7880109f), async item => await AbilityCmd.InfuseElement(Element.Fire, Owner)),
 		new ItemUseSlot(new Vector2(0.6015022f, 0.7880109f))
 	];
 

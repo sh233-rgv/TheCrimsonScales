@@ -72,7 +72,7 @@ public abstract class TargetedAbilityState : AbilityState
 		{
 			Hex hex = GameController.Instance.Map.GetHex(coords);
 
-			if(hex != null && type == AOEHexType.Empty)
+			if(hex != null && type.HasFlag(AOEHexType.Empty))
 			{
 				yield return hex;
 			}
@@ -90,7 +90,25 @@ public abstract class TargetedAbilityState : AbilityState
 		{
 			Hex hex = GameController.Instance.Map.GetHex(coords);
 
-			if(hex != null && type == AOEHexType.Red)
+			if(hex != null && type.HasFlag(AOEHexType.Red))
+			{
+				yield return hex;
+			}
+		}
+	}
+
+	public IEnumerable<Hex> GetMarkedAOEHexes()
+	{
+		if(AOEHexes == null)
+		{
+			yield break;
+		}
+
+		foreach((Vector2I coords, AOEHexType type) in AOEHexes)
+		{
+			Hex hex = GameController.Instance.Map.GetHex(coords);
+
+			if(hex != null && type.HasFlag(AOEHexType.Marked))
 			{
 				yield return hex;
 			}
@@ -429,6 +447,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			abilityState.AOEHexes = aoeHexes;
 		}
 
+		int targetsOutOfAOE = 0;
+
 		Action<List<Figure>> getValidTargets = figures =>
 		{
 			if(abilityState.AbilityTarget == Target.Self)
@@ -445,6 +465,16 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 				{
 					figures.AddRange(redAOEHex.GetHexObjectsOfType<Figure>());
 				}
+				if (targetsOutOfAOE < abilityState.AbilityTargets - 1)
+                {
+                    HexCache.Clear();
+					RangeHelper.FindHexesInRange(performer.Hex, abilityState.SingleTargetRange, true, HexCache);
+
+					foreach(Hex hex in HexCache)
+					{
+						figures.AddRange(hex.GetHexObjectsOfType<Figure>());
+					}
+                }
 			}
 			else if(TargetHex != null)
 			{
@@ -599,6 +629,10 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			//abilityState.Target = target;
 			abilityState.UniqueTargetedFigures.AddIfNew(target);
 			abilityState.TargetedHexes.AddIfNew(target.Hex);
+			if (!abilityState.GetRedAOEHexes().Contains(target.Hex))
+            {
+                targetsOutOfAOE++;
+            }
 
 			abilityState.SetPerformed();
 
@@ -643,7 +677,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 			if(abilityState.AbilityAOEPattern != null)
 			{
-				if(abilityState.TargetedHexes.Count == abilityState.AbilityAOEPattern.Hexes.Count)
+				if(abilityState.TargetedHexes.Count == abilityState.AbilityAOEPattern.Hexes.Count && targetsOutOfAOE == abilityState.AbilityTargets - 1)
 				{
 					break;
 				}
