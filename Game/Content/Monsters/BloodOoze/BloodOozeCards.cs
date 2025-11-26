@@ -115,7 +115,6 @@ public class BloodOozeAbilityCard2 : BloodOozeAbilityCard
 				}
 
 					state.SetPerformed();
-				}
 			})
 			.Build()),
 
