@@ -28,12 +28,7 @@ public class Starstruck : StarslingerCardModel<Starstruck.CardTop, Starstruck.Ca
 					ConditionAbility.Builder().WithConditions(Conditions.Bless).WithTarget(Target.Self).Build(),
 					AttackAbility.Builder().WithDamage(3).WithPierce(1).Build()
 				])
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-
-					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed;
-				})
+				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed)
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);

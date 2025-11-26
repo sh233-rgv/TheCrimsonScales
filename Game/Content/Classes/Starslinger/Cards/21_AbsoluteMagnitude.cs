@@ -64,12 +64,7 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 					}
 					state.SetPerformed();
 				})
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-
-					return state.ActionState.GetAbilityState<PushAbility.State>(0).SingleTargetStates.Any(state => state.PushHexes.Count > 0);
-				})
+				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<PushAbility.State>(0).SingleTargetStates.Any(state => state.PushHexes.Count > 0))
 				.Build())
 		];
 

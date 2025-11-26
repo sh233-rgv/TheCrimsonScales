@@ -54,11 +54,7 @@ public class CrashingFlare : StarslingerCardModel<CrashingFlare.CardTop, Crashin
 					await AbilityCmd.InfuseElement(Element.Light);
 					state.SetPerformed();
                 })
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-					return !state.Performer.IsDamaged();
-				})
+				.WithConditionalAbilityCheck(async state => !state.Performer.IsDamaged())
 				.Build())
 		];
 	}

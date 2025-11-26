@@ -90,11 +90,7 @@ public class PlasmaticPower : StarslingerCardModel<PlasmaticPower.CardTop, Plasm
 
 					await GDTask.CompletedTask;
                 })
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-					return !state.Performer.IsDamaged();
-				})
+				.WithConditionalAbilityCheck(async state => !state.Performer.IsDamaged())
 				.Build())
 		];
 

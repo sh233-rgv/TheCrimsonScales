@@ -49,12 +49,7 @@ public class Sungaze : StarslingerCardModel<Sungaze.CardTop, Sungaze.CardBottom>
 				.Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-
-					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed;
-				})
+				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed)
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);

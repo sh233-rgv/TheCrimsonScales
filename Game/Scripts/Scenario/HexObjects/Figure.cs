@@ -218,7 +218,7 @@ public abstract partial class Figure : HexObject
 			new ScenarioEvents.FigureTurnEnding.Parameters(this), this);
 
 		// Little hack here to make sure looting is performed at the right time
-		if (Hex != null)
+		if(Hex != null)
         {
 			await EndOfTurnLooting();  
         }

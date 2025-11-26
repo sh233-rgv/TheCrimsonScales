@@ -23,12 +23,7 @@ public class LuminousBlitz : StarslingerCardModel<LuminousBlitz.CardTop, Luminou
 				.Build()),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-
-					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed;
-				})
+				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed)
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);

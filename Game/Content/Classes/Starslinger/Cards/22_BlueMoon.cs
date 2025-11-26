@@ -31,12 +31,7 @@ public class BlueMoon : StarslingerCardModel<BlueMoon.CardTop, BlueMoon.CardBott
 				.Build()),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(4)
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-
-					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed;
-				})
+				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed)
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);

@@ -25,12 +25,7 @@ public class ShootingStars : StarslingerCardModel<ShootingStars.CardTop, Shootin
 				.Build()),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-
-					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed;
-				})
+				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed)
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);

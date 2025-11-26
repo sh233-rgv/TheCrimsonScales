@@ -32,12 +32,7 @@ public class ShiftingChasma : StarslingerCardModel<ShiftingChasma.CardTop, Shift
 						.WithDamage(2)
 						.Build()
 				])
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-
-					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed;
-				})
+				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed)
 				.WithTarget(Target.Allies | Target.TargetAll)
 				.WithCustomGetTargets((abilityState, list) =>
 				{

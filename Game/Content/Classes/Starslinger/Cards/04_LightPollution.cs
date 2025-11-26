@@ -39,12 +39,7 @@ public class LightPollution : StarslingerCardModel<LightPollution.CardTop, Light
 					}
 				})
 				.WithTarget(Target.Allies | Target.TargetAll)
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-
-					return state.ActionState.GetAbilityState<ConditionAbility.State>(0).Performed;
-				})
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					ConditionAbility.State conditionAbilityState = abilityState.ActionState.GetAbilityState<ConditionAbility.State>(0);

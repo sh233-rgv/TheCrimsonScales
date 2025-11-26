@@ -120,12 +120,7 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 						.Build()
 				])
 				.WithRange(3)
-				.WithConditionalAbilityCheck(async state => 
-				{
-					await GDTask.CompletedTask;
-
-					return !state.ActionState.GetAbilityState<GrantAbility.State>(0).GetCustomValue<bool>(this, "ChoseGrant");
-				})
+				.WithConditionalAbilityCheck(async state => !state.ActionState.GetAbilityState<GrantAbility.State>(0).GetCustomValue<bool>(this, "ChoseGrant"))
 				.Build())
 		];
 	}

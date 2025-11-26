@@ -98,7 +98,6 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 						async parameters =>
 						{
 							await AbilityCmd.RemoveCondition(state.Performer, Conditions.Invisible);
-							
 						}
 					);
 				})

@@ -33,12 +33,7 @@ public class Equinox : StarslingerCardModel<Equinox.CardTop, Equinox.CardBottom>
 				.Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Bless)
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-
-					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed;
-				})
+				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed)
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);
@@ -82,11 +77,7 @@ public class Equinox : StarslingerCardModel<Equinox.CardTop, Equinox.CardBottom>
 						}
 					)
 				)
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-					return !state.Performer.IsDamaged();
-				})
+				.WithConditionalAbilityCheck(async state => !state.Performer.IsDamaged())
 				.Build())
 		];
 
