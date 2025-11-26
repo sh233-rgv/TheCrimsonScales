@@ -30,6 +30,11 @@
 		return $"res://Art/Icons/Elements/{element.ToString()}.svg";
 	}
 
+	public static string GetAnyElement()
+	{
+		return $"res://Art/Icons/Elements/Any.svg";
+	}
+
 	public static string GetItem(ItemType itemType)
 	{
 		return $"res://Art/Icons/Items/{itemType.ToString()}.svg";

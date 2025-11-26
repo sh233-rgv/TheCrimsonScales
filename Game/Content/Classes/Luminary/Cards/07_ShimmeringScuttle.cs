@@ -52,7 +52,8 @@ public class ShimmeringScuttle : LuminaryCardModel<ShimmeringScuttle.CardTop, Sh
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
-						canApply: parameters => parameters.AbilityState.GetCustomValue<bool>("Glow", "Glow Ability") &&
+						canApply: parameters => parameters.AbilityState.Performer == state.Performer &&
+							parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability") &&
 							parameters.AbilityState is TargetedAbilityState targetedAbilityState && targetedAbilityState.AbilityTarget.HasFlag(Target.Enemies),
 						apply: async parameters =>
                         {

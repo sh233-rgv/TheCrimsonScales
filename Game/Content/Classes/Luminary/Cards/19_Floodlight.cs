@@ -6,7 +6,7 @@ using Godot;
 public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardBottom>
 {
 	public override string Name => "Floodlight";
-	public override int Level => 1;
+	public override int Level => 4;
 	public override int Initiative => 71;
 	protected override int AtlasIndex => 19;
 
@@ -95,8 +95,6 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
 						async parameters =>
 						{
 							parameters.SetCanInfuse(false);
-							ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
-							//TODO: Probably a better way to not duplicate any elements than this ^
 							await AbilityCmd.InfuseWildElement(state.Authority, state);
 							Element element = state.UseSlotIndex == 0 ? Element.Light : (state.UseSlotIndex == 1) ? Element.Fire : Element.Ice;
 							await AbilityCmd.InfuseElement(element, state.Authority, state);

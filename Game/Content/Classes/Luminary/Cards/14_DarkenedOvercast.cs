@@ -80,7 +80,7 @@ public class DarkenedOvercast : LuminaryCardModel<DarkenedOvercast.CardTop, Dark
 					int glowsPerformed = 0;
 					ScenarioEvents.AbilityPerformedEvent.Subscribe(state, this,
 						canApply: canApplyParameters => canApplyParameters.Performer == state.Performer &&
-							canApplyParameters.AbilityState.GetCustomValue<bool>("Glow", "Glow Ability"),
+							canApplyParameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
 						async applyParameters =>
 						{
 							glowsPerformed++;

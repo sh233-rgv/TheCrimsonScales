@@ -32,8 +32,13 @@ public class LuminaryModel : ClassModel
 		ModelDB.Card<DarkenedOvercast>(),
 		ModelDB.Card<Luminescence>(),
 		ModelDB.Card<BlackenedRage>(),
-		ModelDB.Card<ShinyDiversion>(),
+		ModelDB.Card<ShiningDiversion>(),
 		ModelDB.Card<EmpoweringRays>(),
 		ModelDB.Card<Floodlight>(),
+		ModelDB.Card<ColorfulWavelengths>(),
+		ModelDB.Card<ShadowClaws>(),
+		ModelDB.Card<EncompassingAura>(),
+		ModelDB.Card<ImposingBrilliance>(),
+		ModelDB.Card<GammaEnergy>(),
 	];
 }

@@ -48,7 +48,8 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
-						canApply: parameters => parameters.AbilityState.GetCustomValue<bool>("Glow", "Glow Ability"),
+						canApply: parameters => parameters.AbilityState.Performer == state.Performer &&
+							parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
 						apply: async parameters =>
                         {
                             if (parameters.AbilityState is TargetedAbilityState targetedAbilityState)
@@ -67,27 +68,7 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
 					await GDTask.CompletedTask;
 				})
 				.Build()),
-			new AbilityCardAbility(OtherAbility.Builder()
-				.WithPerformAbility(async state =>
-				{
-					foreach(AbilityCard abilityCard in ((Character)state.Performer).Cards)
-					{
-						AbilityState glowState =
-							abilityCard.ActiveActionStates
-								.SelectMany(a => a.AbilityStates)
-								.FirstOrDefault(s => s.GetCustomValue<bool>("Glow", "Active Glow"));
-						if (glowState != null)
-						{
-							Ability ability = glowState.GetCustomValue<Ability>("Glow", "Glow Perform");
-							ActionState actionState = new(state.Performer,[ability]);
-							await actionState.Perform();
-							state.SetPerformed();
-							break;
-						}
-					}
-					await GDTask.CompletedTask;
-				})
-				.Build())
+			PerformGlow()
 		];
 
 		protected override int XP => 2;

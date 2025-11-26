@@ -62,7 +62,8 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.AbilityEndedEvent.Subscribe(state, this,
-						canApply: parameters => parameters.AbilityState.GetCustomValue<bool>("Glow", "Glow Ability"),
+						canApply: parameters => parameters.AbilityState.Performer == state.Performer &&
+							parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
 						apply: async parameters =>
                         {
 							if (parameters.AbilityState is TargetedAbilityState targetedAbilityState && targetedAbilityState.GetRedAOEHexes != null)

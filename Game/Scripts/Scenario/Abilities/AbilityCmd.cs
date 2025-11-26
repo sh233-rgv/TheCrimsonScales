@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 using Fractural.Tasks;
 using Godot;
@@ -527,6 +526,7 @@ public static class AbilityCmd
 			subscriptions.Add(ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.New(
 				applyFunction: async parameters =>
 				{
+					ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
 					await InfuseElement(possibleElement, authority, state);
 				},
 				effectType: EffectType.SelectableMandatory,

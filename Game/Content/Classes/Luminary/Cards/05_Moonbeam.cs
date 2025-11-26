@@ -13,7 +13,16 @@ public class Moonbeam : LuminaryCardModel<Moonbeam.CardTop, Moonbeam.CardBottom>
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow(Element.Dark, ConditionAbility.Builder()
+			Glow([Element.Dark], GlowAbility)
+		];
+
+		protected override IEnumerable<Element> Elements => [Element.Ice];
+		protected override int XP => 1;
+		protected override bool Persistent => true;
+
+		protected Ability GlowAbility(List<Element> elements)
+        {
+            return ConditionAbility.Builder()
 				.WithConditions(Conditions.Curse)
 				.WithAOEPattern(new AOEPattern(
 					[
@@ -24,16 +33,13 @@ public class Moonbeam : LuminaryCardModel<Moonbeam.CardTop, Moonbeam.CardBottom>
 				))
 				.WithOnAbilityStarted(async state =>
 				{
-					state.SetCustomValue("Glow", "Glow Ability", true);
+					state.SetCustomValue(state.Performer, "Glow Ability", true);
+					state.SetCustomValue(state.Performer, "Consumed Elements", elements);
 
 					await GDTask.CompletedTask;
 				})
-				.Build())
-		];
-
-		protected override IEnumerable<Element> Elements => [Element.Ice];
-		protected override int XP => 1;
-		protected override bool Persistent => true;
+				.Build();
+        }
 	}
 
 	public class CardBottom : LuminaryCardSide
