@@ -37,10 +37,9 @@ public partial class CardView : Control
 
 		_tokens.Clear();
 
-		if(GameController.Instance != null)
+		AbilityCard abilityCard = GameController.Instance?.CardManager.Get(savedAbilityCard);
+		if(abilityCard != null)
 		{
-			AbilityCard abilityCard = GameController.Instance.CardManager.Get(savedAbilityCard);
-
 			foreach(ActionState activeActionState in abilityCard.ActiveActionStates)
 			{
 				foreach(AbilityState abilityState in activeActionState.AbilityStates)
