@@ -473,7 +473,7 @@ public partial class GameController : SceneController<GameController>
 
 				if(undoType == UndoType.Turn &&
 				   (newScenario.PromptAnswers.Count + 1 == CurrentTurnTakerPromptIndex ||
-					newScenario.PromptAnswers.Count + 1 == PreviousTurnTakerPromptIndex))
+				    newScenario.PromptAnswers.Count + 1 == PreviousTurnTakerPromptIndex))
 				{
 					break;
 				}
