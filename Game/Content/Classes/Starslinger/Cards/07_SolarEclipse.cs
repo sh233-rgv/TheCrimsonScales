@@ -79,12 +79,11 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 				)
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f), Heal),
-					new UseSlot(new Vector2(0.36999783f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f), Heal),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f), Heal),
-					//TODO: Fix positions
+					new UseSlot(new Vector2(0.26499918f, 0.7735108f), Heal),
+					new UseSlot(new Vector2(0.47649646f, 0.7735108f), GainXP),
+					new UseSlot(new Vector2(0.6810046f, 0.7735108f), Heal),
+					new UseSlot(new Vector2(0.37349778f, 0.9015168f), GainXP),
+					new UseSlot(new Vector2(0.58199996f, 0.9015168f), Heal),
 				])
 				.Build())
 		];

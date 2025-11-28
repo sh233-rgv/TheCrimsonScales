@@ -50,12 +50,12 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 				)
 				.WithUseSlots(
 					[
-						new UseSlot(new Vector2(0.16650043f, 0.3549993f), Heal),
-						new UseSlot(new Vector2(0.36999783f, 0.3549993f), GainXP),
-						new UseSlot(new Vector2(0.57749975f, 0.3549993f), Heal),
-						new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP),
-						new UseSlot(new Vector2(0.57749975f, 0.3549993f), Heal),
-						new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP),
+						new UseSlot(new Vector2(0.28899887f, 0.2855002f), Heal),
+						new UseSlot(new Vector2(0.49849617f, 0.2855002f), GainXP),
+						new UseSlot(new Vector2(0.7070058f, 0.2855002f), Heal),
+						new UseSlot(new Vector2(0.18350022f, 0.42349842f), GainXP),
+						new UseSlot(new Vector2(0.3959975f, 0.42349842f), Heal),
+						new UseSlot(new Vector2(0.60500103f, 0.42349842f), GainXP),
 					]
 				)
 				.Build())

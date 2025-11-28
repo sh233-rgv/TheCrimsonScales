@@ -53,7 +53,7 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 					Figure swapped = await AbilityCmd.SelectFigure(state, list => {
 						GD.Print(attackAbilityState.UniqueTargetedFigures.Count);
 						list.AddRange(attackAbilityState.UniqueTargetedFigures.Where(figure => !figure.IsDead &&
-							figure.CanSwapWith(state.Performer) && state.Performer.CanSwapWith(figure)));
+							AbilityCmd.CanSwap(state.Performer, figure)));
 						}, mandatory: false, hintText: "Choose an enemy to swap hexes with");
 					if (swapped == null)
 					{
@@ -93,7 +93,7 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 					}
 					Figure swapped = await AbilityCmd.SelectFigure(state, list => {
 						list.AddRange(performerRoom.Hexes.SelectMany(hex => hex.GetChildrenOfType<Figure>()).Where(figure => figure != state.Performer &&
-							figure.CanSwapWith(state.Performer) && state.Performer.CanSwapWith(figure)));
+							AbilityCmd.CanSwap(state.Performer, figure)));
 						}, mandatory: false, hintText: "Choose a figure to swap hexes with");
 					if (swapped == null)
 					{

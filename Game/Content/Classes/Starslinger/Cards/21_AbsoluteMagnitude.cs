@@ -25,7 +25,7 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 					Figure swapped = await AbilityCmd.SelectFigure(state, list => {
 						list.AddRange(attackAbilityState.UniqueTargetedFigures.Where(figure => !figure.IsDead &&
-							figure.CanSwapWith(state.Performer) && state.Performer.CanSwapWith(figure)));
+							AbilityCmd.CanSwap(state.Performer, figure)));
 						}, mandatory: false, hintText: "Choose an enemy to swap hexes with");
 					if (swapped == null)
 					{

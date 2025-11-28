@@ -471,6 +471,34 @@ public static class AbilityCmd
 		}
 	}
 
+	public static bool CanSwap(Figure figure1, Figure figure2)
+	{
+		if(figure1.Hex.TryGetHexObjectOfType(out Obstacle obstacle) && !figure2.IsFlying())
+		{
+			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
+				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
+					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figure2, figure1.Hex, obstacle, true));
+
+			if(!canEnterObstacleParameters.CanEnter)
+			{
+				return false;
+			}
+		}
+
+		if(figure2.Hex.TryGetHexObjectOfType(out Obstacle obstacle2) && !figure1.IsFlying())
+		{
+			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
+				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
+					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figure1, figure2.Hex, obstacle2, true));
+
+			if(!canEnterObstacleParameters.CanEnter)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public static async GDTask<bool> HasPerformedAbility(AbilityState abilityState, int abilityIndex)
 	{
 		await GDTask.CompletedTask;

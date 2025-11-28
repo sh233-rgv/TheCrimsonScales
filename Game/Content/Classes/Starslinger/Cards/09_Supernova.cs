@@ -71,10 +71,9 @@ public class Supernova : StarslingerCardModel<Supernova.CardTop, Supernova.CardB
 				})
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.2889934f, 0.38399956f), GainXP),
-					new UseSlot(new Vector2(0.5f, 0.38399956f), Light),
-					new UseSlot(new Vector2(0.7025001f, 0.38399956f), GainXP)
-					//TODO: Fix use slot positions
+					new UseSlot(new Vector2(0.3649924f, 0.7585101f), GainXP),
+					new UseSlot(new Vector2(0.5739941f, 0.7585101f), Light),
+					new UseSlot(new Vector2(0.47049105f, 0.8870161f), GainXP)
 				])
 				.Build())
 		];
