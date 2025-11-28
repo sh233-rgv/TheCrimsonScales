@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dlqet8t2xgyh" path="res://Scenes/Scenario/CharacterStartHex.tscn" id="9_6v84j"]
 [ext_resource type="PackedScene" uid="uid://dgovtiuaxinv" path="res://Content/OverlayTiles/Obstacles/Bush1H.tscn" id="9_hqk2m"]
 [ext_resource type="PackedScene" uid="uid://c7pr2ras6mvmt" path="res://Content/OverlayTiles/Traps/BearTrap1H.tscn" id="10_5r4do"]
-[ext_resource type="PackedScene" uid="uid://66brdtbbrdoj" path="res://Content/OverlayTiles/Obstacles/Tree3H.tscn" id="11_rv36e"]
+[ext_resource type="PackedScene" uid="uid://co1tcon7xucp" path="res://Content/OverlayTiles/Obstacles/Boulder3H.tscn" id="11_rv36e"]
 
 [node name="Scenario" instance=ExtResource("1_ewhex")]
 
@@ -45,7 +45,7 @@ MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner2" parent="Map/Rooms/Room" index="8" instance=ExtResource("8_5bvco")]
-position = Vector2(327.358, -189)
+position = Vector2(-109.119, -189)
 MonsterModelId = "MONSTER_MODEL.LIVING_BONES"
 MonsterType2Characters = 1
 MonsterType3Characters = 1
@@ -76,6 +76,5 @@ position = Vector2(-327.358, 189)
 [node name="BearTrap1H" parent="Map/Rooms/Room" index="16" instance=ExtResource("10_5r4do")]
 position = Vector2(-436.477, 378)
 
-[node name="Tree3H" parent="Map/Rooms/Room" index="17" instance=ExtResource("11_rv36e")]
-position = Vector2(436.477, -378)
-rotation = 1.0472
+[node name="Boulder3H" parent="Map/Rooms/Room" index="17" instance=ExtResource("11_rv36e")]
+position = Vector2(327.358, -189)
