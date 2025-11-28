@@ -149,7 +149,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 						EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Strengthen)),
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Remove {Icons.Inline(Icons.GetCondition(Conditions.Strengthen))} " +
-							$"to add +1\u00A0{Icons.Inline(Icons.Attack)} to your first attack this round"));
+							$"to add +1{Icons.Inline(Icons.Attack)} to your first attack this round"));
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
