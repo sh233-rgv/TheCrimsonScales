@@ -1,0 +1,329 @@
+{
+  "PartyName": "Party Time",
+  "StartingGroup": 0,
+  "Characters": [
+    {
+      "ClassModelId": "CLASS_MODEL.FIRE_KNIGHT_MODEL",
+      "Level": 1,
+      "LevelUpInProgress": false,
+      "AvailableAbilityCards": [
+        {
+          "ModelId": "FIRE_KNIGHT_CARD_MODEL`2.FORCIBLE_ENTRY"
+        },
+        {
+          "ModelId": "FIRE_KNIGHT_CARD_MODEL`2.BACKUP_SUPPORT"
+        },
+        {
+          "ModelId": "FIRE_KNIGHT_CARD_MODEL`2.COLLECTIVE_COMBAT"
+        },
+        {
+          "ModelId": "FIRE_KNIGHT_CARD_MODEL`2.CONTROLLED_AGGRESSION"
+        },
+        {
+          "ModelId": "FIRE_KNIGHT_CARD_MODEL`2.RAPID_RESCUE"
+        },
+        {
+          "ModelId": "FIRE_KNIGHT_CARD_MODEL`2.PLAYING_WITH_FIRE"
+        },
+        {
+          "ModelId": "FIRE_KNIGHT_CARD_MODEL`2.FIRE_WHIRL"
+        },
+        {
+          "ModelId": "FIRE_KNIGHT_CARD_MODEL`2.LIGHT_IRONS"
+        },
+        {
+          "ModelId": "FIRE_KNIGHT_CARD_MODEL`2.FIELD_MEDIC"
+        },
+        {
+          "ModelId": "FIRE_KNIGHT_CARD_MODEL`2.FIERCE_LEADER"
+        },
+        {
+          "ModelId": "FIRE_KNIGHT_CARD_MODEL`2.COORDINATED_ATTACK"
+        },
+        {
+          "ModelId": "FIRE_KNIGHT_CARD_MODEL`2.LOYAL_COMPANION"
+        },
+        {
+          "ModelId": "FIRE_KNIGHT_CARD_MODEL`2.PROTECTIVE_INSTINCT"
+        }
+      ],
+      "HandAbilityCardIndices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "Gold": 30,
+      "XP": 0,
+      "Name": "Vuur Knecht",
+      "ItemIds": [
+        "PROSPERITY1_ITEM.POISON_DAGGER"
+      ],
+      "EquippedBaseSlotItems": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "EquippedSmallItems": [
+        "PROSPERITY2_ITEM.MINOR_MANA_POTION",
+        null
+      ]
+    },
+    {
+      "ClassModelId": "CLASS_MODEL.CHIEFTAIN_MODEL",
+      "Level": 1,
+      "LevelUpInProgress": false,
+      "AvailableAbilityCards": [
+        {
+          "ModelId": "CHIEFTAIN_CARD_MODEL`2.CATASTROPHIC_CATTLE"
+        },
+        {
+          "ModelId": "CHIEFTAIN_CARD_MODEL`2.OUTRUN_THE_ENEMY"
+        },
+        {
+          "ModelId": "CHIEFTAIN_CARD_MODEL`2.PIERCING_DARTS"
+        },
+        {
+          "ModelId": "CHIEFTAIN_CARD_MODEL`2.PIPE_TOMAHAWK"
+        },
+        {
+          "ModelId": "CHIEFTAIN_CARD_MODEL`2.RESURRECTION"
+        },
+        {
+          "ModelId": "CHIEFTAIN_CARD_MODEL`2.SKINNING_KNIFE"
+        },
+        {
+          "ModelId": "CHIEFTAIN_CARD_MODEL`2.SLOW_AND_STEADY"
+        },
+        {
+          "ModelId": "CHIEFTAIN_CARD_MODEL`2.SUCKER_PUNCH"
+        },
+        {
+          "ModelId": "CHIEFTAIN_CARD_MODEL`2.SNIFFING_HOUND"
+        },
+        {
+          "ModelId": "CHIEFTAIN_CARD_MODEL`2.SOUL_WHISPERER"
+        },
+        {
+          "ModelId": "CHIEFTAIN_CARD_MODEL`2.PREPARED_RATIONS"
+        },
+        {
+          "ModelId": "CHIEFTAIN_CARD_MODEL`2.HUNTERS_MARK"
+        },
+        {
+          "ModelId": "CHIEFTAIN_CARD_MODEL`2.MOUNDED_SIGHT"
+        }
+      ],
+      "HandAbilityCardIndices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "Gold": 30,
+      "XP": 0,
+      "Name": "Dierenzitter",
+      "ItemIds": [],
+      "EquippedBaseSlotItems": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "EquippedSmallItems": []
+    }
+  ],
+  "SavedClasses": {
+    "CLASS_MODEL.BOMBARD_MODEL": {
+      "Unlocked": true,
+      "Retired": false
+    },
+    "CLASS_MODEL.FIRE_KNIGHT_MODEL": {
+      "Unlocked": true,
+      "Retired": false
+    },
+    "CLASS_MODEL.HIEROPHANT_MODEL": {
+      "Unlocked": true,
+      "Retired": false
+    },
+    "CLASS_MODEL.MIREFOOT_MODEL": {
+      "Unlocked": true,
+      "Retired": false
+    }
+  },
+  "SavedScenarioProgresses": {
+    "ScenarioProgresses": {
+      "SCENARIO_MODEL.SCENARIO001": {
+        "Discovered": true,
+        "Unlocked": true,
+        "Completed": false,
+        "CollectedTreasureChestNumbers": [],
+        "CustomValues": {}
+      },
+      "SCENARIO_MODEL.TEST_SCENARIO": {
+        "Discovered": false,
+        "Unlocked": false,
+        "Completed": false,
+        "CollectedTreasureChestNumbers": [],
+        "CustomValues": {}
+      }
+    }
+  },
+  "SavedItems": {
+    "PROSPERITY3_ITEM.AMULET_OF_LIFE": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "G_H_DESIGNS_ITEM.CIRCLET_OF_ELEMENTS": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.HIDE_ARMOR": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.LEATHER_ARMOR": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "JOT_L_ITEM.WEATHERED_BOOTS": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.WINGED_SHOES": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "G_H_DESIGNS_ITEM.SHOES_OF_HAPPINESS": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY2_ITEM.BOOTS_OF_SPEED": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.HEATER_SHIELD": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.POISON_DAGGER": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY5_ITEM.HOOKED_CHAIN": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "JOT_L_ITEM.IRON_SPEAR": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.MINOR_HEALING_POTION": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.MINOR_POWER_POTION": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY2_ITEM.MINOR_MANA_POTION": {
+      "UnlockedCount": 2,
+      "StockCount": 2
+    }
+  },
+  "SavedScenario": {
+    "Id": "be23b902-d03d-4f69-ab17-d438e7106953",
+    "AppVersion": "0.4.1",
+    "ScenarioModelId": "SCENARIO_MODEL.TEST_SCENARIO",
+    "Seed": 0,
+    "ScenarioLevel": 1,
+    "IsOnline": false,
+    "ScenarioSetupState": {
+      "CharacterScenarioSetupStates": [
+        {
+          "StartHexCoords": {
+            "X": -1,
+            "Y": 1
+          }
+        },
+        {
+          "StartHexCoords": {
+            "X": 0,
+            "Y": 1
+          }
+        }
+      ],
+      "Completed": true
+    },
+    "CardSelectionStates": [
+      {
+        "CharacterCardSelectionStates": [
+          {
+            "ChosenCardReferenceIds": [
+              21,
+              19
+            ],
+            "LongResting": false
+          },
+          {
+            "ChosenCardReferenceIds": [
+              37,
+              30
+            ],
+            "LongResting": false
+          }
+        ],
+        "CurrentPromptIndex": 0,
+        "SyncedActions": [],
+        "Completed": true
+      }
+    ],
+    "PromptAnswers": [
+      {
+        "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
+        "CardReferenceId": 30,
+        "AbilityCardSection": 0
+      },
+      {
+        "$type": "HexSelectionPrompt+Answer, Game",
+        "CoordSets": [
+          {
+            "X": 0,
+            "Y": 2
+          }
+        ]
+      },
+      {
+        "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
+        "CardReferenceId": 37,
+        "AbilityCardSection": 3
+      },
+      {
+        "$type": "MovePrompt+Answer, Game",
+        "Path": [
+          {
+            "X": 0,
+            "Y": 2
+          }
+        ],
+        "MoveSpent": 1
+      }
+    ]
+  },
+  "CollectedPartyAchievements": []
+}
