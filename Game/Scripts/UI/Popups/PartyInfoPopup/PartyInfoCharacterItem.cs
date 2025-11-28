@@ -28,7 +28,8 @@ public partial class PartyInfoCharacterItem : Control
 				case ItemState.Spent:
 					modulateColor = UIHelper.SpentColor;
 					break;
-				case ItemState.Consumed | ItemState.UnrecoverablyConsumed:
+				case ItemState.Consumed:
+				case ItemState.UnrecoverablyConsumed:
 					modulateColor = UIHelper.LostColor;
 					break;
 				default:

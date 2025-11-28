@@ -30,9 +30,9 @@ public class MantleOfPurity : CS1Item
 			{
 				await Use(async user =>
 				{
-					foreach(ConditionModel conditionModel in parameters.ConditionModels)
+					for(int i = parameters.ConditionModels.Count - 1; i >= 0; i--)
 					{
-						parameters.PreventCondition(conditionModel);
+						parameters.PreventCondition(parameters.ConditionModels[i]);
 					}
 
 					await GDTask.CompletedTask;

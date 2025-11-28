@@ -8,7 +8,7 @@ public class BottledMoonlight : CS1Item
 	public override int ShopCount => 2;
 	public override int Cost => 50;
 	public override ItemType ItemType => ItemType.Small;
-	public override ItemUseType ItemUseType => ItemUseType.Spend;
+	public override ItemUseType ItemUseType => ItemUseType.Consume;
 
 	protected override int AtlasIndex => 31;
 

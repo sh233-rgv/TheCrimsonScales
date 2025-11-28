@@ -16,7 +16,7 @@ public class CuriousPendant : CS1Item
 		base.Subscribe();
 
 		SubscribeDuringTurn(
-			canApply: character => character == Owner && character.TurnMovedHexCount == 0,
+			canApply: character => character == Owner,
 			apply: async character =>
 			{
 				await Use(async user =>
@@ -36,7 +36,6 @@ public class CuriousPendant : CS1Item
 					{
 						await AbilityCmd.ReturnToHand(abilityCard);
 					}
-					await GDTask.CompletedTask;
 				});
 			}
 		);

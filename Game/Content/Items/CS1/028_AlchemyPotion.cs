@@ -3,7 +3,7 @@ using System.Linq;
 
 public class AlchemyPotion : CS1Item
 {
-	public override string Name => "AlchemyPotion";
+	public override string Name => "Alchemy Potion";
 	public override int ItemNumber => 28;
 	public override int ShopCount => 2;
 	public override int Cost => 20;
@@ -24,13 +24,15 @@ public class AlchemyPotion : CS1Item
 				{
 					Hex hex = await AbilityCmd.SelectHex(character, list =>
 						list.AddRange(RangeHelper.GetHexesInRange(character.Hex, 1)
-							.Where(hex => hex.HasHexObjectOfType<Obstacle>())));
+							.SelectMany(hex => hex.GetHexObjectsOfType<Obstacle>())
+							.Where(obstacle => !obstacle.CannotBeDestroyed)
+							.Select(obstacle => obstacle.Hex)));
                  
 					if(hex == null)
 					{
 						return;
 					}
-					if(await AbilityCmd.DestroyObstacle(hex.GetHexObjectOfType<Obstacle>()))
+					if(await AbilityCmd.TryDestroyObstacle(hex.GetHexObjectOfType<Obstacle>()))
                     {
 						await AbilityCmd.SpawnCoin(hex);
                     }

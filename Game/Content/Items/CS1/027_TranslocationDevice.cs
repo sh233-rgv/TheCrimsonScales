@@ -22,7 +22,8 @@ public class TranslocationDevice : CS1Item
 			{
 				await Use(async user =>
 				{
-					Figure swapped = await AbilityCmd.SelectFigure(character, list => {
+					Figure swapped = await AbilityCmd.SelectFigure(character, list =>
+						{
 						list.AddRange(RangeHelper.GetFiguresInRange(character.Hex, 5, false).Where(figure => character.EnemiesWith(figure) &&
 							figure.CanSwapWith(character) && character.CanSwapWith(figure)));
 						}, mandatory: false, hintText: "Choose an enemy to swap hexes with");
@@ -33,9 +34,8 @@ public class TranslocationDevice : CS1Item
 
 					Hex performerHex = character.Hex;
 					Hex swappedHex = swapped.Hex;
-					character.RemoveFromMap();
-					await AbilityCmd.EnterHex(new OtherAbility.State(), swapped, character, performerHex, true);
-					await AbilityCmd.EnterHex(new OtherAbility.State(), character, character, swappedHex, true);
+					await AbilityCmd.EnterHex(null, swapped, character, performerHex, true);
+					await AbilityCmd.EnterHex(null, character, character, swappedHex, true);
 				});
 			}
 		);

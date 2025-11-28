@@ -24,12 +24,9 @@ public class DrainingGreaves : CS1Item
 				{
 					Figure figure = await AbilityCmd.SelectFigure(character, list =>
 					{
-						foreach(Figure figure in RangeHelper.GetFiguresInRange(character.Hex, 1))
+						foreach(Figure figure in RangeHelper.GetFiguresInRange(character.Hex, 1).Where(figure => figure.EnemiesWith(character)))
 						{
-							if(character.EnemiesWith(figure) && figure.HasCondition(Chainguard.Shackle))
-							{
-								list.Add(figure);
-							}
+							list.Add(figure);
 						}
 					});
 

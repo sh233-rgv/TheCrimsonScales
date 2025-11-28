@@ -77,7 +77,7 @@ public abstract partial class Figure : HexObject
 
 		object figureEnteredHexEventSubscriber = new object();
 		ScenarioEvents.FigureEnteredHexEvent.Subscribe(this, figureEnteredHexEventSubscriber,
-			enteredHexParameters => enteredHexParameters.AbilityState is MoveAbility.State or PullSelfAbility.State,
+			enteredHexParameters => enteredHexParameters.PotentialAbilityState is MoveAbility.State or PullSelfAbility.State,
 			async enteredHexParameters =>
 			{
 				TurnMovedHexCount++;
@@ -367,10 +367,8 @@ public abstract partial class Figure : HexObject
 				return false;
 			}
 		}
-
 		return true;
 	}
-
 
 	public virtual void AddCoin()
 	{

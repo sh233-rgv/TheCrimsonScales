@@ -19,7 +19,7 @@ public class LadderAssault : FireKnightLevelUpCardModel<LadderAssault.CardTop, L
 				{
 					ScenarioEvents.FigureEnteredHexEvent.Subscribe(state, this,
 						parameters =>
-							parameters.AbilityState == state &&
+							parameters.PotentialAbilityState == state &&
 							parameters.Hex.HasHexObjectOfType<Ladder>(),
 						async parameters =>
 						{

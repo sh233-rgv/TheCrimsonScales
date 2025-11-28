@@ -1,8 +1,6 @@
-using System.Data;
-using System.Linq;
 public class IntoxicatingPotion : CS1Item
 {
-	public override string Name => "AlchemyPotion";
+	public override string Name => "Intoxicating Potion";
 	public override int ItemNumber => 29;
 	public override int ShopCount => 1;
 	public override int Cost => 15;

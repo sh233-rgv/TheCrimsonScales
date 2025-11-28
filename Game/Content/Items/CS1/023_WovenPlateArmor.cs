@@ -31,7 +31,7 @@ public class WovenPlateArmor : CS1Item
 				await Use(async user =>
 				{
 					state.SingleTargetSetHasDisadvantage();
-					SingleTargetState singleTargetState = state.SingleTargetStates.Where(s => s.Target == Owner).ToList()[0];
+					SingleTargetState singleTargetState = state.SingleTargetStates.FirstOrDefault(s => s.Target == Owner);
 					ScenarioEvents.SufferDamageEvent.Subscribe(this, _subscriber,
 						canApply: parameters => parameters.FromAttack && parameters.PotentialAttackAbilityState == state && parameters.Figure == Owner,
 						apply: async parameters =>
@@ -58,7 +58,5 @@ public class WovenPlateArmor : CS1Item
 				});
 			}
 		);
-
-
 	}
 }

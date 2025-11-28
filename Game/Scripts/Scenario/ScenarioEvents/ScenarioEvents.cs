@@ -476,9 +476,9 @@ public class ScenarioEvents
 
 	public class FigureEnteredHex : ScenarioEvent<FigureEnteredHex.Parameters>
 	{
-		public class Parameters(AbilityState abilityState, Figure figure)
-			: ParametersBase<AbilityState>(abilityState)
+		public class Parameters(AbilityState potentialAbilityState, Figure figure) : ParametersBase
 		{
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Figure Figure { get; } = figure;
 
 			public Hex Hex => Figure.Hex;

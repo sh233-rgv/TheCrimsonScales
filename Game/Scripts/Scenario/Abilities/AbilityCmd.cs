@@ -222,7 +222,7 @@ public static class AbilityCmd
 		await GDTask.CompletedTask;
 	}
 
-	public static async GDTask<bool> DestroyObstacle(Obstacle obstacle)
+	public static async GDTask<bool> TryDestroyObstacle(Obstacle obstacle)
 	{
 		if(!obstacle.CannotBeDestroyed)
 		{

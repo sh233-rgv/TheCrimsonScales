@@ -43,5 +43,4 @@ public class ShoesOfPhasing : CS1Item
 		
 		ScenarioCheckEvents.CanPassEnemyCheckEvent.Unsubscribe(this, _subscriber);
 	}
-
 }

@@ -1,8 +1,8 @@
 ﻿public enum ItemUseType
 {
-	ConsumeUnrecoverable = -1,
-	Consume = 0,
-	Spend = 1,
-	Always = 2,
-	Flip = 3,
+	Spend = 0,
+	Consume = 1,
+	ConsumeUnrecoverable = 2,
+	Always = 3,
+	Flip = 4,
 }
