@@ -139,6 +139,27 @@ public class ScenarioCheckEvents
 	private readonly CanPassEnemyCheck _canPassEnemyCheck = new CanPassEnemyCheck();
 	public static CanPassEnemyCheck CanPassEnemyCheckEvent => GameController.Instance.ScenarioCheckEvents._canPassEnemyCheck;
 
+	public class CanPassAllyCheck : ScenarioCheckEvent<CanPassAllyCheck.Parameters>
+	{
+		public class Parameters(AbilityState abilityState, Figure figure, Figure alliedFigure)
+			: ParametersBase
+		{
+			public AbilityState AbilityState { get; } = abilityState;
+			public Figure Figure { get; } = figure;
+			public Figure AlliedFigure { get; } = alliedFigure;
+
+			public bool CanPass { get; private set; } = true;
+
+			public void SetCannotPass()
+			{
+				CanPass = false;
+			}
+		}
+	}
+
+	private readonly CanPassAllyCheck _canPassAllyCheck = new CanPassAllyCheck();
+	public static CanPassAllyCheck CanPassAllyCheckEvent => GameController.Instance.ScenarioCheckEvents._canPassAllyCheck;
+
 	public class MoveCanStopAtCheck : ScenarioCheckEvent<MoveCanStopAtCheck.Parameters>
 	{
 		public class Parameters(MoveAbility.State abilityState, Hex hex)
@@ -463,13 +484,7 @@ public class ScenarioCheckEvents
 		{
 			public Figure Figure { get; } = figure;
 
-			public bool IsMounted { get; private set; } = false;
 			public Figure Mount { get; private set; } = null;
-
-			public void SetIsMounted()
-			{
-				IsMounted = true;
-			}
 
 			public void SetMount(Figure mount)
 			{
@@ -538,4 +553,22 @@ public class ScenarioCheckEvents
 
 	private readonly CanTakeTurnCheck _canTakeTurnCheck = new CanTakeTurnCheck();
 	public static CanTakeTurnCheck CanTakeTurnCheckEvent => GameController.Instance.ScenarioCheckEvents._canTakeTurnCheck;
+
+	public class SpawnCoinCheck : ScenarioCheckEvent<SpawnCoinCheck.Parameters>
+	{
+		public class Parameters(Figure figure)
+			: ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+			public bool SpawnCoin { get; private set; } = true;
+
+			public void SetSpawnCoin(bool spawnCoin)
+			{
+				SpawnCoin = spawnCoin;
+			}
+		}
+	}
+
+	private readonly SpawnCoinCheck _spawnCoinCheck = new SpawnCoinCheck();
+	public static SpawnCoinCheck SpawnCoinCheckEvent => GameController.Instance.ScenarioCheckEvents._spawnCoinCheck;
 }
