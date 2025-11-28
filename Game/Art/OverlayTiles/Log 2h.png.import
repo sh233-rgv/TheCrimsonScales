@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfnxcoqsnp2kk"
-path="res://.godot/imported/Dark Pit 2h copy.png-d3ea72d78a67b4cb7f4e216d15b7b6be.ctex"
+uid="uid://b5bc64mli7vpt"
+path="res://.godot/imported/Log 2h.png-969eb5e36b0dc1b6fed11c1d27f44a32.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://OverlayTileCreator/Tiles/Dark Pit 2h copy.png"
-dest_files=["res://.godot/imported/Dark Pit 2h copy.png-d3ea72d78a67b4cb7f4e216d15b7b6be.ctex"]
+source_file="res://Art/OverlayTiles/Log 2h.png"
+dest_files=["res://.godot/imported/Log 2h.png-969eb5e36b0dc1b6fed11c1d27f44a32.ctex"]
 
 [params]
 
