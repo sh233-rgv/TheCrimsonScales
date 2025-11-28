@@ -40,7 +40,7 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 				return GDTask.CompletedTask;
 			}
 		);
-		
+
 		// Mounted summon goes just before the character
 		ScenarioCheckEvents.InitiativeCheckEvent.Subscribe(figure, this,
 			parameters => parameters.Figure == figure && _mounted,
@@ -56,6 +56,7 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 				{
 					_mounted = true;
 					figure.UpdateInitiative();
+					parameters.Figure.UpdateIsMounted();
 
 					if(onMounted != null)
 					{
@@ -66,6 +67,7 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 				{
 					_mounted = false;
 					figure.UpdateInitiative();
+					parameters.Figure.UpdateIsMounted();
 
 					if(onDismounted != null)
 					{
@@ -78,28 +80,24 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 		// Returning mounted status for other effects and abilities
 		ScenarioCheckEvents.IsMountedCheckEvent.Subscribe(figure, this,
 			parameters => parameters.Figure == characterOwner,
-			async parameters =>
-			{	
-				if(_mounted) 
+			parameters =>
+			{
+				if(_mounted)
 				{
 					parameters.SetMount(figure);
 				}
-
-				await GDTask.CompletedTask;
 			}
 		);
 
 		// Mounted summon can open doors
 		ScenarioCheckEvents.CanOpenDoorsCheckEvent.Subscribe(figure, this,
 			parameters => parameters.Figure == figure,
-			async parameters =>
-			{	
-				if(_mounted) 
+			parameters =>
+			{
+				if(_mounted)
 				{
 					parameters.SetCanOpenDoors();
 				}
-
-				await GDTask.CompletedTask;
 			}
 		);
 	}
