@@ -1,0 +1,41 @@
+[gd_scene load_steps=11 format=3 uid="uid://dikwguar40ifq"]
+
+[ext_resource type="Texture2D" uid="uid://8hp1f1qtd2yr" path="res://OverlayTileCreator/OverlayTileMask2H.svg" id="1_cikni"]
+[ext_resource type="Script" uid="uid://cxqshwgq4sj75" path="res://OverlayTileCreator/OverlayTileCreator.cs" id="1_xu81x"]
+[ext_resource type="Texture2D" uid="uid://bv2lu33rs5msc" path="res://OverlayTileCreator/Tiles/Corridor - Earth 2h.png" id="2_6l1dk"]
+[ext_resource type="Texture2D" uid="uid://o8faug4q6x7u" path="res://OverlayTileCreator/Tiles/Corridor - Man Made Stone 2h.png" id="3_dj2yd"]
+[ext_resource type="Texture2D" uid="uid://dmj3kcx48o1ng" path="res://OverlayTileCreator/OverlayTileStroke2H.svg" id="3_ukowq"]
+[ext_resource type="Texture2D" uid="uid://clrl7egx0nq7p" path="res://OverlayTileCreator/Tiles/Corridor - Natural Stone 2h.png" id="4_7ubdl"]
+[ext_resource type="Texture2D" uid="uid://dpcja1w23rw8t" path="res://OverlayTileCreator/Tiles/Corridor - Wood 2h.png" id="5_notka"]
+[ext_resource type="Texture2D" uid="uid://bfnxcoqsnp2kk" path="res://OverlayTileCreator/Tiles/Dark Pit 2h copy.png" id="6_fu3ms"]
+[ext_resource type="Texture2D" uid="uid://cu370ks53swdr" path="res://OverlayTileCreator/Tiles/Log 2h.png" id="7_vqbxq"]
+[ext_resource type="Texture2D" uid="uid://hhchvfwedbor" path="res://OverlayTileCreator/Tiles/Wall Section - Dungeon 2h.png" id="8_dj2yd"]
+
+[node name="OverlayTileCreator" type="Node2D" node_paths=PackedStringArray("_camera", "_2HSprite")]
+script = ExtResource("1_xu81x")
+_camera = NodePath("Camera2D")
+_2HTextures = Array[Texture2D]([ExtResource("2_6l1dk"), ExtResource("3_dj2yd"), ExtResource("4_7ubdl"), ExtResource("5_notka"), ExtResource("6_fu3ms"), ExtResource("7_vqbxq"), ExtResource("8_dj2yd")])
+_2HSprite = NodePath("Tile/2H/Mask/Sprite")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3.75, 3.75)
+
+[node name="Tile" type="Node2D" parent="."]
+
+[node name="2H" type="Node2D" parent="Tile"]
+
+[node name="Mask" type="Sprite2D" parent="Tile/2H"]
+clip_children = 1
+position = Vector2(18, 0)
+texture = ExtResource("1_cikni")
+
+[node name="Sprite" type="Sprite2D" parent="Tile/2H/Mask"]
+position = Vector2(-18, 0)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("3_dj2yd")
+
+[node name="Stroke" type="Sprite2D" parent="Tile/2H"]
+visible = false
+self_modulate = Color(0.133333, 0.0627451, 0.0313726, 1)
+position = Vector2(18, 0)
+texture = ExtResource("3_ukowq")
