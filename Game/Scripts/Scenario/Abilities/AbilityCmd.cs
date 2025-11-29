@@ -205,12 +205,12 @@ public static class AbilityCmd
 	}
 
 	public static async GDTask RemoveAllChill(Figure target)
-    {
-        while (target.HasCondition(Conditions.Chill))
-        {
+	{
+		while(target.HasCondition(Conditions.Chill))
+		{
 			await RemoveCondition(target, Conditions.Chill);
-        }
-    }
+		}
+	}
 
 	public static async GDTask GainXP(Figure figure, int xp)
 	{
@@ -427,9 +427,15 @@ public static class AbilityCmd
 				.Select(referenceId => GameController.Instance.ReferenceManager.Get<AbilityCard>(referenceId)).ToList();
 	}
 
-	public static async GDTask EnterHex(AbilityState state, Figure figure, Figure authority, Hex hex, bool triggerHexEffects)
+	public static async GDTask ExitHex(AbilityState potentialAbilityState, Figure figure, Figure authority)
 	{
-		figure.SetOriginHexAndRotation(hex);
+		await ScenarioEvents.FigureExitingHexEvent.CreatePrompt(
+			new ScenarioEvents.FigureExitingHex.Parameters(potentialAbilityState, figure), authority);
+	}
+
+	public static async GDTask EnterHex(AbilityState state, Figure figure, Figure authority, Hex hex, bool triggerHexEffects, bool setPosition)
+	{
+		figure.SetOriginHexAndRotation(hex, setPosition: setPosition);
 
 		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(state, figure), authority);
 

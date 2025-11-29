@@ -29,7 +29,7 @@ public partial class Summon : Figure
 		_summonViewComponent = GetViewComponent<SummonViewComponent>();
 	}
 
-	public void Spawn(SummonStats stats, Character characterOwner, string name, string texturePath)
+	public async GDTask Spawn(SummonStats stats, Character characterOwner, string name, string texturePath)
 	{
 		Stats = stats;
 		CharacterOwner = characterOwner;
@@ -56,7 +56,7 @@ public partial class Summon : Figure
 		{
 			foreach(FigureTrait trait in Stats.Traits)
 			{
-				trait.Activate(this);
+				await trait.Activate(this);
 			}
 		}
 
@@ -164,7 +164,7 @@ public partial class Summon : Figure
 		{
 			foreach(FigureTrait trait in Stats.Traits)
 			{
-				trait.Deactivate(this);
+				await trait.Deactivate(this);
 			}
 		}
 
