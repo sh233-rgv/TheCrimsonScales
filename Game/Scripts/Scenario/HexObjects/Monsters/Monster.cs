@@ -37,7 +37,7 @@ public partial class Monster : Figure
 		_monsterViewComponent = GetViewComponent<MonsterViewComponent>();
 	}
 
-	public void Spawn(MonsterGroup monsterGroup, MonsterType monsterType, int standeeNumber, bool summon, int? monsterLevel)
+	public async GDTask Spawn(MonsterGroup monsterGroup, MonsterType monsterType, int standeeNumber, bool summon, int? monsterLevel)
 	{
 		MonsterGroup = monsterGroup;
 		MonsterType = monsterType;
@@ -83,7 +83,7 @@ public partial class Monster : Figure
 		{
 			foreach(FigureTrait trait in Stats.Traits)
 			{
-				trait.Activate(this);
+				await trait.Activate(this);
 			}
 		}
 
@@ -115,7 +115,7 @@ public partial class Monster : Figure
 		{
 			foreach(FigureTrait trait in Stats.Traits)
 			{
-				trait.Deactivate(this);
+				await trait.Deactivate(this);
 			}
 		}
 

@@ -129,7 +129,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 			Summon summon = summonScene.Instantiate<Summon>();
 			GameController.Instance.Map.AddChild(summon);
 			await summon.Init(targetedHex);
-			summon.Spawn(_summonStats, (Character)abilityState.Performer, _name, _texturePath);
+			await summon.Spawn(_summonStats, (Character)abilityState.Performer, _name, _texturePath);
 			abilityState.SetSummon(summon);
 
 			summon.Scale = Vector2.Zero;

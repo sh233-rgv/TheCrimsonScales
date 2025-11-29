@@ -114,11 +114,14 @@ public partial class Character : Figure
 		}
 	}
 
-	public override void _ExitTree()
+	public override void _Notification(int what)
 	{
-		base._ExitTree();
+		base._Notification(what);
 
-		AppController.Instance.Options.AnimatedCharacters.ValueChangedEvent -= OnAnimatedCharactersChanged;
+		if(what == NotificationPredelete)
+		{
+			AppController.Instance.Options.AnimatedCharacters.ValueChangedEvent -= OnAnimatedCharactersChanged;
+		}
 	}
 
 	public void OnRoundCardsChanged()

@@ -90,12 +90,12 @@ public abstract partial class Figure : HexObject
 		ScenarioCheckEvents.ShieldCheckEvent.SubscribersChangedEvent += OnShieldSubscriptionsChanged;
 		ScenarioCheckEvents.RetaliateCheckEvent.SubscribersChangedEvent += OnRetaliateSubscriptionsChanged;
 		ScenarioCheckEvents.FlyingCheckEvent.SubscribersChangedEvent += OnFlyingSubscriptionsChanged;
-		ScenarioCheckEvents.IsMountedCheckEvent.SubscribersChangedEvent += OnIsMountedSubscriptionsChanged;
+		//ScenarioCheckEvents.IsMountedCheckEvent.SubscribersChangedEvent += OnIsMountedSubscriptionsChanged;
 
 		OnShieldSubscriptionsChanged();
 		OnRetaliateSubscriptionsChanged();
 		OnFlyingSubscriptionsChanged();
-		OnIsMountedSubscriptionsChanged();
+		//OnIsMountedSubscriptionsChanged();
 	}
 
 	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
@@ -109,7 +109,7 @@ public abstract partial class Figure : HexObject
 		ScenarioCheckEvents.ShieldCheckEvent.SubscribersChangedEvent -= OnShieldSubscriptionsChanged;
 		ScenarioCheckEvents.RetaliateCheckEvent.SubscribersChangedEvent -= OnRetaliateSubscriptionsChanged;
 		ScenarioCheckEvents.FlyingCheckEvent.SubscribersChangedEvent -= OnFlyingSubscriptionsChanged;
-		ScenarioCheckEvents.IsMountedCheckEvent.SubscribersChangedEvent -= OnIsMountedSubscriptionsChanged;
+		//ScenarioCheckEvents.IsMountedCheckEvent.SubscribersChangedEvent -= OnIsMountedSubscriptionsChanged;
 	}
 
 	public void SetMaxHealth(int maxHealth)
@@ -359,13 +359,13 @@ public abstract partial class Figure : HexObject
 		CanTakeTurn = true;
 	}
 
-	public void UpdateIsMounted()
-	{
-		ScenarioCheckEvents.IsMountedCheck.Parameters parameters =
-			ScenarioCheckEvents.IsMountedCheckEvent.Fire(new ScenarioCheckEvents.IsMountedCheck.Parameters(this));
-
-		SetMounted(parameters.Mount);
-	}
+	// public void UpdateIsMounted()
+	// {
+	// 	ScenarioCheckEvents.IsMountedCheck.Parameters parameters =
+	// 		ScenarioCheckEvents.IsMountedCheckEvent.Fire(new ScenarioCheckEvents.IsMountedCheck.Parameters(this));
+	//
+	// 	SetMounted(parameters.Mount);
+	// }
 
 	private void UpdateHealthProgressBar()
 	{
@@ -402,10 +402,10 @@ public abstract partial class Figure : HexObject
 		SetFlying(parameters.HasFlying);
 	}
 
-	private void OnIsMountedSubscriptionsChanged()
-	{
-		UpdateIsMounted();
-	}
+	// private void OnIsMountedSubscriptionsChanged()
+	// {
+	// 	UpdateIsMounted();
+	// }
 
 	private void SetShield(int shield, bool extraValue)
 	{
@@ -503,44 +503,45 @@ public abstract partial class Figure : HexObject
 		_flying = flying;
 	}
 
-	private void SetMounted(Figure mount)
-	{
-		if(mount == _mount)
-		{
-			return;
-		}
-
-		GD.Print(mount);
-
-		if(mount == null)
-		{
-			Reparent(GameController.Instance.Map);
-			this.TweenScale(Vector2.One, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
-		}
-		else
-		{
-			Reparent(mount);
-			this.TweenScale(0.3f * Vector2.One, 0.3f).SetEasing(Easing.InBack).PlayFastForwardable();
-		}
-
-		// bool wasVisible = _flying;
-		// bool shouldBeVisible = flying;
-
-		// if(!wasVisible && shouldBeVisible)
-		// {
-		// 	_figureViewComponent.Flying.TweenScale(1f, 0.2f).SetEasing(Easing.OutBack).PlayFastForwardable();
-		// }
-		// else if(wasVisible && !shouldBeVisible)
-		// {
-		// 	_figureViewComponent.Flying.TweenScale(0f, 0.2f).SetEasing(Easing.InBack).PlayFastForwardable();
-		// }
-		// else
-		// {
-		// 	_figureViewComponent.Flying.TweenPulse(1.4f, 0.2f).PlayFastForwardable();
-		// }
-
-		_mount = mount;
-	}
+	// private void SetMounted(Figure mount)
+	// {
+	// 	if(mount == _mount)
+	// 	{
+	// 		return;
+	// 	}
+	//
+	// 	if(mount == null)
+	// 	{
+	// 		Reparent(GameController.Instance.Map);
+	// 		this.TweenScale(Vector2.One, 0.3f).SetEasing(Easing.InOutBack).PlayFastForwardable();
+	// 		//this.TweenScale(Vector2.One, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
+	// 	}
+	// 	else
+	// 	{
+	// 		Reparent(mount.GetNode<Node2D>(MountTrait.MountedAnchorName));
+	// 		this.TweenPosition(Vector2.Zero, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
+	// 		this.TweenScale(Vector2.One, 0.3f).SetEasing(Easing.InOutBack).PlayFastForwardable();
+	// 		//this.TweenScale(0.6f * Vector2.One, 0.3f).SetEasing(Easing.InBack).PlayFastForwardable();
+	// 	}
+	//
+	// 	// bool wasVisible = _flying;
+	// 	// bool shouldBeVisible = flying;
+	//
+	// 	// if(!wasVisible && shouldBeVisible)
+	// 	// {
+	// 	// 	_figureViewComponent.Flying.TweenScale(1f, 0.2f).SetEasing(Easing.OutBack).PlayFastForwardable();
+	// 	// }
+	// 	// else if(wasVisible && !shouldBeVisible)
+	// 	// {
+	// 	// 	_figureViewComponent.Flying.TweenScale(0f, 0.2f).SetEasing(Easing.InBack).PlayFastForwardable();
+	// 	// }
+	// 	// else
+	// 	// {
+	// 	// 	_figureViewComponent.Flying.TweenPulse(1.4f, 0.2f).PlayFastForwardable();
+	// 	// }
+	//
+	// 	_mount = mount;
+	// }
 
 	private void ReorderConditions()
 	{
