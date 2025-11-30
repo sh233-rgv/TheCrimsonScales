@@ -542,54 +542,38 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 			EffectCollection duringTargetedAbilityEffectCollection = CreateDuringTargetedAbilityEffectCollection(abilityState);
 
-			int figureReferenceId;
+			Figure target;
 
 			if(abilityState.Authority is Character)
 			{
-				bool autoSelectIfOne = Mandatory ||
-				                       abilityState.AbilityTarget == Target.Self ||
-				                       (TargetHex != null && abilityState.AbilityAOEPattern == null);
-				TargetSelectionPrompt.Answer targetAnswer = await PromptManager.Prompt(
-					new TargetSelectionPrompt(getValidTargets, autoSelectIfOne, Mandatory, duringTargetedAbilityEffectCollection,
-						() => _getTargetingHintText(abilityState)), abilityState.Authority);
-
-				if(targetAnswer.Skipped)
-				{
-					break;
-				}
-
-				figureReferenceId = targetAnswer.FigureReferenceId;
+				bool autoSelectIfOne =
+					Mandatory ||
+					abilityState.AbilityTarget == Target.Self ||
+					(TargetHex != null && abilityState.AbilityAOEPattern == null);
+				target = await AbilityCmd.SelectFigure(abilityState, getValidTargets, Mandatory, autoSelectIfOne, null,
+					() => _getTargetingHintText(abilityState));
 			}
 			else
 			{
-				//List<FocusNode> bestFocusNodes = await abilityState.Performer.GetBestFocusNodes();
-				//Figure focus = bestFocusNodes.Count > 0 ? bestFocusNodes[0].Focus : null;
 				Figure focus = await abilityState.ActionState.GetFocus(abilityState);
 
 				MonsterTargetSelectionPrompt.Answer targetAnswer = await PromptManager.Prompt(
 					new MonsterTargetSelectionPrompt(getValidTargets, true, focus, duringTargetedAbilityEffectCollection,
 						() => _getTargetingHintText(abilityState)), abilityState.Authority);
 
-				if(targetAnswer.Skipped)
-				{
-					break;
-				}
-
-				figureReferenceId = targetAnswer.FigureReferenceId;
+				target = targetAnswer.Skipped ? null : GameController.Instance.ReferenceManager.Get<Figure>(targetAnswer.FigureReferenceId);
 			}
 
-			Figure target = GameController.Instance.ReferenceManager.Get<Figure>(figureReferenceId);
+			if(target == null)
+			{
+				break;
+			}
+
 			abilityState.AddSingleTargetState(target);
-			//abilityState.Target = target;
 			abilityState.UniqueTargetedFigures.AddIfNew(target);
 			abilityState.TargetedHexes.AddIfNew(target.Hex);
 
 			abilityState.SetPerformed();
-
-			// if(duringTargetedAbilityParameters != null)
-			// {
-			// 	SyncDuringTargetedAbilityParameters(abilityState, duringTargetedAbilityParameters);
-			// }
 
 			await AfterTargetConfirmedBeforeConditionsApplied(abilityState, target);
 
