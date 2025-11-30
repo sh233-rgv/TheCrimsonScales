@@ -34,7 +34,7 @@ public partial class FigureViewComponent : HexObjectViewComponent
 
 	[Export]
 	public GpuParticles2D TurnStartPS { get; private set; }
-	
+
 	[Export]
 	public Node2D ActivePS { get; set; }
 }
