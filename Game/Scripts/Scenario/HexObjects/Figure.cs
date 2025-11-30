@@ -17,7 +17,6 @@ public abstract partial class Figure : HexObject
 	private int _retaliate;
 
 	private bool _flying;
-	private Figure _mount;
 
 	private GTween _shieldTween;
 	private GTween _retaliateTween;
@@ -361,14 +360,6 @@ public abstract partial class Figure : HexObject
 		RoundPerformedActionStates.Clear();
 	}
 
-	// public void UpdateIsMounted()
-	// {
-	// 	ScenarioCheckEvents.IsMountedCheck.Parameters parameters =
-	// 		ScenarioCheckEvents.IsMountedCheckEvent.Fire(new ScenarioCheckEvents.IsMountedCheck.Parameters(this));
-	//
-	// 	SetMounted(parameters.Mount);
-	// }
-
 	private void UpdateHealthProgressBar()
 	{
 		float t = (float)Health / MaxHealth;
@@ -405,11 +396,6 @@ public abstract partial class Figure : HexObject
 
 		SetFlying(parameters.HasFlying);
 	}
-
-	// private void OnIsMountedSubscriptionsChanged()
-	// {
-	// 	UpdateIsMounted();
-	// }
 
 	private void SetShield(int shield, bool extraValue)
 	{
@@ -506,46 +492,6 @@ public abstract partial class Figure : HexObject
 
 		_flying = flying;
 	}
-
-	// private void SetMounted(Figure mount)
-	// {
-	// 	if(mount == _mount)
-	// 	{
-	// 		return;
-	// 	}
-	//
-	// 	if(mount == null)
-	// 	{
-	// 		Reparent(GameController.Instance.Map);
-	// 		this.TweenScale(Vector2.One, 0.3f).SetEasing(Easing.InOutBack).PlayFastForwardable();
-	// 		//this.TweenScale(Vector2.One, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
-	// 	}
-	// 	else
-	// 	{
-	// 		Reparent(mount.GetNode<Node2D>(MountTrait.MountedAnchorName));
-	// 		this.TweenPosition(Vector2.Zero, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
-	// 		this.TweenScale(Vector2.One, 0.3f).SetEasing(Easing.InOutBack).PlayFastForwardable();
-	// 		//this.TweenScale(0.6f * Vector2.One, 0.3f).SetEasing(Easing.InBack).PlayFastForwardable();
-	// 	}
-	//
-	// 	// bool wasVisible = _flying;
-	// 	// bool shouldBeVisible = flying;
-	//
-	// 	// if(!wasVisible && shouldBeVisible)
-	// 	// {
-	// 	// 	_figureViewComponent.Flying.TweenScale(1f, 0.2f).SetEasing(Easing.OutBack).PlayFastForwardable();
-	// 	// }
-	// 	// else if(wasVisible && !shouldBeVisible)
-	// 	// {
-	// 	// 	_figureViewComponent.Flying.TweenScale(0f, 0.2f).SetEasing(Easing.InBack).PlayFastForwardable();
-	// 	// }
-	// 	// else
-	// 	// {
-	// 	// 	_figureViewComponent.Flying.TweenPulse(1.4f, 0.2f).PlayFastForwardable();
-	// 	// }
-	//
-	// 	_mount = mount;
-	// }
 
 	private void ReorderConditions()
 	{
