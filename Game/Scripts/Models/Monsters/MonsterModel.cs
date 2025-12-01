@@ -13,7 +13,7 @@ public abstract class MonsterModel : AbstractModel<MonsterModel>
 	public abstract string AssetPath { get; }
 	public virtual string ScenePath => "res://Scenes/Scenario/Monsters/GenericMonster.tscn";
 	public virtual string PortraitTexturePath => $"{AssetPath}/Portrait.jpg";
-	public virtual string MapIconTexturePath => $"{AssetPath}/Icon.jpg";
+	public virtual string MapIconTexturePath => $"{AssetPath}/MapIcon.tres";
 
 	public abstract int MaxStandeeCount { get; }
 
