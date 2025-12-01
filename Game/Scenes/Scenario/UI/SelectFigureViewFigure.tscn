@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtu5tcpjoaulk"]
+
+[ext_resource type="Script" uid="uid://c4v3c5k4tns2l" path="res://Scripts/Scenario/UI/SelectFigureView/SelectFigureViewFigure.cs" id="1_183gj"]
+[ext_resource type="Texture2D" uid="uid://cuqpi0vkwqe6k" path="res://Art/Other/Hexagon.svg" id="2_183gj"]
+[ext_resource type="Texture2D" uid="uid://b2ovfdm40bjmj" path="res://Content/Classes/Mirefoot/MapIcon.tres" id="3_wxei3"]
+
+[node name="SelectFigureViewFigure" type="Control" node_paths=PackedStringArray("_sprite")]
+custom_minimum_size = Vector2(200, 230)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_183gj")
+_sprite = NodePath("FigureAnchor/Character/Mask/Sprite2D")
+
+[node name="FigureAnchor" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Character" type="Node2D" parent="FigureAnchor"]
+z_index = 10
+
+[node name="Hexagon" type="Sprite2D" parent="FigureAnchor/Character"]
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("2_183gj")
+
+[node name="Mask" type="Sprite2D" parent="FigureAnchor/Character"]
+clip_children = 1
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_183gj")
+
+[node name="Sprite2D" type="Sprite2D" parent="FigureAnchor/Character/Mask"]
+scale = Vector2(0.425, 0.425)
+texture = ExtResource("3_wxei3")

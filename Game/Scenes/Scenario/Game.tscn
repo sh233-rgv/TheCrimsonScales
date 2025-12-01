@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=3 uid="uid://dc3oqbu0m8jid"]
+[gd_scene load_steps=88 format=3 uid="uid://dc3oqbu0m8jid"]
 
 [ext_resource type="Script" uid="uid://bq2pwm6f32li" path="res://Scripts/Scenario/GameController.cs" id="1_arwlr"]
 [ext_resource type="Script" uid="uid://d1n1uymvup76h" path="res://Scripts/Scenario/TeleportPath/TeleportPath.cs" id="6_b23n0"]
@@ -44,15 +44,13 @@
 [ext_resource type="FontFile" uid="uid://c4k3lpnj0wc06" path="res://Fonts/PirataOne-Gloomhaven.ttf" id="39_namyh"]
 [ext_resource type="Texture2D" uid="uid://baxyetpl5ckux" path="res://Art/Icons/Elements/IceEmpty.svg" id="40_vfiu8"]
 [ext_resource type="Texture2D" uid="uid://cfqfsw8vo7b1g" path="res://Art/Icons/Elements/Ice.svg" id="41_4cwam"]
+[ext_resource type="PackedScene" uid="uid://dtu5tcpjoaulk" path="res://Scenes/Scenario/UI/SelectFigureViewFigure.tscn" id="41_b2ul3"]
 [ext_resource type="Script" uid="uid://begk81arqcfc7" path="res://Scripts/Scenario/UI/CardPlayView/CardPlayView.cs" id="41_o26ls"]
-[ext_resource type="Script" uid="uid://drmegsexuoe5x" path="res://Scripts/Scenario/HexObjects/Character.cs" id="41_rvn2g"]
 [ext_resource type="Texture2D" uid="uid://bce7mixa1xuo1" path="res://Art/Icons/Elements/EarthEmpty.svg" id="42_1a4nl"]
-[ext_resource type="Texture2D" uid="uid://cuqpi0vkwqe6k" path="res://Art/Other/Hexagon.svg" id="42_6gk2j"]
 [ext_resource type="PackedScene" uid="uid://mgukk8qswcte" path="res://Scenes/Scenario/UI/CardPlayCard.tscn" id="42_mpncg"]
 [ext_resource type="Script" uid="uid://cy2hbhsbjhwne" path="res://Scripts/Scenario/UI/HintTextView.cs" id="43_4rdk8"]
 [ext_resource type="Texture2D" uid="uid://d0g5payh74ftk" path="res://Art/Icons/Elements/Earth.svg" id="43_d62nx"]
 [ext_resource type="Script" uid="uid://ih8y81syt61c" path="res://Scripts/Scenario/UI/ShortRestView.cs" id="43_hvu7s"]
-[ext_resource type="Texture2D" uid="uid://ccaclqw4klh5w" path="res://Content/Classes/Mirefoot/Artwork.jpg" id="43_koqce"]
 [ext_resource type="Script" uid="uid://cefpesj2xqroj" path="res://Scripts/Scenario/UI/ScenarioLostView.cs" id="43_vn1gt"]
 [ext_resource type="Script" uid="uid://bxa761yuhmqnl" path="res://Scripts/Scenario/UI/ScenarioWonView.cs" id="44_7vhok"]
 [ext_resource type="Script" uid="uid://vywttw4n4suv" path="res://Scripts/Scenario/UI/AMDDrawView/AMDDrawView.cs" id="44_j1euc"]
@@ -642,6 +640,7 @@ mouse_filter = 2
 layout_mode = 1
 
 [node name="SelectFigureView" type="Control" parent="CanvasLayer/UI"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -673,37 +672,8 @@ mouse_filter = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="SelectFigureViewFigure" type="Control" parent="CanvasLayer/UI/SelectFigureView/Figures"]
-custom_minimum_size = Vector2(200, 230)
+[node name="SelectFigureViewFigure" parent="CanvasLayer/UI/SelectFigureView/Figures" instance=ExtResource("41_b2ul3")]
 layout_mode = 2
-
-[node name="FigureAnchor" type="Control" parent="CanvasLayer/UI/SelectFigureView/Figures/SelectFigureViewFigure"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Character" type="Node2D" parent="CanvasLayer/UI/SelectFigureView/Figures/SelectFigureViewFigure/FigureAnchor"]
-z_index = 10
-script = ExtResource("41_rvn2g")
-
-[node name="Hexagon" type="Sprite2D" parent="CanvasLayer/UI/SelectFigureView/Figures/SelectFigureViewFigure/FigureAnchor/Character"]
-scale = Vector2(0.9, 0.9)
-texture = ExtResource("42_6gk2j")
-
-[node name="Mask" type="Sprite2D" parent="CanvasLayer/UI/SelectFigureView/Figures/SelectFigureViewFigure/FigureAnchor/Character"]
-clip_children = 1
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("42_6gk2j")
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/UI/SelectFigureView/Figures/SelectFigureViewFigure/FigureAnchor/Character/Mask"]
-position = Vector2(0, 20)
-scale = Vector2(0.42, 0.42)
-texture = ExtResource("43_koqce")
 
 [node name="TreasureItemRewardView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_itemView")]
 layout_mode = 1

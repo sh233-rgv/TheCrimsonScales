@@ -4,4 +4,4 @@
 
 [resource]
 atlas = ExtResource("1_qplif")
-region = Rect2(260, 240, 400, 400)
+region = Rect2(160, 200, 600, 600)
