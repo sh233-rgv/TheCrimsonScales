@@ -106,6 +106,8 @@ public class TeleportAbility : Ability<TeleportAbility.State>
 
 		abilityState.SetPerformed();
 
+		await AbilityCmd.ExitHex(abilityState, performer, abilityState.Authority);
+
 		ScreenDistortion screenDistortion = GameController.Instance.ScreenDistortion;
 		screenDistortion.Open(GameController.Instance.CharacterManager.GetCharacter(0));
 
@@ -151,6 +153,6 @@ public class TeleportAbility : Ability<TeleportAbility.State>
 
 		screenDistortion.Close();
 
-		await AbilityCmd.EnterHex(abilityState, performer, abilityState.Authority, destination, true);
+		await AbilityCmd.EnterHex(abilityState, performer, abilityState.Authority, destination, true, true);
 	}
 }

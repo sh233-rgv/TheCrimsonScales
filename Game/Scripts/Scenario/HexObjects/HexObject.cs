@@ -104,7 +104,7 @@ public partial class HexObject : Node2D, IReferenced
 		await GDTask.CompletedTask;
 	}
 
-	public void SetOriginHexAndRotation(Hex originHex, int rotationIndex = 0)
+	public void SetOriginHexAndRotation(Hex originHex, int rotationIndex = 0, bool setPosition = true)
 	{
 		if(Hex != null)
 		{
@@ -124,7 +124,10 @@ public partial class HexObject : Node2D, IReferenced
 		{
 			RotationIndex = rotationIndex;
 			GlobalRotationDegrees = rotationIndex * 60f;
-			GlobalPosition = Hex.GlobalPosition;
+			if(setPosition)
+			{
+				SetGlobalPosition(Hex.GlobalPosition);
+			}
 
 			Hexes[0] = Hex;
 
@@ -200,7 +203,7 @@ public partial class HexObject : Node2D, IReferenced
 	}
 
 	public void SetCannotBeDestroyed(bool cannotBeDestroyed)
-    {
+	{
 		CannotBeDestroyed = cannotBeDestroyed;
-    }
+	}
 }

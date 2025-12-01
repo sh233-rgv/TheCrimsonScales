@@ -116,7 +116,9 @@ public class ScenarioCheckEvents
 	}
 
 	private readonly CanEnterHexWithFigureCheck _canEnterHexWithFigureCheck = new CanEnterHexWithFigureCheck();
-	public static CanEnterHexWithFigureCheck CanEnterHexWithFigureCheckEvent => GameController.Instance.ScenarioCheckEvents._canEnterHexWithFigureCheck;
+
+	public static CanEnterHexWithFigureCheck CanEnterHexWithFigureCheckEvent =>
+		GameController.Instance.ScenarioCheckEvents._canEnterHexWithFigureCheck;
 
 	public class CanPassEnemyCheck : ScenarioCheckEvent<CanPassEnemyCheck.Parameters>
 	{
@@ -494,6 +496,8 @@ public class ScenarioCheckEvents
 			public Figure Figure { get; } = figure;
 
 			public Figure Mount { get; private set; } = null;
+
+			public bool IsMounted => Mount != null;
 
 			public void SetMount(Figure mount)
 			{
