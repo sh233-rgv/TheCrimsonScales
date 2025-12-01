@@ -43,6 +43,8 @@ public abstract partial class Figure : HexObject
 	public int TurnMovedHexCount { get; private set; }
 	public List<ActionState> TurnPerformedActionStates { get; } = new List<ActionState>();
 
+	public abstract Texture2D MapIconTexture { get; }
+
 	public Color OutlineColor => _figureViewComponent.Outline.SelfModulate;
 
 	public bool IsDead => IsDestroyed;
@@ -89,10 +91,12 @@ public abstract partial class Figure : HexObject
 		ScenarioCheckEvents.ShieldCheckEvent.SubscribersChangedEvent += OnShieldSubscriptionsChanged;
 		ScenarioCheckEvents.RetaliateCheckEvent.SubscribersChangedEvent += OnRetaliateSubscriptionsChanged;
 		ScenarioCheckEvents.FlyingCheckEvent.SubscribersChangedEvent += OnFlyingSubscriptionsChanged;
+		//ScenarioCheckEvents.IsMountedCheckEvent.SubscribersChangedEvent += OnIsMountedSubscriptionsChanged;
 
 		OnShieldSubscriptionsChanged();
 		OnRetaliateSubscriptionsChanged();
 		OnFlyingSubscriptionsChanged();
+		//OnIsMountedSubscriptionsChanged();
 	}
 
 	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
@@ -106,6 +110,7 @@ public abstract partial class Figure : HexObject
 		ScenarioCheckEvents.ShieldCheckEvent.SubscribersChangedEvent -= OnShieldSubscriptionsChanged;
 		ScenarioCheckEvents.RetaliateCheckEvent.SubscribersChangedEvent -= OnRetaliateSubscriptionsChanged;
 		ScenarioCheckEvents.FlyingCheckEvent.SubscribersChangedEvent -= OnFlyingSubscriptionsChanged;
+		//ScenarioCheckEvents.IsMountedCheckEvent.SubscribersChangedEvent -= OnIsMountedSubscriptionsChanged;
 	}
 
 	public void SetMaxHealth(int maxHealth)
@@ -142,9 +147,9 @@ public abstract partial class Figure : HexObject
 	}
 
 	public bool IsDamaged()
-    {
+	{
 		return Health < MaxHealth;
-    }
+	}
 
 	public virtual void UpdateInitiative()
 	{
@@ -255,11 +260,6 @@ public abstract partial class Figure : HexObject
 	{
 		return HasCondition(global::Conditions.Wound1) || HasCondition(global::Conditions.Wound2);
 	}
-
-	// public bool HasInvisible()
-	// {
-	// 	return HasCondition(global::Conditions.Invisible);
-	// }
 
 	public ConditionModel GetCondition(ConditionModel conditionModel)
 	{

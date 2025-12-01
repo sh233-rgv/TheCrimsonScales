@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://di3gvdh16xmqi"
-path="res://.godot/imported/sabretooth_tiger_edit.png-bc6994eb77e78e09bfd078c010ce7984.ctex"
+path="res://.godot/imported/sabretooth_tiger.png-2b5c6656db73a0ae029815c496173f04.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Classes/Chieftain/Summons/sabretooth_tiger_edit.png"
-dest_files=["res://.godot/imported/sabretooth_tiger_edit.png-bc6994eb77e78e09bfd078c010ce7984.ctex"]
+source_file="res://Content/Classes/Chieftain/Summons/sabretooth_tiger.png"
+dest_files=["res://.godot/imported/sabretooth_tiger.png-2b5c6656db73a0ae029815c496173f04.ctex"]
 
 [params]
 
