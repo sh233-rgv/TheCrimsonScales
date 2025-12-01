@@ -67,31 +67,17 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 				{
 					_mounted = true;
 					figure.UpdateInitiative();
-					//parameters.Figure.UpdateIsMounted();
 
 					parameters.Figure.Reparent(figure.GetNode<Node2D>(MountedAnchorName));
 					parameters.Figure.TweenScale(1f, 0.3f).SetEasing(Easing.InOutBack).PlayFastForwardable();
-					await parameters.Figure.TweenPosition(Vector2.Zero, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardableAsync();
+					parameters.Figure.TweenPosition(Vector2.Zero, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
+					await GDTask.Delay(0.3f);
 
 					if(onMounted != null)
 					{
 						await onMounted(characterOwner, figure);
 					}
 				}
-				// else if(_mounted && parameters.Hex != figure.Hex)
-				// {
-				// 	_mounted = false;
-				// 	figure.UpdateInitiative();
-				// 	//parameters.Figure.UpdateIsMounted();
-				//
-				// 	parameters.Figure.Reparent(GameController.Instance.Map);
-				// 	await parameters.Figure.TweenScale(1f, 0.3f).SetEasing(Easing.InOutBack).PlayFastForwardableAsync();
-				//
-				// 	if(onDismounted != null)
-				// 	{
-				// 		await onDismounted(characterOwner, figure);
-				// 	}
-				// }
 			}
 		);
 
@@ -102,7 +88,6 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 				// Owner is exiting the hex the mount is on, so they are no longer mounted
 				_mounted = false;
 				figure.UpdateInitiative();
-				//parameters.Figure.UpdateIsMounted();
 
 				await Dismount(figure);
 			}
@@ -161,7 +146,8 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 
 		characterOwner.Reparent(GameController.Instance.Map);
 		characterOwner.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
-		await characterOwner.TweenGlobalPosition(characterOwner.Hex.GlobalPosition, 0.3f)
-			.SetEasing(Easing.InBack).PlayFastForwardableAsync();
+		characterOwner.TweenGlobalPosition(characterOwner.Hex.GlobalPosition, 0.2f)
+			.SetEasing(Easing.InBack).PlayFastForwardable();
+		await GDTask.Delay(0.3f);
 	}
 }

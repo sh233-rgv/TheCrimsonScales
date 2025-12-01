@@ -43,6 +43,8 @@ public abstract partial class Figure : HexObject
 	public int TurnMovedHexCount { get; private set; }
 	public List<ActionState> TurnPerformedActionStates { get; } = new List<ActionState>();
 
+	public abstract Texture2D MapIconTexture { get; }
+
 	public Color OutlineColor => _figureViewComponent.Outline.SelfModulate;
 
 	public bool IsDead => IsDestroyed;

@@ -7,7 +7,7 @@ public partial class Summon : Figure
 {
 	private SummonViewComponent _summonViewComponent;
 	private string _name;
-	private List<Ability> _abilities = new List<Ability>();
+	private readonly List<Ability> _abilities = new List<Ability>();
 
 	private ActionState _turnActionState;
 
@@ -20,6 +20,7 @@ public partial class Summon : Figure
 	public override string DebugName => _name;
 
 	public override AMDCardDeck AMDCardDeck => CharacterOwner.AMDCardDeck;
+	public override Texture2D MapIconTexture => _summonViewComponent.Sprite.Texture;
 
 	public override async GDTask Init(Hex originHex, int rotationIndex = 0, bool hexCanBeNull = false)
 	{
