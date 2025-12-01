@@ -86,7 +86,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 							);
 
 							applyParameters.Figure.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
-							await AbilityCmd.EnterHex(state, applyParameters.Figure, applyParameters.Figure, returnHex, true);
+							await AbilityCmd.EnterHex(state, applyParameters.Figure, applyParameters.Figure, returnHex, true, true);
 							
 							await characterToken.Destroy();
 							characterToken.TweenScale(0f, 0.15f).SetEasing(Easing.InBack).PlayFastForwardable();
