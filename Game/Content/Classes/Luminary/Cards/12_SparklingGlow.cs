@@ -53,8 +53,10 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 
 	public class CardBottom : LuminaryCardSide
 	{
+		
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
+			
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)
 				.Build()),
@@ -66,7 +68,7 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 							parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
 						apply: async parameters =>
                         {
-							if (parameters.AbilityState is TargetedAbilityState targetedAbilityState && targetedAbilityState.GetRedAOEHexes != null)
+							if (parameters.AbilityState is TargetedAbilityState targetedAbilityState && targetedAbilityState.GetRedAOEHexes().Any())
 							{
 								ActionState actionState = new ActionState(state.Performer, [
 									GrantAbility.Builder()

@@ -490,6 +490,8 @@ public static class AbilityCmd
 			ScenarioEvents.GenericChoice.ApplyFunction oldApplyFunction = subscription.ApplyFunction;
 			ScenarioEvents.GenericChoice.ApplyFunction newApplyFunction = async parameters =>
 			{
+				ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
+
 				if(oldApplyFunction != null)
 				{
 					await oldApplyFunction.Invoke(parameters);
@@ -508,8 +510,6 @@ public static class AbilityCmd
 		}
 
 		await ScenarioEvents.GenericChoiceEvent.CreatePrompt(new ScenarioEvents.GenericChoice.Parameters(), authority, hintText);
-
-		ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
 	}
 
 	public static GDTask InfuseWildElement(Figure authority, AbilityState state = null)
@@ -526,7 +526,6 @@ public static class AbilityCmd
 			subscriptions.Add(ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.New(
 				applyFunction: async parameters =>
 				{
-					ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
 					await InfuseElement(possibleElement, authority, state);
 				},
 				effectType: EffectType.SelectableMandatory,

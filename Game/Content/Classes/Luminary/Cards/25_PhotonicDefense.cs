@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
 public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, PhotonicDefense.CardBottom>
 {
 	public override string Name => "Photonic Defense";
-	public override int Level => 1;
+	public override int Level => 7;
 	public override int Initiative => 09;
 	protected override int AtlasIndex => 25;
 
@@ -122,40 +121,38 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			
-			new AbilityCardAbility(OtherAbility.Builder()
-				.WithPerformAbility(async state =>
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(3)
+				.Build()),
+			new AbilityCardAbility(OtherActiveAbility.Builder()
+				.WithOnActivate(async state =>
 				{
-					int consumedElements = 0;
-					for(int i = 0; i < 6; i++)
-					{
-						if (await AbilityCmd.TryConsumeElement((Element)i))
+					ScenarioEvents.AbilityEndedEvent.Subscribe(state, this,
+						canApply: parameters => parameters.AbilityState.Performer == state.Performer &&
+							parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
+						apply: async parameters =>
                         {
-							consumedElements++;
-							state.SetPerformed();
-                        }
-					}
-					state.SetCustomValue(this, "ConsumedElements", consumedElements);
+							ActionState actionState = new ActionState(state.Performer, [
+								MoveAbility.Builder()
+									.WithDistance(3)
+									.Build()
+							]);
+							await actionState.Perform();
+							await state.ActionState.RequestDiscardOrLose();
+							//TODO: Add Remove Immediately
+                        });
+					await GDTask.CompletedTask;
+				})
+				.WithOnDeactivate(async state =>
+				{
+					ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
 				})
 				.Build()),
-			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(0)
-				.WithTargets(0)
-				.WithRange(3)
-				.WithOnAbilityStarted(async state =>
-                {
-					int consumedElements = state.ActionState.GetAbilityState<OtherAbility.State>(0).GetCustomValue<int>(this, "ConsumedElements");
-                    state.AbilityAdjustAttackValue(consumedElements);
-					state.AdjustTargets(consumedElements);
-
-					await GDTask.CompletedTask;
-                })
-				.Build()),
 		];
 
-		protected override int XP => 2;
-		protected override bool Loss => true;
+		protected override IEnumerable<Element> Elements => [Element.Dark];
+		protected override bool Round => true;
 	}
 }

@@ -8,6 +8,7 @@ public partial class ConsumeElementEffectButton : EffectButton<ConsumeElementEff
 		public override string ScenePath => "res://Scenes/Scenario/UI/EffectButtons/ConsumeElementsEffectButton.tscn";
 
 		public IReadOnlyList<Element> Elements { get; }
+		public bool WildElement { get; } = false;
 
 		public Parameters(IReadOnlyList<Element> elements)
 		{
@@ -18,6 +19,11 @@ public partial class ConsumeElementEffectButton : EffectButton<ConsumeElementEff
 		{
 			Elements = [element];
 		}
+
+		public Parameters()
+        {
+            WildElement = true;
+        }
 	}
 
 	[Export]
@@ -36,13 +42,19 @@ public partial class ConsumeElementEffectButton : EffectButton<ConsumeElementEff
 	{
 		base.Init(parameters);
 
-		if(parameters.Elements.Count == 0)
+		if (parameters.WildElement)
+        {
+            _singleElementContainer.SetVisible(true);
+			_multipleElementsContainer.SetVisible(false);
+
+			_singleElementTextureRect.SetTexture(ResourceLoader.Load<Texture2D>(Icons.GetAnyElement()));
+        }
+		else if(parameters.Elements.Count == 0)
 		{
 			Log.Error("Trying to instantiate a consume element effect button without elements to consume.");
 			return;
 		}
-
-		if(parameters.Elements.Count == 1)
+		else if(parameters.Elements.Count == 1)
 		{
 			_singleElementContainer.SetVisible(true);
 			_multipleElementsContainer.SetVisible(false);

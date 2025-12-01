@@ -14,7 +14,8 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow([Element.Fire], GlowAbility)
+			Glow(new GlowAbilityModel([Element.Fire], GlowAbility,
+				$"Perform {Icons.Inline(Icons.Damage)}2 ability", Icons.Damage))
 		];
 		
 		protected override int XP => 1;

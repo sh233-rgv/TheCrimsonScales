@@ -13,7 +13,8 @@ public class HeatWaves : LuminaryCardModel<HeatWaves.CardTop, HeatWaves.CardBott
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow([Element.Fire], GlowAbility)
+			Glow(new GlowAbilityModel([Element.Fire], GlowAbility,
+				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Wound1))} ability", Icons.GetCondition(Conditions.Wound1)))
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Light];
@@ -35,7 +36,7 @@ public class HeatWaves : LuminaryCardModel<HeatWaves.CardTop, HeatWaves.CardBott
 				.WithOnAbilityStarted(async state =>
 				{
 					state.SetCustomValue(state.Performer, "Glow Ability", true);
-					state.SetCustomValue(state.Performer, "Consumed Elements", new List<Element>{Element.Fire});
+					state.SetCustomValue(state.Performer, "Consumed Elements", elements);
 
 					await GDTask.CompletedTask;
 				})

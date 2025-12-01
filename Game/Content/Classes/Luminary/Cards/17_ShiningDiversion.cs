@@ -13,7 +13,8 @@ public class ShiningDiversion : LuminaryCardModel<ShiningDiversion.CardTop, Shin
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow([Element.Light], GlowAbility)
+			Glow(new GlowAbilityModel([Element.Light], GlowAbility,
+				$"Perform granted {Icons.Inline(Icons.Shield)} ability", Icons.Shield))
 		];
 		
 		protected override int XP => 1;

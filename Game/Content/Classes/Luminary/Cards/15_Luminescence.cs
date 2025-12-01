@@ -13,7 +13,8 @@ public class Luminescence : LuminaryCardModel<Luminescence.CardTop, Luminescence
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow([Element.Ice], GlowAbility)
+			Glow(new GlowAbilityModel([Element.Ice], GlowAbility,
+				$"Perform {Icons.Inline(Icons.Heal)}2 ability", Icons.Heal))
 		];
 		
 		protected override int XP => 1;

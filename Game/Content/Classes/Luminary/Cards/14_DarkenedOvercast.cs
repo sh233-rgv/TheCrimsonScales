@@ -135,7 +135,7 @@ public class DarkenedOvercast : LuminaryCardModel<DarkenedOvercast.CardTop, Dark
 				.Build())
 		];
 
-		//protected override IEnumerable<Element> Elements => [Wild Element];
+		//TODO: protected override IEnumerable<Element> Elements => [Wild Element];
 		protected override int XP => 2;
 		protected override bool Persistent => true;
 		protected override bool Loss => true;

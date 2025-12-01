@@ -13,7 +13,8 @@ public class RadiantGlare : LuminaryCardModel<RadiantGlare.CardTop, RadiantGlare
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow([Element.Light], GlowAbility)
+			Glow(new GlowAbilityModel([Element.Light], GlowAbility,
+				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Immobilize))} ability", Icons.GetCondition(Conditions.Immobilize)))
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Fire];

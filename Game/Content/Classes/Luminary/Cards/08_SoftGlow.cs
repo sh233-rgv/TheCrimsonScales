@@ -13,7 +13,8 @@ public class SoftGlow : LuminaryCardModel<SoftGlow.CardTop, SoftGlow.CardBottom>
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow([Element.Ice], GlowAbility)
+			Glow(new GlowAbilityModel([Element.Ice], GlowAbility,
+				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Strengthen))} ability", Icons.GetCondition(Conditions.Strengthen)))
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Dark];

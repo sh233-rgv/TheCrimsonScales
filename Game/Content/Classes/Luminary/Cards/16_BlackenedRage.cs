@@ -34,7 +34,7 @@ public class BlackenedRage : LuminaryCardModel<BlackenedRage.CardTop, BlackenedR
 
 							await GDTask.CompletedTask;
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Stun))}")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}, {Icons.Inline(Icons.GetCondition(Conditions.Immobilize))}")
 					)
 				)
 				.Build()),

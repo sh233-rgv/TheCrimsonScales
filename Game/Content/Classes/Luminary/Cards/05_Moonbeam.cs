@@ -13,7 +13,8 @@ public class Moonbeam : LuminaryCardModel<Moonbeam.CardTop, Moonbeam.CardBottom>
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow([Element.Dark], GlowAbility)
+			Glow(new GlowAbilityModel([Element.Dark], GlowAbility,
+				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Curse))} ability", Icons.GetCondition(Conditions.Curse)))
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Ice];

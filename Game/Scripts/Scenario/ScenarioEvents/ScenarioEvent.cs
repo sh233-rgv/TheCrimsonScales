@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using Fractural.Tasks;
 using Godot;
 
@@ -68,6 +69,38 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 					}
 				}, effectType, order, canApplyMultipleTimesDuringSubscription, canApplyMultipleTimesInEffectCollection,
 				effectButtonParameters ?? new ConsumeElementEffectButton.Parameters(element),
+				effectInfoViewParameters ?? new TextEffectInfoView.Parameters("TODO"));
+		}
+
+		public static Subscription ConsumeWildElement(CanApplyFunction canApplyFunction = null, ApplyFunction applyFunction = null, EffectType effectType = EffectType.Selectable,
+			int order = 0, bool canApplyMultipleTimesDuringSubscription = false, bool canApplyMultipleTimesInEffectCollection = false,
+			EffectButtonParameters effectButtonParameters = null, EffectInfoViewParameters effectInfoViewParameters = null)
+		{
+			//TODO: Make sure this works for items that make you skip an element consumption (perhaps after clicking, a new prompt opens up to select what to use)
+			return new Subscription(parameters =>
+				{
+					bool elementAvailable = false;
+					for(int i = 0; i < 6; i++)
+						if(GameController.Instance.ElementManager.GetState((Element)i) > ElementState.Inert)
+						{
+							elementAvailable = true;
+							break;
+						}
+
+					return elementAvailable && (canApplyFunction == null || canApplyFunction.Invoke(parameters));
+				},
+				async parameters =>
+				{
+					Element? wildConsume = await AbilityCmd.AskConsumeWildElement(new Character(), true);
+					if (wildConsume.HasValue)
+                    {
+						if(applyFunction != null)
+						{
+							await applyFunction.Invoke(parameters);
+						}
+                    }
+				}, effectType, order, canApplyMultipleTimesDuringSubscription, canApplyMultipleTimesInEffectCollection,
+				effectButtonParameters ?? new ConsumeElementEffectButton.Parameters(),
 				effectInfoViewParameters ?? new TextEffectInfoView.Parameters("TODO"));
 		}
 

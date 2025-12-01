@@ -14,7 +14,8 @@ public class ShadowClaws : LuminaryCardModel<ShadowClaws.CardTop, ShadowClaws.Ca
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow([Element.Dark], GlowAbility)
+			Glow(new GlowAbilityModel([Element.Dark], GlowAbility,
+				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Muddle))} ability", Icons.GetCondition(Conditions.Muddle)))
 		];
 		
 		protected override int XP => 1;
