@@ -13,14 +13,13 @@ public partial class Summon : Figure
 
 	public SummonStats Stats { get; private set; }
 	public Character CharacterOwner { get; private set; }
+	public Texture2D Texture { get; private set; }
 	public int SummonIndex { get; private set; }
 
 	public override string DisplayName => _name;
 	public override string DebugName => _name;
 
 	public override AMDCardDeck AMDCardDeck => CharacterOwner.AMDCardDeck;
-
-	public Texture2D Texture => _summonViewComponent.Sprite.Texture;
 
 	public override async GDTask Init(Hex originHex, int rotationIndex = 0, bool hexCanBeNull = false)
 	{
@@ -29,22 +28,23 @@ public partial class Summon : Figure
 		_summonViewComponent = GetViewComponent<SummonViewComponent>();
 	}
 
-	public async GDTask Spawn(SummonStats stats, Character characterOwner, string name, string texturePath)
+	public async GDTask Spawn(SummonStats stats, Character characterOwner, string name, string texturePath, string mapIconTexturePath)
 	{
 		Stats = stats;
 		CharacterOwner = characterOwner;
 		_name = name;
 
-		_figureViewComponent.Outline.SelfModulate = CharacterOwner.OutlineColor;
-		_figureViewComponent.TurnStartPS.SelfModulate = CharacterOwner.OutlineColor;
-		_figureViewComponent.ActivePS.Modulate = _figureViewComponent.Outline.SelfModulate;
+		_figureViewComponent.Outline.SetSelfModulate(CharacterOwner.OutlineColor);
+		_figureViewComponent.TurnStartPS.SetSelfModulate(CharacterOwner.OutlineColor);
+		_figureViewComponent.ActivePS.SetModulate(_figureViewComponent.Outline.SelfModulate);
 
-		_summonViewComponent.StandeeNumberCircle.SelfModulate = CharacterOwner.OutlineColor;
+		_summonViewComponent.StandeeNumberCircle.SetSelfModulate(CharacterOwner.OutlineColor);
 
-		Texture2D texture = ResourceLoader.Load<Texture2D>(texturePath);
-		_summonViewComponent.Sprite.Texture = texture;
-		float textureWidth = texture.GetWidth();
-		_summonViewComponent.Sprite.Scale = (330f / textureWidth) * Vector2.One;
+		Texture = ResourceLoader.Load<Texture2D>(texturePath);
+		Texture2D mapIconTexture = ResourceLoader.Load<Texture2D>(mapIconTexturePath);
+		_summonViewComponent.Sprite.SetTexture(mapIconTexture);
+		float textureWidth = mapIconTexture.GetWidth();
+		_summonViewComponent.Sprite.SetScale((250f / textureWidth) * Vector2.One);
 
 		SetMaxHealth(Stats.Health);
 		SetHealth(Stats.Health);
@@ -129,7 +129,7 @@ public partial class Summon : Figure
 
 		UpdateInitiative();
 
-		_summonViewComponent.StandeeNumberLabel.Text = (SummonIndex + 1).ToString();
+		_summonViewComponent.StandeeNumberLabel.SetText((SummonIndex + 1).ToString());
 	}
 
 	protected override async GDTask TakeTurn()

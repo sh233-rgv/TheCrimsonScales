@@ -3,7 +3,7 @@
 public partial class SelectFigureViewFigure : Control
 {
 	[Export]
-	private TextureRect _textureRect;
+	private Sprite2D _sprite;
 
 	public void Init(Figure figure)
 	{
