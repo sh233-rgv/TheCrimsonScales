@@ -6,7 +6,7 @@ using Godot;
 public class WishUponAStar : StarslingerCardModel<WishUponAStar.CardTop, WishUponAStar.CardBottom>
 {
 	public override string Name => "Wish Upon A Star";
-	public override int Level => 1;
+	public override int Level => 4;
 	public override int Initiative => 75;
 	protected override int AtlasIndex => 18;
 
@@ -59,7 +59,6 @@ public class WishUponAStar : StarslingerCardModel<WishUponAStar.CardTop, WishUpo
 					}
 				)
 				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.8530133f), GainXP))
-				//TODO: Fix use slot positioning
 				.Build())
 		];
 

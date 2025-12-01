@@ -511,9 +511,4 @@ public abstract partial class Figure : HexObject
     {
 		TakingTurn = takingTurn;
     }
-
-	public bool IsFlying()
-    {
-        return _flying;
-    }
 }

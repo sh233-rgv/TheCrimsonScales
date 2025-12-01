@@ -473,7 +473,7 @@ public static class AbilityCmd
 
 	public static bool CanSwap(Figure figure1, Figure figure2)
 	{
-		if(figure1.Hex.TryGetHexObjectOfType(out Obstacle obstacle) && !figure2.IsFlying())
+		if(figure1.Hex.TryGetHexObjectOfType(out Obstacle obstacle) && !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figure2)).HasFlying)
 		{
 			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
 				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
@@ -485,7 +485,7 @@ public static class AbilityCmd
 			}
 		}
 
-		if(figure2.Hex.TryGetHexObjectOfType(out Obstacle obstacle2) && !figure1.IsFlying())
+		if(figure2.Hex.TryGetHexObjectOfType(out Obstacle obstacle2) && !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figure1)).HasFlying)
 		{
 			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
 				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
