@@ -179,6 +179,7 @@ visibility_rect = Rect2(-10000, -10000, 20000, 20000)
 process_material = SubResource("ParticleProcessMaterial_u5ejh")
 
 [node name="FigureActiveParticleSystem" type="Node2D" parent="."]
+visible = false
 
 [node name="FigureActiveParticleSystemEdge" parent="FigureActiveParticleSystem" instance=ExtResource("8_y46q5")]
 
