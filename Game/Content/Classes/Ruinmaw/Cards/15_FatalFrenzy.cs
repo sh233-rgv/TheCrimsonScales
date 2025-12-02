@@ -44,10 +44,6 @@ public class FatalFrenzy : RuinmawCardModel<FatalFrenzy.CardTop, FatalFrenzy.Car
 						{
 							applyParameters.AbilityState.SingleTargetAddCondition(Conditions.Rupture);
 							applyParameters.AbilityState.SingleTargetAdjustPush(2);
-							if(state.UseSlotIndex == 0)
-							{
-								await SateRuinmaw(applyParameters.Performer);
-							}
 							await state.AdvanceUseSlot();
 						});
 
@@ -61,14 +57,13 @@ public class FatalFrenzy : RuinmawCardModel<FatalFrenzy.CardTop, FatalFrenzy.Car
 				})
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.36999783f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.24700023f, 0.75549895f), SateRuinmaw),
+					new UseSlot(new Vector2(0.45450008f, 0.75549895f)),
+					new UseSlot(new Vector2(0.6615002f, 0.75499797f), GainXP),
+					new UseSlot(new Vector2(0.1965004f, 0.87799823f)),
+					new UseSlot(new Vector2(0.4040005f, 0.87799823f)),
+					new UseSlot(new Vector2(0.6079994f, 0.87799823f), GainXP)
 				])
-				//TODO: Fix use slot positioning
 				.Build())
 		];
 		

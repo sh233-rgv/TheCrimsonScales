@@ -62,10 +62,9 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 				})
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.36999783f, 0.3549993f))
+					new UseSlot(new Vector2(0.3825001f, 0.41549924f)),
+					new UseSlot(new Vector2(0.5885006f, 0.41549924f))
 				])
-				//TODO: Fix use slot positioning
 				.Build())
 		];
 

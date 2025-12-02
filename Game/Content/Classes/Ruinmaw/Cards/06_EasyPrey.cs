@@ -56,7 +56,6 @@ public class EasyPrey : RuinmawCardModel<EasyPrey.CardTop, EasyPrey.CardBottom>
 								.WithTarget(Target.Self)
 								.Build()]);
 						await actionState.Perform();
-						await SateRuinmaw(parameters.Figure);
 
 						await state.AdvanceUseSlot();
 					}
@@ -71,8 +70,7 @@ public class EasyPrey : RuinmawCardModel<EasyPrey.CardTop, EasyPrey.CardBottom>
 					await GDTask.CompletedTask;
 				}
 			)
-			.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.857998f)))
-			//TODO: Fix use slot positioning
+			.WithUseSlot(new UseSlot(new Vector2(0.47350034f, 0.8924996f), SateRuinmaw))
 			.Build())
 		];
 

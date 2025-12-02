@@ -37,7 +37,6 @@ public class StripFlesh : RuinmawCardModel<StripFlesh.CardTop, StripFlesh.CardBo
 						{
 							applyParameters.AbilityState.SingleTargetAdjustAttackValue(4);
 							applyParameters.AbilityState.SingleTargetSetHasAdvantage();
-							await SateRuinmaw(applyParameters.Performer);
 							await state.AdvanceUseSlot();
 						});
 
@@ -49,8 +48,7 @@ public class StripFlesh : RuinmawCardModel<StripFlesh.CardTop, StripFlesh.CardBo
 
 					await GDTask.CompletedTask;
 				})
-				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.85f)))
-				//TODO: Fix use slot positioning
+				.WithUseSlot(new UseSlot(new Vector2(0.47200036f, 0.8174985f), SateRuinmaw))
 				.Build())
 		];
 

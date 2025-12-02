@@ -46,7 +46,7 @@ public class PouncingPredator : RuinmawCardModel<PouncingPredator.CardTop, Pounc
 					{
 						list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1).Where(figure => figure.EnemiesWith(state.Performer)));
 
-					}, hintText: $"Select an enemy to suffer {Icons.HintText(Icons.Damage)}3");
+					}, hintText: () => $"Select an enemy to suffer {Icons.HintText(Icons.Damage)}3");
 
 					if(figure == null)
 					{

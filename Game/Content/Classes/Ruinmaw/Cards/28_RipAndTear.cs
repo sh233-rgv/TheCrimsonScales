@@ -63,10 +63,6 @@ public class RipAndTear : RuinmawCardModel<RipAndTear.CardTop, RipAndTear.CardBo
 						async applyParameters =>
 						{
 							applyParameters.AbilityState.SingleTargetAdjustAttackValue(4);
-							if(state.UseSlotIndex == 0)
-							{
-								await SateRuinmaw(applyParameters.Performer);
-							}
 							await state.AdvanceUseSlot();
 						});
 
@@ -80,14 +76,13 @@ public class RipAndTear : RuinmawCardModel<RipAndTear.CardTop, RipAndTear.CardBo
 				})
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.36999783f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.2495004f, 0.755998f), SateRuinmaw),
+					new UseSlot(new Vector2(0.45350015f, 0.755998f)),
+					new UseSlot(new Vector2(0.66049993f, 0.755998f), GainXP),
+					new UseSlot(new Vector2(0.19800027f, 0.8769984f)),
+					new UseSlot(new Vector2(0.4045f, 0.8769984f)),
+					new UseSlot(new Vector2(0.6075001f, 0.8769984f), GainXP)
 				])
-				//TODO: Fix use slot positioning
 				.Build())
 		];
 		

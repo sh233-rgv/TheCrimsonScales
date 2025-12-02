@@ -24,7 +24,7 @@ public class FerociousFling : RuinmawCardModel<FerociousFling.CardTop, Ferocious
 				{
 					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 					Figure figure = await AbilityCmd.SelectFigure(state, list => list.AddRange(attackAbilityState.UniqueTargetedFigures)
-						, true, hintText: "Select a target of the attack ability");
+						, true, hintText: () => "Select a target of the attack ability");
 					if (figure != null)
                     {
 						targets.AddRange(RangeHelper.GetFiguresInRange(figure.Hex, 1, false));

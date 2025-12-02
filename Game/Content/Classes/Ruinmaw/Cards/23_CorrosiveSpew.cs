@@ -71,11 +71,6 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 									await actionState.Perform();
 								}
 							);
-							
-							if(state.UseSlotIndex == 0)
-							{
-								await SateRuinmaw(state.Performer);
-							}
 							await state.AdvanceUseSlot();
 						});
 
@@ -89,12 +84,11 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 				})
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.36999783f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.16350047f, 0.7284984f), SateRuinmaw),
+					new UseSlot(new Vector2(0.3705001f, 0.7284984f), GainXP),
+					new UseSlot(new Vector2(0.57550025f, 0.7284984f)),
+					new UseSlot(new Vector2(0.7819994f, 0.7284984f), GainXP)
 				])
-				//TODO: Fix use slot positioning
 				.Build()),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>

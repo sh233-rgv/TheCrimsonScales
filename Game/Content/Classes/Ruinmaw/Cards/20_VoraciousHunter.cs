@@ -21,18 +21,12 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 						canApplyParameters => canApplyParameters.Figure.EnemiesWith(state.Performer) && canApplyParameters.PotentialAbilityState?.Performer == state.Performer,
 						async applyParameters =>
 						{
-							if(state.UseSlotIndex == 0)
-							{
-								await SateRuinmaw(state.Performer);
-							}
+							bool hasPerformed = false;
+
 							if (state.UseSlotIndex > 2)
 							{
-								_removeImmediately = true;
-								await state.ActionState.RequestDiscardOrLose();
 								return;
                             }
-							await state.AdvanceUseSlot();
-							bool hasPerformed = false;
 
 							ScenarioEvent<ScenarioEvents.AbilityEnded.Parameters>.Subscription sub = ScenarioEvents.AbilityEnded.Subscription.New(
 								parameters => !hasPerformed,
@@ -44,7 +38,7 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 									ActionState actionState = new ActionState(state.Performer,
 									[
 										MoveAbility.Builder().WithDistance(4).Build(),
-										AttackAbility.Builder().WithDamage(4).Build(),
+										AttackAbility.Builder().WithDamage(6).Build(),
 									]);
 									await actionState.Perform();
 									ScenarioEvents.AbilityEndedEvent.Subscribe(state, new object(), subscriptions);
@@ -53,7 +47,11 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 							subscriptions.Add(sub);
 							ScenarioEvents.AbilityEndedEvent.Subscribe(state, new object(), sub);
 
-							await GDTask.CompletedTask;
+							await state.AdvanceUseSlot();
+							if (state.UseSlotIndex > 2)
+							{
+								_removeImmediately = true;
+                            }
 						});
 
 					await GDTask.CompletedTask;
@@ -66,11 +64,10 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 				})
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.36999783f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.28000042f, 0.28149942f), SateRuinmaw),
+					new UseSlot(new Vector2(0.48500004f, 0.28149942f), GainXP),
+					new UseSlot(new Vector2(0.690999f, 0.28149942f), GainXP)
 				])
-				//TODO: Fix use slot positioning
 				.Build()),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)

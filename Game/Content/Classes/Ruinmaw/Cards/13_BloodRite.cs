@@ -20,7 +20,7 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 					Figure adjacentAlly = await AbilityCmd.SelectFigure(state, list =>
 					{
 						list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1).Where(figure => figure.AlliedWith(state.Performer)));
-					}, hintText: $"Select an ally to suffer {Icons.HintText(Icons.Damage)}2");
+					}, hintText: () => $"Select an ally to suffer {Icons.HintText(Icons.Damage)}2");
 					if (adjacentAlly != null)
 					{
 						await AbilityCmd.SufferDamage(state, adjacentAlly, 2);
@@ -59,8 +59,7 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 
 					await GDTask.CompletedTask;
 				})
-				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.85f)))
-				//TODO: Fix use slot positioning
+				.WithUseSlot(new UseSlot(new Vector2(0.48150024f, 0.41998473f)))
 				.Build())
 		];
 

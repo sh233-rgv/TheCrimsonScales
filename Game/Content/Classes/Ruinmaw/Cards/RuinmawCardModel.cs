@@ -33,6 +33,11 @@ public abstract class RuinmawCardSide : AbilityCardSide
 
 		await GDTask.CompletedTask;
 	}
+
+	protected async GDTask SateRuinmaw(AbilityState state)
+	{
+		await SateRuinmaw(state.Performer);
+	}
 	
 	protected static bool IsSated(Figure figure)
     {

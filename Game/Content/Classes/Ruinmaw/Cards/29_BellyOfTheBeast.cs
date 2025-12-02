@@ -7,7 +7,7 @@ using Godot;
 public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOfTheBeast.CardBottom>
 {
 	public override string Name => "Belly of the Beast";
-	public override int Level => 9;
+	public override int Level => 1;
 	public override int Initiative => 42;
 	protected override int AtlasIndex => 29;
 
@@ -158,9 +158,8 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 				})
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
+					new UseSlot(new Vector2(0.47550005f, 0.8609986f)),
 				])
-				//TODO: Fix use slot positioning
 				.Build()),
 		];
 		

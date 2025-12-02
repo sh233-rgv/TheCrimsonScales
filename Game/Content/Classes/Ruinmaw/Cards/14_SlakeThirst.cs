@@ -6,7 +6,7 @@ using Godot;
 public class SlakeThirst : RuinmawCardModel<SlakeThirst.CardTop, SlakeThirst.CardBottom>
 {
 	public override string Name => "Slake Thirst";
-	public override int Level => 2;
+	public override int Level => 6;
 	public override int Initiative => 26;
 	protected override int AtlasIndex => 14;
 
@@ -51,10 +51,6 @@ public class SlakeThirst : RuinmawCardModel<SlakeThirst.CardTop, SlakeThirst.Car
                             {
 								await AbilityCmd.SufferDamage(state, figure, 2);
                             }
-							if(state.UseSlotIndex == 0)
-                            {
-								await SateRuinmaw(applyParameters.Performer);
-                            }
 							await state.AdvanceUseSlot();
 						});
 
@@ -68,13 +64,12 @@ public class SlakeThirst : RuinmawCardModel<SlakeThirst.CardTop, SlakeThirst.Car
 				})
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.36999783f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.27549905f, 0.77401024f), SateRuinmaw),
+					new UseSlot(new Vector2(0.48599634f, 0.77401024f)),
+					new UseSlot(new Vector2(0.690505f, 0.77401024f), GainXP),
+					new UseSlot(new Vector2(0.36249793f, 0.8955159f)),
+					new UseSlot(new Vector2(0.5704994f, 0.8955159f), GainXP)
 				])
-				//TODO: Fix use slot positioning
 				.Build())
 		];
 

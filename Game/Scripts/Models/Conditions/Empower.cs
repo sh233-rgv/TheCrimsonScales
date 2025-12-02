@@ -25,7 +25,7 @@ public abstract class Empower : ConditionModel
 
 		if (sourceFigure != null)
 		{
-			GameController.Instance.AMDManager.Empower(sourceFigure, target);
+			await GameController.Instance.AMDManager.Empower(sourceFigure, target);
 		}
 
 		await AbilityCmd.RemoveCondition(target, this);

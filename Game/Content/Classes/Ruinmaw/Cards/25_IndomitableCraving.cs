@@ -33,7 +33,7 @@ public class IndomitableCraving : RuinmawCardModel<IndomitableCraving.CardTop, I
 					{
 						list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1).Where(figure => figure.EnemiesWith(state.Performer)
 							&& (figure.HasWound() || figure.HasCondition(Conditions.Rupture))));
-					}, hintText: $"Select an enemy to suffer {Icons.HintText(Icons.Damage)}3 or {Icons.HintText(Icons.Damage)}6");
+					}, hintText: () => $"Select an enemy to suffer {Icons.HintText(Icons.Damage)}3 or {Icons.HintText(Icons.Damage)}6");
 					if (enemy != null)
 					{
 						await AbilityCmd.SufferDamage(state, enemy, enemy.HasWound() && enemy.HasCondition(Conditions.Rupture) ? 6 : 3);
