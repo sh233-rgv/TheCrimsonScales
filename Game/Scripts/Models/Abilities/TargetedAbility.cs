@@ -82,7 +82,7 @@ public abstract class TargetedAbilityState : AbilityState
 	public void SetTarget(Target target)
 	{
 		AbilityTarget = target;
-		if (target.HasFlag(global::Target.TargetAll))
+		if(target.HasFlag(global::Target.TargetAll))
         {
 			AbilityTargets = int.MaxValue;
         }
@@ -91,7 +91,7 @@ public abstract class TargetedAbilityState : AbilityState
 	public void AdjustTarget(Target target)
 	{
 		AbilityTarget |= target;
-		if (target.HasFlag(global::Target.TargetAll))
+		if(target.HasFlag(global::Target.TargetAll))
         {
 			AbilityTargets = int.MaxValue;
         }

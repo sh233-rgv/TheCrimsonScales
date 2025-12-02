@@ -79,16 +79,16 @@ public class SearingBlaze : FireKnightLevelUpCardModel<SearingBlaze.CardTop, Sea
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					bool targetedWounded = false;
+					bool bonusOnWoundedTarget = false;
 					bool woundAdded = false;
 
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
 						canApplyParameters =>
 							canApplyParameters.Performer == state.Performer && canApplyParameters.AbilityState.Target.HasCondition(Conditions.Wound1) &&
-							!targetedWounded,
+							!bonusOnWoundedTarget,
 						async parameters =>
 						{
-							targetedWounded = true;
+							bonusOnWoundedTarget = true;
 							parameters.AbilityState.SingleTargetAdjustAttackValue(1);
 							parameters.AbilityState.SingleTargetSetHasAdvantage();
 
@@ -99,7 +99,7 @@ public class SearingBlaze : FireKnightLevelUpCardModel<SearingBlaze.CardTop, Sea
 						canApplyParameters => true,
 						async applyParameters =>
 						{
-							targetedWounded = false;
+							bonusOnWoundedTarget = false;
 
 							await GDTask.CompletedTask;
 						}

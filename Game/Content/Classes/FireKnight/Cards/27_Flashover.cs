@@ -18,7 +18,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 					SummonAbility summonAbility = SummonDrakefiend();
 					await summonAbility.Perform(state.ActionState);
 					SummonAbility.State summonAbilityState = state.ActionState.GetAbilityState<SummonAbility.State>(1);
-					ScenarioEvents.FigureKilledEvent.Unsubscribe(summonAbilityState, summonAbility);
+					ScenarioEvents.FigureKilledEvent.Unsubscribe(summonAbilityState, this);
 					int characterTokens = 0;
 
 					ScenarioEvents.FigureKilledEvent.Subscribe(state, this,
@@ -28,6 +28,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 							if (characterTokens < 2)
 							{
 								characterTokens++;
+								//TODO: Add visual indicator for number of character tokens
 								ScenarioEvents.FigureTurnEndedEvent.Subscribe(state, this,
 									canApplyParameters => canApplyParameters.Figure == state.Performer,
 									async applyParameters =>
@@ -74,7 +75,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 					Move = 3,
 					Attack = 2,
 					Range = 2,
-					Traits = [new FlyingTrait(), new ElementTrait(Element.Fire)]
+					Traits = [new FlyingTrait(), new InfuseElementAfterAttackTrait(Element.Fire)]
 				})
 				.WithName("Reigniting Drakefiend")
 				.WithTexturePath("res://Content/Classes/FireKnight/Drakefiend.jpg")
@@ -145,6 +146,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 						{
 							await AbilityCmd.AddCondition(state, target, Conditions.Wound1);
 						}
+						state.SetPerformed();
 					}
 					
 					await GDTask.CompletedTask;
@@ -160,6 +162,13 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Add {Icons.Inline(Icons.GetCondition(Conditions.Wound1))}")
 					)
 				)
+				.WithConditionalAbilityCheck(async state =>
+                {
+                    ConfirmPrompt.Answer confirmAnswer =
+						await PromptManager.Prompt(new ConfirmPrompt(null, () => "Perform damage ability?"), state.Authority);
+					
+					return confirmAnswer.Confirmed;
+                })
 				.Build())
 		];
 	}

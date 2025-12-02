@@ -91,7 +91,7 @@ public class MutualAid : FireKnightLevelUpCardModel<MutualAid.CardTop, MutualAid
 									effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Targets)}all allies, {Icons.Inline(Icons.Range)} 1"),
 									effectType: EffectType.Selectable
 								),
-							], hintText: "Choose the figures to be targeted");
+							], hintText: "Choose the figures to heal");
 						}
 					)
 				)

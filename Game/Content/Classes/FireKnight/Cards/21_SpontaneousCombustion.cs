@@ -113,7 +113,7 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 				customGetTargets: (state, list) =>
 				{
 					list.AddRange(GameController.Instance.Map.Figures
-						.Where(figure => figure.AlliedWith(state.Performer) && state.Performer.TurnMovedHexes.Any(h => RangeHelper.Distance(h, figure.Hex) <= 1))
+						.Where(figure => figure.AlliedWith(state.Performer) && state.Performer.TurnMovedHexes.Any(hex => RangeHelper.Distance(hex, figure.Hex) <= 1))
 						.ToList());
 				}
 			))

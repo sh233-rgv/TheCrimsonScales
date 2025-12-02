@@ -99,7 +99,7 @@ public class SearchAndRescue : FireKnightLevelUpCardModel<SearchAndRescue.CardTo
 			new AbilityCardAbility(GiveFireKnightItemAbility([
 				ModelDB.Item<RescueShield>(), ModelDB.Item<EmberCladding>(), ModelDB.Item<KindledTonic>()
 			])),
-			new AbilityCardAbility(GiveFireKnightItemAbility(((FireKnight)AbilityCard.OriginalOwner).FireKnightItems,
+			new AbilityCardAbility(GiveFireKnightItemAbility(((FireKnight)AbilityCard.OriginalOwner).FireKnightItems.Select(item => item.ImmutableInstance).ToList(),
 				onItemGiven: async (state, item) =>
 				{
 					await AbilityCmd.GainXP(state.Performer, 1);

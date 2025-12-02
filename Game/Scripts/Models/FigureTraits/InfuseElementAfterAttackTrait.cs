@@ -1,4 +1,4 @@
-﻿public class ElementTrait(Element element) : FigureTrait
+﻿public class InfuseElementAfterAttackTrait(Element element) : FigureTrait
 {
 	public override void Activate(Figure figure)
 	{

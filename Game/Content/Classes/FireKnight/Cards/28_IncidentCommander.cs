@@ -19,6 +19,7 @@ public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.Ca
 					OtherAbility.Builder()
 						.WithPerformAbility(async state =>
 						{
+							state.SetPerformed();
 							await AbilityCmd.GenericChoice(state.Performer,
 							[
 								ScenarioEvents.GenericChoice.Subscription.New(canApplyFunction: canApplyParameters => true,
@@ -49,10 +50,10 @@ public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.Ca
 									effectType: EffectType.Selectable
 								),
 							], canSelectMultiple: true, hintText: "Choose an ability to perform");
-
-							await GDTask.CompletedTask;
 						})
 						.Build()
+
+					
 				])
 				.WithRange(3)
 				.Build())
@@ -139,6 +140,7 @@ public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.Ca
 
 					await GDTask.CompletedTask;
 				})
+				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<ConditionAbility.State>(0).Performed)
 				.Build())
 		];
 

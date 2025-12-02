@@ -36,7 +36,7 @@ public abstract class FireKnightCardSide : AbilityCardSide
 				FireKnight fireKnight = (FireKnight)AbilityCard.OriginalOwner;
 				foreach(ItemModel item in fireKnight.FireKnightItems)
 				{
-					if(possibleItemModels.Contains(item.ImmutableInstance) || possibleItemModels.Contains(item))
+					if(possibleItemModels.Contains(item.ImmutableInstance))
 					{
 						list.Add(item);
 					}

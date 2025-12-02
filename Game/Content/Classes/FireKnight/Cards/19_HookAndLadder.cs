@@ -125,11 +125,11 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 							await GDTask.CompletedTask;
 						});
 
-					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
-						canApplyParameters => CanApply(canApplyParameters.Performer, state, true),
+					ScenarioEvents.FigureTurnStartedEvent.Subscribe(state, this,
+						canApplyParameters => CanApply(canApplyParameters.Figure, state, true),
 						async parameters =>
 						{
-							StrengthenRemove(parameters.Performer);
+							StrengthenRemove(parameters.Figure);
 
 							await GDTask.CompletedTask;
 						},
@@ -138,11 +138,11 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Remove {Icons.Inline(Icons.GetCondition(Conditions.Strengthen))} " +
 							$"to add +1{Icons.Inline(Icons.Attack)} to your first attack this round"));
 
-					ScenarioEvents.CardSideSelectionEvent.Subscribe(state, this,
-						canApplyParameters => CanApply(canApplyParameters.Character, state, true),
+					ScenarioEvents.AbilityEndedEvent.Subscribe(state, this,
+						canApplyParameters => CanApply(canApplyParameters.Performer, state, true),
 						async parameters =>
 						{
-							StrengthenRemove(parameters.Character);
+							StrengthenRemove(parameters.Performer);
 							
 							await GDTask.CompletedTask;
 						},
@@ -177,7 +177,6 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 
 		private async void StrengthenRemove(Figure performer)
 		{
-			AttackAbility.State state1 = new AttackAbility.State();
 			await AbilityCmd.RemoveCondition(performer, Conditions.Strengthen);
 			bool attackPerformedYet = performer.RoundPerformedActionStates
 				.SelectMany(a => a.AbilityStates)
@@ -185,26 +184,25 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 				.Any(a => a.UniqueTargetedFigures.Count > 0);
 			if(!attackPerformedYet)
 			{
-				ScenarioEvents.DuringAttackEvent.Subscribe(state1, this,
+				ScenarioEvents.DuringAttackEvent.Subscribe(performer, this,
 					canApplyParameters => canApplyParameters.Performer == performer,
-					async parameters =>
+					async applyParameters =>
 					{
-						parameters.AbilityState.SingleTargetAdjustAttackValue(1);
-						ScenarioEvents.DuringAttackEvent.Unsubscribe(state1, this);
+						applyParameters.AbilityState.SingleTargetAdjustAttackValue(1);
+						ScenarioEvents.DuringAttackEvent.Unsubscribe(performer, this);
 
 						await GDTask.CompletedTask;
 					});
-				ScenarioEvents.RoundEndedEvent.Subscribe(state1, this,
+				ScenarioEvents.RoundEndedEvent.Subscribe(performer, this,
 					canApplyParameters => true,
 					async applyParameters =>
 					{
-						ScenarioEvents.DuringAttackEvent.Unsubscribe(state1, this);
-						ScenarioEvents.RoundEndedEvent.Unsubscribe(state1, this);
+						ScenarioEvents.DuringAttackEvent.Unsubscribe(performer, this);
+						ScenarioEvents.RoundEndedEvent.Unsubscribe(performer, this);
 							
 						await GDTask.CompletedTask;
 					});
 			}
-			await GDTask.CompletedTask;
 		}
 	}
 }
