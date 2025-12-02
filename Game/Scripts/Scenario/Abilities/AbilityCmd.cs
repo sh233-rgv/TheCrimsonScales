@@ -436,11 +436,11 @@ public static class AbilityCmd
 			new ScenarioEvents.FigureExitingHex.Parameters(potentialAbilityState, figure), authority);
 	}
 
-	public static async GDTask EnterHex(AbilityState state, Figure figure, Figure authority, Hex hex, bool triggerHexEffects, bool setPosition)
+	public static async GDTask EnterHex(AbilityState potentialAbilityState, Figure figure, Figure authority, Hex hex, bool triggerHexEffects, bool setPosition)
 	{
 		figure.SetOriginHexAndRotation(hex, setPosition: setPosition);
 
-		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(state, figure), authority);
+		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(potentialAbilityState, figure), authority);
 
 		HazardousTerrain hazardousTerrain = hex.GetHexObjectOfType<HazardousTerrain>();
 		if(hazardousTerrain != null && triggerHexEffects)
@@ -452,7 +452,7 @@ public static class AbilityCmd
 			{
 				ScenarioEvents.HazardousTerrainTriggered.Parameters hazardousTerrainParameters =
 					await ScenarioEvents.HazardousTerrainTriggeredEvent.CreatePrompt(
-						new ScenarioEvents.HazardousTerrainTriggered.Parameters(state, hex, hazardousTerrain, true), authority);
+						new ScenarioEvents.HazardousTerrainTriggered.Parameters(potentialAbilityState, hex, hazardousTerrain, true), authority);
 				if(hazardousTerrainParameters.AffectedByHazardousTerrain)
 				{
 					int damage = HazardousTerrain.DamageAmount;
@@ -471,10 +471,10 @@ public static class AbilityCmd
 			{
 				ScenarioEvents.TrapTriggered.Parameters trapTriggeredParameters =
 					await ScenarioEvents.TrapTriggeredEvent.CreatePrompt(
-						new ScenarioEvents.TrapTriggered.Parameters(state, hex, trap, figure, true), authority);
+						new ScenarioEvents.TrapTriggered.Parameters(potentialAbilityState, hex, trap, figure, true), authority);
 				if(trapTriggeredParameters.TriggersTrap)
 				{
-					await trap.Trigger(state, figure);
+					await trap.Trigger(potentialAbilityState, figure);
 				}
 			}
 		}
@@ -482,7 +482,7 @@ public static class AbilityCmd
 
 	public static bool CanSwap(Figure figure1, Figure figure2)
 	{
-		if(figure1.Hex.TryGetHexObjectOfType(out Obstacle obstacle) && !figure2.IsFlying())
+		if(figure1.Hex.TryGetHexObjectOfType(out Obstacle obstacle) && !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figure2)).HasFlying)
 		{
 			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
 				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
@@ -494,7 +494,7 @@ public static class AbilityCmd
 			}
 		}
 
-		if(figure2.Hex.TryGetHexObjectOfType(out Obstacle obstacle2) && !figure1.IsFlying())
+		if(figure2.Hex.TryGetHexObjectOfType(out Obstacle obstacle2) && !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figure1)).HasFlying)
 		{
 			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
 				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(

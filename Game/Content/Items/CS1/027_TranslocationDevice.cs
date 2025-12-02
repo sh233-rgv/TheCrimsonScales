@@ -23,19 +23,19 @@ public class TranslocationDevice : CS1Item
 				await Use(async user =>
 				{
 					Figure swapped = await AbilityCmd.SelectFigure(character, list =>
-						{
-						list.AddRange(RangeHelper.GetFiguresInRange(character.Hex, 5, false).Where(figure => character.EnemiesWith(figure) &&
-							AbilityCmd.CanSwap(Owner, figure)));
-						}, mandatory: false, hintText: "Choose an enemy to swap hexes with");
-					if (swapped == null)
+						list.AddRange(RangeHelper.GetFiguresInRange(character.Hex, 5, false)
+							.Where(figure => character.EnemiesWith(figure) &&
+							AbilityCmd.CanSwap(Owner, figure))),
+						mandatory: false, hintText: () => "Choose an enemy to swap hexes with");
+					if(swapped == null)
 					{
 						return;
 					}
 
 					Hex performerHex = character.Hex;
 					Hex swappedHex = swapped.Hex;
-					await AbilityCmd.EnterHex(null, swapped, character, performerHex, true);
-					await AbilityCmd.EnterHex(null, character, character, swappedHex, true);
+					await AbilityCmd.EnterHex(null, swapped, character, performerHex, true, true);
+					await AbilityCmd.EnterHex(null, character, character, swappedHex, true, true);
 				});
 			}
 		);

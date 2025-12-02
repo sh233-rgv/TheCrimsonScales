@@ -499,21 +499,6 @@ public class ScenarioEvents
 
 	public class FigureEnteredHex : ScenarioEvent<FigureEnteredHex.Parameters>
 	{
-		public class Parameters(AbilityState abilityState, Figure figure)
-			: ParametersBase
-		{
-			public AbilityState PotentialAbilityState { get; } = abilityState;
-			public Figure Figure { get; } = figure;
-
-			public Hex Hex => Figure.Hex;
-		}
-	}
-
-	private readonly FigureExitingHex _figureExitingHex = new FigureExitingHex();
-	public static FigureExitingHex FigureExitingHexEvent => GameController.Instance.ScenarioEvents._figureExitingHex;
-
-	public class FigureEnteredHex : ScenarioEvent<FigureEnteredHex.Parameters>
-	{
 		public class Parameters(AbilityState potentialAbilityState, Figure figure) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
@@ -554,9 +539,10 @@ public class ScenarioEvents
 
 	public class HazardousTerrainTriggered : ScenarioEvent<HazardousTerrainTriggered.Parameters>
 	{
-		public class Parameters(AbilityState abilityState, Hex hex, HazardousTerrain hazardousTerrain, bool affectedByHazardousTerrain)
-			: ParametersBase<AbilityState>(abilityState)
+		public class Parameters(AbilityState potentialAbilityState, Hex hex, HazardousTerrain hazardousTerrain, bool affectedByHazardousTerrain)
+			: ParametersBase
 		{
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Hex Hex { get; } = hex;
 			public HazardousTerrain HazardousTerrain { get; } = hazardousTerrain;
 			public bool AffectedByHazardousTerrain { get; private set; } = affectedByHazardousTerrain;
@@ -573,9 +559,10 @@ public class ScenarioEvents
 
 	public class TrapTriggered : ScenarioEvent<TrapTriggered.Parameters>
 	{
-		public class Parameters(AbilityState abilityState, Hex hex, Trap trap, Figure figure, bool triggersTrap)
-			: ParametersBase<AbilityState>(abilityState)
+		public class Parameters(AbilityState potentialAbilityState, Hex hex, Trap trap, Figure figure, bool triggersTrap)
+			: ParametersBase
 		{
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Hex Hex { get; } = hex;
 			public Trap Trap { get; } = trap;
 			public Figure Figure { get; } = figure;
