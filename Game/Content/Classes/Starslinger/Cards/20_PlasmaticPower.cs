@@ -19,12 +19,14 @@ public class PlasmaticPower : StarslingerCardModel<PlasmaticPower.CardTop, Plasm
 					int heals = 0;
 
 					ScenarioEvents.AfterHealPerformedEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.Performer == state.Performer &&
-							canApplyParameters.AbilityState.UniqueTargetedFigures.Any(f => f.AlliedWith(canApplyParameters.Performer)),
+						canApplyParameters =>
+							canApplyParameters.Performer == state.Performer &&
+							canApplyParameters.AbilityState.UniqueTargetedFigures.Any(f =>
+								f.AlliedWith(canApplyParameters.Performer)),
 						async applyParameters =>
 						{
 							heals += applyParameters.AbilityState.UniqueTargetedFigures
-   								.Count(f => f.AlliedWith(applyParameters.Performer));
+								.Count(f => f.AlliedWith(applyParameters.Performer));
 							ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
 							ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
 								canApplyParameters => canApplyParameters.Performer == state.Performer,
@@ -85,12 +87,17 @@ public class PlasmaticPower : StarslingerCardModel<PlasmaticPower.CardTop, Plasm
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
-                {
+				{
 					ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-                })
-				.WithConditionalAbilityCheck(async state => !state.Performer.IsDamaged())
+				})
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return !state.Performer.IsDamaged();
+				})
 				.Build())
 		];
 

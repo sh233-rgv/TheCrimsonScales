@@ -23,11 +23,12 @@ public class Sungaze : StarslingerCardModel<Sungaze.CardTop, Sungaze.CardBottom>
 				.WithPerformAbility(async state =>
 					{
 						HealAbility.State healAbilityState = state.ActionState.GetAbilityState<HealAbility.State>(0);
-						if (healAbilityState.UniqueTargetedFigures.Count == 1)
+						if(healAbilityState.UniqueTargetedFigures.Count == 1)
 						{
 							await AbilityCmd.AddCondition(state, healAbilityState.UniqueTargetedFigures[0], Conditions.Bless);
 							state.SetPerformed();
 						}
+
 						await GDTask.CompletedTask;
 					}
 				)
@@ -42,14 +43,14 @@ public class Sungaze : StarslingerCardModel<Sungaze.CardTop, Sungaze.CardBottom>
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
 				.WithAOEPattern(new AOEPattern([
-							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Yellow),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
-						]))
+					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Yellow),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
+				]))
 				.Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)
-				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed)
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);

@@ -44,7 +44,7 @@ public class GravitationalFlip : StarslingerCardModel<GravitationalFlip.CardTop,
 				.WithRange(2)
 				.WithOnAbilityStarted(async state =>
 				{
-					await AbilityCmd.GenericChoice(state.Performer, 
+					await AbilityCmd.GenericChoice(state.Performer,
 					[
 						ScenarioEvents.GenericChoice.Subscription.New(
 							applyFunction: async applyParameters =>
@@ -76,7 +76,12 @@ public class GravitationalFlip : StarslingerCardModel<GravitationalFlip.CardTop,
 					MoveAbility.Builder().WithDistance(2).Build()
 				])
 				.WithRange(2)
-				.WithConditionalAbilityCheck(async state => !state.ActionState.GetAbilityState<GrantAbility.State>(0).GetCustomValue<bool>(this, "ChoseGrant"))
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return !state.ActionState.GetAbilityState<GrantAbility.State>(0).GetCustomValue<bool>(this, "ChoseGrant");
+				})
 				.Build())
 		];
 	}

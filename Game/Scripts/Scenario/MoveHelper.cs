@@ -441,9 +441,9 @@ public static class MoveHelper
 		return true;
 	}
 
-	public static bool CanStopAt(AbilityState abilityState, Figure performer, Hex hex)
+	public static bool CanStopAt(AbilityState potentialAbilityState, Figure performer, Hex hex)
 	{
-		return CanStopAt(abilityState, performer, hex, MoveType.Regular);
+		return CanStopAt(potentialAbilityState, performer, hex, MoveType.Regular);
 	}
 
 	public static int GetMoveCost(Figure performer, Hex hex, MoveType moveType)

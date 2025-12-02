@@ -23,11 +23,12 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 				.WithPerformAbility(async state =>
 				{
 					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
-					Figure swapped = await AbilityCmd.SelectFigure(state, list => {
+					Figure swapped = await AbilityCmd.SelectFigure(state, list =>
+					{
 						list.AddRange(attackAbilityState.UniqueTargetedFigures.Where(figure => !figure.IsDead &&
-							AbilityCmd.CanSwap(state.Performer, figure)));
-						}, mandatory: false, hintText: () => "Choose an enemy to swap hexes with");
-					if (swapped == null)
+						                                                                       AbilityCmd.CanSwap(state.Performer, figure)));
+					}, mandatory: false, hintText: () => "Choose an enemy to swap hexes with");
+					if(swapped == null)
 					{
 						return;
 					}
@@ -62,9 +63,16 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 					{
 						await AbilityCmd.SufferDamage(null, singleTargetState.Target, singleTargetState.PushHexes.Count);
 					}
+
 					state.SetPerformed();
 				})
-				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<PushAbility.State>(0).SingleTargetStates.Any(state => state.PushHexes.Count > 0))
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return state.ActionState.GetAbilityState<PushAbility.State>(0).SingleTargetStates
+						.Any(singleTargetState => singleTargetState.PushHexes.Count > 0);
+				})
 				.Build())
 		];
 

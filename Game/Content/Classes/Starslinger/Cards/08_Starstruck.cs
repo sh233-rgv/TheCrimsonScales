@@ -17,10 +17,10 @@ public class Starstruck : StarslingerCardModel<Starstruck.CardTop, Starstruck.Ca
 				.WithDamage(4)
 				.WithPierce(1)
 				.WithAOEPattern(new AOEPattern([
-							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Yellow),
-						]))
+					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+					new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Yellow),
+				]))
 				.Build()),
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantAbilityState =>
@@ -28,7 +28,7 @@ public class Starstruck : StarslingerCardModel<Starstruck.CardTop, Starstruck.Ca
 					ConditionAbility.Builder().WithConditions(Conditions.Bless).WithTarget(Target.Self).Build(),
 					AttackAbility.Builder().WithDamage(3).WithPierce(1).Build()
 				])
-				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed)
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);
@@ -57,10 +57,10 @@ public class Starstruck : StarslingerCardModel<Starstruck.CardTop, Starstruck.Ca
 				.WithRange(1)
 				.WithOnAbilityEndedPerformed(async state =>
 				{
-					if (state.Target.AlliedWith(state.Performer))
-                    {
+					if(state.Target.AlliedWith(state.Performer))
+					{
 						await AbilityCmd.InfuseElement(Element.Light);
-                    }
+					}
 				})
 				.Build())
 		];

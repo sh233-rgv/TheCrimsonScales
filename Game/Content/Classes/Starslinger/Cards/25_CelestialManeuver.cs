@@ -25,7 +25,8 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 							ActionState actionState = new ActionState(state.Performer,
 							[
 								GrantAbility.Builder()
-									.WithGetAbilities(grantAbilityState => [
+									.WithGetAbilities(grantAbilityState =>
+									[
 										MoveAbility.Builder().WithDistance(2).Build()
 									])
 									.WithRange(int.MaxValue)
@@ -44,6 +45,7 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 				)
 				.Build())
 		];
+
 		protected override int XP => 2;
 		protected override bool Persistent => true;
 		protected override bool Loss => true;
@@ -75,7 +77,7 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 				.WithTarget(Target.SelfOrAllies)
 				.WithOnAbilityStarted(async state =>
 				{
-					await AbilityCmd.GenericChoice(state.Performer, 
+					await AbilityCmd.GenericChoice(state.Performer,
 					[
 						ScenarioEvents.GenericChoice.Subscription.New(
 							applyFunction: async applyParameters =>
@@ -111,7 +113,7 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 								applyFunction: async parameters =>
 								{
 									parameters.AbilityState.AdjustMoveValue(2);
-									
+
 									await GDTask.CompletedTask;
 								},
 								effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Move)}")
@@ -120,7 +122,12 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 						.Build()
 				])
 				.WithRange(3)
-				.WithConditionalAbilityCheck(async state => !state.ActionState.GetAbilityState<GrantAbility.State>(0).GetCustomValue<bool>(this, "ChoseGrant"))
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return !state.ActionState.GetAbilityState<GrantAbility.State>(0).GetCustomValue<bool>(this, "ChoseGrant");
+				})
 				.Build())
 		];
 	}

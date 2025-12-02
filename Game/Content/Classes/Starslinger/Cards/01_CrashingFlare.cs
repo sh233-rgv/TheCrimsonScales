@@ -16,26 +16,26 @@ public class CrashingFlare : StarslingerCardModel<CrashingFlare.CardTop, Crashin
 				.WithDamage(3)
 				.WithRange(2)
 				.WithDuringAttackSubscriptions(
-				[
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Light,
-						applyFunction: async parameters =>
-						{
-							parameters.AbilityState.AbilityAdjustAttackValue(1);
+					[
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Light,
+							applyFunction: async parameters =>
+							{
+								parameters.AbilityState.AbilityAdjustAttackValue(1);
 
-							await AbilityCmd.GainXP(parameters.Performer, 1);
-						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
-					),
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Dark,
-						applyFunction: async parameters =>
-						{
-							parameters.AbilityState.AbilityAdjustRange(2);
+								await AbilityCmd.GainXP(parameters.Performer, 1);
+							},
+							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
+						),
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Dark,
+							applyFunction: async parameters =>
+							{
+								parameters.AbilityState.AbilityAdjustRange(2);
 
-							await GDTask.CompletedTask;
-						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Range)}")
-					),
-				]
+								await GDTask.CompletedTask;
+							},
+							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Range)}")
+						),
+					]
 				)
 				.Build())
 		];
@@ -50,11 +50,16 @@ public class CrashingFlare : StarslingerCardModel<CrashingFlare.CardTop, Crashin
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
-                {
+				{
 					await AbilityCmd.InfuseElement(Element.Light);
 					state.SetPerformed();
-                })
-				.WithConditionalAbilityCheck(async state => !state.Performer.IsDamaged())
+				})
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return !state.Performer.IsDamaged();
+				})
 				.Build())
 		];
 	}

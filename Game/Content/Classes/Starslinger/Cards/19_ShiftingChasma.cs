@@ -15,24 +15,25 @@ public class ShiftingChasma : StarslingerCardModel<ShiftingChasma.CardTop, Shift
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
-				.WithAOEPattern(new AOEPattern([
-							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Yellow),
-							new AOEHex(Vector2I.Zero.Add(Direction.West), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.SouthWest), AOEHexType.Yellow),
-							new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Yellow),
-						]))
+				.WithAOEPattern(new AOEPattern(
+				[
+					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Yellow),
+					new AOEHex(Vector2I.Zero.Add(Direction.West), AOEHexType.Red),
+					new AOEHex(Vector2I.Zero.Add(Direction.SouthWest), AOEHexType.Yellow),
+					new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
+					new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Yellow),
+				]))
 				.Build()),
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantAbilityState => 
+				.WithGetAbilities(grantAbilityState =>
 				[
 					AttackAbility.Builder()
 						.WithDamage(2)
 						.Build()
 				])
-				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed)
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.WithTarget(Target.Allies | Target.TargetAll)
 				.WithCustomGetTargets((abilityState, list) =>
 				{

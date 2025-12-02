@@ -15,11 +15,12 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					StarslingerTokenLostInTheStars characterToken = ResourceLoader.Load<PackedScene>("res://Content/Classes/Starslinger/StarslingerTokenLostInTheStars.tscn").Instantiate<StarslingerTokenLostInTheStars>();
+					StarslingerTokenLostInTheStars characterToken = ResourceLoader
+						.Load<PackedScene>("res://Content/Classes/Starslinger/StarslingerTokenLostInTheStars.tscn")
+						.Instantiate<StarslingerTokenLostInTheStars>();
 					GameController.Instance.Map.AddChild(characterToken);
 					await characterToken.Init(state.Performer, state.Performer.Hex);
 
@@ -30,7 +31,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 
 					foreach(AbilityCard card in ((Character)state.Performer).RoundCards)
 					{
-						if (card.CardState == CardState.Playing)
+						if(card.CardState == CardState.Playing)
 						{
 							await AbilityCmd.DiscardCard(card);
 						}
@@ -53,14 +54,16 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 							await state.RemoveFromActive();
 							await state.ActionState.RequestDiscardOrLose();
 							Hex returnHex = await AbilityCmd.SelectHex(applyParameters.Figure,
-								possibleEndHexes => {
+								possibleEndHexes =>
+								{
 									List<Hex> hexes = RangeHelper.GetHexesInRange(characterToken.Hex, 100, requiresLineOfSight: false).ToList();
 									hexes.Shuffle(GameController.Instance.StateRNG);
-									hexes.Sort((otherHexA, otherHexB) => RangeHelper.Distance(characterToken.Hex, otherHexA).CompareTo(RangeHelper.Distance(characterToken.Hex, otherHexB)));
+									hexes.Sort((otherHexA, otherHexB) => RangeHelper.Distance(characterToken.Hex, otherHexA)
+										.CompareTo(RangeHelper.Distance(characterToken.Hex, otherHexB)));
 									Hex firstHex = null;
 									foreach(Hex hex in hexes)
 									{
-										if(hex.IsUnoccupied() && MoveHelper.CanStopAt(state.Performer, hex))
+										if(hex.IsUnoccupied() && MoveHelper.CanStopAt(null, state.Performer, hex))
 										{
 											firstHex = hex;
 											break;
@@ -77,7 +80,8 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 									foreach(Hex otherHex in hexes)
 									{
 										int otherDistance = RangeHelper.Distance(characterToken.Hex, otherHex);
-										if(otherHex.IsUnoccupied() && otherDistance == distance && MoveHelper.CanStopAt(state.Performer, otherHex))
+										if(otherHex.IsUnoccupied() && otherDistance == distance &&
+										   MoveHelper.CanStopAt(null, state.Performer, otherHex))
 										{
 											possibleEndHexes.Add(otherHex);
 										}
@@ -87,7 +91,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 
 							applyParameters.Figure.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
 							await AbilityCmd.EnterHex(state, applyParameters.Figure, applyParameters.Figure, returnHex, true, true);
-							
+
 							await characterToken.Destroy();
 							characterToken.TweenScale(0f, 0.15f).SetEasing(Easing.InBack).PlayFastForwardable();
 						}

@@ -66,20 +66,25 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 
 		private async GDTask Heal(AbilityState state)
 		{
-			ActionState healAbility = new ActionState(state.Performer, [
-				HealAbility.Builder()
-					.WithHealValue(1)
-					.WithRange(1)
-					.Build()
-			]);
-            ScenarioEvents.AbilityEndedEvent.Subscribe(state, this,
+			ScenarioEvents.AbilityEndedEvent.Subscribe(state, this,
 				canApplyParameters => true,
 				async applyParameters =>
 				{
+					ActionState healAbility = new ActionState(state.Performer, [
+						HealAbility.Builder()
+							.WithHealValue(1)
+							.WithRange(1)
+							.Build()
+					]);
+
 					await healAbility.Perform();
+
 					ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
-				});
-        }
+				}
+			);
+
+			await GDTask.CompletedTask;
+		}
 	}
 
 	public class CardBottom : StarslingerCardSide
@@ -100,14 +105,16 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 							await AbilityCmd.RemoveCondition(state.Performer, Conditions.Invisible);
 						}
 					);
+
+					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(
 					async state =>
-                    {
+					{
 						ScenarioEvents.RoundEndedEvent.Unsubscribe(state, this);
 
 						await GDTask.CompletedTask;
-                    }
+					}
 				)
 				.WithMandatory(true)
 				.Build())

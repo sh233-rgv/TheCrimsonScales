@@ -15,16 +15,17 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
-				.WithAOEPattern(new AOEPattern([
-							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthWest).Add(Direction.NorthEast), AOEHexType.Yellow),
-						]))
+				.WithAOEPattern(new AOEPattern(
+				[
+					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthWest).Add(Direction.NorthEast), AOEHexType.Yellow),
+				]))
 				.Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Invisible)
-				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed)
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);
@@ -54,10 +55,13 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.FigureTurnStartedEvent.Subscribe(state, this,
-						parameters => parameters.Figure == state.Performer && GameController.Instance.ElementManager.GetState(Element.Dark) != ElementState.Inert,
+						parameters =>
+							parameters.Figure == state.Performer &&
+							GameController.Instance.ElementManager.GetState(Element.Dark) != ElementState.Inert,
 						async parameters =>
 						{
-							ActionState moveAbility = new ActionState(state.Performer, [
+							ActionState moveAbility = new ActionState(state.Performer,
+							[
 								MoveAbility.Builder()
 									.WithDistance(2)
 									.Build()
@@ -101,5 +105,5 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 			]);
 			await healAbility.Perform();
 		}
-    }
+	}
 }

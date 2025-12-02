@@ -66,14 +66,14 @@ public class SavedCampaign
 				//ModelDB.Class<BrightsparkModel>(),
 				ModelDB.Class<ChainguardModel>(),
 				//ModelDB.Class<HollowpactModel>(),
-				//ModelDB.Class<StarslingerModel>()
+				ModelDB.Class<StarslingerModel>()
 			],
 			StartingGroup.Trailblazers =>
 			[
 				ModelDB.Class<BombardModel>(),
 				//ModelDB.Class<BrightsparkModel>(),
 				//ModelDB.Class<LuminaryModel>(),
-				//ModelDB.Class<StarslingerModel>()
+				ModelDB.Class<StarslingerModel>()
 			],
 			StartingGroup.Naturalists =>
 			[
@@ -139,7 +139,8 @@ public class SavedCampaign
 		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), "Swampguy");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), "Bombo");
 		//savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), "Conclave Man");
-		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), "Vuur Knecht");
+		//savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), "Vuur Knecht");
+		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), "Sterrengooier");
 		savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), "Dierenzitter");
 
 		//savedCampaign.Characters[0].AddItem(ModelDB.Item<MinorManaPotion>());
