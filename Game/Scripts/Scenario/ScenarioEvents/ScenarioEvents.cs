@@ -499,6 +499,21 @@ public class ScenarioEvents
 
 	public class FigureEnteredHex : ScenarioEvent<FigureEnteredHex.Parameters>
 	{
+		public class Parameters(AbilityState abilityState, Figure figure)
+			: ParametersBase
+		{
+			public AbilityState PotentialAbilityState { get; } = abilityState;
+			public Figure Figure { get; } = figure;
+
+			public Hex Hex => Figure.Hex;
+		}
+	}
+
+	private readonly FigureExitingHex _figureExitingHex = new FigureExitingHex();
+	public static FigureExitingHex FigureExitingHexEvent => GameController.Instance.ScenarioEvents._figureExitingHex;
+
+	public class FigureEnteredHex : ScenarioEvent<FigureEnteredHex.Parameters>
+	{
 		public class Parameters(AbilityState potentialAbilityState, Figure figure) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
