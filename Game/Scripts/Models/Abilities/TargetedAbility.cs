@@ -79,6 +79,24 @@ public abstract class TargetedAbilityState : AbilityState
 		}
 	}
 
+	public IEnumerable<Hex> GetYellowAOEHexes()
+	{
+		if(AOEHexes == null)
+		{
+			yield break;
+		}
+
+		foreach((Vector2I coords, AOEHexType type) in AOEHexes)
+		{
+			Hex hex = GameController.Instance.Map.GetHex(coords);
+
+			if(hex != null && type == AOEHexType.Yellow)
+			{
+				yield return hex;
+			}
+		}
+	}
+  
 	public void SetTarget(Target target)
 	{
 		AbilityTarget = target;

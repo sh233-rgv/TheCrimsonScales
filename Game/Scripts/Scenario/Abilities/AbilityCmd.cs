@@ -30,7 +30,7 @@ public static class AbilityCmd
 
 	public static async GDTask DiscardOrLose(AbilityCard card)
 	{
-		if(card.CardState == CardState.Round || card.CardState == CardState.Persistent)
+		if(card.CardState == CardState.Round || card.CardState == CardState.Persistent || card.CardState == CardState.PersistentNoDeactivate)
 		{
 			await DiscardCard(card);
 		}
@@ -476,6 +476,34 @@ public static class AbilityCmd
 				}
 			}
 		}
+	}
+
+	public static bool CanSwap(Figure figure1, Figure figure2)
+	{
+		if(figure1.Hex.TryGetHexObjectOfType(out Obstacle obstacle) && !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figure2)).HasFlying)
+		{
+			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
+				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
+					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figure2, figure1.Hex, obstacle, true));
+
+			if(!canEnterObstacleParameters.CanEnter)
+			{
+				return false;
+			}
+		}
+
+		if(figure2.Hex.TryGetHexObjectOfType(out Obstacle obstacle2) && !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figure1)).HasFlying)
+		{
+			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
+				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
+					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figure1, figure2.Hex, obstacle2, true));
+
+			if(!canEnterObstacleParameters.CanEnter)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public static async GDTask<bool> HasPerformedAbility(AbilityState abilityState, int abilityIndex)
