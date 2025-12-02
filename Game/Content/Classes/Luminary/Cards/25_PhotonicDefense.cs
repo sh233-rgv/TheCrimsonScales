@@ -104,11 +104,10 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 				})
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.2869934f, 0.30899984f)),
-					new UseSlot(new Vector2(0.70750487f, 0.30899984f)),
-					new UseSlot(new Vector2(0.603f, 0.43299824f)),
-					new UseSlot(new Vector2(0.39799652f, 0.43299824f), Gain2XP)
-					//TODO: FIx positioning
+					new UseSlot(new Vector2(0.15999386f, 0.3559997f)),
+					new UseSlot(new Vector2(0.36899313f, 0.3559997f)),
+					new UseSlot(new Vector2(0.5764929f, 0.3559997f)),
+					new UseSlot(new Vector2(0.7889926f, 0.3559997f), Gain2XP)
 				])
 				.Build())
 		];

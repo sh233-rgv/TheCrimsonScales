@@ -111,10 +111,9 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
                 })
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.36999783f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
-					//TODO: Fix use slot positioning
+					new UseSlot(new Vector2(0.16350047f, 0.8974989f), GainXP),
+					new UseSlot(new Vector2(0.37350035f, 0.8974989f), GainXP),
+					new UseSlot(new Vector2(0.58100003f, 0.8974989f), GainXP)
 				])
 				.Build())
 		];

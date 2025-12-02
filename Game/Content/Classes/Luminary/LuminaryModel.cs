@@ -43,5 +43,7 @@ public class LuminaryModel : ClassModel
 		ModelDB.Card<PhotonicDefense>(),
 		ModelDB.Card<DominatingIllusion>(),
 		ModelDB.Card<OpticalRefraction>(),
+		ModelDB.Card<BlazingPincers>(),
+		ModelDB.Card<LightTheWay>(),
 	];
 }

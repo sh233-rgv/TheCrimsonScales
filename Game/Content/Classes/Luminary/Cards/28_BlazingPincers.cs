@@ -6,7 +6,7 @@ using Godot;
 public class BlazingPincers : LuminaryCardModel<BlazingPincers.CardTop, BlazingPincers.CardBottom>
 {
 	public override string Name => "Blazing Pincers";
-	public override int Level => 1;
+	public override int Level => 9;
 	public override int Initiative => 59;
 	protected override int AtlasIndex => 28;
 
