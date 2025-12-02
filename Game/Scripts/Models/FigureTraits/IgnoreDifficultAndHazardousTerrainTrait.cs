@@ -2,9 +2,9 @@
 
 public class IgnoreDifficultAndHazardousTerrainTrait() : FigureTrait
 {
-	public override void Activate(Figure figure)
+	public override async GDTask Activate(Figure figure)
 	{
-		base.Activate(figure);
+		await base.Activate(figure);
 
 		ScenarioCheckEvents.MoveCheckEvent.Subscribe(figure, this,
 			canApplyParameters =>
@@ -35,9 +35,9 @@ public class IgnoreDifficultAndHazardousTerrainTrait() : FigureTrait
 		);
 	}
 
-	public override void Deactivate(Figure figure)
+	public override async GDTask Deactivate(Figure figure)
 	{
-		base.Deactivate(figure);
+		await base.Deactivate(figure);
 
 		ScenarioCheckEvents.MoveCheckEvent.Unsubscribe(figure, this);
 		ScenarioEvents.HazardousTerrainTriggeredEvent.Unsubscribe(figure, this);

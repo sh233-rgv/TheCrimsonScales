@@ -206,12 +206,12 @@ public static class AbilityCmd
 	}
 
 	public static async GDTask RemoveAllChill(Figure target)
-    {
-        while (target.HasCondition(Conditions.Chill))
-        {
+	{
+		while(target.HasCondition(Conditions.Chill))
+		{
 			await RemoveCondition(target, Conditions.Chill);
-        }
-    }
+		}
+	}
 
 	public static async GDTask GainXP(Figure figure, int xp)
 	{
@@ -252,8 +252,16 @@ public static class AbilityCmd
 		return await CreateOverlayTile<DifficultTerrain>(hex, scene);
 	}
 
-	public static async GDTask SpawnCoin(Hex hex)
+	public static async GDTask SpawnCoin(Hex hex, Figure figure = null)
 	{
+		ScenarioCheckEvents.SpawnCoinCheck.Parameters spawnCoinCheckEventParameters =
+			ScenarioCheckEvents.SpawnCoinCheckEvent.Fire(new ScenarioCheckEvents.SpawnCoinCheck.Parameters(figure));
+
+		if(!spawnCoinCheckEventParameters.SpawnCoin)
+		{
+			return;
+		}
+
 		if(!hex.TryGetHexObjectOfType(out CoinStack coinStack))
 		{
 			PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/CoinStack.tscn");
@@ -358,16 +366,17 @@ public static class AbilityCmd
 	}
 
 	public static GDTask<Figure> SelectFigure(AbilityState state, Action<List<Figure>> getValidTargets, bool mandatory = false,
-		bool autoSelectIfOne = true, string hintText = "Select a target")
+		bool autoSelectIfOne = true, EffectCollection effectCollection = null, Func<string> hintText = null)
 	{
-		return SelectFigure(state.Authority, getValidTargets, mandatory, autoSelectIfOne, hintText);
+		return SelectFigure(state.Authority, getValidTargets, mandatory, autoSelectIfOne, effectCollection, hintText);
 	}
 
 	public static async GDTask<Figure> SelectFigure(Figure authority, Action<List<Figure>> getValidTargets, bool mandatory = false,
-		bool autoSelectIfOne = true, string hintText = "Select a target")
+		bool autoSelectIfOne = true, EffectCollection effectCollection = null, Func<string> hintText = null)
 	{
 		TargetSelectionPrompt.Answer targetAnswer = await PromptManager.Prompt(
-			new TargetSelectionPrompt(getValidTargets, autoSelectIfOne, mandatory, null, () => hintText), authority);
+			new TargetSelectionPrompt(getValidTargets, autoSelectIfOne, mandatory, effectCollection, hintText ?? (() => "Select a target")),
+			authority);
 
 		if(targetAnswer.Skipped)
 		{
@@ -420,9 +429,15 @@ public static class AbilityCmd
 				.Select(referenceId => GameController.Instance.ReferenceManager.Get<AbilityCard>(referenceId)).ToList();
 	}
 
-	public static async GDTask EnterHex(AbilityState state, Figure figure, Figure authority, Hex hex, bool triggerHexEffects)
+	public static async GDTask ExitHex(AbilityState potentialAbilityState, Figure figure, Figure authority)
 	{
-		figure.SetOriginHexAndRotation(hex);
+		await ScenarioEvents.FigureExitingHexEvent.CreatePrompt(
+			new ScenarioEvents.FigureExitingHex.Parameters(potentialAbilityState, figure), authority);
+	}
+
+	public static async GDTask EnterHex(AbilityState state, Figure figure, Figure authority, Hex hex, bool triggerHexEffects, bool setPosition)
+	{
+		figure.SetOriginHexAndRotation(hex, setPosition: setPosition);
 
 		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(state, figure), authority);
 
@@ -801,18 +816,18 @@ public static class AbilityCmd
 
 	private static ItemModel GetRandomAvailableItem(IEnumerable<ItemModel> itemModels)
 	{
-		List<ItemModel> availableOrbs = new List<ItemModel>();
-		foreach(ItemModel orbModel in itemModels)
+		List<ItemModel> availableItems = new List<ItemModel>();
+		foreach(ItemModel itemModel in itemModels)
 		{
-			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(orbModel);
+			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(itemModel);
 			int unlockedCount = savedItem.UnlockedCount;
-			for(int i = 0; i < 2 - unlockedCount; i++)
+			for(int i = 0; i < itemModel.ShopCount - unlockedCount; i++)
 			{
-				availableOrbs.Add(orbModel);
+				availableItems.Add(itemModel);
 			}
 		}
 
-		return availableOrbs.Count == 0 ? null : availableOrbs.PickRandom(GameController.Instance.StateRNG);
+		return availableItems.Count == 0 ? null : availableItems.PickRandom(GameController.Instance.StateRNG);
 	}
 
 	public static GDTask Lose()

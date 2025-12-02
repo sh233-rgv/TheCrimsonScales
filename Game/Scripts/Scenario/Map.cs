@@ -111,7 +111,8 @@ public partial class Map : Node2D
 		return (hex != null && (!checkRevealed || hex.Revealed)) ? hex : null;
 	}
 
-	public async GDTask<Monster> CreateMonster(MonsterModel monsterModel, MonsterType monsterType, Vector2I coords, bool summon, int? monsterLevel = null)
+	public async GDTask<Monster> CreateMonster(MonsterModel monsterModel, MonsterType monsterType, Vector2I coords, bool summon,
+		int? monsterLevel = null)
 	{
 		MonsterGroup monsterGroup = GetMonsterGroup(monsterModel);
 
@@ -122,7 +123,7 @@ public partial class Map : Node2D
 			AddChild(monsterHexObject, true);
 			monsterHexObject.SetMonsterModel(monsterModel);
 			await monsterHexObject.Init(hex);
-			monsterHexObject.Spawn(monsterGroup, monsterType, standeeNumber, summon, monsterLevel);
+			await monsterHexObject.Spawn(monsterGroup, monsterType, standeeNumber, summon, monsterLevel);
 			return monsterHexObject;
 		}
 
@@ -228,7 +229,11 @@ public partial class Map : Node2D
 		MonsterGroup group = MonsterGroups.FirstOrDefault(group => group.MonsterModel == monsterModel);
 		if(group == null)
 		{
-			group = new MonsterGroup(monsterModel, MonsterGroups.Count);
+			MonsterAbilityCardDeck deckIsAlreadyInUseByAGroup = MonsterGroups
+				.Where(monsterGroup => monsterGroup.MonsterModel.Deck == monsterModel.Deck)
+				.Select(group => group.MonsterAbilityCardDeck)
+				.FirstOrDefault();
+			group = new MonsterGroup(monsterModel, MonsterGroups.Count, deckIsAlreadyInUseByAGroup);
 			MonsterGroups.Add(group);
 		}
 

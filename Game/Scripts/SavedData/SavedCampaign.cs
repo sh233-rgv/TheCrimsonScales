@@ -57,7 +57,7 @@ public class SavedCampaign
 			StartingGroup.Protectors =>
 			[
 				ModelDB.Class<ChainguardModel>(),
-				//ModelDB.Class<ChieftainModel>(),
+				ModelDB.Class<ChieftainModel>(),
 				ModelDB.Class<FireKnightModel>(),
 				ModelDB.Class<HierophantModel>()
 			],
@@ -77,7 +77,7 @@ public class SavedCampaign
 			],
 			StartingGroup.Naturalists =>
 			[
-				//ModelDB.Class<ChieftainModel>(),
+				ModelDB.Class<ChieftainModel>(),
 				//ModelDB.Class<HollowpactModel>(),
 				//ModelDB.Class<LuminaryModel>(),
 				ModelDB.Class<MirefootModel>()
@@ -138,8 +138,9 @@ public class SavedCampaign
 
 		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), "Swampguy");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), "Bombo");
-		savedCampaign.AddCharacter(ModelDB.Class<LuminaryModel>(), "Conclave Man");
+		//savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), "Conclave Man");
 		savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), "Vuur Knecht");
+		savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), "Dierenzitter");
 
 		//savedCampaign.Characters[0].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[1].SetEquippedSmallSlotItem(0, ModelDB.Item<MinorManaPotion>());

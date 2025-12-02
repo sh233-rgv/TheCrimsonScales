@@ -104,14 +104,14 @@ public class ScenarioEvents
 	public class AttackAfterTargetConfirmed : ScenarioEvent<AttackAfterTargetConfirmed.Parameters>
 	{
 		public class Parameters(AttackAbility.State abilityState) : ParametersBase<AttackAbility.State>(abilityState)
-        {
-        	public bool CannotGainDisadvantage { get; private set; } = false;
+		{
+			public bool CannotGainDisadvantage { get; private set; } = false;
 
 			public void SetCannotGainDisadvantage()
 			{
 				CannotGainDisadvantage = true;
 			}
-        }
+		}
 	}
 
 	private readonly AttackAfterTargetConfirmed _attackAfterTargetConfirmed = new AttackAfterTargetConfirmed();
@@ -162,7 +162,7 @@ public class ScenarioEvents
 
 	private readonly AMDCardValueApplied _amdCardValueApplied = new AMDCardValueApplied();
 	public static AMDCardValueApplied AMDCardValueAppliedEvent => GameController.Instance.ScenarioEvents._amdCardValueApplied;
-	
+
 	public class DuringHeal : ScenarioEvent<DuringHeal.Parameters>
 	{
 		public class Parameters(HealAbility.State abilityState) : ParametersBase<HealAbility.State>(abilityState)
@@ -220,7 +220,9 @@ public class ScenarioEvents
 	}
 
 	private readonly ConditionAfterTargetConfirmed _conditionAfterTargetConfirmed = new ConditionAfterTargetConfirmed();
-	public static ConditionAfterTargetConfirmed ConditionAfterTargetConfirmedEvent => GameController.Instance.ScenarioEvents._conditionAfterTargetConfirmed;
+
+	public static ConditionAfterTargetConfirmed ConditionAfterTargetConfirmedEvent =>
+		GameController.Instance.ScenarioEvents._conditionAfterTargetConfirmed;
 
 	public class InflictConditions : ScenarioEvent<InflictConditions.Parameters>
 	{
@@ -279,7 +281,9 @@ public class ScenarioEvents
 	}
 
 	private readonly InflictConditionDuplicatesCheck _inflictConditionDuplicatesCheck = new InflictConditionDuplicatesCheck();
-	public static InflictConditionDuplicatesCheck InflictConditionDuplicatesCheckEvent => GameController.Instance.ScenarioEvents._inflictConditionDuplicatesCheck;
+
+	public static InflictConditionDuplicatesCheck InflictConditionDuplicatesCheckEvent =>
+		GameController.Instance.ScenarioEvents._inflictConditionDuplicatesCheck;
 
 	public class DuringGrant : ScenarioEvent<DuringGrant.Parameters>
 	{
@@ -412,7 +416,9 @@ public class ScenarioEvents
 
 	public class JustBeforeSufferDamage : ScenarioEvent<JustBeforeSufferDamage.Parameters>
 	{
-		public class Parameters(Figure figure, int damage, AttackAbility.State potentialAttackAbilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
+		public class Parameters(
+			Figure figure, int damage, AttackAbility.State potentialAttackAbilityState, SufferDamage.Parameters sufferDamageParameters)
+			: ParametersBase
 		{
 			public Figure Figure { get; } = figure;
 			public int Damage { get; } = damage;
@@ -433,7 +439,9 @@ public class ScenarioEvents
 
 	public class AfterSufferDamage : ScenarioEvent<AfterSufferDamage.Parameters>
 	{
-		public class Parameters(Figure figure, int damage, AttackAbility.State potentialAttackAbilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
+		public class Parameters(
+			Figure figure, int damage, AttackAbility.State potentialAttackAbilityState, SufferDamage.Parameters sufferDamageParameters)
+			: ParametersBase
 		{
 			public Figure Figure { get; } = figure;
 			public int Damage { get; } = damage;
@@ -510,6 +518,21 @@ public class ScenarioEvents
 	private readonly CanMoveFurtherCheck _canMoveFurtherCheck = new CanMoveFurtherCheck();
 	public static CanMoveFurtherCheck CanMoveFurtherCheckEvent => GameController.Instance.ScenarioEvents._canMoveFurtherCheck;
 
+	public class FigureExitingHex : ScenarioEvent<FigureExitingHex.Parameters>
+	{
+		public class Parameters(AbilityState abilityState, Figure figure)
+			: ParametersBase
+		{
+			public AbilityState PotentialAbilityState { get; } = abilityState;
+			public Figure Figure { get; } = figure;
+
+			public Hex Hex => Figure.Hex;
+		}
+	}
+
+	private readonly FigureExitingHex _figureExitingHex = new FigureExitingHex();
+	public static FigureExitingHex FigureExitingHexEvent => GameController.Instance.ScenarioEvents._figureExitingHex;
+
 	public class FigureEnteredHex : ScenarioEvent<FigureEnteredHex.Parameters>
 	{
 		public class Parameters(AbilityState abilityState, Figure figure)
@@ -533,9 +556,16 @@ public class ScenarioEvents
 
 			public Figure OtherFigure { get; private set; } = null;
 
+			public bool TriggerHexEffects { get; private set; } = true;
+
 			public void SetOtherFigure(Figure otherFigure)
 			{
 				OtherFigure = otherFigure;
+			}
+
+			public void SetTriggerHexEffects(bool triggerHexEffects)
+			{
+				TriggerHexEffects = triggerHexEffects;
 			}
 		}
 	}
@@ -861,7 +891,9 @@ public class ScenarioEvents
 	}
 
 	private readonly FigureTurnEndedConditionsFallOff _figureTurnEndedConditionsFallOff = new FigureTurnEndedConditionsFallOff();
-	public static FigureTurnEndedConditionsFallOff FigureTurnEndedConditionsFallOffEvent => GameController.Instance.ScenarioEvents._figureTurnEndedConditionsFallOff;
+
+	public static FigureTurnEndedConditionsFallOff FigureTurnEndedConditionsFallOffEvent =>
+		GameController.Instance.ScenarioEvents._figureTurnEndedConditionsFallOff;
 
 	public class FigureTurnEnded : ScenarioEvent<FigureTurnEnded.Parameters>
 	{
@@ -884,7 +916,9 @@ public class ScenarioEvents
 	}
 
 	private readonly RoundStartBeforeCardSelection _roundStartBeforeCardSelection = new RoundStartBeforeCardSelection();
-	public static RoundStartBeforeCardSelection RoundStartBeforeCardSelectionEvent => GameController.Instance.ScenarioEvents._roundStartBeforeCardSelection;
+
+	public static RoundStartBeforeCardSelection RoundStartBeforeCardSelectionEvent =>
+		GameController.Instance.ScenarioEvents._roundStartBeforeCardSelection;
 
 	public class RoundStartedBeforeInitiativesSorted : ScenarioEvent<RoundStartedBeforeInitiativesSorted.Parameters>
 	{
@@ -898,7 +932,9 @@ public class ScenarioEvents
 	}
 
 	private readonly RoundStartedBeforeInitiativesSorted _roundStartedBeforeInitiativesSorted = new RoundStartedBeforeInitiativesSorted();
-	public static RoundStartedBeforeInitiativesSorted RoundStartedBeforeInitiativesSortedEvent => GameController.Instance.ScenarioEvents._roundStartedBeforeInitiativesSorted;
+
+	public static RoundStartedBeforeInitiativesSorted RoundStartedBeforeInitiativesSortedEvent =>
+		GameController.Instance.ScenarioEvents._roundStartedBeforeInitiativesSorted;
 
 	public class InitiativesSorted : ScenarioEvent<InitiativesSorted.Parameters>
 	{
