@@ -2,9 +2,9 @@
 
 public class AllDamageImmunityTrait : FigureTrait
 {
-	public override void Activate(Figure figure)
+	public override async GDTask Activate(Figure figure)
 	{
-		base.Activate(figure);
+		await base.Activate(figure);
 
 		ScenarioEvents.SufferDamageEvent.Subscribe(figure, this,
 			parameters => parameters.Figure == figure && parameters.WouldSufferDamage,
@@ -25,9 +25,9 @@ public class AllDamageImmunityTrait : FigureTrait
 		);
 	}
 
-	public override void Deactivate(Figure figure)
+	public override async GDTask Deactivate(Figure figure)
 	{
-		base.Deactivate(figure);
+		await base.Deactivate(figure);
 
 		ScenarioEvents.SufferDamageEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(figure, this);

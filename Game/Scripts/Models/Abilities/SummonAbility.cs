@@ -22,6 +22,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 	private SummonStats _summonStats;
 	private string _name;
 	private string _texturePath;
+	private string _mapIconTexturePath;
 	private Action<State, List<Hex>> _getValidHexes;
 
 	/// <summary>
@@ -67,6 +68,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 		public TBuilder WithTexturePath(string texturePath)
 		{
 			Obj._texturePath = texturePath;
+			Obj._mapIconTexturePath = $"{texturePath.GetBaseName()}MapIcon.tres";
 			return (TBuilder)this;
 		}
 
@@ -129,12 +131,11 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 			Summon summon = summonScene.Instantiate<Summon>();
 			GameController.Instance.Map.AddChild(summon);
 			await summon.Init(targetedHex);
-			summon.Spawn(_summonStats, (Character)abilityState.Performer, _name, _texturePath);
+			await summon.Spawn(_summonStats, (Character)abilityState.Performer, _name, _texturePath, _mapIconTexturePath);
 			abilityState.SetSummon(summon);
 
 			summon.Scale = Vector2.Zero;
 			await summon.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardableAsync();
-
 
 			ScenarioEvents.FigureKilledEvent.Subscribe(abilityState, this,
 				canApplyParameters => canApplyParameters.Figure == summon,

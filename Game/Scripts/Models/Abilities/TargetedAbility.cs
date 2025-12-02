@@ -138,9 +138,9 @@ public abstract class TargetedAbilityState : AbilityState
 	}
 
 	public void AbilitySetAOEPattern(AOEPattern aoePattern)
-    {
+	{
 		AbilityAOEPattern = aoePattern;
-    }
+	}
 
 	public void AbilityAdjustPush(int amount)
 	{
@@ -383,7 +383,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			if(abilityState.Authority is Character)
 			{
 				AOEPrompt.Answer aoeAnswer =
-					await PromptManager.Prompt(new AOEPrompt(abilityState, abilityState.AbilityAOEPattern, TargetHex, null, () => "Select where to target"),
+					await PromptManager.Prompt(
+						new AOEPrompt(abilityState, abilityState.AbilityAOEPattern, TargetHex, null, () => "Select where to target"),
 						abilityState.Authority);
 
 				if(aoeAnswer.Skipped)
@@ -402,7 +403,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 				MonsterAOEPrompt.Answer aoeAnswer =
 					await PromptManager.Prompt(
-						new MonsterAOEPrompt(abilityState, abilityState.AbilityAOEPattern, abilityState.AbilityRange, abilityState.AbilityRangeType, focus, null,
+						new MonsterAOEPrompt(abilityState, abilityState.AbilityAOEPattern, abilityState.AbilityRange, abilityState.AbilityRangeType,
+							focus, null,
 							() => "Select where to target"), abilityState.Authority);
 
 				if(aoeAnswer.Skipped)
@@ -484,8 +486,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 				}
 
 				if(abilityState.AbilityTarget.HasFlag(Target.SelfCountsForTargets) &&
-					abilityState.SingleTargetStates.Count + 1 == abilityState.AbilityTargets &&
-				   	!abilityState.UniqueTargetedFigures.Contains(performer) && abilityState.Performer != figure)
+				   abilityState.SingleTargetStates.Count + 1 == abilityState.AbilityTargets &&
+				   !abilityState.UniqueTargetedFigures.Contains(performer) && abilityState.Performer != figure)
 				{
 					remove = true;
 				}
@@ -543,54 +545,38 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 			EffectCollection duringTargetedAbilityEffectCollection = CreateDuringTargetedAbilityEffectCollection(abilityState);
 
-			int figureReferenceId;
+			Figure target;
 
 			if(abilityState.Authority is Character)
 			{
-				bool autoSelectIfOne = Mandatory || 
-					abilityState.AbilityTarget == Target.Self || 
+				bool autoSelectIfOne =
+					Mandatory ||
+					abilityState.AbilityTarget == Target.Self ||
 					(TargetHex != null && abilityState.AbilityAOEPattern == null);
-				TargetSelectionPrompt.Answer targetAnswer = await PromptManager.Prompt(
-					new TargetSelectionPrompt(getValidTargets, autoSelectIfOne, Mandatory, duringTargetedAbilityEffectCollection,
-						() => _getTargetingHintText(abilityState)), abilityState.Authority);
-
-				if(targetAnswer.Skipped)
-				{
-					break;
-				}
-
-				figureReferenceId = targetAnswer.FigureReferenceId;
+				target = await AbilityCmd.SelectFigure(abilityState, getValidTargets, Mandatory, autoSelectIfOne, null,
+					() => _getTargetingHintText(abilityState));
 			}
 			else
 			{
-				//List<FocusNode> bestFocusNodes = await abilityState.Performer.GetBestFocusNodes();
-				//Figure focus = bestFocusNodes.Count > 0 ? bestFocusNodes[0].Focus : null;
 				Figure focus = await abilityState.ActionState.GetFocus(abilityState);
 
 				MonsterTargetSelectionPrompt.Answer targetAnswer = await PromptManager.Prompt(
 					new MonsterTargetSelectionPrompt(getValidTargets, true, focus, duringTargetedAbilityEffectCollection,
 						() => _getTargetingHintText(abilityState)), abilityState.Authority);
 
-				if(targetAnswer.Skipped)
-				{
-					break;
-				}
-
-				figureReferenceId = targetAnswer.FigureReferenceId;
+				target = targetAnswer.Skipped ? null : GameController.Instance.ReferenceManager.Get<Figure>(targetAnswer.FigureReferenceId);
 			}
 
-			Figure target = GameController.Instance.ReferenceManager.Get<Figure>(figureReferenceId);
+			if(target == null)
+			{
+				break;
+			}
+
 			abilityState.AddSingleTargetState(target);
-			//abilityState.Target = target;
 			abilityState.UniqueTargetedFigures.AddIfNew(target);
 			abilityState.TargetedHexes.AddIfNew(target.Hex);
 
 			abilityState.SetPerformed();
-
-			// if(duringTargetedAbilityParameters != null)
-			// {
-			// 	SyncDuringTargetedAbilityParameters(abilityState, duringTargetedAbilityParameters);
-			// }
 
 			await AfterTargetConfirmedBeforeConditionsApplied(abilityState, target);
 
@@ -744,21 +730,24 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 				{
 					abilityState.SingleTargetState.PullHexes.Add(hex);
 				}
-				if (type == ForcedMovementType.Push)
-                {
-                    abilityState.SingleTargetState.PushHexes.Add(hex);
-                }
 
-				await target.TweenGlobalPosition(hex.GlobalPosition, 0.2f).PlayFastForwardableAsync();
-				await AbilityCmd.EnterHex(abilityState, target, abilityState.Authority, hex, true);
+				if(type == ForcedMovementType.Push)
+				{
+					abilityState.SingleTargetState.PushHexes.Add(hex);
+				}
 
 				ScenarioEvents.MoveTogetherCheck.Parameters moveTogetherCheckParameters =
 					await ScenarioEvents.MoveTogetherCheckEvent.CreatePrompt(new ScenarioEvents.MoveTogetherCheck.Parameters(target));
 
+				await AbilityCmd.ExitHex(abilityState, target, abilityState.Authority);
+				await target.TweenGlobalPosition(hex.GlobalPosition, 0.2f).PlayFastForwardableAsync();
+				await AbilityCmd.EnterHex(abilityState, target, abilityState.Authority, hex, true, true);
+
 				if(moveTogetherCheckParameters.OtherFigure != null)
 				{
-					await target.TweenGlobalPosition(hex.GlobalPosition, 0.2f).PlayFastForwardableAsync();
-					await AbilityCmd.EnterHex(abilityState, moveTogetherCheckParameters.OtherFigure, abilityState.Authority, hex, true);
+					await AbilityCmd.ExitHex(abilityState, moveTogetherCheckParameters.OtherFigure, abilityState.Authority);
+					//await target.TweenGlobalPosition(hex.GlobalPosition, 0.2f).PlayFastForwardableAsync();
+					await AbilityCmd.EnterHex(abilityState, moveTogetherCheckParameters.OtherFigure, abilityState.Authority, hex, true, false);
 				}
 			}
 

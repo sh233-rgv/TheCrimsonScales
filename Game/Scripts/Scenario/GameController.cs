@@ -30,6 +30,9 @@ public partial class GameController : SceneController<GameController>
 	public CardPlayView CardPlayView { get; private set; }
 
 	[Export]
+	public SelectFigureView SelectFigureView { get; private set; }
+
+	[Export]
 	public ChoiceButtonsView ChoiceButtonsView { get; private set; }
 
 	[Export]

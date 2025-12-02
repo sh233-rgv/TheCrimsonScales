@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 using Godot;
-using Newtonsoft.Json;
 
 public partial class Character : Figure
 {
@@ -39,6 +38,7 @@ public partial class Character : Figure
 	public Texture2D PortraitTexture => ClassModel.PortraitTexture;
 
 	public override AMDCardDeck AMDCardDeck => _amdCardDeck;
+	public override Texture2D MapIconTexture => _staticSprite.Texture;
 
 	public event Action<Character> ShortRestedEvent;
 	public event Action<Character> CoinsChangedEvent;
@@ -114,11 +114,14 @@ public partial class Character : Figure
 		}
 	}
 
-	public override void _ExitTree()
+	public override void _Notification(int what)
 	{
-		base._ExitTree();
+		base._Notification(what);
 
-		AppController.Instance.Options.AnimatedCharacters.ValueChangedEvent -= OnAnimatedCharactersChanged;
+		if(what == NotificationPredelete)
+		{
+			AppController.Instance.Options.AnimatedCharacters.ValueChangedEvent -= OnAnimatedCharactersChanged;
+		}
 	}
 
 	public void OnRoundCardsChanged()
