@@ -55,7 +55,7 @@ public static class MoveHelper
 						continue;
 					}
 
-					if(newMoveLeft == 0 && !CanStopAt(performer, newHex, moveType))
+					if(newMoveLeft == 0 && !CanStopAt(abilityState, performer, newHex, moveType))
 					{
 						continue;
 					}
@@ -106,7 +106,7 @@ public static class MoveHelper
 	{
 		closedList.Clear();
 
-		if(!CanStopAt(performer, firstNode.Hex, moveType))
+		if(!CanStopAt(abilityState, performer, firstNode.Hex, moveType))
 		{
 			return;
 		}
@@ -283,7 +283,7 @@ public static class MoveHelper
 						continue;
 					}
 
-					if(newMoveLeft == 0 && !CanStopAt(target, newHex))
+					if(newMoveLeft == 0 && !CanStopAt(abilityState, target, newHex))
 					{
 						continue;
 					}
@@ -408,10 +408,10 @@ public static class MoveHelper
 			return false;
 		}
 
-		return CanStopAt(moveAbilityState.Performer, hex, moveAbilityState.MoveType);
+		return CanStopAt(moveAbilityState, moveAbilityState.Performer, hex, moveAbilityState.MoveType);
 	}
 
-	public static bool CanStopAt(Figure performer, Hex hex, MoveType moveType)
+	public static bool CanStopAt(AbilityState potentialAbilityState, Figure performer, Hex hex, MoveType moveType)
 	{
 		if(hex.TryGetHexObjectOfType(out Obstacle obstacle) && moveType != MoveType.Flying)
 		{
@@ -430,7 +430,7 @@ public static class MoveHelper
 		{
 			ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheck.Parameters canEnterHexWithFigureCheckParameters =
 				ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Fire(
-					new ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheck.Parameters(performer, hex, otherFigure));
+					new ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheck.Parameters(potentialAbilityState, performer, hex, otherFigure));
 
 			if(!canEnterHexWithFigureCheckParameters.CanStopAt)
 			{
@@ -441,9 +441,9 @@ public static class MoveHelper
 		return true;
 	}
 
-	public static bool CanStopAt(Figure performer, Hex hex)
+	public static bool CanStopAt(AbilityState abilityState, Figure performer, Hex hex)
 	{
-		return CanStopAt(performer, hex, MoveType.Regular);
+		return CanStopAt(abilityState, performer, hex, MoveType.Regular);
 	}
 
 	public static int GetMoveCost(Figure performer, Hex hex, MoveType moveType)

@@ -25,6 +25,7 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 		// Allow stopping movement in the same hex to mount
 		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Subscribe(figure, this,
 			parameters =>
+				parameters.PotentialAbilityState is MoveAbility.State &&
 				parameters.OtherFigure == figure &&
 				parameters.Figure == characterOwner,
 			parameters =>
@@ -128,7 +129,10 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 	{
 		await base.Deactivate(figure);
 
-		_mounted = false;
+		if(_mounted)
+		{
+			await Dismount(figure);
+		}
 
 		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.IsSummonControlledCheckEvent.Unsubscribe(figure, this);
@@ -137,17 +141,12 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 		ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.IsMountedCheckEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.CanOpenDoorsCheckEvent.Unsubscribe(figure, this);
-
-		if(_mounted)
-		{
-			await Dismount(figure);
-		}
 	}
 
 	private async GDTask Dismount(Figure figure)
 	{
 		_mounted = false;
-		
+
 		Figure characterOwner = ((Summon)figure).CharacterOwner;
 
 		if(onDismounted != null)
@@ -157,7 +156,7 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 
 		characterOwner.Reparent(GameController.Instance.Map);
 		characterOwner.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
-		characterOwner.TweenGlobalPosition(characterOwner.Hex.GlobalPosition, 0.2f)
+		characterOwner.TweenGlobalPosition(figure.Hex.GlobalPosition, 0.2f)
 			.SetEasing(Easing.InBack).PlayFastForwardable();
 		await GDTask.Delay(0.3f);
 	}
