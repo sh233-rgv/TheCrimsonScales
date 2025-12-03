@@ -54,6 +54,9 @@ public partial class GameController : SceneController<GameController>
 	public AOEView AOEView { get; private set; }
 
 	[Export]
+	public AOEMirrorButtonView AOEMirrorButtonView { get; private set; }
+
+	[Export]
 	public SufferDamageView SufferDamageView { get; private set; }
 
 	[Export]
@@ -470,7 +473,7 @@ public partial class GameController : SceneController<GameController>
 
 				if(undoType == UndoType.Turn &&
 				   (newScenario.PromptAnswers.Count + 1 == CurrentTurnTakerPromptIndex ||
-					newScenario.PromptAnswers.Count + 1 == PreviousTurnTakerPromptIndex))
+				    newScenario.PromptAnswers.Count + 1 == PreviousTurnTakerPromptIndex))
 				{
 					break;
 				}

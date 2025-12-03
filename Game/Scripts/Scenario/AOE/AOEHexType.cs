@@ -3,5 +3,5 @@
 	Red,
 	Yellow,
 	Gray,
-	Empty,
+	//Empty,
 }

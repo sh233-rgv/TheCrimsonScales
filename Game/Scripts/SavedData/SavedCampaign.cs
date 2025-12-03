@@ -136,12 +136,12 @@ public class SavedCampaign
 	{
 		SavedCampaign savedCampaign = New("Party Time", StartingGroup.Militants);
 
-		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), "Swampguy");
+		savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), "Swampguy");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), "Bombo");
 		//savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), "Conclave Man");
 		//savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), "Vuur Knecht");
 		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), "Sterrenwerper");
-		savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), "Dierenzitter");
+		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), "Dierenzitter");
 
 		//savedCampaign.Characters[0].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<MinorManaPotion>());

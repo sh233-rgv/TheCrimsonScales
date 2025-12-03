@@ -13,8 +13,8 @@ public partial class AOEView : Node2D
 	private PackedScene _yellowHexScene;
 	[Export]
 	private PackedScene _grayHexScene;
-	[Export]
-	private PackedScene _emptyHexScene;
+	// [Export]
+	// private PackedScene _emptyHexScene;
 
 	[Export]
 	private Node2D _hexParent;
@@ -31,10 +31,18 @@ public partial class AOEView : Node2D
 	private readonly List<Vector2I> _coordsCache = new List<Vector2I>();
 
 	private GTween _moveTween;
+	private GTween _rotateTween;
 
 	public List<AOEHexView> Hexes { get; } = new List<AOEHexView>();
 
 	public event Action AOEChangedEvent;
+
+	public override void _Ready()
+	{
+		base._Ready();
+
+		GameController.Instance.AOEMirrorButtonView.MirrorPressed += OnMirrorPressed;
+	}
 
 	public void Open(AOEPattern pattern, Hex forcedOriginHex, Figure performer, int range)
 	{
@@ -66,9 +74,9 @@ public partial class AOEView : Node2D
 					_hasGrayHex = true;
 					hexScene = _grayHexScene;
 					break;
-				case AOEHexType.Empty:
-					hexScene = _emptyHexScene;
-					break;
+				// case AOEHexType.Empty:
+				// 	hexScene = _emptyHexScene;
+				// 	break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
@@ -111,6 +119,8 @@ public partial class AOEView : Node2D
 		}
 
 		SetProcessInput(true);
+
+		GameController.Instance.AOEMirrorButtonView.Open();
 	}
 
 	public void Close()
@@ -127,6 +137,8 @@ public partial class AOEView : Node2D
 		GameController.Instance.HexIndicatorManager.ClearIndicators();
 
 		SetProcessInput(false);
+
+		GameController.Instance.AOEMirrorButtonView.Close();
 	}
 
 	public override void _Input(InputEvent @event)
@@ -172,7 +184,8 @@ public partial class AOEView : Node2D
 
 		_rotationIndex++;
 		float targetDegrees = _rotationIndex * 60f;
-		_hexParent.TweenRotationDegrees(targetDegrees, 0.08f).Play();
+		_rotateTween?.Kill();
+		_rotateTween = _hexParent.TweenRotationDegrees(targetDegrees, 0.08f).Play();
 
 		// if(!ValidateHexes())
 		// {
@@ -203,6 +216,27 @@ public partial class AOEView : Node2D
 		}
 
 		SetCoords(hexIndicator.Hex.Coords);
+	}
+
+	private void OnMirrorPressed()
+	{
+		// Make sure all animations are finished, otherwise mirroring goes horribly wrong
+		_moveTween?.Complete();
+		_rotateTween?.Complete();
+
+		foreach(AOEHexView hex in Hexes)
+		{
+			Vector2I localCoords = hex.GlobalCoords - _coords;
+			localCoords = Map.MirrorCoords(localCoords);
+			hex.SetCoords(_coords + localCoords);
+			hex.SetGlobalPosition(Map.CoordsToGlobalPosition(hex.GlobalCoords));
+		}
+
+		SetCoords(_coords);
+		// if(!ValidateHexes())
+		// {
+		// 	GD.Print("oh no");
+		// }
 	}
 
 	private void SetCoords(Vector2I coords, bool skipAnimation = false)
@@ -277,7 +311,7 @@ public partial class AOEView : Node2D
 
 		bool IsInRange()
 		{
-			return Hexes.Any(hex => _possibleHexes.Contains(hex.GlobalCoords)); // Map.Distance(_performer.Hex.Coords, hex.GlobalCoords) <= _range && );
+			return Hexes.Any(hex => _possibleHexes.Contains(hex.GlobalCoords));
 		}
 	}
 

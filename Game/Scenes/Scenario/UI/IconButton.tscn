@@ -6,7 +6,7 @@
 [ext_resource type="StyleBox" uid="uid://dd1rndhea8oq5" path="res://Resources/BlurButton.tres" id="4_ebd0p"]
 [ext_resource type="Texture2D" uid="uid://cwepqdiymi0bo" path="res://Art/Icons/Other/Cards.svg" id="5_nhy65"]
 
-[node name="ScenarioSetupOptionButton" type="Control" node_paths=PackedStringArray("BetterButton")]
+[node name="IconButton" type="Control" node_paths=PackedStringArray("BetterButton")]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 3
 anchors_preset = 0
