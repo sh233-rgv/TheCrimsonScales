@@ -15,8 +15,7 @@ public class TestScenario : ScenarioModel
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<DizzyingTincture>());
 
 		List<Objective> objectives = GameController.Instance.Map.GetChildrenOfType<Objective>();
-		int objectiveHealth =
-			2 * (GameController.Instance.SavedCampaign.Characters.Count + GameController.Instance.SavedScenario.ScenarioLevel + 1);
+		int objectiveHealth = 1;
 		foreach(Objective objective in objectives)
 		{
 			objective.Init(objectiveHealth, "Dark Pit of Super Doom");
