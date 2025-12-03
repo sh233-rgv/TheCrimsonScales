@@ -11,8 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://dgovtiuaxinv" path="res://Content/OverlayTiles/Obstacles/Bush1H.tscn" id="9_hqk2m"]
 [ext_resource type="PackedScene" uid="uid://c7pr2ras6mvmt" path="res://Content/OverlayTiles/Traps/BearTrap1H.tscn" id="10_5r4do"]
 [ext_resource type="PackedScene" uid="uid://co1tcon7xucp" path="res://Content/OverlayTiles/Obstacles/Boulder3H.tscn" id="11_rv36e"]
-[ext_resource type="PackedScene" uid="uid://d18uhspn28n56" path="res://Content/OverlayTiles/Objectives/DarkPitObjective2H.tscn" id="12_mhkuy"]
 [ext_resource type="PackedScene" uid="uid://8b2r2gdyvbxc" path="res://Content/OverlayTiles/Objectives/BarrelObjective1H.tscn" id="12_x5m5f"]
+[ext_resource type="PackedScene" uid="uid://bgvdkj4pbdasj" path="res://Content/OverlayTiles/Objectives/TreeObjective3H.tscn" id="13_x5m5f"]
 
 [node name="Scenario" instance=ExtResource("1_ewhex")]
 
@@ -67,7 +67,7 @@ position = Vector2(0, 378)
 position = Vector2(218.238, 378)
 
 [node name="Treasure1H" parent="Map/Rooms/Room" index="13" instance=ExtResource("8_libyu")]
-position = Vector2(-218.238, 0)
+position = Vector2(218.238, -378)
 TreasureNumber = 11
 
 [node name="Bush1H" parent="Map/Rooms/Room" index="14" instance=ExtResource("9_hqk2m")]
@@ -77,11 +77,12 @@ position = Vector2(-327.358, 189)
 position = Vector2(-436.477, 378)
 
 [node name="Boulder3H" parent="Map/Rooms/Room" index="16" instance=ExtResource("11_rv36e")]
-position = Vector2(327.358, -189)
+position = Vector2(436.477, -378)
+rotation = 1.0472
 
 [node name="BarrelObjective1H" parent="Map/Rooms/Room" index="17" instance=ExtResource("12_x5m5f")]
 position = Vector2(-218.238, -378)
 
-[node name="DarkPitObjective2H" parent="Map/Rooms/Room" index="18" instance=ExtResource("12_mhkuy")]
-position = Vector2(-436.477, 0)
-rotation = -1.0472
+[node name="TreeObjective3H" parent="Map/Rooms/Room" index="18" instance=ExtResource("13_x5m5f")]
+position = Vector2(-327.358, -189)
+rotation = 2.0944

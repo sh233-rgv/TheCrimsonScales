@@ -25,7 +25,8 @@ public partial class ObjectiveInfoItem : FigureInfoItem<ObjectiveInfoItem.Parame
 		_sceneAnchor.AddChild(instance);
 		instance.SetScale(0.6f * (_objective.Hexes.Length > 1 ? 0.5f : 1f) * Vector2.One);
 		float xOffset = _objective.Hexes.Length > 1 ? -Map.HexWidth / (2 / instance.Scale.X) : 0;
-		instance.SetPosition(new Vector2(xOffset, 0f));
+		float yOffset = _objective.Hexes.Length == 3 ? 25f : 0;
+		instance.SetPosition(new Vector2(xOffset, yOffset));
 		FigureViewComponent figureViewComponent = instance.GetChildOfType<FigureViewComponent>();
 		figureViewComponent.SetVisible(false);
 	}
