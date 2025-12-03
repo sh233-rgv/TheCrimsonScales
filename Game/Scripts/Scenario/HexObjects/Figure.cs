@@ -224,9 +224,9 @@ public abstract partial class Figure : HexObject
 
 		// Little hack here to make sure looting is performed at the right time
 		if(Hex != null)
-        {
-			await EndOfTurnLooting();  
-        }
+		{
+			await EndOfTurnLooting();
+		}
 
 		await ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.CreatePrompt(
 			new ScenarioEvents.FigureTurnEndedConditionsFallOff.Parameters(this), this);
@@ -360,7 +360,9 @@ public abstract partial class Figure : HexObject
 
 	private void UpdateHealthProgressBar()
 	{
-		_figureViewComponent.HealthProgressBar.Value = (float)Health / MaxHealth;
+		float t = (float)Health / MaxHealth;
+		float fill = _figureViewComponent.HealthProgressBarCurve.Sample(t);
+		_figureViewComponent.HealthProgressBar.SetValue(fill);
 	}
 
 	private void OnShieldSubscriptionsChanged()
@@ -508,7 +510,7 @@ public abstract partial class Figure : HexObject
 	}
 
 	public void SetTakingTurn(bool takingTurn)
-    {
+	{
 		TakingTurn = takingTurn;
-    }
+	}
 }

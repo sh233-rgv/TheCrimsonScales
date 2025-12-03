@@ -9,6 +9,9 @@ public partial class FigureViewComponent : HexObjectViewComponent
 	public TextureProgressBar HealthProgressBar { get; private set; }
 
 	[Export]
+	public Curve HealthProgressBarCurve { get; private set; }
+
+	[Export]
 	public Label HealthLabel { get; private set; }
 
 	[Export]
