@@ -118,7 +118,7 @@ public partial class Character : Figure
 	{
 		base._Notification(what);
 
-		if(what == NotificationPredelete)
+		if(what == NotificationPredelete && AppController.Instance != null)
 		{
 			AppController.Instance.Options.AnimatedCharacters.ValueChangedEvent -= OnAnimatedCharactersChanged;
 		}
