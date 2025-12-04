@@ -97,8 +97,8 @@ public class ScenarioEvents
 			: ParametersBase<AttackAbility.State>(abilityState)
 		{
 			public AMDCard AMDCard = amdCard;
-			public AMDCardType Type { get; private set; } = amdCard.Type;
-			public int? Value { get; private set; } = amdCard.Value;
+			public AMDCardType Type { get; private set; } = amdCard.Model.Type;
+			public int? Value { get; private set; } = amdCard.Model.GetValue(abilityState);
 
 			public void SetType(AMDCardType type)
 			{

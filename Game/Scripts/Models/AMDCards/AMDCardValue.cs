@@ -18,8 +18,8 @@ public class AMDCardValue
 			await ScenarioEvents.AMDCardValueAppliedEvent.CreatePrompt(
 				new ScenarioEvents.AMDCardValueApplied.Parameters(attackAbilityState, this), attackAbilityState);
 
-			int adjustedValue = amdCardValueAppliedParameters.AMDCardValue.GetAttackModifierValue(attackAbilityState);
-			attackAbilityState.SingleTargetAdjustAttackValue(adjustedValue);
+		int adjustedValue = amdCardValueAppliedParameters.AMDCardValue.GetAttackModifierValue(attackAbilityState);
+		attackAbilityState.SingleTargetAdjustAttackValue(adjustedValue);
 	}
 
 	protected int GetAttackModifierValue(AttackAbility.State attackAbilityState)
@@ -37,6 +37,7 @@ public class AMDCardValue
 		{
 			attackModifierValue = Value.Value;
 		}
+
 		return attackModifierValue;
 	}
 

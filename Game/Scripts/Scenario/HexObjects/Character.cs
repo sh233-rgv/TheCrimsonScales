@@ -70,8 +70,9 @@ public partial class Character : Figure
 		SetEnemies(Alignment.Enemies);
 
 		// Create AMD
-		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards($"res://Art/AMDs/Player{index + 1}AMD.jpg");
-		_amdCardDeck = new AMDCardDeck(amdCards, true);
+		AMDCardOwner amdCardOwner = (AMDCardOwner)(Index + 1);
+		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards(amdCardOwner);
+		_amdCardDeck = new AMDCardDeck(amdCards, amdCardOwner);
 
 		PlayableAbilityCardCount = 2;
 

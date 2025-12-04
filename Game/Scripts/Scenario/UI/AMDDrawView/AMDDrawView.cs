@@ -61,17 +61,18 @@ public partial class AMDDrawView : Control
 
 			_discardContainer.Visible = true;
 			_discardTopCardTextureRect.Texture = newCard.GetTexture();
-			
+
 			// A drawn card can be overridden by an item or ability
 			AMDCardValue newCardValue = await newCard.Draw(attackAbilityState);
 
 			if(terminalCardValue == null)
 			{
-				if(newCard.Rolling)
+				if(newCard.Model.GetRolling(attackAbilityState))
 				{
 					//rollingCards.Add(newCard);
 
-					if(!attackAbilityState.SingleTargetHasDisadvantage || attackAbilityState.SingleTargetHasAdvantage == attackAbilityState.SingleTargetHasDisadvantage)
+					if(!attackAbilityState.SingleTargetHasDisadvantage ||
+					   attackAbilityState.SingleTargetHasAdvantage == attackAbilityState.SingleTargetHasDisadvantage)
 					{
 						await newCardValue.Apply(attackAbilityState);
 					}

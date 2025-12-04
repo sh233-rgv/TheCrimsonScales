@@ -239,8 +239,8 @@ public partial class GameController : SceneController<GameController>
 		ScenarioPhaseManager = new ScenarioPhaseManager();
 
 		// Create monster AMD
-		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards("res://Art/AMDs/MonsterAMD.jpg");
-		MonsterAMDCardDeck = new AMDCardDeck(amdCards, false);
+		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards(AMDCardOwner.Monsters);
+		MonsterAMDCardDeck = new AMDCardDeck(amdCards, AMDCardOwner.Monsters);
 
 		PortraitView.Open();
 
