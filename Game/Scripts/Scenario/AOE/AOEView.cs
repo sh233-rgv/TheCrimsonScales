@@ -120,7 +120,10 @@ public partial class AOEView : Node2D
 
 		SetProcessInput(true);
 
-		GameController.Instance.AOEMirrorButtonView.Open();
+		if(!CheckSymmetry(pattern))
+		{
+			GameController.Instance.AOEMirrorButtonView.Open();
+		}
 	}
 
 	public void Close()
@@ -233,10 +236,6 @@ public partial class AOEView : Node2D
 		}
 
 		SetCoords(_coords);
-		// if(!ValidateHexes())
-		// {
-		// 	GD.Print("oh no");
-		// }
 	}
 
 	private void SetCoords(Vector2I coords, bool skipAnimation = false)
@@ -313,6 +312,58 @@ public partial class AOEView : Node2D
 		{
 			return Hexes.Any(hex => _possibleHexes.Contains(hex.GlobalCoords));
 		}
+	}
+
+	private bool CheckSymmetry(AOEPattern pattern)
+	{
+		if(pattern.Hexes.Count == 0)
+		{
+			return true;
+		}
+
+		// Check if the AOE pattern is symmetrical, by mirroring it, and then rotating it 6 times and checking if it ever matches the original
+		AOEPattern checkPattern = new AOEPattern(pattern.Hexes.Select(hex => new AOEHex(Map.MirrorCoords(hex.LocalCoords), hex.Type)).ToList());
+		Vector2I pivotOffset = pattern.Hexes[0].LocalCoords;
+		for(int i = 0; i < 6; i++)
+		{
+			// Go through each hex of the check pattern and offset it to overlap the pivot
+			foreach(AOEHex pivotCheckHex in checkPattern.Hexes)
+			{
+				Vector2I checkOffset = pivotCheckHex.LocalCoords - pivotOffset;
+
+				bool symmetryFound = true;
+
+				// Go through each hex of the original pattern and check if it is represented in the check pattern
+				foreach(AOEHex hex in pattern.Hexes)
+				{
+					bool matchFound = false;
+					foreach(AOEHex checkHex in checkPattern.Hexes)
+					{
+						Vector2I checkHexGlobalCoords = checkHex.LocalCoords - checkOffset;
+						if(hex.LocalCoords == checkHexGlobalCoords && hex.Type == checkHex.Type)
+						{
+							matchFound = true;
+						}
+					}
+
+					if(!matchFound)
+					{
+						symmetryFound = false;
+						break;
+					}
+				}
+
+				if(symmetryFound)
+				{
+					return true;
+				}
+			}
+
+			checkPattern = new AOEPattern(checkPattern.Hexes.Select(hex => new AOEHex(Map.RotateCoordsClockwise(hex.LocalCoords, 1), hex.Type))
+				.ToList());
+		}
+
+		return false;
 	}
 
 	private void TweenPosition(bool skipAnimation)
