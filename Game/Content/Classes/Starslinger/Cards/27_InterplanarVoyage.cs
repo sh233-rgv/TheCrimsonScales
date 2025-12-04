@@ -63,12 +63,7 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 						return;
 					}
 
-					Hex performerHex = state.Performer.Hex;
-					Hex swappedHex = swapped.Hex;
-					await AbilityCmd.EnterHex(state, swapped, state.Authority, performerHex, true, true);
-					await AbilityCmd.EnterHex(state, state.Performer, state.Authority, swappedHex, true, true);
-					//TODO: Make this a proper teleport
-					state.SetPerformed();
+					await AbilityCmd.TrySwap(state, state.Performer, swapped);
 				})
 				.Build())
 		];
@@ -107,12 +102,7 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 						return;
 					}
 
-					Hex performerHex = state.Performer.Hex;
-					Hex swappedHex = swapped.Hex;
-					await AbilityCmd.EnterHex(state, swapped, state.Authority, performerHex, true, true);
-					await AbilityCmd.EnterHex(state, state.Performer, state.Authority, swappedHex, true, true);
-					//TODO: Make this a proper teleport
-					state.SetPerformed();
+					await AbilityCmd.TrySwap(state, state.Performer, swapped);
 				})
 				.Build())
 		];
