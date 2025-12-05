@@ -44,17 +44,6 @@ public class ScenarioEvents
 	private readonly GenericChoice _genericChoice = new GenericChoice();
 	public static GenericChoice GenericChoiceEvent => GameController.Instance.ScenarioEvents._genericChoice;
 
-	// public class AttackAbilityStart : ScenarioEvent<AttackAbilityStart.Parameters>
-	// {
-	// 	public class Parameters(AttackAbility.State abilityState)
-	// 		: ParametersBase<AttackAbility.State>(abilityState)
-	// 	{
-	// 	}
-	// }
-	//
-	// private readonly AttackAbilityStart _attackAbilityStart = new AttackAbilityStart();
-	// public static AttackAbilityStart AttackAbilityStartEvent => GameController.Instance.ScenarioEvents._attackAbilityStart;
-
 	public class DuringAttack : ScenarioEvent<DuringAttack.Parameters>
 	{
 		public class Parameters(AttackAbility.State abilityState) : ParametersBase<AttackAbility.State>(abilityState)
@@ -768,39 +757,11 @@ public class ScenarioEvents
 			: ParametersBase
 		{
 			public Character Character { get; } = character;
-
-			// public bool ForgoneTopAction { get; private set; }
-			//
-			// public void SetForgoneTopAction()
-			// {
-			// 	ForgoneTopAction = true;
-			// }
 		}
 	}
 
 	private readonly CardSideSelection _cardSideSelectionStarted = new CardSideSelection();
 	public static CardSideSelection CardSideSelectionEvent => GameController.Instance.ScenarioEvents._cardSideSelectionStarted;
-
-	// public class BeforeCardSidePerform : ScenarioEvent<BeforeCardSidePerform.Parameters>
-	// {
-	// 	public class Parameters(Character character)
-	// 		: ParametersBase
-	// 	{
-	// 		public Character Character { get; } = character;
-	//
-	// 		public AbilityCardSide AbilityCardSide { get; private set; }
-	//
-	// 		public bool ForgoneAction { get; private set; }
-	//
-	// 		public void ForgoAction()
-	// 		{
-	// 			ForgoneAction = true;
-	// 		}
-	// 	}
-	// }
-	//
-	// private readonly BeforeCardSidePerform _beforeCardSidePerform = new BeforeCardSidePerform();
-	// public static BeforeCardSidePerform BeforeCardSidePerformEvent => GameController.Instance.ScenarioEvents._beforeCardSidePerform;
 
 	public class AfterCardsPlayed : ScenarioEvent<AfterCardsPlayed.Parameters>
 	{

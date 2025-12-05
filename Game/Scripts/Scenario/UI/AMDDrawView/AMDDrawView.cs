@@ -97,8 +97,10 @@ public partial class AMDDrawView : Control
 			else
 			{
 				// Had a previous terminal, so no more rolling allowed, and decide on which terminal to use
-				(int currentTerminalScore, bool currentTerminalExtraEffect) = terminalCardValue.GetScore(attackAbilityState);
-				(int newTerminalScore, bool newTerminalExtraEffect) = newCardValue.GetScore(attackAbilityState);
+				int currentTerminalScore = terminalCardValue.GetAttackModifierValue(attackAbilityState);
+				bool currentTerminalExtraEffect = terminalCardValue.GetHasExtraEffects(attackAbilityState);
+				int newTerminalScore = newCardValue.GetAttackModifierValue(attackAbilityState);
+				bool newTerminalExtraEffect = newCardValue.GetHasExtraEffects(attackAbilityState);
 
 				if(currentTerminalScore > newTerminalScore)
 				{

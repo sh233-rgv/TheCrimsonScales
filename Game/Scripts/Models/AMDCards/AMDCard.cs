@@ -24,7 +24,9 @@ public class AMDCard : IDeckCard
 			await ScenarioEvents.AMDCardDrawnEvent.CreatePrompt(
 				new ScenarioEvents.AMDCardDrawn.Parameters(attackAbilityState, this));
 
-		return new(amdCardDrawnParameters.Type, amdCardDrawnParameters.Value);
+		return new AMDCardValue(Model.GetRolling(attackAbilityState), amdCardDrawnParameters.Type, amdCardDrawnParameters.Value, Model.Pierce,
+			Model.Push, Model.Pull, Model.Swing, Model.Elements, Model.GetConditionModels(attackAbilityState),
+			Model.GetExtraEffects(attackAbilityState));
 	}
 
 	public Texture2D GetTexture()
