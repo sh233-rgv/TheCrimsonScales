@@ -568,7 +568,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 					Mandatory ||
 					abilityState.AbilityTarget == Target.Self ||
 					(TargetHex != null && abilityState.AbilityAOEPattern == null);
-				target = await AbilityCmd.SelectFigure(abilityState, getValidTargets, Mandatory, autoSelectIfOne, null,
+				target = await AbilityCmd.SelectFigure(abilityState, getValidTargets, Mandatory, autoSelectIfOne, duringTargetedAbilityEffectCollection,
 					() => _getTargetingHintText(abilityState));
 			}
 			else
