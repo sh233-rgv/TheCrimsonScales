@@ -4,20 +4,21 @@ using Fractural.Tasks;
 
 public class AMDCardValue(
 	bool rolling, AMDCardType cardType, int? value, int? pierce, int? push, int? pull, int? swing,
-	List<Element> elements, List<ConditionModel> conditionModels, Func<AttackAbility.State, GDTask> extraEffects)
+	List<Element> elements, List<ConditionModel> conditionModels, List<Ability> abilities, Func<AttackAbility.State, GDTask> extraEffects)
 {
-	public bool Rolling { get; private set; } = rolling;
+	public bool Rolling { get; } = rolling;
 
-	public AMDCardType CardType { get; private set; } = cardType;
-	public int? Value { get; private set; } = value;
+	public AMDCardType CardType { get; } = cardType;
+	public int? Value { get; } = value;
 
-	public int? Pierce { get; private set; } = pierce;
-	public int? Push { get; private set; } = push;
-	public int? Pull { get; private set; } = pull;
-	public int? Swing { get; private set; } = swing;
-	public List<Element> Elements { get; private set; } = elements;
-	public List<ConditionModel> ConditionModels { get; private set; } = conditionModels;
-	public Func<AttackAbility.State, GDTask> ExtraEffects { get; private set; } = extraEffects;
+	public int? Pierce { get; } = pierce;
+	public int? Push { get; } = push;
+	public int? Pull { get; } = pull;
+	public int? Swing { get; } = swing;
+	public List<Element> Elements { get; } = elements;
+	public List<ConditionModel> ConditionModels { get; } = conditionModels;
+	public List<Ability> Abilities { get; } = abilities;
+	public Func<AttackAbility.State, GDTask> ExtraEffects { get; } = extraEffects;
 
 	public async GDTask Apply(AttackAbility.State attackAbilityState)
 	{
@@ -58,9 +59,25 @@ public class AMDCardValue(
 			attackAbilityState.SingleTargetAddCondition(condition);
 		}
 
+		if(Abilities.Count > 0)
+		{
+			ScenarioEvents.AfterAttackPerformedEvent.Subscribe(attackAbilityState, this,
+				parameters =>
+					attackAbilityState == parameters.AbilityState &&
+					parameters.AbilityState.Target == attackAbilityState.Target,
+				async parameters =>
+				{
+					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(attackAbilityState, this);
+
+					ActionState actionState = new ActionState(attackAbilityState.Performer, Abilities);
+					await actionState.Perform();
+				}
+			);
+		}
+
 		if(ExtraEffects != null)
 		{
-			ExtraEffects?.Invoke(attackAbilityState);
+			await ExtraEffects.Invoke(attackAbilityState);
 		}
 	}
 
@@ -86,6 +103,6 @@ public class AMDCardValue(
 	public bool GetHasExtraEffects(AttackAbility.State attackAbilityState)
 	{
 		return Pierce.HasValue || Push.HasValue || Pull.HasValue || Swing.HasValue ||
-		       Elements.Count > 0 || ConditionModels.Count > 0 || extraEffects != null;
+		       Elements.Count > 0 || ConditionModels.Count > 0 || Abilities.Count > 0 || ExtraEffects != null;
 	}
 }

@@ -26,7 +26,7 @@ public class AMDCard : IDeckCard
 
 		return new AMDCardValue(Model.GetRolling(attackAbilityState), amdCardDrawnParameters.Type, amdCardDrawnParameters.Value, Model.Pierce,
 			Model.Push, Model.Pull, Model.Swing, Model.Elements, Model.GetConditionModels(attackAbilityState),
-			Model.GetExtraEffects(attackAbilityState));
+			Model.GetAbilities(attackAbilityState), Model.GetExtraEffects(attackAbilityState));
 	}
 
 	public Texture2D GetTexture()
