@@ -15,13 +15,19 @@ public class AllNegativeConditionImmunityTrait : FigureTrait
 		Conditions.Curse,
 	];
 
-	public override void Activate(Figure figure)
+	public override async GDTask Activate(Figure figure)
 	{
-		base.Activate(figure);
+		await base.Activate(figure);
 
-		ScenarioEvents.InflictConditionEvent.Subscribe(figure, this,
-			parameters => parameters.Target == figure &&
-				NegativeConditionModels.Any(condition => parameters.Condition.ImmunityCompareBaseCondition == condition.ImmunityCompareBaseCondition),
+		ScenarioEvents.InflictConditionEvent.Subscribe(figure, this, parameters =>
+			{
+				return
+					parameters.Target == figure &&
+					parameters.Condition?.ImmunityCompareBaseConditions != null &&
+					NegativeConditionModels != null &&
+					parameters.Condition.ImmunityCompareBaseConditions
+						.Any(c1 => NegativeConditionModels.Contains(c1));
+			},
 			async parameters =>
 			{
 				parameters.SetPrevented(true);
@@ -42,9 +48,9 @@ public class AllNegativeConditionImmunityTrait : FigureTrait
 		);
 	}
 
-	public override void Deactivate(Figure figure)
+	public override async GDTask Deactivate(Figure figure)
 	{
-		base.Deactivate(figure);
+		await base.Deactivate(figure);
 
 		ScenarioEvents.InflictConditionEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Unsubscribe(figure, this);

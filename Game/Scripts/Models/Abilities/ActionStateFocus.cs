@@ -58,7 +58,7 @@ public partial class ActionState
 		return aiMoveParameters;
 	}
 
-	public async GDTask<Figure> GetFocus()
+	public async GDTask<Figure> GetFocus(AbilityState abilityState)
 	{
 		if(!_focusDetermined || (_cachedFocus != null && _cachedFocus.IsDead))
 		{
@@ -66,7 +66,11 @@ public partial class ActionState
 			_cachedFocus = await DetermineFocus();
 		}
 
-		return _cachedFocus;
+		ScenarioEvents.FigureFoundFocus.Parameters figureFoundFocusEventParameters =
+			await ScenarioEvents.FigureFoundFocusEvent.CreatePrompt(
+				new ScenarioEvents.FigureFoundFocus.Parameters(abilityState, _cachedFocus), abilityState);
+
+		return figureFoundFocusEventParameters.Focus;
 	}
 
 	// TODO: Change this to a prompt of sorts, to ensure this is saved
@@ -101,7 +105,7 @@ public partial class ActionState
 
 		foreach((Hex moveHex, MoveNode node) in moreMoveClosedList)
 		{
-			if(!MoveHelper.CanStopAt(Performer, moveHex, aiMoveParameters.MoveType))
+			if(!MoveHelper.CanStopAt(null, Performer, moveHex, aiMoveParameters.MoveType))
 			{
 				continue;
 			}
@@ -124,16 +128,23 @@ public partial class ActionState
 					}
 
 					ScenarioCheckEvents.CanBeFocusedCheck.Parameters canBeFocusedParameters =
-						ScenarioCheckEvents.CanBeFocusedCheckEvent.Fire(new ScenarioCheckEvents.CanBeFocusedCheck.Parameters(Performer, potentialTarget));
+						ScenarioCheckEvents.CanBeFocusedCheckEvent.Fire(
+							new ScenarioCheckEvents.CanBeFocusedCheck.Parameters(Performer, potentialTarget));
 
 					if(!canBeFocusedParameters.CanBeFocused)
 					{
 						continue;
 					}
 
+					ScenarioCheckEvents.PotentialTargetCheck.Parameters potentialTargetCheckParameters =
+						ScenarioCheckEvents.PotentialTargetCheckEvent.Fire(
+							new ScenarioCheckEvents.PotentialTargetCheck.Parameters(Performer, potentialTarget));
+
+					int adjustedSortingInitiative =
+						potentialTarget.Initiative.SortingInitiative + potentialTargetCheckParameters.SortingInitiativeAdjustment;
 					int distanceFromCurrentHex = RangeHelper.Distance(Performer.Hex, potentialTargetHex);
 					FocusNode newNode = new FocusNode(potentialTarget, node.NegativeHexEncounteredCount, node.MoveSpent,
-						distanceFromCurrentHex, potentialTarget.Initiative.SortingInitiative, node);
+						distanceFromCurrentHex, adjustedSortingInitiative, node);
 					if(bestFocusNodes.Count == 0)
 					{
 						bestFocusNodes.Add(newNode);

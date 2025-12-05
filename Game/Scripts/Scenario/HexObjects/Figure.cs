@@ -43,6 +43,8 @@ public abstract partial class Figure : HexObject
 	public int TurnMovedHexCount { get; private set; }
 	public List<ActionState> TurnPerformedActionStates { get; } = new List<ActionState>();
 
+	public abstract Texture2D MapIconTexture { get; }
+
 	public Color OutlineColor => _figureViewComponent.Outline.SelfModulate;
 
 	public bool IsDead => IsDestroyed;
@@ -89,10 +91,12 @@ public abstract partial class Figure : HexObject
 		ScenarioCheckEvents.ShieldCheckEvent.SubscribersChangedEvent += OnShieldSubscriptionsChanged;
 		ScenarioCheckEvents.RetaliateCheckEvent.SubscribersChangedEvent += OnRetaliateSubscriptionsChanged;
 		ScenarioCheckEvents.FlyingCheckEvent.SubscribersChangedEvent += OnFlyingSubscriptionsChanged;
+		//ScenarioCheckEvents.IsMountedCheckEvent.SubscribersChangedEvent += OnIsMountedSubscriptionsChanged;
 
 		OnShieldSubscriptionsChanged();
 		OnRetaliateSubscriptionsChanged();
 		OnFlyingSubscriptionsChanged();
+		//OnIsMountedSubscriptionsChanged();
 	}
 
 	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
@@ -106,6 +110,7 @@ public abstract partial class Figure : HexObject
 		ScenarioCheckEvents.ShieldCheckEvent.SubscribersChangedEvent -= OnShieldSubscriptionsChanged;
 		ScenarioCheckEvents.RetaliateCheckEvent.SubscribersChangedEvent -= OnRetaliateSubscriptionsChanged;
 		ScenarioCheckEvents.FlyingCheckEvent.SubscribersChangedEvent -= OnFlyingSubscriptionsChanged;
+		//ScenarioCheckEvents.IsMountedCheckEvent.SubscribersChangedEvent -= OnIsMountedSubscriptionsChanged;
 	}
 
 	public void SetMaxHealth(int maxHealth)
@@ -139,6 +144,11 @@ public abstract partial class Figure : HexObject
 		UpdateHealthProgressBar();
 
 		HealthChangedEvent?.Invoke(this);
+	}
+
+	public bool IsDamaged()
+	{
+		return Health < MaxHealth;
 	}
 
 	public virtual void UpdateInitiative()
@@ -213,7 +223,10 @@ public abstract partial class Figure : HexObject
 			new ScenarioEvents.FigureTurnEnding.Parameters(this), this);
 
 		// Little hack here to make sure looting is performed at the right time
-		await EndOfTurnLooting();
+		if(Hex != null)
+		{
+			await EndOfTurnLooting();
+		}
 
 		await ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.CreatePrompt(
 			new ScenarioEvents.FigureTurnEndedConditionsFallOff.Parameters(this), this);
@@ -251,11 +264,6 @@ public abstract partial class Figure : HexObject
 		return HasCondition(global::Conditions.Wound1) || HasCondition(global::Conditions.Wound2);
 	}
 
-	// public bool HasInvisible()
-	// {
-	// 	return HasCondition(global::Conditions.Invisible);
-	// }
-
 	public ConditionModel GetCondition(ConditionModel conditionModel)
 	{
 		foreach(ConditionModel condition in Conditions)
@@ -272,14 +280,12 @@ public abstract partial class Figure : HexObject
 	public async GDTask<ConditionNode> AddCondition(ConditionModel condition)
 	{
 		ConditionNode conditionNode = null;
-		if(condition.ShowOnFigure)
+		if(condition.ShouldShowOnFigure(this))
 		{
 			conditionNode = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Condition.tscn").Instantiate<ConditionNode>();
 			_figureViewComponent.ConditionParent.AddChild(conditionNode);
 			conditionNode.Init(condition);
 		}
-
-		Conditions.Add(condition);
 		//ConditionNodes.Add(condition, conditionNode);
 
 		ConditionsChangedEvent?.Invoke(this);
@@ -294,9 +300,6 @@ public abstract partial class Figure : HexObject
 	public async GDTask RemoveCondition(ConditionModel conditionModel)
 	{
 		ConditionModel condition = GetCondition(conditionModel);
-		ConditionNode node = condition.Node;
-		node?.Destroy();
-		Conditions.Remove(condition);
 
 		ConditionsChangedEvent?.Invoke(this);
 
@@ -357,7 +360,9 @@ public abstract partial class Figure : HexObject
 
 	private void UpdateHealthProgressBar()
 	{
-		_figureViewComponent.HealthProgressBar.Value = (float)Health / MaxHealth;
+		float t = (float)Health / MaxHealth;
+		float fill = _figureViewComponent.HealthProgressBarCurve.Sample(t);
+		_figureViewComponent.HealthProgressBar.SetValue(fill);
 	}
 
 	private void OnShieldSubscriptionsChanged()
@@ -502,5 +507,10 @@ public abstract partial class Figure : HexObject
 
 			index++;
 		}
+	}
+
+	public void SetTakingTurn(bool takingTurn)
+	{
+		TakingTurn = takingTurn;
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -6,20 +7,20 @@ public partial class Summon : Figure
 {
 	private SummonViewComponent _summonViewComponent;
 	private string _name;
-	private List<Ability> _abilities = new List<Ability>();
+	private readonly List<Ability> _abilities = new List<Ability>();
 
 	private ActionState _turnActionState;
 
 	public SummonStats Stats { get; private set; }
 	public Character CharacterOwner { get; private set; }
+	public Texture2D Texture { get; private set; }
 	public int SummonIndex { get; private set; }
 
 	public override string DisplayName => _name;
 	public override string DebugName => _name;
 
 	public override AMDCardDeck AMDCardDeck => CharacterOwner.AMDCardDeck;
-
-	public Texture2D Texture => _summonViewComponent.Sprite.Texture;
+	public override Texture2D MapIconTexture => _summonViewComponent.Sprite.Texture;
 
 	public override async GDTask Init(Hex originHex, int rotationIndex = 0, bool hexCanBeNull = false)
 	{
@@ -28,22 +29,23 @@ public partial class Summon : Figure
 		_summonViewComponent = GetViewComponent<SummonViewComponent>();
 	}
 
-	public void Spawn(SummonStats stats, Character characterOwner, string name, string texturePath)
+	public async GDTask Spawn(SummonStats stats, Character characterOwner, string name, string texturePath, string mapIconTexturePath)
 	{
 		Stats = stats;
 		CharacterOwner = characterOwner;
 		_name = name;
 
-		_figureViewComponent.Outline.SelfModulate = CharacterOwner.OutlineColor;
-		_figureViewComponent.TurnStartPS.SelfModulate = CharacterOwner.OutlineColor;
-		_figureViewComponent.ActivePS.Modulate = _figureViewComponent.Outline.SelfModulate;
+		_figureViewComponent.Outline.SetSelfModulate(CharacterOwner.OutlineColor);
+		_figureViewComponent.TurnStartPS.SetSelfModulate(CharacterOwner.OutlineColor);
+		_figureViewComponent.ActivePS.SetModulate(_figureViewComponent.Outline.SelfModulate);
 
-		_summonViewComponent.StandeeNumberCircle.SelfModulate = CharacterOwner.OutlineColor;
+		_summonViewComponent.StandeeNumberCircle.SetSelfModulate(CharacterOwner.OutlineColor);
 
-		Texture2D texture = ResourceLoader.Load<Texture2D>(texturePath);
-		_summonViewComponent.Sprite.Texture = texture;
-		float textureWidth = texture.GetWidth();
-		_summonViewComponent.Sprite.Scale = (330f / textureWidth) * Vector2.One;
+		Texture = ResourceLoader.Load<Texture2D>(texturePath);
+		Texture2D mapIconTexture = ResourceLoader.Load<Texture2D>(mapIconTexturePath);
+		_summonViewComponent.Sprite.SetTexture(mapIconTexture);
+		float textureWidth = mapIconTexture.GetWidth();
+		_summonViewComponent.Sprite.SetScale((250f / textureWidth) * Vector2.One);
 
 		SetMaxHealth(Stats.Health);
 		SetHealth(Stats.Health);
@@ -55,7 +57,7 @@ public partial class Summon : Figure
 		{
 			foreach(FigureTrait trait in Stats.Traits)
 			{
-				trait.Activate(this);
+				await trait.Activate(this);
 			}
 		}
 
@@ -75,13 +77,51 @@ public partial class Summon : Figure
 
 		if(Stats.Attack.HasValue)
 		{
-			AttackAbility moveAbility = AttackAbility.Builder()
+			AttackAbility attackAbility = AttackAbility.Builder()
 				.WithDamage(Stats.Attack.Value)
 				.WithRange(Stats.Range ?? 1)
 				.WithRangeType(Stats.RangeType)
 				.Build();
-			_abilities.Add(moveAbility);
+			_abilities.Add(attackAbility);
 		}
+
+		ScenarioEvents.FigureFoundFocusEvent.Subscribe(this, characterOwner,
+			parameters =>
+				parameters.Performer == this &&
+				parameters.AbilityState is MoveAbility.State &&
+				parameters.Focus == null,
+			async parameters =>
+			{
+				parameters.SetNewFocus(CharacterOwner);
+
+				ScenarioCheckEvents.AIMoveParametersCheckEvent.Subscribe(this, characterOwner,
+					parameters => parameters.Performer == this,
+					parameters =>
+					{
+						parameters.SetRange(1);
+						parameters.SetRangeType(RangeType.Melee);
+						parameters.SetTargets(1);
+						parameters.SetAOEPattern(null);
+					}
+				);
+
+				ScenarioEvents.AbilityEndedEvent.Subscribe(this, characterOwner,
+					parameters => parameters.Performer == this,
+					async parameters =>
+					{
+						ScenarioEvents.AbilityEndedEvent.Unsubscribe(this, characterOwner);
+						ScenarioCheckEvents.AIMoveParametersCheckEvent.Unsubscribe(this, characterOwner);
+
+						await GDTask.CompletedTask;
+					}
+				);
+
+				await GDTask.CompletedTask;
+			},
+			effectType: EffectType.Selectable,
+			effectButtonParameters: new IconEffectButton.Parameters(Icons.Move),
+			effectInfoViewParameters: new TextEffectInfoView.Parameters("Choose for the summon to move towards the summoner")
+		);
 	}
 
 	public void SetSummonIndex(int summonIndex)
@@ -90,14 +130,24 @@ public partial class Summon : Figure
 
 		UpdateInitiative();
 
-		_summonViewComponent.StandeeNumberLabel.Text = (SummonIndex + 1).ToString();
+		_summonViewComponent.StandeeNumberLabel.SetText((SummonIndex + 1).ToString());
 	}
 
 	protected override async GDTask TakeTurn()
 	{
 		await base.TakeTurn();
 
-		_turnActionState = new ActionState(this, _abilities);
+		ScenarioCheckEvents.IsSummonControlledCheck.Parameters isSummonControlledCheckParameters =
+			ScenarioCheckEvents.IsSummonControlledCheckEvent.Fire(
+				new ScenarioCheckEvents.IsSummonControlledCheck.Parameters(this));
+
+		Figure authority = this;
+		if(isSummonControlledCheckParameters.IsControlled)
+		{
+			authority = CharacterOwner;
+		}
+
+		_turnActionState = new ActionState(this, authority, _abilities);
 		await _turnActionState.Perform();
 	}
 
@@ -115,11 +165,13 @@ public partial class Summon : Figure
 		{
 			foreach(FigureTrait trait in Stats.Traits)
 			{
-				trait.Deactivate(this);
+				await trait.Deactivate(this);
 			}
 		}
 
 		await RemoveActionFromActive();
+
+		ScenarioEvents.FigureFoundFocusEvent.Unsubscribe(this, CharacterOwner);
 
 		CharacterOwner.DeregisterSummon(this);
 
@@ -140,7 +192,7 @@ public partial class Summon : Figure
 		return new Initiative()
 		{
 			MainInitiative = ownerInitiative.MainInitiative,
-			SortingInitiative = ownerInitiative.SortingInitiative - 10 + SummonIndex
+			SortingInitiative = ownerInitiative.SortingInitiative - 100 + SummonIndex
 		};
 	}
 

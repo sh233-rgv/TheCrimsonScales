@@ -30,7 +30,7 @@ public static class AbilityCmd
 
 	public static async GDTask DiscardOrLose(AbilityCard card)
 	{
-		if(card.CardState == CardState.Round || card.CardState == CardState.Persistent)
+		if(card.CardState == CardState.Round || card.CardState == CardState.Persistent || card.CardState == CardState.PersistentNoDeactivate)
 		{
 			await DiscardCard(card);
 		}
@@ -65,7 +65,7 @@ public static class AbilityCmd
 
 				ScenarioCheckEvents.DisadvantageCheckEvent.Subscribe(state, subscriber,
 					parameters => parameters.Target == state.Performer,
-					parameters => parameters.SetDisadvantage()
+					parameters => parameters.SetDisadvantage(true)
 				);
 
 				ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(state, subscriber,
@@ -184,6 +184,10 @@ public static class AbilityCmd
 
 	public static async GDTask<bool> RemoveCondition(Figure target, ConditionModel conditionModel)
 	{
+		ScenarioEvents.RemoveCondition.Parameters removeConditionParameters =
+			await ScenarioEvents.RemoveConditionEvent.CreatePrompt(
+				new ScenarioEvents.RemoveCondition.Parameters(target, conditionModel), target);
+
 		if(conditionModel.IsMutable)
 		{
 			conditionModel = conditionModel.ImmutableInstance;
@@ -200,6 +204,14 @@ public static class AbilityCmd
 		return false;
 	}
 
+	public static async GDTask RemoveAllChill(Figure target)
+	{
+		while(target.HasCondition(Conditions.Chill))
+		{
+			await RemoveCondition(target, Conditions.Chill);
+		}
+	}
+
 	public static async GDTask GainXP(Figure figure, int xp)
 	{
 		if(figure is Character character)
@@ -210,6 +222,14 @@ public static class AbilityCmd
 		await GDTask.CompletedTask;
 	}
 
+	public static async GDTask DestroyObstacle(Obstacle obstacle)
+	{
+		if(!obstacle.CannotBeDestroyed)
+		{
+			await obstacle.Destroy();
+		}
+	}
+
 	public static async GDTask DestroyDifficultTerrain(DifficultTerrain difficultTerrain)
 	{
 		if(!difficultTerrain.CannotBeDestroyed)
@@ -218,13 +238,29 @@ public static class AbilityCmd
 		}
 	}
 
+	public static async GDTask DisarmTrap(Trap trap)
+	{
+		if(!trap.CannotBeDestroyed)
+		{
+			await trap.Disarm();
+		}
+	}
+
 	public static async GDTask<DifficultTerrain> CreateDifficultTerrain(Hex hex, PackedScene scene)
 	{
 		return await CreateOverlayTile<DifficultTerrain>(hex, scene);
 	}
 
-	public static async GDTask SpawnCoin(Hex hex)
+	public static async GDTask SpawnCoin(Hex hex, Figure figure = null)
 	{
+		ScenarioCheckEvents.SpawnCoinCheck.Parameters spawnCoinCheckEventParameters =
+			ScenarioCheckEvents.SpawnCoinCheckEvent.Fire(new ScenarioCheckEvents.SpawnCoinCheck.Parameters(figure));
+
+		if(!spawnCoinCheckEventParameters.SpawnCoin)
+		{
+			return;
+		}
+
 		if(!hex.TryGetHexObjectOfType(out CoinStack coinStack))
 		{
 			PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/CoinStack.tscn");
@@ -251,14 +287,14 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask<Monster> SummonMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex)
+	public static async GDTask<Monster> SummonMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex, int? monsterLevel = null)
 	{
-		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, true);
+		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, true, monsterLevel);
 	}
 
-	public static async GDTask<Monster> SpawnMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex)
+	public static async GDTask<Monster> SpawnMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex, int? monsterLevel = null)
 	{
-		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, false);
+		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, false, monsterLevel);
 	}
 
 	public static async GDTask<T> CreateOverlayTile<T>(Hex hex, PackedScene scene)
@@ -329,16 +365,17 @@ public static class AbilityCmd
 	}
 
 	public static GDTask<Figure> SelectFigure(AbilityState state, Action<List<Figure>> getValidTargets, bool mandatory = false,
-		bool autoSelectIfOne = true, string hintText = "Select a target")
+		bool autoSelectIfOne = true, EffectCollection effectCollection = null, Func<string> hintText = null)
 	{
-		return SelectFigure(state.Authority, getValidTargets, mandatory, autoSelectIfOne, hintText);
+		return SelectFigure(state.Authority, getValidTargets, mandatory, autoSelectIfOne, effectCollection, hintText);
 	}
 
 	public static async GDTask<Figure> SelectFigure(Figure authority, Action<List<Figure>> getValidTargets, bool mandatory = false,
-		bool autoSelectIfOne = true, string hintText = "Select a target")
+		bool autoSelectIfOne = true, EffectCollection effectCollection = null, Func<string> hintText = null)
 	{
 		TargetSelectionPrompt.Answer targetAnswer = await PromptManager.Prompt(
-			new TargetSelectionPrompt(getValidTargets, autoSelectIfOne, mandatory, null, () => hintText), authority);
+			new TargetSelectionPrompt(getValidTargets, autoSelectIfOne, mandatory, effectCollection, hintText ?? (() => "Select a target")),
+			authority);
 
 		if(targetAnswer.Skipped)
 		{
@@ -391,9 +428,15 @@ public static class AbilityCmd
 				.Select(referenceId => GameController.Instance.ReferenceManager.Get<AbilityCard>(referenceId)).ToList();
 	}
 
-	public static async GDTask EnterHex(AbilityState state, Figure figure, Figure authority, Hex hex, bool triggerHexEffects)
+	public static async GDTask ExitHex(AbilityState potentialAbilityState, Figure figure, Figure authority)
 	{
-		figure.SetOriginHexAndRotation(hex);
+		await ScenarioEvents.FigureExitingHexEvent.CreatePrompt(
+			new ScenarioEvents.FigureExitingHex.Parameters(potentialAbilityState, figure), authority);
+	}
+
+	public static async GDTask EnterHex(AbilityState state, Figure figure, Figure authority, Hex hex, bool triggerHexEffects, bool setPosition)
+	{
+		figure.SetOriginHexAndRotation(hex, setPosition: setPosition);
 
 		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(state, figure), authority);
 
@@ -433,6 +476,47 @@ public static class AbilityCmd
 				}
 			}
 		}
+	}
+
+	public static GDTask<bool> TrySwap(Figure authority, Figure figureA, Figure figureB)
+	{
+		return TrySwap(null, authority, figureA, figureB);
+	}
+
+	public static GDTask<bool> TrySwap(AbilityState abilityState, Figure figureA, Figure figureB)
+	{
+		return TrySwap(abilityState, abilityState.Authority, figureA, figureB);
+	}
+
+	public static bool CanSwap(Figure figureA, Figure figureB)
+	{
+		if(figureA.Hex.TryGetHexObjectOfType(out Obstacle obstacle) &&
+		   !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figureB)).HasFlying)
+		{
+			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
+				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
+					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figureB, figureA.Hex, obstacle, true));
+
+			if(!canEnterObstacleParameters.CanEnter)
+			{
+				return false;
+			}
+		}
+
+		if(figureB.Hex.TryGetHexObjectOfType(out Obstacle obstacle2) &&
+		   !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figureA)).HasFlying)
+		{
+			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
+				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
+					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figureA, figureB.Hex, obstacle2, true));
+
+			if(!canEnterObstacleParameters.CanEnter)
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public static async GDTask<bool> HasPerformedAbility(AbilityState abilityState, int abilityIndex)
@@ -715,7 +799,7 @@ public static class AbilityCmd
 		return section;
 	}
 
-	public static async GDTask PermanentlyGiveItem(Character character, ItemModel itemModel, bool staysOnlyIfCompleted = false)
+	public static async GDTask PermanentlyGiveItem(Character character, ItemModel itemModel)
 	{
 		ItemModel item = itemModel.ToMutable();
 		item.Init(character);
@@ -725,11 +809,6 @@ public static class AbilityCmd
 
 		void OnScenarioEnd(bool backToTown, bool won, SavedScenarioProgress savedScenarioProgress)
 		{
-			if(staysOnlyIfCompleted && !won)
-			{
-				return;
-			}
-
 			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(itemModel);
 			savedItem.AddUnlocked(1);
 			character.SavedCharacter.AddItem(itemModel);
@@ -771,18 +850,18 @@ public static class AbilityCmd
 
 	private static ItemModel GetRandomAvailableItem(IEnumerable<ItemModel> itemModels)
 	{
-		List<ItemModel> availableOrbs = new List<ItemModel>();
-		foreach(ItemModel orbModel in itemModels)
+		List<ItemModel> availableItems = new List<ItemModel>();
+		foreach(ItemModel itemModel in itemModels)
 		{
-			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(orbModel);
+			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(itemModel);
 			int unlockedCount = savedItem.UnlockedCount;
-			for(int i = 0; i < 2 - unlockedCount; i++)
+			for(int i = 0; i < itemModel.ShopCount - unlockedCount; i++)
 			{
-				availableOrbs.Add(orbModel);
+				availableItems.Add(itemModel);
 			}
 		}
 
-		return availableOrbs.Count == 0 ? null : availableOrbs.PickRandom(GameController.Instance.StateRNG);
+		return availableItems.Count == 0 ? null : availableItems.PickRandom(GameController.Instance.StateRNG);
 	}
 
 	public static GDTask Lose()
@@ -797,5 +876,21 @@ public static class AbilityCmd
 		GameController.Instance.MarkScenarioEnded();
 		GameController.Instance.ScenarioWonView.Open();
 		return GDTask.Never(GameController.CancellationToken);
+	}
+
+	private static async GDTask<bool> TrySwap(AbilityState potentialAbilityState, Figure authority, Figure figureA, Figure figureB)
+	{
+		if(!CanSwap(figureA, figureB))
+		{
+			return false;
+		}
+
+		Hex hexA = figureA.Hex;
+		Hex hexB = figureB.Hex;
+		await EnterHex(potentialAbilityState, figureB, authority, hexA, true, true);
+		await EnterHex(potentialAbilityState, figureA, authority, hexB, true, true);
+		potentialAbilityState?.SetPerformed();
+
+		return true;
 	}
 }

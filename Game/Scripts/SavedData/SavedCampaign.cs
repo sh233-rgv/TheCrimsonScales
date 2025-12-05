@@ -60,7 +60,7 @@ public class SavedCampaign
 			StartingGroup.Protectors =>
 			[
 				ModelDB.Class<ChainguardModel>(),
-				//ModelDB.Class<ChieftainModel>(),
+				ModelDB.Class<ChieftainModel>(),
 				ModelDB.Class<FireKnightModel>(),
 				ModelDB.Class<HierophantModel>()
 			],
@@ -69,18 +69,18 @@ public class SavedCampaign
 				//ModelDB.Class<BrightsparkModel>(),
 				ModelDB.Class<ChainguardModel>(),
 				//ModelDB.Class<HollowpactModel>(),
-				//ModelDB.Class<StarslingerModel>()
+				ModelDB.Class<StarslingerModel>()
 			],
 			StartingGroup.Trailblazers =>
 			[
 				ModelDB.Class<BombardModel>(),
 				//ModelDB.Class<BrightsparkModel>(),
 				//ModelDB.Class<LuminaryModel>(),
-				//ModelDB.Class<StarslingerModel>()
+				ModelDB.Class<StarslingerModel>()
 			],
 			StartingGroup.Naturalists =>
 			[
-				//ModelDB.Class<ChieftainModel>(),
+				ModelDB.Class<ChieftainModel>(),
 				//ModelDB.Class<HollowpactModel>(),
 				//ModelDB.Class<LuminaryModel>(),
 				ModelDB.Class<MirefootModel>()
@@ -139,10 +139,12 @@ public class SavedCampaign
 	{
 		SavedCampaign savedCampaign = New("Party Time", StartingGroup.Militants);
 
-		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), "Swampguy");
+		savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), "Swampguy");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), "Bombo");
-		savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), "Conclave Man");
-		savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), "Vuur Knecht");
+		//savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), "Conclave Man");
+		//savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), "Vuur Knecht");
+		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), "Sterrenwerper");
+		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), "Dierenzitter");
 
 		//savedCampaign.Characters[0].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<MinorManaPotion>());

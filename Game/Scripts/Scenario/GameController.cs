@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -30,6 +30,9 @@ public partial class GameController : SceneController<GameController>
 	public CardPlayView CardPlayView { get; private set; }
 
 	[Export]
+	public SelectFigureView SelectFigureView { get; private set; }
+
+	[Export]
 	public ChoiceButtonsView ChoiceButtonsView { get; private set; }
 
 	[Export]
@@ -49,6 +52,9 @@ public partial class GameController : SceneController<GameController>
 
 	[Export]
 	public AOEView AOEView { get; private set; }
+
+	[Export]
+	public AOEMirrorButtonView AOEMirrorButtonView { get; private set; }
 
 	[Export]
 	public SufferDamageView SufferDamageView { get; private set; }
@@ -177,7 +183,6 @@ public partial class GameController : SceneController<GameController>
 				{
 					Id = Guid.NewGuid(),
 					AppVersion = AppController.Instance.SaveFile.SaveData.AppVersion,
-					//ScenarioModelId = ModelDB.Scenario<TestScenario>().Id.ToString(),
 					ScenarioModelId = ModelDB.Scenario<TestScenario>().Id.ToString(),
 					//Seed = GD.RandRange(0, int.MaxValue),
 					Seed = 0,
@@ -234,8 +239,8 @@ public partial class GameController : SceneController<GameController>
 		ScenarioPhaseManager = new ScenarioPhaseManager();
 
 		// Create monster AMD
-		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards("res://Art/AMDs/MonsterAMD.jpg");
-		MonsterAMDCardDeck = new AMDCardDeck(amdCards, false);
+		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards(AMDCardOwner.Monsters);
+		MonsterAMDCardDeck = new AMDCardDeck(amdCards, AMDCardOwner.Monsters);
 
 		PortraitView.Open();
 

@@ -15,9 +15,29 @@ public class ScenarioCheckEvents
 				AIMoveParameters.Targets += amount;
 			}
 
+			public void SetTargets(int amount)
+			{
+				AIMoveParameters.Targets = amount;
+			}
+
 			public void AdjustRange(int amount)
 			{
 				AIMoveParameters.Range += amount;
+			}
+
+			public void SetRange(int amount)
+			{
+				AIMoveParameters.Range = amount;
+			}
+
+			public void SetRangeType(RangeType rangeType)
+			{
+				AIMoveParameters.RangeType = rangeType;
+			}
+
+			public void SetAOEPattern(AOEPattern aoePattern)
+			{
+				AIMoveParameters.AOEPattern = aoePattern;
 			}
 		}
 	}
@@ -76,6 +96,30 @@ public class ScenarioCheckEvents
 	private readonly CanEnterObstacleCheck _canEnterObstacleCheck = new CanEnterObstacleCheck();
 	public static CanEnterObstacleCheck CanEnterObstacleCheckEvent => GameController.Instance.ScenarioCheckEvents._canEnterObstacleCheck;
 
+	public class CanStopMoveAtHexWithFigureCheck : ScenarioCheckEvent<CanStopMoveAtHexWithFigureCheck.Parameters>
+	{
+		public class Parameters(AbilityState potentialAbilityState, Figure figure, Hex hex, Figure otherFigure)
+			: ParametersBase
+		{
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
+			public Figure Figure { get; } = figure;
+			public Hex Hex { get; } = hex;
+			public Figure OtherFigure { get; } = otherFigure;
+
+			public bool CanStopAt { get; private set; } = false;
+
+			public void SetCanStopAt()
+			{
+				CanStopAt = true;
+			}
+		}
+	}
+
+	private readonly CanStopMoveAtHexWithFigureCheck _canStopMoveAtHexWithFigureCheck = new CanStopMoveAtHexWithFigureCheck();
+
+	public static CanStopMoveAtHexWithFigureCheck CanStopMoveAtHexWithFigureCheckEvent =>
+		GameController.Instance.ScenarioCheckEvents._canStopMoveAtHexWithFigureCheck;
+
 	public class CanPassEnemyCheck : ScenarioCheckEvent<CanPassEnemyCheck.Parameters>
 	{
 		public class Parameters(AbilityState abilityState, Figure figure, Figure enemyFigure)
@@ -96,6 +140,27 @@ public class ScenarioCheckEvents
 
 	private readonly CanPassEnemyCheck _canPassEnemyCheck = new CanPassEnemyCheck();
 	public static CanPassEnemyCheck CanPassEnemyCheckEvent => GameController.Instance.ScenarioCheckEvents._canPassEnemyCheck;
+
+	public class CanPassAllyCheck : ScenarioCheckEvent<CanPassAllyCheck.Parameters>
+	{
+		public class Parameters(AbilityState abilityState, Figure figure, Figure alliedFigure)
+			: ParametersBase
+		{
+			public AbilityState AbilityState { get; } = abilityState;
+			public Figure Figure { get; } = figure;
+			public Figure AlliedFigure { get; } = alliedFigure;
+
+			public bool CanPass { get; private set; } = true;
+
+			public void SetCannotPass()
+			{
+				CanPass = false;
+			}
+		}
+	}
+
+	private readonly CanPassAllyCheck _canPassAllyCheck = new CanPassAllyCheck();
+	public static CanPassAllyCheck CanPassAllyCheckEvent => GameController.Instance.ScenarioCheckEvents._canPassAllyCheck;
 
 	public class MoveCanStopAtCheck : ScenarioCheckEvent<MoveCanStopAtCheck.Parameters>
 	{
@@ -353,9 +418,9 @@ public class ScenarioCheckEvents
 
 			public bool HasDisadvantage { get; private set; } = hasDisadvantage;
 
-			public void SetDisadvantage()
+			public void SetDisadvantage(bool hasDisadvantage)
 			{
-				HasDisadvantage = true;
+				HasDisadvantage = hasDisadvantage;
 			}
 		}
 	}
@@ -380,9 +445,143 @@ public class ScenarioCheckEvents
 					SortingInitiative = Initiative.SortingInitiative + amount * 10000000
 				};
 			}
+
+			public void SetInitiative(int initiative)
+			{
+				Initiative = new Initiative
+				{
+					MainInitiative = initiative,
+					SortingInitiative = initiative * 10000000
+				};
+			}
+
+			public void SetSortingInitiative(int sortingInitiative)
+			{
+				Initiative = new Initiative
+				{
+					MainInitiative = Initiative.MainInitiative,
+					SortingInitiative = sortingInitiative
+				};
+			}
 		}
 	}
 
 	private readonly InitiativeCheck _initiativeCheck = new InitiativeCheck();
 	public static InitiativeCheck InitiativeCheckEvent => GameController.Instance.ScenarioCheckEvents._initiativeCheck;
+
+	public class IsSummonControlledCheck : ScenarioCheckEvent<IsSummonControlledCheck.Parameters>
+	{
+		public class Parameters(Figure summon)
+			: ParametersBase
+		{
+			public Figure Summon { get; } = summon;
+
+			public bool IsControlled { get; private set; } = false;
+
+			public void SetIsControlled()
+			{
+				IsControlled = true;
+			}
+		}
+	}
+
+	private readonly IsSummonControlledCheck _isSummonControlledCheck = new IsSummonControlledCheck();
+	public static IsSummonControlledCheck IsSummonControlledCheckEvent => GameController.Instance.ScenarioCheckEvents._isSummonControlledCheck;
+
+	public class IsMountedCheck : ScenarioCheckEvent<IsMountedCheck.Parameters>
+	{
+		public class Parameters(Figure figure)
+			: ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+
+			public Figure Mount { get; private set; } = null;
+
+			public bool IsMounted => Mount != null;
+
+			public void SetMount(Figure mount)
+			{
+				Mount = mount;
+			}
+		}
+	}
+
+	private readonly IsMountedCheck _isMountedCheck = new IsMountedCheck();
+	public static IsMountedCheck IsMountedCheckEvent => GameController.Instance.ScenarioCheckEvents._isMountedCheck;
+
+	public class PotentialTargetCheck : ScenarioCheckEvent<PotentialTargetCheck.Parameters>
+	{
+		public class Parameters(Figure performer, Figure potentialTarget)
+			: ParametersBase
+		{
+			public Figure Performer { get; } = performer;
+			public Figure PotentialTarget { get; } = potentialTarget;
+
+			public int SortingInitiativeAdjustment { get; private set; } = 0;
+
+			public void AdjustTargetSortingInitiative(int adjutstment)
+			{
+				SortingInitiativeAdjustment = adjutstment;
+			}
+		}
+	}
+
+	private readonly PotentialTargetCheck _potentialTargetCheck = new PotentialTargetCheck();
+	public static PotentialTargetCheck PotentialTargetCheckEvent => GameController.Instance.ScenarioCheckEvents._potentialTargetCheck;
+
+	public class CanOpenDoorsCheck : ScenarioCheckEvent<CanOpenDoorsCheck.Parameters>
+	{
+		public class Parameters(Figure figure)
+			: ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+
+			public bool CanOpenDoors { get; private set; } = false;
+
+			public void SetCanOpenDoors()
+			{
+				CanOpenDoors = true;
+			}
+		}
+	}
+
+	private readonly CanOpenDoorsCheck _canOpenDoorsCheck = new CanOpenDoorsCheck();
+	public static CanOpenDoorsCheck CanOpenDoorsCheckEvent => GameController.Instance.ScenarioCheckEvents._canOpenDoorsCheck;
+
+	public class CanTakeTurnCheck : ScenarioCheckEvent<CanTakeTurnCheck.Parameters>
+	{
+		public class Parameters(Figure figure, bool canTakeTurn)
+			: ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+
+			public bool CanTakeTurn { get; private set; } = canTakeTurn;
+
+			public void SetCannotTakeTurn()
+			{
+				CanTakeTurn = false;
+			}
+		}
+	}
+
+	private readonly CanTakeTurnCheck _canTakeTurnCheck = new CanTakeTurnCheck();
+	public static CanTakeTurnCheck CanTakeTurnCheckEvent => GameController.Instance.ScenarioCheckEvents._canTakeTurnCheck;
+
+	public class SpawnCoinCheck : ScenarioCheckEvent<SpawnCoinCheck.Parameters>
+	{
+		public class Parameters(Figure figure)
+			: ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+			public bool SpawnCoin { get; private set; } = true;
+
+			public void SetSpawnCoin(bool spawnCoin)
+			{
+				SpawnCoin = spawnCoin;
+			}
+		}
+	}
+
+	private readonly SpawnCoinCheck _spawnCoinCheck = new SpawnCoinCheck();
+	public static SpawnCoinCheck SpawnCoinCheckEvent => GameController.Instance.ScenarioCheckEvents._spawnCoinCheck;
 }

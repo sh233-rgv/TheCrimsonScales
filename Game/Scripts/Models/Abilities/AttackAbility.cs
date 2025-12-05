@@ -13,6 +13,8 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 	public class State : TargetedAbilityState<SingleTargetState>
 	{
 		public List<Figure> KilledTargets { get; } = new List<Figure>();
+		public List<Figure> DamagedTargets { get; } = new List<Figure>();
+		public int DamageDealt { get; set; } = 0;
 
 		public int AbilityAttackValue { get; set; }
 		public int AbilityPierce { get; set; }
@@ -159,16 +161,16 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithDuringAttackSubscription(ScenarioEvents.DuringAttack.Subscription movementSubscription)
+		public TBuilder WithDuringAttackSubscription(ScenarioEvents.DuringAttack.Subscription duringAttackSubscription)
 		{
-			Obj.DuringAttackSubscriptions.Add(movementSubscription);
+			Obj.DuringAttackSubscriptions.Add(duringAttackSubscription);
 			return (TBuilder)this;
 		}
 
 		public TBuilder WithDuringAttackSubscriptions(
-			List<ScenarioEvents.DuringAttack.Subscription> movementSubscriptions)
+			List<ScenarioEvents.DuringAttack.Subscription> duringAttackSubscriptions)
 		{
-			Obj.DuringAttackSubscriptions = movementSubscriptions;
+			Obj.DuringAttackSubscriptions = duringAttackSubscriptions;
 			return (TBuilder)this;
 		}
 
@@ -288,8 +290,14 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 			abilityState.SingleTargetSetHasDisadvantage();
 		}
 
-		await ScenarioEvents.AttackAfterTargetConfirmedEvent.CreatePrompt(
-			new ScenarioEvents.AttackAfterTargetConfirmed.Parameters(abilityState), abilityState);
+		ScenarioEvents.AttackAfterTargetConfirmed.Parameters attackAfterTargetConfirmedParameters =
+			await ScenarioEvents.AttackAfterTargetConfirmedEvent.CreatePrompt(
+				new ScenarioEvents.AttackAfterTargetConfirmed.Parameters(abilityState), abilityState);
+				
+		if(attackAfterTargetConfirmedParameters.CannotGainDisadvantage)
+        {
+			attackAfterTargetConfirmedParameters.AbilityState.SingleTargetHasDisadvantage = false;
+        }
 
 		await GameController.Instance.AMDDrawView.DrawCards(abilityState);
 
@@ -335,6 +343,8 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 
 			if(finalDamage > 0)
 			{
+				abilityState.DamageDealt += finalDamage;
+				abilityState.DamagedTargets.AddIfNew(target);
 				GTweenSequenceBuilder.New()
 					.AppendTime(0.25f)
 					.Append(target.TweenGlobalPosition(targetOrigin + normal * Map.HexSize * 0.2f, 0.15f).SetEasing(Easing.OutQuart))

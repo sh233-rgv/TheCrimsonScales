@@ -1,5 +1,6 @@
 ﻿using Fractural.Tasks;
 using Godot;
+using System.Linq;
 
 public class ConditionImmunityTrait : FigureTrait
 {
@@ -20,12 +21,20 @@ public class ConditionImmunityTrait : FigureTrait
 		return new ConditionImmunityTrait(Conditions.Wound1);
 	}
 
-	public override void Activate(Figure figure)
+	public override async GDTask Activate(Figure figure)
 	{
-		base.Activate(figure);
+		await base.Activate(figure);
 
 		ScenarioEvents.InflictConditionEvent.Subscribe(figure, this,
-			parameters => parameters.Target == figure && parameters.Condition.ImmunityCompareBaseCondition == _conditionModel.ImmunityCompareBaseCondition,
+			parameters =>
+			{
+				return
+					parameters.Target == figure &&
+					parameters.Condition?.ImmunityCompareBaseConditions != null &&
+					_conditionModel?.ImmunityCompareBaseConditions != null &&
+					parameters.Condition.ImmunityCompareBaseConditions
+						.Any(c1 => _conditionModel.ImmunityCompareBaseConditions.Contains(c1));
+			},
 			async parameters =>
 			{
 				parameters.SetPrevented(true);
@@ -43,9 +52,9 @@ public class ConditionImmunityTrait : FigureTrait
 		);
 	}
 
-	public override void Deactivate(Figure figure)
+	public override async GDTask Deactivate(Figure figure)
 	{
-		base.Deactivate(figure);
+		await base.Deactivate(figure);
 
 		ScenarioEvents.InflictConditionEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Unsubscribe(figure, this);

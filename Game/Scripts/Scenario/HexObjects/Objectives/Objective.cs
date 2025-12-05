@@ -1,14 +1,25 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public partial class Objective : Figure
 {
+	private Sprite2D _staticSprite;
+
 	private string _name;
 
 	public override string DisplayName => _name;
 	public override string DebugName => _name;
 
 	public override AMDCardDeck AMDCardDeck => null;
+	public override Texture2D MapIconTexture => _staticSprite.Texture;
+
+	public override void _Ready()
+	{
+		base._Ready();
+
+		_staticSprite = GetNode<Sprite2D>("Sprite");
+	}
 
 	public void Init(int health, string name)
 	{
@@ -58,8 +69,13 @@ public partial class Objective : Figure
 			}
 		);
 
-		// Set CanTakeTurn to false, as objectives can never take turns
-		CanTakeTurn = false;
+		ScenarioCheckEvents.CanTakeTurnCheckEvent.Subscribe(this, this,
+			parameters => parameters.Figure == this,
+			parameters =>
+			{
+				parameters.SetCannotTakeTurn();
+			}
+		);
 	}
 
 	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
@@ -69,14 +85,7 @@ public partial class Objective : Figure
 		ScenarioEvents.InflictConditionEvent.Unsubscribe(this, this);
 		ScenarioCheckEvents.CanBeTargetedCheckEvent.Unsubscribe(this, this);
 		ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Unsubscribe(this, this);
-	}
-
-	public override void RoundEnd()
-	{
-		base.RoundEnd();
-
-		// Set CanTakeTurn to false, as objectives can never take turns
-		CanTakeTurn = false;
+		ScenarioCheckEvents.CanTakeTurnCheckEvent.Unsubscribe(this, this);
 	}
 
 	protected override Initiative GetInitiative()

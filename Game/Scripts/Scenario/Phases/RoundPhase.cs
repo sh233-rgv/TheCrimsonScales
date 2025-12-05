@@ -49,7 +49,12 @@ public class RoundPhase : ScenarioPhase
 			}
 
 			Figure figure = _sortedFigures[activeFigureIndex];
-			if(!figure.CanTakeTurn)
+
+			ScenarioCheckEvents.CanTakeTurnCheck.Parameters canTakeTurnCheckParameters =
+				ScenarioCheckEvents.CanTakeTurnCheckEvent.Fire(
+					new ScenarioCheckEvents.CanTakeTurnCheck.Parameters(figure, figure.CanTakeTurn));
+
+			if(!canTakeTurnCheckParameters.CanTakeTurn)
 			{
 				continue;
 			}
@@ -60,6 +65,18 @@ public class RoundPhase : ScenarioPhase
 			GameController.Instance.ResetRelevantTurnTaker();
 
 			await GDTask.DelayFastForwardable(0.5f);
+
+			if(activeFigureIndex + 1 < _sortedFigures.Count)
+			{
+				ScenarioEvents.NextActiveFigure.Parameters nextActiveFigureParameters =
+					await ScenarioEvents.NextActiveFigureEvent.CreatePrompt(
+						new ScenarioEvents.NextActiveFigure.Parameters(figure, _sortedFigures[activeFigureIndex+1]));
+
+				if(nextActiveFigureParameters.SortingRequired)
+            	{
+            	    _sortingRequired = true;
+            	}
+			}
 		}
 
 		GameController.Instance.Map.SetTurnTaker(null);
