@@ -2,6 +2,8 @@
 using System.Linq;
 using Godot;
 using GTweens.Builders;
+using GTweens.Easings;
+using GTweensGodot.Extensions;
 
 public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 {
@@ -149,7 +151,7 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 		_donationCoinContainer.AddChild(coin);
 		coin.SetGlobalPosition(
 			_syncingBody.GlobalPosition + Vector3.Up * yOffset +
-			maxRandomOffset * new Vector3(GD.Randf() * 2 - 1, GD.Randf() * 2 - 1, 0.3f * GD.Randf()));
+			maxRandomOffset * new Vector3(GD.Randf() * 2 - 1, 0.3f * GD.Randf(), GD.Randf() * 2 - 1));
 		_donationCoins.Add(coin);
 		return coin;
 	}
@@ -176,8 +178,13 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 
 		for(int i = 0; i < 5; i++)
 		{
-			DonationCoin coin = CreateDonationCoin(1f, 0.6f);
-			coin.SetGlobalRotation(new Vector3(GD.Randf(), GD.Randf(), GD.Randf()) * Mathf.Tau);
+			this.DelayedCall(() =>
+			{
+				DonationCoin coin = CreateDonationCoin(1f, 0.4f);
+				coin.Visual.SetScale(0.01f * Vector3.One);
+				coin.Visual.TweenScale(1f, 0.2f).SetEasing(Easing.OutBack).Play();
+				coin.SetGlobalRotation(new Vector3(GD.Randf(), GD.Randf(), GD.Randf()) * Mathf.Tau);
+			}, 0.04f * i + GD.Randf() * 0.04f);
 		}
 
 		this.DelayedCall(() =>
@@ -188,7 +195,7 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 				Cards = selectedCharacter.DonationAMDCardIds.Select(ModelDB.GetById<AMDCardModel>).ToArray(),
 				Receiver = selectedCharacter
 			});
-		}, 0.6f);
+		}, 0.8f);
 
 		UpdateDonateButton();
 	}

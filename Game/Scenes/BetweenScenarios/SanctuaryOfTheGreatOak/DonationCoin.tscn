@@ -31,7 +31,7 @@ radius = 0.1
 height = 0.01
 radius = 0.125977
 
-[node name="DonationCoin" type="RigidBody3D"]
+[node name="DonationCoin" type="RigidBody3D" node_paths=PackedStringArray("Visual")]
 physics_interpolation_mode = 1
 input_ray_pickable = false
 mass = 0.1
@@ -41,6 +41,7 @@ continuous_cd = true
 linear_damp = 4.0
 angular_damp = 6.0
 script = ExtResource("1_6v3y5")
+Visual = NodePath("Coin")
 
 [node name="Coin" parent="." instance=ExtResource("1_ass6a")]
 
