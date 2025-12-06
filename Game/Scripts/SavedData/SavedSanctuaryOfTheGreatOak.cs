@@ -49,7 +49,9 @@ public class SavedSanctuaryOfTheGreatOak
 
 	public bool CanDonate(SavedCharacter savedCharacter)
 	{
-		return savedCharacter.Gold >= 10 && (savedCharacter.DonationAMDCardIds == null || savedCharacter.DonationAMDCardIds.Length == 0);
+		return
+			savedCharacter.Gold >= 10 &&
+			(savedCharacter.DonationAMDCardIds == null || savedCharacter.DonationAMDCardIds.Length == 0);
 	}
 
 	public void Donate(SavedCharacter savedCharacter)
@@ -65,6 +67,9 @@ public class SavedSanctuaryOfTheGreatOak
 
 		string critAMDCardId = CritAMDCardIds.PickRandom(BetweenScenariosController.Instance.RNG);
 		string rollingAMDCardId = RollingAMDCardIds.PickRandom(BetweenScenariosController.Instance.RNG);
+
+		CritAMDCardIds.Remove(critAMDCardId);
+		RollingAMDCardIds.Remove(rollingAMDCardId);
 
 		savedCharacter.SetDonationAMDCardIds([critAMDCardId, rollingAMDCardId]);
 	}

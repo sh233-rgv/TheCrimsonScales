@@ -1,4 +1,4 @@
-﻿public class PierceSanctuaryRollingAMDCard : SanctuaryCritAMDCardModel
+﻿public class PierceSanctuaryRollingAMDCard : SanctuaryRollingAMDCardModel
 {
 	protected override int AtlasIndex => 6;
 

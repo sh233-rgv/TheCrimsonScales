@@ -73,6 +73,11 @@ public partial class Character : Figure
 		AMDCardOwner amdCardOwner = (AMDCardOwner)(Index + 1);
 		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards(amdCardOwner);
 		_amdCardDeck = new AMDCardDeck(amdCards, amdCardOwner);
+		foreach(string donationAMDCardId in savedCharacter.DonationAMDCardIds)
+		{
+			AMDCardModel amdCardModel = ModelDB.GetById<AMDCardModel>(donationAMDCardId);
+			_amdCardDeck.AddCard(new AMDCard(amdCardModel, amdCardOwner), false);
+		}
 
 		PlayableAbilityCardCount = 2;
 

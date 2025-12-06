@@ -1,4 +1,4 @@
-﻿public class PushSanctuaryRollingAMDCard : SanctuaryCritAMDCardModel
+﻿public class PushSanctuaryRollingAMDCard : SanctuaryRollingAMDCardModel
 {
 	protected override int AtlasIndex => 0;
 

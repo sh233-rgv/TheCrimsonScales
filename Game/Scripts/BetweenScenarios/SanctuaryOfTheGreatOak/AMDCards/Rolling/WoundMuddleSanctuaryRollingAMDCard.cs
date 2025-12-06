@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class WoundMuddleSanctuaryRollingAMDCard : SanctuaryCritAMDCardModel
+public class WoundMuddleSanctuaryRollingAMDCard : SanctuaryRollingAMDCardModel
 {
 	protected override int AtlasIndex => 4;
 

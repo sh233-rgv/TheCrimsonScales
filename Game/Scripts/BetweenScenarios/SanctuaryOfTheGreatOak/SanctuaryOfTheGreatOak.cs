@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using GTweens.Builders;
 
@@ -28,6 +28,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 	[Export]
 	private ChoiceButton _donateButton;
 
+	private bool _donationButtonAvailable;
+
 	protected override bool SelectCharacter => true;
 
 	private readonly List<DonationCoin> _donationCoins = new List<DonationCoin>();
@@ -41,6 +43,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 
 		_donateButton.SetActive(false);
 		_donateButton.BetterButton.Pressed += OnDonatePressed;
+
+		BetweenScenariosController.Instance.CharacterPortraitManager.SelectedPortraitChangedEvent += OnSelectedPortraitChanged;
 	}
 
 	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder, BetweenScenariosAction previousActiveAction)
@@ -63,14 +67,18 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 				{
 					for(int i = 0; i < 3; i++)
 					{
-						CreateDonationCoin();
+						CreateDonationCoin(0.1f, 0.2f);
 					}
 				}, 0.2f);
 				_animationPlayer.Play(_moveInAnimationName);
 			}))
 			.AppendCallback(() =>
 			{
-				UpdateDonateButton();
+				this.DelayedCall(() =>
+				{
+					_donationButtonAvailable = true;
+					UpdateDonateButton();
+				}, 1f);
 
 				this.DelayedCall(() =>
 				{
@@ -98,6 +106,7 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 
 	protected override void AnimateOut(GTweenSequenceBuilder sequenceBuilder)
 	{
+		_donationButtonAvailable = false;
 		UpdateDonateButton();
 
 		foreach(DonationCoin coin in _donationCoins)
@@ -134,20 +143,22 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 		_donationCoins.Clear();
 	}
 
-	private void CreateDonationCoin()
+	private DonationCoin CreateDonationCoin(float yOffset, float maxRandomOffset)
 	{
 		DonationCoin coin = _donationCoinScene.Instantiate<DonationCoin>();
 		_donationCoinContainer.AddChild(coin);
 		coin.SetGlobalPosition(
-			_syncingBody.GlobalPosition + Vector3.Up * 0.1f +
-			0.2f * new Vector3(GD.Randf(), GD.Randf(), 0.3f * GD.Randf()));
+			_syncingBody.GlobalPosition + Vector3.Up * yOffset +
+			maxRandomOffset * new Vector3(GD.Randf() * 2 - 1, GD.Randf() * 2 - 1, 0.3f * GD.Randf()));
 		_donationCoins.Add(coin);
+		return coin;
 	}
 
 	private void UpdateDonateButton()
 	{
 		SavedCharacter selectedCharacter = BetweenScenariosController.Instance.CharacterPortraitManager.SelectedPortrait?.SavedCharacter;
 		_donateButton.SetActive(
+			_donationButtonAvailable &&
 			selectedCharacter != null &&
 			BetweenScenariosController.Instance.SavedCampaign.SanctuaryOfTheGreatOak.CanDonate(selectedCharacter));
 	}
@@ -162,5 +173,28 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 		}
 
 		savedSanctuaryOfTheGreatOak.Donate(selectedCharacter);
+
+		for(int i = 0; i < 5; i++)
+		{
+			DonationCoin coin = CreateDonationCoin(1f, 0.6f);
+			coin.SetGlobalRotation(new Vector3(GD.Randf(), GD.Randf(), GD.Randf()) * Mathf.Tau);
+		}
+
+		this.DelayedCall(() =>
+		{
+			AppController.Instance.PopupManager.RequestPopup(new TemporaryAMDCardsPopup.Request()
+			{
+				Title = "Donation to the Sanctuary",
+				Cards = selectedCharacter.DonationAMDCardIds.Select(ModelDB.GetById<AMDCardModel>).ToArray(),
+				Receiver = selectedCharacter
+			});
+		}, 0.6f);
+
+		UpdateDonateButton();
+	}
+
+	private void OnSelectedPortraitChanged(BetweenScenariosCharacterPortrait portrait)
+	{
+		UpdateDonateButton();
 	}
 }
