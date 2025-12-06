@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=102 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -37,7 +37,10 @@
 [ext_resource type="PackedScene" uid="uid://drmjh44chpm2j" path="res://Scenes/BetweenScenarios/BetweenScenariosCharacterPortrait.tscn" id="24_cdfbw"]
 [ext_resource type="StyleBox" uid="uid://dgsnjspchrans" path="res://Resources/BlurBackground.tres" id="24_k7dxu"]
 [ext_resource type="Texture2D" uid="uid://i20crnpy2d6" path="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/natural-wooden-background.jpg" id="24_tquji"]
+[ext_resource type="Texture2D" uid="uid://c8teuaycn85r6" path="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/EnvelopeBBackground.jpg" id="25_8ad0h"]
 [ext_resource type="Texture2D" uid="uid://c0g8n1f0aqnub" path="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/RedCloth.jpg" id="25_tquji"]
+[ext_resource type="PackedScene" uid="uid://dichdaj8dgrcy" path="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/EnvelopeBCircle.tscn" id="26_4ql0m"]
+[ext_resource type="PackedScene" uid="uid://cu61j2vgh7agu" path="res://Art/BetweenScenarios/SanctuaryOfTheGreatOak/YellowEnvelopeBCircle.tscn" id="27_8rcsx"]
 [ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="27_hkul8"]
 [ext_resource type="PackedScene" uid="uid://bm8we16yjsmag" path="res://Scenes/BetweenScenarios/SanctuaryOfTheGreatOak/DonationCoin.tscn" id="27_j84ia"]
 [ext_resource type="Script" uid="uid://d2lbo81ici357" path="res://Scripts/BetweenScenarios/SanctuaryOfTheGreatOak/SyncingBody.cs" id="27_w2guo"]
@@ -359,6 +362,24 @@ _data = {
 &"TitheBowlMoveIn": SubResource("Animation_6rvjw"),
 &"TitheBowlMoveOut": SubResource("Animation_j84ia")
 }
+
+[sub_resource type="QuadMesh" id="QuadMesh_8ad0h"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4ql0m"]
+viewport_path = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4ql0m"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_4ql0m")
+
+[sub_resource type="BoxMesh" id="BoxMesh_fobax"]
+size = Vector3(1, 0.05, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8rcsx"]
+albedo_color = Color(0.90798, 0.712438, 0.787805, 1)
+albedo_texture = ExtResource("24_tquji")
+roughness = 0.51
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_j84ia"]
 rough = true
@@ -1213,7 +1234,6 @@ size = Vector2i(1920, 1080)
 render_target_update_mode = 0
 
 [node name="Root" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/Container/3D/SubViewport"]
-visible = false
 
 [node name="CrystalBall" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/Container/3D/SubViewport/Root"]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, -1)
@@ -1318,6 +1338,207 @@ grow_vertical = 2
 [node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/DonationButton/BetterButton/Panel" index="0"]
 text = "Donate"
 
+[node name="EnvelopeB" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 375.0
+offset_top = -316.0
+offset_right = 635.0
+offset_bottom = 316.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("25_8ad0h")
+expand_mode = 1
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(260, 632)
+render_target_update_mode = 4
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_right = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("25_8ad0h")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 5
+
+[node name="EnvelopeBCircle" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle2" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle3" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle4" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="YellowEnvelopeBCircle" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("27_8rcsx")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle5" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle6" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle7" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle8" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="YellowEnvelopeBCircle2" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("27_8rcsx")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle9" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle10" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle11" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle12" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="YellowEnvelopeBCircle3" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("27_8rcsx")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle13" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle14" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle15" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle16" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="YellowEnvelopeBCircle4" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("27_8rcsx")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle17" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle18" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle19" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle20" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="YellowEnvelopeBCircle5" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("27_8rcsx")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle21" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle22" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle23" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle24" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="YellowEnvelopeBCircle6" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("27_8rcsx")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle25" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle26" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle27" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle28" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="YellowEnvelopeBCircle7" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("27_8rcsx")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle29" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle30" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle31" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle32" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="YellowEnvelopeBCircle8" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("27_8rcsx")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle33" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle34" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle35" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="EnvelopeBCircle36" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("26_4ql0m")]
+layout_mode = 2
+
+[node name="YellowEnvelopeBCircle9" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/EnvelopeB/SubViewportContainer/SubViewport/MarginContainer/GridContainer" instance=ExtResource("27_8rcsx")]
+layout_mode = 2
+
 [node name="Shared3D" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager"]
 layout_mode = 1
 anchors_preset = 15
@@ -1354,6 +1575,28 @@ size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="Root" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport"]
+
+[node name="EnvelopeBRoot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root"]
+
+[node name="Container" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/EnvelopeBRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.26, 0, 0)
+
+[node name="Mesh" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/EnvelopeBRoot/Container"]
+transform = Transform3D(1.165, 0, 0, 0, 1, 0, 0, 0, 2.832, 0, 0, 0)
+
+[node name="Top" type="MeshInstance3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/EnvelopeBRoot/Container/Mesh"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.05, 0)
+layers = 524288
+mesh = SubResource("QuadMesh_8ad0h")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_4ql0m")
+
+[node name="Box" type="MeshInstance3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/EnvelopeBRoot/Container/Mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.024, 0)
+layers = 524288
+mesh = SubResource("BoxMesh_fobax")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_8rcsx")
 
 [node name="TitheBowlRoot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root"]
 
