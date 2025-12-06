@@ -4,7 +4,8 @@ using Fractural.Tasks;
 
 public class AMDCardValue(
 	bool rolling, AMDCardType cardType, int? value, int? pierce, int? push, int? pull, int? swing,
-	List<Element> elements, List<ConditionModel> conditionModels, List<Ability> abilities, Func<AttackAbility.State, GDTask> extraEffects)
+	List<CardElementInfusion> elementInfusions, List<ConditionModel> conditionModels, List<Ability> abilities,
+	Func<AttackAbility.State, GDTask> extraEffects)
 {
 	public bool Rolling { get; } = rolling;
 
@@ -15,7 +16,7 @@ public class AMDCardValue(
 	public int? Push { get; } = push;
 	public int? Pull { get; } = pull;
 	public int? Swing { get; } = swing;
-	public List<Element> Elements { get; } = elements;
+	public List<CardElementInfusion> ElementInfusions { get; } = elementInfusions;
 	public List<ConditionModel> ConditionModels { get; } = conditionModels;
 	public List<Ability> Abilities { get; } = abilities;
 	public Func<AttackAbility.State, GDTask> ExtraEffects { get; } = extraEffects;
@@ -49,9 +50,26 @@ public class AMDCardValue(
 			attackAbilityState.SingleTargetAdjustSwing(Swing.Value);
 		}
 
-		foreach(Element element in Elements)
+		foreach(CardElementInfusion elementInfusion in ElementInfusions)
 		{
-			await AbilityCmd.InfuseElement(element);
+			bool canInfuse = false;
+			if(elementInfusion.ConsumableElements == null)
+			{
+				canInfuse = true;
+			}
+			else
+			{
+				Element? consumedElement = await AbilityCmd.AskConsumeElement(attackAbilityState.Performer, elementInfusion.ConsumableElements, true);
+				if(consumedElement.HasValue)
+				{
+					canInfuse = true;
+				}
+			}
+
+			if(canInfuse)
+			{
+				await AbilityCmd.InfuseElement(attackAbilityState.Performer, elementInfusion.PossibleInfusedElements);
+			}
 		}
 
 		foreach(ConditionModel condition in ConditionModels)
@@ -103,6 +121,6 @@ public class AMDCardValue(
 	public bool GetHasExtraEffects(AttackAbility.State attackAbilityState)
 	{
 		return Pierce.HasValue || Push.HasValue || Pull.HasValue || Swing.HasValue ||
-		       Elements.Count > 0 || ConditionModels.Count > 0 || Abilities.Count > 0 || ExtraEffects != null;
+		       ElementInfusions.Count > 0 || ConditionModels.Count > 0 || Abilities.Count > 0 || ExtraEffects != null;
 	}
 }
