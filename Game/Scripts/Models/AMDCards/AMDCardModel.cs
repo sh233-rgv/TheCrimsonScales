@@ -10,14 +10,14 @@ public abstract class AMDCardModel : AbstractModel<AMDCardModel>
 	protected abstract int ColumnCount { get; }
 	protected abstract int RowCount { get; }
 
-	public virtual AMDCardType Type => AMDCardType.Value;
-
 	public virtual bool Reshuffles => false;
 	public virtual bool RemoveAfterDraw => false;
 
-	public virtual bool GetRolling(AttackAbility.State state) => false;
+	public virtual AMDCardType Type => AMDCardType.Value;
 
-	public virtual int? GetValue(AttackAbility.State state) => null;
+	public virtual bool GetRolling(AttackAbility.State attackAbilityState) => false;
+
+	public virtual int? GetValue(AttackAbility.State attackAbilityState) => null;
 
 	public virtual int? Pierce => null;
 	public virtual int? Push => null;
@@ -25,10 +25,10 @@ public abstract class AMDCardModel : AbstractModel<AMDCardModel>
 	public virtual int? Swing => null;
 
 	public virtual List<CardElementInfusion> ElementInfusions => [];
-	public virtual List<ConditionModel> GetConditionModels(AttackAbility.State state) => [];
-	public virtual List<Ability> GetAbilities(AttackAbility.State state) => [];
+	public virtual List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) => [];
+	public virtual List<Ability> GetAbilities(AttackAbility.State attackAbilityState) => [];
 
-	public virtual Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State state) => null;
+	public virtual Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) => null;
 
 	public Texture2D GetTexture()
 	{

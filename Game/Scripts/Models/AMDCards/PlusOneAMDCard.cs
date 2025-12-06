@@ -2,5 +2,5 @@
 {
 	protected override int AtlasIndex => 6;
 
-	public override int? GetValue(AttackAbility.State state) => +1;
+	public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 }

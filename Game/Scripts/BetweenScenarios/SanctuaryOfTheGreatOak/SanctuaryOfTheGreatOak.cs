@@ -147,15 +147,20 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 	private void UpdateDonateButton()
 	{
 		SavedCharacter selectedCharacter = BetweenScenariosController.Instance.CharacterPortraitManager.SelectedPortrait?.SavedCharacter;
-		_donateButton.SetActive(selectedCharacter != null && selectedCharacter.CanDonate);
+		_donateButton.SetActive(
+			selectedCharacter != null &&
+			BetweenScenariosController.Instance.SavedCampaign.SanctuaryOfTheGreatOak.CanDonate(selectedCharacter));
 	}
 
 	private void OnDonatePressed()
 	{
+		SavedSanctuaryOfTheGreatOak savedSanctuaryOfTheGreatOak = BetweenScenariosController.Instance.SavedCampaign.SanctuaryOfTheGreatOak;
 		SavedCharacter selectedCharacter = BetweenScenariosController.Instance.CharacterPortraitManager.SelectedPortrait?.SavedCharacter;
-		if(selectedCharacter == null || !selectedCharacter.CanDonate)
+		if(selectedCharacter == null || !savedSanctuaryOfTheGreatOak.CanDonate(selectedCharacter))
 		{
 			return;
 		}
+
+		savedSanctuaryOfTheGreatOak.Donate(selectedCharacter);
 	}
 }

@@ -205,6 +205,8 @@ public class SavedCampaign
 			savedItem.AddStock(1);
 		}
 
+		SanctuaryOfTheGreatOak.ReturnCards(savedCharacter);
+
 		Characters.Remove(savedCharacter);
 
 		CharactersChangedEvent?.Invoke();

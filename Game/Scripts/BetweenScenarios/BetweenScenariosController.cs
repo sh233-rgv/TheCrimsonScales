@@ -13,6 +13,8 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 
 	public BetweenScenariosSceneRequest SceneRequest { get; private set; }
 
+	public RandomNumberGenerator RNG { get; private set; }
+
 	public SavedCampaign SavedCampaign => SceneRequest.SavedCampaign;
 
 	public override void _EnterTree()
@@ -49,6 +51,9 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 				));
 			});
 		}
+
+		RNG = new RandomNumberGenerator();
+		RNG.Randomize();
 
 		AppController.Instance.AudioController.SetBGM("res://Audio/BGM/old-tavern-cinematic-atmosphere-fairytale-273871.mp3");
 		AppController.Instance.AudioController.SetBGS(null);

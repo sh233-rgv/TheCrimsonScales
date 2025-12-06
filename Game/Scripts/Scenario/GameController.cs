@@ -528,6 +528,8 @@ public partial class GameController : SceneController<GameController>
 		{
 			character.SavedCharacter.AddGold(character.ObtainedCoins * goldConversion);
 			character.SavedCharacter.AddXP(character.ObtainedXP + (won ? bonusExperience : 0));
+
+			SavedCampaign.SanctuaryOfTheGreatOak.ReturnCards(character.SavedCharacter);
 		}
 
 		SavedScenarioProgress.Unlocked = true;

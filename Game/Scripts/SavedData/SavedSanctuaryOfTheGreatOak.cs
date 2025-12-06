@@ -1,10 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
 public class SavedSanctuaryOfTheGreatOak
 {
+	public static AMDCardModel[] AllCritAMDCards { get; } =
+	[
+		ModelDB.AMDCard<BlessAllySanctuaryCritAMDCard>(),
+		ModelDB.AMDCard<BlessAllySanctuaryCritAMDCard>(),
+		ModelDB.AMDCard<HealSanctuaryCritAMDCard>(),
+		ModelDB.AMDCard<HealSanctuaryCritAMDCard>(),
+		ModelDB.AMDCard<WildElementSanctuaryCritAMDCard>(),
+		ModelDB.AMDCard<WildElementSanctuaryCritAMDCard>(),
+		ModelDB.AMDCard<AdjacentEnemiesSufferSanctuaryCritAMDCard>(),
+		ModelDB.AMDCard<AdjacentEnemiesSufferSanctuaryCritAMDCard>(),
+	];
+
+	public static AMDCardModel[] AllRollingAMDCards { get; } =
+	[
+		ModelDB.AMDCard<PushSanctuaryRollingAMDCard>(),
+		ModelDB.AMDCard<PushSanctuaryRollingAMDCard>(),
+		ModelDB.AMDCard<HealSanctuaryRollingAMDCard>(),
+		ModelDB.AMDCard<HealSanctuaryRollingAMDCard>(),
+		ModelDB.AMDCard<WoundMuddleSanctuaryRollingAMDCard>(),
+		ModelDB.AMDCard<WoundMuddleSanctuaryRollingAMDCard>(),
+		ModelDB.AMDCard<PierceSanctuaryRollingAMDCard>(),
+		ModelDB.AMDCard<PierceSanctuaryRollingAMDCard>(),
+	];
+
 	[JsonProperty]
 	public int TotalDonationCount { get; private set; }
 
@@ -17,11 +42,47 @@ public class SavedSanctuaryOfTheGreatOak
 	public SavedSanctuaryOfTheGreatOak()
 	{
 		TotalDonationCount = 0;
-		CritAMDCardIds = [];
+
+		CritAMDCardIds = AllCritAMDCards.Select(card => card.Id.ToString()).ToList();
+		RollingAMDCardIds = AllRollingAMDCards.Select(card => card.Id.ToString()).ToList();
 	}
 
-	public void Donate()
+	public bool CanDonate(SavedCharacter savedCharacter)
 	{
+		return savedCharacter.Gold >= 10 && (savedCharacter.DonationAMDCardIds == null || savedCharacter.DonationAMDCardIds.Length == 0);
+	}
+
+	public void Donate(SavedCharacter savedCharacter)
+	{
+		if(!CanDonate(savedCharacter))
+		{
+			return;
+		}
+
+		savedCharacter.RemoveGold(10);
+
 		TotalDonationCount++;
+
+		string critAMDCardId = CritAMDCardIds.PickRandom(BetweenScenariosController.Instance.RNG);
+		string rollingAMDCardId = RollingAMDCardIds.PickRandom(BetweenScenariosController.Instance.RNG);
+
+		savedCharacter.SetDonationAMDCardIds([critAMDCardId, rollingAMDCardId]);
+	}
+
+	public void ReturnCards(SavedCharacter savedCharacter)
+	{
+		foreach(string donationAMDCardId in savedCharacter.DonationAMDCardIds)
+		{
+			if(AllCritAMDCards.Any(card => card.Id.ToString() == donationAMDCardId))
+			{
+				CritAMDCardIds.Add(donationAMDCardId);
+			}
+			else
+			{
+				RollingAMDCardIds.Add(donationAMDCardId);
+			}
+		}
+
+		savedCharacter.SetDonationAMDCardIds([]);
 	}
 }
