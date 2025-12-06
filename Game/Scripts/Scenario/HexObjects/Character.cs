@@ -76,13 +76,13 @@ public partial class Character : Figure
 		foreach(string donationAMDCardId in savedCharacter.DonationAMDCardIds)
 		{
 			AMDCardModel amdCardModel = ModelDB.GetById<AMDCardModel>(donationAMDCardId);
-			_amdCardDeck.AddCard(new AMDCard(amdCardModel, amdCardOwner), false);
+			_amdCardDeck.AddCard(new AMDCard(amdCardModel, amdCardOwner), true);
 		}
 
 		PlayableAbilityCardCount = 2;
 
-		_figureViewComponent.TurnStartPS.SelfModulate = _figureViewComponent.Outline.SelfModulate;
-		_figureViewComponent.ActivePS.Modulate = _figureViewComponent.Outline.SelfModulate;
+		_figureViewComponent.TurnStartPS.SetSelfModulate(_figureViewComponent.Outline.SelfModulate);
+		_figureViewComponent.ActivePS.SetModulate(_figureViewComponent.Outline.SelfModulate);
 
 		GameController.Instance.Map.RegisterFigure(this);
 
