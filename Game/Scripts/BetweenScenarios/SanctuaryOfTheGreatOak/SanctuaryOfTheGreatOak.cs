@@ -194,34 +194,48 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 			return;
 		}
 
-		savedSanctuaryOfTheGreatOak.Donate(selectedCharacter);
+		AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request("Donation",
+			$"Would you like to spend {Icons.Inline(Icons.Coins)}10 to donate to the Great Oak Sanctuary?",
+			new TextButton.Parameters("Cancel",
+				() =>
+				{
+				}
+			),
+			new TextButton.Parameters("Donate",
+				() =>
+				{
+					savedSanctuaryOfTheGreatOak.Donate(selectedCharacter);
 
-		AppController.Instance.SaveFile.Save();
+					AppController.Instance.SaveFile.Save();
 
-		_envelopeB.Donate();
+					_envelopeB.Donate();
 
-		for(int i = 0; i < 5; i++)
-		{
-			this.DelayedCall(() =>
-			{
-				DonationCoin coin = CreateDonationCoin(1f, 0.4f);
-				coin.Visual.SetScale(0.01f * Vector3.One);
-				coin.Visual.TweenScale(1f, 0.2f).SetEasing(Easing.OutBack).Play();
-				coin.SetGlobalRotation(new Vector3(GD.Randf(), GD.Randf(), GD.Randf()) * Mathf.Tau);
-			}, 0.04f * i + GD.Randf() * 0.04f);
-		}
+					for(int i = 0; i < 5; i++)
+					{
+						this.DelayedCall(() =>
+						{
+							DonationCoin coin = CreateDonationCoin(1f, 0.4f);
+							coin.Visual.SetScale(0.01f * Vector3.One);
+							coin.Visual.TweenScale(1f, 0.2f).SetEasing(Easing.OutBack).Play();
+							coin.SetGlobalRotation(new Vector3(GD.Randf(), GD.Randf(), GD.Randf()) * Mathf.Tau);
+						}, 0.04f * i + GD.Randf() * 0.04f);
+					}
 
-		this.DelayedCall(() =>
-		{
-			AppController.Instance.PopupManager.RequestPopup(new TemporaryAMDCardsPopup.Request()
-			{
-				Title = "Donation to the Sanctuary",
-				Cards = selectedCharacter.DonationAMDCardIds.Select(ModelDB.GetById<AMDCardModel>).ToArray(),
-				Receiver = selectedCharacter
-			});
-		}, 0.8f);
+					this.DelayedCall(() =>
+					{
+						AppController.Instance.PopupManager.RequestPopup(new TemporaryAMDCardsPopup.Request()
+						{
+							Title = "Donation to the Sanctuary",
+							Cards = selectedCharacter.DonationAMDCardIds.Select(ModelDB.GetById<AMDCardModel>).ToArray(),
+							Receiver = selectedCharacter
+						});
+					}, 0.8f);
 
-		UpdateDonateButton();
+					UpdateDonateButton();
+				},
+				TextButton.ColorType.Green
+			)
+		));
 	}
 
 	private void OnSelectedPortraitChanged(BetweenScenariosCharacterPortrait portrait)
