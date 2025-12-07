@@ -197,6 +197,9 @@ public static class AbilityCmd
 		if(condition != null)
 		{
 			await target.RemoveCondition(conditionModel);
+			ScenarioEvents.AfterRemoveCondition.Parameters afterRemoveConditionParameters =
+				await ScenarioEvents.AfterRemoveConditionEvent.CreatePrompt(
+					new ScenarioEvents.AfterRemoveCondition.Parameters(target, conditionModel), target);
 
 			return true;
 		}
@@ -503,6 +506,16 @@ public static class AbilityCmd
 				return false;
 			}
 		}
+		ScenarioCheckEvents.CanEnterMapTileCheck.Parameters canEnterMapTile =
+			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Fire(
+				new ScenarioCheckEvents.CanEnterMapTileCheck.Parameters(figure1, figure2.Hex));
+		ScenarioCheckEvents.CanEnterMapTileCheck.Parameters canEnterMapTile2 =
+			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Fire(
+				new ScenarioCheckEvents.CanEnterMapTileCheck.Parameters(figure2, figure1.Hex));
+		if (!canEnterMapTile.CanEnter || !canEnterMapTile2.CanEnter)
+        {
+            return false;
+        }
 		return true;
 	}
 

@@ -21,6 +21,25 @@ public class ShieldTrait(int shield) : FigureTrait
 		//figure.UpdateShield();
 	}
 
+	public void ChangeShieldValue(Figure figure, int change)
+    {
+		shield += change;
+        ScenarioCheckEvents.ShieldCheckEvent.Unsubscribe(figure, this);
+		ScenarioEvents.SufferDamageEvent.Unsubscribe(figure, this);
+
+		ScenarioCheckEvents.ShieldCheckEvent.Subscribe(figure, this,
+			canApplyParameters => canApplyParameters.Figure == figure,
+			applyParameters => { applyParameters.AdjustShield(shield); });
+
+		ScenarioEvents.SufferDamageEvent.Subscribe(figure, this,
+			canApplyParameters => canApplyParameters.Figure == figure && canApplyParameters.FromAttack,
+			async applyParameters =>
+			{
+				applyParameters.AdjustShield(shield);
+				await GDTask.CompletedTask;
+			});
+    }
+
 	public override async GDTask Deactivate(Figure figure)
 	{
 		await base.Deactivate(figure);

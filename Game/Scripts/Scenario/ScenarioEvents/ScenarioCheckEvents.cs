@@ -96,6 +96,26 @@ public class ScenarioCheckEvents
 	private readonly CanEnterObstacleCheck _canEnterObstacleCheck = new CanEnterObstacleCheck();
 	public static CanEnterObstacleCheck CanEnterObstacleCheckEvent => GameController.Instance.ScenarioCheckEvents._canEnterObstacleCheck;
 
+	public class CanEnterMapTileCheck : ScenarioCheckEvent<CanEnterMapTileCheck.Parameters>
+	{
+		public class Parameters(Figure figure, Hex hex) : ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+			public Hex Hex { get; } = hex;
+			public MapTile MapTile => Hex.MapTile;
+
+			public bool CanEnter { get; private set; } = true;
+
+			public void SetCanEnter(bool canEnter)
+			{
+				CanEnter = canEnter;
+			}
+		}
+	}
+
+	private readonly CanEnterMapTileCheck _canEnterMapTile = new CanEnterMapTileCheck();
+	public static CanEnterMapTileCheck CanEnterMapTileCheckEvent => GameController.Instance.ScenarioCheckEvents._canEnterMapTile;
+
 	public class CanStopMoveAtHexWithFigureCheck : ScenarioCheckEvent<CanStopMoveAtHexWithFigureCheck.Parameters>
 	{
 		public class Parameters(AbilityState potentialAbilityState, Figure figure, Hex hex, Figure otherFigure)

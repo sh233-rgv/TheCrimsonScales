@@ -170,6 +170,11 @@ public partial class Map : Node2D
 		return null;
 	}
 
+	public IEnumerable<Marker> GetMarkers(Marker.Type markerType)
+	{
+		return Markers.Where(marker => marker.MarkerType == markerType);
+	}
+
 	public static Vector2I GetNeighbourCoords(Vector2I coords, int direction)
 	{
 		return coords + NeighbourOffsets[direction];

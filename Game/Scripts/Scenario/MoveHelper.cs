@@ -389,6 +389,15 @@ public static class MoveHelper
 			}
 		}
 
+		ScenarioCheckEvents.CanEnterMapTileCheck.Parameters canEnterMapTile =
+			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Fire(
+				new ScenarioCheckEvents.CanEnterMapTileCheck.Parameters(performer, hex));
+
+		if (!canEnterMapTile.CanEnter)
+        {
+            return false;
+        }
+
 		return true;
 	}
 
@@ -437,6 +446,15 @@ public static class MoveHelper
 				return false;
 			}
 		}
+
+		ScenarioCheckEvents.CanEnterMapTileCheck.Parameters canEnterMapTile =
+			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Fire(
+				new ScenarioCheckEvents.CanEnterMapTileCheck.Parameters(performer, hex));
+		
+		if (!canEnterMapTile.CanEnter)
+        {
+            return false;
+        }
 
 		return true;
 	}

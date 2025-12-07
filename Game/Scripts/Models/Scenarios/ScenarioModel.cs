@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 
 public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscriber
@@ -53,5 +54,66 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		}
 
 		GameController.Instance.SpecialRulesView.SetText(displayText);
+	}
+
+	protected async GDTask SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, IEnumerable<Hex> spawnHexes)
+	{
+		if (authority == null)
+        {
+            authority = GameController.Instance.Map.Figures.First(figure => figure is Character);
+        }
+		List<Hex> hexes = RangeHelper.GetHexesInRange(spawnHexes.First(), 100, requiresLineOfSight: false).ToList();
+
+		List<Hex> list = [];
+		
+
+		Hex chosenHex = await AbilityCmd.SelectHex(authority,
+			list =>
+            {
+                int? minDistance = null;
+				foreach(Hex spawnHex in spawnHexes)
+				{
+					hexes.Shuffle(GameController.Instance.StateRNG);
+					hexes.Sort((otherHexA, otherHexB) => RangeHelper.Distance(spawnHex, otherHexA).CompareTo(RangeHelper.Distance(spawnHex, otherHexB)));Hex firstHex = null;
+					foreach(Hex hex in hexes)
+					{
+						if(hex.IsEmpty())
+						{
+							firstHex = hex;
+							break;
+						}
+					}
+
+					if(firstHex == null)
+					{
+						return;
+					}
+
+					int distance = RangeHelper.Distance(spawnHex, firstHex);
+					if (minDistance != null && distance < minDistance)
+					{
+						list.Clear();
+					}
+					if (minDistance == null || distance <= minDistance)
+					{
+						foreach(Hex otherHex in hexes)
+						{
+							int otherDistance = RangeHelper.Distance(spawnHex, otherHex);
+							if(otherHex.IsEmpty() && otherDistance == distance)
+							{
+								list.Add(otherHex);
+							}
+						}
+					}		
+				}
+            }, true, $"Select where to spawn the {monsterType} {monsterModel.Name}"
+		);
+
+		if(chosenHex == null)
+		{
+			return;
+		}
+
+		await AbilityCmd.SpawnMonster(monsterModel, monsterType, chosenHex);
 	}
 }

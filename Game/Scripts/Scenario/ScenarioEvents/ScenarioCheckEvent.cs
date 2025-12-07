@@ -72,6 +72,13 @@ public class ScenarioCheckEvent<T> : ScenarioCheckEvent
 		Subscribe(ScenarioEvents.GetSubscriberPair(subscriberA, subscriberB), canApply, apply, order);
 	}
 
+	public void Subscribe(ScenarioModel subscriberA, object subscriberB,
+		CanApplyFunction canApply, ApplyFunction apply,
+		int order = 0)
+	{
+		Subscribe(ScenarioEvents.GetSubscriberPair(subscriberA, subscriberB), canApply, apply, order);
+	}
+
 	public void Subscribe(IEventSubscriber subscriber,
 		CanApplyFunction canApply, ApplyFunction apply,
 		int order = 0)
