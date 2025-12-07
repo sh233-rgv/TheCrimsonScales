@@ -1,8 +1,10 @@
-﻿public class InfuseElementAfterAttackTrait(Element element) : FigureTrait
+﻿using Fractural.Tasks;
+
+public class InfuseElementAfterAttackTrait(Element element) : FigureTrait
 {
-	public override void Activate(Figure figure)
+	public override async GDTask Activate(Figure figure)
 	{
-		base.Activate(figure);
+		await base.Activate(figure);
 
 		ScenarioEvents.AfterAttackPerformedEvent.Subscribe(figure, this,
 			parameters => figure == parameters.Performer,
@@ -22,9 +24,9 @@
 		);
 	}
 
-	public override void Deactivate(Figure figure)
+	public override async GDTask Deactivate(Figure figure)
 	{
-		base.Deactivate(figure);
+		await base.Deactivate(figure);
 
 		ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(figure, this);

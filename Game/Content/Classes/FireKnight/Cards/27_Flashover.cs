@@ -18,7 +18,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 					SummonAbility summonAbility = SummonDrakefiend();
 					await summonAbility.Perform(state.ActionState);
 					SummonAbility.State summonAbilityState = state.ActionState.GetAbilityState<SummonAbility.State>(1);
-					ScenarioEvents.FigureKilledEvent.Unsubscribe(summonAbilityState, this);
+					ScenarioEvents.FigureKilledEvent.Unsubscribe(summonAbilityState, summonAbility);
 					int characterTokens = 0;
 
 					ScenarioEvents.FigureKilledEvent.Subscribe(state, this,

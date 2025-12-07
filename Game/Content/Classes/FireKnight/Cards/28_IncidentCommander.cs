@@ -5,7 +5,7 @@ using Fractural.Tasks;
 public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.CardTop, IncidentCommander.CardBottom>
 {
 	public override string Name => "Incident Commander";
-	public override int Level => 1;
+	public override int Level => 9;
 	public override int Initiative => 17;
 	protected override int AtlasIndex => 0;
 
@@ -52,8 +52,6 @@ public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.Ca
 							], canSelectMultiple: true, hintText: "Choose an ability to perform");
 						})
 						.Build()
-
-					
 				])
 				.WithRange(3)
 				.Build())

@@ -47,9 +47,9 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 					foreach(Figure target in state.ActionState.GetAbilityState<AttackAbility.State>(0).UniqueTargetedFigures.Where(target => !target.IsDead))
 					{
 						await AbilityCmd.AddCondition(state, target, Conditions.Wound1);
-						state.SetPerformed();
 					}
 					await AbilityCmd.InfuseElement(Element.Fire);
+					state.SetPerformed();
                     await AbilityCmd.GainXP(state.Performer, 1);
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))

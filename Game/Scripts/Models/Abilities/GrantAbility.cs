@@ -9,7 +9,7 @@ public class GrantAbility : TargetedAbility<GrantAbility.State, SingleTargetStat
 {
 	public class State : TargetedAbilityState<SingleTargetState>
     {
-		public List<ActionState> GrantAbilityActionStates = new List<ActionState>();
+		public List<ActionState> GrantAbilityActionStates { get; } = new List<ActionState>();
     }
 
 	private Func<State, List<Ability>> _getAbilities;
