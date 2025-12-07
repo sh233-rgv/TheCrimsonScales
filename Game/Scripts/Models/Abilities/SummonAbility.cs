@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
@@ -123,7 +123,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 			{
 				_getValidHexes(abilityState, list);
 			}
-		});
+		}, hintText: $"Select a hex to summon {_name}");
 
 		if(targetedHex != null)
 		{
