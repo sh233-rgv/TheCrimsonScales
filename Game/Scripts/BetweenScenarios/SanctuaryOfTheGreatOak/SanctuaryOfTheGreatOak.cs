@@ -83,7 +83,10 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 				}, 0.2f);
 				_animationPlayer.Play(_moveInAnimationName);
 
-				_envelopeB.AnimateIn();
+				this.DelayedCall(() =>
+				{
+					_envelopeB.AnimateIn();
+				}, 0.2f);
 			}))
 			.AppendCallback(() =>
 			{
@@ -192,6 +195,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 		}
 
 		savedSanctuaryOfTheGreatOak.Donate(selectedCharacter);
+
+		AppController.Instance.SaveFile.Save();
 
 		_envelopeB.Donate();
 

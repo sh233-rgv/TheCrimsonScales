@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using GTweens.Easings;
 using GTweensGodot.Extensions;
 
 public partial class EnvelopeB : Control
@@ -68,12 +69,12 @@ public partial class EnvelopeB : Control
 	public void AnimateIn()
 	{
 		_animationContainer.SetPosition(AnimationAwayPosition);
-		_animationContainer.TweenPosition(Vector3.Zero, 0.8f).Play();
+		_animationContainer.TweenPosition(Vector3.Zero, 0.8f).SetEasing(Easing.OutCubic).Play();
 	}
 
 	public void AnimateOut()
 	{
-		_animationContainer.TweenPosition(AnimationAwayPosition, 0.8f).Play();
+		_animationContainer.TweenPosition(AnimationAwayPosition, 0.8f).SetEasing(Easing.InOutSine).Play();
 	}
 
 	private void UpdateChecks()
