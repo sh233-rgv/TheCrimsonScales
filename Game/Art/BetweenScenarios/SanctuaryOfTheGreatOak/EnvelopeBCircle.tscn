@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dichdaj8dgrcy"]
+[gd_scene load_steps=7 format=3 uid="uid://dichdaj8dgrcy"]
 
+[ext_resource type="Script" uid="uid://djdmxnvod4dqa" path="res://Scripts/BetweenScenarios/SanctuaryOfTheGreatOak/EnvelopeBCircle.cs" id="1_1mtsw"]
 [ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="1_o5o8o"]
 [ext_resource type="Texture2D" uid="uid://cgin0rxb4rmm2" path="res://Art/Icons/Other/CircleOutline.svg" id="2_pe7ed"]
 [ext_resource type="FontFile" uid="uid://c4k3lpnj0wc06" path="res://Fonts/PirataOne-Gloomhaven.ttf" id="3_1mtsw"]
@@ -9,10 +10,13 @@
 font = ExtResource("3_1mtsw")
 font_size = 22
 
-[node name="EnvelopeBCircle" type="Control"]
+[node name="EnvelopeBCircle" type="Control" node_paths=PackedStringArray("_label", "_checkmark")]
 custom_minimum_size = Vector2(50, 68)
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_1mtsw")
+_label = NodePath("Label")
+_checkmark = NodePath("Circle/Checkmark")
 
 [node name="Circle" type="Control" parent="."]
 layout_mode = 1

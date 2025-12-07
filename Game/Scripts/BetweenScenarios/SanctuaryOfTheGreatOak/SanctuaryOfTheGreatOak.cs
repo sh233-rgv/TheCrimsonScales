@@ -8,7 +8,7 @@ using GTweensGodot.Extensions;
 public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 {
 	[Export]
-	private Node3D _3dRoot;
+	private Node3D _titheBowl3DRoot;
 
 	[Export]
 	private AnimationPlayer _animationPlayer;
@@ -30,6 +30,9 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 	[Export]
 	private ChoiceButton _donateButton;
 
+	[Export]
+	private EnvelopeB _envelopeB;
+
 	private bool _donationButtonAvailable;
 
 	protected override bool SelectCharacter => true;
@@ -40,11 +43,14 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 	{
 		base._Ready();
 
-		_3dRoot.SetVisible(false);
+		_titheBowl3DRoot.SetVisible(false);
+		_envelopeB.EnvelopeB3DRoot.SetVisible(false);
 		_bowlVisualContainer.SetVisible(false);
 
 		_donateButton.SetActive(false);
 		_donateButton.BetterButton.Pressed += OnDonatePressed;
+
+		_envelopeB.SubViewport.SetUpdateMode(SubViewport.UpdateMode.Disabled);
 
 		BetweenScenariosController.Instance.CharacterPortraitManager.SelectedPortraitChangedEvent += OnSelectedPortraitChanged;
 	}
@@ -53,13 +59,16 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 	{
 		base.AnimateIn(sequenceBuilder, previousActiveAction);
 
+		_envelopeB.SubViewport.SetUpdateMode(SubViewport.UpdateMode.Always);
+
 		sequenceBuilder
 			.AppendTime(previousActiveAction is ItemShop ? 0.5f : 0f)
 			.AppendCallback((() =>
 			{
 				this.DelayedCall(() =>
 				{
-					_3dRoot.SetVisible(true);
+					_titheBowl3DRoot.SetVisible(true);
+					_envelopeB.EnvelopeB3DRoot.SetVisible(true);
 				});
 				this.DelayedCall(() =>
 				{
@@ -118,7 +127,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 
 		sequenceBuilder.AppendTime(1f).AppendCallback(() =>
 		{
-			_3dRoot.SetVisible(false);
+			_titheBowl3DRoot.SetVisible(false);
+			_envelopeB.EnvelopeB3DRoot.SetVisible(false);
 			_bowlVisualContainer.SetVisible(false);
 			_animationPlayer.Play("RESET");
 		});
@@ -127,6 +137,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 
 		_donateButton.SetActive(false);
 
+		_envelopeB.SubViewport.SetUpdateMode(SubViewport.UpdateMode.Disabled);
+
 		base.AnimateOut(sequenceBuilder);
 	}
 
@@ -134,7 +146,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 	{
 		base.AfterAnimateOut();
 
-		_3dRoot.SetVisible(false);
+		_titheBowl3DRoot.SetVisible(false);
+		_envelopeB.EnvelopeB3DRoot.SetVisible(false);
 		_bowlVisualContainer.SetVisible(false);
 
 		foreach(DonationCoin coin in _donationCoins)
