@@ -23,7 +23,8 @@ public partial class EnvelopeB : Control
 	];
 
 	private const int DonationCountPerSet = 45;
-	private static Vector3 AnimationAwayPosition = new Vector3(3, 0, -5);
+	private static Vector3 AnimationAwayPosition = new Vector3(3f, 0f, -5f);
+	private static Vector3 AnimationAwayRotation = new Vector3(0f, -30f, 0f);
 
 	[Export]
 	private PackedScene _normalCircleScene;
@@ -59,6 +60,7 @@ public partial class EnvelopeB : Control
 		}
 
 		_animationContainer.SetPosition(AnimationAwayPosition);
+		_animationContainer.SetRotationDegrees(AnimationAwayRotation);
 	}
 
 	public void Donate()
@@ -69,12 +71,15 @@ public partial class EnvelopeB : Control
 	public void AnimateIn()
 	{
 		_animationContainer.SetPosition(AnimationAwayPosition);
+		_animationContainer.SetRotationDegrees(AnimationAwayRotation);
 		_animationContainer.TweenPosition(Vector3.Zero, 0.8f).SetEasing(Easing.OutCubic).Play();
+		_animationContainer.TweenRotation(Vector3.Zero, 0.8f).SetEasing(Easing.OutCubic).Play();
 	}
 
 	public void AnimateOut()
 	{
 		_animationContainer.TweenPosition(AnimationAwayPosition, 0.8f).SetEasing(Easing.InOutSine).Play();
+		_animationContainer.TweenRotationDegrees(AnimationAwayRotation, 0.8f).SetEasing(Easing.OutCubic).Play();
 	}
 
 	private void UpdateChecks()
