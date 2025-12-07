@@ -503,9 +503,4 @@ public abstract partial class Figure : HexObject
 			index++;
 		}
 	}
-
-	public bool IsFlying()
-    {
-        return _flying;
-    }
 }

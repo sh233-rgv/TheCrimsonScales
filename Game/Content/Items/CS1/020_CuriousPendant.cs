@@ -6,7 +6,7 @@ public class CuriousPendant : CS1Item
 	public override int ItemNumber => 20;
 	public override int ShopCount => 2;
 	public override int Cost => 60;
-	public override ItemType ItemType => ItemType.Small;
+	public override ItemType ItemType => ItemType.Head;
 	public override ItemUseType ItemUseType => ItemUseType.ConsumeUnrecoverable;
 
 	protected override int AtlasIndex => 34;
