@@ -82,6 +82,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 					}
 				}, 0.2f);
 				_animationPlayer.Play(_moveInAnimationName);
+
+				_envelopeB.AnimateIn();
 			}))
 			.AppendCallback(() =>
 			{
@@ -134,6 +136,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 		});
 
 		_animationPlayer.Play(_moveOutAnimationName);
+
+		_envelopeB.AnimateOut();
 
 		_donateButton.SetActive(false);
 
@@ -188,6 +192,8 @@ public partial class SanctuaryOfTheGreatOak : BetweenScenariosAction
 		}
 
 		savedSanctuaryOfTheGreatOak.Donate(selectedCharacter);
+
+		_envelopeB.Donate();
 
 		for(int i = 0; i < 5; i++)
 		{

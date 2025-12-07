@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using GTweensGodot.Extensions;
 
 public partial class EnvelopeB : Control
 {
@@ -21,6 +22,7 @@ public partial class EnvelopeB : Control
 	];
 
 	private const int DonationCountPerSet = 45;
+	private static Vector3 AnimationAwayPosition = new Vector3(3, 0, -5);
 
 	[Export]
 	private PackedScene _normalCircleScene;
@@ -42,13 +44,44 @@ public partial class EnvelopeB : Control
 	{
 		base._Ready();
 
+		//TODO: Support multiple (2) sets of 45 circles/checkmarks
+
+		int donationsCount = BetweenScenariosController.Instance.SavedCampaign.SanctuaryOfTheGreatOak.TotalDonationCount;
 		for(int i = 0; i < DonationCountPerSet; i++)
 		{
-			PackedScene circleScene = DonationYellowNumbers.Contains(i) ? _yellowCircleScene : _normalCircleScene;
+			int number = i + 1;
+			PackedScene circleScene = DonationYellowNumbers.Contains(number) ? _yellowCircleScene : _normalCircleScene;
 			EnvelopeBCircle circle = circleScene.Instantiate<EnvelopeBCircle>();
 			_circleParent.AddChild(circle);
-			circle.Init(i * 10, false);
+			circle.Init(number * 10, i < donationsCount);
 			_circles.Add(circle);
+		}
+
+		_animationContainer.SetPosition(AnimationAwayPosition);
+	}
+
+	public void Donate()
+	{
+		UpdateChecks();
+	}
+
+	public void AnimateIn()
+	{
+		_animationContainer.SetPosition(AnimationAwayPosition);
+		_animationContainer.TweenPosition(Vector3.Zero, 0.8f).Play();
+	}
+
+	public void AnimateOut()
+	{
+		_animationContainer.TweenPosition(AnimationAwayPosition, 0.8f).Play();
+	}
+
+	private void UpdateChecks()
+	{
+		int donationsCount = BetweenScenariosController.Instance.SavedCampaign.SanctuaryOfTheGreatOak.TotalDonationCount;
+		for(int i = 0; i < donationsCount; i++)
+		{
+			_circles[i].Check();
 		}
 	}
 }
