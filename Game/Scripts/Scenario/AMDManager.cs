@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Fractural.Tasks;
 
 public class AMDManager
@@ -62,7 +63,7 @@ public class AMDManager
 			return false;
 		}
 		originalOwner.RemainingEmpowerCount--;
-		AMDCardWithOwner card = new(ModelDB.AMDCard<CurseAMDCard>(), figure.AMDCardDeck.Owner, (Figure)originalOwner);
+		AMDCardWithOwner card = new(originalOwner.CreateEmpower(), figure.AMDCardDeck.Owner, (Figure)originalOwner);
 		ScenarioEvents.EmpowerAdded.Parameters empowerAddedParameters =
 			await ScenarioEvents.EmpowerAddedEvent.CreatePrompt(
 				new ScenarioEvents.EmpowerAdded.Parameters(figure));

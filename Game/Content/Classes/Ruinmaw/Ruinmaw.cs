@@ -8,7 +8,6 @@ public partial class Ruinmaw : Character, IHasEmpower
 	private bool _satedAppliedThisTurn = false;
 	private SatedIndicator _satedIndicator;
 	public int RemainingEmpowerCount { get; set; } = 12;
-	public Type EmpowerType { get; set; } = typeof(RuinmawEmpowerAMDCard);
 	public Action<Ruinmaw> SateEvent;
 
 	public void Sate()
@@ -51,5 +50,10 @@ public partial class Ruinmaw : Character, IHasEmpower
 			);
 		}
 		Sated = true;
+	}
+
+	public AMDCardModel CreateEmpower()
+	{
+		return ModelDB.AMDCard<RuinmawEmpowerAMDCard>();
 	}
 }
