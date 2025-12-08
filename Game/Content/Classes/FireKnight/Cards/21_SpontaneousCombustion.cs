@@ -89,7 +89,7 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 					);
 
 					ScenarioEvents.HazardousTerrainTriggeredEvent.Subscribe(abilityState, this,
-						canApplyParameters => canApplyParameters.AbilityState.Performer == abilityState.Performer,
+						canApplyParameters => canApplyParameters.PotentialAbilityState?.Performer == abilityState.Performer,
 						async applyParameters =>
 						{
 							applyParameters.SetAffectedByHazardousTerrain(false);
