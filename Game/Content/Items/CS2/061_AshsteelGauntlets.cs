@@ -21,20 +21,7 @@ public class AshsteelGauntlets : CS2Item
 			{
 				await Use(async user =>
 				{
-					foreach(Figure figure in RangeHelper.GetFiguresInRange(character.Hex, 2))
-					{
-						if(character.EnemiesWith(figure))
-						{
-							for(int i = figure.Conditions.Count - 1; i >= 0; i--)
-							{
-								ConditionModel condition = figure.Conditions[i];
-								if(condition.IsPositive)
-								{
-									await AbilityCmd.RemoveCondition(figure, condition);
-								}
-							}
-						}
-					}
+					
 				});
 			}
 		);

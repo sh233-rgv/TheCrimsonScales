@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using GTweens.Easings;
+using GTweensGodot.Extensions;
 
 public class Scenario043 : ScenarioModel
 {
@@ -13,8 +15,12 @@ public class Scenario043 : ScenarioModel
 	private Door _door1;
 	private Door _door2;
 	private Door _door3;
-	private IEnumerable<Marker> _markersA;
-	private IEnumerable<Marker> _markersB;
+	private Door _door4;
+	private PressurePlate _pressurePlateA;
+	private PressurePlate _pressurePlateB;
+	private List<PressurePlate> _pressurePlatesC;
+	private List<PressurePlate> _pressurePlatesD;
+
 
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
@@ -30,166 +36,61 @@ public class Scenario043 : ScenarioModel
 
 		Marker marker3 = GameController.Instance.Map.GetMarker(Marker.Type._3);
 		_door3 = marker3.GetHexObject<Door>();
+
+		Marker marker4 = GameController.Instance.Map.GetMarker(Marker.Type._4);
+		_door4 = marker4.GetHexObject<Door>();
 		
-		_markersA = GameController.Instance.Map.GetMarkers(Marker.Type.a);
-		_markersB = GameController.Instance.Map.GetMarkers(Marker.Type.b);
+		_pressurePlateA = GameController.Instance.Map.GetMarker(Marker.Type.a).GetHexObject<PressurePlate>();
+		_pressurePlateB = GameController.Instance.Map.GetMarker(Marker.Type.b).GetHexObject<PressurePlate>();
+		_pressurePlatesC = GameController.Instance.Map.GetMarkers(Marker.Type.c).Select(marker => marker.GetHexObject<PressurePlate>()).ToList();
+		_pressurePlatesD = GameController.Instance.Map.GetMarkers(Marker.Type.d).Select(marker => marker.GetHexObject<PressurePlate>()).ToList();
 
-		ScenarioEvents.AbilityStartedEvent.Subscribe(this,
-			parameters => parameters.AbilityState is AttackAbility.State &&
-				(parameters.Performer is Character || parameters.Performer is Summon) &&
-				GameController.Instance.Map.Rooms[0].MapTiles.Contains(parameters.Performer.Hex.MapTile),
-			async parameters =>
-            {
-				parameters.AbilityState.SetBlocked();
-
-				await GDTask.CompletedTask;
-            });
-
-		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this,
-			parameters => !parameters.ForgoneAction && RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 1)
-								.Any(figure => figure.EnemiesWith(parameters.Performer)),
-			async parameters =>
+		ScenarioEvents.DuringMovementEvent.Subscribe(this,
+			canApplyParameters => canApplyParameters.Performer is Character && canApplyParameters.AbilityState.MoveValue > 0 &&
+				RangeHelper.GetHexesInRange(canApplyParameters.Performer.Hex, 1).Any(hex =>
+				{
+					Obstacle obstacle = hex.GetHexObjectOfType<Obstacle>();
+					return obstacle != null && obstacle.Name.ToString().Contains("Boulder1H");
+				}),
+			async applyParameters =>
 			{
-				parameters.ForgoAction();
+				applyParameters.AbilityState.AdjustMoveValue(-1);
 
-				ActionState actionState = new ActionState(parameters.Performer, [PushAbility.Builder()
-					.WithPush(2)
-					.WithRange(1)
-					.Build()]);
-				await actionState.Perform();
+				Obstacle obstacle = (await AbilityCmd.SelectHex(applyParameters.Performer, list =>
+					{
+						list.AddRange(RangeHelper.GetHexesInRange(applyParameters.Performer.Hex, 1).Where(hex =>
+						{
+							Obstacle obstacle = hex.GetHexObjectOfType<Obstacle>();
+							return obstacle != null && obstacle.Name.ToString().Contains("Boulder1H");
+						}));
+					}, mandatory: true, hintText: "Select an obstacle to move")).GetHexObjectOfType<Obstacle>();
+
+				Hex movedToHex = await AbilityCmd.SelectHex(applyParameters.Performer, list =>
+				{
+					list.AddRange(RangeHelper.GetHexesInRange(obstacle.Hex, 1).Where(hex => hex.IsEmpty() || (hex.IsUnoccupied() && hex.GetHexObjectOfType<Trap>() != null)));
+				}, mandatory: true, hintText: "Select a hex to move the obstacle to");
+
+				if (movedToHex == null)
+                {
+                    return;
+                }
+				movedToHex.GetHexObjectOfType<Trap>()?.Destroy();
+
+				await obstacle.TweenGlobalPosition(movedToHex.GlobalPosition, 0.3f).SetEasing(Easing.OutSine)
+					.PlayFastForwardableAsync();
+				await GDTask.DelayFastForwardable(0.03f);
+				obstacle.SetOriginHexAndRotation(movedToHex);
 			},
 			EffectType.Selectable,
-			effectButtonParameters: new IconEffectButton.Parameters(Icons.Push),
-			effectInfoViewParameters: new TextEffectInfoView.Parameters($"Perform {Icons.Inline(Icons.Push)}2, {Icons.Inline(Icons.Range)}1")
-		);
+			canApplyMultipleTimesInEffectCollection: true,
+			effectButtonParameters: new IconEffectButton.Parameters("res://Art/OverlayTiles/Boulder 1h.png"),
+			effectInfoViewParameters: new TextEffectInfoView.Parameters("Move one adjacent boulder"));
 	}
 
 	protected override async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters parameters)
 	{
 		await base.OnRoomRevealed(parameters);
 
-		if(parameters.OpenedDoor == _door1)
-        {
-			int houndsToSpawn = 0;
-            ScenarioEvents.FigureKilledEvent.Subscribe(this, _door1,
-				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel.Name == "Hound" &&
-					GameController.Instance.Map.Figures.Any(figure => figure is Monster monster && monster.MonsterModel is SlyWolf),
-				async applyParameters =>
-                {
-                    await AbilityCmd.SufferDamage(null, GameController.Instance.Map.Figures
-						.First(figure => figure is Monster monster && monster.MonsterModel is SlyWolf),
-						GameController.Instance.SavedCampaign.Characters.Count);
-					houndsToSpawn++;
-                });
-
-			ScenarioEvents.RoundEndedEvent.Subscribe(this, _door1,
-				canApplyParameters => houndsToSpawn > 0,
-				async applyParameters =>
-                {
-                    while(houndsToSpawn > 0)
-                    {
-						await SpawnMonster(null, ModelDB.Monster<Hound>(), MonsterType.Normal, _markersA.Select(marker => marker.Hex));
-                        houndsToSpawn--;
-                    }
-                });
-			
-			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Subscribe(this, _door1,
-				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel is Hound &&
-					!GameController.Instance.Map.Rooms[1].MapTiles.Contains(canApplyParameters.MapTile),
-				applyParameters =>
-				{
-					applyParameters.SetCanEnter(false);
-				}
-			);
-
-			ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(this, _door1,
-				canApplyParameters => canApplyParameters.Performer is Monster monster && monster.MonsterModel is Hound &&
-					!GameController.Instance.Map.Rooms[1].MapTiles.Contains(canApplyParameters.PotentialTarget.Hex.MapTile),
-				applyParameters =>
-                {
-                    applyParameters.SetCannotBeFocused();
-                });
-        }
-		else if(parameters.OpenedDoor == _door2)
-        {
-			int caveBearsToSpawn = 0;
-            ScenarioEvents.FigureKilledEvent.Subscribe(this, _door2,
-				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel.Name == "Cave Bear" &&
-					GameController.Instance.Map.Figures.Any(figure => figure is Monster monster && monster.MonsterModel is GoringGrizzly),
-				async applyParameters =>
-                {
-					Monster goringGrizzly = (Monster)GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is GoringGrizzly);
-                    ((ShieldTrait)goringGrizzly.Stats.Traits.First(trait => trait is ShieldTrait)).ChangeShieldValue(goringGrizzly, -1);
-					caveBearsToSpawn++;
-
-					await GDTask.CompletedTask;
-                });
-
-			ScenarioEvents.RoundEndedEvent.Subscribe(this, _door2,
-				canApplyParameters => caveBearsToSpawn > 0,
-				async applyParameters =>
-                {
-                    while(caveBearsToSpawn > 0)
-                    {
-						await SpawnMonster(null, ModelDB.Monster<CaveBear>(), MonsterType.Normal, _markersB.Select(marker => marker.Hex));
-                        caveBearsToSpawn--;
-                    }
-                });
-			
-			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Subscribe(this, _door2,
-				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel is CaveBear &&
-					!GameController.Instance.Map.Rooms[2].MapTiles.Contains(canApplyParameters.MapTile),
-				applyParameters =>
-				{
-					applyParameters.SetCanEnter(false);
-				}
-			);
-
-			ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(this, _door2,
-				canApplyParameters => canApplyParameters.Performer is Monster monster && monster.MonsterModel is CaveBear &&
-					!GameController.Instance.Map.Rooms[2].MapTiles.Contains(canApplyParameters.PotentialTarget.Hex.MapTile),
-				applyParameters =>
-                {
-                    applyParameters.SetCannotBeFocused();
-                });
-        }
-		else if(parameters.OpenedDoor == _door3)
-        {
-            ScenarioEvents.AfterSufferDamageEvent.Subscribe(this, _door3,
-				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel.Name == "Giant Viper" &&
-					GameController.Instance.Map.Figures.Any(figure => figure is Monster monster && monster.MonsterModel is KingCobra),
-				async applyParameters =>
-                {
-					Monster goringGrizzly = (Monster)GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is GoringGrizzly);
-                    ((ShieldTrait)goringGrizzly.Stats.Traits.First(trait => trait is ShieldTrait)).ChangeShieldValue(goringGrizzly, -1);
-
-					await AbilityCmd.SufferDamage(null, GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is KingCobra), applyParameters.Damage);
-
-					await GDTask.CompletedTask;
-                });
-
-			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Subscribe(this, _door3,
-				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel is GiantViper &&
-					!GameController.Instance.Map.Rooms[3].MapTiles.Contains(canApplyParameters.MapTile),
-				applyParameters =>
-				{
-					applyParameters.SetCanEnter(false);
-				}
-			);
-
-			ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(this, _door3,
-				canApplyParameters => canApplyParameters.Performer is Monster monster && monster.MonsterModel is GiantViper &&
-					!GameController.Instance.Map.Rooms[3].MapTiles.Contains(canApplyParameters.PotentialTarget.Hex.MapTile),
-				applyParameters =>
-                {
-                    applyParameters.SetCannotBeFocused();
-                });
-        }
+		
 	}
-
-	private async GDTask Treasure33Loot(Character lootingCharacter)
-    {
-        lootingCharacter.SavedCharacter.AddGold(25);
-		await AbilityCmd.AddCondition(null, lootingCharacter, Conditions.Poison1);
-    }
 }
