@@ -39,6 +39,7 @@ public class HierophantModel : ClassModel
 		ModelDB.Card<DevoutAssistance>(),
 		ModelDB.Card<SpiritualGains>(),
 		ModelDB.Card<UnstoppableForce>(),
+		ModelDB.Card<ChainsOfLightning>(),
 	];
 
 	public IList<AbilityCardModel> AllPrayerCards { get; } =

@@ -1,56 +1,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
-public class UnstoppableForce : HierophantLevelUpCardModel<UnstoppableForce.CardTop, UnstoppableForce.CardBottom>
+public class ChainsOfLightning : HierophantLevelUpCardModel<ChainsOfLightning.CardTop, ChainsOfLightning.CardBottom>
 {
-	public override string Name => "Unstoppable Force";
-	public override int Level => 6;
-	public override int Initiative => 21;
-	protected override int AtlasIndex => 15 - 8;
+	public override string Name => "Chains Of Lightning";
+	public override int Level => 1;
+	public override int Initiative => 31;
+	protected override int AtlasIndex => 15 - 9;
 
 	public class CardTop : HierophantCardSide
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(UseSlotAbility.Builder()
-				.WithOnActivate(async state =>
-				{
-					ScenarioEvents.AfterSufferDamageEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.SufferDamageParameters.FromAttack &&
-							canApplyParameters.PotentialAttackAbilityState.Target.AlliedWith(state.Performer) &&
-							RangeHelper.Distance(canApplyParameters.PotentialAttackAbilityState.Target.Hex, state.Performer.Hex) <= 1,
-						async applyParameters =>
-						{
-							//TODO: Change to state
-							await AbilityCmd.SufferDamage(/*state*/null, applyParameters.PotentialAttackAbilityState.Performer, applyParameters.Damage);
-
-							await state.AdvanceUseSlot();
-						}
-					);
-
-					await GDTask.CompletedTask;
-				})
-				.WithOnDeactivate(async state =>
-					{
-						ScenarioEvents.AfterSufferDamageEvent.Unsubscribe(state, this);
-
-						await GDTask.CompletedTask;
-					}
-				)
-				.WithUseSlots(
-					[
-						new UseSlot(new Vector2(0.28100282f, 0.3734997f), GainXP),
-						new UseSlot(new Vector2(0.48650017f, 0.3734997f)),
-						new UseSlot(new Vector2(0.68950886f, 0.3734997f), GainXP)
-					]
-				)
+			new AbilityCardAbility(PullAbility.Builder()
+				.WithPull(2)
+				.WithTargets(2)
+				.WithRange(3)
+				.Build()),
+			new AbilityCardAbility(AttackAbility.Builder()
+				.WithDamage(3)
+				.WithTarget(Target.TargetAll | Target.Enemies)
 				.Build())
 		];
-
-		protected override bool Persistent => true;
-		protected override bool Loss => true;
 	}
 
 	public class CardBottom : HierophantCardSide
