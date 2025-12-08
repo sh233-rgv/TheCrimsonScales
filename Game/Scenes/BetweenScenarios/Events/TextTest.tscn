@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cn06j0rs3ny1w"]
+[gd_scene load_steps=10 format=3 uid="uid://cn06j0rs3ny1w"]
 
 [ext_resource type="Material" uid="uid://bgdcydtsmmrb" path="res://Materials/AbilityCard.tres" id="1_j1ust"]
 [ext_resource type="Texture2D" uid="uid://byfj7yio15h8c" path="res://Art/BetweenScenarios/Events/CityFront.jpg" id="2_hp5hu"]
 [ext_resource type="Texture2D" uid="uid://bbdiabye37ueg" path="res://Art/BetweenScenarios/Events/cs-ce-01-f.png" id="3_tf0p1"]
 [ext_resource type="FontFile" uid="uid://djm7xa0rh5wqv" path="res://Fonts/HTOWERT.TTF" id="4_tb7hh"]
 [ext_resource type="Script" uid="uid://b0n1q2n5kef18" path="res://Scripts/BetweenScenarios/Events/ShapedEventText.cs" id="5_hp5hu"]
+[ext_resource type="FontFile" uid="uid://c4k3lpnj0wc06" path="res://Fonts/PirataOne-Gloomhaven.ttf" id="6_tf0p1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dd4ym"]
 corner_radius_top_left = 20
@@ -12,8 +13,12 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="LabelSettings" id="LabelSettings_00ery"]
-font = ExtResource("4_tb7hh")
+[sub_resource type="Curve" id="Curve_hp5hu"]
+_data = [Vector2(0, 0.632714), 0.0, 2.98578, 0, 0, Vector2(0.342857, 1), 0.0816562, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_tb7hh"]
+font = ExtResource("6_tf0p1")
 font_size = 20
 
 [node name="TextTest" type="Control"]
@@ -55,7 +60,6 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_dd4ym")
 
 [node name="Background" type="TextureRect" parent="Card/Mask"]
-visible = false
 material = ExtResource("1_j1ust")
 instance_shader_parameters/grayscaleFactor = 0.0
 layout_mode = 1
@@ -64,13 +68,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.08, 1.08)
+scale = Vector2(1.09, 1.07)
 pivot_offset = Vector2(250, 350)
 mouse_filter = 2
 texture = ExtResource("2_hp5hu")
 expand_mode = 1
 
 [node name="Example" type="TextureRect" parent="Card/Mask"]
+visible = false
 material = ExtResource("1_j1ust")
 instance_shader_parameters/grayscaleFactor = 0.0
 layout_mode = 1
@@ -83,23 +88,7 @@ mouse_filter = 2
 texture = ExtResource("3_tf0p1")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="Card/Mask"]
-visible = false
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -128.0
-offset_top = 79.0
-offset_right = 143.0
-offset_bottom = 268.0
-grow_horizontal = 2
-text = "\"Come one, come all, and
-welcome to the county fair!\" a"
-label_settings = SubResource("LabelSettings_00ery")
-horizontal_alignment = 1
-
-[node name="ShapedEventText" type="Control" parent="Card/Mask" node_paths=PackedStringArray("_richTextLabel")]
+[node name="ShapedEventText" type="Control" parent="Card/Mask" node_paths=PackedStringArray("_richTextLabelParent", "_richTextLabels")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -107,27 +96,191 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5_hp5hu")
-Text = "\"Come one, come all, and welcome to the county fair!\" a Quatryl with red-and-white facepaint and a clownish blue wig smiles as he waves you in through the entrance. You've decided to take the day off and visit the county fair, which you've enjoyed frequenting as a youth."
+TextShapeCurve = SubResource("Curve_hp5hu")
 Font = ExtResource("4_tb7hh")
 FontSize = 20
-Widths = PackedFloat32Array(100, 200, 300, 400, 0, 0)
-_richTextLabel = NodePath("RichTextLabel")
+LineHeight = 20.5
+_richTextLabelParent = NodePath("MarginContainer/Labels")
+_richTextLabels = [NodePath("MarginContainer/Labels/@RichTextLabel@144829"), NodePath("MarginContainer/Labels/@RichTextLabel@144831"), NodePath("MarginContainer/Labels/@RichTextLabel@144833"), NodePath("MarginContainer/Labels/@RichTextLabel@144835"), NodePath("MarginContainer/Labels/@RichTextLabel@144837"), NodePath("MarginContainer/Labels/@RichTextLabel@144839"), NodePath("MarginContainer/Labels/@RichTextLabel@144841"), NodePath("MarginContainer/Labels/@RichTextLabel@144843"), NodePath("MarginContainer/Labels/@RichTextLabel@144845"), NodePath("MarginContainer/Labels/@RichTextLabel@144847"), NodePath("MarginContainer/Labels/@RichTextLabel@144849"), NodePath("MarginContainer/Labels/@RichTextLabel@144851"), NodePath("MarginContainer/Labels/@RichTextLabel@144853"), NodePath("MarginContainer/Labels/@RichTextLabel@144855"), NodePath("MarginContainer/Labels/@RichTextLabel@144857"), NodePath("MarginContainer/Labels/@RichTextLabel@144859"), NodePath("MarginContainer/Labels/@RichTextLabel@144861"), NodePath("MarginContainer/Labels/@RichTextLabel@144863")]
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Card/Mask/ShapedEventText"]
+[node name="MarginContainer" type="MarginContainer" parent="Card/Mask/ShapedEventText"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/normal_font = ExtResource("4_tb7hh")
-theme_override_font_sizes/normal_font_size = 20
-text = "\"Come one,
-come all, and welcome
-to the county fair!\" a Quatryl with
-red-and-white facepaint and a clownish blue
-wig
-smiles
-"
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 132
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Labels" type="Control" parent="Card/Mask/ShapedEventText/MarginContainer"]
+layout_mode = 2
+
+[node name="@RichTextLabel@144829" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_left = 73.4572
+offset_right = 326.543
+offset_bottom = 20.5
 fit_content = true
-scroll_active = false
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144831" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_left = 52.3213
+offset_top = 20.5
+offset_right = 347.679
+offset_bottom = 41.0
+fit_content = true
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144833" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_left = 35.7885
+offset_top = 41.0
+offset_right = 364.212
+offset_bottom = 61.5
+fit_content = true
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144835" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_left = 23.2735
+offset_top = 61.5
+offset_right = 376.727
+offset_bottom = 82.0
+fit_content = true
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144837" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_left = 14.1912
+offset_top = 82.0
+offset_right = 385.809
+offset_bottom = 102.5
+fit_content = true
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144839" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_left = 7.95619
+offset_top = 102.5
+offset_right = 392.044
+offset_bottom = 123.0
+fit_content = true
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144841" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_left = 3.9834
+offset_top = 123.0
+offset_right = 396.017
+offset_bottom = 143.5
+fit_content = true
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144843" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_left = 1.6875
+offset_top = 143.5
+offset_right = 398.313
+offset_bottom = 164.0
+fit_content = true
+
+[node name="@RichTextLabel@144845" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_left = 1.6875
+offset_top = 164.0
+offset_right = 398.313
+offset_bottom = 184.5
+fit_content = true
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144847" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_top = 184.5
+offset_right = 400.0
+offset_bottom = 205.0
+fit_content = true
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144849" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_top = 205.0
+offset_right = 400.0
+offset_bottom = 225.5
+fit_content = true
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144851" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_top = 225.5
+offset_right = 400.0
+offset_bottom = 246.0
+fit_content = true
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144853" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_top = 246.0
+offset_right = 400.0
+offset_bottom = 266.5
+fit_content = true
+
+[node name="@RichTextLabel@144855" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_top = 266.5
+offset_right = 400.0
+offset_bottom = 287.0
+fit_content = true
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144857" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_top = 287.0
+offset_right = 400.0
+offset_bottom = 307.5
+fit_content = true
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144859" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_top = 307.5
+offset_right = 400.0
+offset_bottom = 328.0
+fit_content = true
+horizontal_alignment = 3
+
+[node name="@RichTextLabel@144861" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_top = 328.0
+offset_right = 400.0
+offset_bottom = 348.5
+fit_content = true
+
+[node name="@RichTextLabel@144863" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 0
+offset_top = 348.5
+offset_right = 400.0
+offset_bottom = 369.0
+fit_content = true
+horizontal_alignment = 3
+
+[node name="Label" type="Label" parent="Card/Mask"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -33.0
+offset_right = 20.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "25"
+label_settings = SubResource("LabelSettings_tb7hh")
+horizontal_alignment = 1
+vertical_alignment = 1
