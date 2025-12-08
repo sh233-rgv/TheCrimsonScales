@@ -686,16 +686,39 @@ public class ScenarioEvents
 			public Character Character { get; } = character;
 
 			public bool CanSelectCardToLose { get; private set; } = false;
+			public bool LoseCard { get; private set; } = true;
 
 			public void SetCanSelectCardToUse()
 			{
 				CanSelectCardToLose = true;
+			}
+
+			public void SetLoseCard(bool loseCard)
+			{
+				LoseCard = loseCard;
 			}
 		}
 	}
 
 	private readonly ShortRestStarted _shortRestStarted = new ShortRestStarted();
 	public static ShortRestStarted ShortRestStartedEvent => GameController.Instance.ScenarioEvents._shortRestStarted;
+
+	public class LongRestStarted : ScenarioEvent<LongRestStarted.Parameters>
+	{
+		public class Parameters(Character character) : ParametersBase
+		{
+			public Character Character { get; } = character;
+			public bool LoseCard { get; private set; } = true;
+
+			public void SetLoseCard(bool loseCard)
+			{
+				LoseCard = loseCard;
+			}
+		}
+	}
+
+	private readonly LongRestStarted _longRestStarted = new LongRestStarted();
+	public static LongRestStarted LongRestStartedEvent => GameController.Instance.ScenarioEvents._longRestStarted;
 
 	public class LongRestCardSelection : ScenarioEvent<LongRestCardSelection.Parameters>
 	{

@@ -387,15 +387,21 @@ public partial class Character : Figure
 
 	private async GDTask LongRest()
 	{
+		ScenarioEvents.LongRestStarted.Parameters longRestStartedParamaters =
+			await ScenarioEvents.LongRestStartedEvent.CreatePrompt(
+				new ScenarioEvents.LongRestStarted.Parameters(this));
+
 		EffectCollection cardSelectionEffectCollection =
 			ScenarioEvents.LongRestCardSelectionEvent.CreateEffectCollection(new ScenarioEvents.LongRestCardSelection.Parameters(this));
-
-		AbilityCard cardToLose = await AbilityCmd.SelectAbilityCard(this, CardState.Discarded, true, null, cardSelectionEffectCollection,
-			"Select a card to lose for your long rest");
-
-		if(cardToLose != null)
+		if(longRestStartedParamaters.LoseCard)
 		{
-			await AbilityCmd.LoseCard(cardToLose);
+			AbilityCard cardToLose = await AbilityCmd.SelectAbilityCard(this, CardState.Discarded, true, null, cardSelectionEffectCollection,
+				"Select a card to lose for your long rest");
+
+			if(cardToLose != null)
+			{
+				await AbilityCmd.LoseCard(cardToLose);
+			}
 		}
 
 		foreach(AbilityCard card in Cards)
@@ -431,36 +437,39 @@ public partial class Character : Figure
 			await ScenarioEvents.ShortRestStartedEvent.CreatePrompt(
 				new ScenarioEvents.ShortRestStarted.Parameters(this), this);
 
-		AbilityCard lostCard = null;
-
-		if(shortRestParameters.CanSelectCardToLose)
+		if (shortRestParameters.LoseCard)
 		{
-			lostCard = await AbilityCmd.SelectAbilityCard(this, CardState.Discarded, mandatory: true, hintText: "Select a card to lose");
-		}
-		else
-		{
-			ShortRestPrompt.Answer shortRestAnswer =
-				await PromptManager.Prompt(new ShortRestPrompt(this, true, null, () => "Lose this card for your Short Rest?"), this);
+			AbilityCard lostCard = null;
 
-			if(shortRestAnswer.Redraw)
+			if(shortRestParameters.CanSelectCardToLose)
 			{
-				await AbilityCmd.SufferDamage(null, this, 1);
-
-				AbilityCard cardRedrawnFor = GameController.Instance.ReferenceManager.Get<AbilityCard>(shortRestAnswer.AbilityCardReferenceId);
-				await AbilityCmd.ReturnToHand(cardRedrawnFor);
-
-				ShortRestPrompt.Answer redrawAnswer =
-					await PromptManager.Prompt(new ShortRestPrompt(this, false, null, () => "Confirm Short Rest"), this);
-
-				lostCard = GameController.Instance.ReferenceManager.Get<AbilityCard>(redrawAnswer.AbilityCardReferenceId);
+				lostCard = await AbilityCmd.SelectAbilityCard(this, CardState.Discarded, mandatory: true, hintText: "Select a card to lose");
 			}
 			else
 			{
-				lostCard = GameController.Instance.ReferenceManager.Get<AbilityCard>(shortRestAnswer.AbilityCardReferenceId);
-			}
-		}
+				ShortRestPrompt.Answer shortRestAnswer =
+					await PromptManager.Prompt(new ShortRestPrompt(this, true, null, () => "Lose this card for your Short Rest?"), this);
 
-		await AbilityCmd.LoseCard(lostCard);
+				if(shortRestAnswer.Redraw)
+				{
+					await AbilityCmd.SufferDamage(null, this, 1);
+
+					AbilityCard cardRedrawnFor = GameController.Instance.ReferenceManager.Get<AbilityCard>(shortRestAnswer.AbilityCardReferenceId);
+					await AbilityCmd.ReturnToHand(cardRedrawnFor);
+
+					ShortRestPrompt.Answer redrawAnswer =
+						await PromptManager.Prompt(new ShortRestPrompt(this, false, null, () => "Confirm Short Rest"), this);
+
+					lostCard = GameController.Instance.ReferenceManager.Get<AbilityCard>(redrawAnswer.AbilityCardReferenceId);
+				}
+				else
+				{
+					lostCard = GameController.Instance.ReferenceManager.Get<AbilityCard>(shortRestAnswer.AbilityCardReferenceId);
+				}
+			}
+
+			await AbilityCmd.LoseCard(lostCard);
+		}
 
 		foreach(AbilityCard card in Cards)
 		{
