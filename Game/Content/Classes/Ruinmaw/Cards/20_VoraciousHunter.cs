@@ -5,7 +5,7 @@ using Godot;
 public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, VoraciousHunter.CardBottom>
 {
 	public override string Name => "Voracious Hunter";
-	public override int Level => 1;
+	public override int Level => 5;
 	public override int Initiative => 32;
 	protected override int AtlasIndex => 20;
 

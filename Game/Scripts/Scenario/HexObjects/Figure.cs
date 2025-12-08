@@ -46,8 +46,6 @@ public abstract partial class Figure : HexObject
 
 	public abstract Texture2D MapIconTexture { get; }
 
-	public abstract Texture2D MapIconTexture { get; }
-
 	public Color OutlineColor => _figureViewComponent.Outline.SelfModulate;
 
 	public bool IsDead => IsDestroyed;

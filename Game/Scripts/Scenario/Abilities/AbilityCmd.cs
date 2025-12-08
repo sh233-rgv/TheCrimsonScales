@@ -458,7 +458,7 @@ public static class AbilityCmd
 				if(hazardousTerrainParameters.AffectedByHazardousTerrain)
 				{
 					int damage = HazardousTerrain.DamageAmount;
-					await SufferDamage(state, figure, damage);
+					await SufferDamage(potentialAbilityState, figure, damage);
 				}
 			}
 		}

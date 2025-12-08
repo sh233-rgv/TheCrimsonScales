@@ -1,4 +1,7 @@
-﻿public class AMDManager
+﻿using System;
+using Fractural.Tasks;
+
+public class AMDManager
 {
 	public int RemainingBlessCount { get; private set; } = 10;
 	public int RemainingCharacterCurseCount { get; private set; } = 10;
@@ -59,10 +62,12 @@
 			return false;
 		}
 		originalOwner.RemainingEmpowerCount--;
-		AMDCard card = (AMDCard)Activator.CreateInstance(originalOwner.EmpowerType, originalOwner);
+		AMDCardWithOwner card = new(ModelDB.AMDCard<CurseAMDCard>(), figure.AMDCardDeck.Owner, (Figure)originalOwner);
 		ScenarioEvents.EmpowerAdded.Parameters empowerAddedParameters =
 			await ScenarioEvents.EmpowerAddedEvent.CreatePrompt(
 				new ScenarioEvents.EmpowerAdded.Parameters(figure));
+
+		card.DrawnEvent += OnEmpowerDrawn;
 
 		figure.AMDCardDeck.AddCard(card, empowerAddedParameters.ShuffleDrawPile);
 		return true;
@@ -81,5 +86,10 @@
 	private void OnMonsterCurseDrawn(AMDCard card)
 	{
 		RemainingMonsterCurseCount++;
+	}
+
+	private void OnEmpowerDrawn(AMDCard card, Figure originalOwner)
+	{
+		((IHasEmpower)originalOwner).RemainingEmpowerCount++;
 	}
 }

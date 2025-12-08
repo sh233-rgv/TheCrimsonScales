@@ -13,7 +13,6 @@ public abstract class AbilityCardSide
 
 	protected virtual bool Round => false;
 	protected virtual bool Persistent => false;
-	protected virtual bool RemoveImmediately => false;
 	protected virtual bool Loss => false;
 	protected virtual bool Unrecoverable => false;
 	protected virtual bool CanDeactivate => true;
@@ -67,7 +66,7 @@ public abstract class AbilityCardSide
 				CardState resultingState = CardState.Discarded;
 
 				bool round = Round || actionState.OverrideRound;
-				bool persistent = actionState.OverrideNoPersistent ? false : actionState.OverridePersistent || Persistent;
+				bool persistent = !actionState.OverrideNoPersistent && (actionState.OverridePersistent || Persistent);
 				bool loss = Loss || actionState.OverrideLoss;
 
 				if(round && persistent)
@@ -78,7 +77,7 @@ public abstract class AbilityCardSide
 				AbilityCard.SetUnrecoverable(Unrecoverable);
 
 				// If no persistent/round ability has been performed, discard or lose it instead
-				if(actionState.HasPerformedActiveAbility && !RemoveImmediately)
+				if(actionState.HasPerformedActiveAbility && !actionState.OverrideNoPersistent)
 				{
 					if(round)
 					{

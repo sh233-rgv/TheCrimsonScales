@@ -1,23 +1,14 @@
-using System.Linq;
-
-public class RuinmawEmpowerAMDCard : EmpowerAMDCard
+public class RuinmawEmpowerAMDCard(IHasEmpower figure) : EmpowerAMDCard
 {
+	protected override string TexturePath => "res://Content/Classes/Ruinmaw/AMDCards/AMDCards.png";
+	protected override int ColumnCount => 3;
+	protected override int RowCount => 2;
+	protected override int AtlasIndex => 5;
 	public override AMDCardType Type => AMDCardType.Value;
-	public override int? Value => 1;
-	public override bool Rolling => true;
-	public IHasEmpower Owner;
-	//TODO: Change so it takes in state
-	//TODO: Add Push 1 once amds are implemeneted
+	public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
+	public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
+	public override bool RemoveAfterDraw => true;
+	public override int? Push => 1;
 
-	public RuinmawEmpowerAMDCard(IHasEmpower figure)
-		: base("res://Content/Classes/Ruinmaw/AMDCards/AMDCards.png", 5, 3, 2)
-	{
-		Owner = figure;
-    }
-
-	public override void Drawn()
-	{
-		base.Drawn();
-		Owner.RemainingEmpowerCount++;
-	}
+	public IHasEmpower Owner = figure;
 }
