@@ -26,7 +26,7 @@ public class IgnoreDifficultAndHazardousTerrainTrait() : FigureTrait
 		);
 
 		ScenarioEvents.HazardousTerrainTriggeredEvent.Subscribe(figure, this,
-			canApplyParameters => canApplyParameters.AbilityState.Performer == figure,
+			canApplyParameters => canApplyParameters.PotentialAbilityState?.Performer == figure,
 			async applyParameters =>
 			{
 				applyParameters.SetAffectedByHazardousTerrain(false);
