@@ -67,7 +67,7 @@ public abstract class AbilityCardSide
 				CardState resultingState = CardState.Discarded;
 
 				bool round = Round || actionState.OverrideRound;
-				bool persistent = Persistent || actionState.OverridePersistent;
+				bool persistent = actionState.OverrideNoPersistent ? false : actionState.OverridePersistent || Persistent;
 				bool loss = Loss || actionState.OverrideLoss;
 
 				if(round && persistent)

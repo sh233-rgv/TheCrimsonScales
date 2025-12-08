@@ -5,7 +5,7 @@ using Godot;
 public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, VoraciousHunter.CardBottom>
 {
 	public override string Name => "Voracious Hunter";
-	public override int Level => 5;
+	public override int Level => 1;
 	public override int Initiative => 32;
 	protected override int AtlasIndex => 20;
 
@@ -38,7 +38,7 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 									ActionState actionState = new ActionState(state.Performer,
 									[
 										MoveAbility.Builder().WithDistance(4).Build(),
-										AttackAbility.Builder().WithDamage(6).Build(),
+										AttackAbility.Builder().WithDamage(4).Build(),
 									]);
 									await actionState.Perform();
 									ScenarioEvents.AbilityEndedEvent.Subscribe(state, new object(), subscriptions);
@@ -50,7 +50,7 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 							await state.AdvanceUseSlot();
 							if (state.UseSlotIndex > 2)
 							{
-								_removeImmediately = true;
+								state.ActionState.SetOverrideNoPersistent();
                             }
 						});
 
@@ -74,9 +74,7 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 				.Build()),
 		];
 
-		private bool _removeImmediately = false;
-		protected override bool Persistent => !_removeImmediately;
-		protected override bool RemoveImmediately => _removeImmediately;
+		protected override bool Persistent => true;
 		protected override bool Loss => true;
 	}
 
