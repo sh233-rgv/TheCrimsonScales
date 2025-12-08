@@ -17,7 +17,7 @@ public class DrainingGreaves : CS1Item
 		base.Subscribe();
 
 		SubscribeTurnEnded(
-			canApply: character => character == Owner && character.TurnMovedHexCount >= 4,
+			canApply: character => character == Owner && character.TurnMovedHexes.Count >= 4,
 			apply: async character =>
 			{
 				await Use(async user =>

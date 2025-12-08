@@ -14,7 +14,7 @@ public class BootsOfPerpetuity : CS1Item
 		base.Subscribe();
 
 		SubscribeTurnEnded(
-			canApply: character => character == Owner && character.TurnMovedHexCount == 0,
+			canApply: character => character == Owner && character.TurnMovedHexes.Count == 0,
 			apply: async character =>
 			{
 				await Use(async user =>
