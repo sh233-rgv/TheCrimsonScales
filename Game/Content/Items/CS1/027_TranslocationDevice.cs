@@ -32,10 +32,7 @@ public class TranslocationDevice : CS1Item
 						return;
 					}
 
-					Hex performerHex = character.Hex;
-					Hex swappedHex = swapped.Hex;
-					await AbilityCmd.EnterHex(null, swapped, character, performerHex, true, true);
-					await AbilityCmd.EnterHex(null, character, character, swappedHex, true, true);
+					await AbilityCmd.TrySwap(character, character, swapped);
 				});
 			}
 		);
