@@ -1607,7 +1607,6 @@ layout_mode = 2
 texture = ExtResource("20_1ehwm")
 
 [node name="EventButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" instance=ExtResource("17_3hv00")]
-visible = false
 modulate = Color(1, 0.671158, 0.532482, 1)
 layout_mode = 2
 
