@@ -70,13 +70,13 @@ public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.Ca
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					foreach(Figure target in  state.ActionState.GetAbilityState<ConditionAbility.State>(0).UniqueTargetedFigures)
+					foreach(Figure target in state.ActionState.GetAbilityState<ConditionAbility.State>(0).UniqueTargetedFigures)
 					{
 						bool attackPerformedYet = target.RoundPerformedActionStates
 							.SelectMany(a => a.AbilityStates)
 							.OfType<AttackAbility.State>()
 							.Any(a => a.UniqueTargetedFigures.Count > 0);
-						if (!attackPerformedYet)
+						if(!attackPerformedYet)
 						{
 							ScenarioEvents.DuringAttackEvent.Subscribe(target, this,
 								canApplyParameters => canApplyParameters.Performer == target,
@@ -93,7 +93,7 @@ public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.Ca
 							.SelectMany(a => a.AbilityStates)
 							.OfType<MoveAbility.State>()
 							.Any(a => a.Hexes.Count > 0);
-						if (!movePerformedYet)
+						if(!movePerformedYet)
 						{
 							ScenarioEvents.DuringMovementEvent.Subscribe(target, this,
 								canApplyParameters => canApplyParameters.Performer == target,
@@ -110,7 +110,7 @@ public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.Ca
 							.SelectMany(a => a.AbilityStates)
 							.OfType<HealAbility.State>()
 							.Any(a => a.UniqueTargetedFigures.Count > 0);
-						if (!healPerformedYet)
+						if(!healPerformedYet)
 						{
 							ScenarioEvents.DuringHealEvent.Subscribe(target, this,
 								canApplyParameters => canApplyParameters.Performer == target,
@@ -138,7 +138,7 @@ public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.Ca
 
 					await GDTask.CompletedTask;
 				})
-				.WithConditionalAbilityCheck(async state => state.ActionState.GetAbilityState<ConditionAbility.State>(0).Performed)
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.Build())
 		];
 
