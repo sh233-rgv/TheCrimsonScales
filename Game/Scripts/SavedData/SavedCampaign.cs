@@ -29,6 +29,9 @@ public class SavedCampaign
 	[JsonProperty]
 	public List<PartyAchievement> CollectedPartyAchievements { get; } = [];
 
+	[JsonProperty]
+	public SavedSanctuaryOfTheGreatOak SanctuaryOfTheGreatOak { get; } = new SavedSanctuaryOfTheGreatOak();
+
 	public event Action CharactersChangedEvent;
 
 	public static SavedCampaign New(string partyName, StartingGroup startingGroup)
@@ -66,14 +69,14 @@ public class SavedCampaign
 				//ModelDB.Class<BrightsparkModel>(),
 				ModelDB.Class<ChainguardModel>(),
 				//ModelDB.Class<HollowpactModel>(),
-				//ModelDB.Class<StarslingerModel>()
+				ModelDB.Class<StarslingerModel>()
 			],
 			StartingGroup.Trailblazers =>
 			[
 				ModelDB.Class<BombardModel>(),
 				//ModelDB.Class<BrightsparkModel>(),
 				//ModelDB.Class<LuminaryModel>(),
-				//ModelDB.Class<StarslingerModel>()
+				ModelDB.Class<StarslingerModel>()
 			],
 			StartingGroup.Naturalists =>
 			[
@@ -136,11 +139,12 @@ public class SavedCampaign
 	{
 		SavedCampaign savedCampaign = New("Party Time", StartingGroup.Militants);
 
-		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), "Swampguy");
+		savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), "Swampguy");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), "Bombo");
 		//savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), "Conclave Man");
-		savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), "Vuur Knecht");
-		savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), "Dierenzitter");
+		//savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), "Vuur Knecht");
+		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), "Sterrenwerper");
+		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), "Dierenzitter");
 
 		//savedCampaign.Characters[0].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<MinorManaPotion>());
@@ -200,6 +204,8 @@ public class SavedCampaign
 			SavedItem savedItem = GetSavedItem(itemModel);
 			savedItem.AddStock(1);
 		}
+
+		SanctuaryOfTheGreatOak.ReturnCards(savedCharacter);
 
 		Characters.Remove(savedCharacter);
 

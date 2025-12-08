@@ -35,6 +35,16 @@ public class FireKnightModel : ClassModel
 		ModelDB.Card<CrewIntegrity>(),
 		ModelDB.Card<JackOfAllTrades>(),
 		ModelDB.Card<ForgedByFire>(),
+		ModelDB.Card<HookAndLadder>(),
+		ModelDB.Card<SearingBlaze>(),
+		ModelDB.Card<SpontaneousCombustion>(),
+		ModelDB.Card<MutualAid>(),
+		ModelDB.Card<RollingFlames>(),
+		ModelDB.Card<SearchAndRescue>(),
+		ModelDB.Card<Backdraft>(),
+		ModelDB.Card<FightTogether>(),
+		ModelDB.Card<Flashover>(),
+		ModelDB.Card<IncidentCommander>(),
 	];
 
 	public IList<ItemModel> AllItems { get; } =

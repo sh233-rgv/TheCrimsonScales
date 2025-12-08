@@ -30,7 +30,7 @@ public static class AbilityCmd
 
 	public static async GDTask DiscardOrLose(AbilityCard card)
 	{
-		if(card.CardState == CardState.Round || card.CardState == CardState.Persistent)
+		if(card.CardState == CardState.Round || card.CardState == CardState.Persistent || card.CardState == CardState.PersistentNoDeactivate)
 		{
 			await DiscardCard(card);
 		}
@@ -480,13 +480,24 @@ public static class AbilityCmd
 		}
 	}
 
-	public static bool CanSwap(Figure figure1, Figure figure2)
+	public static GDTask<bool> TrySwap(Figure authority, Figure figureA, Figure figureB)
 	{
-		if(figure1.Hex.TryGetHexObjectOfType(out Obstacle obstacle) && !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figure2)).HasFlying)
+		return TrySwap(null, authority, figureA, figureB);
+	}
+
+	public static GDTask<bool> TrySwap(AbilityState abilityState, Figure figureA, Figure figureB)
+	{
+		return TrySwap(abilityState, abilityState.Authority, figureA, figureB);
+	}
+
+	public static bool CanSwap(Figure figureA, Figure figureB)
+	{
+		if(figureA.Hex.TryGetHexObjectOfType(out Obstacle obstacle) &&
+		   !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figureB)).HasFlying)
 		{
 			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
 				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
-					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figure2, figure1.Hex, obstacle, true));
+					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figureB, figureA.Hex, obstacle, true));
 
 			if(!canEnterObstacleParameters.CanEnter)
 			{
@@ -494,17 +505,19 @@ public static class AbilityCmd
 			}
 		}
 
-		if(figure2.Hex.TryGetHexObjectOfType(out Obstacle obstacle2) && !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figure1)).HasFlying)
+		if(figureB.Hex.TryGetHexObjectOfType(out Obstacle obstacle2) &&
+		   !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figureA)).HasFlying)
 		{
 			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
 				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
-					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figure1, figure2.Hex, obstacle2, true));
+					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figureA, figureB.Hex, obstacle2, true));
 
 			if(!canEnterObstacleParameters.CanEnter)
 			{
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -561,8 +574,10 @@ public static class AbilityCmd
 		return InfuseElement(authority, Elements.All);
 	}
 
-	public static GDTask InfuseElement(Figure authority, IReadOnlyCollection<Element> possibleElements)
+	public static async GDTask<Element?> InfuseElement(Figure authority, IReadOnlyCollection<Element> possibleElements)
 	{
+		Element? element = null;
+
 		List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
 			new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
 		foreach(Element possibleElement in possibleElements)
@@ -570,6 +585,7 @@ public static class AbilityCmd
 			subscriptions.Add(ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.New(
 				applyFunction: async parameters =>
 				{
+					element = possibleElement;
 					await InfuseElement(possibleElement);
 				},
 				effectType: EffectType.SelectableMandatory,
@@ -578,7 +594,9 @@ public static class AbilityCmd
 			));
 		}
 
-		return GenericChoice(authority, subscriptions);
+		await GenericChoice(authority, subscriptions);
+
+		return element;
 	}
 
 	public static async GDTask InfuseElement(Element element, bool immediately = false)
@@ -865,5 +883,21 @@ public static class AbilityCmd
 		GameController.Instance.MarkScenarioEnded();
 		GameController.Instance.ScenarioWonView.Open();
 		return GDTask.Never(GameController.CancellationToken);
+	}
+
+	private static async GDTask<bool> TrySwap(AbilityState potentialAbilityState, Figure authority, Figure figureA, Figure figureB)
+	{
+		if(!CanSwap(figureA, figureB))
+		{
+			return false;
+		}
+
+		Hex hexA = figureA.Hex;
+		Hex hexB = figureB.Hex;
+		await EnterHex(potentialAbilityState, figureB, authority, hexA, true, true);
+		await EnterHex(potentialAbilityState, figureA, authority, hexB, true, true);
+		potentialAbilityState?.SetPerformed();
+
+		return true;
 	}
 }

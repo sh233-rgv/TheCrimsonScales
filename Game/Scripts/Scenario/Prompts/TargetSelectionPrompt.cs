@@ -93,7 +93,10 @@ public class TargetSelectionPrompt(
 
 	private void OnFigurePressed(Figure figure)
 	{
-		_selectedFigure = figure;
 		GameController.Instance.SelectFigureView.Close();
+
+		_selectedFigure = figure;
+
+		FullUpdateState();
 	}
 }

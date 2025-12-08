@@ -10,9 +10,11 @@ public partial class AOEView : Node2D
 	[Export]
 	private PackedScene _redHexScene;
 	[Export]
-	private PackedScene _grayHexScene;
+	private PackedScene _yellowHexScene;
 	[Export]
-	private PackedScene _emptyHexScene;
+	private PackedScene _grayHexScene;
+	// [Export]
+	// private PackedScene _emptyHexScene;
 
 	[Export]
 	private Node2D _hexParent;
@@ -29,10 +31,18 @@ public partial class AOEView : Node2D
 	private readonly List<Vector2I> _coordsCache = new List<Vector2I>();
 
 	private GTween _moveTween;
+	private GTween _rotateTween;
 
 	public List<AOEHexView> Hexes { get; } = new List<AOEHexView>();
 
 	public event Action AOEChangedEvent;
+
+	public override void _Ready()
+	{
+		base._Ready();
+
+		GameController.Instance.AOEMirrorButtonView.MirrorPressed += OnMirrorPressed;
+	}
 
 	public void Open(AOEPattern pattern, Hex forcedOriginHex, Figure performer, int range)
 	{
@@ -57,13 +67,16 @@ public partial class AOEView : Node2D
 				case AOEHexType.Red:
 					hexScene = _redHexScene;
 					break;
+				case AOEHexType.Yellow:
+					hexScene = _yellowHexScene;
+					break;
 				case AOEHexType.Gray:
 					_hasGrayHex = true;
 					hexScene = _grayHexScene;
 					break;
-				case AOEHexType.Empty:
-					hexScene = _emptyHexScene;
-					break;
+				// case AOEHexType.Empty:
+				// 	hexScene = _emptyHexScene;
+				// 	break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
@@ -106,6 +119,11 @@ public partial class AOEView : Node2D
 		}
 
 		SetProcessInput(true);
+
+		if(!CheckSymmetry(pattern))
+		{
+			GameController.Instance.AOEMirrorButtonView.Open();
+		}
 	}
 
 	public void Close()
@@ -122,6 +140,8 @@ public partial class AOEView : Node2D
 		GameController.Instance.HexIndicatorManager.ClearIndicators();
 
 		SetProcessInput(false);
+
+		GameController.Instance.AOEMirrorButtonView.Close();
 	}
 
 	public override void _Input(InputEvent @event)
@@ -167,7 +187,8 @@ public partial class AOEView : Node2D
 
 		_rotationIndex++;
 		float targetDegrees = _rotationIndex * 60f;
-		_hexParent.TweenRotationDegrees(targetDegrees, 0.08f).Play();
+		_rotateTween?.Kill();
+		_rotateTween = _hexParent.TweenRotationDegrees(targetDegrees, 0.08f).Play();
 
 		// if(!ValidateHexes())
 		// {
@@ -198,6 +219,23 @@ public partial class AOEView : Node2D
 		}
 
 		SetCoords(hexIndicator.Hex.Coords);
+	}
+
+	private void OnMirrorPressed()
+	{
+		// Make sure all animations are finished, otherwise mirroring goes horribly wrong
+		_moveTween?.Complete();
+		_rotateTween?.Complete();
+
+		foreach(AOEHexView hex in Hexes)
+		{
+			Vector2I localCoords = hex.GlobalCoords - _coords;
+			localCoords = Map.MirrorCoords(localCoords);
+			hex.SetCoords(_coords + localCoords);
+			hex.SetGlobalPosition(Map.CoordsToGlobalPosition(hex.GlobalCoords));
+		}
+
+		SetCoords(_coords);
 	}
 
 	private void SetCoords(Vector2I coords, bool skipAnimation = false)
@@ -272,8 +310,60 @@ public partial class AOEView : Node2D
 
 		bool IsInRange()
 		{
-			return Hexes.Any(hex => _possibleHexes.Contains(hex.GlobalCoords)); // Map.Distance(_performer.Hex.Coords, hex.GlobalCoords) <= _range && );
+			return Hexes.Any(hex => _possibleHexes.Contains(hex.GlobalCoords));
 		}
+	}
+
+	private bool CheckSymmetry(AOEPattern pattern)
+	{
+		if(pattern.Hexes.Count == 0)
+		{
+			return true;
+		}
+
+		// Check if the AOE pattern is symmetrical, by mirroring it, and then rotating it 6 times and checking if it ever matches the original
+		AOEPattern checkPattern = new AOEPattern(pattern.Hexes.Select(hex => new AOEHex(Map.MirrorCoords(hex.LocalCoords), hex.Type)).ToList());
+		Vector2I pivotOffset = pattern.Hexes[0].LocalCoords;
+		for(int i = 0; i < 6; i++)
+		{
+			// Go through each hex of the check pattern and offset it to overlap the pivot
+			foreach(AOEHex pivotCheckHex in checkPattern.Hexes)
+			{
+				Vector2I checkOffset = pivotCheckHex.LocalCoords - pivotOffset;
+
+				bool symmetryFound = true;
+
+				// Go through each hex of the original pattern and check if it is represented in the check pattern
+				foreach(AOEHex hex in pattern.Hexes)
+				{
+					bool matchFound = false;
+					foreach(AOEHex checkHex in checkPattern.Hexes)
+					{
+						Vector2I checkHexGlobalCoords = checkHex.LocalCoords - checkOffset;
+						if(hex.LocalCoords == checkHexGlobalCoords && hex.Type == checkHex.Type)
+						{
+							matchFound = true;
+						}
+					}
+
+					if(!matchFound)
+					{
+						symmetryFound = false;
+						break;
+					}
+				}
+
+				if(symmetryFound)
+				{
+					return true;
+				}
+			}
+
+			checkPattern = new AOEPattern(checkPattern.Hexes.Select(hex => new AOEHex(Map.RotateCoordsClockwise(hex.LocalCoords, 1), hex.Type))
+				.ToList());
+		}
+
+		return false;
 	}
 
 	private void TweenPosition(bool skipAnimation)

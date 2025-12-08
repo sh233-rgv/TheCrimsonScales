@@ -40,8 +40,9 @@ public abstract partial class Figure : HexObject
 
 	public abstract AMDCardDeck AMDCardDeck { get; }
 
-	public int TurnMovedHexCount { get; private set; }
+	public List<Hex> TurnMovedHexes { get; private set; } = new List<Hex>();
 	public List<ActionState> TurnPerformedActionStates { get; } = new List<ActionState>();
+	public List<ActionState> RoundPerformedActionStates { get; } = new List<ActionState>();
 
 	public abstract Texture2D MapIconTexture { get; }
 
@@ -82,7 +83,7 @@ public abstract partial class Figure : HexObject
 			enteredHexParameters => enteredHexParameters.PotentialAbilityState is MoveAbility.State or PullSelfAbility.State,
 			async enteredHexParameters =>
 			{
-				TurnMovedHexCount++;
+				TurnMovedHexes.Add(enteredHexParameters.Hex);
 
 				await GDTask.CompletedTask;
 			}
@@ -201,7 +202,7 @@ public abstract partial class Figure : HexObject
 		}
 
 		TakingTurn = true;
-		TurnMovedHexCount = 0;
+		TurnMovedHexes.Clear();
 		TurnPerformedActionStates.Clear();
 
 		_figureViewComponent.ActivePS.Show();
@@ -223,7 +224,10 @@ public abstract partial class Figure : HexObject
 			new ScenarioEvents.FigureTurnEnding.Parameters(this), this);
 
 		// Little hack here to make sure looting is performed at the right time
-		await EndOfTurnLooting();
+		if(Hex != null)
+		{
+			await EndOfTurnLooting();
+		}
 
 		await ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.CreatePrompt(
 			new ScenarioEvents.FigureTurnEndedConditionsFallOff.Parameters(this), this);
@@ -353,11 +357,14 @@ public abstract partial class Figure : HexObject
 	public virtual void RoundEnd()
 	{
 		CanTakeTurn = true;
+		RoundPerformedActionStates.Clear();
 	}
 
 	private void UpdateHealthProgressBar()
 	{
-		_figureViewComponent.HealthProgressBar.Value = (float)Health / MaxHealth;
+		float t = (float)Health / MaxHealth;
+		float fill = _figureViewComponent.HealthProgressBarCurve.Sample(t);
+		_figureViewComponent.HealthProgressBar.SetValue(fill);
 	}
 
 	private void OnShieldSubscriptionsChanged()
@@ -502,5 +509,10 @@ public abstract partial class Figure : HexObject
 
 			index++;
 		}
+	}
+
+	public void SetTakingTurn(bool takingTurn)
+	{
+		TakingTurn = takingTurn;
 	}
 }

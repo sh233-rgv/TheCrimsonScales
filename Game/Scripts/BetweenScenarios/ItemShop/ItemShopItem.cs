@@ -60,7 +60,7 @@ public partial class ItemShopItem : Control
 	{
 		base._Notification(what);
 
-		if(what == NotificationPredelete)
+		if(what == NotificationPredelete && AppController.Instance != null)
 		{
 			if(SavedItem != null)
 			{

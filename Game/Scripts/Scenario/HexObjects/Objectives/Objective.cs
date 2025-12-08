@@ -18,7 +18,7 @@ public partial class Objective : Figure
 	{
 		base._Ready();
 
-		_staticSprite = GetNode<Sprite2D>("Mask/Sprite2D");
+		_staticSprite = GetNode<Sprite2D>("Sprite");
 	}
 
 	public void Init(int health, string name)

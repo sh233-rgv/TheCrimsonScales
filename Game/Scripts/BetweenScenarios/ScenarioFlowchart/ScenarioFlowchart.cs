@@ -134,7 +134,7 @@ public partial class ScenarioFlowchart : BetweenScenariosAction
 		return _scenarioButtons[scenarioNumber];
 	}
 
-	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder)
+	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder, BetweenScenariosAction previousActiveAction)
 	{
 		_3dRoot.SetVisible(true);
 
@@ -145,7 +145,7 @@ public partial class ScenarioFlowchart : BetweenScenariosAction
 		_3dContainer.Position = new Vector2(-1000f, 0f);
 		_3dContainer.RotationDegrees = 50;
 
-		base.AnimateIn(sequenceBuilder);
+		base.AnimateIn(sequenceBuilder, previousActiveAction);
 
 		_subViewport.SetUpdateMode(SubViewport.UpdateMode.Once);
 		//_subViewportContainer.SetVisible(true);

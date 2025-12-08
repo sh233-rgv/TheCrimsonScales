@@ -38,7 +38,7 @@ public partial class BuyItemPopup : Popup<BuyItemPopup.Request>
 		_itemView.SetItem(PopupRequest.ItemModel);
 
 		_itemAndBuyerLabel.Text = $"Buy {PopupRequest.ItemModel.Name} for {PopupRequest.Buyer.GetNameAndIcon()}?";
-		_costLabel.Text = $"Cost: [img={{30}}]res://Art/Icons/Other/Coins.svg[/img]{PopupRequest.ItemModel.Cost}";
+		_costLabel.Text = $"Cost: {Icons.Inline(Icons.Coins)}{PopupRequest.ItemModel.Cost}";
 	}
 
 	private void OnCancelPressed()

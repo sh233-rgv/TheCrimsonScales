@@ -54,6 +54,9 @@ public partial class GameController : SceneController<GameController>
 	public AOEView AOEView { get; private set; }
 
 	[Export]
+	public AOEMirrorButtonView AOEMirrorButtonView { get; private set; }
+
+	[Export]
 	public SufferDamageView SufferDamageView { get; private set; }
 
 	[Export]
@@ -236,8 +239,8 @@ public partial class GameController : SceneController<GameController>
 		ScenarioPhaseManager = new ScenarioPhaseManager();
 
 		// Create monster AMD
-		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards("res://Art/AMDs/MonsterAMD.jpg");
-		MonsterAMDCardDeck = new AMDCardDeck(amdCards, false);
+		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards(AMDCardOwner.Monsters);
+		MonsterAMDCardDeck = new AMDCardDeck(amdCards, AMDCardOwner.Monsters);
 
 		PortraitView.Open();
 
@@ -470,7 +473,7 @@ public partial class GameController : SceneController<GameController>
 
 				if(undoType == UndoType.Turn &&
 				   (newScenario.PromptAnswers.Count + 1 == CurrentTurnTakerPromptIndex ||
-				    newScenario.PromptAnswers.Count + 1 == PreviousTurnTakerPromptIndex))
+					newScenario.PromptAnswers.Count + 1 == PreviousTurnTakerPromptIndex))
 				{
 					break;
 				}
@@ -525,6 +528,8 @@ public partial class GameController : SceneController<GameController>
 		{
 			character.SavedCharacter.AddGold(character.ObtainedCoins * goldConversion);
 			character.SavedCharacter.AddXP(character.ObtainedXP + (won ? bonusExperience : 0));
+
+			SavedCampaign.SanctuaryOfTheGreatOak.ReturnCards(character.SavedCharacter);
 		}
 
 		SavedScenarioProgress.Unlocked = true;

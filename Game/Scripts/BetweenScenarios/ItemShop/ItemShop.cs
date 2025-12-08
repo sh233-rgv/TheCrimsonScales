@@ -96,7 +96,7 @@ public partial class ItemShop : BetweenScenariosAction
 		UpdateButtons();
 	}
 
-	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder)
+	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder, BetweenScenariosAction previousActiveAction)
 	{
 		_3dRoot.SetVisible(true);
 
@@ -112,9 +112,10 @@ public partial class ItemShop : BetweenScenariosAction
 		_bookContainer.Position = new Vector2(-100, -2000);
 		_bookContainer.RotationDegrees = 40;
 
-		base.AnimateIn(sequenceBuilder);
+		base.AnimateIn(sequenceBuilder, previousActiveAction);
 
 		sequenceBuilder
+			.AppendTime(previousActiveAction is SanctuaryOfTheGreatOak ? 0.2f : 0f)
 			.Append(_bookContainer.TweenPosition(new Vector2(0f, 10f), 0.6f))
 			.Join(_bookContainer.TweenRotationDegrees(0f, 0.6f))
 			.Append(_bookContainer.TweenPosition(Vector2.Zero, 0.05f))
