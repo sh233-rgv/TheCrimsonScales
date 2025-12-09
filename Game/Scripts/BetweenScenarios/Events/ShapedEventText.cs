@@ -4,7 +4,7 @@ using System.Linq;
 using Godot;
 using Environment = System.Environment;
 
-[Tool]
+//[Tool]
 public partial class ShapedEventText : Control
 {
 	[Export]
@@ -14,7 +14,7 @@ public partial class ShapedEventText : Control
 		private set
 		{
 			_textShapeCurve = value;
-			UpdateText();
+			//UpdateText();
 		}
 	}
 
@@ -25,7 +25,7 @@ public partial class ShapedEventText : Control
 		private set
 		{
 			_font = value;
-			UpdateText();
+			//UpdateText();
 		}
 	}
 
@@ -36,7 +36,7 @@ public partial class ShapedEventText : Control
 		private set
 		{
 			_fontSize = value;
-			UpdateText();
+			//UpdateText();
 		}
 	}
 
@@ -47,14 +47,13 @@ public partial class ShapedEventText : Control
 		private set
 		{
 			_lineHeight = value;
-			UpdateText();
+			//UpdateText();
 		}
 	}
 
 	[Export]
 	private Control _richTextLabelParent;
 
-	[Export]
 	private RichTextLabel[] _richTextLabels;
 
 	private Curve _textShapeCurve;
@@ -66,12 +65,7 @@ public partial class ShapedEventText : Control
 	{
 		base._Ready();
 
-		this.DelayedCall(UpdateText);
-	}
-
-	private void UpdateText()
-	{
-		SetModel(ModelDB.Event<City01>());
+		this.DelayedCall(() => SetModel(ModelDB.Event<City01>()));
 	}
 
 	private void SetModel(EventModel eventModel)
@@ -81,9 +75,12 @@ public partial class ShapedEventText : Control
 			return;
 		}
 
-		foreach(RichTextLabel richTextLabel in _richTextLabels)
+		if(_richTextLabels != null)
 		{
-			richTextLabel.QueueFree();
+			foreach(RichTextLabel richTextLabel in _richTextLabels)
+			{
+				richTextLabel.QueueFree();
+			}
 		}
 
 		List<RichTextLabel> labels = new List<RichTextLabel>();
@@ -153,7 +150,6 @@ public partial class ShapedEventText : Control
 		label.SetFitContent(true);
 		label.PopAll();
 		return label;
-		//labels.Add(label);
 	}
 
 	private static string WrapTextToWidths(string text, float[] widths, Font font, int fontSize)

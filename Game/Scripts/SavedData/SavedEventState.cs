@@ -1,22 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Godot;
+using Newtonsoft.Json;
 
-public class EventState(EventChoice choice)
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class SavedEventState
 {
-	public EventChoice Choice { get; } = choice;
+	[JsonProperty]
+	public EventChoice Choice { get; set; }
 
-	private readonly Dictionary<string, object> _customValues = new Dictionary<string, object>();
+	[JsonProperty]
+	public Dictionary<string, object> CustomValues { get; set; } = new Dictionary<string, object>();
+
+	public SavedEventState()
+	{
+	}
+
+	public SavedEventState(EventChoice choice)
+	{
+		Choice = choice;
+	}
 
 	public void SetCustomValue(string key, object value)
 	{
-		_customValues[key] = value;
+		CustomValues[key] = value;
 	}
 
 	public T GetCustomValue<T>(string key)
 	{
-		if(!_customValues.TryGetValue(key, out object value))
+		if(!CustomValues.TryGetValue(key, out object value))
 		{
-			//Log.Error($"Could not find custom value for: {source} with key: {key}");
+			//Log.Error($"Could not find custom value for key: {key}");
 			return default;
 		}
 
@@ -31,7 +45,7 @@ public class EventState(EventChoice choice)
 
 	public bool TryGetCustomValue<T>(string key, out T value)
 	{
-		if(!_customValues.TryGetValue(key, out object retrievedValue))
+		if(!CustomValues.TryGetValue(key, out object retrievedValue))
 		{
 			//Log.Error($"Could not find custom value for: {source} with key: {key}");
 			value = default;

@@ -18,9 +18,9 @@ public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
 
 	public class ChoiceA : EventChoiceModel
 	{
-		public override string ChoiceText => "Try your strength with the Inox Strongman's game";
+		public override string ChoiceText => "Try your strength with the Inox Strongman's game.";
 
-		public override string GetStoryText(EventState state)
+		public override string GetStoryText(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -38,7 +38,7 @@ public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
 			}
 		}
 
-		public override async GDTask Resolve(EventState state, SavedCampaign savedCampaign)
+		public override async GDTask Resolve(SavedEventState state, SavedCampaign savedCampaign)
 		{
 			await base.Resolve(state, savedCampaign);
 
@@ -49,9 +49,9 @@ public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
 
 	public class ChoiceB : EventChoiceModel
 	{
-		public override string ChoiceText => "Test your aim by the Aesther's booth";
+		public override string ChoiceText => "Test your aim by the Aesther's booth.";
 
-		public override string GetStoryText(EventState state)
+		public override string GetStoryText(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -69,7 +69,7 @@ public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
 			}
 		}
 
-		public override async GDTask Resolve(EventState state, SavedCampaign savedCampaign)
+		public override async GDTask Resolve(SavedEventState state, SavedCampaign savedCampaign)
 		{
 			await base.Resolve(state, savedCampaign);
 
