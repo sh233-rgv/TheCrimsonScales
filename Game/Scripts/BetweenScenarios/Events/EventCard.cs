@@ -20,6 +20,9 @@ public partial class EventCard : Control
 	[Export]
 	private SubViewportContainer _subViewportContainer;
 
+	[Export]
+	private Label _numberLabel;
+
 	private ShaderMaterial _material;
 
 	public override void _Ready()
@@ -27,17 +30,17 @@ public partial class EventCard : Control
 		base._Ready();
 
 		_material = (ShaderMaterial)_subViewportContainer.Material;
-
-		this.DelayedCall(() => SetModel(ModelDB.Event<City01>()));
-
-		//this.DelayedCall(Rotate, 2f);
 	}
 
 	public void SetModel(EventModel eventModel)
 	{
-		_frontContainer.SetVisible(true);
-		_backContainer.SetVisible(false);
-		_frontEventText.SetModel(eventModel);
+		this.DelayedCall(() =>
+		{
+			_frontContainer.SetVisible(true);
+			_backContainer.SetVisible(false);
+			_frontEventText.SetModel(eventModel);
+			_numberLabel.SetText(eventModel.Number.ToString());
+		});
 	}
 
 	private void Rotate()

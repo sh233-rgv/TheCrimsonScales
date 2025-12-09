@@ -1,4 +1,4 @@
-[gd_scene load_steps=103 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=116 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -48,7 +48,15 @@
 [ext_resource type="Texture2D" uid="uid://xcevbjw5n8no" path="res://Art/Icons/Abilities/XP.svg" id="28_5k12q"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="28_jr74k"]
 [ext_resource type="Script" uid="uid://ck1ncviofqosh" path="res://Scripts/UI/ResizingLabel.cs" id="28_psaff"]
+[ext_resource type="Script" uid="uid://bwtgi5kel4acw" path="res://Scripts/BetweenScenarios/Events/Events.cs" id="29_7kdey"]
+[ext_resource type="Script" uid="uid://cupkvjgt2qge0" path="res://Scripts/BetweenScenarios/Events/EventCard.cs" id="30_dl2j2"]
+[ext_resource type="Shader" uid="uid://cvigpjylr2cci" path="res://Shaders/RotatingCard.gdshader" id="31_sagt1"]
 [ext_resource type="PackedScene" uid="uid://ct6pmvbmsh7lf" path="res://Scenes/UI/MenuButton.tscn" id="32_5k12q"]
+[ext_resource type="Material" uid="uid://bgdcydtsmmrb" path="res://Materials/AbilityCard.tres" id="32_su2xo"]
+[ext_resource type="Texture2D" uid="uid://byfj7yio15h8c" path="res://Art/BetweenScenarios/Events/CityFront.jpg" id="33_2yhfp"]
+[ext_resource type="Texture2D" uid="uid://bbdiabye37ueg" path="res://Art/BetweenScenarios/Events/cs-ce-01-f.png" id="34_rtdf2"]
+[ext_resource type="Script" uid="uid://b0n1q2n5kef18" path="res://Scripts/BetweenScenarios/Events/ShapedEventText.cs" id="35_0rh5w"]
+[ext_resource type="FontFile" uid="uid://djm7xa0rh5wqv" path="res://Fonts/HTOWERT.TTF" id="36_bny7g"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fpmem"]
 shader = ExtResource("9_fpmem")
@@ -430,6 +438,32 @@ shader_parameter/shadow_max_opacity = 0.7
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_j84ia"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wg15a"]
+shader = ExtResource("31_sagt1")
+shader_parameter/fov = 20.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_12j2q"]
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="Curve" id="Curve_d3wm2"]
+_data = [Vector2(0, 0.632714), 0.0, 2.98578, 0, 0, Vector2(0.342857, 1), 0.0816562, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_16mqd"]
+font = ExtResource("4_csc1w")
+font_size = 20
+
+[sub_resource type="Curve" id="Curve_tq2dg"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5k12q"]
 shader = ExtResource("23_psaff")
 shader_parameter/inner_radius = 0.3
@@ -507,7 +541,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("6_nmjfa")
-_actions = [NodePath("ScenarioFlowchart"), NodePath("ItemShop"), NodePath("Enhancer"), NodePath("SanctuaryOfTheGreatOak")]
+_actions = [NodePath("ScenarioFlowchart"), NodePath("ItemShop"), NodePath("Enhancer"), NodePath("SanctuaryOfTheGreatOak"), NodePath("Events")]
 _startActiveAction = NodePath("ScenarioFlowchart")
 
 [node name="ScenarioFlowchart" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("OutlineParent", "_gridContainer", "_3dContainer", "_scrollMesh", "_subViewportContainer", "_subViewport", "_3dRoot", "Button")]
@@ -1303,6 +1337,7 @@ libraries = {
 }
 
 [node name="SanctuaryOfTheGreatOak" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("_titheBowl3DRoot", "_animationPlayer", "_donationCoinContainer", "_syncingBody", "_bowlVisualContainer", "_donateButton", "_envelopeB", "Button")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1440,6 +1475,7 @@ render_target_update_mode = 4
 [node name="Root" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport"]
 
 [node name="EnvelopeBRoot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root"]
+visible = false
 
 [node name="Container" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/EnvelopeBRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.26, 0.02, 0)
@@ -1464,6 +1500,7 @@ skeleton = NodePath("../../../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_8rcsx")
 
 [node name="TitheBowlRoot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root"]
+visible = false
 
 [node name="TitheBowlContainer" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.68)
@@ -1612,6 +1649,213 @@ layout_mode = 2
 
 [node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EventButton/Container/BetterButton/Panel" index="0"]
 texture = ExtResource("22_ywvcx")
+
+[node name="Events" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("_eventCard", "Button")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("29_7kdey")
+_eventCard = NodePath("EventCard")
+Button = NodePath("../ActionButtons/VBoxContainer/EventButton")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.3)
+
+[node name="EventCard" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events" node_paths=PackedStringArray("_frontContainer", "_frontEventText", "_backContainer", "_backEventText", "_subViewportContainer", "_numberLabel")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -450.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("30_dl2j2")
+_frontContainer = NodePath("SubViewportContainer/SubViewport/Mask/Front")
+_frontEventText = NodePath("SubViewportContainer/SubViewport/Mask/Front/ShapedEventText")
+_backContainer = NodePath("SubViewportContainer/SubViewport/Mask/Back")
+_backEventText = NodePath("SubViewportContainer/SubViewport/Mask/Back/ShapedEventText")
+_subViewportContainer = NodePath("SubViewportContainer")
+_numberLabel = NodePath("SubViewportContainer/SubViewport/Mask/Front/Label")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard"]
+material = SubResource("ShaderMaterial_wg15a")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(500, 700)
+render_target_update_mode = 4
+
+[node name="Mask" type="Panel" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer/SubViewport"]
+clip_children = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_12j2q")
+
+[node name="Front" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer/SubViewport/Mask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer/SubViewport/Mask/Front"]
+material = ExtResource("32_su2xo")
+instance_shader_parameters/grayscaleFactor = 0.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.09, 1.07)
+pivot_offset = Vector2(250, 350)
+mouse_filter = 2
+texture = ExtResource("33_2yhfp")
+expand_mode = 1
+
+[node name="Example" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer/SubViewport/Mask/Front"]
+visible = false
+material = ExtResource("32_su2xo")
+instance_shader_parameters/grayscaleFactor = 0.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("34_rtdf2")
+expand_mode = 1
+
+[node name="ShapedEventText" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer/SubViewport/Mask/Front" node_paths=PackedStringArray("_richTextLabelParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("35_0rh5w")
+TextShapeCurve = SubResource("Curve_d3wm2")
+Font = ExtResource("36_bny7g")
+FontSize = 20
+LineHeight = 20.5
+_richTextLabelParent = NodePath("MarginContainer/Labels")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer/SubViewport/Mask/Front/ShapedEventText"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 132
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Labels" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer/SubViewport/Mask/Front/ShapedEventText/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer/SubViewport/Mask/Front"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -33.0
+offset_right = 20.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "25"
+label_settings = SubResource("LabelSettings_16mqd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Back" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer/SubViewport/Mask"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer/SubViewport/Mask/Back"]
+material = ExtResource("32_su2xo")
+instance_shader_parameters/grayscaleFactor = 0.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -71.0
+offset_bottom = -71.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.593, 1.564)
+pivot_offset = Vector2(250, 350)
+mouse_filter = 2
+texture = ExtResource("33_2yhfp")
+expand_mode = 1
+
+[node name="ShapedEventText" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer/SubViewport/Mask/Back" node_paths=PackedStringArray("_richTextLabelParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("35_0rh5w")
+TextShapeCurve = SubResource("Curve_tq2dg")
+Font = ExtResource("36_bny7g")
+FontSize = 20
+LineHeight = 20.5
+_richTextLabelParent = NodePath("MarginContainer/Labels")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer/SubViewport/Mask/Back/ShapedEventText"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Labels" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/Events/EventCard/SubViewportContainer/SubViewport/Mask/Back/ShapedEventText/MarginContainer"]
+layout_mode = 2
 
 [node name="Vignette" type="ColorRect" parent="CanvasLayer/UI"]
 material = SubResource("ShaderMaterial_5k12q")
