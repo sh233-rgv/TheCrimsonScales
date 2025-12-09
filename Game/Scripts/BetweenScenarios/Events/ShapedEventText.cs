@@ -61,14 +61,14 @@ public partial class ShapedEventText : Control
 	private int _fontSize;
 	private float _lineHeight;
 
-	public override void _Ready()
-	{
-		base._Ready();
+	// public override void _Ready()
+	// {
+	// 	base._Ready();
+	//
+	// 	this.DelayedCall(() => SetModel(ModelDB.Event<City01>()));
+	// }
 
-		this.DelayedCall(() => SetModel(ModelDB.Event<City01>()));
-	}
-
-	private void SetModel(EventModel eventModel)
+	public void SetModel(EventModel eventModel)
 	{
 		if(_textShapeCurve == null || _font == null || _richTextLabelParent == null)
 		{

@@ -1,5 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://cn06j0rs3ny1w"]
+[gd_scene load_steps=14 format=3 uid="uid://cn06j0rs3ny1w"]
 
+[ext_resource type="Script" uid="uid://cupkvjgt2qge0" path="res://Scripts/BetweenScenarios/Events/EventCard.cs" id="1_dd4ym"]
 [ext_resource type="Material" uid="uid://bgdcydtsmmrb" path="res://Materials/AbilityCard.tres" id="1_j1ust"]
 [ext_resource type="Shader" uid="uid://cvigpjylr2cci" path="res://Shaders/RotatingCard.gdshader" id="1_tf0p1"]
 [ext_resource type="Texture2D" uid="uid://byfj7yio15h8c" path="res://Art/BetweenScenarios/Events/CityFront.jpg" id="2_hp5hu"]
@@ -30,6 +31,10 @@ point_count = 2
 font = ExtResource("6_tf0p1")
 font_size = 20
 
+[sub_resource type="Curve" id="Curve_dd4ym"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
 [node name="TextTest" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -38,12 +43,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Card" type="Control" parent="."]
+[node name="EventCard" type="Control" parent="." node_paths=PackedStringArray("_frontContainer", "_frontEventText", "_backContainer", "_backEventText", "_subViewportContainer")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -56,8 +56,14 @@ offset_right = 250.0
 offset_bottom = 350.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_dd4ym")
+_frontContainer = NodePath("SubViewportContainer/SubViewport/Mask/Front")
+_frontEventText = NodePath("SubViewportContainer/SubViewport/Mask/Front/ShapedEventText")
+_backContainer = NodePath("SubViewportContainer/SubViewport/Mask/Back")
+_backEventText = NodePath("SubViewportContainer/SubViewport/Mask/Back/ShapedEventText")
+_subViewportContainer = NodePath("SubViewportContainer")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="Card"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="EventCard"]
 material = SubResource("ShaderMaterial_tb7hh")
 layout_mode = 1
 anchors_preset = 15
@@ -67,10 +73,10 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="Card/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="EventCard/SubViewportContainer"]
 size = Vector2i(500, 700)
 
-[node name="Mask" type="Panel" parent="Card/SubViewportContainer/SubViewport"]
+[node name="Mask" type="Panel" parent="EventCard/SubViewportContainer/SubViewport"]
 clip_children = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -80,7 +86,15 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_dd4ym")
 
-[node name="Background" type="TextureRect" parent="Card/SubViewportContainer/SubViewport/Mask"]
+[node name="Front" type="Control" parent="EventCard/SubViewportContainer/SubViewport/Mask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="EventCard/SubViewportContainer/SubViewport/Mask/Front"]
 material = ExtResource("1_j1ust")
 instance_shader_parameters/grayscaleFactor = 0.0
 layout_mode = 1
@@ -95,7 +109,7 @@ mouse_filter = 2
 texture = ExtResource("2_hp5hu")
 expand_mode = 1
 
-[node name="Example" type="TextureRect" parent="Card/SubViewportContainer/SubViewport/Mask"]
+[node name="Example" type="TextureRect" parent="EventCard/SubViewportContainer/SubViewport/Mask/Front"]
 visible = false
 material = ExtResource("1_j1ust")
 instance_shader_parameters/grayscaleFactor = 0.0
@@ -109,7 +123,7 @@ mouse_filter = 2
 texture = ExtResource("3_tf0p1")
 expand_mode = 1
 
-[node name="ShapedEventText" type="Control" parent="Card/SubViewportContainer/SubViewport/Mask" node_paths=PackedStringArray("_richTextLabelParent")]
+[node name="ShapedEventText" type="Control" parent="EventCard/SubViewportContainer/SubViewport/Mask/Front" node_paths=PackedStringArray("_richTextLabelParent")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -123,7 +137,7 @@ FontSize = 20
 LineHeight = 20.5
 _richTextLabelParent = NodePath("MarginContainer/Labels")
 
-[node name="MarginContainer" type="MarginContainer" parent="Card/SubViewportContainer/SubViewport/Mask/ShapedEventText"]
+[node name="MarginContainer" type="MarginContainer" parent="EventCard/SubViewportContainer/SubViewport/Mask/Front/ShapedEventText"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -135,10 +149,10 @@ theme_override_constants/margin_top = 132
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
-[node name="Labels" type="Control" parent="Card/SubViewportContainer/SubViewport/Mask/ShapedEventText/MarginContainer"]
+[node name="Labels" type="Control" parent="EventCard/SubViewportContainer/SubViewport/Mask/Front/ShapedEventText/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Card/SubViewportContainer/SubViewport/Mask"]
+[node name="Label" type="Label" parent="EventCard/SubViewportContainer/SubViewport/Mask/Front"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -155,3 +169,57 @@ text = "25"
 label_settings = SubResource("LabelSettings_tb7hh")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Back" type="Control" parent="EventCard/SubViewportContainer/SubViewport/Mask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="EventCard/SubViewportContainer/SubViewport/Mask/Back"]
+material = ExtResource("1_j1ust")
+instance_shader_parameters/grayscaleFactor = 0.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -71.0
+offset_bottom = -71.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.593, 1.564)
+pivot_offset = Vector2(250, 350)
+mouse_filter = 2
+texture = ExtResource("2_hp5hu")
+expand_mode = 1
+
+[node name="ShapedEventText" type="Control" parent="EventCard/SubViewportContainer/SubViewport/Mask/Back" node_paths=PackedStringArray("_richTextLabelParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_hp5hu")
+TextShapeCurve = SubResource("Curve_dd4ym")
+Font = ExtResource("4_tb7hh")
+FontSize = 20
+LineHeight = 20.5
+_richTextLabelParent = NodePath("MarginContainer/Labels")
+
+[node name="MarginContainer" type="MarginContainer" parent="EventCard/SubViewportContainer/SubViewport/Mask/Back/ShapedEventText"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Labels" type="Control" parent="EventCard/SubViewportContainer/SubViewport/Mask/Back/ShapedEventText/MarginContainer"]
+layout_mode = 2
