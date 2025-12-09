@@ -101,7 +101,7 @@ Font = ExtResource("4_tb7hh")
 FontSize = 20
 LineHeight = 20.5
 _richTextLabelParent = NodePath("MarginContainer/Labels")
-_richTextLabels = [NodePath("MarginContainer/Labels/@RichTextLabel@144829"), NodePath("MarginContainer/Labels/@RichTextLabel@144831"), NodePath("MarginContainer/Labels/@RichTextLabel@144833"), NodePath("MarginContainer/Labels/@RichTextLabel@144835"), NodePath("MarginContainer/Labels/@RichTextLabel@144837"), NodePath("MarginContainer/Labels/@RichTextLabel@144839"), NodePath("MarginContainer/Labels/@RichTextLabel@144841"), NodePath("MarginContainer/Labels/@RichTextLabel@144843"), NodePath("MarginContainer/Labels/@RichTextLabel@144845"), NodePath("MarginContainer/Labels/@RichTextLabel@144847"), NodePath("MarginContainer/Labels/@RichTextLabel@144849"), NodePath("MarginContainer/Labels/@RichTextLabel@144851"), NodePath("MarginContainer/Labels/@RichTextLabel@144853"), NodePath("MarginContainer/Labels/@RichTextLabel@144855"), NodePath("MarginContainer/Labels/@RichTextLabel@144857"), NodePath("MarginContainer/Labels/@RichTextLabel@144859"), NodePath("MarginContainer/Labels/@RichTextLabel@144861"), NodePath("MarginContainer/Labels/@RichTextLabel@144863")]
+_richTextLabels = [NodePath("MarginContainer/Labels/@RichTextLabel@22583"), NodePath("MarginContainer/Labels/@RichTextLabel@22585"), NodePath("MarginContainer/Labels/@RichTextLabel@22587"), NodePath("MarginContainer/Labels/@RichTextLabel@22589"), NodePath("MarginContainer/Labels/@RichTextLabel@22591"), NodePath("MarginContainer/Labels/@RichTextLabel@22593"), NodePath("MarginContainer/Labels/@RichTextLabel@22595"), NodePath("MarginContainer/Labels/@RichTextLabel@22597"), NodePath("MarginContainer/Labels/@RichTextLabel@22599"), NodePath("MarginContainer/Labels/@RichTextLabel@22601"), NodePath("MarginContainer/Labels/@RichTextLabel@22603"), NodePath("MarginContainer/Labels/@RichTextLabel@22605"), NodePath("MarginContainer/Labels/@RichTextLabel@22607"), NodePath("MarginContainer/Labels/@RichTextLabel@22609"), NodePath("MarginContainer/Labels/@RichTextLabel@22611"), NodePath("MarginContainer/Labels/@RichTextLabel@22613"), NodePath("MarginContainer/Labels/@RichTextLabel@22615"), NodePath("MarginContainer/Labels/@RichTextLabel@22617")]
 
 [node name="MarginContainer" type="MarginContainer" parent="Card/Mask/ShapedEventText"]
 layout_mode = 1
@@ -118,7 +118,7 @@ theme_override_constants/margin_bottom = 50
 [node name="Labels" type="Control" parent="Card/Mask/ShapedEventText/MarginContainer"]
 layout_mode = 2
 
-[node name="@RichTextLabel@144829" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22583" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
 offset_left = 73.4572
 offset_right = 326.543
@@ -126,78 +126,78 @@ offset_bottom = 20.5
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144831" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22585" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
-offset_left = 52.3213
+offset_left = 52.3212
 offset_top = 20.5
 offset_right = 347.679
 offset_bottom = 41.0
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144833" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22587" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
-offset_left = 35.7885
+offset_left = 35.7884
 offset_top = 41.0
 offset_right = 364.212
 offset_bottom = 61.5
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144835" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22589" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
-offset_left = 23.2735
+offset_left = 23.2734
 offset_top = 61.5
 offset_right = 376.727
 offset_bottom = 82.0
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144837" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22591" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
-offset_left = 14.1912
+offset_left = 14.1911
 offset_top = 82.0
 offset_right = 385.809
 offset_bottom = 102.5
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144839" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22593" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
-offset_left = 7.95619
+offset_left = 7.95616
 offset_top = 102.5
 offset_right = 392.044
 offset_bottom = 123.0
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144841" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22595" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
-offset_left = 3.9834
+offset_left = 3.98335
 offset_top = 123.0
 offset_right = 396.017
 offset_bottom = 143.5
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144843" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22597" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
-offset_left = 1.6875
+offset_left = 1.68748
 offset_top = 143.5
 offset_right = 398.313
 offset_bottom = 164.0
 fit_content = true
 
-[node name="@RichTextLabel@144845" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22599" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
-offset_left = 1.6875
+offset_left = 1.68748
 offset_top = 164.0
 offset_right = 398.313
 offset_bottom = 184.5
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144847" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22601" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
 offset_top = 184.5
 offset_right = 400.0
@@ -205,7 +205,7 @@ offset_bottom = 205.0
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144849" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22603" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
 offset_top = 205.0
 offset_right = 400.0
@@ -213,7 +213,7 @@ offset_bottom = 225.5
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144851" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22605" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
 offset_top = 225.5
 offset_right = 400.0
@@ -221,14 +221,14 @@ offset_bottom = 246.0
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144853" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22607" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
 offset_top = 246.0
 offset_right = 400.0
 offset_bottom = 266.5
 fit_content = true
 
-[node name="@RichTextLabel@144855" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22609" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
 offset_top = 266.5
 offset_right = 400.0
@@ -236,7 +236,7 @@ offset_bottom = 287.0
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144857" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22611" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
 offset_top = 287.0
 offset_right = 400.0
@@ -244,7 +244,7 @@ offset_bottom = 307.5
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144859" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22613" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
 offset_top = 307.5
 offset_right = 400.0
@@ -252,14 +252,14 @@ offset_bottom = 328.0
 fit_content = true
 horizontal_alignment = 3
 
-[node name="@RichTextLabel@144861" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22615" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
 offset_top = 328.0
 offset_right = 400.0
 offset_bottom = 348.5
 fit_content = true
 
-[node name="@RichTextLabel@144863" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
+[node name="@RichTextLabel@22617" type="RichTextLabel" parent="Card/Mask/ShapedEventText/MarginContainer/Labels"]
 layout_mode = 0
 offset_top = 348.5
 offset_right = 400.0
