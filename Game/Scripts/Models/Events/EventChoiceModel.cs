@@ -2,12 +2,13 @@
 
 public abstract class EventChoiceModel
 {
-	public abstract string Text { get; }
+	public abstract string GetText(EventState state);
 
 	public EventResolveType GetEventResolveType(EventState state) => EventResolveType.Lost;
 
-	public virtual void Resolve(EventState state)
+	public virtual async GDTask Resolve(EventState state, SavedCampaign savedCampaign)
 	{
+		await GDTask.CompletedTask;
 	}
 
 	public virtual async GDTask ScenarioStart(EventState state)

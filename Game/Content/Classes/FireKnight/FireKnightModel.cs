@@ -6,6 +6,8 @@ public class FireKnightModel : ClassModel
 	public override string Name => "Fire Knight";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.MediumHigh;
 	public override int HandSize => 10;
+	public override Ancestry Ancestry => Ancestry.Valrath;
+
 	public override string AssetPath => "res://Content/Classes/FireKnight";
 	public override Color PrimaryColor => Color.FromHtml("df391f");
 	public override Color SecondaryColor => Color.FromHtml("531724");

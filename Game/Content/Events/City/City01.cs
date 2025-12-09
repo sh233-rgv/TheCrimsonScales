@@ -1,4 +1,7 @@
-﻿public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
+﻿using System.Linq;
+using Fractural.Tasks;
+
+public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
 {
 	public override int Number => 01;
 
@@ -6,18 +9,68 @@
 		"""
 		"Come one, come all, and welcome to the county fair!" a Quatryl with red-and-white facepaint and a clownish blue wig smiles as he waves you in through the entrance. You've decided to take the day off and visit the county fair, which you've enjoyed frequenting as a youth.
 
-		"Step right up and try your luck!" an Inox strongman wielding a giant hammer beckons you forward. "Do you have what it takes to hit the bell?"
+		"Step right up and try your luck!" an Inox Strongman wielding a giant hammer beckons you forward. "Do you have what it takes to hit the bell?"
 
 		On the other side, an Aesther throws a dart and pops a balloon. "Try your aim! Can you hit the balloon? Find out here!"
 		""";
 
+	private const string ConditionsMetKey = "ConditionsMet";
+
 	public class ChoiceA : EventChoiceModel
 	{
-		public override string Text => "Blah blah";
+		public override string GetText(EventState state)
+		{
+			if(state.GetCustomValue<bool>(ConditionsMetKey))
+			{
+				return
+					"""
+					You swing the hammer down with all your might and hear a loud ring. "You've done it!" the Inox Strongman cheers. "Come claim your prize!"
+					""";
+			}
+			else
+			{
+				return
+					"""
+					You pick up the hammer and swing it down, but the booth hardly rumbles at all and the bell doesn't ring. "Oh well, maybe next time." says the Strongman as he takes the hammer back from you.
+					""";
+			}
+		}
+
+		public override async GDTask Resolve(EventState state, SavedCampaign savedCampaign)
+		{
+			await base.Resolve(state, savedCampaign);
+
+			bool conditionsMet = savedCampaign.Characters.Any(character => character.ClassModel.Ancestry is Ancestry.Inox or Ancestry.Valrath);
+			state.SetCustomValue(ConditionsMetKey, conditionsMet);
+		}
 	}
 
 	public class ChoiceB : EventChoiceModel
 	{
-		public override string Text => "Blah blah 2";
+		public override string GetText(EventState state)
+		{
+			if(state.GetCustomValue<bool>(ConditionsMetKey))
+			{
+				return
+					"""
+					You grip the dart tightly in your hand and fling it toward the balloon. You hear a 'pop' followed by applause. "Congratulations!" the Aesther claps. "Here's your prize!"
+					""";
+			}
+			else
+			{
+				return
+					"""
+					You fling the dart toward the board but end up accidentally hitting the Aesther in the shoulder instead.
+					""";
+			}
+		}
+
+		public override async GDTask Resolve(EventState state, SavedCampaign savedCampaign)
+		{
+			await base.Resolve(state, savedCampaign);
+
+			bool conditionsMet = savedCampaign.Characters.Any(character => character.ClassModel.Ancestry is Ancestry.Aesther or Ancestry.Orchid);
+			state.SetCustomValue(ConditionsMetKey, conditionsMet);
+		}
 	}
 }
