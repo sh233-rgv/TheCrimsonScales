@@ -71,6 +71,11 @@ public partial class ShapedEventText : Control
 
 	private void UpdateText()
 	{
+		SetModel(ModelDB.Event<City01>());
+	}
+
+	private void SetModel(EventModel eventModel)
+	{
 		if(_textShapeCurve == null || _font == null || _richTextLabelParent == null)
 		{
 			return;
@@ -82,18 +87,11 @@ public partial class ShapedEventText : Control
 		}
 
 		List<RichTextLabel> labels = new List<RichTextLabel>();
-		string testText =
-			"""
-			"Come one, come all, and welcome to the county fair!" a Quatryl with red-and-white facepaint and a clownish blue wig smiles as he waves you in through the entrance. You've decided to take the day off and visit the county fair, which you've enjoyed frequenting as a youth.
 
-			"Step right up and try your luck!" an Inox strongman wielding a giant hammer beckons you forward. "Do you have what it takes to hit the bell?"
+		string text = eventModel.Text;
+		string paragraphMarker = Environment.NewLine + Environment.NewLine;
+		string[] paragraphs = text.Split([paragraphMarker], StringSplitOptions.RemoveEmptyEntries);
 
-			On the other side, an Aesther throws a dart and pops a balloon. "Try your aim! Can you hit the balloon? Find out here!"
-			""";
-		var paragraphMarker = Environment.NewLine + Environment.NewLine;
-		var paragraphs = testText.Split([paragraphMarker],
-			StringSplitOptions.RemoveEmptyEntries);
-		//List<string> paragraphs = testText.Split('\n').ToList();
 		foreach(string paragraph in paragraphs)
 		{
 			List<string> words = paragraph.Split(' ').ToList();

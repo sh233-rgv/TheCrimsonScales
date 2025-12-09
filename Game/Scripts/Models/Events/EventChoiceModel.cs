@@ -2,7 +2,9 @@
 
 public abstract class EventChoiceModel
 {
-	public abstract string GetText(EventState state);
+	public abstract string ChoiceText { get; }
+
+	public abstract string GetStoryText(EventState state);
 
 	public EventResolveType GetEventResolveType(EventState state) => EventResolveType.Lost;
 

@@ -7,7 +7,7 @@ public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
 
 	public override string Text =>
 		"""
-		"Come one, come all, and welcome to the county fair!" a Quatryl with red-and-white facepaint and a clownish blue wig smiles as he waves you in through the entrance. You've decided to take the day off and visit the county fair, which you've enjoyed frequenting as a youth.
+		"Come one, come all, and welcome to the county fair!" a Quatryl with red-and-white face paint and a clownish blue wig smiles as he waves you in through the entrance. You've decided to take the day off and visit the county fair, which you've enjoyed frequenting as a youth.
 
 		"Step right up and try your luck!" an Inox Strongman wielding a giant hammer beckons you forward. "Do you have what it takes to hit the bell?"
 
@@ -18,7 +18,9 @@ public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
 
 	public class ChoiceA : EventChoiceModel
 	{
-		public override string GetText(EventState state)
+		public override string ChoiceText => "Try your strength with the Inox Strongman's game";
+
+		public override string GetStoryText(EventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -47,7 +49,9 @@ public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
 
 	public class ChoiceB : EventChoiceModel
 	{
-		public override string GetText(EventState state)
+		public override string ChoiceText => "Test your aim by the Aesther's booth";
+
+		public override string GetStoryText(EventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
