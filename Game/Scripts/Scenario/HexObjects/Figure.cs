@@ -40,8 +40,9 @@ public abstract partial class Figure : HexObject
 
 	public abstract AMDCardDeck AMDCardDeck { get; }
 
-	public int TurnMovedHexCount { get; private set; }
+	public List<Hex> TurnMovedHexes { get; private set; } = new List<Hex>();
 	public List<ActionState> TurnPerformedActionStates { get; } = new List<ActionState>();
+	public List<ActionState> RoundPerformedActionStates { get; } = new List<ActionState>();
 
 	public abstract Texture2D MapIconTexture { get; }
 
@@ -79,10 +80,10 @@ public abstract partial class Figure : HexObject
 
 		object figureEnteredHexEventSubscriber = new object();
 		ScenarioEvents.FigureEnteredHexEvent.Subscribe(this, figureEnteredHexEventSubscriber,
-			enteredHexParameters => enteredHexParameters.AbilityState is MoveAbility.State or PullSelfAbility.State,
+			enteredHexParameters => enteredHexParameters.PotentialAbilityState is MoveAbility.State or PullSelfAbility.State,
 			async enteredHexParameters =>
 			{
-				TurnMovedHexCount++;
+				TurnMovedHexes.Add(enteredHexParameters.Hex);
 
 				await GDTask.CompletedTask;
 			}
@@ -201,7 +202,7 @@ public abstract partial class Figure : HexObject
 		}
 
 		TakingTurn = true;
-		TurnMovedHexCount = 0;
+		TurnMovedHexes.Clear();
 		TurnPerformedActionStates.Clear();
 
 		_figureViewComponent.ActivePS.Show();
@@ -356,6 +357,7 @@ public abstract partial class Figure : HexObject
 	public virtual void RoundEnd()
 	{
 		CanTakeTurn = true;
+		RoundPerformedActionStates.Clear();
 	}
 
 	private void UpdateHealthProgressBar()

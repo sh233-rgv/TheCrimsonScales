@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -136,6 +137,10 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 		ScenarioEvents.RetaliateEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.InitiativesSortedEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.LongRestCardSelectionEvent.Unsubscribe(this, _subscriber);
+		ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(this, _subscriber);
+		ScenarioEvents.DuringHealEvent.Unsubscribe(this, _subscriber);
+		ScenarioEvents.InflictConditionEvent.Unsubscribe(this, _subscriber);
+		ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Unsubscribe(this, _subscriber);
 	}
 
 	protected async GDTask Use(Func<Character, GDTask> apply)
@@ -180,6 +185,9 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 					break;
 				case ItemUseType.Consume:
 					await SetItemState(ItemState.Consumed);
+					break;
+				case ItemUseType.ConsumeUnrecoverable:
+					await SetItemState(ItemState.UnrecoverablyConsumed);
 					break;
 				case ItemUseType.Always:
 					break;
@@ -235,6 +243,44 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 				if(apply != null)
 				{
 					await apply(applyParameters.Character);
+				}
+			},
+			GetSubscriptionEffectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: _effectButtonParameters,
+			effectInfoViewParameters: _effectInfoViewParameters);
+	}
+
+	protected void SubscribeTurnEnded(Func<Figure, bool> canApply = null, Func<Figure, GDTask> apply = null,
+		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
+	{
+		ScenarioEvents.FigureTurnEndedEvent.Subscribe(this, _subscriber,
+			canApplyParameters => canApply == null || canApply(canApplyParameters.Figure),
+			async applyParameters =>
+			{
+				if(apply != null)
+				{
+					await apply(applyParameters.Figure);
+				}
+			},
+			GetSubscriptionEffectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: _effectButtonParameters,
+			effectInfoViewParameters: _effectInfoViewParameters);
+	}
+
+	protected void SubscribeDuringHeal(Func<HealAbility.State, bool> canApply = null, Func<HealAbility.State, GDTask> apply = null,
+		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
+	{
+		ScenarioEvents.DuringHealEvent.Subscribe(this, _subscriber,
+			canApplyParameters => canApply == null || canApply(canApplyParameters.AbilityState),
+			async applyParameters =>
+			{
+				if(apply != null)
+				{
+					await apply(applyParameters.AbilityState);
 				}
 			},
 			GetSubscriptionEffectType,
@@ -357,5 +403,34 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
 			effectButtonParameters: _effectButtonParameters,
 			effectInfoViewParameters: _effectInfoViewParameters);
+	}
+
+	protected void SubscribeConditionImmunity(ConditionModel conditionModel,
+		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
+	{
+		ScenarioEvents.InflictConditionEvent.Subscribe(this, _subscriber,
+			parameters =>
+			{
+				return parameters.Target == Owner &&
+					parameters.Condition?.ImmunityCompareBaseConditions != null &&
+					conditionModel.ImmunityCompareBaseConditions != null &&
+					parameters.Condition.ImmunityCompareBaseConditions
+						.Any(c1 => conditionModel.ImmunityCompareBaseConditions.Contains(c1));
+			},
+			async parameters =>
+			{
+				parameters.SetPrevented(true);
+
+				await GDTask.CompletedTask;
+			}
+		);
+
+		ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Subscribe(this, _subscriber,
+			parameters => parameters.Figure == Owner,
+			parameters =>
+			{
+				parameters.AddImmunity(conditionModel);
+			}
+		);
 	}
 }

@@ -38,9 +38,11 @@ public partial class BetweenScenariosActionManager : Control
 			return;
 		}
 
-		ActiveAction?.SetActive(false);
+		BetweenScenariosAction previousActiveAction = ActiveAction;
+
+		previousActiveAction?.Deactivate();
 
 		ActiveAction = action;
-		ActiveAction?.SetActive(true);
+		ActiveAction?.Activate(previousActiveAction);
 	}
 }

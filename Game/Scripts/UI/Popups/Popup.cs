@@ -12,6 +12,7 @@ public abstract partial class Popup<T> : PopupBase
 	protected PanelContainer _panelContainer;
 	private BetterButton _closeButton;
 	private Control _header;
+	protected Label _title;
 
 	private bool _canClose;
 
@@ -30,6 +31,7 @@ public abstract partial class Popup<T> : PopupBase
 		_panelContainer = GetNode<PanelContainer>("Panel");
 		_closeButton = GetNode<BetterButton>("Panel/MarginContainer/VBoxContainer/Header/CloseButton");
 		_header = GetNode<Control>("Panel/MarginContainer/VBoxContainer/Header");
+		_title = GetNode<Label>("Panel/MarginContainer/VBoxContainer/Header/Label");
 
 		_canClose = true;
 

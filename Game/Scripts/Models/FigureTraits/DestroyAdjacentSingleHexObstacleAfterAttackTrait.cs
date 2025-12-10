@@ -25,7 +25,7 @@ public class DestroyAdjacentSingleHexObstacleAfterAttackTrait() : FigureTrait
 
 				if(selectedHex != null)
 				{
-					await AbilityCmd.DestroyObstacle(selectedHex.GetHexObjectsOfType<Obstacle>()
+					await AbilityCmd.TryDestroyObstacle(selectedHex.GetHexObjectsOfType<Obstacle>()
 						.FirstOrDefault(obstacle => obstacle.Hexes.Length == 1));
 				}
 			}

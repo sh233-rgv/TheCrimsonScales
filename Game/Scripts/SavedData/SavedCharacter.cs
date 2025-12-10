@@ -40,6 +40,9 @@ public class SavedCharacter
 	[JsonProperty]
 	public List<string> EquippedSmallItems { get; private set; }
 
+	[JsonProperty]
+	public string[] DonationAMDCardIds { get; private set; }
+
 	public ClassModel ClassModel => ModelDB.GetById<ClassModel>(ClassModelId);
 
 	public event Action<SavedCharacter> GoldChangedEvent;
@@ -244,5 +247,10 @@ public class SavedCharacter
 		}
 
 		return smallItemSlotCount;
+	}
+
+	public void SetDonationAMDCardIds(string[] donationAMDCardIds)
+	{
+		DonationAMDCardIds = donationAMDCardIds;
 	}
 }

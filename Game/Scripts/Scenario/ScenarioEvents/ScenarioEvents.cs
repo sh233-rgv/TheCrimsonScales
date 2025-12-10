@@ -44,17 +44,6 @@ public class ScenarioEvents
 	private readonly GenericChoice _genericChoice = new GenericChoice();
 	public static GenericChoice GenericChoiceEvent => GameController.Instance.ScenarioEvents._genericChoice;
 
-	// public class AttackAbilityStart : ScenarioEvent<AttackAbilityStart.Parameters>
-	// {
-	// 	public class Parameters(AttackAbility.State abilityState)
-	// 		: ParametersBase<AttackAbility.State>(abilityState)
-	// 	{
-	// 	}
-	// }
-	//
-	// private readonly AttackAbilityStart _attackAbilityStart = new AttackAbilityStart();
-	// public static AttackAbilityStart AttackAbilityStartEvent => GameController.Instance.ScenarioEvents._attackAbilityStart;
-
 	public class DuringAttack : ScenarioEvent<DuringAttack.Parameters>
 	{
 		public class Parameters(AttackAbility.State abilityState) : ParametersBase<AttackAbility.State>(abilityState)
@@ -97,8 +86,8 @@ public class ScenarioEvents
 			: ParametersBase<AttackAbility.State>(abilityState)
 		{
 			public AMDCard AMDCard = amdCard;
-			public AMDCardType Type { get; private set; } = amdCard.Type;
-			public int? Value { get; private set; } = amdCard.Value;
+			public AMDCardType Type { get; private set; } = amdCard.Model.Type;
+			public int? Value { get; private set; } = amdCard.Model.GetValue(abilityState);
 
 			public void SetType(AMDCardType type)
 			{
@@ -512,9 +501,9 @@ public class ScenarioEvents
 
 	public class FigureEnteredHex : ScenarioEvent<FigureEnteredHex.Parameters>
 	{
-		public class Parameters(AbilityState abilityState, Figure figure)
-			: ParametersBase<AbilityState>(abilityState)
+		public class Parameters(AbilityState potentialAbilityState, Figure figure) : ParametersBase
 		{
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Figure Figure { get; } = figure;
 
 			public Hex Hex => Figure.Hex;
@@ -552,9 +541,10 @@ public class ScenarioEvents
 
 	public class HazardousTerrainTriggered : ScenarioEvent<HazardousTerrainTriggered.Parameters>
 	{
-		public class Parameters(AbilityState abilityState, Hex hex, HazardousTerrain hazardousTerrain, bool affectedByHazardousTerrain)
-			: ParametersBase<AbilityState>(abilityState)
+		public class Parameters(AbilityState potentialAbilityState, Hex hex, HazardousTerrain hazardousTerrain, bool affectedByHazardousTerrain)
+			: ParametersBase
 		{
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Hex Hex { get; } = hex;
 			public HazardousTerrain HazardousTerrain { get; } = hazardousTerrain;
 			public bool AffectedByHazardousTerrain { get; private set; } = affectedByHazardousTerrain;
@@ -571,9 +561,10 @@ public class ScenarioEvents
 
 	public class TrapTriggered : ScenarioEvent<TrapTriggered.Parameters>
 	{
-		public class Parameters(AbilityState abilityState, Hex hex, Trap trap, Figure figure, bool triggersTrap)
-			: ParametersBase<AbilityState>(abilityState)
+		public class Parameters(AbilityState potentialAbilityState, Hex hex, Trap trap, Figure figure, bool triggersTrap)
+			: ParametersBase
 		{
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Hex Hex { get; } = hex;
 			public Trap Trap { get; } = trap;
 			public Figure Figure { get; } = figure;
@@ -781,39 +772,11 @@ public class ScenarioEvents
 			: ParametersBase
 		{
 			public Character Character { get; } = character;
-
-			// public bool ForgoneTopAction { get; private set; }
-			//
-			// public void SetForgoneTopAction()
-			// {
-			// 	ForgoneTopAction = true;
-			// }
 		}
 	}
 
 	private readonly CardSideSelection _cardSideSelectionStarted = new CardSideSelection();
 	public static CardSideSelection CardSideSelectionEvent => GameController.Instance.ScenarioEvents._cardSideSelectionStarted;
-
-	// public class BeforeCardSidePerform : ScenarioEvent<BeforeCardSidePerform.Parameters>
-	// {
-	// 	public class Parameters(Character character)
-	// 		: ParametersBase
-	// 	{
-	// 		public Character Character { get; } = character;
-	//
-	// 		public AbilityCardSide AbilityCardSide { get; private set; }
-	//
-	// 		public bool ForgoneAction { get; private set; }
-	//
-	// 		public void ForgoAction()
-	// 		{
-	// 			ForgoneAction = true;
-	// 		}
-	// 	}
-	// }
-	//
-	// private readonly BeforeCardSidePerform _beforeCardSidePerform = new BeforeCardSidePerform();
-	// public static BeforeCardSidePerform BeforeCardSidePerformEvent => GameController.Instance.ScenarioEvents._beforeCardSidePerform;
 
 	public class AfterCardsPlayed : ScenarioEvent<AfterCardsPlayed.Parameters>
 	{

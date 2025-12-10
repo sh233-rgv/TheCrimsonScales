@@ -70,13 +70,22 @@ public partial class Character : Figure
 		SetEnemies(Alignment.Enemies);
 
 		// Create AMD
-		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards($"res://Art/AMDs/Player{index + 1}AMD.jpg");
-		_amdCardDeck = new AMDCardDeck(amdCards, true);
+		AMDCardOwner amdCardOwner = (AMDCardOwner)(Index + 1);
+		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards(amdCardOwner);
+		_amdCardDeck = new AMDCardDeck(amdCards, amdCardOwner);
+		if(savedCharacter.DonationAMDCardIds != null)
+		{
+			foreach(string donationAMDCardId in savedCharacter.DonationAMDCardIds)
+			{
+				AMDCardModel amdCardModel = ModelDB.GetById<AMDCardModel>(donationAMDCardId);
+				_amdCardDeck.AddCard(new AMDCard(amdCardModel, amdCardOwner), true);
+			}
+		}
 
 		PlayableAbilityCardCount = 2;
 
-		_figureViewComponent.TurnStartPS.SelfModulate = _figureViewComponent.Outline.SelfModulate;
-		_figureViewComponent.ActivePS.Modulate = _figureViewComponent.Outline.SelfModulate;
+		_figureViewComponent.TurnStartPS.SetSelfModulate(_figureViewComponent.Outline.SelfModulate);
+		_figureViewComponent.ActivePS.SetModulate(_figureViewComponent.Outline.SelfModulate);
 
 		GameController.Instance.Map.RegisterFigure(this);
 

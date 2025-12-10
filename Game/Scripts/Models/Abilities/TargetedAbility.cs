@@ -100,11 +100,19 @@ public abstract class TargetedAbilityState : AbilityState
 	public void SetTarget(Target target)
 	{
 		AbilityTarget = target;
+		if(target.HasFlag(global::Target.TargetAll))
+        {
+			AbilityTargets = int.MaxValue;
+        }
 	}
 
 	public void AdjustTarget(Target target)
 	{
 		AbilityTarget |= target;
+		if(target.HasFlag(global::Target.TargetAll))
+        {
+			AbilityTargets = int.MaxValue;
+        }
 	}
 
 	public void AdjustTargets(int amount)
@@ -478,14 +486,9 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 					}
 				}
 
-				if(abilityState.Authority.AlliedWith(figure, false) &&
-				   !abilityState.AbilityTarget.HasFlag(Target.Self) &&
-				   !abilityState.AbilityTarget.HasFlag(Target.Allies))
-				{
-					remove = true;
-				}
-
-				if(abilityState.AbilityTarget.HasFlag(Target.Enemies) && abilityState.Authority == figure)
+				if(abilityState.Authority.AlliedWith(figure, true) &&
+					!abilityState.AbilityTarget.HasFlag(Target.Self) &&
+					!abilityState.AbilityTarget.HasFlag(Target.Allies))
 				{
 					remove = true;
 				}
@@ -568,7 +571,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 					Mandatory ||
 					abilityState.AbilityTarget == Target.Self ||
 					(TargetHex != null && abilityState.AbilityAOEPattern == null);
-				target = await AbilityCmd.SelectFigure(abilityState, getValidTargets, Mandatory, autoSelectIfOne, null,
+				target = await AbilityCmd.SelectFigure(abilityState, getValidTargets, Mandatory, autoSelectIfOne, duringTargetedAbilityEffectCollection,
 					() => _getTargetingHintText(abilityState));
 			}
 			else
