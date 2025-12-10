@@ -42,6 +42,7 @@ public abstract class TargetedAbilityState : AbilityState
 
 	public Target AbilityTarget { get; set; }
 	public int AbilityTargets { get; set; }
+	public Action<TargetedAbilityState, List<Figure>> CustomGetTargets { get; set; }
 	public AOEPattern AbilityAOEPattern { get; set; }
 
 	public RangeType AbilityRangeType { get; set; }
@@ -50,7 +51,6 @@ public abstract class TargetedAbilityState : AbilityState
 	public int AbilityPush { get; set; }
 	public int AbilityPull { get; set; }
 	public int AbilitySwing { get; set; }
-
 
 	public RangeType SingleTargetRangeType { get; set; }
 	public int SingleTargetRange { get; set; }
@@ -95,6 +95,11 @@ public abstract class TargetedAbilityState : AbilityState
 				yield return hex;
 			}
 		}
+	}
+
+	public void SetCustomTargets(Action<TargetedAbilityState, List<Figure>> customTargets)
+	{
+		CustomGetTargets = customTargets;
 	}
   
 	public void SetTarget(Target target)
@@ -385,6 +390,9 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 		abilityState.AbilityPush = Push;
 		abilityState.AbilityPull = Pull;
 		abilityState.AbilitySwing = Swing;
+		abilityState.CustomGetTargets = CustomGetTargets != null
+			? (state, figures) => CustomGetTargets((T)state, figures)
+			: null;
 	}
 
 	protected override async GDTask Perform(T abilityState)
@@ -445,9 +453,9 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			{
 				figures.Add(performer);
 			}
-			else if(CustomGetTargets != null)
+			else if(abilityState.CustomGetTargets != null)
 			{
-				CustomGetTargets(abilityState, figures);
+				abilityState.CustomGetTargets(abilityState, figures);
 			}
 			else if(abilityState.AOEHexes != null)
 			{

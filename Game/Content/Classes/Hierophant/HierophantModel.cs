@@ -5,7 +5,7 @@ public class HierophantModel : ClassModel
 {
 	public override string Name => "Hierophant";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.Low;
-	public override int HandSize => 15;
+	public override int HandSize => 11;
 	public override string AssetPath => "res://Content/Classes/Hierophant";
 	public override Color PrimaryColor => Color.FromHtml("ddde8a");
 	public override Color SecondaryColor => Color.FromHtml("a9a5ad");
@@ -40,6 +40,12 @@ public class HierophantModel : ClassModel
 		ModelDB.Card<SpiritualGains>(),
 		ModelDB.Card<UnstoppableForce>(),
 		ModelDB.Card<ChainsOfLightning>(),
+		ModelDB.Card<ReveredProtector>(),
+		ModelDB.Card<SymphonyOfOppression>(),
+		ModelDB.Card<RighteousAtonement>(),
+		ModelDB.Card<VengefulVeneration>(),
+		ModelDB.Card<ExpansivePermanence>(),
+		ModelDB.Card<BringerOfMiracles>(),
 	];
 
 	public IList<AbilityCardModel> AllPrayerCards { get; } =

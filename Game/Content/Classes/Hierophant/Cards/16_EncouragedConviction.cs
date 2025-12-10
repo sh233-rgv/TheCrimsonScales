@@ -93,10 +93,10 @@ public class EncouragedConviction : HierophantLevelUpCardModel<EncouragedConvict
 
 						await AbilityCmd.GainXP(state.Performer, 1);
 
-						if(section == AbilityCardSection.Bottom)
-						{
-							if(await AbilityCmd.AskConsumeElement(state.Performer, Element.Light,
+						if(await AbilityCmd.AskConsumeElement(state.Performer, Element.Light,
 								   $"Consume {Icons.Inline(Icons.GetElement(Element.Light))} to give a Prayer card?"))
+						{
+							if(section == AbilityCardSection.Bottom)
 							{
 								await GivePrayerCard(state, figure);
 							}
