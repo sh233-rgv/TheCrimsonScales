@@ -1,6 +1,6 @@
 ﻿using Fractural.Tasks;
 
-public abstract class EventChoiceModel
+public abstract class EventChoiceModel : AbstractModel<EventChoiceModel>
 {
 	public abstract string ChoiceText { get; }
 

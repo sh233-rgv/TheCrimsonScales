@@ -4,80 +4,35 @@ using System.Linq;
 using Godot;
 using Environment = System.Environment;
 
-//[Tool]
 public partial class ShapedEventText : Control
 {
 	[Export]
-	public Curve TextShapeCurve
-	{
-		get => _textShapeCurve;
-		private set
-		{
-			_textShapeCurve = value;
-			//UpdateText();
-		}
-	}
+	public Curve TextShapeCurve { get; private set; }
 
 	[Export]
-	public Font Font
-	{
-		get => _font;
-		private set
-		{
-			_font = value;
-			//UpdateText();
-		}
-	}
+	public Font Font { get; private set; }
 
 	[Export]
-	public int FontSize
-	{
-		get => _fontSize;
-		private set
-		{
-			_fontSize = value;
-			//UpdateText();
-		}
-	}
+	public int FontSize { get; private set; }
 
 	[Export]
-	public float LineHeight
-	{
-		get => _lineHeight;
-		private set
-		{
-			_lineHeight = value;
-			//UpdateText();
-		}
-	}
+	public float LineHeight { get; private set; }
 
 	[Export]
 	private Control _richTextLabelParent;
 
-	private RichTextLabel[] _richTextLabels;
+	public RichTextLabel[] RichTextLabels { get; private set; }
 
-	private Curve _textShapeCurve;
-	private Font _font;
-	private int _fontSize;
-	private float _lineHeight;
-
-	// public override void _Ready()
-	// {
-	// 	base._Ready();
-	//
-	// 	this.DelayedCall(() => SetModel(ModelDB.Event<City01>()));
-	// }
-
-	public void SetModel(EventModel eventModel)
+	public void SetModel(EventModel eventModel, bool showText)
 	{
-		if(_textShapeCurve == null || _font == null || _richTextLabelParent == null)
+		if(TextShapeCurve == null || Font == null || _richTextLabelParent == null)
 		{
 			return;
 		}
 
-		if(_richTextLabels != null)
+		if(RichTextLabels != null)
 		{
-			foreach(RichTextLabel richTextLabel in _richTextLabels)
+			foreach(RichTextLabel richTextLabel in RichTextLabels)
 			{
 				richTextLabel.QueueFree();
 			}
@@ -99,12 +54,12 @@ public partial class ShapedEventText : Control
 			foreach(string word in words)
 			{
 				int lineIndex = labels.Count;
-				float yOffset = lineIndex * _lineHeight;
+				float yOffset = lineIndex * LineHeight;
 				float curveT = yOffset / _richTextLabelParent.Size.Y;
-				lineWidth = _textShapeCurve.Sample(curveT) * _richTextLabelParent.Size.X;
+				lineWidth = TextShapeCurve.Sample(curveT) * _richTextLabelParent.Size.X;
 
 				string testLine = (currentLine + " " + word).Trim();
-				float testWidth = _font.GetStringSize(testLine, fontSize: _fontSize).X;
+				float testWidth = Font.GetStringSize(testLine, fontSize: FontSize).X;
 
 				if(testWidth <= lineWidth)
 				{
@@ -113,23 +68,23 @@ public partial class ShapedEventText : Control
 				else
 				{
 					// Line finished, append it
-					labels.Add(CreateLabel(currentLine, false, lineWidth, labels.Count));
+					labels.Add(CreateLabel(currentLine, false, lineWidth, labels.Count, showText));
 
 					currentLine = word; // Start new line with this word
 				}
 			}
 
 			// Add final line
-			labels.Add(CreateLabel(currentLine, true, lineWidth, labels.Count));
+			labels.Add(CreateLabel(currentLine, true, lineWidth, labels.Count, showText));
 
 			// Empty line at the end of a paragraph
-			labels.Add(CreateLabel(string.Empty, false, lineWidth, labels.Count));
+			labels.Add(CreateLabel(string.Empty, false, lineWidth, labels.Count, showText));
 		}
 
-		_richTextLabels = labels.ToArray();
+		RichTextLabels = labels.ToArray();
 	}
 
-	private RichTextLabel CreateLabel(string line, bool finalLine, float lineWidth, int lineIndex)
+	private RichTextLabel CreateLabel(string line, bool finalLine, float lineWidth, int lineIndex, bool showText)
 	{
 		RichTextLabel label = new RichTextLabel();
 		_richTextLabelParent.AddChild(label);
@@ -142,13 +97,21 @@ public partial class ShapedEventText : Control
 			label.SetOwner(GetTree().Root);
 		}
 
-		label.SetPosition(new Vector2((_richTextLabelParent.Size.X - lineWidth) / 2f, lineIndex * _lineHeight));
-		label.SetSize(new Vector2(lineWidth, _lineHeight));
+		label.SetPosition(new Vector2((_richTextLabelParent.Size.X - lineWidth) / 2f, lineIndex * LineHeight));
+		label.SetSize(new Vector2(lineWidth, LineHeight));
 		label.SetHorizontalAlignment(finalLine ? HorizontalAlignment.Left : HorizontalAlignment.Fill);
-		label.PushFont(_font, _fontSize);
-		label.AppendText(line);
+
+		label.AddThemeFontOverride("normal_font", Font);
+		label.AddThemeFontSizeOverride("normal_font_size", FontSize);
+		label.SetText(line);
+		label.SetVisibleCharactersBehavior(TextServer.VisibleCharactersBehavior.CharsAfterShaping);
 		label.SetFitContent(true);
-		label.PopAll();
+
+		if(!showText)
+		{
+			label.SetVisibleCharacters(0);
+		}
+
 		return label;
 	}
 

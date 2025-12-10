@@ -131,6 +131,11 @@ public static class ModelDB
 		return GetOrCreate<T>();
 	}
 
+	public static T EventChoice<T>() where T : EventChoiceModel
+	{
+		return GetOrCreate<T>();
+	}
+
 	public static IEnumerable<Type> GetSubtypes<T>()
 	{
 		return GetSubtypes(typeof(T));

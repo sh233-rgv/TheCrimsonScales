@@ -1,4 +1,6 @@
-﻿using Godot;
+﻿using System.Threading;
+using Fractural.Tasks;
+using Godot;
 using GTweens.Builders;
 using GTweens.Easings;
 using GTweensGodot.Extensions;
@@ -25,6 +27,8 @@ public partial class EventCard : Control
 
 	private ShaderMaterial _material;
 
+	private bool _skipText;
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -32,22 +36,73 @@ public partial class EventCard : Control
 		_material = (ShaderMaterial)_subViewportContainer.Material;
 	}
 
-	public void SetModel(EventModel eventModel)
+	public async GDTask SetModelAndAnimate(EventModel eventModel, CancellationToken cancellationToken)
 	{
-		this.DelayedCall(() =>
+		_skipText = false;
+		_numberLabel.SetText(eventModel.Number.ToString());
+
+		SetScale(Vector2.Zero);
+
+		await GDTask.Yield(cancellationToken);
+
+		_frontContainer.SetVisible(true);
+		_backContainer.SetVisible(false);
+		_frontEventText.SetModel(eventModel, false);
+
+		await GDTask.Yield(cancellationToken);
+		await GDTask.Delay(0.3f, cancellationToken: cancellationToken);
+
+		SetPivotOffset(Size * 0.5f);
+		await this.TweenScale(1f, 0.6f).SetEasing(Easing.OutBack).PlayAsync(cancellationToken);
+
+		const float charactersPerSecond = 50f;
+		float charactersToDisplay = 0f;
+		bool waitedFrame = false;
+		foreach(RichTextLabel label in _frontEventText.RichTextLabels)
 		{
-			_frontContainer.SetVisible(true);
-			_backContainer.SetVisible(false);
-			_frontEventText.SetModel(eventModel);
-			_numberLabel.SetText(eventModel.Number.ToString());
-		});
+			int labelLength = label.Text.Length;
+			while(true)
+			{
+				if(_skipText)
+				{
+					charactersToDisplay += Mathf.Inf;
+				}
+
+				if(waitedFrame)
+				{
+					charactersToDisplay += charactersPerSecond * (float)GetProcessDeltaTime();
+					waitedFrame = false;
+				}
+
+				label.SetVisibleCharacters(Mathf.Min(Mathf.FloorToInt(charactersToDisplay), labelLength));
+
+				if(charactersToDisplay > labelLength)
+				{
+					charactersToDisplay -= labelLength;
+					break;
+				}
+
+				await GDTask.Yield(cancellationToken);
+				waitedFrame = true;
+			}
+		}
 	}
 
-	private void Rotate()
+	// private async GDTask AnimateText()
+	// {
+	// 	
+	// }
+
+	public void SkipText()
+	{
+		_skipText = true;
+	}
+
+	public async GDTask Rotate(CancellationToken cancellationToken)
 	{
 		_frontContainer.SetVisible(true);
 		_backContainer.SetVisible(false);
-		GTweenSequenceBuilder.New()
+		await GTweenSequenceBuilder.New()
 			.Append(_material.TweenPropertyFloat(RotationName, 90f, 0.2f).SetEasing(Easing.Linear))
 			.AppendCallback(() =>
 			{
@@ -56,6 +111,6 @@ public partial class EventCard : Control
 			})
 			.Append(_material.TweenPropertyFloat(RotationName, -90f, 0f))
 			.Append(_material.TweenPropertyFloat(RotationName, 0f, 0.5f).SetEasing(Easing.OutBack))
-			.Build().Play();
+			.Build().PlayAsync(cancellationToken);
 	}
 }
