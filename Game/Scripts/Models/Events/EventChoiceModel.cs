@@ -4,6 +4,10 @@ public abstract class EventChoiceModel : AbstractModel<EventChoiceModel>
 {
 	public abstract string ChoiceText { get; }
 
+	public virtual void InitState(SavedEventState state, SavedCampaign savedCampaign)
+	{
+	}
+
 	public abstract string GetStoryText(SavedEventState state);
 
 	public EventResolveType GetEventResolveType(SavedEventState state) => EventResolveType.Lost;

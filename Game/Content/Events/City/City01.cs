@@ -20,6 +20,14 @@ public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
 	{
 		public override string ChoiceText => "Try your strength with the Inox Strongman's game.";
 
+		public override void InitState(SavedEventState state, SavedCampaign savedCampaign)
+		{
+			base.InitState(state, savedCampaign);
+
+			bool conditionsMet = savedCampaign.Characters.Any(character => character.ClassModel.Ancestry is Ancestry.Inox or Ancestry.Valrath);
+			state.SetCustomValue(ConditionsMetKey, conditionsMet);
+		}
+
 		public override string GetStoryText(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
@@ -41,15 +49,20 @@ public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
 		public override async GDTask Resolve(SavedEventState state, SavedCampaign savedCampaign)
 		{
 			await base.Resolve(state, savedCampaign);
-
-			bool conditionsMet = savedCampaign.Characters.Any(character => character.ClassModel.Ancestry is Ancestry.Inox or Ancestry.Valrath);
-			state.SetCustomValue(ConditionsMetKey, conditionsMet);
 		}
 	}
 
 	public class ChoiceB : EventChoiceModel
 	{
 		public override string ChoiceText => "Test your aim by the Aesther's booth.";
+
+		public override void InitState(SavedEventState state, SavedCampaign savedCampaign)
+		{
+			base.InitState(state, savedCampaign);
+
+			bool conditionsMet = savedCampaign.Characters.Any(character => character.ClassModel.Ancestry is Ancestry.Aesther or Ancestry.Orchid);
+			state.SetCustomValue(ConditionsMetKey, conditionsMet);
+		}
 
 		public override string GetStoryText(SavedEventState state)
 		{
@@ -72,9 +85,6 @@ public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
 		public override async GDTask Resolve(SavedEventState state, SavedCampaign savedCampaign)
 		{
 			await base.Resolve(state, savedCampaign);
-
-			bool conditionsMet = savedCampaign.Characters.Any(character => character.ClassModel.Ancestry is Ancestry.Aesther or Ancestry.Orchid);
-			state.SetCustomValue(ConditionsMetKey, conditionsMet);
 		}
 	}
 }

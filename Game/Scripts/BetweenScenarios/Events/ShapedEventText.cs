@@ -23,7 +23,7 @@ public partial class ShapedEventText : Control
 
 	public RichTextLabel[] RichTextLabels { get; private set; }
 
-	public void SetModel(EventModel eventModel, bool showText)
+	public void SetText(string text, bool showText)
 	{
 		if(TextShapeCurve == null || Font == null || _richTextLabelParent == null)
 		{
@@ -40,7 +40,7 @@ public partial class ShapedEventText : Control
 
 		List<RichTextLabel> labels = new List<RichTextLabel>();
 
-		string text = eventModel.Text;
+		//string text = eventModel.Text;
 		string paragraphMarker = Environment.NewLine + Environment.NewLine;
 		string[] paragraphs = text.Split([paragraphMarker], StringSplitOptions.RemoveEmptyEntries);
 

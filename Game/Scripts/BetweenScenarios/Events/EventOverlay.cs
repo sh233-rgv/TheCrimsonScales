@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Fractural.Tasks;
 using Godot;
+using GTweens.Easings;
 using GTweensGodot.Extensions;
 
 public partial class EventOverlay : Control
@@ -16,6 +17,9 @@ public partial class EventOverlay : Control
 	private EventCard _eventCard;
 
 	[Export]
+	private ChoiceButton _continueButton;
+
+	[Export]
 	private PackedScene _eventChoiceButtonScene;
 	[Export]
 	private Control _eventChoiceButtonParent;
@@ -23,16 +27,18 @@ public partial class EventOverlay : Control
 	private readonly List<EventChoiceButton> _choiceButtons = new List<EventChoiceButton>();
 
 	private EventChoiceModel _chosenModel;
+	private bool _continuePressed;
 
 	public override void _Ready()
 	{
 		base._Ready();
 
 		_skipTextButton.Pressed += OnSkipTextPressed;
+		_continueButton.BetterButton.Pressed += OnContinuePressed;
 
 		Hide();
 
-		this.DelayedCall(() => Open(ModelDB.Event<City01>()), 2f);
+		this.DelayedCall(() => Open(ModelDB.Event<City01>()), 3f);
 	}
 
 	public void Open(EventModel eventModel)
@@ -45,6 +51,7 @@ public partial class EventOverlay : Control
 		Show();
 
 		_chosenModel = null;
+		_continuePressed = false;
 		_skipTextButton.Show();
 
 		_background.SetModulate(Colors.Transparent);
@@ -82,7 +89,35 @@ public partial class EventOverlay : Control
 			}
 		}
 
-		await _eventCard.Rotate(cancellationToken);
+		// Initialize state
+		SavedEventState savedEventState = new SavedEventState(_chosenModel);
+
+		_chosenModel!.InitState(savedEventState, BetweenScenariosController.Instance.SavedCampaign);
+
+		await _eventCard.Rotate(_chosenModel.GetStoryText(savedEventState), cancellationToken);
+
+		_skipTextButton.Show();
+		await _eventCard.AnimateBackText(cancellationToken: cancellationToken);
+
+		foreach(EventChoiceButton choiceButton in _choiceButtons)
+		{
+			choiceButton.SetActive(false);
+		}
+
+		await GDTask.Delay(0.3f, cancellationToken: cancellationToken);
+
+		_continueButton.SetActive(true);
+
+		await GDTask.WaitUntil(() => _continuePressed, cancellationToken: cancellationToken);
+
+		_continueButton.SetActive(false);
+
+		await _chosenModel.Resolve(savedEventState, BetweenScenariosController.Instance.SavedCampaign);
+
+		_background.TweenModulateAlpha(0f, 0.3f).Play();
+		await _eventCard.TweenScale(0f, 0.3f).SetEasing(Easing.InBack).PlayAsync(cancellationToken: cancellationToken);
+
+		Hide();
 	}
 
 	private void OnSkipTextPressed()
@@ -99,5 +134,10 @@ public partial class EventOverlay : Control
 		}
 
 		_chosenModel = choiceButton.Model;
+	}
+
+	private void OnContinuePressed()
+	{
+		_continuePressed = true;
 	}
 }

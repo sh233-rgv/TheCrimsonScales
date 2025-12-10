@@ -1878,7 +1878,7 @@ layout_mode = 2
 text = "New Character"
 label_settings = SubResource("LabelSettings_f340v")
 
-[node name="EventOverlay" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_background", "_skipTextButton", "_eventCard", "_eventChoiceButtonParent")]
+[node name="EventOverlay" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_background", "_skipTextButton", "_eventCard", "_continueButton", "_eventChoiceButtonParent")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1890,6 +1890,7 @@ script = ExtResource("49_dl2j2")
 _background = NodePath("Background")
 _skipTextButton = NodePath("SkipTextButton")
 _eventCard = NodePath("EventCard")
+_continueButton = NodePath("ContinueButton")
 _eventChoiceButtonScene = ExtResource("57_dl2j2")
 _eventChoiceButtonParent = NodePath("HBoxContainer")
 
@@ -2177,6 +2178,18 @@ shortcut_in_tooltip = true
 script = ExtResource("58_sagt1")
 metadata/_custom_type_script = "uid://dir5vjdxjac3n"
 
+[node name="ContinueButton" parent="CanvasLayer/UI/EventOverlay" instance=ExtResource("7_blgb5")]
+layout_mode = 1
+anchors_preset = 8
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = 250.0
+offset_bottom = 350.0
+grow_vertical = 2
+
+[node name="Label" parent="CanvasLayer/UI/EventOverlay/ContinueButton/BetterButton/Panel" index="0"]
+text = "Continue"
+
 [node name="MenuButton" parent="CanvasLayer/UI" instance=ExtResource("32_5k12q")]
 layout_mode = 1
 
@@ -2191,3 +2204,4 @@ layout_mode = 1
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnhancerButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EventButton"]
 [editable path="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/NewCharacterButton"]
+[editable path="CanvasLayer/UI/EventOverlay/ContinueButton"]

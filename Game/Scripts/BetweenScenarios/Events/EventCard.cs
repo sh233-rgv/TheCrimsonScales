@@ -41,24 +41,33 @@ public partial class EventCard : Control
 		_skipText = false;
 		_numberLabel.SetText(eventModel.Number.ToString());
 
-		SetScale(Vector2.Zero);
+		SetScale(Vector2.One * 0.001f);
 
 		await GDTask.Yield(cancellationToken);
 
 		_frontContainer.SetVisible(true);
-		_backContainer.SetVisible(false);
-		_frontEventText.SetModel(eventModel, false);
+		_backContainer.SetVisible(true);
+		_frontContainer.SetModulate(Colors.White);
+		_backContainer.SetModulate(Colors.Transparent);
+
+		_frontEventText.SetText(eventModel.Text, false);
 
 		await GDTask.Yield(cancellationToken);
-		await GDTask.Delay(0.3f, cancellationToken: cancellationToken);
+		await GDTask.Delay(0.2f, cancellationToken: cancellationToken);
 
 		SetPivotOffset(Size * 0.5f);
 		await this.TweenScale(1f, 0.6f).SetEasing(Easing.OutBack).PlayAsync(cancellationToken);
 
+		await AnimateText(_frontEventText, cancellationToken);
+	}
+
+	private async GDTask AnimateText(ShapedEventText shapedEventText, CancellationToken cancellationToken)
+	{
 		const float charactersPerSecond = 50f;
 		float charactersToDisplay = 0f;
 		bool waitedFrame = false;
-		foreach(RichTextLabel label in _frontEventText.RichTextLabels)
+
+		foreach(RichTextLabel label in shapedEventText.RichTextLabels)
 		{
 			int labelLength = label.Text.Length;
 			while(true)
@@ -88,29 +97,34 @@ public partial class EventCard : Control
 		}
 	}
 
-	// private async GDTask AnimateText()
-	// {
-	// 	
-	// }
-
-	public void SkipText()
+	public async GDTask Rotate(string storyText, CancellationToken cancellationToken)
 	{
-		_skipText = true;
-	}
+		_skipText = false;
 
-	public async GDTask Rotate(CancellationToken cancellationToken)
-	{
-		_frontContainer.SetVisible(true);
-		_backContainer.SetVisible(false);
+		_backEventText.SetText(storyText, false);
+
+		await GDTask.Yield(cancellationToken);
+		await GDTask.Delay(0.2f, cancellationToken: cancellationToken);
+
 		await GTweenSequenceBuilder.New()
 			.Append(_material.TweenPropertyFloat(RotationName, 90f, 0.2f).SetEasing(Easing.Linear))
 			.AppendCallback(() =>
 			{
-				_frontContainer.SetVisible(false);
-				_backContainer.SetVisible(true);
+				_frontContainer.SetModulate(Colors.Transparent);
+				_backContainer.SetModulate(Colors.White);
 			})
 			.Append(_material.TweenPropertyFloat(RotationName, -90f, 0f))
 			.Append(_material.TweenPropertyFloat(RotationName, 0f, 0.5f).SetEasing(Easing.OutBack))
 			.Build().PlayAsync(cancellationToken);
+	}
+
+	public async GDTask AnimateBackText(CancellationToken cancellationToken)
+	{
+		await AnimateText(_backEventText, cancellationToken);
+	}
+
+	public void SkipText()
+	{
+		_skipText = true;
 	}
 }
