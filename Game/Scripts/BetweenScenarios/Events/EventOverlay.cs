@@ -72,12 +72,12 @@ public partial class EventOverlay : Control
 		_cityEventCard.SetVisible(false);
 		_roadEventCard.SetVisible(false);
 		_currentEventCard.SetVisible(true);
+		_skipTextButton.Hide();
 
 		Show();
 
 		_chosenModel = null;
 		_continuePressed = false;
-		_skipTextButton.Show();
 
 		_background.SetModulate(Colors.Transparent);
 		_background.TweenModulateAlpha(1f, 0.3f).Play();
@@ -101,8 +101,8 @@ public partial class EventOverlay : Control
 		await GDTask.Delay(0.2f, cancellationToken: cancellationToken);
 		await _subViewportContainer.TweenScale(1f, 0.6f).SetEasing(Easing.OutBack).PlayAsync(cancellationToken);
 
+		_skipTextButton.Show();
 		await _currentEventCard.AnimateText(_currentEventCard.FrontEventText, cancellationToken: cancellationToken);
-
 		_skipTextButton.Hide();
 
 		foreach(EventChoiceButton choiceButton in _choiceButtons)
@@ -132,6 +132,7 @@ public partial class EventOverlay : Control
 
 		_skipTextButton.Show();
 		await _currentEventCard.AnimateText(_currentEventCard.BackEventText, cancellationToken: cancellationToken);
+		_skipTextButton.Hide();
 
 		foreach(EventChoiceButton choiceButton in _choiceButtons)
 		{
@@ -206,7 +207,7 @@ public partial class EventOverlay : Control
 
 	private void OnSkipTextPressed()
 	{
-		_cityEventCard.SkipText();
+		_currentEventCard?.SkipText();
 		_skipTextButton.Hide();
 	}
 

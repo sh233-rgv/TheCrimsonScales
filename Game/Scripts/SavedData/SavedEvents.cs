@@ -42,7 +42,7 @@ public class SavedEvents
 
 	private static EventModel[] StartingRoadEventDeck =
 	[
-		ModelDB.Event<Road01>(),
+		// ModelDB.Event<Road01>(),
 		// ModelDB.Event<Road02>(),
 		// ModelDB.Event<Road03>(),
 		// ModelDB.Event<Road04>(),
@@ -64,7 +64,7 @@ public class SavedEvents
 		// ModelDB.Event<Road20>(),
 		// ModelDB.Event<Road21>(),
 		// ModelDB.Event<Road22>(),
-		// ModelDB.Event<Road23>(),
+		ModelDB.Event<Road23>(),
 		// ModelDB.Event<Road24>(),
 		// ModelDB.Event<Road25>(),
 		// ModelDB.Event<Road26>(),

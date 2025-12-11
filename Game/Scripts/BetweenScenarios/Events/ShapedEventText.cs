@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Environment = System.Environment;
 
 public partial class ShapedEventText : Control
 {
@@ -43,8 +42,7 @@ public partial class ShapedEventText : Control
 
 		List<RichTextLabel> labels = new List<RichTextLabel>();
 
-		//string text = eventModel.Text;
-		string paragraphMarker = Environment.NewLine + Environment.NewLine;
+		string paragraphMarker = "\n";
 		string[] paragraphs = text.Split([paragraphMarker], StringSplitOptions.RemoveEmptyEntries);
 
 		foreach(string paragraph in paragraphs)

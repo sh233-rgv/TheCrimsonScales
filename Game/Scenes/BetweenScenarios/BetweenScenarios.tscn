@@ -2008,8 +2008,8 @@ grow_vertical = 2
 script = ExtResource("35_0rh5w")
 TextShapeCurve = SubResource("Curve_d3wm2")
 Font = ExtResource("36_bny7g")
-FontSize = 20
-LineHeight = 20.5
+FontSize = 22
+LineHeight = 22.5
 TextColor = Color(1, 1, 1, 1)
 _richTextLabelParent = NodePath("MarginContainer/Labels")
 
@@ -2081,8 +2081,8 @@ grow_vertical = 2
 script = ExtResource("35_0rh5w")
 TextShapeCurve = SubResource("Curve_tq2dg")
 Font = ExtResource("36_bny7g")
-FontSize = 20
-LineHeight = 20.5
+FontSize = 22
+LineHeight = 22.5
 TextColor = Color(1, 1, 1, 1)
 _richTextLabelParent = NodePath("MarginContainer/Labels")
 
@@ -2148,8 +2148,8 @@ grow_vertical = 2
 script = ExtResource("35_0rh5w")
 TextShapeCurve = SubResource("Curve_d3wm2")
 Font = ExtResource("36_bny7g")
-FontSize = 20
-LineHeight = 20.5
+FontSize = 22
+LineHeight = 22.5
 TextColor = Color(0.137255, 0.121569, 0.12549, 1)
 _richTextLabelParent = NodePath("MarginContainer/Labels")
 
@@ -2222,8 +2222,8 @@ grow_vertical = 2
 script = ExtResource("35_0rh5w")
 TextShapeCurve = SubResource("Curve_tq2dg")
 Font = ExtResource("36_bny7g")
-FontSize = 20
-LineHeight = 20.5
+FontSize = 22
+LineHeight = 22.5
 TextColor = Color(0.137255, 0.121569, 0.12549, 1)
 _richTextLabelParent = NodePath("MarginContainer/Labels")
 
