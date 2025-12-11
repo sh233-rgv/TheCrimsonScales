@@ -4,6 +4,7 @@ using System.Linq;
 using Fractural.Tasks;
 using Godot;
 using GTweens.Easings;
+using GTweensGodot.Extensions;
 
 public static class AbilityCmd
 {
@@ -303,7 +304,7 @@ public static class AbilityCmd
 	}
 
 	public static async GDTask<T> CreateOverlayTile<T>(Hex hex, PackedScene scene)
-		where T : HexObject
+		where T : OverlayTile
 	{
 		if(!hex.IsFeatureless())
 		{
@@ -311,16 +312,39 @@ public static class AbilityCmd
 			return null;
 		}
 
-		HexObject hexObject = scene.Instantiate<HexObject>();
-		GameController.Instance.Map.AddChild(hexObject);
-		await hexObject.Init(hex);
+		OverlayTile overlayTile = scene.Instantiate<OverlayTile>();
+		GameController.Instance.Map.AddChild(overlayTile);
+		await overlayTile.Init(hex);
 
-		hexObject.Scale = Vector2.Zero;
-		hexObject.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
+		overlayTile.Scale = Vector2.Zero;
+		overlayTile.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
 
 		await GDTask.CompletedTask;
 
-		return (T)hexObject;
+		await ScenarioEvents.OverlayTileMovedOrCreatedEvent.CreatePrompt(
+			new ScenarioEvents.OverlayTileMovedOrCreated.Parameters(overlayTile));
+
+		return (T)overlayTile;
+	}
+
+	public static async GDTask<Hex> MoveOverlayTile(Figure performer, OverlayTile overlayTile, Action<List<Hex>> moveToHexes)
+	{
+		Hex movedToHex = await SelectHex(performer, moveToHexes, mandatory: true, hintText: $"Select a hex to move the {overlayTile.GetType()} to");
+
+		if (movedToHex == null)
+		{
+			return null;
+		}
+
+		await overlayTile.TweenGlobalPosition(movedToHex.GlobalPosition, 0.3f).SetEasing(Easing.OutSine)
+			.PlayFastForwardableAsync();
+		await GDTask.DelayFastForwardable(0.03f);
+		overlayTile.SetOriginHexAndRotation(movedToHex);
+
+		await ScenarioEvents.OverlayTileMovedOrCreatedEvent.CreatePrompt(
+			new ScenarioEvents.OverlayTileMovedOrCreated.Parameters(overlayTile));
+
+		return overlayTile.Hex;
 	}
 
 	public static async GDTask<Trap> CreateTrap(Hex hex, string assetPath, int damage = 0, ConditionModel[] conditions = null)
@@ -335,6 +359,9 @@ public static class AbilityCmd
 		trap.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
 
 		await GDTask.CompletedTask;
+
+		await ScenarioEvents.OverlayTileMovedOrCreatedEvent.CreatePrompt(
+			new ScenarioEvents.OverlayTileMovedOrCreated.Parameters(trap));
 
 		return trap;
 	}
@@ -522,10 +549,10 @@ public static class AbilityCmd
 		}
 		ScenarioCheckEvents.CanEnterMapTileCheck.Parameters canEnterMapTile =
 			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Fire(
-				new ScenarioCheckEvents.CanEnterMapTileCheck.Parameters(figure1, figure2.Hex));
+				new ScenarioCheckEvents.CanEnterMapTileCheck.Parameters(figureA, figureB.Hex));
 		ScenarioCheckEvents.CanEnterMapTileCheck.Parameters canEnterMapTile2 =
 			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Fire(
-				new ScenarioCheckEvents.CanEnterMapTileCheck.Parameters(figure2, figure1.Hex));
+				new ScenarioCheckEvents.CanEnterMapTileCheck.Parameters(figureB, figureA.Hex));
 		if (!canEnterMapTile.CanEnter || !canEnterMapTile2.CanEnter)
         {
             return false;

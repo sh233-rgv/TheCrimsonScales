@@ -101,7 +101,6 @@ public partial class Hex : Node2D
 				case HazardousTerrain:
 				case Trap:
 				case Door:
-				case PressurePlate:
 					return false;
 			}
 		}

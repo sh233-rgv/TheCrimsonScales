@@ -405,8 +405,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 			effectInfoViewParameters: _effectInfoViewParameters);
 	}
 
-	protected void SubscribeConditionImmunity(ConditionModel conditionModel,
-		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
+	protected void SubscribeConditionImmunity(ConditionModel conditionModel)
 	{
 		ScenarioEvents.InflictConditionEvent.Subscribe(this, _subscriber,
 			parameters =>

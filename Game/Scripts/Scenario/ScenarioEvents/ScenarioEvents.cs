@@ -690,6 +690,17 @@ public class ScenarioEvents
 		}
 	}
 
+	public class OverlayTileMovedOrCreated : ScenarioEvent<OverlayTileMovedOrCreated.Parameters>
+	{
+		public class Parameters(OverlayTile overlayTile) : ParametersBase
+		{
+			public OverlayTile OverlayTile = overlayTile;
+		}
+	}
+
+	private readonly OverlayTileMovedOrCreated _overlayTileMovedOrCreated = new OverlayTileMovedOrCreated();
+	public static OverlayTileMovedOrCreated OverlayTileMovedOrCreatedEvent => GameController.Instance.ScenarioEvents._overlayTileMovedOrCreated;
+
 	private readonly ItemStateChanged _itemStateChanged = new ItemStateChanged();
 	public static ItemStateChanged ItemStateChangedEvent => GameController.Instance.ScenarioEvents._itemStateChanged;
 

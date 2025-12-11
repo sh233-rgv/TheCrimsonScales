@@ -12,7 +12,7 @@ public class AshsteelGauntlets : CS2Item
 	protected override void Subscribe()
 	{
 
-		//TODO: Code actual ability
+		
 		base.Subscribe();
 
 		SubscribeDuringTurn(
@@ -21,9 +21,11 @@ public class AshsteelGauntlets : CS2Item
 			{
 				await Use(async user =>
 				{
-					
+					//TODO: Code actual ability (Not sure how to do a round ability for an item)
 				});
 			}
 		);
+
+		SubscribeConditionImmunity(Conditions.Disarm);
 	}
 }

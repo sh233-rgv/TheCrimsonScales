@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Fractural.Tasks.Triggers;
+using Godot;
 using GTweens.Easings;
 using GTweensGodot.Extensions;
 
@@ -18,8 +20,8 @@ public class Scenario043 : ScenarioModel
 	private Door _door4;
 	private PressurePlate _pressurePlateA;
 	private PressurePlate _pressurePlateB;
-	private List<PressurePlate> _pressurePlatesC;
-	private List<PressurePlate> _pressurePlatesD;
+	private IEnumerable<PressurePlate> _pressurePlatesC;
+	private IEnumerable<PressurePlate> _pressurePlatesD;
 
 
 	public override async GDTask StartAfterFirstRoomRevealed()
@@ -30,6 +32,8 @@ public class Scenario043 : ScenarioModel
 
 		Marker marker1 = GameController.Instance.Map.GetMarker(Marker.Type._1);
 		_door1 = marker1.GetHexObject<Door>();
+
+		GD.Print("Locked?: ", _door1.Locked);
 
 		Marker marker2 = GameController.Instance.Map.GetMarker(Marker.Type._2);
 		_door2 = marker2.GetHexObject<Door>();
@@ -42,8 +46,36 @@ public class Scenario043 : ScenarioModel
 		
 		_pressurePlateA = GameController.Instance.Map.GetMarker(Marker.Type.a).GetHexObject<PressurePlate>();
 		_pressurePlateB = GameController.Instance.Map.GetMarker(Marker.Type.b).GetHexObject<PressurePlate>();
-		_pressurePlatesC = GameController.Instance.Map.GetMarkers(Marker.Type.c).Select(marker => marker.GetHexObject<PressurePlate>()).ToList();
-		_pressurePlatesD = GameController.Instance.Map.GetMarkers(Marker.Type.d).Select(marker => marker.GetHexObject<PressurePlate>()).ToList();
+		_pressurePlatesC = GameController.Instance.Map.GetMarkers(Marker.Type.c).Select(marker => marker.GetHexObject<PressurePlate>());
+		_pressurePlatesD = GameController.Instance.Map.GetMarkers(Marker.Type.d).Select(marker => marker.GetHexObject<PressurePlate>());
+		IEnumerable<PressurePlate> pressurePlates =
+			new[] { _pressurePlateA, _pressurePlateB }
+			.Concat(_pressurePlatesC)
+			.Concat(_pressurePlatesD);
+
+		ScenarioEvents.OverlayTileMovedOrCreatedEvent.Subscribe(this,
+			parameters => parameters.OverlayTile.Name.ToString().Contains("Boulder1H") &&
+				pressurePlates.Any(pressurePlate => pressurePlate.Hex == parameters.OverlayTile.Hex),
+			async parameters =>
+            {
+				GD.Print("true");
+                if(_door1.Locked && _pressurePlateA.Hex == parameters.OverlayTile.Hex)
+                {
+                    await _door1.Unlock();
+                }
+				else if(_door2.Locked && _pressurePlateB.Hex == parameters.OverlayTile.Hex)
+                {
+                    await _door2.Unlock();
+                }
+				else if(_door3.Locked && _pressurePlatesC.Any(pressurePlate => pressurePlate.Hex == parameters.OverlayTile.Hex))
+                {
+                    await _door3.Unlock();
+                }
+				else if(_door4.Locked && _pressurePlatesD.Any(pressurePlate => pressurePlate.Hex == parameters.OverlayTile.Hex))
+                {
+                    await _door4.Unlock();
+                }
+            });
 
 		ScenarioEvents.DuringMovementEvent.Subscribe(this,
 			canApplyParameters => canApplyParameters.Performer is Character && canApplyParameters.AbilityState.MoveValue > 0 &&
@@ -65,21 +97,15 @@ public class Scenario043 : ScenarioModel
 						}));
 					}, mandatory: true, hintText: "Select an obstacle to move")).GetHexObjectOfType<Obstacle>();
 
-				Hex movedToHex = await AbilityCmd.SelectHex(applyParameters.Performer, list =>
+				Hex movedToHex = await AbilityCmd.MoveOverlayTile(applyParameters.Performer, obstacle, list =>
 				{
 					list.AddRange(RangeHelper.GetHexesInRange(obstacle.Hex, 1).Where(hex => hex.IsEmpty() || (hex.IsUnoccupied() && hex.GetHexObjectOfType<Trap>() != null)));
-				}, mandatory: true, hintText: "Select a hex to move the obstacle to");
-
-				if (movedToHex == null)
-                {
-                    return;
-                }
+				});
 				movedToHex.GetHexObjectOfType<Trap>()?.Destroy();
-
-				await obstacle.TweenGlobalPosition(movedToHex.GlobalPosition, 0.3f).SetEasing(Easing.OutSine)
-					.PlayFastForwardableAsync();
-				await GDTask.DelayFastForwardable(0.03f);
-				obstacle.SetOriginHexAndRotation(movedToHex);
+				foreach(CoinStack coin in movedToHex.GetHexObjectsOfType<CoinStack>())
+                {
+                    await coin.Destroy();
+                }
 			},
 			EffectType.Selectable,
 			canApplyMultipleTimesInEffectCollection: true,
