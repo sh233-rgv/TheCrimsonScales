@@ -1,0 +1,85 @@
+[gd_scene load_steps=13 format=3 uid="uid://bib7me68g0a2f"]
+
+[ext_resource type="PackedScene" uid="uid://cifjwk1lx2x1h" path="res://Scenes/Scenario/Scenario.tscn" id="1_2or2l"]
+[ext_resource type="Script" uid="uid://bbtc25ohouat7" path="res://Scripts/Scenario/Room.cs" id="2_5r85s"]
+[ext_resource type="PackedScene" uid="uid://dyrg6pq5c62xl" path="res://Content/MapTiles/F1a.tscn" id="3_efj3e"]
+[ext_resource type="PackedScene" uid="uid://bltkl32a4va15" path="res://Content/MapTiles/B3b.tscn" id="5_puaei"]
+[ext_resource type="PackedScene" uid="uid://bhv2g6lcl7h61" path="res://Content/MapTiles/B2b.tscn" id="6_wyx46"]
+[ext_resource type="PackedScene" uid="uid://b8ms4pxqfvbok" path="res://Content/MapTiles/B4b.tscn" id="7_1yot5"]
+[ext_resource type="PackedScene" uid="uid://de2wift5r50sa" path="res://Content/MapTiles/E1b.tscn" id="8_ggosn"]
+[ext_resource type="PackedScene" uid="uid://bfuecjbrotkyw" path="res://Content/OverlayTiles/Doors/WoodDoorVertical1H.tscn" id="9_4xfth"]
+[ext_resource type="PackedScene" uid="uid://dlqet8t2xgyh" path="res://Scenes/Scenario/CharacterStartHex.tscn" id="9_vak8c"]
+[ext_resource type="PackedScene" uid="uid://0pbco1c20kwb" path="res://Content/OverlayTiles/Doors/WoodDoorHorizontal1H.tscn" id="11_l2g23"]
+[ext_resource type="PackedScene" uid="uid://gi5tvly6t0i1" path="res://Scenes/Scenario/Marker.tscn" id="11_suf4y"]
+[ext_resource type="PackedScene" uid="uid://bacgegl1xxid" path="res://Content/MapTiles/A3b.tscn" id="13_i8nmf"]
+
+[node name="Scenario" instance=ExtResource("1_2or2l")]
+
+[node name="Room" type="Node2D" parent="Map/Rooms" index="0"]
+script = ExtResource("2_5r85s")
+StartsRevealed = true
+
+[node name="F1a" parent="Map/Rooms/Room" index="0" instance=ExtResource("3_efj3e")]
+position = Vector2(109.119, 189)
+
+[node name="CharacterStartHex" parent="Map/Rooms/Room" index="1" instance=ExtResource("9_vak8c")]
+position = Vector2(0, 756)
+
+[node name="CharacterStartHex2" parent="Map/Rooms/Room" index="2" instance=ExtResource("9_vak8c")]
+position = Vector2(218.238, 756)
+
+[node name="CharacterStartHex3" parent="Map/Rooms/Room" index="3" instance=ExtResource("9_vak8c")]
+position = Vector2(327.358, 945)
+
+[node name="CharacterStartHex4" parent="Map/Rooms/Room" index="4" instance=ExtResource("9_vak8c")]
+position = Vector2(109.119, 945)
+
+[node name="CharacterStartHex5" parent="Map/Rooms/Room" index="5" instance=ExtResource("9_vak8c")]
+position = Vector2(-109.119, 945)
+rotation = 6.28319
+
+[node name="Room2" type="Node2D" parent="Map/Rooms" index="1"]
+script = ExtResource("2_5r85s")
+
+[node name="A3b" parent="Map/Rooms/Room2" index="0" instance=ExtResource("13_i8nmf")]
+position = Vector2(-763.834, 945)
+
+[node name="Room3" type="Node2D" parent="Map/Rooms" index="2"]
+script = ExtResource("2_5r85s")
+
+[node name="B3b" parent="Map/Rooms/Room3" index="0" instance=ExtResource("5_puaei")]
+position = Vector2(-763.834, -189)
+
+[node name="B2b" parent="Map/Rooms/Room3" index="1" instance=ExtResource("6_wyx46")]
+position = Vector2(-1636.79, -189)
+
+[node name="Room4" type="Node2D" parent="Map/Rooms" index="3"]
+script = ExtResource("2_5r85s")
+
+[node name="B4b" parent="Map/Rooms/Room4" index="0" instance=ExtResource("7_1yot5")]
+position = Vector2(0, -1134)
+
+[node name="E1b" parent="Map/Rooms/Room4" index="1" instance=ExtResource("8_ggosn")]
+position = Vector2(1091.19, -1512)
+rotation = 3.14159
+
+[node name="WoodDoorVertical1H2" parent="Map/Doors" index="0" instance=ExtResource("9_4xfth")]
+position = Vector2(-218.238, 756)
+
+[node name="Marker" parent="Map/Doors/WoodDoorVertical1H2" index="6" instance=ExtResource("11_suf4y")]
+MarkerType = 25
+_hideDuringPlay = true
+
+[node name="WoodDoorVertical1H" parent="Map/Doors" index="1" instance=ExtResource("9_4xfth")]
+position = Vector2(-218.238, -378)
+
+[node name="Marker2" parent="Map/Doors/WoodDoorVertical1H" index="6" instance=ExtResource("11_suf4y")]
+MarkerType = 26
+_hideDuringPlay = true
+
+[node name="WoodDoorHorizontal1H" parent="Map/Doors" index="2" instance=ExtResource("11_l2g23")]
+position = Vector2(218.238, -756)
+
+[node name="Marker3" parent="Map/Doors/WoodDoorHorizontal1H" index="6" instance=ExtResource("11_suf4y")]
+MarkerType = 27
+_hideDuringPlay = true

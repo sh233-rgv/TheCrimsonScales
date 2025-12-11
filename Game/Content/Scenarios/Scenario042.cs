@@ -21,14 +21,13 @@ public class Scenario042 : ScenarioModel
 	{
 		await base.StartAfterFirstRoomRevealed();
 
-		//TODO: Uncomment when items are added
-		//GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<WovenPlateArmor>());
-		GameController.Instance.Map.Treasures[0].SetObtainLootFunction(async lootingCharacter =>
+		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<WovenPlateArmor>());
+		GameController.Instance.Map.Treasures[1].SetObtainLootFunction(async lootingCharacter =>
 		{
             lootingCharacter.SavedCharacter.AddGold(25);
 			await AbilityCmd.AddCondition(null, lootingCharacter, Conditions.Poison1);
         });
-		//GameController.Instance.Map.Treasures[2].SetItemLoot(ModelDB.Item<SteelHelmet>());
+		GameController.Instance.Map.Treasures[2].SetItemLoot(ModelDB.Item<SteelHelmet>());
 
 		Marker marker1 = GameController.Instance.Map.GetMarker(Marker.Type._1);
 		_door1 = marker1.GetHexObject<Door>();
