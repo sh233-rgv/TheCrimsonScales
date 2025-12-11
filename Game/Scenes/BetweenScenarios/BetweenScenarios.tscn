@@ -507,11 +507,12 @@ font_size = 20
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
 point_count = 1
 
-[node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart")]
+[node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay")]
 script = ExtResource("1_rtyjh")
 BetweenScenariosSidePanel = NodePath("CanvasLayer/UI/SidePanel")
 CharacterPortraitManager = NodePath("CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/Characters")
 ScenarioFlowchart = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart")
+EventOverlay = NodePath("CanvasLayer/UI/EventOverlay")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -1879,7 +1880,7 @@ layout_mode = 2
 text = "New Character"
 label_settings = SubResource("LabelSettings_f340v")
 
-[node name="EventOverlay" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_background", "_skipTextButton", "_eventCard", "_continueButton", "_eventChoiceButtonParent")]
+[node name="EventOverlay" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_background", "_skipTextButton", "_subViewportContainer", "_cityEventCard", "_roadEventCard", "_continueButton", "_eventChoiceButtonParent")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1890,7 +1891,9 @@ mouse_filter = 2
 script = ExtResource("49_dl2j2")
 _background = NodePath("Background")
 _skipTextButton = NodePath("SkipTextButton")
-_eventCard = NodePath("EventCard")
+_subViewportContainer = NodePath("EventCard/SubViewportContainer")
+_cityEventCard = NodePath("EventCard/SubViewportContainer/SubViewport/Mask/City")
+_roadEventCard = NodePath("EventCard/SubViewportContainer/SubViewport/Mask/Road")
 _continueButton = NodePath("ContinueButton")
 _eventChoiceButtonScene = ExtResource("57_dl2j2")
 _eventChoiceButtonParent = NodePath("HBoxContainer")
@@ -1904,7 +1907,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.705882)
 
-[node name="EventCard" type="Control" parent="CanvasLayer/UI/EventOverlay" node_paths=PackedStringArray("_frontContainer", "_frontEventText", "_backContainer", "_backEventText", "_subViewportContainer", "_numberLabel")]
+[node name="EventCard" type="Control" parent="CanvasLayer/UI/EventOverlay"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1917,13 +1920,6 @@ offset_right = 250.0
 offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("30_dl2j2")
-_frontContainer = NodePath("SubViewportContainer/SubViewport/Mask/City/Front")
-_frontEventText = NodePath("SubViewportContainer/SubViewport/Mask/City/Front/ShapedEventText")
-_backContainer = NodePath("SubViewportContainer/SubViewport/Mask/City/Back")
-_backEventText = NodePath("SubViewportContainer/SubViewport/Mask/City/Back/ShapedEventText")
-_subViewportContainer = NodePath("SubViewportContainer")
-_numberLabel = NodePath("SubViewportContainer/SubViewport/Mask/City/Front/Label")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/UI/EventOverlay/EventCard"]
 material = SubResource("ShaderMaterial_wg15a")
@@ -1951,14 +1947,19 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_12j2q")
 
-[node name="City" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask"]
-visible = false
+[node name="City" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask" node_paths=PackedStringArray("FrontContainer", "FrontEventText", "BackContainer", "BackEventText", "NumberLabel")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("30_dl2j2")
+FrontContainer = NodePath("Front")
+FrontEventText = NodePath("Front/ShapedEventText")
+BackContainer = NodePath("Back")
+BackEventText = NodePath("Back/ShapedEventText")
+NumberLabel = NodePath("Front/NumberLabel")
 
 [node name="Front" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City"]
 layout_mode = 1
@@ -2009,6 +2010,7 @@ TextShapeCurve = SubResource("Curve_d3wm2")
 Font = ExtResource("36_bny7g")
 FontSize = 20
 LineHeight = 20.5
+TextColor = Color(1, 1, 1, 1)
 _richTextLabelParent = NodePath("MarginContainer/Labels")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Front/ShapedEventText"]
@@ -2026,7 +2028,7 @@ theme_override_constants/margin_bottom = 50
 [node name="Labels" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Front/ShapedEventText/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Front"]
+[node name="NumberLabel" type="Label" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Front"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -2081,6 +2083,7 @@ TextShapeCurve = SubResource("Curve_tq2dg")
 Font = ExtResource("36_bny7g")
 FontSize = 20
 LineHeight = 20.5
+TextColor = Color(1, 1, 1, 1)
 _richTextLabelParent = NodePath("MarginContainer/Labels")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Back/ShapedEventText"]
@@ -2098,13 +2101,19 @@ theme_override_constants/margin_bottom = 50
 [node name="Labels" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Back/ShapedEventText/MarginContainer"]
 layout_mode = 2
 
-[node name="Road" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask"]
+[node name="Road" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask" node_paths=PackedStringArray("FrontContainer", "FrontEventText", "BackContainer", "BackEventText", "NumberLabel")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("30_dl2j2")
+FrontContainer = NodePath("Front")
+FrontEventText = NodePath("Front/ShapedEventText")
+BackContainer = NodePath("Back")
+BackEventText = NodePath("Back/ShapedEventText")
+NumberLabel = NodePath("Front/NumberLabel")
 
 [node name="Front" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road"]
 layout_mode = 1
@@ -2129,20 +2138,6 @@ mouse_filter = 2
 texture = ExtResource("58_su2xo")
 expand_mode = 1
 
-[node name="Example" type="TextureRect" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Front"]
-visible = false
-material = ExtResource("32_su2xo")
-instance_shader_parameters/grayscaleFactor = 0.0
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("34_rtdf2")
-expand_mode = 1
-
 [node name="ShapedEventText" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Front" node_paths=PackedStringArray("_richTextLabelParent")]
 layout_mode = 1
 anchors_preset = 15
@@ -2155,6 +2150,7 @@ TextShapeCurve = SubResource("Curve_d3wm2")
 Font = ExtResource("36_bny7g")
 FontSize = 20
 LineHeight = 20.5
+TextColor = Color(0.137255, 0.121569, 0.12549, 1)
 _richTextLabelParent = NodePath("MarginContainer/Labels")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Front/ShapedEventText"]
@@ -2172,7 +2168,7 @@ theme_override_constants/margin_bottom = 50
 [node name="Labels" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Front/ShapedEventText/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Front"]
+[node name="NumberLabel" type="Label" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Front"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -2228,6 +2224,7 @@ TextShapeCurve = SubResource("Curve_tq2dg")
 Font = ExtResource("36_bny7g")
 FontSize = 20
 LineHeight = 20.5
+TextColor = Color(0.137255, 0.121569, 0.12549, 1)
 _richTextLabelParent = NodePath("MarginContainer/Labels")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Back/ShapedEventText"]

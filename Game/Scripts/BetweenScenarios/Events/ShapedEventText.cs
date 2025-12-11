@@ -19,6 +19,9 @@ public partial class ShapedEventText : Control
 	public float LineHeight { get; private set; }
 
 	[Export]
+	public Color TextColor { get; private set; }
+
+	[Export]
 	private Control _richTextLabelParent;
 
 	public RichTextLabel[] RichTextLabels { get; private set; }
@@ -100,6 +103,7 @@ public partial class ShapedEventText : Control
 		label.SetPosition(new Vector2((_richTextLabelParent.Size.X - lineWidth) / 2f, lineIndex * LineHeight));
 		label.SetSize(new Vector2(lineWidth, LineHeight));
 		label.SetHorizontalAlignment(finalLine ? HorizontalAlignment.Left : HorizontalAlignment.Fill);
+		label.SetSelfModulate(TextColor);
 
 		label.AddThemeFontOverride("normal_font", Font);
 		label.AddThemeFontSizeOverride("normal_font_size", FontSize);

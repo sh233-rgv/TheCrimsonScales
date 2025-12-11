@@ -1,68 +1,67 @@
 ﻿using System.Threading;
 using Fractural.Tasks;
 using Godot;
-using GTweens.Builders;
-using GTweens.Easings;
-using GTweensGodot.Extensions;
 
 public partial class EventCard : Control
 {
-	private static readonly StringName RotationName = "y_rot";
+	[Export]
+	public Control FrontContainer { get; private set; }
 
 	[Export]
-	private Control _frontContainer;
-	[Export]
-	private ShapedEventText _frontEventText;
+	public ShapedEventText FrontEventText { get; private set; }
 
 	[Export]
-	private Control _backContainer;
-	[Export]
-	private ShapedEventText _backEventText;
+	public Control BackContainer { get; private set; }
 
 	[Export]
-	private SubViewportContainer _subViewportContainer;
+	public ShapedEventText BackEventText { get; private set; }
 
 	[Export]
-	private Label _numberLabel;
-
-	private ShaderMaterial _material;
+	public Label NumberLabel;
 
 	private bool _skipText;
 
-	public override void _Ready()
+	public void SetupFront(EventModel eventModel, bool showText, bool showFront = true)
 	{
-		base._Ready();
+		if(showFront)
+		{
+			ShowFront();
+		}
 
-		_material = (ShaderMaterial)_subViewportContainer.Material;
+		FrontEventText.SetText(eventModel.Text, showText);
+		NumberLabel.SetText(eventModel.Number.ToString());
 	}
 
-	public async GDTask SetModelAndAnimate(EventModel eventModel, CancellationToken cancellationToken)
+	public void SetupBack(SavedEventState savedEventState, bool showText = true, bool showBack = true)
+	{
+		if(showBack)
+		{
+			ShowBack();
+		}
+
+		BackEventText.SetText(savedEventState.Choice.GetStoryText(savedEventState), showText);
+	}
+
+	public void ShowFront()
+	{
+		FrontContainer.SetVisible(true);
+		BackContainer.SetVisible(true);
+		FrontContainer.SetModulate(Colors.White);
+		BackContainer.SetModulate(Colors.Transparent);
+	}
+
+	public void ShowBack()
+	{
+		FrontContainer.SetVisible(true);
+		BackContainer.SetVisible(true);
+		FrontContainer.SetModulate(Colors.Transparent);
+		BackContainer.SetModulate(Colors.White);
+	}
+
+	public async GDTask AnimateText(ShapedEventText shapedEventText, CancellationToken cancellationToken)
 	{
 		_skipText = false;
-		_numberLabel.SetText(eventModel.Number.ToString());
 
-		SetScale(Vector2.One * 0.001f);
-
-		await GDTask.Yield(cancellationToken);
-
-		_frontContainer.SetVisible(true);
-		_backContainer.SetVisible(true);
-		_frontContainer.SetModulate(Colors.White);
-		_backContainer.SetModulate(Colors.Transparent);
-
-		_frontEventText.SetText(eventModel.Text, false);
-
-		await GDTask.Yield(cancellationToken);
-		await GDTask.Delay(0.2f, cancellationToken: cancellationToken);
-
-		SetPivotOffset(Size * 0.5f);
-		await this.TweenScale(1f, 0.6f).SetEasing(Easing.OutBack).PlayAsync(cancellationToken);
-
-		await AnimateText(_frontEventText, cancellationToken);
-	}
-
-	private async GDTask AnimateText(ShapedEventText shapedEventText, CancellationToken cancellationToken)
-	{
 		const float charactersPerSecond = 50f;
 		float charactersToDisplay = 0f;
 		bool waitedFrame = false;
@@ -95,32 +94,6 @@ public partial class EventCard : Control
 				waitedFrame = true;
 			}
 		}
-	}
-
-	public async GDTask Rotate(string storyText, CancellationToken cancellationToken)
-	{
-		_skipText = false;
-
-		_backEventText.SetText(storyText, false);
-
-		await GDTask.Yield(cancellationToken);
-		await GDTask.Delay(0.2f, cancellationToken: cancellationToken);
-
-		await GTweenSequenceBuilder.New()
-			.Append(_material.TweenPropertyFloat(RotationName, 90f, 0.2f).SetEasing(Easing.Linear))
-			.AppendCallback(() =>
-			{
-				_frontContainer.SetModulate(Colors.Transparent);
-				_backContainer.SetModulate(Colors.White);
-			})
-			.Append(_material.TweenPropertyFloat(RotationName, -90f, 0f))
-			.Append(_material.TweenPropertyFloat(RotationName, 0f, 0.5f).SetEasing(Easing.OutBack))
-			.Build().PlayAsync(cancellationToken);
-	}
-
-	public async GDTask AnimateBackText(CancellationToken cancellationToken)
-	{
-		await AnimateText(_backEventText, cancellationToken);
 	}
 
 	public void SkipText()

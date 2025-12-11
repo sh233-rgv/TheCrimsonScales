@@ -11,6 +11,9 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 	[Export]
 	public ScenarioFlowchart ScenarioFlowchart { get; private set; }
 
+	[Export]
+	public EventOverlay EventOverlay { get; private set; }
+
 	public BetweenScenariosSceneRequest SceneRequest { get; private set; }
 
 	public RandomNumberGenerator RNG { get; private set; }
