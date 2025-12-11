@@ -18,7 +18,7 @@ public static class ModelDB
 		return new ModelId()
 		{
 			Category = SlugHelper.GetSlug(type.BaseType?.Name),
-			Entry = SlugHelper.GetSlug(type.Name)
+			Entry = SlugHelper.GetSlug(type.FullName)
 		};
 	}
 

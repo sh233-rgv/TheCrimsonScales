@@ -52,7 +52,7 @@ public class City01 : CityEventModel<City01.ChoiceA, City01.ChoiceB>
 			{
 				return
 				[
-					//new GainCollectiveItemEventReward(ModelDB.Item<LightweightBoots>())
+					new GainCollectiveItemEventReward(ModelDB.Item<LightweightBoots>())
 				];
 			}
 			else
@@ -98,7 +98,7 @@ public class City01 : CityEventModel<City01.ChoiceA, City01.ChoiceB>
 			{
 				return
 				[
-					//new GainCollectiveItemEventReward(ModelDB.Item<LightweightBoots>())
+					new GainCollectiveItemEventReward(ModelDB.Item<LightweightBoots>())
 				];
 			}
 			else
