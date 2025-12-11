@@ -36,17 +36,27 @@ public partial class EventOverlay : Control
 		_continueButton.BetterButton.Pressed += OnContinuePressed;
 
 		Hide();
-
-		//this.DelayedCall(() => Open(ModelDB.Event<City01>()), 3f);
 	}
 
-	public void Open(EventModel eventModel)
+	public void Open(EventType eventType)
 	{
-		Sequence(eventModel).Forget();
+		DrawEventCard(eventType).Forget();
 	}
 
-	private async GDTaskVoid Sequence(EventModel eventModel)
+	private async GDTaskVoid DrawEventCard(EventType eventType)
 	{
+		AppController.Instance.SaveFile.BlockSaving(this);
+
+		EventModel eventModel;
+		if(eventType == EventType.City)
+		{
+			eventModel = BetweenScenariosController.Instance.SavedCampaign.SavedEvents.DrawCityEvent();
+		}
+		else
+		{
+			eventModel = BetweenScenariosController.Instance.SavedCampaign.SavedEvents.DrawRoadEvent();
+		}
+
 		Show();
 
 		_chosenModel = null;
@@ -110,8 +120,40 @@ public partial class EventOverlay : Control
 
 		_continueButton.SetActive(false);
 
-		//TODO: Get all immediate rewards from the event choice, and save the other rewards for when the next scenario is played
-		//await _chosenModel.Resolve(savedEventState, BetweenScenariosController.Instance.SavedCampaign);
+		bool hasNonImmediateReward = false;
+		List<EventReward> rewards = _chosenModel.GetRewards(savedEventState);
+		foreach(EventReward reward in rewards)
+		{
+			if(reward.Type == EventRewardType.Immediate)
+			{
+				await reward.Resolve();
+			}
+			else
+			{
+				hasNonImmediateReward = true;
+			}
+		}
+
+		if(hasNonImmediateReward)
+		{
+			BetweenScenariosController.Instance.SavedCampaign.SavedEvents.AddSavedEventState(savedEventState);
+		}
+
+		EventResolveType eventResolveType = _chosenModel.GetEventResolveType(savedEventState);
+		if(eventResolveType == EventResolveType.ReturnCardToBottom)
+		{
+			if(eventModel.EventType == EventType.City)
+			{
+				BetweenScenariosController.Instance.SavedCampaign.SavedEvents.ReturnCityEventToBottom(eventModel);
+			}
+			else
+			{
+				BetweenScenariosController.Instance.SavedCampaign.SavedEvents.ReturnRoadEventToBottom(eventModel);
+			}
+		}
+
+		AppController.Instance.SaveFile.UnblockSaving(this);
+		AppController.Instance.SaveFile.Save();
 
 		_background.TweenModulateAlpha(0f, 0.3f).Play();
 		await _eventCard.TweenScale(0f, 0.3f).SetEasing(Easing.InBack).PlayAsync(cancellationToken: cancellationToken);

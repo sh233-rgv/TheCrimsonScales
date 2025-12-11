@@ -20,7 +20,7 @@ public class Road01 : RoadEventModel<Road01.ChoiceA, Road01.ChoiceB>
 			You ask the Orchid for directions and she points you toward the right path. You wish her well with her endeavors and reach your destination in peace.
 			""";
 
-		public override EventResolveType GetEventResolveType(SavedEventState state) => EventResolveType.Reshuffle;
+		public override EventResolveType GetEventResolveType(SavedEventState state) => EventResolveType.ReturnCardToBottom;
 
 		public override List<EventReward> GetRewards(SavedEventState state) => [];
 	}

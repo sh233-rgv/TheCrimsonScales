@@ -32,6 +32,9 @@ public class SavedCampaign
 	[JsonProperty]
 	public SavedSanctuaryOfTheGreatOak SanctuaryOfTheGreatOak { get; } = new SavedSanctuaryOfTheGreatOak();
 
+	[JsonProperty]
+	public SavedEvents SavedEvents { get; } = new SavedEvents();
+
 	public event Action CharactersChangedEvent;
 
 	public static SavedCampaign New(string partyName, StartingGroup startingGroup)

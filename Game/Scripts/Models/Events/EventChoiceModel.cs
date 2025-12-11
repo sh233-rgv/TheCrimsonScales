@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Fractural.Tasks;
+﻿using System.Collections.Generic;
 
 public abstract class EventChoiceModel : AbstractModel<EventChoiceModel>
 {

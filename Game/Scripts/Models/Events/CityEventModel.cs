@@ -2,4 +2,5 @@
 	where TChoiceA : EventChoiceModel
 	where TChoiceB : EventChoiceModel
 {
+	public override EventType EventType => EventType.City;
 }

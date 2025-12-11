@@ -1,6 +1,5 @@
-﻿// public enum EventType
-// {
-// 	City,
-// 	Road
-// }
-
+﻿public enum EventType
+{
+	City,
+	Road
+}

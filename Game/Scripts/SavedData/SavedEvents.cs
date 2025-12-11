@@ -93,4 +93,38 @@ public class SavedEvents
 	{
 		SavedEventStates.Add(savedEventState);
 	}
+
+	public EventModel DrawCityEvent()
+	{
+		if(CityEventDeckIds.Count == 0)
+		{
+			throw new Exception("The City Event deck is empty!");
+		}
+
+		EventModel eventModel = ModelDB.GetById<EventModel>(CityEventDeckIds[CityEventDeckIds.Count - 1]);
+		CityEventDeckIds.RemoveAt(CityEventDeckIds.Count - 1);
+		return eventModel;
+	}
+
+	public EventModel DrawRoadEvent()
+	{
+		if(RoadEventDeckIds.Count == 0)
+		{
+			throw new Exception("The Road Event deck is empty!");
+		}
+
+		EventModel eventModel = ModelDB.GetById<EventModel>(RoadEventDeckIds[RoadEventDeckIds.Count - 1]);
+		RoadEventDeckIds.RemoveAt(RoadEventDeckIds.Count - 1);
+		return eventModel;
+	}
+
+	public void ReturnCityEventToBottom(EventModel eventModel)
+	{
+		CityEventDeckIds.Insert(0, eventModel.Id.ToString());
+	}
+
+	public void ReturnRoadEventToBottom(EventModel eventModel)
+	{
+		RoadEventDeckIds.Insert(0, eventModel.Id.ToString());
+	}
 }

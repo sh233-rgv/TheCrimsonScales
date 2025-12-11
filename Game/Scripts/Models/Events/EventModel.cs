@@ -7,6 +7,7 @@
 
 public abstract class EventModel : AbstractModel<EventModel>
 {
+	public abstract EventType EventType { get; }
 	public abstract int Number { get; }
 	public abstract string Text { get; }
 
