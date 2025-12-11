@@ -14,7 +14,7 @@ public class Scenario026 : ScenarioModel
 
 	protected override ScenarioGoals CreateScenarioGoals() => new CustomScenarioGoals("");
 
-	private String _text;
+	private string _text;
 
 	public override string BGSPath => "res://Audio/BGS/Cave.ogg";
 

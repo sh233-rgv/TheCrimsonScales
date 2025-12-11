@@ -1,10 +1,8 @@
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using Fractural.Tasks;
-using Fractural.Tasks.Triggers;
 using Godot;
-using GTweens.Easings;
-using GTweensGodot.Extensions;
 
 public class Scenario043 : ScenarioModel
 {
@@ -22,7 +20,12 @@ public class Scenario043 : ScenarioModel
 	private PressurePlate _pressurePlateB;
 	private IEnumerable<PressurePlate> _pressurePlatesC;
 	private IEnumerable<PressurePlate> _pressurePlatesD;
+	private readonly string _baseText = """
+		The obstacles in this scenario cannot be destroyed. Any character may spend one movement point while adjacent to a boulder to push the boulder one hex. Boulders may be pushed into adjacent unoccupied hexes or one unoccupied hex away further from character performing the push. If a boulder would be pushed into a trap or money token, it is crushed and remove the trap or money token from the board.
 
+		All doors start locked.
+
+		""";
 
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
@@ -33,8 +36,6 @@ public class Scenario043 : ScenarioModel
 		Marker marker1 = GameController.Instance.Map.GetMarker(Marker.Type._1);
 		_door1 = marker1.GetHexObject<Door>();
 
-		GD.Print("Locked?: ", _door1.Locked);
-
 		Marker marker2 = GameController.Instance.Map.GetMarker(Marker.Type._2);
 		_door2 = marker2.GetHexObject<Door>();
 
@@ -43,6 +44,8 @@ public class Scenario043 : ScenarioModel
 
 		Marker marker4 = GameController.Instance.Map.GetMarker(Marker.Type._4);
 		_door4 = marker4.GetHexObject<Door>();
+
+		UpdateScenarioText();
 		
 		_pressurePlateA = GameController.Instance.Map.GetMarker(Marker.Type.a).GetHexObject<PressurePlate>();
 		_pressurePlateB = GameController.Instance.Map.GetMarker(Marker.Type.b).GetHexObject<PressurePlate>();
@@ -58,7 +61,6 @@ public class Scenario043 : ScenarioModel
 				pressurePlates.Any(pressurePlate => pressurePlate.Hex == parameters.OverlayTile.Hex),
 			async parameters =>
             {
-				GD.Print("true");
                 if(_door1.Locked && _pressurePlateA.Hex == parameters.OverlayTile.Hex)
                 {
                     await _door1.Unlock();
@@ -75,6 +77,7 @@ public class Scenario043 : ScenarioModel
                 {
                     await _door4.Unlock();
                 }
+				UpdateScenarioText();
             });
 
 		ScenarioEvents.DuringMovementEvent.Subscribe(this,
@@ -116,7 +119,29 @@ public class Scenario043 : ScenarioModel
 	protected override async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters parameters)
 	{
 		await base.OnRoomRevealed(parameters);
+		UpdateScenarioText();
+	}
 
-		
+	private void UpdateScenarioText()
+	{
+		string text = _baseText;
+		if (_door1.Locked)
+        {
+            text += $"When a boulder occupies pressure plate {Icons.Inline(Icons.GetMarker(Marker.Type.a))}, unlock door {Icons.Inline(Icons.GetMarker(Marker.Type._1))}. \n\n";
+        }
+		if (_door2.Locked)
+        {
+            text += $"When a boulder occupies pressure plate {Icons.Inline(Icons.GetMarker(Marker.Type.b))}, unlock door {Icons.Inline(Icons.GetMarker(Marker.Type._2))}. \n\n";
+        }
+		if (_door3.Locked && (!_door1.Locked || !_door4.Locked))
+        {
+            text += $"When a boulder occupies pressure plate {Icons.Inline(Icons.GetMarker(Marker.Type.c))}, unlock door {Icons.Inline(Icons.GetMarker(Marker.Type._3))}. \n\n";
+        }
+		if (_door4.Locked && (!_door2.Locked || !_door3.Locked))
+        {
+            text += $"When a boulder occupies pressure plate {Icons.Inline(Icons.GetMarker(Marker.Type.d))}, unlock door {Icons.Inline(Icons.GetMarker(Marker.Type._4))}. \n\n";
+        }
+		text = text.TrimEnd('\n');
+		base.UpdateScenarioText(text);
 	}
 }

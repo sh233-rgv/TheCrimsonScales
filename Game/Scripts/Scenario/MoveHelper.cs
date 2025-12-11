@@ -346,20 +346,23 @@ public static class MoveHelper
 			}
 		}
 
-		if(hex.TryGetHexObjectOfType(out Door door) && performer is not Character)
+		if(hex.TryGetHexObjectOfType(out Door door))
 		{
 			if(door.Locked || forcedMovement)
 			{
 				return false;
 			}
 
-			ScenarioCheckEvents.CanOpenDoorsCheck.Parameters canOpenDoorsCheckParameters =
-				ScenarioCheckEvents.CanOpenDoorsCheckEvent.Fire(
-					new ScenarioCheckEvents.CanOpenDoorsCheck.Parameters(performer));
-
-			if(!canOpenDoorsCheckParameters.CanOpenDoors)
+			if (performer is not Character)
 			{
-				return false;
+				ScenarioCheckEvents.CanOpenDoorsCheck.Parameters canOpenDoorsCheckParameters =
+					ScenarioCheckEvents.CanOpenDoorsCheckEvent.Fire(
+						new ScenarioCheckEvents.CanOpenDoorsCheck.Parameters(performer));
+
+				if(!canOpenDoorsCheckParameters.CanOpenDoors)
+				{
+					return false;
+				}
 			}
 		}
 

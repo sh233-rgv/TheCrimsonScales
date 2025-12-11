@@ -15,7 +15,8 @@ self_modulate = Color(0.2, 0.305882, 0.635294, 1)
 
 [node name="Lock" type="Sprite2D" parent="." index="3"]
 visible = false
-scale = Vector2(0.4, 0.4)
+position = Vector2(72, -32)
+scale = Vector2(0.35, 0.35)
 texture = ExtResource("3_qjuhr")
 
 [node name="Icon" parent="OverlayTileViewComponent" index="0"]

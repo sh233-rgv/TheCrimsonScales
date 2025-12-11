@@ -329,7 +329,7 @@ public static class AbilityCmd
 
 	public static async GDTask<Hex> MoveOverlayTile(Figure performer, OverlayTile overlayTile, Action<List<Hex>> moveToHexes)
 	{
-		Hex movedToHex = await SelectHex(performer, moveToHexes, mandatory: true, hintText: $"Select a hex to move the {overlayTile.GetType()} to");
+		Hex movedToHex = await SelectHex(performer, moveToHexes, mandatory: true, hintText: $"Select a hex to move the {overlayTile.GetType().ToString().ToLower()} to");
 
 		if (movedToHex == null)
 		{

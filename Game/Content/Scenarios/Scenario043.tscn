@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bwpi8y85cbqjk"]
+[gd_scene load_steps=19 format=3 uid="uid://bu4ihrcotx3lj"]
 
 [ext_resource type="PackedScene" uid="uid://cifjwk1lx2x1h" path="res://Scenes/Scenario/Scenario.tscn" id="1_2or2l"]
 [ext_resource type="Script" uid="uid://bbtc25ohouat7" path="res://Scripts/Scenario/Room.cs" id="2_5r85s"]
@@ -29,10 +29,12 @@ StartsRevealed = true
 position = Vector2(-109.119, 189)
 
 [node name="Boulder1H" parent="Map/Rooms/Room" index="1" instance=ExtResource("4_658ni")]
+z_index = 1
 position = Vector2(0, 378)
 CannotBeDestroyed = true
 
 [node name="Boulder1H2" parent="Map/Rooms/Room" index="2" instance=ExtResource("4_658ni")]
+z_index = 1
 position = Vector2(-109.119, 189)
 CannotBeDestroyed = true
 
@@ -110,10 +112,12 @@ script = ExtResource("2_5r85s")
 position = Vector2(-109.119, -945)
 
 [node name="Boulder1H" parent="Map/Rooms/Room2" index="1" instance=ExtResource("4_658ni")]
+z_index = 1
 position = Vector2(109.119, -945)
 CannotBeDestroyed = true
 
 [node name="Boulder1H2" parent="Map/Rooms/Room2" index="2" instance=ExtResource("4_658ni")]
+z_index = 1
 position = Vector2(-109.119, -945)
 CannotBeDestroyed = true
 
@@ -180,6 +184,7 @@ script = ExtResource("2_5r85s")
 position = Vector2(982.073, 189)
 
 [node name="Boulder1H" parent="Map/Rooms/Room3" index="1" instance=ExtResource("4_658ni")]
+z_index = 1
 position = Vector2(982.073, 189)
 CannotBeDestroyed = true
 
@@ -232,6 +237,7 @@ rotation = 3.14159
 position = Vector2(1418.55, -567)
 
 [node name="Boulder1H2" parent="Map/Rooms/Room4" index="2" instance=ExtResource("4_658ni")]
+z_index = 1
 position = Vector2(1418.55, -945)
 
 [node name="ManMadeStone2H" parent="Map/Rooms/Room4" index="3" instance=ExtResource("14_jvco6")]
