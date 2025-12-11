@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using Fractural.Tasks;
 using Godot;
@@ -38,7 +37,7 @@ public partial class EventOverlay : Control
 
 		Hide();
 
-		this.DelayedCall(() => Open(ModelDB.Event<City01>()), 3f);
+		//this.DelayedCall(() => Open(ModelDB.Event<City01>()), 3f);
 	}
 
 	public void Open(EventModel eventModel)
@@ -91,7 +90,6 @@ public partial class EventOverlay : Control
 
 		// Initialize state
 		SavedEventState savedEventState = new SavedEventState(_chosenModel);
-
 		_chosenModel!.InitState(savedEventState, BetweenScenariosController.Instance.SavedCampaign);
 
 		await _eventCard.Rotate(_chosenModel.GetStoryText(savedEventState), cancellationToken);
@@ -112,7 +110,8 @@ public partial class EventOverlay : Control
 
 		_continueButton.SetActive(false);
 
-		await _chosenModel.Resolve(savedEventState, BetweenScenariosController.Instance.SavedCampaign);
+		//TODO: Get all immediate rewards from the event choice, and save the other rewards for when the next scenario is played
+		//await _chosenModel.Resolve(savedEventState, BetweenScenariosController.Instance.SavedCampaign);
 
 		_background.TweenModulateAlpha(0f, 0.3f).Play();
 		await _eventCard.TweenScale(0f, 0.3f).SetEasing(Easing.InBack).PlayAsync(cancellationToken: cancellationToken);

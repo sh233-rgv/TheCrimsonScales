@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using Fractural.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
 
-public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
+public class City01 : CityEventModel<City01.ChoiceA, City01.ChoiceB>
 {
 	public override int Number => 01;
 
@@ -46,9 +46,19 @@ public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
 			}
 		}
 
-		public override async GDTask Resolve(SavedEventState state, SavedCampaign savedCampaign)
+		public override List<EventReward> GetRewards(SavedEventState state)
 		{
-			await base.Resolve(state, savedCampaign);
+			if(state.GetCustomValue<bool>(ConditionsMetKey))
+			{
+				return
+				[
+					//new GainCollectiveItemEventReward(ModelDB.Item<LightweightBoots>())
+				];
+			}
+			else
+			{
+				return [];
+			}
 		}
 	}
 
@@ -82,9 +92,19 @@ public class City01 : EventModel<City01.ChoiceA, City01.ChoiceB>
 			}
 		}
 
-		public override async GDTask Resolve(SavedEventState state, SavedCampaign savedCampaign)
+		public override List<EventReward> GetRewards(SavedEventState state)
 		{
-			await base.Resolve(state, savedCampaign);
+			if(state.GetCustomValue<bool>(ConditionsMetKey))
+			{
+				return
+				[
+					//new GainCollectiveItemEventReward(ModelDB.Item<LightweightBoots>())
+				];
+			}
+			else
+			{
+				return [];
+			}
 		}
 	}
 }
