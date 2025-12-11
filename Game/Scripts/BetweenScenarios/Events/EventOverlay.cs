@@ -53,12 +53,7 @@ public partial class EventOverlay : Control
 		//this.DelayedCall(() => Open(EventType.Road), 3f);
 	}
 
-	public void Open(EventType eventType)
-	{
-		DrawEventCard(eventType).Forget();
-	}
-
-	private async GDTaskVoid DrawEventCard(EventType eventType)
+	public async GDTask DrawEventCard(EventType eventType)
 	{
 		AppController.Instance.SaveFile.BlockSaving(this);
 

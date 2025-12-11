@@ -1,4 +1,7 @@
-﻿using Godot;
+﻿using System;
+using System.Linq;
+using Fractural.Tasks;
+using Godot;
 
 public partial class BetweenScenariosController : SceneController<BetweenScenariosController>
 {
@@ -92,6 +95,57 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		{
 			OpenMenuPopup();
 		}
+	}
+
+	public void TryStartScenario(ScenarioModel scenarioModel)
+	{
+		if(SavedCampaign.Characters.Count < 2)
+		{
+			AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("Cannot start scenario",
+				"You need at least 2 characters in order to start a scenario.\n"));
+
+			return;
+		}
+
+		AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request($"Scenario {scenarioModel.ScenarioNumber}",
+			$"Start scenario {scenarioModel.ScenarioNumber}?",
+			new TextButton.Parameters("Cancel",
+				() =>
+				{
+				}
+			),
+			new TextButton.Parameters("Confirm",
+				() =>
+				{
+					StartScenarioSequence(scenarioModel).Forget();
+				},
+				TextButton.ColorType.Green
+			)
+		));
+	}
+
+	private async GDTaskVoid StartScenarioSequence(ScenarioModel scenarioModel)
+	{
+		await EventOverlay.DrawEventCard(EventType.Road);
+
+		SavedCampaign savedCampaign = SavedCampaign;
+		float characterLevelSum = savedCampaign.Characters.Sum(character => character.Level);
+		int scenarioLevel =
+			Mathf.CeilToInt((characterLevelSum / savedCampaign.Characters.Count) / 2f) +
+			AppController.Instance.SaveFile.SaveData.Options.Difficulty.Value;
+		scenarioLevel = Mathf.Clamp(scenarioLevel, 0, 7);
+		savedCampaign.SavedScenario = new SavedScenario()
+		{
+			Id = Guid.NewGuid(),
+			AppVersion = AppController.Instance.SaveFile.SaveData.AppVersion,
+			ScenarioModelId = scenarioModel.Id.ToString(),
+			Seed = GD.RandRange(0, int.MaxValue),
+			ScenarioLevel = scenarioLevel,
+			IsOnline = false
+		};
+
+		AppController.Instance.SaveFile.SaveData.SavedCampaign = savedCampaign;
+		AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(savedCampaign));
 	}
 
 	private void OpenMenuPopup()
