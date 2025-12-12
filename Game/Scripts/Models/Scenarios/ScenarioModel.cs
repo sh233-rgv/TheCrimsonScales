@@ -56,16 +56,13 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		GameController.Instance.SpecialRulesView.SetText(displayText);
 	}
 
-	protected async GDTask SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, IEnumerable<Hex> spawnHexes)
+	protected async GDTask SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, IEnumerable<Hex> spawnHexes, int? monsterLevel = null)
 	{
 		if (authority == null)
         {
             authority = GameController.Instance.Map.Figures.First(figure => figure is Character);
         }
-		List<Hex> hexes = RangeHelper.GetHexesInRange(spawnHexes.First(), 100, requiresLineOfSight: false).ToList();
-
-		List<Hex> list = [];
-		
+		List<Hex> hexes = RangeHelper.GetHexesInRange(spawnHexes.First(), 100, requiresLineOfSight: false).ToList();		
 
 		Hex chosenHex = await AbilityCmd.SelectHex(authority,
 			list =>
@@ -90,12 +87,13 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 					}
 
 					int distance = RangeHelper.Distance(spawnHex, firstHex);
-					if (minDistance != null && distance < minDistance)
-					{
-						list.Clear();
-					}
 					if (minDistance == null || distance <= minDistance)
 					{
+						if (minDistance == null || distance < minDistance)
+                        {
+                            list.Clear();
+							minDistance = distance;
+                        }
 						foreach(Hex otherHex in hexes)
 						{
 							int otherDistance = RangeHelper.Distance(spawnHex, otherHex);
@@ -114,6 +112,6 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 			return;
 		}
 
-		await AbilityCmd.SpawnMonster(monsterModel, monsterType, chosenHex);
+		await AbilityCmd.SpawnMonster(monsterModel, monsterType, chosenHex, monsterLevel);
 	}
 }

@@ -40,6 +40,7 @@ public class Scenario044 : ScenarioModel
 				
 				_remainingLivingSpiritKills--;
 				UpdateScenarioText();
+				await GDTask.CompletedTask;
 			}
 		);
 	}

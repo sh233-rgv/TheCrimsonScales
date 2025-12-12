@@ -384,6 +384,24 @@ public class ScenarioCheckEvents
 	private readonly CanBeFocusedCheck _canBeFocusedCheck = new CanBeFocusedCheck();
 	public static CanBeFocusedCheck CanBeFocusedCheckEvent => GameController.Instance.ScenarioCheckEvents._canBeFocusedCheck;
 
+	public class CanBeCommandedCheck : ScenarioCheckEvent<CanBeCommandedCheck.Parameters>
+	{
+		public class Parameters(Figure potentialTarget)
+			: ParametersBase
+		{
+			public Figure PotentialTarget { get; } = potentialTarget;
+			public bool CanBeCommanded { get; private set; } = true;
+
+			public void SetCannotBeCommanded()
+			{
+				CanBeCommanded = false;
+			}
+		}
+	}
+
+	private readonly CanBeCommandedCheck _canBeCommandedCheck = new CanBeCommandedCheck();
+	public static CanBeCommandedCheck CanBeCommandedCheckEvent => GameController.Instance.ScenarioCheckEvents._canBeCommandedCheck;
+
 	public class CanBeTargetedCheck : ScenarioCheckEvent<CanBeTargetedCheck.Parameters>
 	{
 		public class Parameters(AbilityState potentialAbilityState, Figure performer, Figure potentialTarget)

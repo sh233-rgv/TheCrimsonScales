@@ -8,8 +8,9 @@ using Fractural.Tasks;
 public class ControlAbility : TargetedAbility<ControlAbility.State, SingleTargetState>
 {
 	public class State : TargetedAbilityState<SingleTargetState>
-	{
-	}
+    {
+        public List<ActionState> ControlAbilityActionStates { get; } = new List<ActionState>();
+    }
 
 	private Func<State, List<Ability>> _getAbilities;
 
@@ -102,9 +103,19 @@ public class ControlAbility : TargetedAbility<ControlAbility.State, SingleTarget
 	{
 		await base.AfterTargetConfirmedBeforeConditionsApplied(abilityState, target);
 
+		ScenarioCheckEvents.CanBeCommandedCheck.Parameters canBeCommandedParameters =
+			ScenarioCheckEvents.CanBeCommandedCheckEvent.Fire(
+				new ScenarioCheckEvents.CanBeCommandedCheck.Parameters(target));
+
+		if(canBeCommandedParameters.CanBeCommanded)
+		{
+			return;
+		}
+
 		// Perform the actual abilities
 		ActionState actionState = new ActionState(target, target is Character ? target : abilityState.Performer, _getAbilities(abilityState),
 			abilityState.ActionState);
+		abilityState.ControlAbilityActionStates.Add(actionState);
 		await actionState.Perform();
 	}
 }
