@@ -41,7 +41,7 @@ public class City01 : CityEventModel<City01.ChoiceA, City01.ChoiceB>
 			{
 				return
 					"""
-					You pick up the hammer and swing it down, but the booth hardly rumbles at all and the bell doesn't ring. "Oh well, maybe next time." says the Strongman as he takes the hammer back from you.
+					You pick up the hammer and swing it down, but the booth hardly rumbles at all and the bell doesn't ring. "Oh well, maybe next time," says the Strongman as he takes the hammer back from you.
 					""";
 			}
 		}

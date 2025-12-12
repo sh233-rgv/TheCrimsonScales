@@ -34,7 +34,7 @@ public class Road23 : RoadEventModel<Road23.ChoiceA, Road23.ChoiceB>
 			{
 				return
 					"""
-					A fellow Orchid stops your engage and shouts; "That is a member of the order of Shardrenders, do not intervene!" You watch as the Shardrender pierces the merchant's heart with a crystal and runs off with the sack.
+					A fellow Orchid stops your engagement and shouts, "That is a member of the order of Shardrenders, do not intervene!" You watch as the Shardrender pierces the merchant's heart with a crystal and runs off with the sack.
 					""";
 			}
 			else
@@ -70,7 +70,7 @@ public class Road23 : RoadEventModel<Road23.ChoiceA, Road23.ChoiceB>
 			"""
 			You help the Orchid fend off the attackers.
 
-			"You made the right decision, these were bandit thieves." The Orchid explains with an expression of gratitude. "These special crystals are of vital importance for my order, the order of Shardrenders, and your deed will not be forgotten." He hands you a small purse of gold before taking his leave.
+			"You made the right decision, these were bandit thieves," the Orchid explains with an expression of gratitude. "These special crystals are of vital importance for my order, the order of Shardrenders, and your deed will not be forgotten." He hands you a small purse of gold before taking his leave.
 			""";
 
 		public override List<EventReward> GetRewards(SavedEventState state) =>
