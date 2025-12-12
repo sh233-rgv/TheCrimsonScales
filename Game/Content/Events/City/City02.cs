@@ -7,7 +7,7 @@ public class City02 : CityEventModel<City02.ChoiceA, City02.ChoiceB>
 
 	public override string Text =>
 		"""
-		You are spending the evening enjoying mellow music at a Quatryl concert in the Brown Door, a pub at the Old Docks. During intermission, one of the band members approaches you and asks if you'd be willing to join them on stage as a guest musician.
+		You are spending the evening enjoying mellow music at a Quatryl concert in the Brown Door. During intermission, one of the band members approaches you and asks if you'd be willing to join them on stage as a guest musician.
 		""";
 
 	private const string ConditionsMetKey = "ConditionsMet";

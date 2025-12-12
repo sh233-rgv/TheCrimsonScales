@@ -1,4 +1,4 @@
-[gd_scene load_steps=119 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=121 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -58,8 +58,10 @@
 [ext_resource type="FontFile" uid="uid://djm7xa0rh5wqv" path="res://Fonts/HTOWERT.TTF" id="36_bny7g"]
 [ext_resource type="Script" uid="uid://cc4ctr6004sg4" path="res://Scripts/BetweenScenarios/Events/EventOverlay.cs" id="49_dl2j2"]
 [ext_resource type="PackedScene" uid="uid://co015244vhv5u" path="res://Scenes/BetweenScenarios/Events/EventChoiceButton.tscn" id="57_dl2j2"]
+[ext_resource type="PackedScene" uid="uid://hux023lpvkr0" path="res://Scenes/BetweenScenarios/Events/CityEventRewardLabel.tscn" id="58_rtdf2"]
 [ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="58_sagt1"]
 [ext_resource type="Texture2D" uid="uid://dg5cclbmnwikj" path="res://Art/BetweenScenarios/Events/RoadFront.jpg" id="58_su2xo"]
+[ext_resource type="PackedScene" uid="uid://dhhay14damdhi" path="res://Scenes/BetweenScenarios/Events/RoadEventRewardLabel.tscn" id="60_0rh5w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fpmem"]
 shader = ExtResource("9_fpmem")
@@ -1948,7 +1950,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_12j2q")
 
-[node name="City" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask" node_paths=PackedStringArray("FrontContainer", "FrontEventText", "BackContainer", "BackEventText", "NumberLabel")]
+[node name="City" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask" node_paths=PackedStringArray("FrontContainer", "FrontEventText", "BackContainer", "BackEventText", "NumberLabel", "_rewardLabelParent")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1961,6 +1963,8 @@ FrontEventText = NodePath("Front/ShapedEventText")
 BackContainer = NodePath("Back")
 BackEventText = NodePath("Back/ShapedEventText")
 NumberLabel = NodePath("Front/NumberLabel")
+_rewardLabelScene = ExtResource("58_rtdf2")
+_rewardLabelParent = NodePath("Back/ShapedEventText/MarginContainer/Labels/Rewards")
 
 [node name="Front" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City"]
 layout_mode = 1
@@ -2102,7 +2106,13 @@ theme_override_constants/margin_bottom = 50
 [node name="Labels" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Back/ShapedEventText/MarginContainer"]
 layout_mode = 2
 
-[node name="Road" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask" node_paths=PackedStringArray("FrontContainer", "FrontEventText", "BackContainer", "BackEventText", "NumberLabel")]
+[node name="Rewards" type="VBoxContainer" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Back/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="Road" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask" node_paths=PackedStringArray("FrontContainer", "FrontEventText", "BackContainer", "BackEventText", "NumberLabel", "_rewardLabelParent")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2115,6 +2125,8 @@ FrontEventText = NodePath("Front/ShapedEventText")
 BackContainer = NodePath("Back")
 BackEventText = NodePath("Back/ShapedEventText")
 NumberLabel = NodePath("Front/NumberLabel")
+_rewardLabelScene = ExtResource("60_0rh5w")
+_rewardLabelParent = NodePath("Back/ShapedEventText/MarginContainer/Labels/Rewards")
 
 [node name="Front" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road"]
 layout_mode = 1
@@ -2188,7 +2200,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Back" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2242,6 +2253,12 @@ theme_override_constants/margin_bottom = 50
 
 [node name="Labels" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Back/ShapedEventText/MarginContainer"]
 layout_mode = 2
+
+[node name="Rewards" type="VBoxContainer" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Back/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/EventOverlay"]
 layout_mode = 1

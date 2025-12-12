@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
@@ -9,15 +10,15 @@ public class SavedEvents
 	private static EventModel[] StartingCityEventDeck =
 	[
 		ModelDB.Event<City01>(),
-		// ModelDB.Event<City02>(),
-		// ModelDB.Event<City03>(),
-		// ModelDB.Event<City04>(),
+		ModelDB.Event<City02>(),
+		ModelDB.Event<City03>(),
+		ModelDB.Event<City04>(),
 		// ModelDB.Event<City05>(),
 		// ModelDB.Event<City06>(),
-		// ModelDB.Event<City07>(),
+		ModelDB.Event<City07>(),
 		// ModelDB.Event<City08>(),
 		// ModelDB.Event<City09>(),
-		// ModelDB.Event<City10>(),
+		ModelDB.Event<City10>(),
 		// ModelDB.Event<City11>(),
 		// ModelDB.Event<City12>(),
 		// ModelDB.Event<City13>(),
@@ -90,6 +91,11 @@ public class SavedEvents
 	{
 		CityEventDeckIds = StartingCityEventDeck.Select(eventModel => eventModel.Id.ToString()).ToList();
 		RoadEventDeckIds = StartingRoadEventDeck.Select(eventModel => eventModel.Id.ToString()).ToList();
+
+		RandomNumberGenerator tempRNG = new RandomNumberGenerator();
+		tempRNG.Randomize();
+		CityEventDeckIds.Shuffle(tempRNG);
+		RoadEventDeckIds.Shuffle(tempRNG);
 	}
 
 	public void AddSavedEventState(SavedEventState savedEventState)
@@ -131,11 +137,47 @@ public class SavedEvents
 
 	public void ReturnCityEventToBottom(EventModel eventModel)
 	{
+		if(eventModel.EventType != EventType.City)
+		{
+			Log.Error("Trying to return an event of the wrong type!");
+			return;
+		}
+
 		CityEventDeckIds.Insert(0, eventModel.Id.ToString());
 	}
 
 	public void ReturnRoadEventToBottom(EventModel eventModel)
 	{
+		if(eventModel.EventType != EventType.Road)
+		{
+			Log.Error("Trying to return an event of the wrong type!");
+			return;
+		}
+
 		RoadEventDeckIds.Insert(0, eventModel.Id.ToString());
+	}
+
+	public void AddCityEventToDeck(EventModel eventModel, RandomNumberGenerator rng)
+	{
+		if(eventModel.EventType != EventType.City)
+		{
+			Log.Error("Trying to add an event of the wrong type!");
+			return;
+		}
+
+		CityEventDeckIds.Add(eventModel.Id.ToString());
+		CityEventDeckIds.Shuffle(rng);
+	}
+
+	public void AddRoadEventToDeck(EventModel eventModel, RandomNumberGenerator rng)
+	{
+		if(eventModel.EventType != EventType.Road)
+		{
+			Log.Error("Trying to add an event of the wrong type!");
+			return;
+		}
+
+		RoadEventDeckIds.Add(eventModel.Id.ToString());
+		RoadEventDeckIds.Shuffle(rng);
 	}
 }

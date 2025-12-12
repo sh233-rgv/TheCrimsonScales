@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using Fractural.Tasks;
 using Godot;
 
@@ -18,6 +20,14 @@ public partial class EventCard : Control
 
 	[Export]
 	public Label NumberLabel;
+
+	[Export]
+	private PackedScene _rewardLabelScene;
+
+	[Export]
+	private Control _rewardLabelParent;
+
+	private readonly List<RichTextLabel> _rewardLabels = new List<RichTextLabel>();
 
 	private bool _skipText;
 
@@ -40,6 +50,29 @@ public partial class EventCard : Control
 		}
 
 		BackEventText.SetText(savedEventState.Choice.GetStoryText(savedEventState), showText);
+
+		foreach(RichTextLabel rewardLabel in _rewardLabels)
+		{
+			rewardLabel.QueueFree();
+		}
+
+		_rewardLabels.Clear();
+
+		List<EventReward> eventRewards = savedEventState.Choice.GetRewards(savedEventState);
+		foreach(EventReward eventReward in eventRewards)
+		{
+			RichTextLabel rewardLabel = _rewardLabelScene.Instantiate<RichTextLabel>();
+			_rewardLabelParent.AddChild(rewardLabel);
+			rewardLabel.SetText(eventReward.LabelText);
+			rewardLabel.SetVisibleCharacters(0);
+			_rewardLabels.Add(rewardLabel);
+		}
+
+		this.DelayedCall(() =>
+		{
+			RichTextLabel lastLabel = BackEventText.RichTextLabels.Last();
+			_rewardLabelParent.SetPosition(new Vector2(0f, lastLabel.Position.Y + lastLabel.Size.Y + 10f));
+		});
 	}
 
 	public void ShowFront()
@@ -66,7 +99,10 @@ public partial class EventCard : Control
 		float charactersToDisplay = 0f;
 		bool waitedFrame = false;
 
-		foreach(RichTextLabel label in shapedEventText.RichTextLabels)
+		List<RichTextLabel> allLabels = new List<RichTextLabel>();
+		allLabels.AddRange(shapedEventText.RichTextLabels);
+		allLabels.AddRange(_rewardLabels);
+		foreach(RichTextLabel label in allLabels)
 		{
 			int labelLength = label.Text.Length;
 			while(true)
