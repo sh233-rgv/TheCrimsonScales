@@ -52,6 +52,9 @@ public partial class MonsterSpawner : Node2D
 			MarkDirty();
 		}
 	}
+	
+	[Export]
+	public int AdjustMonsterLevel = 0;
 
 	public async GDTask SpawnMonster()
 	{
@@ -76,7 +79,7 @@ public partial class MonsterSpawner : Node2D
 
 		MonsterModel monsterModel = ModelDB.GetById<MonsterModel>(new ModelId(_monsterModelId));
 
-		await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, Map.GlobalPositionToCoords(GlobalPosition), false);
+		await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, Map.GlobalPositionToCoords(GlobalPosition), false, GameController.Instance.SavedScenario.ScenarioLevel + AdjustMonsterLevel);
 	}
 
 	private void MarkDirty()

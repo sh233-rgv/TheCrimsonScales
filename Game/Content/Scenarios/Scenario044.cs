@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+using System;
 using Fractural.Tasks;
 
 public class Scenario044 : ScenarioModel
@@ -10,14 +8,44 @@ public class Scenario044 : ScenarioModel
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<EventScenarioChain>();
 
 	protected override ScenarioGoals CreateScenarioGoals() =>
-		new CustomScenarioGoals($"Kill {GameController.Instance.SavedCampaign.Characters.Count * 2} Living Spirits to win this scenario.");
+		new CustomScenarioGoals("");
 
-	
+	private int _remainingLivingSpiritKills;
 
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
 
-		
+		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<ConcussionMine>());
+		GameController.Instance.Map.Treasures[1].SetItemLoot(AbilityCmd.GetRandomAvailableStone());
+		GameController.Instance.Map.Treasures[2].SetItemLoot(ModelDB.Item<DrainingGreaves>());
+
+		//TODO: Scenario Effects: 3 Curses
+
+		_remainingLivingSpiritKills = GameController.Instance.SavedCampaign.Characters.Count * 2;
+		UpdateScenarioText(); 
+
+		ScenarioEvents.RoundEndedEvent.Subscribe(this,
+			parameters => _remainingLivingSpiritKills <= 0,
+			async parameters =>
+			{
+				await ((CustomScenarioGoals)ScenarioGoals).Win();
+			}
+		);
+
+		ScenarioEvents.FigureKilledEvent.Subscribe(this,
+			parameters => parameters.Figure is Monster monster && monster.MonsterModel == ModelDB.Monster<LivingSpirit>(),
+			async parameters =>
+			{
+				
+				_remainingLivingSpiritKills--;
+				UpdateScenarioText();
+			}
+		);
 	}
+
+	private void UpdateScenarioText()
+    {
+        GameController.Instance.SpecialRulesView.SetText($"Kill {Math.Max(_remainingLivingSpiritKills, 0)} more Living Spirits to win this scenario.");
+    }
 }

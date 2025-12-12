@@ -88,7 +88,7 @@ public partial class Monster : Figure
 			_staticSprite.SetScale((250f / textureWidth) * Vector2.One);
 		}
 
-		MonsterLevel = monsterLevel ?? GameController.Instance.SavedScenario.ScenarioLevel;
+		MonsterLevel = Math.Clamp(monsterLevel ?? GameController.Instance.SavedScenario.ScenarioLevel, 0, 7);
 		Stats = levelStats[MonsterLevel];
 
 		SetMaxHealth(Stats.Health);
