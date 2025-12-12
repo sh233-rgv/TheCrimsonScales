@@ -507,12 +507,13 @@ font_size = 20
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
 point_count = 1
 
-[node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay")]
+[node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay", "ActionManager")]
 script = ExtResource("1_rtyjh")
 BetweenScenariosSidePanel = NodePath("CanvasLayer/UI/SidePanel")
 CharacterPortraitManager = NodePath("CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/Characters")
 ScenarioFlowchart = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart")
 EventOverlay = NodePath("CanvasLayer/UI/EventOverlay")
+ActionManager = NodePath("CanvasLayer/UI/BetweenScenariosActionManager")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

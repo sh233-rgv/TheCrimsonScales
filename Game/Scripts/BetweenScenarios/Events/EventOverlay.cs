@@ -53,7 +53,7 @@ public partial class EventOverlay : Control
 		//this.DelayedCall(() => Open(EventType.Road), 3f);
 	}
 
-	public async GDTask DrawEventCard(EventType eventType)
+	public async GDTask DrawEventCard(EventType eventType, CancellationToken cancellationToken)
 	{
 		AppController.Instance.SaveFile.BlockSaving(this);
 
@@ -81,8 +81,6 @@ public partial class EventOverlay : Control
 
 		_background.SetModulate(Colors.Transparent);
 		_background.TweenModulateAlpha(1f, 0.3f).Play();
-
-		CancellationToken cancellationToken = BetweenScenariosController.Instance.DestroyCancellationToken;
 
 		foreach(EventChoiceModel choiceModel in eventModel.EventChoiceModels)
 		{
@@ -153,7 +151,7 @@ public partial class EventOverlay : Control
 		{
 			if(reward.Type == EventRewardType.Immediate)
 			{
-				await reward.Resolve();
+				await reward.ImmediateResolve();
 			}
 			else
 			{

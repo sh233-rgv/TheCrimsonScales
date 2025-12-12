@@ -81,7 +81,10 @@ public class SavedEvents
 	public List<string> RoadEventDeckIds { get; set; }
 
 	[JsonProperty]
-	public List<SavedEventState> SavedEventStates { get; set; }
+	public List<SavedEventState> SavedEventStates { get; set; } = new List<SavedEventState>();
+
+	[JsonProperty]
+	public bool CanDrawCityEvent { get; set; }
 
 	public SavedEvents()
 	{
@@ -94,12 +97,20 @@ public class SavedEvents
 		SavedEventStates.Add(savedEventState);
 	}
 
+	public void OnScenarioEnded()
+	{
+		CanDrawCityEvent = true;
+		SavedEventStates.Clear();
+	}
+
 	public EventModel DrawCityEvent()
 	{
 		if(CityEventDeckIds.Count == 0)
 		{
 			throw new Exception("The City Event deck is empty!");
 		}
+
+		CanDrawCityEvent = false;
 
 		EventModel eventModel = ModelDB.GetById<EventModel>(CityEventDeckIds[CityEventDeckIds.Count - 1]);
 		CityEventDeckIds.RemoveAt(CityEventDeckIds.Count - 1);

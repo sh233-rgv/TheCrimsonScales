@@ -1,0 +1,42 @@
+﻿using Fractural.Tasks;
+
+public class AllStartScenarioWithConditionEventReward(params ConditionModel[] conditionModels) : EventReward
+{
+	public override EventRewardType Type => EventRewardType.ScenarioStart;
+
+	public override string LabelText
+	{
+		get
+		{
+			string labelText = "All characters start the next scenario with ";
+
+			for(int i = 0; i < conditionModels.Length; i++)
+			{
+				ConditionModel conditionModel = conditionModels[i];
+				if(i > 0)
+				{
+					labelText += ", ";
+				}
+
+				labelText += Icons.EventRewardInline(Icons.GetCondition(conditionModel));
+			}
+
+			labelText += ".";
+
+			return labelText;
+		}
+	}
+
+	public override async GDTask OnScenarioSetupPhaseCompleted()
+	{
+		await base.OnScenarioSetupPhaseCompleted();
+
+		foreach(Character character in GameController.Instance.CharacterManager.Characters)
+		{
+			foreach(ConditionModel conditionModel in conditionModels)
+			{
+				await AbilityCmd.AddCondition(null, character, conditionModel);
+			}
+		}
+	}
+}

@@ -5,9 +5,9 @@ public class ScenarioUnlockEventReward(ScenarioModel scenarioModel) : EventRewar
 	public override EventRewardType Type => EventRewardType.Immediate;
 	public override string LabelText => $"Unlock Scenario {scenarioModel.ScenarioNumber}.";
 
-	public override async GDTask Resolve()
+	public override async GDTask ImmediateResolve()
 	{
-		await base.Resolve();
+		await base.ImmediateResolve();
 
 		//TODO: Unlock scenario
 	}

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class Road23 : RoadEventModel<Road23.ChoiceA, Road23.ChoiceB>
 {
-	public override int Number => 01;
+	public override int Number => 23;
 
 	public override string Text =>
 		"""
@@ -15,30 +16,66 @@ public class Road23 : RoadEventModel<Road23.ChoiceA, Road23.ChoiceB>
 
 	public class ChoiceA : EventChoiceModel
 	{
+		private const string ConditionsMetKey = "ConditionsMet";
+
 		public override string ChoiceText => "Engage the Orchid.";
 
-		public override string GetStoryText(SavedEventState state) => //TODO
-			"""
-			You ask the Orchid for directions and she points you toward the right path. You wish her well with her endeavors and reach your destination in peace.
-			""";
+		public override void InitState(SavedEventState state, SavedCampaign savedCampaign)
+		{
+			base.InitState(state, savedCampaign);
 
-		public override EventResolveType GetEventResolveType(SavedEventState state) => EventResolveType.ReturnCardToBottom;
+			bool conditionsMet = savedCampaign.Characters.Any(character => character.ClassModel.Ancestry is Ancestry.Orchid);
+			state.SetCustomValue(ConditionsMetKey, conditionsMet);
+		}
 
-		public override List<EventReward> GetRewards(SavedEventState state) => [];
+		public override string GetStoryText(SavedEventState state)
+		{
+			if(state.GetCustomValue<bool>(ConditionsMetKey))
+			{
+				return
+					"""
+					A fellow Orchid stops your engage and shouts; "That is a member of the order of Shardrenders, do not intervene!" You watch as the Shardrender pierces the merchant's heart with a crystal and runs off with the sack.
+					""";
+			}
+			else
+			{
+				return
+					"""
+					As your sword slashes into the crystal skin of the Orchid, a big shock wave of shards emits, injuring and knocking everyone prone, leaving the Orchid to flee with the sack.
+					""";
+			}
+		}
+
+		public override List<EventReward> GetRewards(SavedEventState state)
+		{
+			if(state.GetCustomValue<bool>(ConditionsMetKey))
+			{
+				return [];
+			}
+			else
+			{
+				return
+				[
+					new AllStartScenarioWithConditionEventReward(Conditions.Muddle, Conditions.Wound1)
+				];
+			}
+		}
 	}
 
 	public class ChoiceB : EventChoiceModel
 	{
 		public override string ChoiceText => "Stop the merchant in his attempt to flee with the crystals.";
 
-		public override string GetStoryText(SavedEventState state) => //TODO
+		public override string GetStoryText(SavedEventState state) =>
 			"""
-			You offer to help the Orchid on her mission and her face lights up with contentment. She relays the coordinates of where to find the beasts and wishes you luck as she excuses herself to tend to her tribe.
+			You help the Orchid fend off the attackers.
+
+			"You made the right decision, these were bandit thieves." The Orchid explains with an expression of gratitude. "These special crystals are of vital importance for my order, the order of Shardrenders, and your deed will not be forgotten." He hands you a small purse of gold before taking his leave.
 			""";
 
 		public override List<EventReward> GetRewards(SavedEventState state) =>
 		[
-			//new ScenarioUnlockEventReward(ModelDB.Scenario<Scenario042>())
+			new GainCollectiveGoldEventReward(15)
 		];
 	}
 }

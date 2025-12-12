@@ -473,7 +473,7 @@ public partial class GameController : SceneController<GameController>
 
 				if(undoType == UndoType.Turn &&
 				   (newScenario.PromptAnswers.Count + 1 == CurrentTurnTakerPromptIndex ||
-					newScenario.PromptAnswers.Count + 1 == PreviousTurnTakerPromptIndex))
+				    newScenario.PromptAnswers.Count + 1 == PreviousTurnTakerPromptIndex))
 				{
 					break;
 				}
@@ -557,6 +557,9 @@ public partial class GameController : SceneController<GameController>
 		}
 
 		EndEvent?.Invoke(backToTown, won, SavedScenarioProgress);
+
+		// Clear any event rewards and allow a new city event card to be drawn
+		SavedCampaign.SavedEvents.OnScenarioEnded();
 
 		AppController.Instance.SaveFile.Save();
 

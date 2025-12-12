@@ -89,6 +89,14 @@ public class ScenarioSetupPhase : ScenarioPhase
 		{
 			await character.OnScenarioSetupCompleted();
 		}
+
+		foreach(SavedEventState savedEventState in GameController.Instance.SavedCampaign.SavedEvents.SavedEventStates)
+		{
+			foreach(EventReward eventReward in savedEventState.Choice.GetRewards(savedEventState))
+			{
+				await eventReward.OnScenarioSetupPhaseCompleted();
+			}
+		}
 	}
 
 	private ScenarioSetupState CreateInitialState()
