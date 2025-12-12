@@ -56,11 +56,6 @@
 		return $"[img={{{size}}}]{iconPath}[/img]";
 	}
 
-	public static string EventRewardInline(string iconPath, int size = 24)
-	{
-		return Inline(iconPath, size);
-	}
-
 	public static string HintText(string iconPath)
 	{
 		return $"[img={{{50}}}]{iconPath}[/img]";

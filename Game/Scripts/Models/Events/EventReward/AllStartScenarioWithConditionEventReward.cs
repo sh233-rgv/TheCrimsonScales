@@ -18,7 +18,7 @@ public class AllStartScenarioWithConditionEventReward(params ConditionModel[] co
 					labelText += ", ";
 				}
 
-				labelText += Icons.EventRewardInline(Icons.GetCondition(conditionModel));
+				labelText += Icons.Inline(Icons.GetCondition(conditionModel));
 			}
 
 			labelText += ".";
