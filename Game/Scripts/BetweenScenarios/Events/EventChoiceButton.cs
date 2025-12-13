@@ -21,7 +21,7 @@ public partial class EventChoiceButton : Control
 		base._Ready();
 
 		_scaleContainer.SetPivotOffset(Size * 0.5f);
-		_scaleContainer.SetScale(Vector2.Zero);
+		_scaleContainer.SetScale(0.001f * Vector2.One);
 
 		_button.Pressed += OnPressed;
 	}
@@ -38,11 +38,12 @@ public partial class EventChoiceButton : Control
 	{
 		if(active)
 		{
+			Show();
 			_scaleContainer.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).Play();
 		}
 		else
 		{
-			_scaleContainer.TweenScale(0f, 0.3f).SetEasing(Easing.InBack).Play();
+			_scaleContainer.TweenScale(0f, 0.3f).SetEasing(Easing.InBack).OnComplete(Hide).Play();
 		}
 	}
 

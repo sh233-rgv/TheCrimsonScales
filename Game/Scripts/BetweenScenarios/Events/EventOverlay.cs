@@ -183,6 +183,13 @@ public partial class EventOverlay : Control
 		_background.TweenModulateAlpha(0f, 0.3f).Play();
 		await _subViewportContainer.TweenScale(0f, 0.3f).SetEasing(Easing.InBack).PlayAsync(cancellationToken: cancellationToken);
 
+		foreach(EventChoiceButton choiceButton in _choiceButtons)
+		{
+			choiceButton.QueueFree();
+		}
+
+		_choiceButtons.Clear();
+
 		Hide();
 	}
 
