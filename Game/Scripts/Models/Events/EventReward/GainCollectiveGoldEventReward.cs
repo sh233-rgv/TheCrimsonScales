@@ -10,6 +10,12 @@ public class GainCollectiveGoldEventReward(int goldAmount) : EventReward
 	{
 		await base.ImmediateResolve();
 
-		//TODO: Open popup to distribute gold
+		AppController.Instance.PopupManager.RequestPopup(new GoldDistributionPopup.Request()
+		{
+			Gold = goldAmount,
+			Characters = BetweenScenariosController.Instance.SavedCampaign.Characters,
+		});
+
+		await GDTask.WaitWhile(() => AppController.Instance.PopupManager.IsPopupOpen<GoldDistributionPopup.Request>());
 	}
 }

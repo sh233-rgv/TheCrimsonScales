@@ -10,6 +10,9 @@ public class GainXPEventReward(int xp) : EventReward
 	{
 		await base.ImmediateResolve();
 
-		//TODO: Adjust reputation
+		foreach(SavedCharacter savedCharacter in BetweenScenariosController.Instance.SavedCampaign.Characters)
+		{
+			savedCharacter.AddXP(xp);
+		}
 	}
 }
