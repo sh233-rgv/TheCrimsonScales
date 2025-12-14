@@ -1,24 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://dpb365jh40ewc"]
+[gd_scene load_steps=8 format=3 uid="uid://dpb365jh40ewc"]
 
-[ext_resource type="Texture2D" uid="uid://bawa4x7v0yhht" path="res://Content/Classes/Mirefoot/Portrait.tres" id="1_fs1wi"]
 [ext_resource type="Script" uid="uid://bdlg37b8vir5m" path="res://Scripts/UI/Popups/GoldDistributionPopup/GoldDistributionPopupCharacter.cs" id="1_qd540"]
+[ext_resource type="PackedScene" uid="uid://dlc378jgp47uy" path="res://Scenes/UI/ClassView.tscn" id="2_i431j"]
 [ext_resource type="Texture2D" uid="uid://dupjq43l8w40r" path="res://Art/Icons/Other/Coins.svg" id="2_qd540"]
 [ext_resource type="LabelSettings" uid="uid://dwxmsjvisoyh5" path="res://Resources/InfoViewStat.tres" id="3_i431j"]
 [ext_resource type="PackedScene" uid="uid://bn55a131yw3qx" path="res://Scenes/UI/Popups/GoldDistributionPopup/GoldDistributionPopupButton.tscn" id="4_fs1wi"]
 [ext_resource type="Texture2D" uid="uid://d0vsh7qmlrgpg" path="res://Art/Icons/Other/Triangle.svg" id="5_fq1na"]
 [ext_resource type="StyleBox" uid="uid://dd1rndhea8oq5" path="res://Resources/BlurButton.tres" id="6_svanb"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qd313"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-anti_aliasing = false
-
-[node name="GoldDistributionPopupCharacter" type="MarginContainer" node_paths=PackedStringArray("_portraitTextureRect", "_currentGoldLabel", "_distributionAmountLabel", "_increaseButton", "_increaseMoreButton", "_decreaseButton", "_decreaseMoreButton")]
+[node name="GoldDistributionPopupCharacter" type="MarginContainer" node_paths=PackedStringArray("_classView", "_currentGoldLabel", "_distributionAmountLabel", "_increaseButton", "_increaseMoreButton", "_decreaseButton", "_decreaseMoreButton")]
 script = ExtResource("1_qd540")
-_portraitTextureRect = NodePath("VBoxContainer/Header/Mask/Portrait")
+_classView = NodePath("VBoxContainer/Header/ClassView")
 _currentGoldLabel = NodePath("VBoxContainer/Header/Gold/Label")
 _distributionAmountLabel = NodePath("VBoxContainer/MarginContainer/VBoxContainer/DistributionAmount/Label")
 _increaseButton = NodePath("VBoxContainer/MarginContainer/VBoxContainer/TopButtons/IncreaseButton")
@@ -34,24 +26,9 @@ theme_override_constants/separation = 10
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Mask" type="Panel" parent="VBoxContainer/Header"]
-clip_children = 1
-clip_contents = true
+[node name="ClassView" parent="VBoxContainer/Header" instance=ExtResource("2_i431j")]
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_qd313")
-
-[node name="Portrait" type="TextureRect" parent="VBoxContainer/Header/Mask"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = -7.5
-offset_bottom = 217.5
-grow_horizontal = 2
-texture = ExtResource("1_fs1wi")
-expand_mode = 4
-stretch_mode = 4
 
 [node name="Gold" type="HBoxContainer" parent="VBoxContainer/Header"]
 custom_minimum_size = Vector2(70, 32)

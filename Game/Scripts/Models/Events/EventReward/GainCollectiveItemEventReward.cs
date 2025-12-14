@@ -10,6 +10,13 @@ public class GainCollectiveItemEventReward(ItemModel itemModel) : EventReward
 	{
 		await base.ImmediateResolve();
 
-		//TODO: Open popup to gift item
+		AppController.Instance.PopupManager.RequestPopup(new ItemRewardCharacterSelectionPopup.Request()
+		{
+			ItemModel = itemModel,
+			Characters = BetweenScenariosController.Instance.SavedCampaign.Characters,
+			OnCharacterConfirmed = character => character.AddItem(itemModel)
+		});
+
+		await GDTask.WaitWhile(() => AppController.Instance.PopupManager.IsPopupOpen<ItemRewardCharacterSelectionPopup.Request>());
 	}
 }

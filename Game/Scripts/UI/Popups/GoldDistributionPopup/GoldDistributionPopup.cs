@@ -49,18 +49,8 @@ public partial class GoldDistributionPopup : Popup<GoldDistributionPopup.Request
 			}
 		}
 
-		// int defaultDistributionAmount = PopupRequest.Gold / PopupRequest.Characters.Count;
-		// int remainderAmount = PopupRequest.Gold % PopupRequest.Characters.Count;
-
 		for(int i = 0; i < PopupRequest.Characters.Count; i++)
 		{
-			// int distributionAmount = defaultDistributionAmount;
-			// if(remainderAmount > 0)
-			// {
-			// 	distributionAmount++;
-			// 	remainderAmount--;
-			// }
-
 			SavedCharacter character = PopupRequest.Characters[i];
 			GoldDistributionPopupCharacter goldDistributionPopupCharacter = _characterScene.Instantiate<GoldDistributionPopupCharacter>();
 			_characterParent.AddChild(goldDistributionPopupCharacter);

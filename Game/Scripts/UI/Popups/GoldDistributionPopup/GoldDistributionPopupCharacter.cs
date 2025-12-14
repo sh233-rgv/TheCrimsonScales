@@ -4,7 +4,7 @@ using Godot;
 public partial class GoldDistributionPopupCharacter : Control
 {
 	[Export]
-	private TextureRect _portraitTextureRect;
+	private ClassView _classView;
 	[Export]
 	private Label _currentGoldLabel;
 
@@ -42,7 +42,7 @@ public partial class GoldDistributionPopupCharacter : Control
 		_loseGold = loseGold;
 		SavedCharacter = savedCharacter;
 
-		_portraitTextureRect.SetTexture(savedCharacter.ClassModel.PortraitTexture);
+		_classView.Init(savedCharacter.ClassModel);
 
 		UpdateDistributionAmount(distributionAmount);
 	}

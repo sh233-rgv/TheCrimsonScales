@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://cbtuwtadxyfut"]
+[gd_scene load_steps=32 format=3 uid="uid://cbtuwtadxyfut"]
 
 [ext_resource type="Script" uid="uid://x4kpb6u0l25u" path="res://Scripts/AppController.cs" id="1_6s6iu"]
 [ext_resource type="Script" uid="uid://bn4208bsiittm" path="res://Scripts/InputController.cs" id="2_2vstq"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://dcd5fl2d7glct" path="res://Scenes/UI/Popups/CardSelectionPopup/LevelUpCardSelectionPopup.tscn" id="13_6akjg"]
 [ext_resource type="PackedScene" uid="uid://dei7t8yn4p0ba" path="res://Scenes/UI/Popups/GoldDistributionPopup/GoldDistributionPopup.tscn" id="13_admbk"]
 [ext_resource type="PackedScene" uid="uid://fhktc7hrkay6" path="res://Scenes/UI/Popups/MenuPopup.tscn" id="13_gkkkd"]
+[ext_resource type="PackedScene" uid="uid://4gnhl0ponwls" path="res://Scenes/UI/Popups/ItemRewardCharacterSelectionPopup/ItemRewardCharacterSelectionPopup.tscn" id="14_i0olc"]
 [ext_resource type="PackedScene" uid="uid://fokaq7yvwl8m" path="res://Scenes/UI/Popups/CreateCampaignPopup.tscn" id="15_gd3oa"]
 [ext_resource type="PackedScene" uid="uid://b301gw0ephxqc" path="res://Scenes/UI/Popups/OptionsPopup/OptionsPopup.tscn" id="16_448tb"]
 [ext_resource type="Script" uid="uid://bu37eqpl075ak" path="res://Scripts/Audio/AudioController.cs" id="16_u3jyv"]
@@ -84,6 +85,9 @@ layout_mode = 1
 layout_mode = 1
 
 [node name="GoldDistributionPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("13_admbk")]
+layout_mode = 1
+
+[node name="ItemRewardCharacterSelectionPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("14_i0olc")]
 layout_mode = 1
 
 [node name="LevelUpCardSelectionPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("13_6akjg")]
