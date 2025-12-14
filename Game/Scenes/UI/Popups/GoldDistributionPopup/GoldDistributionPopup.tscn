@@ -15,6 +15,12 @@ _characterScene = ExtResource("5_cchhp")
 _characterParent = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/Characters")
 _confirmButton = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/ConfirmButtonContainer/ConfirmButton")
 
+[node name="Button" parent="Background" index="0"]
+visible = false
+
+[node name="CloseButton" parent="Panel/MarginContainer/VBoxContainer/Header" index="0"]
+visible = false
+
 [node name="Label" parent="Panel/MarginContainer/VBoxContainer/Header" index="1"]
 text = "Distribute Gold"
 

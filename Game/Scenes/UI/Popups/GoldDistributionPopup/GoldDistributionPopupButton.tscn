@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://d0vsh7qmlrgpg" path="res://Art/Icons/Other/Triangle.svg" id="3_acn0m"]
 
 [node name="GoldDistributionPopupButton" type="Control" node_paths=PackedStringArray("_scaleContainer", "Button")]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_4qn7k")
@@ -96,7 +96,7 @@ script = ExtResource("2_2vowy")
 metadata/_custom_type_script = "uid://dir5vjdxjac3n"
 
 [node name="TextureRect" type="TextureRect" parent="Container/BetterButton"]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

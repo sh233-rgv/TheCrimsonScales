@@ -1884,6 +1884,7 @@ text = "New Character"
 label_settings = SubResource("LabelSettings_f340v")
 
 [node name="EventOverlay" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_background", "_skipTextButton", "_subViewportContainer", "_cityEventCard", "_roadEventCard", "_continueButton", "_eventChoiceButtonParent")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1938,7 +1939,7 @@ stretch = true
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(500, 700)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="Mask" type="Panel" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport"]
 clip_children = 1
