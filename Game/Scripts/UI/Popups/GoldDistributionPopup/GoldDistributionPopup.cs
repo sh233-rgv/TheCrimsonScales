@@ -6,6 +6,7 @@ public partial class GoldDistributionPopup : Popup<GoldDistributionPopup.Request
 	public class Request : PopupRequest
 	{
 		public int Gold { get; init; }
+		public bool LoseGold { get; init; }
 		public List<SavedCharacter> Characters { get; init; }
 	}
 
@@ -33,22 +34,37 @@ public partial class GoldDistributionPopup : Popup<GoldDistributionPopup.Request
 	{
 		base.OnOpen();
 
-		int defaultDistributionAmount = PopupRequest.Gold / PopupRequest.Characters.Count;
-		int remainderAmount = PopupRequest.Gold % PopupRequest.Characters.Count;
+		// Create "fair" distribution
+		int[] goldDistribution = new int[PopupRequest.Characters.Count];
+		int goldRemaining = PopupRequest.Gold;
+		while(goldRemaining > 0)
+		{
+			for(int i = 0; i < PopupRequest.Characters.Count && goldRemaining > 0; i++)
+			{
+				if(!PopupRequest.LoseGold || PopupRequest.Characters[i].Gold >= goldDistribution[i] + 1)
+				{
+					goldDistribution[i]++;
+					goldRemaining--;
+				}
+			}
+		}
+
+		// int defaultDistributionAmount = PopupRequest.Gold / PopupRequest.Characters.Count;
+		// int remainderAmount = PopupRequest.Gold % PopupRequest.Characters.Count;
 
 		for(int i = 0; i < PopupRequest.Characters.Count; i++)
 		{
-			int distributionAmount = defaultDistributionAmount;
-			if(remainderAmount > 0)
-			{
-				distributionAmount++;
-				remainderAmount--;
-			}
+			// int distributionAmount = defaultDistributionAmount;
+			// if(remainderAmount > 0)
+			// {
+			// 	distributionAmount++;
+			// 	remainderAmount--;
+			// }
 
 			SavedCharacter character = PopupRequest.Characters[i];
 			GoldDistributionPopupCharacter goldDistributionPopupCharacter = _characterScene.Instantiate<GoldDistributionPopupCharacter>();
 			_characterParent.AddChild(goldDistributionPopupCharacter);
-			goldDistributionPopupCharacter.Init(character, distributionAmount);
+			goldDistributionPopupCharacter.Init(character, goldDistribution[i], PopupRequest.LoseGold);
 			goldDistributionPopupCharacter.DistributionAmountChangedEvent += OnDistributionAmountChanged;
 			_characters.Add(goldDistributionPopupCharacter);
 		}
@@ -83,7 +99,14 @@ public partial class GoldDistributionPopup : Popup<GoldDistributionPopup.Request
 	{
 		foreach(GoldDistributionPopupCharacter character in _characters)
 		{
-			character.SavedCharacter.AddGold(character.DistributionAmount);
+			if(PopupRequest.LoseGold)
+			{
+				character.SavedCharacter.RemoveGold(character.DistributionAmount);
+			}
+			else
+			{
+				character.SavedCharacter.AddGold(character.DistributionAmount);
+			}
 		}
 
 		Close();

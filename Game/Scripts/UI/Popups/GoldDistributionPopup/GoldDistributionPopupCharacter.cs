@@ -20,6 +20,8 @@ public partial class GoldDistributionPopupCharacter : Control
 	[Export]
 	private GoldDistributionPopupButton _decreaseMoreButton;
 
+	private bool _loseGold;
+
 	public SavedCharacter SavedCharacter { get; private set; }
 	public int DistributionAmount { get; private set; }
 
@@ -35,8 +37,9 @@ public partial class GoldDistributionPopupCharacter : Control
 		_decreaseMoreButton.Button.Pressed += OnDecreaseMorePressed;
 	}
 
-	public void Init(SavedCharacter savedCharacter, int distributionAmount)
+	public void Init(SavedCharacter savedCharacter, int distributionAmount, bool loseGold)
 	{
+		_loseGold = loseGold;
 		SavedCharacter = savedCharacter;
 
 		_portraitTextureRect.SetTexture(savedCharacter.ClassModel.PortraitTexture);
@@ -46,8 +49,18 @@ public partial class GoldDistributionPopupCharacter : Control
 
 	public void UpdateRemainingGold(int remainingAmount)
 	{
-		_increaseButton.SetActive(remainingAmount >= 1);
-		_increaseMoreButton.SetActive(remainingAmount >= 5);
+		if(_loseGold)
+		{
+			int remainingCharacterGold = SavedCharacter.Gold - DistributionAmount;
+			_increaseButton.SetActive(remainingAmount >= 1 && remainingCharacterGold >= 1);
+			_increaseMoreButton.SetActive(remainingAmount >= 5 && remainingCharacterGold >= 5);
+		}
+		else
+		{
+			_increaseButton.SetActive(remainingAmount >= 1);
+			_increaseMoreButton.SetActive(remainingAmount >= 5);
+		}
+
 		_decreaseButton.SetActive(DistributionAmount >= 1);
 		_decreaseMoreButton.SetActive(DistributionAmount >= 5);
 	}
@@ -56,7 +69,14 @@ public partial class GoldDistributionPopupCharacter : Control
 	{
 		DistributionAmount += changeAmount;
 		_distributionAmountLabel.SetText(DistributionAmount.ToString());
-		_currentGoldLabel.SetText((SavedCharacter.Gold + DistributionAmount).ToString());
+		if(_loseGold)
+		{
+			_currentGoldLabel.SetText((SavedCharacter.Gold - DistributionAmount).ToString());
+		}
+		else
+		{
+			_currentGoldLabel.SetText((SavedCharacter.Gold + DistributionAmount).ToString());
+		}
 
 		DistributionAmountChangedEvent?.Invoke(this);
 	}

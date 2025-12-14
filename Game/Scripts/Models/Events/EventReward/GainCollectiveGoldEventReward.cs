@@ -13,6 +13,7 @@ public class GainCollectiveGoldEventReward(int goldAmount) : EventReward
 		AppController.Instance.PopupManager.RequestPopup(new GoldDistributionPopup.Request()
 		{
 			Gold = goldAmount,
+			LoseGold = false,
 			Characters = BetweenScenariosController.Instance.SavedCampaign.Characters,
 		});
 
