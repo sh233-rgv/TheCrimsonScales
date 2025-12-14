@@ -55,6 +55,18 @@ public partial class ItemRewardCharacterSelectionPopup : Popup<ItemRewardCharact
 		OnCharacterPressed(_characters[0]);
 	}
 
+	protected override void OnClosed()
+	{
+		base.OnClosed();
+
+		foreach(ItemRewardCharacterSelectionPopupCharacter character in _characters)
+		{
+			character.QueueFree();
+		}
+
+		_characters.Clear();
+	}
+
 	private void OnCharacterPressed(ItemRewardCharacterSelectionPopupCharacter character)
 	{
 		_selectedCharacter = character;

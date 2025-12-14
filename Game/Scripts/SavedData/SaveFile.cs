@@ -12,6 +12,7 @@ public class SaveFile
 		NullValueHandling = NullValueHandling.Ignore,
 		ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
 		ContractResolver = PromptManager.PromptContractResolver.Instance,
+		ObjectCreationHandling = ObjectCreationHandling.Replace
 	};
 
 	private readonly string _path;

@@ -179,7 +179,7 @@ public partial class GameController : SceneController<GameController>
 			{
 				savedCampaign = SavedCampaign.Test();
 				float characterLevelSum = savedCampaign.Characters.Sum(character => character.Level);
-				savedCampaign.SavedScenario = new SavedScenario
+				savedCampaign.SetSavedScenario(new SavedScenario
 				{
 					Id = Guid.NewGuid(),
 					AppVersion = AppController.Instance.SaveFile.SaveData.AppVersion,
@@ -189,7 +189,7 @@ public partial class GameController : SceneController<GameController>
 					ScenarioLevel =
 						Mathf.CeilToInt((characterLevelSum / savedCampaign.Characters.Count) / 2f) + AppController.Instance.Options.Difficulty.Value,
 					IsOnline = false
-				};
+				});
 			}
 			else
 			{
@@ -485,7 +485,7 @@ public partial class GameController : SceneController<GameController>
 			newScenario.ScenarioSetupState.Completed = false;
 		}
 
-		savedCampaign.SavedScenario = newScenario;
+		savedCampaign.SetSavedScenario(newScenario);
 
 		AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(savedCampaign, true));
 	}
@@ -541,11 +541,11 @@ public partial class GameController : SceneController<GameController>
 
 		if(backToTown)
 		{
-			SavedCampaign.SavedScenario = null;
+			SavedCampaign.SetSavedScenario(null);
 		}
 		else
 		{
-			SavedCampaign.SavedScenario = new SavedScenario
+			SavedCampaign.SetSavedScenario(new SavedScenario
 			{
 				Id = Guid.NewGuid(),
 				AppVersion = SavedCampaign.SavedScenario.AppVersion,
@@ -553,7 +553,7 @@ public partial class GameController : SceneController<GameController>
 				Seed = GD.RandRange(0, int.MaxValue),
 				ScenarioLevel = SavedCampaign.SavedScenario.ScenarioLevel,
 				IsOnline = SavedCampaign.SavedScenario.IsOnline
-			};
+			});
 		}
 
 		EndEvent?.Invoke(backToTown, won, SavedScenarioProgress);

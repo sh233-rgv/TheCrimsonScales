@@ -62,6 +62,18 @@ public partial class GoldDistributionPopup : Popup<GoldDistributionPopup.Request
 		UpdateVisuals();
 	}
 
+	protected override void OnClosed()
+	{
+		base.OnClosed();
+
+		foreach(GoldDistributionPopupCharacter character in _characters)
+		{
+			character.QueueFree();
+		}
+
+		_characters.Clear();
+	}
+
 	private void UpdateVisuals()
 	{
 		int remainingAmount = PopupRequest.Gold;

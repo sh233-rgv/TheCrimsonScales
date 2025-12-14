@@ -7,10 +7,10 @@ using Newtonsoft.Json;
 public class SavedEventState
 {
 	[JsonProperty]
-	public string ChoiceId { get; set; }
+	public string ChoiceId { get; private set; }
 
 	[JsonProperty]
-	public Dictionary<string, object> CustomValues { get; set; } = new Dictionary<string, object>();
+	public Dictionary<string, object> CustomValues { get; private set; } = new Dictionary<string, object>();
 
 	public EventChoiceModel Choice => ModelDB.GetById<EventChoiceModel>(ChoiceId);
 

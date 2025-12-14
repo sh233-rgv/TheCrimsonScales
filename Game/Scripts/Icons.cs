@@ -28,6 +28,7 @@ public static class Icons
 	public const string Active = "res://Art/Icons/Other/Active.svg";
 	public const string Coins = "res://Art/Icons/Other/Coins.svg";
 	public const string XP = "res://Art/Icons/Abilities/XP.svg";
+	public const string Checkmark = "res://Art/Icons/Other/CheckMark.svg";
 
 	public static string GetElement(Element element)
 	{

@@ -39,7 +39,7 @@ public class City05 : CityEventModel<City05.ChoiceA, City05.ChoiceB>
 
 		public override List<EventReward> GetRewards(SavedEventState state) =>
 		[
-			new EachCharacterMaySellOneItemForFullGoldValueEventReward()
+			//new EachCharacterMaySellOneItemForFullGoldValueEventReward()
 		];
 	}
 }

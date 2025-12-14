@@ -6,34 +6,37 @@ using Newtonsoft.Json;
 public class SavedCampaign
 {
 	[JsonProperty]
-	public string PartyName { get; set; }
+	public string PartyName { get; private set; }
 
 	[JsonProperty]
-	public StartingGroup StartingGroup { get; set; }
+	public StartingGroup StartingGroup { get; private set; }
 
 	[JsonProperty]
-	public List<SavedCharacter> Characters { get; set; } = new List<SavedCharacter>();
+	public List<SavedCharacter> Characters { get; private set; } = new List<SavedCharacter>();
 
 	[JsonProperty]
-	public Dictionary<string, SavedClass> SavedClasses { get; set; } = new Dictionary<string, SavedClass>();
+	public Dictionary<string, SavedClass> SavedClasses { get; private set; } = new Dictionary<string, SavedClass>();
 
 	[JsonProperty]
-	public SavedScenarioProgresses SavedScenarioProgresses { get; set; }
+	public SavedScenarioProgresses SavedScenarioProgresses { get; private set; }
 
 	[JsonProperty]
-	public Dictionary<string, SavedItem> SavedItems { get; set; } = new Dictionary<string, SavedItem>();
+	public Dictionary<string, SavedItem> SavedItems { get; private set; } = new Dictionary<string, SavedItem>();
 
 	[JsonProperty]
-	public SavedScenario SavedScenario { get; set; }
+	public SavedScenario SavedScenario { get; private set; }
 
 	[JsonProperty]
-	public List<PartyAchievement> CollectedPartyAchievements { get; } = [];
+	public List<PartyAchievement> CollectedPartyAchievements { get; private set; } = [];
 
 	[JsonProperty]
-	public SavedSanctuaryOfTheGreatOak SanctuaryOfTheGreatOak { get; } = new SavedSanctuaryOfTheGreatOak();
+	public SavedSanctuaryOfTheGreatOak SanctuaryOfTheGreatOak { get; private set; } = new SavedSanctuaryOfTheGreatOak();
 
 	[JsonProperty]
-	public SavedEvents SavedEvents { get; } = new SavedEvents();
+	public SavedEvents SavedEvents { get; private set; } = new SavedEvents();
+
+	[JsonProperty]
+	public int Reputation { get; private set; }
 
 	public event Action CharactersChangedEvent;
 
@@ -123,11 +126,10 @@ public class SavedCampaign
 
 		foreach(ItemModel itemModel in itemModels)
 		{
-			savedCampaign.SavedItems.Add(itemModel.Id.ToString(), new SavedItem()
-			{
-				UnlockedCount = itemModel.ShopCount,
-				StockCount = itemModel.ShopCount,
-			});
+			SavedItem savedItem = new SavedItem();
+			savedItem.AddUnlocked(itemModel.ShopCount);
+			savedItem.AddStock(itemModel.ShopCount);
+			savedCampaign.SavedItems.Add(itemModel.Id.ToString(), savedItem);
 		}
 
 		return savedCampaign;
@@ -162,15 +164,16 @@ public class SavedCampaign
 		PartyName = name;
 	}
 
+	public void SetSavedScenario(SavedScenario savedScenario)
+	{
+		SavedScenario = savedScenario;
+	}
+
 	public SavedItem GetSavedItem(ItemModel itemModel)
 	{
 		if(!SavedItems.TryGetValue(itemModel.Id.ToString(), out SavedItem savedItem))
 		{
-			savedItem = new SavedItem()
-			{
-				UnlockedCount = 0,
-				StockCount = 0,
-			};
+			savedItem = new SavedItem();
 			SavedItems.Add(itemModel.Id.ToString(), savedItem);
 		}
 
@@ -186,7 +189,7 @@ public class SavedCampaign
 			SavedClasses.Add(classModelId, savedClass);
 		}
 
-		savedClass.Unlocked = true;
+		savedClass.Unlock();
 	}
 
 	public void AddCharacter(ClassModel classModel, string name)
@@ -217,5 +220,10 @@ public class SavedCampaign
 	public void AddPartyAchievement(PartyAchievement partyAchievement)
 	{
 		CollectedPartyAchievements.AddIfNew(partyAchievement);
+	}
+
+	public void AdjustReputation(int reputationAmount)
+	{
+		Reputation += reputationAmount;
 	}
 }

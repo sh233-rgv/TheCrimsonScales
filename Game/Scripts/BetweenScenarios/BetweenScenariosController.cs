@@ -156,7 +156,7 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			Mathf.CeilToInt((characterLevelSum / savedCampaign.Characters.Count) / 2f) +
 			AppController.Instance.SaveFile.SaveData.Options.Difficulty.Value;
 		scenarioLevel = Mathf.Clamp(scenarioLevel, 0, 7);
-		savedCampaign.SavedScenario = new SavedScenario()
+		savedCampaign.SetSavedScenario(new SavedScenario()
 		{
 			Id = Guid.NewGuid(),
 			AppVersion = AppController.Instance.SaveFile.SaveData.AppVersion,
@@ -164,7 +164,7 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			Seed = GD.RandRange(0, int.MaxValue),
 			ScenarioLevel = scenarioLevel,
 			IsOnline = false
-		};
+		});
 
 		AppController.Instance.SaveFile.SaveData.SavedCampaign = savedCampaign;
 		AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(savedCampaign));

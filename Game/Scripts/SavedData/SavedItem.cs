@@ -5,10 +5,10 @@ using Newtonsoft.Json;
 public class SavedItem
 {
 	[JsonProperty]
-	public int UnlockedCount { get; set; }
+	public int UnlockedCount { get; private set; }
 
 	[JsonProperty]
-	public int StockCount { get; set; }
+	public int StockCount { get; private set; }
 
 	public event Action<SavedItem> StockCountChangedEvent;
 

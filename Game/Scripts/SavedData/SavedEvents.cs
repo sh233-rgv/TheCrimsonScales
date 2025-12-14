@@ -76,16 +76,16 @@ public class SavedEvents
 	];
 
 	[JsonProperty]
-	public List<string> CityEventDeckIds { get; set; }
+	public List<string> CityEventDeckIds { get; private set; }
 
 	[JsonProperty]
-	public List<string> RoadEventDeckIds { get; set; }
+	public List<string> RoadEventDeckIds { get; private set; }
 
 	[JsonProperty]
-	public List<SavedEventState> SavedEventStates { get; set; } = new List<SavedEventState>();
+	public List<SavedEventState> SavedEventStates { get; private set; } = new List<SavedEventState>();
 
 	[JsonProperty]
-	public bool CanDrawCityEvent { get; set; }
+	public bool CanDrawCityEvent { get; private set; }
 
 	public SavedEvents()
 	{
@@ -132,6 +132,7 @@ public class SavedEvents
 
 		EventModel eventModel = ModelDB.GetById<EventModel>(RoadEventDeckIds[RoadEventDeckIds.Count - 1]);
 		RoadEventDeckIds.RemoveAt(RoadEventDeckIds.Count - 1);
+		GD.Print(RoadEventDeckIds.Count);
 		return eventModel;
 	}
 
@@ -155,6 +156,7 @@ public class SavedEvents
 		}
 
 		RoadEventDeckIds.Insert(0, eventModel.Id.ToString());
+		GD.Print(RoadEventDeckIds.Count);
 	}
 
 	public void AddCityEventToDeck(EventModel eventModel, RandomNumberGenerator rng)
