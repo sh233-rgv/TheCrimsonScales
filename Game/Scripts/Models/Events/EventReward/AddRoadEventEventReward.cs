@@ -1,9 +1,10 @@
 ﻿using Fractural.Tasks;
+using Godot;
 
 public class AddRoadEventEventReward(EventModel eventModel) : EventReward
 {
 	public override EventRewardType Type => EventRewardType.Immediate;
-	public override string LabelText => $"Road Event {eventModel.Number} is added to the Road Event deck.";
+	public override string GetLabelText(Color textColor) => $"Road Event {eventModel.Number} is added to the Road Event deck.";
 
 	public override async GDTask ImmediateResolve()
 	{

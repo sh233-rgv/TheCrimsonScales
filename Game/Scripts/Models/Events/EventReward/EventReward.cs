@@ -1,9 +1,10 @@
 ﻿using Fractural.Tasks;
+using Godot;
 
 public abstract class EventReward
 {
 	public abstract EventRewardType Type { get; }
-	public abstract string LabelText { get; }
+	public abstract string GetLabelText(Color textColor);
 
 	public virtual async GDTask ImmediateResolve()
 	{

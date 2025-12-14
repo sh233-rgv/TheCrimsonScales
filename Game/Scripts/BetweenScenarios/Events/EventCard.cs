@@ -59,11 +59,17 @@ public partial class EventCard : Control
 		_rewardLabels.Clear();
 
 		List<EventReward> eventRewards = savedEventState.Choice.GetRewards(savedEventState);
+		if(eventRewards.Count == 0)
+		{
+			eventRewards.Add(new NoEffectEventReward());
+		}
+
 		foreach(EventReward eventReward in eventRewards)
 		{
 			RichTextLabel rewardLabel = _rewardLabelScene.Instantiate<RichTextLabel>();
 			_rewardLabelParent.AddChild(rewardLabel);
-			rewardLabel.SetText(eventReward.LabelText);
+			Color textColor = rewardLabel.GetThemeColor("default_color");
+			rewardLabel.SetText(eventReward.GetLabelText(textColor));
 			rewardLabel.SetVisibleCharacters(0);
 			_rewardLabels.Add(rewardLabel);
 		}
@@ -104,7 +110,7 @@ public partial class EventCard : Control
 		allLabels.AddRange(_rewardLabels);
 		foreach(RichTextLabel label in allLabels)
 		{
-			int labelLength = label.Text.Length;
+			int labelLength = label.GetParsedText().Length;
 			while(true)
 			{
 				if(_skipText)

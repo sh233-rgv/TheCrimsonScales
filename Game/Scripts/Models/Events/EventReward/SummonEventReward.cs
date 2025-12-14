@@ -1,10 +1,11 @@
 ﻿using Fractural.Tasks;
+using Godot;
 
 public class SummonEventReward(SummonAbility summonAbility) : EventReward
 {
 	public override EventRewardType Type => EventRewardType.ScenarioStart;
 
-	public override string LabelText => $"At the start of the next scenario, one character may Summon a {summonAbility.Name}.";
+	public override string GetLabelText(Color textColor) => $"At the start of the next scenario, one character may Summon a {summonAbility.Name}.";
 
 	public override async GDTask OnScenarioSetupPhaseCompleted()
 	{
