@@ -10,6 +10,6 @@ public class UnlockScenarioEventReward(ScenarioModel scenarioModel) : EventRewar
 	{
 		await base.ImmediateResolve();
 
-		//TODO: Unlock scenario
+		BetweenScenariosController.Instance.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(scenarioModel).Discover();
 	}
 }

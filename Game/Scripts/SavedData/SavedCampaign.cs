@@ -97,14 +97,9 @@ public class SavedCampaign
 		}
 
 		// Unlock the first scenario
-		savedCampaign.SavedScenarioProgresses.ScenarioProgresses.Add(
-			ModelDB.GetId<Scenario001>().ToString(),
-			new SavedScenarioProgress()
-			{
-				Discovered = true,
-				Unlocked = true,
-			}
-		);
+		SavedScenarioProgress firstScenario = new SavedScenarioProgress();
+		firstScenario.Discover();
+		savedCampaign.SavedScenarioProgresses.ScenarioProgresses.Add(ModelDB.GetId<Scenario001>().ToString(), firstScenario);
 
 		// Unlock the first set of items
 		ItemModel[] itemModels =
@@ -154,6 +149,10 @@ public class SavedCampaign
 		//savedCampaign.Characters[1].SetEquippedSmallSlotItem(0, ModelDB.Item<ScrollOfCharisma>());
 		//savedCampaign.Characters[1].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[0].AddItem(ModelDB.Item<PoisonDagger>());
+
+		// SavedScenarioProgress testScenario = new SavedScenarioProgress();
+		// testScenario.Discover();
+		// savedCampaign.SavedScenarioProgresses.ScenarioProgresses.Add(ModelDB.GetId<Scenario029>().ToString(), testScenario);
 
 		return savedCampaign;
 	}

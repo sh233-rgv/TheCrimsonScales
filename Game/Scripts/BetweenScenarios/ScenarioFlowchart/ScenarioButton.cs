@@ -72,7 +72,7 @@ public partial class ScenarioButton : Control
 			Arrows.Add(arrow);
 		}
 
-		if(!SavedScenarioProgress.Discovered)
+		if(!SavedScenarioProgress.ShownOnMap)
 		{
 			ScenarioButtonOutline.SetVisible(false);
 			_betterButton.SetVisible(false);

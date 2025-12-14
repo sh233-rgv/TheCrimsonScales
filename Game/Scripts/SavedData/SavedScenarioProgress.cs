@@ -9,7 +9,10 @@ public class SavedScenarioProgress
 	public bool Discovered { get; set; }
 
 	[JsonProperty]
-	public bool Unlocked { get; set; }
+	public bool ShownOnMap { get; set; }
+
+	// [JsonProperty]
+	// public bool Unlocked { get; set; }
 
 	[JsonProperty]
 	public bool Completed { get; set; }
@@ -19,4 +22,19 @@ public class SavedScenarioProgress
 
 	[JsonProperty]
 	public Dictionary<string, object> CustomValues { get; } = new Dictionary<string, object>();
+
+	public void Discover()
+	{
+		Discovered = true;
+	}
+
+	public void ShowOnMap()
+	{
+		ShownOnMap = true;
+	}
+
+	public void Complete()
+	{
+		Completed = true;
+	}
 }

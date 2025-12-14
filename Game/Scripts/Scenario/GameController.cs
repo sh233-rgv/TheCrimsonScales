@@ -532,11 +532,11 @@ public partial class GameController : SceneController<GameController>
 			SavedCampaign.SanctuaryOfTheGreatOak.ReturnCards(character.SavedCharacter);
 		}
 
-		SavedScenarioProgress.Unlocked = true;
+		//SavedScenarioProgress.Unlocked = true;
 
 		if(won)
 		{
-			SavedScenarioProgress.Completed = true;
+			SavedScenarioProgress.Complete();
 		}
 
 		if(backToTown)
