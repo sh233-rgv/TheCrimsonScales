@@ -61,10 +61,12 @@ rotation = 6.28319
 
 [node name="PoisonGasTrap1H" parent="Map/Rooms/Room" index="6" instance=ExtResource("5_hc258")]
 position = Vector2(327.358, -567)
+ScaledDamage = false
 ConditionModels = Array[Object]([SubResource("Resource_5x8w1"), SubResource("Resource_e6gb7")])
 
 [node name="PoisonGasTrap1H2" parent="Map/Rooms/Room" index="7" instance=ExtResource("5_hc258")]
 position = Vector2(109.119, -567)
+ScaledDamage = false
 ConditionModels = Array[Object]([SubResource("Resource_5x8w1"), SubResource("Resource_e6gb7")])
 
 [node name="MonsterSpawner" parent="Map/Rooms/Room" index="8" instance=ExtResource("7_vfe2g")]
@@ -97,10 +99,12 @@ position = Vector2(-763.834, 945)
 
 [node name="PoisonGasTrap1H" parent="Map/Rooms/Room2" index="1" instance=ExtResource("5_hc258")]
 position = Vector2(-872.954, 756)
+ScaledDamage = false
 ConditionModels = Array[Object]([SubResource("Resource_5x8w1"), SubResource("Resource_e6gb7")])
 
 [node name="PoisonGasTrap1H2" parent="Map/Rooms/Room2" index="2" instance=ExtResource("5_hc258")]
 position = Vector2(-763.834, 945)
+ScaledDamage = false
 ConditionModels = Array[Object]([SubResource("Resource_5x8w1"), SubResource("Resource_e6gb7")])
 
 [node name="Treasure1H" parent="Map/Rooms/Room2" index="3" instance=ExtResource("9_ocd8e")]
@@ -145,6 +149,7 @@ rotation = -3.14159
 
 [node name="PoisonGasTrap1H3" parent="Map/Rooms/Room3" index="4" instance=ExtResource("5_hc258")]
 position = Vector2(-872.954, -378)
+ScaledDamage = false
 ConditionModels = Array[Object]([SubResource("Resource_5x8w1"), SubResource("Resource_e6gb7")])
 
 [node name="Bookcase2H" parent="Map/Rooms/Room3" index="5" instance=ExtResource("14_r6806")]

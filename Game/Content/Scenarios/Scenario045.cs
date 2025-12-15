@@ -11,7 +11,7 @@ public class Scenario045 : ScenarioModel
 	protected override ScenarioGoals CreateScenarioGoals() => new KillSpecificEnemiesTypeGoals(
 		ModelDB.Monster<LandLeviathan>(), "Kill the Land Leviathan to win this scenario.");
 
-	IEnumerable<Hex> _markerAHexes;
+	private IEnumerable<Hex> _markerAHexes;
 
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
@@ -24,6 +24,20 @@ public class Scenario045 : ScenarioModel
 	{
 		await base.OnRoomRevealed(parameters);
 
+		UpdateScenarioText($"""
+			The Deep Terror represents the Land Leviathan. The Land Leviathan draws from the boss ability deck and performs the following specials:
+
+			Special 1: {Icons.Inline(Icons.Attack)}-1, {Icons.Inline(Icons.Range)}5, {Icons.Inline(Icons.Targets)}2. Increase the Land Leviathan's maximum hit point value by 2. {Icons.Inline(Icons.Heal)} 2, Self.
+
+			Special 2: Summon one Imp in the closest empty hex within {Icons.Inline(Icons.Range)}2. Grant all Imps within {Icons.Inline(Icons.Range)}5 perform “Heal 1, Self.” The type of Imp that is summoned cycles in the order of Black Imp, then Forest Imp. All summons are normal for two characters. Black Imp summons are elite for three characters. All summons are elite for four characters. All summons are elite for four characters.
+
+			Spawn one of the following monsters groups in the hexes marked {Icons.Inline(Icons.GetMarker(Marker.Type.a))}. These monsters are allies to you and each other and enemies to all other monsters, are immune to {Icons.Inline(Icons.GetCondition(Conditions.Curse))} and draw from the monster attack modifier deck. Choose one of the following groups:
+			
+			Two normal Cave Bears
+			One normal Rending Drake and one normal Spitting Drake
+			Two normal Lurkers and one elite Giant Viper
+			""");
+
 		await AbilityCmd.GenericChoice(GameController.Instance.Map.Figures.First(figure => figure is Character),
 		[
 			ScenarioEvents.GenericChoice.Subscription.New(canApplyFunction: canApplyParameters => true,
@@ -31,10 +45,9 @@ public class Scenario045 : ScenarioModel
 				{
 					await SpawnMonster(null, ModelDB.Monster<CaveBear>(), MonsterType.Normal);
 					await SpawnMonster(null, ModelDB.Monster<CaveBear>(), MonsterType.Normal);
+					SetMonsterGroupAlignment(typeof(CaveBear), Alignment.Characters, Alignment.Enemies);
 					foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Monster monster && monster.MonsterModel is CaveBear))
                     {
-                        figure.SetAlignment(Alignment.Characters);
-                        figure.SetEnemies(Alignment.Enemies);
 						ConditionImmunityTrait curseImmunity = new ConditionImmunityTrait(Conditions.Curse);
 						await curseImmunity.Activate(figure);
 						ScenarioEvents.FigureKilledEvent.Subscribe(this, figure,
@@ -55,10 +68,10 @@ public class Scenario045 : ScenarioModel
 				{
 					await SpawnMonster(null, ModelDB.Monster<RendingDrake>(), MonsterType.Normal);
 					await SpawnMonster(null, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal);
+					SetMonsterGroupAlignment(typeof(RendingDrake), Alignment.Characters, Alignment.Enemies);
+					SetMonsterGroupAlignment(typeof(SpittingDrake), Alignment.Characters, Alignment.Enemies);
 					foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Monster monster && (monster.MonsterModel is RendingDrake || monster.MonsterModel is SpittingDrake)))
                     {
-                        figure.SetAlignment(Alignment.Characters);
-                        figure.SetEnemies(Alignment.Enemies);
 						ConditionImmunityTrait curseImmunity = new ConditionImmunityTrait(Conditions.Curse);
 						await curseImmunity.Activate(figure);
 						ScenarioEvents.FigureKilledEvent.Subscribe(this, figure,
@@ -80,10 +93,10 @@ public class Scenario045 : ScenarioModel
 					await SpawnMonster(null, ModelDB.Monster<Lurker>(), MonsterType.Normal);
 					await SpawnMonster(null, ModelDB.Monster<Lurker>(), MonsterType.Normal);
 					await SpawnMonster(null, ModelDB.Monster<GiantViper>(), MonsterType.Elite);
+					SetMonsterGroupAlignment(typeof(Lurker), Alignment.Characters, Alignment.Enemies);
+					SetMonsterGroupAlignment(typeof(GiantViper), Alignment.Characters, Alignment.Enemies);
 					foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Monster monster && (monster.MonsterModel is GiantViper || monster.MonsterModel is Lurker)))
                     {
-                        figure.SetAlignment(Alignment.Characters);
-                        figure.SetEnemies(Alignment.Enemies);
 						ConditionImmunityTrait curseImmunity = new ConditionImmunityTrait(Conditions.Curse);
 						await curseImmunity.Activate(figure);
 						ScenarioEvents.FigureKilledEvent.Subscribe(this, figure,

@@ -1,4 +1,6 @@
-﻿public static class Icons
+﻿using System;
+
+public static class Icons
 {
 	public const string LoseCard = "res://Art/Icons/Abilities/LoseCard.svg";
 	public const string LoseDiscardedCards = "res://Art/Icons/Abilities/LoseDiscardedCards.svg";
@@ -39,6 +41,11 @@
 	public static string GetCondition(ConditionModel conditionModel)
 	{
 		return conditionModel.IconPath;
+	}
+
+	public static string GetAMDValue(string amdValue)
+	{
+		return $"res://Art/Icons/AMDs/{amdValue}.svg";
 	}
 
 	public static string InlineMarker(Marker.Type markerType, int size = 30)

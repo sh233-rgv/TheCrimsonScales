@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
@@ -55,6 +56,15 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 		GameController.Instance.SpecialRulesView.SetText(displayText);
 	}
+
+	protected static void SetMonsterGroupAlignment(Type monsterGroup, Alignment alignment, Alignment enemies)
+    {
+        foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Monster monster && monster.MonsterModel.GetType() == monsterGroup))
+        {
+            figure.SetAlignment(Alignment.Characters);
+			figure.SetEnemies(Alignment.Enemies);
+        }
+    }
 
 	protected async GDTask SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, IEnumerable<Hex> spawnHexes, int? monsterLevel = null)
 	{

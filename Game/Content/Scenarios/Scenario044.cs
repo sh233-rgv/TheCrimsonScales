@@ -26,7 +26,7 @@ public class Scenario044 : ScenarioModel
 		UpdateScenarioText(); 
 
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
-			parameters => _remainingLivingSpiritKills <= 0,
+			parameters => _remainingLivingSpiritKills == 0,
 			async parameters =>
 			{
 				await ((CustomScenarioGoals)ScenarioGoals).Win();
@@ -34,7 +34,7 @@ public class Scenario044 : ScenarioModel
 		);
 
 		ScenarioEvents.FigureKilledEvent.Subscribe(this,
-			parameters => parameters.Figure is Monster monster && monster.MonsterModel == ModelDB.Monster<LivingSpirit>(),
+			parameters => parameters.Figure is Monster monster && monster.MonsterModel == ModelDB.Monster<LivingSpirit>() && _remainingLivingSpiritKills > 0,
 			async parameters =>
 			{
 				
@@ -47,6 +47,6 @@ public class Scenario044 : ScenarioModel
 
 	private void UpdateScenarioText()
     {
-        GameController.Instance.SpecialRulesView.SetText($"Kill {Math.Max(_remainingLivingSpiritKills, 0)} more Living Spirits to win this scenario.");
+        GameController.Instance.SpecialRulesView.SetText($"Kill {_remainingLivingSpiritKills} more Living Spirits to win this scenario.");
     }
 }

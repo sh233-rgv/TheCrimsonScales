@@ -117,6 +117,12 @@ public class LandLeviathan : MonsterModel, IBossMonsterModel
 			[
 				HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()
 			])
+			.WithTarget(Target.TargetAll | Target.Allies)
+			.WithRange(5)
+			.WithCustomGetTargets((state, targets) =>
+            {
+                targets.AddRange(RangeHelper.GetFiguresInRange(state.Performer, 100).Where(figure => figure is Monster monster && monster.MonsterModel is Imp));
+            })
 			.Build())
 	];
 }
