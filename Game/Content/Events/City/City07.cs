@@ -77,7 +77,7 @@ public class City07 : CityEventModel<City07.ChoiceA, City07.ChoiceB>
 								]
 							})
 							.WithName("Battle Turkey")
-							.WithTexturePath("res://Content/Classes/Chieftain/Summons/scout_dog_AI.png") //TODO: Generic or AI summon visual?
+							.WithTexturePath("res://Content/Classes/Chieftain/Summons/speedy_ostrich_AI.png") //TODO: Generic or AI summon visual?
 							.Build()
 					)
 				];

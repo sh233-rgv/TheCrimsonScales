@@ -2,10 +2,10 @@
 using Fractural.Tasks;
 using Godot;
 
-public class OnScenarioStartedEventReward(Func<GDTask> onScenarioSetupPhaseCompleted, string labelText) : EventReward
+public class OnScenarioStartedEventReward(Func<GDTask> onScenarioSetupPhaseCompleted, Func<Color, string> labelText) : EventReward
 {
 	public override EventRewardType Type => EventRewardType.ScenarioStart;
-	public override string GetLabelText(Color textColor) => labelText;
+	public override string GetLabelText(Color textColor) => labelText(textColor);
 
 	public override async GDTask OnScenarioSetupPhaseCompleted()
 	{

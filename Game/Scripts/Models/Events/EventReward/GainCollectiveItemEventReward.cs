@@ -14,7 +14,11 @@ public class GainCollectiveItemEventReward(ItemModel itemModel) : EventReward
 		{
 			ItemModel = itemModel,
 			Characters = BetweenScenariosController.Instance.SavedCampaign.Characters,
-			OnCharacterConfirmed = character => character.AddItem(itemModel)
+			OnCharacterConfirmed = character =>
+			{
+				BetweenScenariosController.Instance.SavedCampaign.GetSavedItem(itemModel).AddUnlocked(1);
+				character.AddItem(itemModel);
+			}
 		});
 
 		await GDTask.WaitWhile(() => AppController.Instance.PopupManager.IsPopupOpen<ItemRewardCharacterSelectionPopup.Request>());

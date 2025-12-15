@@ -229,6 +229,7 @@ public static class AbilityCmd
 			await obstacle.Destroy();
 			return true;
 		}
+
 		return false;
 	}
 
@@ -436,11 +437,13 @@ public static class AbilityCmd
 			new ScenarioEvents.FigureExitingHex.Parameters(potentialAbilityState, figure), authority);
 	}
 
-	public static async GDTask EnterHex(AbilityState potentialAbilityState, Figure figure, Figure authority, Hex hex, bool triggerHexEffects, bool setPosition)
+	public static async GDTask EnterHex(AbilityState potentialAbilityState, Figure figure, Figure authority, Hex hex, bool triggerHexEffects,
+		bool setPosition)
 	{
 		figure.SetOriginHexAndRotation(hex, setPosition: setPosition);
 
-		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(potentialAbilityState, figure), authority);
+		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(potentialAbilityState, figure),
+			authority);
 
 		HazardousTerrain hazardousTerrain = hex.GetHexObjectOfType<HazardousTerrain>();
 		if(hazardousTerrain != null && triggerHexEffects)
@@ -883,6 +886,64 @@ public static class AbilityCmd
 		GameController.Instance.MarkScenarioEnded();
 		GameController.Instance.ScenarioWonView.Open();
 		return GDTask.Never(GameController.CancellationToken);
+	}
+
+	public static void SubscribeDuringCharacterTurn(IEventSubscriber eventSubscriber, EffectType effectType, Func<Character, bool> canApply,
+		Func<Character, GDTask> apply,
+		EffectButtonParameters effectButtonParameters, EffectInfoViewParameters effectInfoViewParameters,
+		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
+	{
+		ScenarioEvents.CardSideSelectionEvent.Subscribe(eventSubscriber,
+			canApplyParameters => canApply == null || canApply(canApplyParameters.Character),
+			async applyParameters =>
+			{
+				if(apply != null)
+				{
+					await apply(applyParameters.Character);
+				}
+			},
+			effectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: effectButtonParameters,
+			effectInfoViewParameters: effectInfoViewParameters);
+
+		ScenarioEvents.AfterCardsPlayedEvent.Subscribe(eventSubscriber,
+			canApplyParameters => canApply == null || canApply(canApplyParameters.Character),
+			async applyParameters =>
+			{
+				if(apply != null)
+				{
+					await apply(applyParameters.Character);
+				}
+			},
+			effectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: effectButtonParameters,
+			effectInfoViewParameters: effectInfoViewParameters);
+
+		ScenarioEvents.LongRestCardSelectionEvent.Subscribe(eventSubscriber,
+			canApplyParameters => canApply == null || canApply(canApplyParameters.Character),
+			async applyParameters =>
+			{
+				if(apply != null)
+				{
+					await apply(applyParameters.Character);
+				}
+			},
+			effectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: effectButtonParameters,
+			effectInfoViewParameters: effectInfoViewParameters);
+	}
+
+	public static void UnsubscribeDuringTurn(IEventSubscriber eventSubscriber)
+	{
+		ScenarioEvents.CardSideSelectionEvent.Unsubscribe(eventSubscriber);
+		ScenarioEvents.AfterCardsPlayedEvent.Unsubscribe(eventSubscriber);
+		ScenarioEvents.LongRestCardSelectionEvent.Unsubscribe(eventSubscriber);
 	}
 
 	private static async GDTask<bool> TrySwap(AbilityState potentialAbilityState, Figure authority, Figure figureA, Figure figureB)

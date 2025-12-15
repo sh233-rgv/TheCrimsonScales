@@ -31,7 +31,9 @@ public class Road31 : CityEventModel<Road31.ChoiceA, Road31.ChoiceB>
 					//TODO: Give choice to change initiative of characters
 					await GDTask.CompletedTask;
 				},
-				"During the first round of the scenario, before any cards are revealed, any characters may declare to act on Initiative 01 instead of their leading Initiative.")
+				color =>
+					"During the first round of the scenario, before any cards are revealed, any characters may declare to act on Initiative 01 instead of their leading Initiative."
+			)
 		];
 	}
 
@@ -54,7 +56,8 @@ public class Road31 : CityEventModel<Road31.ChoiceA, Road31.ChoiceB>
 					//TODO: Change initiative of characters
 					await GDTask.CompletedTask;
 				},
-				"During the first round of the scenario, all characters act on Initiative 99 instead of their leading Initiative.")
+				color => "During the first round of the scenario, all characters act on Initiative 99 instead of their leading Initiative."
+			)
 		];
 	}
 }
