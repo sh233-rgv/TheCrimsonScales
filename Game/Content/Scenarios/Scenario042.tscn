@@ -111,9 +111,9 @@ MonsterType4Characters = 0
 [node name="MonsterSpawner5" parent="Map/Rooms/Room2" index="12" instance=ExtResource("8_u456i")]
 position = Vector2(109.119, -945)
 MonsterModelId = "HOUND.SLY_WOLF"
-MonsterType2Characters = 2
-MonsterType3Characters = 2
-MonsterType4Characters = 2
+MonsterType2Characters = 3
+MonsterType3Characters = 3
+MonsterType4Characters = 3
 
 [node name="Room3" type="Node2D" parent="Map/Rooms" index="2"]
 script = ExtResource("2_5r85s")
@@ -160,9 +160,9 @@ MonsterType4Characters = 0
 [node name="MonsterSpawner3" parent="Map/Rooms/Room3" index="9" instance=ExtResource("8_u456i")]
 position = Vector2(-654.715, 1134)
 MonsterModelId = "CAVE_BEAR.GORING_GRIZZLY"
-MonsterType2Characters = 2
-MonsterType3Characters = 2
-MonsterType4Characters = 2
+MonsterType2Characters = 3
+MonsterType3Characters = 3
+MonsterType4Characters = 3
 
 [node name="MonsterSpawner4" parent="Map/Rooms/Room3" index="10" instance=ExtResource("8_u456i")]
 position = Vector2(-654.715, 1512)
@@ -206,9 +206,9 @@ MonsterType4Characters = 0
 [node name="MonsterSpawner5" parent="Map/Rooms/Room4" index="7" instance=ExtResource("8_u456i")]
 position = Vector2(763.834, 945)
 MonsterModelId = "GIANT_VIPER.KING_COBRA"
-MonsterType2Characters = 2
-MonsterType3Characters = 2
-MonsterType4Characters = 2
+MonsterType2Characters = 3
+MonsterType3Characters = 3
+MonsterType4Characters = 3
 
 [node name="MonsterSpawner4" parent="Map/Rooms/Room4" index="8" instance=ExtResource("8_u456i")]
 position = Vector2(436.477, 1134)

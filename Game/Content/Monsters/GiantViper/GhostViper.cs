@@ -1,132 +1,25 @@
-using System.Collections.Generic;
 
-public class GhostViper : MonsterModel
+using System.Linq;
+
+public class GhostViper : GiantViper
 {
 	public override MonsterStats[] NormalLevelStats =>
-	[
-		new MonsterStats()
-		{
-			Health = 2,
-			Move = 2,
-			Attack = 1,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 3,
-			Move = 2,
-			Attack = 1,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 4,
-			Move = 3,
-			Attack = 1,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 4,
-			Move = 3,
-			Attack = 2,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 6,
-			Move = 3,
-			Attack = 2,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 7,
-			Move = 3,
-			Attack = 3,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 8,
-			Move = 4,
-			Attack = 3,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 10,
-			Move = 4,
-			Attack = 3,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-	];
+		base.NormalLevelStats
+			.Select(stats => stats with
+			{
+				Traits = [new ApplyConditionTrait(Conditions.Poison2)]
+			})
+			.ToArray();
 
 	public override MonsterStats[] EliteLevelStats =>
-	[
-		new MonsterStats()
-		{
-			Health = 3,
-			Move = 2,
-			Attack = 2,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 5,
-			Move = 2,
-			Attack = 2,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 7,
-			Move = 3,
-			Attack = 2,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 8,
-			Move = 3,
-			Attack = 3,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 11,
-			Move = 3,
-			Attack = 3,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 13,
-			Move = 4,
-			Attack = 3,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 14,
-			Move = 4,
-			Attack = 4,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-		new MonsterStats()
-		{
-			Health = 17,
-			Move = 4,
-			Attack = 4,
-			Traits = [new ApplyConditionTrait(Conditions.Poison2)]
-		},
-	];
+		base.EliteLevelStats
+			.Select(stats => stats with
+			{
+				Traits = [new ApplyConditionTrait(Conditions.Poison2)]
+			})
+			.ToArray();
 
 	public override string Name => "Ghost Viper";
 
-	public override string AssetPath => "res://Content/Monsters/GiantViper";
-
 	public override int MaxStandeeCount => 10;
-
-	public override IEnumerable<MonsterAbilityCardModel> Deck => GiantViperAbilityCard.Deck;
 }

@@ -95,7 +95,7 @@ public class Scenario009 : ScenarioModel
 	private async GDTask SpawnBear()
 	{
 		MonsterModel monsterModel = ModelDB.Monster<Granurso>();
-		MonsterType monsterType = GameController.Instance.CharacterManager.Characters.Count == 2 ? MonsterType.Normal : MonsterType.Elite;
+		MonsterType monsterType = MonsterType.Named;
 
 		Hex chosenHex = await AbilityCmd.SelectHex(GameController.Instance.CharacterManager.FirstAlive(),
 			list =>

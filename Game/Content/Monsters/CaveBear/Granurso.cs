@@ -1,7 +1,11 @@
 using System.Collections.Generic;
 
-public class Granurso : MonsterModel
+public class Granurso : CaveBear
 {
+	public override MonsterStats[] NamedLevelStats =>
+	CharacterCount == 2
+		? NormalLevelStats
+		: EliteLevelStats;
 	public override MonsterStats[] NormalLevelStats =>
 	[
 		new MonsterStats()
@@ -124,9 +128,5 @@ public class Granurso : MonsterModel
 
 	public override string Name => "Granurso";
 
-	public override string AssetPath => "res://Content/Monsters/CaveBear";
-
 	public override int MaxStandeeCount => 1;
-
-	public override IEnumerable<MonsterAbilityCardModel> Deck => CaveBearAbilityCard.Deck;
 }

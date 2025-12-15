@@ -2,74 +2,27 @@ using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
-public class LandLeviathan : MonsterModel, IBossMonsterModel
+public class LandLeviathan : DeepTerror, IBossMonsterModel
 {
-	private bool _summonBlackImp = true;
-	public override MonsterStats[] BossLevelStats =>
-	[
-		new MonsterStats()
-		{
-			Health = 5 * (CharacterCount * 2 - 1),
-			Attack = 3,
-			Traits = [ConditionImmunityTrait.PoisonImmunityTrait(), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Disarm), new ForcedMovementImmunityTrait()]
-		},
-		new MonsterStats()
-		{
-			Health = 6 * (CharacterCount * 2 - 1),
-			Attack = 3,
-			Traits = [new RetaliateTrait(1), ConditionImmunityTrait.PoisonImmunityTrait(), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Disarm), new ForcedMovementImmunityTrait()]
-		},
-		new MonsterStats()
-		{
-			Health = 7 * (CharacterCount * 2 - 1),
-			Attack = 4,
-			Traits = [new RetaliateTrait(1), ConditionImmunityTrait.PoisonImmunityTrait(), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Disarm), new ForcedMovementImmunityTrait()]
-		},
-		new MonsterStats()
-		{
-			Health = 8 * (CharacterCount * 2 - 1),
-			Attack = 4,
-			Traits = [new RetaliateTrait(2), ConditionImmunityTrait.PoisonImmunityTrait(), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Disarm), new ForcedMovementImmunityTrait()]
-		},
-		new MonsterStats()
-		{
-			Health = 9 * (CharacterCount * 2 - 1),
-			Attack = 5,
-			Traits = [new RetaliateTrait(2), ConditionImmunityTrait.PoisonImmunityTrait(), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Disarm), new ForcedMovementImmunityTrait()]
-		},
-		new MonsterStats()
-		{
-			Health = 11 * (CharacterCount * 2 - 1),
-			Attack = 5,
-			Traits = [new RetaliateTrait(3), ConditionImmunityTrait.PoisonImmunityTrait(), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Disarm), new ForcedMovementImmunityTrait()]
-		},
-		new MonsterStats()
-		{
-			Health = 13 * (CharacterCount * 2 - 1),
-			Attack = 6,
-			Traits = [new RetaliateTrait(3), ConditionImmunityTrait.PoisonImmunityTrait(), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Disarm), new ForcedMovementImmunityTrait()]
-		},
-		new MonsterStats()
-		{
-			Health = 15 * (CharacterCount * 2 - 1),
-			Attack = 6,
-			Traits = [new RetaliateTrait(4), ConditionImmunityTrait.PoisonImmunityTrait(), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Disarm), new ForcedMovementImmunityTrait()]
-		},
-	];
+	public override MonsterStats[] NamedLevelStats =>
+		base.EliteLevelStats
+			.Select(stats => stats with
+			{
+				Health = stats.Health * (CharacterCount * 2 - 1),
+				Traits = (stats.Traits ?? [])
+					.Append(ConditionImmunityTrait.PoisonImmunityTrait())
+					.Append(new ConditionImmunityTrait(Conditions.Stun))
+					.Append(new ConditionImmunityTrait(Conditions.Disarm))
+					.Append(new ForcedMovementImmunityTrait())
+					.ToArray()
+			})
+			.ToArray();
 
 	public override string Name => "Land Leviathan";
 
-	public override string AssetPath => "res://Content/Monsters/DeepTerror";
-
 	public override int MaxStandeeCount => 1;
+
+	private bool _summonBlackImp = true;
 
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
