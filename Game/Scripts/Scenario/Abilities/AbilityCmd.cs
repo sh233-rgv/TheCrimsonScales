@@ -946,6 +946,14 @@ public static class AbilityCmd
 		ScenarioEvents.LongRestCardSelectionEvent.Unsubscribe(eventSubscriber);
 	}
 
+	public static async GDTask<bool> CurseMonsters()
+	{
+		await GDTask.CompletedTask;
+
+		bool success = GameController.Instance.AMDManager.CurseMonsters();
+		return success;
+	}
+
 	private static async GDTask<bool> TrySwap(AbilityState potentialAbilityState, Figure authority, Figure figureA, Figure figureB)
 	{
 		if(!CanSwap(figureA, figureB))

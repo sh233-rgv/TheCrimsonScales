@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 public class Road05 : CityEventModel<Road05.ChoiceA, Road05.ChoiceB>
 {
@@ -26,16 +25,7 @@ public class Road05 : CityEventModel<Road05.ChoiceA, Road05.ChoiceB>
 		public override List<EventReward> GetRewards(SavedEventState state) =>
 		[
 			new GainXPEventReward(3),
-			new OnScenarioStartedEventReward(
-				async () =>
-				{
-					foreach(Character character in GameController.Instance.CharacterManager.Characters)
-					{
-						await AbilityCmd.SufferDamage(null, character, 3);
-					}
-				},
-				color => "All characters start the next scenario with 3 damage."
-			)
+			new AllStartScenarioWithDamageEventReward(3)
 		];
 	}
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 public class Road03 : CityEventModel<Road03.ChoiceA, Road03.ChoiceB>
 {

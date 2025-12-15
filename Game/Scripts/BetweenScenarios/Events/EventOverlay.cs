@@ -49,8 +49,6 @@ public partial class EventOverlay : Control
 		_continueButton.BetterButton.Pressed += OnContinuePressed;
 
 		Hide();
-
-		//this.DelayedCall(() => Open(EventType.Road), 3f);
 	}
 
 	public async GDTask DrawEventCard(EventType eventType, CancellationToken cancellationToken)

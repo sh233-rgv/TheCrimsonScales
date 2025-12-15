@@ -88,7 +88,7 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		if(SavedCampaign.Characters.Count < 2)
 		{
 			AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("Cannot start scenario",
-				"You need at least 2 characters in order to start a scenario.\n"));
+				"You need at least 2 characters in order to start a scenario."));
 
 			return;
 		}
@@ -117,7 +117,7 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		await GDTask.Yield(cancellationToken);
 		await GDTask.Delay(0.2f, cancellationToken: cancellationToken);
 
-		if(SavedCampaign.SavedEvents.CanDrawCityEvent)
+		if(SavedCampaign.SavedEvents.CanDrawCityEvent && SavedCampaign.SavedEvents.CityEventDeckIds.Count > 0)
 		{
 			await EventOverlay.DrawEventCard(EventType.City, cancellationToken);
 		}
@@ -130,16 +130,16 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			));
 		}
 
-		if(
-			SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario010>()).Completed &&
-			SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario013>()).Completed &&
-			SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario014>()).Completed)
-		{
-			AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("End of Demo",
-				"Thank you for playing this demo of The Crimson Scales!\nHope you had fun!" +
-				"\nAny and all feedback is very welcome. Please do not hesitate to let us know your thoughts."
-			));
-		}
+		// if(
+		// 	SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario010>()).Completed &&
+		// 	SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario013>()).Completed &&
+		// 	SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario014>()).Completed)
+		// {
+		// 	AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("End of Demo",
+		// 		"Thank you for playing this demo of The Crimson Scales!\nHope you had fun!" +
+		// 		"\nAny and all feedback is very welcome. Please do not hesitate to let us know your thoughts."
+		// 	));
+		// }
 
 		ActionManager.Init();
 	}
