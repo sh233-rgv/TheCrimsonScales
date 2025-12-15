@@ -46,7 +46,8 @@ public partial class Monster : Figure
 		_monsterViewComponent = GetViewComponent<MonsterViewComponent>();
 	}
 
-	public async GDTask Spawn(MonsterGroup monsterGroup, MonsterType monsterType, int standeeNumber, bool summon, int? monsterLevel)
+	public async GDTask Spawn(MonsterGroup monsterGroup, MonsterType monsterType, int standeeNumber, bool summon,
+		int? monsterLevel, Alignment alignment, Alignment enemies)
 	{
 		MonsterGroup = monsterGroup;
 		MonsterType = monsterType;
@@ -98,8 +99,8 @@ public partial class Monster : Figure
 		SetMaxHealth(Stats.Health);
 		SetHealth(Stats.Health);
 
-		SetAlignment(Alignment.Enemies);
-		SetEnemies(Alignment.Characters);
+		SetAlignment(alignment);
+		SetEnemies(enemies);
 
 		if(Stats.Traits != null)
 		{

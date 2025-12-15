@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cjtejnl6vsov6"
-path="res://.godot/imported/Portrait.jpg-f05a7356a1863cd76eb7072ab951ac13.ctex"
+path="res://.godot/imported/Portrait.jpg-18fb2bb12e0bd0b836938e68da3f6346.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Monsters/InoxBodyguard/Portrait.jpg"
-dest_files=["res://.godot/imported/Portrait.jpg-f05a7356a1863cd76eb7072ab951ac13.ctex"]
+source_file="res://Content/Monsters/Boss/CaptainOfTheGuard/Portrait.jpg"
+dest_files=["res://.godot/imported/Portrait.jpg-18fb2bb12e0bd0b836938e68da3f6346.ctex"]
 
 [params]
 

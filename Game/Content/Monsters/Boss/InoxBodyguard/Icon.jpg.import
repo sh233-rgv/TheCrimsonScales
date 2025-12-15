@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://df2v3fe4kcxmw"
-path="res://.godot/imported/Icon.jpg-9420b6521cdfc484ac8b6549f8acf2a3.ctex"
+path="res://.godot/imported/Icon.jpg-3bc96d45b065d73eb85a6fc42367b7b5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Monsters/InoxBodyguard/Icon.jpg"
-dest_files=["res://.godot/imported/Icon.jpg-9420b6521cdfc484ac8b6549f8acf2a3.ctex"]
+source_file="res://Content/Monsters/Boss/InoxBodyguard/Icon.jpg"
+dest_files=["res://.godot/imported/Icon.jpg-3bc96d45b065d73eb85a6fc42367b7b5.ctex"]
 
 [params]
 

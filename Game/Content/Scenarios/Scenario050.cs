@@ -1,9 +1,9 @@
 using Fractural.Tasks;
 
-public class Scenario049 : ScenarioModel
+public class Scenario050 : ScenarioModel
 {
-	public override string ScenePath => "res://Content/Scenarios/Scenario049.tscn";
-	public override int ScenarioNumber => 49;
+	public override string ScenePath => "res://Content/Scenarios/Scenario050.tscn";
+	public override int ScenarioNumber => 50;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<EventScenarioChain>();
 
 	protected override ScenarioGoals CreateScenarioGoals() => new KillAlLEnemiesScenarioGoals();
@@ -12,6 +12,6 @@ public class Scenario049 : ScenarioModel
 	{
 		await base.OnRoomRevealed(parameters);
 
-		UpdateScenarioText("All City Guards and City Archers are allies to you and to each other and enemies to all other monsters.");
+		UpdateScenarioText("All Inox Guards and Inox Archers are allies to you and to each other and enemies to all other monsters.");
 	}
 }

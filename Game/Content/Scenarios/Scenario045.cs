@@ -38,13 +38,13 @@ public class Scenario045 : ScenarioModel
 			Two normal Lurkers and one elite Giant Viper
 			""");
 
-		await AbilityCmd.GenericChoice(GameController.Instance.Map.Figures.First(figure => figure is Character),
+		await AbilityCmd.GenericChoice(GameController.Instance.CharacterManager.FirstAlive(),
 		[
 			ScenarioEvents.GenericChoice.Subscription.New(canApplyFunction: canApplyParameters => true,
 				applyFunction: async applyParameters =>
 				{
-					await SpawnMonster(null, ModelDB.Monster<CaveBear>(), MonsterType.Normal);
-					await SpawnMonster(null, ModelDB.Monster<CaveBear>(), MonsterType.Normal);
+					await SpawnMonster(ModelDB.Monster<CaveBear>(), MonsterType.Normal);
+					await SpawnMonster(ModelDB.Monster<CaveBear>(), MonsterType.Normal);
 					SetMonsterGroupAlignment(typeof(CaveBear), Alignment.Characters, Alignment.Enemies);
 					foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Monster monster && monster.MonsterModel is CaveBear))
                     {
@@ -66,8 +66,8 @@ public class Scenario045 : ScenarioModel
 			ScenarioEvents.GenericChoice.Subscription.New(canApplyFunction: canApplyParameters => true,
 				applyFunction: async applyParameters =>
 				{
-					await SpawnMonster(null, ModelDB.Monster<RendingDrake>(), MonsterType.Normal);
-					await SpawnMonster(null, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal);
+					await SpawnMonster(ModelDB.Monster<RendingDrake>(), MonsterType.Normal);
+					await SpawnMonster(ModelDB.Monster<SpittingDrake>(), MonsterType.Normal);
 					SetMonsterGroupAlignment(typeof(RendingDrake), Alignment.Characters, Alignment.Enemies);
 					SetMonsterGroupAlignment(typeof(SpittingDrake), Alignment.Characters, Alignment.Enemies);
 					foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Monster monster && (monster.MonsterModel is RendingDrake || monster.MonsterModel is SpittingDrake)))
@@ -90,9 +90,9 @@ public class Scenario045 : ScenarioModel
 			ScenarioEvents.GenericChoice.Subscription.New(canApplyFunction: canApplyParameters => true,
 				applyFunction: async applyParameters =>
 				{
-					await SpawnMonster(null, ModelDB.Monster<Lurker>(), MonsterType.Normal);
-					await SpawnMonster(null, ModelDB.Monster<Lurker>(), MonsterType.Normal);
-					await SpawnMonster(null, ModelDB.Monster<GiantViper>(), MonsterType.Elite);
+					await SpawnMonster(ModelDB.Monster<Lurker>(), MonsterType.Normal);
+					await SpawnMonster(ModelDB.Monster<Lurker>(), MonsterType.Normal);
+					await SpawnMonster(ModelDB.Monster<GiantViper>(), MonsterType.Elite);
 					SetMonsterGroupAlignment(typeof(Lurker), Alignment.Characters, Alignment.Enemies);
 					SetMonsterGroupAlignment(typeof(GiantViper), Alignment.Characters, Alignment.Enemies);
 					foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Monster monster && (monster.MonsterModel is GiantViper || monster.MonsterModel is Lurker)))
@@ -115,8 +115,8 @@ public class Scenario045 : ScenarioModel
 		], hintText: "Choose a group of monsters to spawn");
 	}
 
-	private async GDTask SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType)
+	private async GDTask SpawnMonster(MonsterModel monsterModel, MonsterType monsterType)
     {
-		await SpawnMonster(authority, monsterModel, monsterType, _markerAHexes, GameController.Instance.SavedScenario.ScenarioLevel - 1);
+		await SpawnMonster(null, monsterModel, monsterType, _markerAHexes, GameController.Instance.SavedScenario.ScenarioLevel - 1, Alignment.Characters, Alignment.Enemies);
     }
 }

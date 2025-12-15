@@ -61,17 +61,15 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
     {
         foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Monster monster && monster.MonsterModel.GetType() == monsterGroup))
         {
-            figure.SetAlignment(Alignment.Characters);
-			figure.SetEnemies(Alignment.Enemies);
+            figure.SetAlignment(alignment);
+			figure.SetEnemies(enemies);
         }
     }
 
-	protected async GDTask SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, IEnumerable<Hex> spawnHexes, int? monsterLevel = null)
+	protected async GDTask SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, IEnumerable<Hex> spawnHexes,
+		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
 	{
-		if (authority == null)
-        {
-            authority = GameController.Instance.Map.Figures.First(figure => figure is Character);
-        }
+		authority ??= GameController.Instance.CharacterManager.FirstAlive();
 		List<Hex> hexes = RangeHelper.GetHexesInRange(spawnHexes.First(), 100, requiresLineOfSight: false).ToList();		
 
 		Hex chosenHex = await AbilityCmd.SelectHex(authority,
@@ -81,7 +79,8 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 				foreach(Hex spawnHex in spawnHexes)
 				{
 					hexes.Shuffle(GameController.Instance.StateRNG);
-					hexes.Sort((otherHexA, otherHexB) => RangeHelper.Distance(spawnHex, otherHexA).CompareTo(RangeHelper.Distance(spawnHex, otherHexB)));Hex firstHex = null;
+					hexes.Sort((otherHexA, otherHexB) => RangeHelper.Distance(spawnHex, otherHexA).CompareTo(RangeHelper.Distance(spawnHex, otherHexB)));
+					Hex firstHex = null;
 					foreach(Hex hex in hexes)
 					{
 						if(hex.IsEmpty())
@@ -122,6 +121,6 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 			return;
 		}
 
-		await AbilityCmd.SpawnMonster(monsterModel, monsterType, chosenHex, monsterLevel);
+		await AbilityCmd.SpawnMonster(monsterModel, monsterType, chosenHex, monsterLevel, alignment, enemies);
 	}
 }
