@@ -961,6 +961,11 @@ public static class AbilityCmd
 			return false;
 		}
 
+		if(!GameController.FastForward)
+		{
+			await GameController.Instance.ScreenDistortion.Swap(figureA, figureB, 1.4f).PlayFastForwardableAsync();
+		}
+
 		Hex hexA = figureA.Hex;
 		Hex hexB = figureB.Hex;
 		await EnterHex(potentialAbilityState, figureB, authority, hexA, true, true);
