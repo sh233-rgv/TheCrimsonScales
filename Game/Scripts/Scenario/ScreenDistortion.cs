@@ -34,16 +34,23 @@ public partial class ScreenDistortion : FullScreenControl
 	{
 		base._Process(delta);
 
-		if(_target1 == null)
+		if(_target1 == null && _target2 == null)
 		{
 			return;
 		}
 
 		Camera2D camera = GameController.Instance.CameraController.Camera;
-		Vector2 viewportPosition1 = _target1.GetGlobalTransformWithCanvas().Origin / GetViewport().GetVisibleRect().Size;
-		_shaderMaterial.SetShaderParameter(LensCenter1Name, viewportPosition1);
-		Vector2 viewportPosition2 = _target2.GetGlobalTransformWithCanvas().Origin / GetViewport().GetVisibleRect().Size;
-		_shaderMaterial.SetShaderParameter(LensCenter2Name, viewportPosition2);
+		if(_target1 != null)
+		{
+			Vector2 viewportPosition1 = _target1.GetGlobalTransformWithCanvas().Origin / GetViewport().GetVisibleRect().Size;
+			_shaderMaterial.SetShaderParameter(LensCenter1Name, viewportPosition1);
+		}
+
+		if(_target2 != null)
+		{
+			Vector2 viewportPosition2 = _target2.GetGlobalTransformWithCanvas().Origin / GetViewport().GetVisibleRect().Size;
+			_shaderMaterial.SetShaderParameter(LensCenter2Name, viewportPosition2);
+		}
 
 		_shaderMaterial.SetShaderParameter(CameraZoomName, camera.Zoom.X);
 	}
