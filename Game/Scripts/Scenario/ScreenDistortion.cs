@@ -89,14 +89,14 @@ public partial class ScreenDistortion : FullScreenControl
 		return _shaderMaterial.TweenPropertyFloat(lens1 ? LensRadius1Name : LensRadius2Name, to, duration);
 	}
 
-	public GTween Disappear(Figure figure, float animationSpeed, bool lens1)
+	public GTween Disappear(Node2D target, float animationSpeed, bool lens1)
 	{
 		const float radius = 0.7f;
 
 		return GTweenSequenceBuilder.New()
 			.AppendCallback(() =>
 			{
-				SetTarget(figure, lens1);
+				SetTarget(target, lens1);
 				SetPower(1f, lens1);
 				SetRadius(0.4f * radius, lens1);
 
@@ -106,7 +106,7 @@ public partial class ScreenDistortion : FullScreenControl
 			.Join(TweenRadius(0.4f * radius, 0.2f / animationSpeed, lens1).SetEasing(Easing.OutCubic))
 			.Append(TweenPower(0.4f, 0.5f / animationSpeed, lens1).SetEasing(Easing.OutCubic))
 			.Join(TweenRadius(0.3f * radius, 0.5f / animationSpeed, lens1).SetEasing(Easing.OutCubic))
-			.Join(figure.TweenScale(0f, 0.5f / animationSpeed).SetEasing(Easing.Linear))
+			.Join(target.TweenScale(0f, 0.5f / animationSpeed).SetEasing(Easing.Linear))
 			.Append(TweenPower(1f, 0.5f / animationSpeed, lens1).SetEasing(Easing.OutBack))
 			.Join(TweenRadius(0.4f * radius, 0.2f / animationSpeed, lens1).SetEasing(Easing.OutCubic))
 			.AppendCallback(() =>
@@ -116,14 +116,14 @@ public partial class ScreenDistortion : FullScreenControl
 			.Build();
 	}
 
-	public GTween Appear(Figure figure, float animationSpeed, bool lens1)
+	public GTween Appear(Node2D target, float animationSpeed, bool lens1)
 	{
 		const float radius = 0.7f;
 
 		return GTweenSequenceBuilder.New()
 			.AppendCallback(() =>
 			{
-				SetTarget(figure, lens1);
+				SetTarget(target, lens1);
 				SetPower(1f, lens1);
 				SetRadius(0.4f * radius, lens1);
 
@@ -135,7 +135,7 @@ public partial class ScreenDistortion : FullScreenControl
 			.Join(TweenRadius(0.3f * radius, 0.5f / animationSpeed, lens1).SetEasing(Easing.OutCubic))
 			.Append(TweenPower(1f, 0.5f / animationSpeed, lens1).SetEasing(Easing.OutBack))
 			.Join(TweenRadius(0.4f * radius, 0.2f / animationSpeed, lens1).SetEasing(Easing.OutCubic))
-			.Join(figure.TweenScale(1f, 0.2f / animationSpeed).SetEasing(Easing.OutCubic))
+			.Join(target.TweenScale(1f, 0.2f / animationSpeed).SetEasing(Easing.OutCubic))
 			.AppendCallback(() =>
 			{
 				SetTarget(null, lens1);
@@ -143,15 +143,15 @@ public partial class ScreenDistortion : FullScreenControl
 			.Build();
 	}
 
-	public GTween Swap(Figure figureA, Figure figureB, float animationSpeed)
+	public GTween Swap(Node2D targetA, Node2D targetB, float animationSpeed)
 	{
 		const float radius = 0.7f;
 
 		return GTweenSequenceBuilder.New()
 			.AppendCallback(() =>
 			{
-				SetTarget(figureA, true);
-				SetTarget(figureB, false);
+				SetTarget(targetA, true);
+				SetTarget(targetB, false);
 				SetPower(1f, true);
 				SetPower(1f, false);
 				SetRadius(0.4f * radius, true);
@@ -167,20 +167,20 @@ public partial class ScreenDistortion : FullScreenControl
 			.Join(TweenPower(0.4f, 0.5f / animationSpeed, false).SetEasing(Easing.OutCubic))
 			.Join(TweenRadius(0.3f * radius, 0.5f / animationSpeed, true).SetEasing(Easing.OutCubic))
 			.Join(TweenRadius(0.3f * radius, 0.5f / animationSpeed, false).SetEasing(Easing.OutCubic))
-			.Join(figureA.TweenScale(0f, 0.5f / animationSpeed).SetEasing(Easing.Linear))
-			.Join(figureB.TweenScale(0f, 0.5f / animationSpeed).SetEasing(Easing.Linear))
+			.Join(targetA.TweenScale(0f, 0.5f / animationSpeed).SetEasing(Easing.Linear))
+			.Join(targetB.TweenScale(0f, 0.5f / animationSpeed).SetEasing(Easing.Linear))
 			.AppendCallback(() =>
 			{
-				Vector2 tempPos = figureA.GlobalPosition;
-				figureA.SetGlobalPosition(figureB.GlobalPosition);
-				figureB.SetGlobalPosition(tempPos);
+				Vector2 tempPos = targetA.GlobalPosition;
+				targetA.SetGlobalPosition(targetB.GlobalPosition);
+				targetB.SetGlobalPosition(tempPos);
 			})
 			.Append(TweenPower(1f, 0.5f / animationSpeed, true).SetEasing(Easing.OutBack))
 			.Join(TweenPower(1f, 0.5f / animationSpeed, false).SetEasing(Easing.OutBack))
 			.Join(TweenRadius(0.4f * radius, 0.2f / animationSpeed, true).SetEasing(Easing.OutCubic))
 			.Join(TweenRadius(0.4f * radius, 0.2f / animationSpeed, false).SetEasing(Easing.OutCubic))
-			.Join(figureA.TweenScale(1f, 0.2f / animationSpeed).SetEasing(Easing.OutCubic))
-			.Join(figureB.TweenScale(1f, 0.2f / animationSpeed).SetEasing(Easing.OutCubic))
+			.Join(targetA.TweenScale(1f, 0.2f / animationSpeed).SetEasing(Easing.OutCubic))
+			.Join(targetB.TweenScale(1f, 0.2f / animationSpeed).SetEasing(Easing.OutCubic))
 			.AppendCallback(() =>
 			{
 				SetTarget(null, true);

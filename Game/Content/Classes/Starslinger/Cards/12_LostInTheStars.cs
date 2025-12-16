@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 using Godot;
+using GTweens.Builders;
 using GTweens.Easings;
 
 public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostInTheStars.CardBottom>
@@ -25,7 +26,21 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 					await characterToken.Init(state.Performer, state.Performer.Hex);
 
 					state.Performer.RemoveFromMap();
-					state.Performer.TweenScale(0f, 0.15f).SetEasing(Easing.InBack).PlayFastForwardable();
+
+					if(!GameController.FastForward)
+					{
+						characterToken.SetScale(Vector2.Zero);
+						GTweenSequenceBuilder.New()
+							.AppendTime(0.4f)
+							.Append(characterToken.TweenScale(1f, 0.2f))
+							.Build().PlayFastForwardable();
+
+						await GameController.Instance.ScreenDistortion.Disappear(state.Performer, 1.4f, true).PlayFastForwardableAsync();
+					}
+					else
+					{
+						state.Performer.SetScale(Vector2.Zero);
+					}
 
 					state.Performer.SetTakingTurn(false);
 
@@ -89,11 +104,18 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 								}, true, "Select a hex to return to"
 							);
 
-							applyParameters.Figure.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
-							await AbilityCmd.EnterHex(state, applyParameters.Figure, applyParameters.Figure, returnHex, true, true);
-
 							await characterToken.Destroy();
-							characterToken.TweenScale(0f, 0.15f).SetEasing(Easing.InBack).PlayFastForwardable();
+
+							if(!GameController.FastForward)
+							{
+								await GameController.Instance.ScreenDistortion.Appear(state.Performer, 1.4f, true).PlayFastForwardableAsync();
+							}
+							else
+							{
+								state.Performer.SetScale(Vector2.One);
+							}
+
+							await AbilityCmd.EnterHex(state, applyParameters.Figure, applyParameters.Figure, returnHex, true, true);
 						}
 					);
 					await GDTask.CompletedTask;
