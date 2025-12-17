@@ -20,7 +20,7 @@ bool calculateOffset(vec2 uv, float aspect, vec2 lens_center, float lens_radius,
 
     float r = length(scaled_offset);
 	float adjusted_radius = lens_radius * camera_zoom;
-	
+
 	if (r >= adjusted_radius)
 	{
 		return false;
@@ -67,7 +67,7 @@ void fragment()
 	{
 		uvAdjustment += adjustedUV - uv;
 	}
-	
+
 	uv += uvAdjustment;
 
     COLOR = texture(screen_texture, uv);

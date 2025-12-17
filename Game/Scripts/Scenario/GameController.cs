@@ -54,7 +54,7 @@ public partial class GameController : SceneController<GameController>
 	public AOEView AOEView { get; private set; }
 
 	[Export]
-	public AOEMirrorButtonView AOEMirrorButtonView { get; private set; }
+	public AOEButtonView AOEButtonView { get; private set; }
 
 	[Export]
 	public SufferDamageView SufferDamageView { get; private set; }

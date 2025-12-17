@@ -108,6 +108,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 
 							if(!GameController.FastForward)
 							{
+								state.Performer.SetGlobalPosition(returnHex.GlobalPosition);
 								await GameController.Instance.ScreenDistortion.Appear(state.Performer, 1.4f, true).PlayFastForwardableAsync();
 							}
 							else

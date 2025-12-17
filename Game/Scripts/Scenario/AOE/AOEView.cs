@@ -41,7 +41,9 @@ public partial class AOEView : Node2D
 	{
 		base._Ready();
 
-		GameController.Instance.AOEMirrorButtonView.MirrorPressed += OnMirrorPressed;
+		GameController.Instance.AOEButtonView.MirrorPressed += OnMirrorPressed;
+		GameController.Instance.AOEButtonView.RotateCounterClockwisePressed += OnRotateCounterClockwisePressed;
+		GameController.Instance.AOEButtonView.RotateClockwisePressed += OnRotateClockwisePressed;
 	}
 
 	public void Open(AOEPattern pattern, Hex forcedOriginHex, Figure performer, int range)
@@ -118,12 +120,9 @@ public partial class AOEView : Node2D
 			}
 		}
 
-		SetProcessInput(true);
+		GameController.Instance.AOEButtonView.Open(!CheckSymmetry(pattern));
 
-		if(!CheckSymmetry(pattern))
-		{
-			GameController.Instance.AOEMirrorButtonView.Open();
-		}
+		SetProcessInput(true);
 	}
 
 	public void Close()
@@ -138,10 +137,9 @@ public partial class AOEView : Node2D
 		_possibleHexes.Clear();
 
 		GameController.Instance.HexIndicatorManager.ClearIndicators();
+		GameController.Instance.AOEButtonView.Close();
 
 		SetProcessInput(false);
-
-		GameController.Instance.AOEMirrorButtonView.Close();
 	}
 
 	public override void _Input(InputEvent @event)
@@ -162,48 +160,7 @@ public partial class AOEView : Node2D
 
 	private void OnHexPressed(AOEHexView hexView)
 	{
-		if(!_hasGrayHex && _forcedOriginHex == null)
-		{
-			// Rotate around the clicked hex
-			Vector2I delta = hexView.GlobalCoords - _coords;
-			foreach(AOEHexView otherHexView in Hexes)
-			{
-				otherHexView.GlobalPosition -= Map.CoordsToGlobalPosition(delta);
-			}
-
-			_coords += delta;
-
-			_moveTween?.Kill();
-			Vector2 targetPosition = Map.CoordsToGlobalPosition(_coords);
-			_hexParent.GlobalPosition = targetPosition;
-		}
-
-		foreach(AOEHexView otherHexView in Hexes)
-		{
-			Vector2I localCoords = otherHexView.GlobalCoords - _coords;
-			localCoords = Map.RotateCoordsClockwise(localCoords, 1);
-			otherHexView.SetCoords(_coords + localCoords);
-		}
-
-		_rotationIndex++;
-		float targetDegrees = _rotationIndex * 60f;
-		_rotateTween?.Kill();
-		_rotateTween = _hexParent.TweenRotationDegrees(targetDegrees, 0.08f).Play();
-
-		// if(!ValidateHexes())
-		// {
-		// 	GD.PrintErr("Rotating AOE didn't work properly!");
-		// 	return;
-		// }
-		//
-		// TweenPosition();
-
-		// AOEChangedEvent?.Invoke();
-
-		if(!_hasGrayHex)
-		{
-			SetCoords(_coords);
-		}
+		Rotate(hexView.GlobalCoords);
 	}
 
 	private void OnHexDragged(AOEHexView hexView, Vector2I delta)
@@ -238,6 +195,16 @@ public partial class AOEView : Node2D
 		SetCoords(_coords);
 	}
 
+	private void OnRotateCounterClockwisePressed()
+	{
+		Rotate(_coords, false);
+	}
+
+	private void OnRotateClockwisePressed()
+	{
+		Rotate(_coords);
+	}
+
 	private void SetCoords(Vector2I coords, bool skipAnimation = false)
 	{
 		Vector2I oldCoords = _coords;
@@ -266,6 +233,43 @@ public partial class AOEView : Node2D
 		foreach(AOEHexView hexView in Hexes)
 		{
 			hexView.SetCoords(hexView.GlobalCoords + delta);
+		}
+	}
+
+	private void Rotate(Vector2I rotationCoords, bool clockwise = true)
+	{
+		if(!_hasGrayHex && _forcedOriginHex == null)
+		{
+			// Rotate around the clicked hex
+			Vector2I delta = rotationCoords - _coords;
+			foreach(AOEHexView otherHexView in Hexes)
+			{
+				otherHexView.GlobalPosition -= Map.CoordsToGlobalPosition(delta);
+			}
+
+			_coords += delta;
+
+			_moveTween?.Kill();
+			Vector2 targetPosition = Map.CoordsToGlobalPosition(_coords);
+			_hexParent.GlobalPosition = targetPosition;
+		}
+
+		foreach(AOEHexView otherHexView in Hexes)
+		{
+			Vector2I localCoords = otherHexView.GlobalCoords - _coords;
+			localCoords = Map.RotateCoordsClockwise(localCoords, clockwise ? 1 : 5);
+			otherHexView.SetCoords(_coords + localCoords);
+		}
+
+		_rotationIndex += clockwise ? 1 : 5;
+		_rotationIndex %= 6;
+		float targetDegrees = _rotationIndex * 60f;
+		_rotateTween?.Kill();
+		_rotateTween = _hexParent.TweenRotationDegrees(targetDegrees, 0.08f).Play();
+
+		if(!_hasGrayHex)
+		{
+			SetCoords(_coords);
 		}
 	}
 
