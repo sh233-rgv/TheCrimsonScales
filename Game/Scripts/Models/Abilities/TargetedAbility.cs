@@ -51,7 +51,6 @@ public abstract class TargetedAbilityState : AbilityState
 	public int AbilityPull { get; set; }
 	public int AbilitySwing { get; set; }
 
-
 	public RangeType SingleTargetRangeType { get; set; }
 	public int SingleTargetRange { get; set; }
 	public List<ConditionModel> SingleTargetConditionModels { get; set; }
