@@ -96,6 +96,18 @@ public partial class ItemShop : BetweenScenariosAction
 		UpdateButtons();
 	}
 
+	public int GetBuyPrice(SavedCharacter buyer, ItemModel itemModel)
+	{
+		int initialPrice = itemModel.Cost;
+		//TODO: Adjust price based on reputation
+
+		BetweenScenariosEvents.CalculateBuyPrice.Parameters parameters =
+			BetweenScenariosEvents.CalculateBuyPriceEvent.Fire(
+				new BetweenScenariosEvents.CalculateBuyPrice.Parameters(buyer, itemModel, initialPrice));
+
+		return parameters.Price;
+	}
+
 	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder, BetweenScenariosAction previousActiveAction)
 	{
 		_3dRoot.SetVisible(true);

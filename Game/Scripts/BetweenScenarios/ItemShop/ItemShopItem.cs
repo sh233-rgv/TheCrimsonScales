@@ -95,7 +95,9 @@ public partial class ItemShopItem : Control
 	{
 		SavedCharacter selectedCharacter = BetweenScenariosController.Instance.CharacterPortraitManager.SelectedPortrait?.SavedCharacter;
 
-		return selectedCharacter != null && selectedCharacter.Gold >= ItemModel.Cost;
+		return
+			selectedCharacter != null &&
+			selectedCharacter.Gold >= BetweenScenariosController.Instance.ItemShop.GetBuyPrice(selectedCharacter, ItemModel);
 	}
 
 	private void OnPressed()
@@ -125,7 +127,8 @@ public partial class ItemShopItem : Control
 		{
 			ItemModel = ItemModel,
 			SavedItem = SavedItem,
-			Buyer = selectedCharacter
+			Buyer = selectedCharacter,
+			Price = BetweenScenariosController.Instance.ItemShop.GetBuyPrice(selectedCharacter, ItemModel)
 		});
 
 		UpdateVisuals();

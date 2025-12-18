@@ -9,19 +9,19 @@ public class SavedEvents
 {
 	private static EventModel[] StartingCityEventDeck =
 	[
-		ModelDB.Event<City01>(),
-		ModelDB.Event<City02>(),
-		ModelDB.Event<City03>(),
-		ModelDB.Event<City04>(),
-		// ModelDB.Event<City05>(),
-		// ModelDB.Event<City06>(),
-		ModelDB.Event<City07>(),
-		// ModelDB.Event<City08>(),
-		// ModelDB.Event<City09>(),
-		ModelDB.Event<City10>(),
+		// ModelDB.Event<City01>(),
+		// ModelDB.Event<City02>(),
+		// ModelDB.Event<City03>(),
+		// ModelDB.Event<City04>(),
+		// // ModelDB.Event<City05>(),
+		// // ModelDB.Event<City06>(),
+		// ModelDB.Event<City07>(),
+		// // ModelDB.Event<City08>(),
+		// // ModelDB.Event<City09>(),
+		// ModelDB.Event<City10>(),
 		// ModelDB.Event<City11>(),
 		// ModelDB.Event<City12>(),
-		// ModelDB.Event<City13>(),
+		ModelDB.Event<City13>(),
 		// ModelDB.Event<City14>(),
 		// ModelDB.Event<City15>(),
 		// ModelDB.Event<City16>(),
@@ -101,6 +101,11 @@ public class SavedEvents
 	public void AddSavedEventState(SavedEventState savedEventState)
 	{
 		SavedEventStates.Add(savedEventState);
+	}
+
+	public void RemoveSavedEventState(SavedEventState savedEventState)
+	{
+		SavedEventStates.Remove(savedEventState);
 	}
 
 	public void OnScenarioEnded()

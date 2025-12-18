@@ -94,7 +94,10 @@ public class ScenarioSetupPhase : ScenarioPhase
 		{
 			foreach(EventReward eventReward in savedEventState.Choice.GetRewards(savedEventState))
 			{
-				await eventReward.OnScenarioSetupPhaseCompleted();
+				if(eventReward.Type == EventRewardType.ScenarioStart)
+				{
+					await eventReward.OnScenarioSetupPhaseCompleted();
+				}
 			}
 		}
 	}

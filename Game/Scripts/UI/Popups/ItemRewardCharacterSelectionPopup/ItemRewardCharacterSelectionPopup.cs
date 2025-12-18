@@ -40,6 +40,8 @@ public partial class ItemRewardCharacterSelectionPopup : Popup<ItemRewardCharact
 	{
 		base.OnOpen();
 
+		SetCanClose(false);
+
 		_itemView.SetItem(PopupRequest.ItemModel);
 		_label.SetText($"Select who will receive the {PopupRequest.ItemModel.Name}.");
 
@@ -79,6 +81,8 @@ public partial class ItemRewardCharacterSelectionPopup : Popup<ItemRewardCharact
 
 	private void OnConfirmPressed()
 	{
+		SetCanClose(true);
+
 		PopupRequest.OnCharacterConfirmed?.Invoke(_selectedCharacter.SavedCharacter);
 
 		Close();

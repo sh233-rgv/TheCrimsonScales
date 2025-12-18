@@ -35,8 +35,10 @@ public class City34 : CityEventModel<City34.ChoiceA, City34.ChoiceB>
 			You pay the Aesther what you have and proceed to relay over your dream. He concentrates intensely as he listens, and when you finish speaking he opens his eyes and proceeds to explain that your nightmare was meant to give you a glimpse of the impending misfortune your enemies are due to experience.
 			""";
 
+		//TODO: Not enough gold
 		public override List<EventReward> GetRewards(SavedEventState state) =>
 		[
+			new LoseCollectiveGoldEventReward(10),
 			new OnScenarioStartedEventReward(
 				async () =>
 				{

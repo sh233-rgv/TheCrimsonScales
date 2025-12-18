@@ -1,6 +1,7 @@
 ﻿using Fractural.Tasks;
 using Godot;
 
+
 public abstract class EventReward
 {
 	public abstract EventRewardType Type { get; }
@@ -11,10 +12,13 @@ public abstract class EventReward
 		await GDTask.CompletedTask;
 	}
 
-	// public virtual async GDTask OnAfterFirstRoomRevealed()
-	// {
-	// 	await GDTask.CompletedTask;
-	// }
+	public virtual void SubscribeDuringDowntime(SavedEventState savedEventState)
+	{
+	}
+
+	public virtual void UnsubscribeDuringDowntime()
+	{
+	}
 
 	public virtual async GDTask OnScenarioSetupPhaseCompleted()
 	{
