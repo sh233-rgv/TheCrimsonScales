@@ -65,7 +65,7 @@ public class ClampingSnare : ChainguardLevelUpCardModel<ClampingSnare.CardTop, C
 				.WithShieldValue(3)
 				.WithCustomCanApply(parameters =>
 					parameters.FromAttack &&
-					parameters.AbilityState.Performer.HasCondition(Chainguard.Shackle))
+					parameters.PotentialAbilityState.Performer.HasCondition(Chainguard.Shackle))
 				.Build()),
 		];
 

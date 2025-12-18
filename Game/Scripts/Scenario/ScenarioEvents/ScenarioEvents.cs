@@ -121,7 +121,8 @@ public class ScenarioEvents
 		public class Parameters(Figure figure)
 			: ParametersBase
 		{
-			public Figure EmpoweredFigure { get; private set; } = figure;
+			public Figure EmpoweredFigure { get; } = figure;
+
 			public bool ShuffleDrawPile { get; private set; } = true;
 
 			public void SetShuffleDrawPile(bool shuffleDrawPile)
@@ -293,7 +294,7 @@ public class ScenarioEvents
 	{
 		public class Parameters : ParametersBase
 		{
-			public AbilityState AbilityState { get; }
+			public AbilityState PotentialAbilityState { get; }
 			public Figure Figure { get; }
 			public int InitialDamage { get; }
 			public int CalculatedCurrentDamage { get; private set; }
@@ -312,7 +313,7 @@ public class ScenarioEvents
 
 			public Parameters(AbilityState abilityState, Figure figure, int initialDamage, bool fromAttack)
 			{
-				AbilityState = abilityState;
+				PotentialAbilityState = abilityState;
 				Figure = figure;
 				InitialDamage = initialDamage;
 				FromAttack = fromAttack;
@@ -366,9 +367,9 @@ public class ScenarioEvents
 				int finalShieldValue = 0;
 				if(FromAttack)
 				{
-					bool ignoresShield = ((AttackAbility.State)AbilityState).SingleTargetIgnoresAllShields;
+					bool ignoresShield = ((AttackAbility.State)PotentialAbilityState).SingleTargetIgnoresAllShields;
 
-					int finalPierce = Mathf.Max(((AttackAbility.State)AbilityState).SingleTargetPierce, 0);
+					int finalPierce = Mathf.Max(((AttackAbility.State)PotentialAbilityState).SingleTargetPierce, 0);
 					finalShieldValue = ignoresShield ? 0 : Mathf.Max(Shield - finalPierce, 0) + UnpierceableShield;
 				}
 
@@ -398,7 +399,7 @@ public class ScenarioEvents
 		{
 			public Figure Figure { get; } = figure;
 			public int Damage { get; } = damage;
-			public AbilityState AbilityState { get; } = abilityState;
+			public AbilityState PotentialAbilityState { get; } = abilityState;
 			public SufferDamage.Parameters SufferDamageParameters { get; } = sufferDamageParameters;
 
 			public bool Prevented { get; private set; }
@@ -419,7 +420,7 @@ public class ScenarioEvents
 		{
 			public Figure Figure { get; } = figure;
 			public int Damage { get; } = damage;
-			public AbilityState AbilityState { get; } = abilityState;
+			public AbilityState PotentialAbilityState { get; } = abilityState;
 			public SufferDamage.Parameters SufferDamageParameters { get; } = sufferDamageParameters;
 		}
 	}

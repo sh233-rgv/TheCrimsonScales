@@ -21,9 +21,9 @@ public abstract class Empower : ConditionModel
 		await base.Add(target, node);
 
 		IHasEmpower sourceFigure = (IHasEmpower)GameController.Instance.Map.Figures
-			.FirstOrDefault(f => f.GetType() == CharacterType);
+			.FirstOrDefault(figure => figure.GetType() == CharacterType);
 
-		if (sourceFigure != null)
+		if(sourceFigure != null)
 		{
 			await GameController.Instance.AMDManager.Empower(sourceFigure, target);
 		}

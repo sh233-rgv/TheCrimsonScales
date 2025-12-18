@@ -22,7 +22,6 @@ public class Seize : RuinmawCardModel<Seize.CardTop, Seize.CardBottom>
 				.WithPerformAbility(async state =>
 				{
 					ConditionAbility.State conditionAbilityState = state.ActionState.GetAbilityState<ConditionAbility.State>(0);
-					
 
 					if (conditionAbilityState.UniqueTargetedFigures.Count > 0)
 					{
@@ -32,7 +31,7 @@ public class Seize : RuinmawCardModel<Seize.CardTop, Seize.CardBottom>
 						await coinStack.Init(conditionAbilityState.UniqueTargetedFigures[0].Hex);
 
 						await coinStack.Loot(state.Performer);
-                    }
+					}
 
 					await GDTask.CompletedTask;
 				})

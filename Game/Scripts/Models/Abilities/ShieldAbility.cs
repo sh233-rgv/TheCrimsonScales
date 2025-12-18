@@ -119,7 +119,7 @@ public class ShieldAbility : ActiveAbility<ShieldAbility.State>
 			{
 				bool canApply =
 					parameters.Figure == abilityState.Performer && parameters.FromAttack &&
-					(!RequiredRangeType.HasValue || ((AttackAbility.State)parameters.AbilityState).SingleTargetRangeType == RequiredRangeType);
+					(!RequiredRangeType.HasValue || ((AttackAbility.State)parameters.PotentialAbilityState).SingleTargetRangeType == RequiredRangeType);
 
 				if(_customCanApply != null)
 				{

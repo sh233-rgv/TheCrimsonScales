@@ -19,15 +19,15 @@ public class RescueShield : FireKnightItem
 				{
 					parameters.AdjustShield(2);
 
-					if(((AttackAbility.State)parameters.AbilityState).SingleTargetConditionModels.Count > 0)
+					if (parameters.PotentialAbilityState is AttackAbility.State attackAbilityState && attackAbilityState.SingleTargetConditionModels.Count > 0)
 					{
 						List<ScenarioEvents.GenericChoice.Subscription> subscriptions = new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
-						foreach(ConditionModel conditionModel in ((AttackAbility.State)parameters.AbilityState).SingleTargetConditionModels)
+						foreach(ConditionModel conditionModel in attackAbilityState.SingleTargetConditionModels)
 						{
 							subscriptions.Add(ScenarioEvents.GenericChoice.Subscription.New(
 								applyFunction: async applyParameters =>
 								{
-									((AttackAbility.State)parameters.AbilityState).SingleTargetRemoveCondition(conditionModel);
+									attackAbilityState.SingleTargetRemoveCondition(conditionModel);
 
 									await GDTask.CompletedTask;
 								},
