@@ -89,7 +89,7 @@ public class BetweenScenariosEvent<T> : BetweenScenariosEvent
 
 public abstract class BetweenScenariosEvent
 {
-	public abstract class Subscription
+	protected abstract class Subscription
 	{
 		public object Subscriber { get; init; }
 
