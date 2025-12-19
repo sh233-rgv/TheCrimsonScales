@@ -1,4 +1,3 @@
-using System.Data;
 using System.Linq;
 
 public class AlchemyPotion : CS1Item
@@ -27,15 +26,16 @@ public class AlchemyPotion : CS1Item
 							.SelectMany(hex => hex.GetHexObjectsOfType<Obstacle>())
 							.Where(obstacle => !obstacle.CannotBeDestroyed)
 							.Select(obstacle => obstacle.Hex)));
-                 
+
 					if(hex == null)
 					{
 						return;
 					}
+
 					if(await AbilityCmd.TryDestroyObstacle(hex.GetHexObjectOfType<Obstacle>()))
-                    {
+					{
 						await AbilityCmd.SpawnCoin(hex);
-                    }
+					}
 				});
 			}
 		);

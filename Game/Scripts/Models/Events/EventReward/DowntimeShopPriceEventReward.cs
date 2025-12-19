@@ -1,7 +1,7 @@
 ﻿using System;
 using Godot;
 
-public class BuyPriceChangeEventReward(
+public class DowntimeShopPriceEventReward(
 	Func<EventReward, BetweenScenariosEvents.CalculateBuyPrice.ApplyFunction> calculatePriceApplyFunction,
 	Func<EventReward, BetweenScenariosEvents.ItemBought.ApplyFunction> itemBoughtApplyFunction,
 	Func<Color, string> getLabelText)

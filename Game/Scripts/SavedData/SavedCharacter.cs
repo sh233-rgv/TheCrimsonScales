@@ -46,6 +46,9 @@ public class SavedCharacter
 	[JsonProperty]
 	public int CheckmarkCount { get; private set; }
 
+	[JsonProperty]
+	public Guid Guid { get; private set; } = Guid.NewGuid();
+
 	public ClassModel ClassModel => ModelDB.GetById<ClassModel>(ClassModelId);
 
 	public event Action<SavedCharacter> GoldChangedEvent;

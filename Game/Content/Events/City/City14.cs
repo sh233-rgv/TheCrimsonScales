@@ -20,7 +20,7 @@ public class City14 : CityEventModel<City14.ChoiceA, City14.ChoiceB>
 
 		public override List<EventReward> GetRewards(SavedEventState state) =>
 		[
-			new BuyPriceChangeEventReward(
+			new DowntimeShopPriceEventReward(
 				eventReward =>
 					parameters =>
 					{
