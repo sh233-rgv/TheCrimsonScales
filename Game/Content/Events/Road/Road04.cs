@@ -54,7 +54,8 @@ public class Road04 : CityEventModel<Road04.ChoiceA, Road04.ChoiceB>
 				return
 				[
 					new LoseCollectiveGoldEventReward(5),
-					new OnScenarioStartedEventReward(async () =>
+					new OnScenarioStartedEventReward(
+						async () =>
 						{
 							AbilityCmd.SubscribeDuringCharacterTurn(this, EffectType.Selectable,
 								character => true,
@@ -76,7 +77,7 @@ public class Road04 : CityEventModel<Road04.ChoiceA, Road04.ChoiceB>
 							await GDTask.CompletedTask;
 						},
 						color =>
-							$"Once during the next scenario, any character may perform a “{Icons.Inline(Icons.Heal, color: color)}3, self” ability during their turn.")
+							$"Once, during the next scenario, a character may perform a “{Icons.Inline(Icons.Heal, color: color)}3, self” ability during their turn.")
 				];
 			}
 			else

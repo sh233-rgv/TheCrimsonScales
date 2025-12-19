@@ -24,7 +24,7 @@ public class City14 : CityEventModel<City14.ChoiceA, City14.ChoiceB>
 				eventReward =>
 					parameters =>
 					{
-						parameters.AdjustPrice(10);
+						parameters.AdjustPrice(-10);
 					},
 				eventReward =>
 					parameters =>

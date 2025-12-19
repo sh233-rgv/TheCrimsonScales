@@ -169,11 +169,11 @@ public class SavedCharacter
 		ItemIds.Remove(itemModel.Id.ToString());
 	}
 
-	public void SellItem(ItemModel itemModel)
+	public void SellItem(ItemModel itemModel, int sellPrice)
 	{
 		if(ItemIds.Remove(itemModel.Id.ToString()))
 		{
-			AddGold(itemModel.Cost / 2);
+			AddGold(sellPrice);
 		}
 	}
 

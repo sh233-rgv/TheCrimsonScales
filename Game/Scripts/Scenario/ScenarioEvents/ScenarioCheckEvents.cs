@@ -584,4 +584,21 @@ public class ScenarioCheckEvents
 
 	private readonly SpawnCoinCheck _spawnCoinCheck = new SpawnCoinCheck();
 	public static SpawnCoinCheck SpawnCoinCheckEvent => GameController.Instance.ScenarioCheckEvents._spawnCoinCheck;
+
+	public class MoneyTokenValueCheck : ScenarioCheckEvent<MoneyTokenValueCheck.Parameters>
+	{
+		public class Parameters(int value)
+			: ParametersBase
+		{
+			public int Value { get; private set; } = value;
+
+			public void AdjustValue(int delta)
+			{
+				Value += delta;
+			}
+		}
+	}
+
+	private readonly MoneyTokenValueCheck _moneyTokenValueCheck = new MoneyTokenValueCheck();
+	public static MoneyTokenValueCheck MoneyTokenValueCheckEvent => GameController.Instance.ScenarioCheckEvents._moneyTokenValueCheck;
 }

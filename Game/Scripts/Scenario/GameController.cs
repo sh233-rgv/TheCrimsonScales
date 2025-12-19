@@ -612,24 +612,35 @@ public partial class GameController : SceneController<GameController>
 	private int GoldConversion()
 	{
 		int scenarioLevel = SavedScenario.ScenarioLevel;
+
+		int value = 0;
 		switch(scenarioLevel)
 		{
 			case 0:
 			case 1:
-				return 2;
+				value = 2;
+				break;
 			case 2:
 			case 3:
-				return 3;
+				value = 3;
+				break;
 			case 4:
 			case 5:
-				return 4;
+				value = 4;
+				break;
 			case 6:
-				return 5;
+				value = 5;
+				break;
 			case 7:
-				return 6;
+				value = 6;
+				break;
 		}
 
-		return 0;
+		ScenarioCheckEvents.MoneyTokenValueCheck.Parameters parameters =
+			ScenarioCheckEvents.MoneyTokenValueCheckEvent.Fire(
+				new ScenarioCheckEvents.MoneyTokenValueCheck.Parameters(value));
+
+		return parameters.Value;
 	}
 
 	private int BonusExperience()

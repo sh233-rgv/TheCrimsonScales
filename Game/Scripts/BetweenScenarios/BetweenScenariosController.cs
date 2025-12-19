@@ -187,7 +187,14 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 	{
 		CancellationToken cancellationToken = DestroyCancellationToken;
 
-		await EventOverlay.DrawEventCard(EventType.Road, cancellationToken);
+		BetweenScenariosEvents.DrawRoadEvent.Parameters drawRoadEventParameters =
+			BetweenScenariosEvents.DrawRoadEventEvent.Fire(
+				new BetweenScenariosEvents.DrawRoadEvent.Parameters());
+
+		if(drawRoadEventParameters.DrawEvent)
+		{
+			await EventOverlay.DrawEventCard(EventType.Road, cancellationToken);
+		}
 
 		SavedCampaign savedCampaign = SavedCampaign;
 		float characterLevelSum = savedCampaign.Characters.Sum(character => character.Level);

@@ -30,4 +30,51 @@
 
 	private readonly ItemBought _itemBought = new ItemBought();
 	public static ItemBought ItemBoughtEvent => BetweenScenariosController.Instance.Events._itemBought;
+
+	public class CalculateSellPrice : BetweenScenariosEvent<CalculateSellPrice.Parameters>
+	{
+		public class Parameters(SavedCharacter seller, ItemModel itemModel, int initialSellPrice) : ParametersBase
+		{
+			public SavedCharacter Seller { get; private set; } = seller;
+			public ItemModel ItemModel { get; private set; } = itemModel;
+			public int SellPrice { get; private set; } = initialSellPrice;
+
+			public void AdjustSellPrice(int delta)
+			{
+				SellPrice += delta;
+			}
+		}
+	}
+
+	private readonly CalculateSellPrice _calculateSellPrice = new CalculateSellPrice();
+	public static CalculateSellPrice CalculateSellPriceEvent => BetweenScenariosController.Instance.Events._calculateSellPrice;
+
+	public class ItemSold : BetweenScenariosEvent<ItemSold.Parameters>
+	{
+		public class Parameters(SavedCharacter seller, ItemModel itemModel, int sellPrice) : ParametersBase
+		{
+			public SavedCharacter Seller { get; private set; } = seller;
+			public ItemModel ItemModel { get; private set; } = itemModel;
+			public int SellPrice { get; private set; } = sellPrice;
+		}
+	}
+
+	private readonly ItemSold _itemSold = new ItemSold();
+	public static ItemSold ItemSoldEvent => BetweenScenariosController.Instance.Events._itemSold;
+
+	public class DrawRoadEvent : BetweenScenariosEvent<DrawRoadEvent.Parameters>
+	{
+		public class Parameters() : ParametersBase
+		{
+			public bool DrawEvent { get; private set; } = true;
+
+			public void SetDrawEvent(bool drawEvent)
+			{
+				DrawEvent = drawEvent;
+			}
+		}
+	}
+
+	private readonly DrawRoadEvent _drawRoadEvent = new DrawRoadEvent();
+	public static DrawRoadEvent DrawRoadEventEvent => BetweenScenariosController.Instance.Events._drawRoadEvent;
 }

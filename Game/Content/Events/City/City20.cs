@@ -26,7 +26,7 @@ public class City20 : CityEventModel<City20.ChoiceA, City20.ChoiceB>
 				eventReward =>
 					parameters =>
 					{
-						if(state.GetCustomValue<bool>(parameters.Buyer.Guid.ToString()) && parameters.ItemModel.ItemType == ItemType.Small)
+						if(!state.GetCustomValue<bool>(parameters.Buyer.Guid.ToString()) && parameters.ItemModel.ItemType == ItemType.Small)
 						{
 							parameters.AdjustPrice(-10);
 						}
@@ -34,7 +34,7 @@ public class City20 : CityEventModel<City20.ChoiceA, City20.ChoiceB>
 				eventReward =>
 					parameters =>
 					{
-						if(state.GetCustomValue<bool>(parameters.Buyer.Guid.ToString()) && parameters.ItemModel.ItemType == ItemType.Small)
+						if(!state.GetCustomValue<bool>(parameters.Buyer.Guid.ToString()) && parameters.ItemModel.ItemType == ItemType.Small)
 						{
 							state.SetCustomValue(parameters.Buyer.Guid.ToString(), true);
 						}
