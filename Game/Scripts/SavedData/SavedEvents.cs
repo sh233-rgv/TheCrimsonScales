@@ -13,10 +13,10 @@ public class SavedEvents
 		ModelDB.Event<City02>(),
 		ModelDB.Event<City03>(),
 		ModelDB.Event<City04>(),
-		// ModelDB.Event<City05>(),
+		ModelDB.Event<City05>(),
 		// ModelDB.Event<City06>(),
 		ModelDB.Event<City07>(),
-		// ModelDB.Event<City08>(),
+		ModelDB.Event<City08>(),
 		// ModelDB.Event<City09>(),
 		ModelDB.Event<City10>(),
 		ModelDB.Event<City11>(),
@@ -43,36 +43,36 @@ public class SavedEvents
 
 	private static EventModel[] StartingRoadEventDeck =
 	[
-		// ModelDB.Event<Road01>(),
-		ModelDB.Event<Road02>(),
-		ModelDB.Event<Road03>(),
-		ModelDB.Event<Road04>(),
-		ModelDB.Event<Road05>(),
-		ModelDB.Event<Road06>(),
-		ModelDB.Event<Road07>(),
-		ModelDB.Event<Road08>(),
-		ModelDB.Event<Road09>(),
-		// ModelDB.Event<Road10>(),
-		ModelDB.Event<Road11>(),
-		// ModelDB.Event<Road12>(),
-		ModelDB.Event<Road13>(),
-		ModelDB.Event<Road14>(),
-		ModelDB.Event<Road15>(),
+		// // ModelDB.Event<Road01>(),
+		// ModelDB.Event<Road02>(),
+		// ModelDB.Event<Road03>(),
+		// ModelDB.Event<Road04>(),
+		// ModelDB.Event<Road05>(),
+		// ModelDB.Event<Road06>(),
+		// ModelDB.Event<Road07>(),
+		// ModelDB.Event<Road08>(),
+		// ModelDB.Event<Road09>(),
+		// // ModelDB.Event<Road10>(),
+		// ModelDB.Event<Road11>(),
+		// // ModelDB.Event<Road12>(),
+		// ModelDB.Event<Road13>(),
+		// ModelDB.Event<Road14>(),
+		// ModelDB.Event<Road15>(),
 		// ModelDB.Event<Road16>(),
-		// ModelDB.Event<Road17>(),
-		// ModelDB.Event<Road18>(),
-		// ModelDB.Event<Road19>(),
-		// ModelDB.Event<Road20>(),
-		// ModelDB.Event<Road21>(),
-		// ModelDB.Event<Road22>(),
-		ModelDB.Event<Road23>(),
-		// ModelDB.Event<Road24>(),
-		// ModelDB.Event<Road25>(),
-		// ModelDB.Event<Road26>(),
-		// ModelDB.Event<Road27>(),
-		// ModelDB.Event<Road28>(),
-		// ModelDB.Event<Road29>(),
-		// ModelDB.Event<Road30>(),
+		ModelDB.Event<Road17>(),
+		// // ModelDB.Event<Road18>(),
+		// // ModelDB.Event<Road19>(),
+		// // ModelDB.Event<Road20>(),
+		// // ModelDB.Event<Road21>(),
+		// // ModelDB.Event<Road22>(),
+		// ModelDB.Event<Road23>(),
+		// // ModelDB.Event<Road24>(),
+		// // ModelDB.Event<Road25>(),
+		// // ModelDB.Event<Road26>(),
+		// // ModelDB.Event<Road27>(),
+		// // ModelDB.Event<Road28>(),
+		// // ModelDB.Event<Road29>(),
+		// // ModelDB.Event<Road30>(),
 	];
 
 	[JsonProperty]
@@ -137,7 +137,6 @@ public class SavedEvents
 
 		EventModel eventModel = ModelDB.GetById<EventModel>(RoadEventDeckIds[RoadEventDeckIds.Count - 1]);
 		RoadEventDeckIds.RemoveAt(RoadEventDeckIds.Count - 1);
-		GD.Print(RoadEventDeckIds.Count);
 		return eventModel;
 	}
 
@@ -161,7 +160,6 @@ public class SavedEvents
 		}
 
 		RoadEventDeckIds.Insert(0, eventModel.Id.ToString());
-		GD.Print(RoadEventDeckIds.Count);
 	}
 
 	public void AddCityEventToDeck(EventModel eventModel, RandomNumberGenerator rng)

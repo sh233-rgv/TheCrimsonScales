@@ -14,7 +14,7 @@ public class Road31 : CityEventModel<Road31.ChoiceA, Road31.ChoiceB>
 		As you approach the bag of food, a light from behind shines in your direction. You turn around to find a Vermling, wide-awake and holding a portable tech lamp. He asks you what you are doing here and you have to react quickly.
 		""";
 
-	public class ChoiceA : EventChoiceModel
+	public class ChoiceA : EventChoiceModel, IEventSubscriber
 	{
 		public override string ChoiceText => "Explain you're here for the food and aren't leaving without it.";
 
@@ -28,7 +28,44 @@ public class Road31 : CityEventModel<Road31.ChoiceA, Road31.ChoiceB>
 			new OnScenarioStartedEventReward(
 				async () =>
 				{
-					//TODO: Give choice to change initiative of characters
+					foreach(Character character in GameController.Instance.CharacterManager.Characters)
+					{
+						ScenarioEvents.RoundStartedBeforeInitiativesSortedEvent.Subscribe(character, this,
+							parameters => true,
+							async parameters =>
+							{
+								ScenarioCheckEvents.InitiativeCheckEvent.Subscribe(character, this,
+									initiativeCheckParameters => initiativeCheckParameters.Figure == character,
+									initiativeCheckParameters =>
+									{
+										initiativeCheckParameters.SetInitiative(1);
+									}
+								);
+
+								await GDTask.CompletedTask;
+							},
+							EffectType.Selectable,
+							effectButtonParameters: new TextEffectButton.Parameters($"{Icons.Inline(character.ClassModel.IconPath)}01"),
+							effectInfoViewParameters: new TextEffectInfoView.Parameters(
+								$"Set the Initiative of {character.SavedCharacter.GetNameAndIcon()} to 01.")
+						);
+					}
+
+					ScenarioEvents.RoundEndedEvent.Subscribe(this, parameters => true,
+						async parameters =>
+						{
+							ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
+
+							foreach(Character character in GameController.Instance.CharacterManager.Characters)
+							{
+								ScenarioEvents.RoundStartedBeforeInitiativesSortedEvent.Unsubscribe(character, this);
+								ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(character, this);
+							}
+
+							await GDTask.CompletedTask;
+						}
+					);
+
 					await GDTask.CompletedTask;
 				},
 				color =>
@@ -37,7 +74,7 @@ public class Road31 : CityEventModel<Road31.ChoiceA, Road31.ChoiceB>
 		];
 	}
 
-	public class ChoiceB : EventChoiceModel
+	public class ChoiceB : EventChoiceModel, IEventSubscriber
 	{
 		public override string ChoiceText => "Tell the Vermling you lost your way.";
 
@@ -53,10 +90,30 @@ public class Road31 : CityEventModel<Road31.ChoiceA, Road31.ChoiceB>
 			new OnScenarioStartedEventReward(
 				async () =>
 				{
-					//TODO: Change initiative of characters
+					ScenarioCheckEvents.InitiativeCheckEvent.Subscribe(this,
+						parameters =>
+							parameters.Figure is Character,
+						parameters =>
+						{
+							parameters.SetInitiative(99);
+						}
+					);
+
+					ScenarioEvents.RoundEndedEvent.Subscribe(this,
+						parameters => true,
+						async parameters =>
+						{
+							ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
+							ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(this);
+
+							await GDTask.CompletedTask;
+						}
+					);
+
 					await GDTask.CompletedTask;
 				},
-				color => "During the first round of the scenario, all characters act on Initiative 99 instead of their leading Initiative."
+				color =>
+					"During the first round of the scenario, all characters act on Initiative 99 instead of their leading Initiative."
 			)
 		];
 	}

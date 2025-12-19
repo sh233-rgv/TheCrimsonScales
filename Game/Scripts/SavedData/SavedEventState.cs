@@ -74,7 +74,6 @@ public class SavedEventState
 		if(BetweenScenariosController.Instance != null)
 		{
 			BetweenScenariosController.Instance.UnsubscribeDuringDowntime(eventReward);
-			BetweenScenariosController.Instance.SavedCampaign.SavedEvents.RemoveSavedEventState(this);
 		}
 	}
 }

@@ -71,7 +71,7 @@ public static class AbilityCmd
 				ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(state, subscriber,
 					parameters => state.Performer == parameters.Figure,
 					parameters => parameters.Add(
-						new FigureInfoTextExtraEffect.Parameters("All attacks targeting this figure this round gain disadvantage."))
+						new InfoTextExtraEffect.Parameters("All attacks targeting this figure this round gain disadvantage."))
 				);
 
 				return GDTask.CompletedTask;

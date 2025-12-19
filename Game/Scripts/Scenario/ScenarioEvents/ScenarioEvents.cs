@@ -44,6 +44,17 @@ public class ScenarioEvents
 	private readonly GenericChoice _genericChoice = new GenericChoice();
 	public static GenericChoice GenericChoiceEvent => GameController.Instance.ScenarioEvents._genericChoice;
 
+	public class HexObjectDestroyed : ScenarioEvent<HexObjectDestroyed.Parameters>
+	{
+		public class Parameters(HexObject hexObject) : ParametersBase
+		{
+			public HexObject HexObject { get; } = hexObject;
+		}
+	}
+
+	private readonly HexObjectDestroyed _hexObjectDestroyed = new HexObjectDestroyed();
+	public static HexObjectDestroyed HexObjectDestroyedEvent => GameController.Instance.ScenarioEvents._hexObjectDestroyed;
+
 	public class DuringAttack : ScenarioEvent<DuringAttack.Parameters>
 	{
 		public class Parameters(AttackAbility.State abilityState) : ParametersBase<AttackAbility.State>(abilityState)
