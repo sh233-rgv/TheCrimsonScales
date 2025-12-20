@@ -214,9 +214,11 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 	{
 		base.GetValidTargets(abilityState, figures);
 
-		int mostHealthLost = figures.Select(figure => figure.MaxHealth - figure.Health).Max();
-
-		figures.RemoveAll(figure => figure.MaxHealth - figure.Health < mostHealthLost);
+		if(abilityState.Authority is not Character)
+		{
+			int mostHealthLost = figures.Select(figure => figure.MaxHealth - figure.Health).Max();
+			figures.RemoveAll(figure => figure.MaxHealth - figure.Health < mostHealthLost);
+		}
 	}
 
 	protected override string DefaultTargetingHintText(State abilityState)
