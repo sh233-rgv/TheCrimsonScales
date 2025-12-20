@@ -1,4 +1,6 @@
-﻿public static class Icons
+﻿using Godot;
+
+public static class Icons
 {
 	public const string LoseCard = "res://Art/Icons/Abilities/LoseCard.svg";
 	public const string LoseDiscardedCards = "res://Art/Icons/Abilities/LoseDiscardedCards.svg";
@@ -25,6 +27,8 @@
 	public const string PlayingCards = "res://Art/Icons/Other/Card.svg";
 	public const string Active = "res://Art/Icons/Other/Active.svg";
 	public const string Coins = "res://Art/Icons/Other/Coins.svg";
+	public const string XP = "res://Art/Icons/Abilities/XP.svg";
+	public const string Checkmark = "res://Art/Icons/Other/CheckMark.svg";
 
 	public static string GetElement(Element element)
 	{
@@ -51,9 +55,10 @@
 		return $"res://Art/Markers/{markerType.ToString().Replace("_", string.Empty)}.png";
 	}
 
-	public static string Inline(string iconPath, int size = 30)
+	public static string Inline(string iconPath, int size = 30, Color? color = null)
 	{
-		return $"[img={{{size}}}]{iconPath}[/img]";
+		Color finalColor = color ?? Colors.White;
+		return $"[img width={size} color=#{finalColor.ToHtml()}]{iconPath}[/img]";
 	}
 
 	public static string HintText(string iconPath)

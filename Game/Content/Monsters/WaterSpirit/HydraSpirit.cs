@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+[IgnoreModelId]
 public class HydraSpirit : MonsterModel
 {
 	public override MonsterStats[] BossLevelStats =>

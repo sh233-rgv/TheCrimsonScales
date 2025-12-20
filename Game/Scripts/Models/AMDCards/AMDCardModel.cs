@@ -5,7 +5,7 @@ using Godot;
 
 public abstract class AMDCardModel : AbstractModel<AMDCardModel>
 {
-	protected abstract string TexturePath { get; }
+	protected abstract string GetTexturePath(AMDCardOwner owner);
 	protected abstract int AtlasIndex { get; }
 	protected abstract int ColumnCount { get; }
 	protected abstract int RowCount { get; }
@@ -30,10 +30,10 @@ public abstract class AMDCardModel : AbstractModel<AMDCardModel>
 
 	public virtual Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) => null;
 
-	public Texture2D GetTexture()
+	public Texture2D GetTexture(AMDCardOwner owner)
 	{
 		return AtlasTextureHelper.CreateAtlasTexture(
 			AtlasIndex, ColumnCount, RowCount,
-			ResourceLoader.Load<Texture2D>(TexturePath));
+			ResourceLoader.Load<Texture2D>(GetTexturePath(owner)));
 	}
 }

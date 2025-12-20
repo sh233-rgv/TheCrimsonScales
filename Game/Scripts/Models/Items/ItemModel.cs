@@ -17,7 +17,9 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 	public abstract ItemUseType ItemUseType { get; }
 
 	public virtual int MinusOneCount => 0; // Amount of -1 cards this would add to the character's AMD if they do not have the ignore -1 card perk
+
 	public virtual int SmallItemSlotCount => 0; // Amount of small item slots this would add to the character's inventory
+
 	//public virtual List<ItemUseSlot> UseSlots { get; } = null;
 	public virtual int MaxUseCount => 1; // Used for items like orbs, which can be used multiple times before being consumed without having use slots
 
@@ -40,7 +42,13 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 	public Character Owner { get; private set; }
 	public ItemState ItemState { get; private set; }
 	public int UseSlotIndex { get; private set; }
-	public int CurrentUseCountWithMaxUseCount { get; private set; } // Used for items like orbs, which can be used multiple times before being consumed without having use slots
+
+	public int
+		CurrentUseCountWithMaxUseCount
+	{
+		get;
+		private set;
+	} // Used for items like orbs, which can be used multiple times before being consumed without having use slots
 
 	public bool HasUseSlots => UseSlots != null && UseSlots.Count > 0;
 	public bool HasMaxUseCount => MaxUseCount > 1;
@@ -49,8 +57,11 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 	private object _subscriber;
 	protected ItemEffectButton.Parameters _effectButtonParameters;
 	protected ItemEffectInfoView.Parameters _effectInfoViewParameters;
-	protected EffectType GetSubscriptionEffectType => ItemUseType == ItemUseType.Always ? EffectType.MandatoryBeforeOptionals : 
-														(HasUseSlots ? EffectType.SelectableMandatory : EffectType.Selectable);
+
+	protected EffectType GetSubscriptionEffectType =>
+		ItemUseType == ItemUseType.Always
+			? EffectType.MandatoryBeforeOptionals
+			: (HasUseSlots ? EffectType.SelectableMandatory : EffectType.Selectable);
 
 	public abstract Texture2D GetTexture();
 
@@ -140,6 +151,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 		ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.DuringHealEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.InflictConditionEvent.Unsubscribe(this, _subscriber);
+		ScenarioEvents.FigureKilledEvent.Unsubscribe(this, _subscriber);
 		ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Unsubscribe(this, _subscriber);
 	}
 
@@ -309,7 +321,8 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 			effectInfoViewParameters: _effectInfoViewParameters);
 	}
 
-	protected void SubscribeAttackAfterTargetConfirmed(Func<AttackAbility.State, bool> canApply = null, Func<AttackAbility.State, GDTask> apply = null,
+	protected void SubscribeAttackAfterTargetConfirmed(Func<AttackAbility.State, bool> canApply = null,
+		Func<AttackAbility.State, GDTask> apply = null,
 		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
 	{
 		ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(this, _subscriber,
@@ -327,8 +340,9 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 			effectButtonParameters: _effectButtonParameters,
 			effectInfoViewParameters: _effectInfoViewParameters);
 	}
-	
-	protected void SubscribeAMDCardDrawn(Func<ScenarioEvents.AMDCardDrawn.Parameters, bool> canApply = null, Func<ScenarioEvents.AMDCardDrawn.Parameters, GDTask> apply = null,
+
+	protected void SubscribeAMDCardDrawn(Func<ScenarioEvents.AMDCardDrawn.Parameters, bool> canApply = null,
+		Func<ScenarioEvents.AMDCardDrawn.Parameters, GDTask> apply = null,
 		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
 	{
 		ScenarioEvents.AMDCardDrawnEvent.Subscribe(this, _subscriber,
@@ -366,7 +380,8 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 			effectInfoViewParameters: _effectInfoViewParameters);
 	}
 
-	protected void SubscribeSufferDamage(ScenarioEvent<ScenarioEvents.SufferDamage.Parameters>.CanApplyFunction canApply = null, ScenarioEvent<ScenarioEvents.SufferDamage.Parameters>.ApplyFunction apply = null,
+	protected void SubscribeSufferDamage(ScenarioEvent<ScenarioEvents.SufferDamage.Parameters>.CanApplyFunction canApply = null,
+		ScenarioEvent<ScenarioEvents.SufferDamage.Parameters>.ApplyFunction apply = null,
 		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
 	{
 		ScenarioEvents.SufferDamageEvent.Subscribe(this, _subscriber,
@@ -379,7 +394,8 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 			effectInfoViewParameters: _effectInfoViewParameters);
 	}
 
-	protected void SubscribeRetaliate(ScenarioEvent<ScenarioEvents.Retaliate.Parameters>.CanApplyFunction canApply = null, ScenarioEvent<ScenarioEvents.Retaliate.Parameters>.ApplyFunction apply = null,
+	protected void SubscribeRetaliate(ScenarioEvent<ScenarioEvents.Retaliate.Parameters>.CanApplyFunction canApply = null,
+		ScenarioEvent<ScenarioEvents.Retaliate.Parameters>.ApplyFunction apply = null,
 		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
 	{
 		ScenarioEvents.RetaliateEvent.Subscribe(this, _subscriber,
@@ -392,10 +408,25 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 			effectInfoViewParameters: _effectInfoViewParameters);
 	}
 
-	protected void SubscribeInitiativesSorted(ScenarioEvent<ScenarioEvents.InitiativesSorted.Parameters>.CanApplyFunction canApply = null, ScenarioEvent<ScenarioEvents.InitiativesSorted.Parameters>.ApplyFunction apply = null,
+	protected void SubscribeInitiativesSorted(ScenarioEvent<ScenarioEvents.InitiativesSorted.Parameters>.CanApplyFunction canApply = null,
+		ScenarioEvent<ScenarioEvents.InitiativesSorted.Parameters>.ApplyFunction apply = null,
 		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
 	{
 		ScenarioEvents.InitiativesSortedEvent.Subscribe(this, _subscriber,
+			canApply,
+			apply,
+			GetSubscriptionEffectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: _effectButtonParameters,
+			effectInfoViewParameters: _effectInfoViewParameters);
+	}
+
+	protected void SubscribeFigureKilled(ScenarioEvent<ScenarioEvents.FigureKilled.Parameters>.CanApplyFunction canApply = null,
+		ScenarioEvent<ScenarioEvents.FigureKilled.Parameters>.ApplyFunction apply = null,
+		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
+	{
+		ScenarioEvents.FigureKilledEvent.Subscribe(this, _subscriber,
 			canApply,
 			apply,
 			GetSubscriptionEffectType,
@@ -412,10 +443,10 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 			parameters =>
 			{
 				return parameters.Target == Owner &&
-					parameters.Condition?.ImmunityCompareBaseConditions != null &&
-					conditionModel.ImmunityCompareBaseConditions != null &&
-					parameters.Condition.ImmunityCompareBaseConditions
-						.Any(c1 => conditionModel.ImmunityCompareBaseConditions.Contains(c1));
+				       parameters.Condition?.ImmunityCompareBaseConditions != null &&
+				       conditionModel.ImmunityCompareBaseConditions != null &&
+				       parameters.Condition.ImmunityCompareBaseConditions
+					       .Any(c1 => conditionModel.ImmunityCompareBaseConditions.Contains(c1));
 			},
 			async parameters =>
 			{

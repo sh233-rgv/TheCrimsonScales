@@ -28,11 +28,9 @@ public class SlowAndSteady : ChieftainCardModel<SlowAndSteady.CardTop, SlowAndSt
 									canApply: parameters =>
 										parameters.Figure == owner ||
 										parameters.Figure == mount,
-									async parameters =>
+									parameters =>
 									{
 										parameters.SetImmuneToForcedMovement();
-
-										await GDTask.CompletedTask;
 									}
 								);
 								await GDTask.CompletedTask;

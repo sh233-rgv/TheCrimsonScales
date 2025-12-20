@@ -76,18 +76,21 @@ public class SavedSanctuaryOfTheGreatOak
 
 	public void ReturnCards(SavedCharacter savedCharacter)
 	{
-		foreach(string donationAMDCardId in savedCharacter.DonationAMDCardIds)
+		if(savedCharacter.DonationAMDCardIds != null)
 		{
-			if(AllCritAMDCards.Any(card => card.Id.ToString() == donationAMDCardId))
+			foreach(string donationAMDCardId in savedCharacter.DonationAMDCardIds)
 			{
-				CritAMDCardIds.Add(donationAMDCardId);
-			}
-			else
-			{
-				RollingAMDCardIds.Add(donationAMDCardId);
+				if(AllCritAMDCards.Any(card => card.Id.ToString() == donationAMDCardId))
+				{
+					CritAMDCardIds.Add(donationAMDCardId);
+				}
+				else
+				{
+					RollingAMDCardIds.Add(donationAMDCardId);
+				}
 			}
 		}
 
-		savedCharacter.SetDonationAMDCardIds([]);
+		savedCharacter.SetDonationAMDCardIds(null);
 	}
 }

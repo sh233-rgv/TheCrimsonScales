@@ -8,7 +8,7 @@ using Godot;
 public abstract class AbilityState
 {
 	private bool _blocked;
-	private Dictionary<object, Dictionary<string, object>> _customValues = new Dictionary<object, Dictionary<string, object>>();
+	private readonly Dictionary<object, Dictionary<string, object>> _customValues = new Dictionary<object, Dictionary<string, object>>();
 
 	//TODO: Change this into a weak reference to make sure GC works correctly because of cyclic referencing?
 	public ActionState ActionState { get; init; }

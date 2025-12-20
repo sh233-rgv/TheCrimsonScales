@@ -43,6 +43,9 @@ public class SavedCharacter
 	[JsonProperty]
 	public string[] DonationAMDCardIds { get; private set; }
 
+	[JsonProperty]
+	public int CheckmarkCount { get; private set; }
+
 	public ClassModel ClassModel => ModelDB.GetById<ClassModel>(ClassModelId);
 
 	public event Action<SavedCharacter> GoldChangedEvent;
@@ -252,5 +255,27 @@ public class SavedCharacter
 	public void SetDonationAMDCardIds(string[] donationAMDCardIds)
 	{
 		DonationAMDCardIds = donationAMDCardIds;
+	}
+
+	public void AddCheckmark()
+	{
+		if(CheckmarkCount == 18)
+		{
+			// Max amount of checkmarks already earned
+			return;
+		}
+
+		CheckmarkCount++;
+	}
+
+	public void RemoveCheckmark()
+	{
+		if(CheckmarkCount % 3 == 0)
+		{
+			// Cannot remove checkmarks when at any threshold of getting a perk
+			return;
+		}
+
+		CheckmarkCount--;
 	}
 }

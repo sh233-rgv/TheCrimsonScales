@@ -26,16 +26,10 @@ public class AMDManager
 
 		if(deck.Owner != AMDCardOwner.Monsters)
 		{
-			if(RemainingCharacterCurseCount == 0)
+			if(!CurseMonsters())
 			{
 				return false;
 			}
-
-			RemainingCharacterCurseCount--;
-
-			AMDCard card = new AMDCard(ModelDB.AMDCard<CurseAMDCard>(), deck.Owner);
-			card.DrawnEvent += OnCharacterCurseDrawn;
-			figure.AMDCardDeck.AddCard(card, true);
 		}
 		else
 		{
@@ -47,13 +41,28 @@ public class AMDManager
 			RemainingMonsterCurseCount--;
 
 			AMDCard card = new AMDCard(ModelDB.AMDCard<CurseAMDCard>(), deck.Owner);
-			card.DrawnEvent += OnMonsterCurseDrawn;
+			card.DrawnEvent += OnCharacterCurseDrawn;
 			figure.AMDCardDeck.AddCard(card, true);
 		}
 
 		return true;
 	}
 
+	public bool CurseMonsters()
+	{
+		if(RemainingMonsterCurseCount == 0)
+		{
+			return false;
+		}
+
+		RemainingMonsterCurseCount--;
+
+		AMDCard card = new AMDCard(ModelDB.AMDCard<CurseAMDCard>(), AMDCardOwner.Monsters);
+		card.DrawnEvent += OnMonsterCurseDrawn;
+		GameController.Instance.MonsterAMDCardDeck.AddCard(card, true);
+
+		return true;
+	}
 	public async GDTask<bool> Empower(IHasEmpower originalOwner, Figure figure)
 	{
 		if(originalOwner.RemainingEmpowerCount == 0)

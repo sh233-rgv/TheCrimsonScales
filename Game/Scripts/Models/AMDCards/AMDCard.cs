@@ -33,7 +33,7 @@ public class AMDCard : IDeckCard
 
 	public Texture2D GetTexture()
 	{
-		return Model.GetTexture();
+		return Model.GetTexture(Owner);
 	}
 
 	public virtual void Drawn()

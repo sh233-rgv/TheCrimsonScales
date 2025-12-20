@@ -907,11 +907,82 @@ public static class AbilityCmd
 		return GDTask.Never(GameController.CancellationToken);
 	}
 
+	public static void SubscribeDuringCharacterTurn(IEventSubscriber eventSubscriber, EffectType effectType, Func<Character, bool> canApply,
+		Func<Character, GDTask> apply,
+		EffectButtonParameters effectButtonParameters, EffectInfoViewParameters effectInfoViewParameters,
+		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
+	{
+		ScenarioEvents.CardSideSelectionEvent.Subscribe(eventSubscriber,
+			canApplyParameters => canApply == null || canApply(canApplyParameters.Character),
+			async applyParameters =>
+			{
+				if(apply != null)
+				{
+					await apply(applyParameters.Character);
+				}
+			},
+			effectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: effectButtonParameters,
+			effectInfoViewParameters: effectInfoViewParameters);
+
+		ScenarioEvents.AfterCardsPlayedEvent.Subscribe(eventSubscriber,
+			canApplyParameters => canApply == null || canApply(canApplyParameters.Character),
+			async applyParameters =>
+			{
+				if(apply != null)
+				{
+					await apply(applyParameters.Character);
+				}
+			},
+			effectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: effectButtonParameters,
+			effectInfoViewParameters: effectInfoViewParameters);
+
+		ScenarioEvents.LongRestCardSelectionEvent.Subscribe(eventSubscriber,
+			canApplyParameters => canApply == null || canApply(canApplyParameters.Character),
+			async applyParameters =>
+			{
+				if(apply != null)
+				{
+					await apply(applyParameters.Character);
+				}
+			},
+			effectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: effectButtonParameters,
+			effectInfoViewParameters: effectInfoViewParameters);
+	}
+
+	public static void UnsubscribeDuringTurn(IEventSubscriber eventSubscriber)
+	{
+		ScenarioEvents.CardSideSelectionEvent.Unsubscribe(eventSubscriber);
+		ScenarioEvents.AfterCardsPlayedEvent.Unsubscribe(eventSubscriber);
+		ScenarioEvents.LongRestCardSelectionEvent.Unsubscribe(eventSubscriber);
+	}
+
+	public static async GDTask<bool> CurseMonsters()
+	{
+		await GDTask.CompletedTask;
+
+		bool success = GameController.Instance.AMDManager.CurseMonsters();
+		return success;
+	}
+
 	private static async GDTask<bool> TrySwap(AbilityState potentialAbilityState, Figure authority, Figure figureA, Figure figureB)
 	{
 		if(!CanSwap(figureA, figureB))
 		{
 			return false;
+		}
+
+		if(!GameController.FastForward)
+		{
+			await GameController.Instance.ScreenDistortion.Swap(figureA, figureB, 1.4f).PlayFastForwardableAsync();
 		}
 
 		Hex hexA = figureA.Hex;
