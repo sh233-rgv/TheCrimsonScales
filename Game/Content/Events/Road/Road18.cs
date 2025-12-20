@@ -2,9 +2,9 @@
 using System.Linq;
 using Fractural.Tasks;
 
-public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
+public class Road18 : CityEventModel<Road18.ChoiceA, Road18.ChoiceB>
 {
-	public override int Number => 17;
+	public override int Number => 18;
 
 	public override string Text =>
 		"""
@@ -12,14 +12,14 @@ public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
 
 		"These spiritual totems are used by our tribes in battle," the Inox explains. "For the small price of ten gold, one of them could be yours."
 
-		The Inox places two totems on the table of his booth. "Today, I can sell you the Drake Totem of Confusion or the Eagle Totem of Watchfulness. Which would you care to buy?"
+		The Inox places two totems on the table of his booth. "Today, I can sell you the Bull Totem of Aggression or the Dog Totem of Protection. Which would you care to buy?"
 		""";
 
 	public class ChoiceA : EventChoiceModel, IEventSubscriber
 	{
 		private const string ConditionsMetKey = "ConditionsMet";
 
-		public override string ChoiceText => "Offer to buy the Drake Totem.";
+		public override string ChoiceText => "Offer to buy the Bull Totem.";
 
 		public override EventResolveType GetEventResolveType(SavedEventState state)
 		{
@@ -47,7 +47,7 @@ public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
 			{
 				return
 					"""
-					"The Drake Totem!" the Inox smiles as he places a totem resembling a drake on the table. "Used throughout the ages as an emblem to confuse enemies. Excellent choice."
+					"The Bull Totem!" the Inox smiles as he places a totem resembling a bull on the table. "Channels rage into tactical aggression. Powerful choice."
 					""";
 			}
 			else
@@ -69,26 +69,46 @@ public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
 					new TotemEventReward(
 						obstacle =>
 						{
-							ScenarioEvents.DuringAttackEvent.Subscribe(this,
+							ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(this,
 								parameters =>
-									parameters.Performer is Character &&
-									parameters.AbilityState.SingleTargetRangeType == RangeType.Melee &&
-									RangeHelper.Distance(parameters.Performer.Hex, obstacle.Hex) <= 1,
+									parameters.Figure is Character &&
+									RangeHelper.Distance(parameters.Figure.Hex, obstacle.Hex) <= 1,
+								parameters =>
+								{
+									parameters.AddRetaliate(1, 1);
+								}
+							);
+
+							ScenarioEvents.RetaliateEvent.Subscribe(this,
+								parameters =>
+									parameters.RetaliatingFigure is Character &&
+									RangeHelper.Distance(parameters.RetaliatingFigure.Hex, obstacle.Hex) <= 1 &&
+									RangeHelper.Distance(parameters.AbilityState.Performer.Hex, parameters.RetaliatingFigure.Hex) <= 1,
 								async parameters =>
 								{
-									parameters.AbilityState.SingleTargetAddCondition(Conditions.Muddle);
+									parameters.AdjustRetaliate(1);
+									await GDTask.CompletedTask;
+								}
+							);
 
+							ScenarioEvents.FigureEnteredHexEvent.Subscribe(this,
+								parameters => parameters.Figure is Character,
+								async parameters =>
+								{
+									ScenarioCheckEvents.RetaliateCheckEvent.FireChangedEvent();
 									await GDTask.CompletedTask;
 								}
 							);
 						},
 						obstacle =>
 						{
-							ScenarioEvents.DuringAttackEvent.Unsubscribe(this);
+							ScenarioCheckEvents.RetaliateCheckEvent.Unsubscribe(this);
+							ScenarioEvents.RetaliateEvent.Unsubscribe(this);
+							ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this);
 						},
-						"Drake",
+						"Bull",
 						color =>
-							$"All characters adjacent to this obstacle add {Icons.Inline(Icons.GetCondition(Conditions.Muddle), color: color)} to all their melee attacks."
+							$"All characters adjacent to this obstacle gain {Icons.Inline(Icons.Retaliate, color: color)}1."
 					)
 				];
 			}
@@ -103,7 +123,7 @@ public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
 	{
 		private const string ConditionsMetKey = "ConditionsMet";
 
-		public override string ChoiceText => "Offer to buy the Eagle Totem.";
+		public override string ChoiceText => "Offer to buy the Dog Totem.";
 
 		public override EventResolveType GetEventResolveType(SavedEventState state)
 		{
@@ -131,7 +151,7 @@ public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
 			{
 				return
 					"""
-					"The Eagle Totem!" the Inox nods in agreement as he places a totem resembling an eagle on the table. "Sought after by many healers as a sign of watchfulness. Wise choice."
+					"The Dog Totem!" the Inox nods in agreement as he places a totem resembling a dog on the table. "Represents the guard dogs used in battle to help protect their owners. Smart choice."
 					""";
 			}
 			else
@@ -153,28 +173,45 @@ public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
 					new TotemEventReward(
 						obstacle =>
 						{
-							ScenarioEvents.FigureTurnEndedEvent.Subscribe(this,
+							ScenarioCheckEvents.ShieldCheckEvent.Subscribe(this,
+								parameters =>
+									parameters.Figure is Character &&
+									RangeHelper.Distance(parameters.Figure.Hex, obstacle.Hex) <= 1,
+								applyParameters =>
+								{
+									applyParameters.AdjustShield(1);
+								}
+							);
+
+							ScenarioEvents.SufferDamageEvent.Subscribe(this,
 								parameters =>
 									parameters.Figure is Character &&
 									RangeHelper.Distance(parameters.Figure.Hex, obstacle.Hex) <= 1,
 								async parameters =>
 								{
-									ActionState actionState = new ActionState(parameters.Figure,
-										[
-											HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()
-										]
-									);
-									await actionState.Perform();
+									parameters.AdjustShield(1);
+									await GDTask.CompletedTask;
+								}
+							);
+
+							ScenarioEvents.FigureEnteredHexEvent.Subscribe(this,
+								parameters => parameters.Figure is Character,
+								async parameters =>
+								{
+									ScenarioCheckEvents.ShieldCheckEvent.FireChangedEvent();
+									await GDTask.CompletedTask;
 								}
 							);
 						},
 						obstacle =>
 						{
-							ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(this);
+							ScenarioCheckEvents.ShieldCheckEvent.Unsubscribe(this);
+							ScenarioEvents.SufferDamageEvent.Unsubscribe(this);
+							ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this);
 						},
-						"Eagle",
+						"Dog",
 						color =>
-							$"Whenever a character ends their turn adjacent to this obstacle, they may perform “{Icons.Inline(Icons.Heal, color: color)}1, self”."
+							$"All characters adjacent to this obstacle gain {Icons.Inline(Icons.Shield, color: color)}1."
 					)
 				];
 			}

@@ -92,6 +92,7 @@ public abstract partial class Figure : HexObject
 		ScenarioCheckEvents.ShieldCheckEvent.SubscribersChangedEvent += OnShieldSubscriptionsChanged;
 		ScenarioCheckEvents.RetaliateCheckEvent.SubscribersChangedEvent += OnRetaliateSubscriptionsChanged;
 		ScenarioCheckEvents.FlyingCheckEvent.SubscribersChangedEvent += OnFlyingSubscriptionsChanged;
+		ScenarioCheckEvents.InitiativeCheckEvent.SubscribersChangedEvent += OnInitiativeSubscriptionsChanged;
 		//ScenarioCheckEvents.IsMountedCheckEvent.SubscribersChangedEvent += OnIsMountedSubscriptionsChanged;
 
 		OnShieldSubscriptionsChanged();
@@ -111,6 +112,7 @@ public abstract partial class Figure : HexObject
 		ScenarioCheckEvents.ShieldCheckEvent.SubscribersChangedEvent -= OnShieldSubscriptionsChanged;
 		ScenarioCheckEvents.RetaliateCheckEvent.SubscribersChangedEvent -= OnRetaliateSubscriptionsChanged;
 		ScenarioCheckEvents.FlyingCheckEvent.SubscribersChangedEvent -= OnFlyingSubscriptionsChanged;
+		ScenarioCheckEvents.InitiativeCheckEvent.SubscribersChangedEvent -= OnInitiativeSubscriptionsChanged;
 		//ScenarioCheckEvents.IsMountedCheckEvent.SubscribersChangedEvent -= OnIsMountedSubscriptionsChanged;
 	}
 
@@ -395,6 +397,11 @@ public abstract partial class Figure : HexObject
 			ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(this));
 
 		SetFlying(parameters.HasFlying);
+	}
+
+	private void OnInitiativeSubscriptionsChanged()
+	{
+		UpdateInitiative();
 	}
 
 	private void SetShield(int shield, bool extraValue)

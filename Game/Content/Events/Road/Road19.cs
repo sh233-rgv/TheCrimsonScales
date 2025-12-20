@@ -2,9 +2,9 @@
 using System.Linq;
 using Fractural.Tasks;
 
-public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
+public class Road19 : CityEventModel<Road19.ChoiceA, Road19.ChoiceB>
 {
-	public override int Number => 17;
+	public override int Number => 19;
 
 	public override string Text =>
 		"""
@@ -12,14 +12,14 @@ public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
 
 		"These spiritual totems are used by our tribes in battle," the Inox explains. "For the small price of ten gold, one of them could be yours."
 
-		The Inox places two totems on the table of his booth. "Today, I can sell you the Drake Totem of Confusion or the Eagle Totem of Watchfulness. Which would you care to buy?"
+		The Inox places two totems on the table of his booth. "Today, I can sell you the Kangaroo Totem of Balance or the Camel Totem of Endurance. Which would you care to buy?"
 		""";
 
 	public class ChoiceA : EventChoiceModel, IEventSubscriber
 	{
 		private const string ConditionsMetKey = "ConditionsMet";
 
-		public override string ChoiceText => "Offer to buy the Drake Totem.";
+		public override string ChoiceText => "Offer to buy the Kangaroo Totem.";
 
 		public override EventResolveType GetEventResolveType(SavedEventState state)
 		{
@@ -47,7 +47,7 @@ public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
 			{
 				return
 					"""
-					"The Drake Totem!" the Inox smiles as he places a totem resembling a drake on the table. "Used throughout the ages as an emblem to confuse enemies. Excellent choice."
+					"The Kangaroo Totem!" the Inox smiles as he places a totem resembling a kangaroo on the table. "Used to instill a sense of balance within those who gaze at it. Brilliant choice."
 					""";
 			}
 			else
@@ -72,11 +72,10 @@ public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
 							ScenarioEvents.DuringAttackEvent.Subscribe(this,
 								parameters =>
 									parameters.Performer is Character &&
-									parameters.AbilityState.SingleTargetRangeType == RangeType.Melee &&
 									RangeHelper.Distance(parameters.Performer.Hex, obstacle.Hex) <= 1,
 								async parameters =>
 								{
-									parameters.AbilityState.SingleTargetAddCondition(Conditions.Muddle);
+									parameters.AbilityState.SingleTargetSetHasAdvantage();
 
 									await GDTask.CompletedTask;
 								}
@@ -86,9 +85,9 @@ public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
 						{
 							ScenarioEvents.DuringAttackEvent.Unsubscribe(this);
 						},
-						"Drake",
+						"Kangaroo",
 						color =>
-							$"All characters adjacent to this obstacle add {Icons.Inline(Icons.GetCondition(Conditions.Muddle), color: color)} to all their melee attacks."
+							$"All characters adjacent to this obstacle gain Advantage to all their attacks."
 					)
 				];
 			}
@@ -103,7 +102,7 @@ public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
 	{
 		private const string ConditionsMetKey = "ConditionsMet";
 
-		public override string ChoiceText => "Offer to buy the Eagle Totem.";
+		public override string ChoiceText => "Offer to buy the Camel Totem.";
 
 		public override EventResolveType GetEventResolveType(SavedEventState state)
 		{
@@ -131,7 +130,7 @@ public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
 			{
 				return
 					"""
-					"The Eagle Totem!" the Inox nods in agreement as he places a totem resembling an eagle on the table. "Sought after by many healers as a sign of watchfulness. Wise choice."
+					"The Camel Totem!" the Inox nods in agreement as he places a totem resembling an camel on the table. "Thought to aid any to endure the harshest of conditions. Perfect choice."
 					""";
 			}
 			else
@@ -153,28 +152,52 @@ public class Road17 : CityEventModel<Road17.ChoiceA, Road17.ChoiceB>
 					new TotemEventReward(
 						obstacle =>
 						{
-							ScenarioEvents.FigureTurnEndedEvent.Subscribe(this,
+							ScenarioEvents.InflictConditionEvent.Subscribe(this,
+								parameters =>
+									parameters.Target is Character &&
+									RangeHelper.Distance(parameters.Target.Hex, obstacle.Hex) <= 1 &&
+									parameters.Condition?.ImmunityCompareBaseConditions != null &&
+									parameters.Condition.ImmunityCompareBaseConditions
+										.Any(c1 => Conditions.NegativeBaseConditionModels.Contains(c1)),
+								async parameters =>
+								{
+									parameters.SetPrevented(true);
+
+									await GDTask.CompletedTask;
+								}
+							);
+
+							ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Subscribe(this,
 								parameters =>
 									parameters.Figure is Character &&
 									RangeHelper.Distance(parameters.Figure.Hex, obstacle.Hex) <= 1,
+								parameters =>
+								{
+									foreach(ConditionModel conditionModel in Conditions.NegativeBaseConditionModels)
+									{
+										parameters.AddImmunity(conditionModel);
+									}
+								}
+							);
+
+							ScenarioEvents.FigureEnteredHexEvent.Subscribe(this,
+								parameters => parameters.Figure is Character,
 								async parameters =>
 								{
-									ActionState actionState = new ActionState(parameters.Figure,
-										[
-											HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()
-										]
-									);
-									await actionState.Perform();
+									ScenarioCheckEvents.ImmunitiesVisualCheckEvent.FireChangedEvent();
+									await GDTask.CompletedTask;
 								}
 							);
 						},
 						obstacle =>
 						{
-							ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(this);
+							ScenarioEvents.InflictConditionEvent.Unsubscribe(this);
+							ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Unsubscribe(this);
+							ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this);
 						},
-						"Eagle",
+						"Camel",
 						color =>
-							$"Whenever a character ends their turn adjacent to this obstacle, they may perform “{Icons.Inline(Icons.Heal, color: color)}1, self”."
+							$"All characters adjacent to this obstacle are immune to negative conditions."
 					)
 				];
 			}

@@ -4,7 +4,7 @@ using Godot;
 public class GainCollectiveItemEventReward(ItemModel itemModel) : EventReward
 {
 	public override EventRewardType Type => EventRewardType.Immediate;
-	public override string GetLabelText(Color textColor) => $"Gain 1 collective {itemModel.Name}.";
+	public override string GetLabelText(Color textColor) => $"Gain 1 collective '{itemModel.Name}'.";
 
 	public override async GDTask ImmediateResolve()
 	{

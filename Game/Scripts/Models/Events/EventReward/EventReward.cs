@@ -1,7 +1,6 @@
 ﻿using Fractural.Tasks;
 using Godot;
 
-
 public abstract class EventReward
 {
 	public abstract EventRewardType Type { get; }
