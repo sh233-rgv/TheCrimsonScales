@@ -11,7 +11,7 @@ public class Road22 : CityEventModel<Road22.ChoiceA, Road22.ChoiceB>
 		You peer down into the cavern and see only darkness below. The climber must be far down, and it would take great effort to pull him up.
 		""";
 
-	public class ChoiceA : EventChoiceModel, IEventSubscriber
+	public class ChoiceA : EventChoiceModel
 	{
 		public override string ChoiceText => "Assist the climber by pulling up the rope.";
 
@@ -29,7 +29,7 @@ public class Road22 : CityEventModel<Road22.ChoiceA, Road22.ChoiceB>
 		];
 	}
 
-	public class ChoiceB : EventChoiceModel, IEventSubscriber
+	public class ChoiceB : EventChoiceModel
 	{
 		public override string ChoiceText => "Cut the rope and steal the bag he left by the tree.";
 

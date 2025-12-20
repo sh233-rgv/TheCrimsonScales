@@ -11,7 +11,7 @@ public class Road21 : CityEventModel<Road21.ChoiceA, Road21.ChoiceB>
 		"We're running an experiment and would appreciate if you would test one of these out for us," the Brightspark grins. "Just let us know how it goes when you make your way back to the city."
 		""";
 
-	public class ChoiceA : EventChoiceModel, IEventSubscriber
+	public class ChoiceA : EventChoiceModel
 	{
 		public override string ChoiceText => "Try the glowing red liquid.";
 
@@ -28,7 +28,7 @@ public class Road21 : CityEventModel<Road21.ChoiceA, Road21.ChoiceB>
 		];
 	}
 
-	public class ChoiceB : EventChoiceModel, IEventSubscriber
+	public class ChoiceB : EventChoiceModel
 	{
 		public override string ChoiceText => "Try the bubbling green ooze.";
 

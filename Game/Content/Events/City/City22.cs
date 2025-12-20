@@ -63,19 +63,7 @@ public class City22 : CityEventModel<City22.ChoiceA, City22.ChoiceB>
 
 		public override List<EventReward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
-				async () =>
-				{
-					foreach(Figure figure in GameController.Instance.Map.Figures)
-					{
-						if(figure is Monster)
-						{
-							await AbilityCmd.AddCondition(null, figure, Conditions.Muddle);
-						}
-					}
-				},
-				color =>
-					$"At the start of the next scenario, all visible monsters gain {Icons.Inline(Icons.GetCondition(Conditions.Muddle))}.")
+			new AllMonstersStartScenarioWithConditionEventReward(Conditions.Muddle)
 		];
 	}
 }

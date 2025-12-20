@@ -69,10 +69,10 @@ public class SavedEvents
 		ModelDB.Event<Road24>(),
 		// // ModelDB.Event<Road25>(),
 		ModelDB.Event<Road26>(),
-		// // ModelDB.Event<Road27>(),
-		// // ModelDB.Event<Road28>(),
-		// // ModelDB.Event<Road29>(),
-		// // ModelDB.Event<Road30>(),
+		ModelDB.Event<Road27>(),
+		ModelDB.Event<Road28>(),
+		ModelDB.Event<Road29>(),
+		ModelDB.Event<Road30>(),
 	];
 
 	[JsonProperty]

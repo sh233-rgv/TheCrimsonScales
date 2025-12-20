@@ -766,6 +766,11 @@ public static class AbilityCmd
 		await item.Refresh();
 	}
 
+	public static async GDTask SpendItem(ItemModel item)
+	{
+		await item.SetItemState(ItemState.Spent);
+	}
+
 	public static async GDTask<AbilityCardSection> PerformAbilityCardTopOrBottom(Figure performer, AbilityCard abilityCard)
 	{
 		List<CardPlayCardData> cardDatas = new List<CardPlayCardData>();
