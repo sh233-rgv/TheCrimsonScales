@@ -28,14 +28,14 @@ public class Heartripper : RuinmawCardModel<Heartripper.CardTop, Heartripper.Car
 				.Build()),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(5)
-				.WithConditions(Conditions.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.EmpowerRuinmaw)
 				.WithTarget(Target.Self)
 				.Build())
 		];
 
 		protected override bool Sate => true;
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide

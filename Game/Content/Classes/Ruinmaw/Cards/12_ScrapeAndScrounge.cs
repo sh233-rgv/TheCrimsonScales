@@ -18,7 +18,7 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithTarget(Target.Self)
-				.WithConditions(Conditions.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.EmpowerRuinmaw)
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -38,15 +38,17 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 					if(selectedAbilityCard != null)
 					{
 						await AbilityCmd.ReturnToHand(selectedAbilityCard);
+						state.SetPerformed();
 					}
 				})
 				.WithConditionalAbilityCheck(async state =>
 				{
 					await GDTask.CompletedTask;
-					if (IsSated(state.Performer))
-                    {
-                        await AbilityCmd.GainXP(state.Performer, 1);
-                    }
+					if(IsSated(state.Performer))
+					{
+						await AbilityCmd.GainXP(state.Performer, 1);
+					}
+
 					return IsSated(state.Performer);
 				})
 				.Build()),
@@ -66,7 +68,9 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 					foreach(Hex hex in state.ActionState.GetAbilityState<MoveAbility.State>(0).Hexes)
 					{
 						await AbilityCmd.LootHex(state.Performer, hex);
+						state.SetPerformed();
 					}
+
 					await GDTask.CompletedTask;
 				})
 				.Build()),
@@ -74,6 +78,6 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 
 		protected override bool Sate => true;
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

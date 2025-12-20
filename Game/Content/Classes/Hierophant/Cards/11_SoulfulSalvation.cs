@@ -125,7 +125,7 @@ public class SoulfulSalvation : HierophantCardModel<SoulfulSalvation.CardTop, So
 
 		protected override int XP => 1;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 		protected override bool Unrecoverable => true;
 	}
 }

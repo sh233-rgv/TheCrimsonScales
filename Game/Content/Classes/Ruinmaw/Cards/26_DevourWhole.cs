@@ -36,7 +36,7 @@ public class DevourWhole : RuinmawCardModel<DevourWhole.CardTop, DevourWhole.Car
 				)
 				.WithOnAbilityEndedPerformed(async state =>
 					{
-						if (IsSated(state.Performer))
+						if(IsSated(state.Performer))
 						{
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
@@ -61,6 +61,7 @@ public class DevourWhole : RuinmawCardModel<DevourWhole.CardTop, DevourWhole.Car
 					if(selectedAbilityCard != null)
 					{
 						await AbilityCmd.ReturnToHand(selectedAbilityCard);
+						state.SetPerformed();
 					}
 				})
 				.WithConditionalAbilityCheck(async state =>
@@ -94,6 +95,6 @@ public class DevourWhole : RuinmawCardModel<DevourWhole.CardTop, DevourWhole.Car
 
 		protected override bool Sate => true;
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

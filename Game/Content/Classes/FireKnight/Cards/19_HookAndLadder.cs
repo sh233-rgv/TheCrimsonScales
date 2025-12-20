@@ -135,7 +135,8 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 						},
 						EffectType.Selectable,
 						effectButtonParameters: new TextEffectButton.Parameters(Icons.GetCondition(Conditions.Strengthen)),
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Remove {Icons.Inline(Icons.GetCondition(Conditions.Strengthen))} " +
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"Remove {Icons.Inline(Icons.GetCondition(Conditions.Strengthen))} " +
 							$"to add +1{Icons.Inline(Icons.Attack)} to your first attack this round"));
 
 					ScenarioEvents.AbilityEndedEvent.Subscribe(state, this,
@@ -143,12 +144,13 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 						async parameters =>
 						{
 							StrengthenRemove(parameters.Performer);
-							
+
 							await GDTask.CompletedTask;
 						},
 						EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Strengthen)),
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Remove {Icons.Inline(Icons.GetCondition(Conditions.Strengthen))} " +
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"Remove {Icons.Inline(Icons.GetCondition(Conditions.Strengthen))} " +
 							$"to add +1{Icons.Inline(Icons.Attack)} to your first attack this round"));
 					await GDTask.CompletedTask;
 				})
@@ -165,14 +167,14 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 
 		private bool CanApply(Figure performer, OtherActiveAbility.State state, bool requireStrengthen)
 		{
 			return performer.AlliedWith(state.Performer) &&
-				state.Performer.Hex.HasHexObjectOfType<Ladder>() &&
-				RangeHelper.Distance(state.Performer.Hex, performer.Hex) <= 1 &&
-				(!requireStrengthen || performer.HasCondition(Conditions.Strengthen));
+			       state.Performer.Hex.HasHexObjectOfType<Ladder>() &&
+			       RangeHelper.Distance(state.Performer.Hex, performer.Hex) <= 1 &&
+			       (!requireStrengthen || performer.HasCondition(Conditions.Strengthen));
 		}
 
 		private async void StrengthenRemove(Figure performer)
@@ -199,7 +201,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 					{
 						ScenarioEvents.DuringAttackEvent.Unsubscribe(performer, this);
 						ScenarioEvents.RoundEndedEvent.Unsubscribe(performer, this);
-							
+
 						await GDTask.CompletedTask;
 					});
 			}

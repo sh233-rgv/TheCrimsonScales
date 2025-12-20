@@ -19,12 +19,13 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 				.WithPerformAbility(async state =>
 				{
 					await SateRuinmaw(state.Performer);
+					state.SetPerformed();
 
 					int topsPlayed = 0;
 					int bottomsPlayed = 0;
 					for(int i = 0; i < 4; i++)
 					{
-						if(state.Performer.IsDead || ((Character)state.Performer).Cards.Where(card => card.CardState == CardState.Lost).Count() == 0)
+						if(state.Performer.IsDead || ((Character)state.Performer).Cards.Count(card => card.CardState == CardState.Lost) == 0)
 						{
 							break;
 						}
@@ -32,24 +33,26 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 						AbilityCard selectedAbilityCard =
 							await AbilityCmd.SelectAbilityCard(state.Performer as Character, CardState.Lost, true,
 								hintText: $"Select a lost card to play");
-						
+
 						List<CardPlayCardData> cardDatas =
 						[
 							new CardPlayCardData()
 							{
 								AbilityCard = selectedAbilityCard,
-								CanPlayTop = topsPlayed < 2 && !selectedAbilityCard.Top.GetLoss(),
-								CanPlayBottom = bottomsPlayed < 2 && !selectedAbilityCard.Bottom.GetLoss(),
+								CanPlayTop = topsPlayed < 2 && !selectedAbilityCard.Top.Loss,
+								CanPlayBottom = bottomsPlayed < 2 && !selectedAbilityCard.Bottom.Loss,
 								CanPlayBasicTop = topsPlayed < 2,
 								CanPlayBasicBottom = bottomsPlayed < 2,
 							}
 						];
 
 						EffectCollection cardSideSelectionEffectCollection =
-							ScenarioEvents.CardSideSelectionEvent.CreateEffectCollection(new ScenarioEvents.CardSideSelection.Parameters(state.Performer as Character));
+							ScenarioEvents.CardSideSelectionEvent.CreateEffectCollection(
+								new ScenarioEvents.CardSideSelection.Parameters(state.Performer as Character));
 
 						AbilityCardSectionSelectionPrompt.Answer cardSectionAnswer = await PromptManager.Prompt(
-							new AbilityCardSectionSelectionPrompt(cardDatas, cardSideSelectionEffectCollection, () => "Select card side to play"), state.Performer);
+							new AbilityCardSectionSelectionPrompt(cardDatas, cardSideSelectionEffectCollection, () => "Select card side to play"),
+							state.Performer);
 
 						AbilityCard card = GameController.Instance.ReferenceManager.Get<AbilityCard>(cardSectionAnswer.CardReferenceId);
 						AbilityCardSection section = cardSectionAnswer.AbilityCardSection;
@@ -89,6 +92,7 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 								cardData.CanPlayBottom = false;
 							}
 						}
+
 						if(topsPlayed == 2)
 						{
 							foreach(CardPlayCardData cardData in cardDatas)
@@ -111,13 +115,14 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 				.WithPerformAbility(async state =>
 				{
 					await AbilityCmd.KillOrExhaust(state, state.Performer);
+					state.SetPerformed();
 				})
 				.Build())
 		];
 
 		protected override int XP => 2;
 		protected override bool Unrecoverable => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
@@ -128,7 +133,8 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.FigureKilledEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.Figure.EnemiesWith(state.Performer) && canApplyParameters.PotentialAbilityState?.Performer == state.Performer,
+						canApplyParameters => canApplyParameters.Figure.EnemiesWith(state.Performer) &&
+						                      canApplyParameters.PotentialAbilityState?.Performer == state.Performer,
 						async applyParameters =>
 						{
 							ScenarioEvents.AbilityEndedEvent.Subscribe(state, this, parameters => true,
@@ -137,14 +143,12 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 									ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
 									ActionState actionState = new(state.Performer,
 									[
-										ConditionAbility.Builder().WithConditions(Conditions.EmpowerRuinmaw, Conditions.EmpowerRuinmaw,
-											Conditions.EmpowerRuinmaw, Conditions.EmpowerRuinmaw).WithTarget(Target.Self).Build(),
+										ConditionAbility.Builder().WithConditions(Ruinmaw.EmpowerRuinmaw, Ruinmaw.EmpowerRuinmaw,
+											Ruinmaw.EmpowerRuinmaw, Ruinmaw.EmpowerRuinmaw).WithTarget(Target.Self).Build(),
 									]);
 									await actionState.Perform();
 								}
 							);
-							
-							await SateRuinmaw(state.Performer);
 							await state.AdvanceUseSlot();
 						});
 
@@ -158,11 +162,11 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 				})
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.47550005f, 0.8609986f)),
+					new UseSlot(new Vector2(0.47550005f, 0.8609986f), SateRuinmaw),
 				])
 				.Build()),
 		];
-		
+
 		protected override bool Persistent => true;
 	}
 }

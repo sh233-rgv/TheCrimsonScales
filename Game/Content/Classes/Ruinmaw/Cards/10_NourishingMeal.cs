@@ -18,7 +18,7 @@ public class NourishingMeal : RuinmawCardModel<NourishingMeal.CardTop, Nourishin
 				.Build()),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
-				.WithConditions(Conditions.EmpowerRuinmaw, Conditions.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.EmpowerRuinmaw, Ruinmaw.EmpowerRuinmaw)
 				.WithTarget(Target.Self)
 				.WithConditionalAbilityCheck(async state =>
 				{
@@ -30,7 +30,7 @@ public class NourishingMeal : RuinmawCardModel<NourishingMeal.CardTop, Nourishin
 
 		protected override bool Sate => true;
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
@@ -55,7 +55,7 @@ public class NourishingMeal : RuinmawCardModel<NourishingMeal.CardTop, Nourishin
 						{
 							((HealAbility.State)parameters.AbilityState).AbilityAdjustHealValue(
 								RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 1)
-								.Where(figure => figure.EnemiesWith(parameters.Performer)).Count());
+									.Where(figure => figure.EnemiesWith(parameters.Performer)).Count());
 							await GDTask.CompletedTask;
 						}
 					)

@@ -17,9 +17,9 @@ public class SufferingSteel : ChainguardLevelUpCardModel<SufferingSteel.CardTop,
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.SufferDamageEvent.Subscribe(state, this,
-						canApply: canApplyParameters => canApplyParameters.FromAttack && 
-							canApplyParameters.Figure == state.Performer && 
-							canApplyParameters.PotentialAbilityState.Performer.HasCondition(Chainguard.Shackle),
+						canApply: canApplyParameters => canApplyParameters.FromAttack &&
+						                                canApplyParameters.Figure == state.Performer &&
+						                                canApplyParameters.PotentialAbilityState.Performer.HasCondition(Chainguard.Shackle),
 						async applyParameters =>
 						{
 							applyParameters.SetDamagePrevented();
@@ -41,7 +41,7 @@ public class SufferingSteel : ChainguardLevelUpCardModel<SufferingSteel.CardTop,
 
 		protected override int XP => 2;
 		protected override bool Round => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChainguardCardSide

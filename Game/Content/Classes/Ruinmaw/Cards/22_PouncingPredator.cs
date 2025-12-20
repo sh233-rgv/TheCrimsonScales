@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Fractural.Tasks;
 
 public class PouncingPredator : RuinmawCardModel<PouncingPredator.CardTop, PouncingPredator.CardBottom>
 {
@@ -23,7 +22,6 @@ public class PouncingPredator : RuinmawCardModel<PouncingPredator.CardTop, Pounc
 						{
 							parameters.AbilityState.SingleTargetAdjustAttackValue(2);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
-							await GDTask.CompletedTask;
 						}
 					)
 				)
@@ -45,7 +43,6 @@ public class PouncingPredator : RuinmawCardModel<PouncingPredator.CardTop, Pounc
 					Figure figure = await AbilityCmd.SelectFigure(state, list =>
 					{
 						list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1).Where(figure => figure.EnemiesWith(state.Performer)));
-
 					}, hintText: () => $"Select an enemy to suffer {Icons.HintText(Icons.Damage)}3");
 
 					if(figure == null)
@@ -61,6 +58,6 @@ public class PouncingPredator : RuinmawCardModel<PouncingPredator.CardTop, Pounc
 
 		protected override bool Sate => true;
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

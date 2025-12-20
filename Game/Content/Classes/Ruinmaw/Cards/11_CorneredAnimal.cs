@@ -16,7 +16,7 @@ public class CorneredAnimal : RuinmawCardModel<CorneredAnimal.CardTop, CorneredA
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
 				.WithTarget(Target.Self)
-				.WithConditions(Conditions.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.EmpowerRuinmaw)
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(
 						parameters => IsSated(parameters.Performer),
@@ -29,7 +29,7 @@ public class CorneredAnimal : RuinmawCardModel<CorneredAnimal.CardTop, CorneredA
 				)
 				.WithOnAbilityEndedPerformed(async state =>
 					{
-						if (IsSated(state.Performer))
+						if(IsSated(state.Performer))
 						{
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
@@ -73,7 +73,7 @@ public class CorneredAnimal : RuinmawCardModel<CorneredAnimal.CardTop, CorneredA
 				.WithDamage(1)
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(
-						parameters => RangeHelper.GetHexesInRange(parameters.Performer.Hex, 1).Any(hex => hex.GetHexObjectOfType<Obstacle>() != null),
+						parameters => RangeHelper.GetHexesInRange(parameters.Performer.Hex, 1).Any(hex => hex.HasHexObjectOfType<Obstacle>()),
 						async parameters =>
 						{
 							((AttackAbility.State)parameters.AbilityState).AbilitySetHasAdvantage();

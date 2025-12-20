@@ -28,7 +28,7 @@ public class CausticClaws : RuinmawCardModel<CausticClaws.CardTop, CausticClaws.
 				)
 				.WithOnAbilityEndedPerformed(async state =>
 					{
-						if (IsSated(state.Performer))
+						if(IsSated(state.Performer))
 						{
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
@@ -45,25 +45,20 @@ public class CausticClaws : RuinmawCardModel<CausticClaws.CardTop, CausticClaws.
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(5)
 				.WithMoveType(MoveType.Jump)
-				.WithAbilityEndedSubscription(
-					ScenarioEvents.AbilityEnded.Subscription.New(
-						parameters => true,
-						async parameters =>
-						{
-							foreach(Figure figure in ((MoveAbility.State)parameters.AbilityState).Hexes
-								.SelectMany(hex => hex.GetHexObjectsOfType<Figure>())
-								.Where(f => parameters.Performer.AlliedWith(f) || parameters.Performer.EnemiesWith(f)))
-							{
-								await AbilityCmd.AddCondition(parameters.AbilityState, figure, Conditions.Rupture);
-							}
-						}
-					)
-				)
+				.WithOnAbilityEndedPerformed(async state =>
+				{
+					foreach(Figure figure in state.Hexes
+						        .SelectMany(hex => hex.GetHexObjectsOfType<Figure>())
+						        .Where(f => state.Performer.AlliedWith(f) || state.Performer.EnemiesWith(f)))
+					{
+						await AbilityCmd.AddCondition(state, figure, Conditions.Rupture);
+					}
+				})
 				.Build())
 		];
 
 		protected override bool Sate => true;
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

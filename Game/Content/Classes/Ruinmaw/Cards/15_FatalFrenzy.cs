@@ -21,10 +21,11 @@ public class FatalFrenzy : RuinmawCardModel<FatalFrenzy.CardTop, FatalFrenzy.Car
 				.WithConditionalAbilityCheck(async state =>
 				{
 					await GDTask.CompletedTask;
-					if (IsSated(state.Performer))
-                    {
-                        await AbilityCmd.GainXP(state.Performer, 1);
-                    }
+					if(IsSated(state.Performer))
+					{
+						await AbilityCmd.GainXP(state.Performer, 1);
+					}
+
 					return IsSated(state.Performer);
 				})
 				.Build()),
@@ -39,7 +40,8 @@ public class FatalFrenzy : RuinmawCardModel<FatalFrenzy.CardTop, FatalFrenzy.Car
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.Performer == state.Performer && canApplyParameters.AbilityState.SingleTargetRangeType == RangeType.Melee,
+						canApplyParameters => canApplyParameters.Performer == state.Performer &&
+						                      canApplyParameters.AbilityState.SingleTargetRangeType == RangeType.Melee,
 						async applyParameters =>
 						{
 							applyParameters.AbilityState.SingleTargetAddCondition(Conditions.Rupture);
@@ -66,8 +68,8 @@ public class FatalFrenzy : RuinmawCardModel<FatalFrenzy.CardTop, FatalFrenzy.Car
 				])
 				.Build())
 		];
-		
+
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

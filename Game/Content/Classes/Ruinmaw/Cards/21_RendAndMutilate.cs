@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Data;
 using Fractural.Tasks;
 
 public class RendAndMutilate : RuinmawCardModel<RendAndMutilate.CardTop, RendAndMutilate.CardBottom>
@@ -22,7 +21,7 @@ public class RendAndMutilate : RuinmawCardModel<RendAndMutilate.CardTop, RendAnd
 						{
 							((AttackAbility.State)parameters.AbilityState).AbilityAdjustAttackValue(-4);
 							((AttackAbility.State)parameters.AbilityState).AbilityAddCondition(Conditions.Wound1);
-							_loss = false;
+							parameters.AbilityState.ActionState.SetOverrideNoLoss();
 							await GDTask.CompletedTask;
 						}
 					)
@@ -32,8 +31,7 @@ public class RendAndMutilate : RuinmawCardModel<RendAndMutilate.CardTop, RendAnd
 
 		protected override bool Sate => true;
 		protected override int XP => 1;
-		private bool _loss = true;
-		protected override bool Loss => _loss;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
@@ -49,28 +47,27 @@ public class RendAndMutilate : RuinmawCardModel<RendAndMutilate.CardTop, RendAnd
 					if(IsSated(state.Performer))
 					{
 						ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.AbilityState.Performer == state.Performer,
-						async parameters =>
-						{
-							parameters.AbilityState.AbilitySetHasAdvantage();
-							parameters.AbilityState.AbilityAdjustAttackValue(3);
-							await GDTask.CompletedTask;
-						});
+							canApplyParameters => canApplyParameters.AbilityState.Performer == state.Performer,
+							async parameters =>
+							{
+								parameters.AbilityState.AbilitySetHasAdvantage();
+								parameters.AbilityState.AbilityAdjustAttackValue(3);
+								await GDTask.CompletedTask;
+							});
 					}
 					else
 					{
-                        ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.AbilityState.Performer == state.Performer,
-						async parameters =>
-						{
-							parameters.AbilityState.AbilitySetHasAdvantage();
-							parameters.AbilityState.AbilityAdjustAttackValue(1);
-							await GDTask.CompletedTask;
-						});
+						ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
+							canApplyParameters => canApplyParameters.AbilityState.Performer == state.Performer,
+							async parameters =>
+							{
+								parameters.AbilityState.AbilitySetHasAdvantage();
+								parameters.AbilityState.AbilityAdjustAttackValue(1);
+								await GDTask.CompletedTask;
+							});
 					}
 
 					await GDTask.CompletedTask;
-					
 				})
 				.WithOnDeactivate(async state =>
 				{

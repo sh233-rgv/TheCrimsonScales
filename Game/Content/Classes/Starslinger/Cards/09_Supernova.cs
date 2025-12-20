@@ -79,11 +79,11 @@ public class Supernova : StarslingerCardModel<Supernova.CardTop, Supernova.CardB
 		];
 
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 
 		private async GDTask Light(AbilityState state)
-        {
+		{
 			await AbilityCmd.InfuseElement(Element.Light);
-        }
+		}
 	}
 }

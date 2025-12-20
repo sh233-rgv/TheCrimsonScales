@@ -19,10 +19,11 @@ public class IndomitableCraving : RuinmawCardModel<IndomitableCraving.CardTop, I
 				.WithConditionalAbilityCheck(async state =>
 				{
 					await GDTask.CompletedTask;
-					if (IsSated(state.Performer))
-                    {
-                        await AbilityCmd.GainXP(state.Performer, 1);
-                    }
+					if(IsSated(state.Performer))
+					{
+						await AbilityCmd.GainXP(state.Performer, 1);
+					}
+
 					return IsSated(state.Performer);
 				})
 				.Build()),
@@ -34,14 +35,16 @@ public class IndomitableCraving : RuinmawCardModel<IndomitableCraving.CardTop, I
 						list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1).Where(figure => figure.EnemiesWith(state.Performer)
 							&& (figure.HasWound() || figure.HasCondition(Conditions.Rupture))));
 					}, hintText: () => $"Select an enemy to suffer {Icons.HintText(Icons.Damage)}3 or {Icons.HintText(Icons.Damage)}6");
-					if (enemy != null)
+					if(enemy != null)
 					{
 						await AbilityCmd.SufferDamage(state, enemy, enemy.HasWound() && enemy.HasCondition(Conditions.Rupture) ? 6 : 3);
-						if (enemy.IsDead)
-                        {
+						state.SetPerformed();
+						if(enemy.IsDead)
+						{
 							await AbilityCmd.LootHex(state.Performer, enemy.Hex);
-                        }
+						}
 					}
+
 					await GDTask.CompletedTask;
 				})
 				.Build()),
@@ -58,9 +61,9 @@ public class IndomitableCraving : RuinmawCardModel<IndomitableCraving.CardTop, I
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					List<ScenarioEvents.AbilityEnded.Subscription> subscriptions = [];
 					ScenarioEvents.FigureKilledEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.Figure.EnemiesWith(state.Performer) && canApplyParameters.PotentialAbilityState?.Performer == state.Performer,
+						canApplyParameters => canApplyParameters.Figure.EnemiesWith(state.Performer) &&
+						                      canApplyParameters.PotentialAbilityState?.Performer == state.Performer,
 						async applyParameters =>
 						{
 							await state.ActionState.RequestDiscardOrLose();

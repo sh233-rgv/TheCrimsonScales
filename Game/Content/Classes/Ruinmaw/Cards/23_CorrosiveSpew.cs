@@ -37,7 +37,7 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 				)
 				.WithOnAbilityEndedPerformed(async state =>
 					{
-						if (IsSated(state.Performer))
+						if(IsSated(state.Performer))
 						{
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
@@ -55,7 +55,8 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.FigureKilledEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.Figure.EnemiesWith(state.Performer) && canApplyParameters.PotentialAbilityState?.Performer == state.Performer,
+						canApplyParameters => canApplyParameters.Figure.EnemiesWith(state.Performer) &&
+						                      canApplyParameters.PotentialAbilityState?.Performer == state.Performer,
 						async applyParameters =>
 						{
 							object obj = new object();
@@ -66,7 +67,7 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 									ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, obj);
 									ActionState actionState = new ActionState(state.Performer,
 									[
-										HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).WithConditions(Conditions.EmpowerRuinmaw).Build(),
+										HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).WithConditions(Ruinmaw.EmpowerRuinmaw).Build(),
 									]);
 									await actionState.Perform();
 								}
@@ -112,8 +113,8 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 				})
 				.Build())
 		];
-		
+
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

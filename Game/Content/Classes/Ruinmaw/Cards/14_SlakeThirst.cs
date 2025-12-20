@@ -20,7 +20,7 @@ public class SlakeThirst : RuinmawCardModel<SlakeThirst.CardTop, SlakeThirst.Car
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
 				.WithTarget(Target.Self)
-				.WithConditions(Conditions.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.EmpowerRuinmaw)
 				.WithConditionalAbilityCheck(async state =>
 				{
 					await GDTask.CompletedTask;
@@ -41,16 +41,20 @@ public class SlakeThirst : RuinmawCardModel<SlakeThirst.CardTop, SlakeThirst.Car
 				{
 					ScenarioEvents.AfterHealPerformedEvent.Subscribe(state, this,
 						canApplyParameters => canApplyParameters.Performer == state.Performer &&
-							RangeHelper.GetFiguresInRange(state.Performer.Hex, 1).Any(figure => figure.EnemiesWith(state.Performer)),
+						                      RangeHelper.GetFiguresInRange(state.Performer.Hex, 1)
+							                      .Any(figure => figure.EnemiesWith(state.Performer)),
 						async applyParameters =>
 						{
-							Figure figure = await AbilityCmd.SelectFigure(state, list => {
-								list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1).Where(figure => figure.EnemiesWith(state.Performer)));
+							Figure figure = await AbilityCmd.SelectFigure(state, list =>
+							{
+								list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1)
+									.Where(figure => figure.EnemiesWith(state.Performer)));
 							});
 							if(figure != null)
-                            {
+							{
 								await AbilityCmd.SufferDamage(state, figure, 2);
-                            }
+							}
+
 							await state.AdvanceUseSlot();
 						});
 
@@ -74,6 +78,6 @@ public class SlakeThirst : RuinmawCardModel<SlakeThirst.CardTop, SlakeThirst.Car
 		];
 
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

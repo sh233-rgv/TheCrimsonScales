@@ -63,7 +63,7 @@ public class Chokehold : ChainguardCardModel<Chokehold.CardTop, Chokehold.CardBo
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChainguardCardSide
@@ -76,27 +76,27 @@ public class Chokehold : ChainguardCardModel<Chokehold.CardTop, Chokehold.CardBo
 
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
-				{
-					Figure figure = await AbilityCmd.SelectFigure(state, list =>
 					{
-						foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1))
+						Figure figure = await AbilityCmd.SelectFigure(state, list =>
 						{
-							if(state.Authority.EnemiesWith(figure) && figure.HasCondition(Chainguard.Shackle))
+							foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1))
 							{
-								list.Add(figure);
+								if(state.Authority.EnemiesWith(figure) && figure.HasCondition(Chainguard.Shackle))
+								{
+									list.Add(figure);
+								}
 							}
+						});
+
+						if(figure == null)
+						{
+							return;
 						}
-					});
 
-					if(figure == null)
-					{
-						return;
+						await AbilityCmd.SufferDamage(state, figure, 1);
 					}
-
-					await AbilityCmd.SufferDamage(state, figure, 1);
-				}
-			)
-			.Build())
+				)
+				.Build())
 		];
 	}
 }

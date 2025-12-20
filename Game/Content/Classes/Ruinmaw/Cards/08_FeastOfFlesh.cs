@@ -28,7 +28,7 @@ public class FeastOfFlesh : RuinmawCardModel<FeastOfFlesh.CardTop, FeastOfFlesh.
 
 		protected override bool Sate => true;
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
@@ -43,8 +43,8 @@ public class FeastOfFlesh : RuinmawCardModel<FeastOfFlesh.CardTop, FeastOfFlesh.
 						parameters => IsSated(parameters.Performer),
 						async parameters =>
 						{
-							((HealAbility.State)parameters.AbilityState).AbilityAddCondition(Conditions.EmpowerRuinmaw);
-							((HealAbility.State)parameters.AbilityState).AbilityAddCondition(Conditions.EmpowerRuinmaw);
+							((HealAbility.State)parameters.AbilityState).AbilityAddCondition(Ruinmaw.EmpowerRuinmaw);
+							((HealAbility.State)parameters.AbilityState).AbilityAddCondition(Ruinmaw.EmpowerRuinmaw);
 							await GDTask.CompletedTask;
 						}
 					)

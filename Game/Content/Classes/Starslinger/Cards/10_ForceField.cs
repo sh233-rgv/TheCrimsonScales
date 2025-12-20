@@ -62,7 +62,7 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 		];
 
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 
 		private async GDTask Heal(AbilityState state)
 		{
@@ -108,8 +108,7 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 
 					await GDTask.CompletedTask;
 				})
-				.WithOnDeactivate(
-					async state =>
+				.WithOnDeactivate(async state =>
 					{
 						ScenarioEvents.RoundEndedEvent.Unsubscribe(state, this);
 

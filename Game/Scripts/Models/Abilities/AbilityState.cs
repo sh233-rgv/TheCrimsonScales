@@ -7,7 +7,6 @@ using Godot;
 /// </summary>
 public abstract class AbilityState
 {
-	public List<Figure> DamagedFigures { get; } = new List<Figure>();
 	private bool _blocked;
 	private Dictionary<object, Dictionary<string, object>> _customValues = new Dictionary<object, Dictionary<string, object>>();
 
@@ -16,6 +15,8 @@ public abstract class AbilityState
 
 	public bool CanPerformWhileStunned { get; init; }
 	public bool Performed { get; private set; }
+
+	public List<Figure> DamagedFigures { get; } = new List<Figure>();
 
 	public Figure Performer => ActionState.Performer;
 	public Figure Authority => ActionState.Authority;
@@ -67,7 +68,8 @@ public abstract class AbilityState
 
 	public bool TryGetCustomValue<T>(object source, string key, out T value)
 	{
-		if(!_customValues.TryGetValue(source, out Dictionary<string, object> sourceValues) || !sourceValues.TryGetValue(key, out object retrievedValue))
+		if(!_customValues.TryGetValue(source, out Dictionary<string, object> sourceValues) ||
+		   !sourceValues.TryGetValue(key, out object retrievedValue))
 		{
 			//Log.Error($"Could not find custom value for: {source} with key: {key}");
 			value = default;

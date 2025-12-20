@@ -39,7 +39,7 @@ public class SavageStalker : RuinmawCardModel<SavageStalker.CardTop, SavageStalk
 
 		protected override bool Sate => true;
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide

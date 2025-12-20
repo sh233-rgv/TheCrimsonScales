@@ -20,15 +20,13 @@ public class FerociousFling : RuinmawCardModel<FerociousFling.CardTop, Ferocious
 				.Build()),
 			new AbilityCardAbility(PushAbility.Builder()
 				.WithPush(1)
-				.WithCustomGetTargets(async (state, targets) =>
+				.WithCustomGetTargets((state, targets) =>
 				{
 					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
-					Figure figure = await AbilityCmd.SelectFigure(state, list => list.AddRange(attackAbilityState.UniqueTargetedFigures)
-						, true, hintText: () => "Select a target of the attack ability");
-					if (figure != null)
-                    {
+					foreach(Figure figure in attackAbilityState.UniqueTargetedFigures)
+					{
 						targets.AddRange(RangeHelper.GetFiguresInRange(figure.Hex, 1, false));
-                    }
+					}
 				})
 				.WithTarget(Target.Enemies | Target.TargetAll)
 				.Build()),
@@ -37,11 +35,13 @@ public class FerociousFling : RuinmawCardModel<FerociousFling.CardTop, Ferocious
 				{
 					IEnumerable<Figure> figures = state.ActionState.AbilityStates
 						.OfType<TargetedAbilityState>()
-						.SelectMany(abilityState => abilityState.UniqueTargetedFigures.Where(figure => figure.EnemiesWith(state.Performer)));
+						.SelectMany(abilityState =>
+							abilityState.UniqueTargetedFigures.Where(figure => figure.EnemiesWith(state.Performer)).Distinct());
 					foreach(Figure figure in figures)
-                    {
-						await AbilityCmd.SufferDamage(state, figure, 2);    
-                    }
+					{
+						await AbilityCmd.SufferDamage(state, figure, 2);
+						state.SetPerformed();
+					}
 				})
 				.Build())
 		];
@@ -49,7 +49,7 @@ public class FerociousFling : RuinmawCardModel<FerociousFling.CardTop, Ferocious
 		protected override bool Sate => true;
 		protected override IEnumerable<Element> Elements => [Element.Air];
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide

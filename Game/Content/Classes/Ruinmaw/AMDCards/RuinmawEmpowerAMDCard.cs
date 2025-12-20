@@ -1,4 +1,4 @@
-public class RuinmawEmpowerAMDCard(IHasEmpower figure) : EmpowerAMDCard
+public class RuinmawEmpowerAMDCard : EmpowerAMDCard
 {
 	protected override string TexturePath => "res://Content/Classes/Ruinmaw/AMDCards/AMDCards.png";
 	protected override int ColumnCount => 3;
@@ -7,8 +7,5 @@ public class RuinmawEmpowerAMDCard(IHasEmpower figure) : EmpowerAMDCard
 	public override AMDCardType Type => AMDCardType.Value;
 	public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 	public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
-	public override bool RemoveAfterDraw => true;
 	public override int? Push => 1;
-
-	public IHasEmpower Owner = figure;
 }

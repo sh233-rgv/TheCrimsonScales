@@ -16,14 +16,14 @@ public class DigIn : RuinmawCardModel<DigIn.CardTop, DigIn.CardBottom>
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
 				.WithTarget(Target.Self)
-				.WithConditions(Conditions.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.EmpowerRuinmaw)
 				.WithDuringHealSubscription(
 					ScenarioEvents.DuringHeal.Subscription.New(
-						parameters => RangeHelper.GetHexesInRange(parameters.Performer.Hex, 1).Any(hex => hex.GetHexObjectOfType<Obstacle>() != null),
+						parameters => RangeHelper.GetHexesInRange(parameters.Performer.Hex, 1).Any(hex => hex.HasHexObjectOfType<Obstacle>()),
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustHealValue(1);
-							parameters.AbilityState.AbilityAddCondition(Conditions.EmpowerRuinmaw);
+							parameters.AbilityState.AbilityAddCondition(Ruinmaw.EmpowerRuinmaw);
 							await GDTask.CompletedTask;
 						}
 					)
@@ -34,10 +34,11 @@ public class DigIn : RuinmawCardModel<DigIn.CardTop, DigIn.CardBottom>
 				.WithConditionalAbilityCheck(async state =>
 				{
 					await GDTask.CompletedTask;
-					if (IsSated(state.Performer))
-                    {
-                        await AbilityCmd.GainXP(state.Performer, 1);
-                    }
+					if(IsSated(state.Performer))
+					{
+						await AbilityCmd.GainXP(state.Performer, 1);
+					}
+
 					return IsSated(state.Performer);
 				})
 				.WithOnAbilityEndedPerformed(async state =>
@@ -64,33 +65,30 @@ public class DigIn : RuinmawCardModel<DigIn.CardTop, DigIn.CardBottom>
 				{
 					ScenarioEvents.FigureTurnEndedEvent.Subscribe(state, this,
 						canApplyParameters => canApplyParameters.Figure.EnemiesWith(state.Performer) &&
-							RangeHelper.Distance(state.Performer.Hex, canApplyParameters.Figure.Hex) <= 1,
+						                      RangeHelper.Distance(state.Performer.Hex, canApplyParameters.Figure.Hex) <= 1,
 						async parameters =>
 						{
-							await AbilityCmd.GenericChoice(state.Performer, 
-							[
-								ScenarioEvents.GenericChoice.Subscription.New(
-									applyFunction: async applyParameters =>
-									{
-										if(await AbilityCmd.RemoveCondition(state.Performer, Conditions.Invisible))
-										{
-											ActionState actionState = new ActionState(state.Performer,
-											[
-												AttackAbility.Builder().WithDamage(2).Build()
-											]);
-											await actionState.Perform();
-										}
+							if(await AbilityCmd.RemoveCondition(state.Performer, Conditions.Invisible))
+							{
+								ActionState actionState = new ActionState(state.Performer,
+								[
+									AttackAbility.Builder().WithDamage(2).Build()
+								]);
+								await actionState.Perform();
+							}
+						}, effectType: EffectType.Selectable,
+						effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Invisible)),
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"Remove {Icons.HintText(Icons.GetCondition(Conditions.Invisible))}"));
 
-										await GDTask.CompletedTask;
-									},
-									effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Invisible)),
-									effectInfoViewParameters: new TextEffectInfoView.Parameters($"Remove {Icons.HintText(Icons.GetCondition(Conditions.Invisible))}"),
-									effectType: EffectType.Selectable
-								),
-							], hintText: $"Remove {Icons.HintText(Icons.GetCondition(Conditions.Invisible))} from {state.Performer.Name} to perform {Icons.HintText(Icons.Attack)}2?");
+					object subscriber = new object();
+					ScenarioEvents.FigureTurnEndedEvent.Subscribe(state, subscriber,
+						canApplyParameters => canApplyParameters.Figure.EnemiesWith(state.Performer) &&
+						                      RangeHelper.Distance(state.Performer.Hex, canApplyParameters.Figure.Hex) <= 1,
+						async parameters =>
+						{
 							await state.ActionState.RequestDiscardOrLose();
 						});
-
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>

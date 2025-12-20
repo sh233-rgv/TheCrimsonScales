@@ -293,15 +293,15 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		ScenarioEvents.AttackAfterTargetConfirmed.Parameters attackAfterTargetConfirmedParameters =
 			await ScenarioEvents.AttackAfterTargetConfirmedEvent.CreatePrompt(
 				new ScenarioEvents.AttackAfterTargetConfirmed.Parameters(abilityState), abilityState);
-				
+
 		if(attackAfterTargetConfirmedParameters.CannotGainDisadvantage)
-        {
+		{
 			attackAfterTargetConfirmedParameters.AbilityState.SingleTargetHasDisadvantage = false;
-        }
+		}
 
 		await GameController.Instance.AMDDrawView.DrawCards(abilityState);
 
-		int finalDamage = await AbilityCmd.SufferDamage(abilityState, target, abilityState.SingleTargetAttackValue, true);
+		int finalDamage = await AbilityCmd.SufferDamage(abilityState, target, abilityState.SingleTargetAttackValue, fromAttack: true);
 
 		if(!GameController.FastForward)
 		{
@@ -369,18 +369,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 
 		if(!retaliateParameters.RetaliateBlocked && retaliateParameters.Retaliate > 0)
 		{
-			ActionState newActionState = new ActionState(retaliateParameters.RetaliatingFigure,
-			[
-				OtherAbility.Builder()
-					.WithPerformAbility(async state =>
-					{
-						await AbilityCmd.SufferDamage(state, abilityState.Performer, retaliateParameters.Retaliate);
-					}
-				)
-				.WithCanPerformWhileStunned(true)
-				.Build()
-			]);
-			await newActionState.Perform();
+			await AbilityCmd.SufferDamage(abilityState.Performer, retaliateParameters.Retaliate, authority: retaliateParameters.RetaliatingFigure);
 		}
 
 		await ScenarioEvents.AfterAttackPerformedEvent.CreatePrompt(

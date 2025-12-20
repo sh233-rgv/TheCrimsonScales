@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using Fractural.Tasks;
+﻿using Fractural.Tasks;
 
 public class AMDManager
 {
@@ -62,8 +60,9 @@ public class AMDManager
 		{
 			return false;
 		}
+
 		originalOwner.RemainingEmpowerCount--;
-		AMDCardWithOwner card = new(originalOwner.CreateEmpower(), figure.AMDCardDeck.Owner, (Figure)originalOwner);
+		AMDCard card = new AMDCard(originalOwner.CreateEmpower(), figure.AMDCardDeck.Owner, (Figure)originalOwner);
 		ScenarioEvents.EmpowerAdded.Parameters empowerAddedParameters =
 			await ScenarioEvents.EmpowerAddedEvent.CreatePrompt(
 				new ScenarioEvents.EmpowerAdded.Parameters(figure));
@@ -89,8 +88,8 @@ public class AMDManager
 		RemainingMonsterCurseCount++;
 	}
 
-	private void OnEmpowerDrawn(AMDCard card, Figure originalOwner)
+	private void OnEmpowerDrawn(AMDCard card)
 	{
-		((IHasEmpower)originalOwner).RemainingEmpowerCount++;
+		((IHasEmpower)card.PotentialOriginalOwner).RemainingEmpowerCount++;
 	}
 }

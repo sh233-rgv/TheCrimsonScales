@@ -32,7 +32,7 @@ public class CardSelectionPhase : ScenarioPhase
 
 			if(playableCardCount < 2 && discardedCardCount < 2)
 			{
-				await AbilityCmd.KillOrExhaust(null, character);
+				await AbilityCmd.KillOrExhaust(character, character);
 			}
 		}
 

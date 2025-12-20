@@ -99,6 +99,6 @@ public class ImpetuousInquisition : HierophantCardModel<ImpetuousInquisition.Car
 
 		protected override int XP => 1;
 		protected override bool Round => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

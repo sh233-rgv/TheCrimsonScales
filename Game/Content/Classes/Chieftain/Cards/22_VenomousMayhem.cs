@@ -17,7 +17,7 @@ public class VenomousMayhem : ChieftainCardModel<VenomousMayhem.CardTop, Venomou
 					Health = 5,
 					Move = 4,
 					Attack = 1,
-					Traits = 
+					Traits =
 					[
 						new ApplyConditionTrait(Conditions.Poison1),
 						new ApplyConditionTrait(Conditions.Immobilize)
@@ -31,7 +31,7 @@ public class VenomousMayhem : ChieftainCardModel<VenomousMayhem.CardTop, Venomou
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChieftainCardSide

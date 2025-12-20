@@ -17,7 +17,7 @@
 	public static Immobilize Immobilize { get; } = ModelDB.Condition<Immobilize>();
 
 	public static Chill Chill { get; } = ModelDB.Condition<Chill>();
-	
+
 	public static Rupture Rupture { get; } = ModelDB.Condition<Rupture>();
 
 	public static Regenerate Regenerate { get; } = ModelDB.Condition<Regenerate>();
@@ -27,11 +27,10 @@
 	public static Invisible Invisible { get; } = ModelDB.Condition<Invisible>();
 
 	public static Bless Bless { get; } = ModelDB.Condition<Bless>();
-	public static EmpowerRuinmaw EmpowerRuinmaw { get; } = ModelDB.Condition<EmpowerRuinmaw>();
 	public static Curse Curse { get; } = ModelDB.Condition<Curse>();
 
 	public static Ward Ward { get; } = ModelDB.Condition<Ward>();
-	
+
 	public static Infect Infect { get; } = ModelDB.Condition<Infect>();
 
 	public static Safeguard Safeguard { get; } = ModelDB.Condition<Safeguard>();

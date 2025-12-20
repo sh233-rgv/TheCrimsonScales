@@ -19,7 +19,7 @@ public class StripFlesh : RuinmawCardModel<StripFlesh.CardTop, StripFlesh.CardBo
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
 				.WithTarget(Target.Self)
-				.WithConditions(Conditions.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.EmpowerRuinmaw)
 				.Build())
 		];
 	}
@@ -54,6 +54,6 @@ public class StripFlesh : RuinmawCardModel<StripFlesh.CardTop, StripFlesh.CardBo
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

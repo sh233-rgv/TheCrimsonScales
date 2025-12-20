@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public abstract class RuinmawCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
 	where TTop : RuinmawCardSide, new()
@@ -15,7 +13,8 @@ public abstract class RuinmawCardModel<TTop, TBottom> : AtlasAbilityCardModel<TT
 public abstract class RuinmawCardSide : AbilityCardSide
 {
 	protected virtual bool Sate => false;
-	protected override Action<Figure> ActionPerformed => async (performer) =>
+
+	protected override Func<Figure, GDTask> ActionPerformed => async (performer) =>
 	{
 		if(Sate)
 		{
@@ -28,7 +27,6 @@ public abstract class RuinmawCardSide : AbilityCardSide
 		if(figure is Ruinmaw ruinmaw)
 		{
 			ruinmaw.Sate();
-			ruinmaw.SateEvent?.Invoke(ruinmaw);
 		}
 
 		await GDTask.CompletedTask;
@@ -38,9 +36,9 @@ public abstract class RuinmawCardSide : AbilityCardSide
 	{
 		await SateRuinmaw(state.Performer);
 	}
-	
+
 	protected static bool IsSated(Figure figure)
-    {
+	{
 		return figure is Ruinmaw ruinmaw && ruinmaw.Sated;
-    }
+	}
 }

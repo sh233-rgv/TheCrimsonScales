@@ -450,7 +450,7 @@ public partial class Character : Figure
 
 			if(shortRestAnswer.Redraw)
 			{
-				await AbilityCmd.SufferDamage(null, this, 1);
+				await AbilityCmd.SufferDamage(this, 1, this);
 
 				AbilityCard cardRedrawnFor = GameController.Instance.ReferenceManager.Get<AbilityCard>(shortRestAnswer.AbilityCardReferenceId);
 				await AbilityCmd.ReturnToHand(cardRedrawnFor);
@@ -487,7 +487,7 @@ public partial class Character : Figure
 
 		if(playableCardCount < 2 && discardedCardCount < 2)
 		{
-			await AbilityCmd.KillOrExhaust(null, this);
+			await AbilityCmd.KillOrExhaust(this, this);
 		}
 	}
 

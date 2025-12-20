@@ -31,6 +31,7 @@ public sealed partial class ActionState
 	public bool OverridePersistent { get; private set; }
 	public bool OverrideNoPersistent { get; private set; }
 	public bool OverrideLoss { get; private set; }
+	public bool OverrideNoLoss { get; private set; }
 
 	public IReadOnlyList<AbilityState> AbilityStates => _abilityStates;
 	public int CurrentAbilityStateIndex => _abilityStates.Count - 1;
@@ -176,5 +177,12 @@ public sealed partial class ActionState
 		OverrideLoss = true;
 
 		ParentActionState?.SetOverrideLoss();
+	}
+
+	public void SetOverrideNoLoss()
+	{
+		OverrideNoLoss = true;
+
+		ParentActionState?.SetOverrideNoLoss();
 	}
 }

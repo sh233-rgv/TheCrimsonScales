@@ -58,7 +58,7 @@ public partial class Trap : OverlayTile
 		int damage = Damage;
 		if(damage > 0)
 		{
-			await AbilityCmd.SufferDamage(null, figure, damage);
+			await AbilityCmd.SufferDamage(state, figure, damage);
 		}
 
 		if(ConditionModels != null)

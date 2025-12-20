@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Fractural.Tasks;
+﻿using Fractural.Tasks;
 
 public abstract class Empower : ConditionModel
 {
@@ -9,23 +7,26 @@ public abstract class Empower : ConditionModel
 	public override bool CanStack => true;
 	public override bool IsPositive => true;
 	public override string ConditionAnimationScenePath => "res://Scenes/Scenario/ConditionAnimations/EmpowerAnimation.tscn";
-	public abstract Type CharacterType { get; }
+
+	private IHasEmpower EmpowerOwner { get; set; }
+
+	public void SetEmpowerOwner(IHasEmpower empowerOwner)
+	{
+		EmpowerOwner = empowerOwner;
+	}
 
 	public override bool ShouldShowOnFigure(Figure figure)
 	{
 		return false;
 	}
-	
+
 	public override async GDTask Add(Figure target, ConditionNode node)
 	{
 		await base.Add(target, node);
 
-		IHasEmpower sourceFigure = (IHasEmpower)GameController.Instance.Map.Figures
-			.FirstOrDefault(figure => figure.GetType() == CharacterType);
-
-		if(sourceFigure != null)
+		if(EmpowerOwner != null)
 		{
-			await GameController.Instance.AMDManager.Empower(sourceFigure, target);
+			await GameController.Instance.AMDManager.Empower(EmpowerOwner, target);
 		}
 
 		await AbilityCmd.RemoveCondition(target, this);

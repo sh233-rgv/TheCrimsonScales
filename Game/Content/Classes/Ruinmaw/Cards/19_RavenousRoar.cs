@@ -13,9 +13,9 @@ public class RavenousRoar : RuinmawCardModel<RavenousRoar.CardTop, RavenousRoar.
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(PushAbility.Builder()
-				.WithPush(1)
+			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Rupture)
+				.WithPush(1)
 				.WithAOEPattern(new AOEPattern(
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
@@ -38,7 +38,7 @@ public class RavenousRoar : RuinmawCardModel<RavenousRoar.CardTop, RavenousRoar.
 				)
 				.WithOnAbilityEndedPerformed(async state =>
 					{
-						if (IsSated(state.Performer))
+						if(IsSated(state.Performer))
 						{
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}

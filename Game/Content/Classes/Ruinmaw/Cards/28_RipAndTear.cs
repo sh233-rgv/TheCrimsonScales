@@ -30,7 +30,7 @@ public class RipAndTear : RuinmawCardModel<RipAndTear.CardTop, RipAndTear.CardBo
 				)
 				.WithOnAbilityEndedPerformed(async state =>
 					{
-						if (IsSated(state.Performer))
+						if(IsSated(state.Performer))
 						{
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
@@ -41,7 +41,9 @@ public class RipAndTear : RuinmawCardModel<RipAndTear.CardTop, RipAndTear.CardBo
 						parameters => parameters.AbilityState.UniqueTargetedFigures.Count < 2,
 						async parameters =>
 						{
-							parameters.AbilityState.SingleTargetAddCondition(parameters.AbilityState.UniqueTargetedFigures.Count == 0 ? Conditions.Rupture : Conditions.Wound1);
+							parameters.AbilityState.SingleTargetAddCondition(parameters.AbilityState.UniqueTargetedFigures.Count == 0
+								? Conditions.Rupture
+								: Conditions.Wound1);
 							await GDTask.CompletedTask;
 						})
 				)
@@ -58,8 +60,8 @@ public class RipAndTear : RuinmawCardModel<RipAndTear.CardTop, RipAndTear.CardBo
 				{
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
 						canApplyParameters => canApplyParameters.Performer == state.Performer &&
-							(canApplyParameters.AbilityState.Target.HasWound() ||
-							canApplyParameters.AbilityState.Target.HasCondition(Conditions.Rupture)),
+						                      (canApplyParameters.AbilityState.Target.HasWound() ||
+						                       canApplyParameters.AbilityState.Target.HasCondition(Conditions.Rupture)),
 						async applyParameters =>
 						{
 							applyParameters.AbilityState.SingleTargetAdjustAttackValue(4);
@@ -85,8 +87,8 @@ public class RipAndTear : RuinmawCardModel<RipAndTear.CardTop, RipAndTear.CardBo
 				])
 				.Build())
 		];
-		
+
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

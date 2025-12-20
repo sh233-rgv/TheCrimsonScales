@@ -48,7 +48,7 @@ public class DivineAllegiance : HierophantLevelUpCardModel<DivineAllegiance.Card
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Light];
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : HierophantCardSide

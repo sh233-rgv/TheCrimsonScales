@@ -14,29 +14,23 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(OtherAbility.Builder()
-				.WithPerformAbility(async state =>
+			new AbilityCardAbility(HealAbility.Builder()
+				.WithHealValue(3)
+				.WithTarget(Target.Self)
+				.WithConditions(Ruinmaw.EmpowerRuinmaw, Ruinmaw.EmpowerRuinmaw)
+				.WithConditionalAbilityCheck(async state =>
 				{
 					Figure adjacentAlly = await AbilityCmd.SelectFigure(state, list =>
 					{
 						list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1).Where(figure => figure.AlliedWith(state.Performer)));
 					}, hintText: () => $"Select an ally to suffer {Icons.HintText(Icons.Damage)}2");
-					if (adjacentAlly != null)
+					if(adjacentAlly != null)
 					{
 						await AbilityCmd.SufferDamage(state, adjacentAlly, 2);
-						state.SetCustomValue(this, "Ally Suffered Damage", true);
+						return true;
 					}
-					await GDTask.CompletedTask;
-				})
-				.Build()),
-			new AbilityCardAbility(HealAbility.Builder()
-				.WithHealValue(3)
-				.WithTarget(Target.Self)
-				.WithConditions(Conditions.EmpowerRuinmaw, Conditions.EmpowerRuinmaw)
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-					return state.ActionState.GetAbilityState<OtherAbility.State>(0).GetCustomValue<bool>(this, "Ally Suffered Damage");
+
+					return false;
 				})
 				.Build()),
 			new AbilityCardAbility(UseSlotAbility.Builder()
@@ -78,7 +72,7 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 				{
 					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
 						canApplyParameters => canApplyParameters.Target == state.Performer &&
-							state.Performer is Ruinmaw ruinmaw && ruinmaw.Sated && canApplyParameters.Condition.IsNegative,
+						                      state.Performer is Ruinmaw ruinmaw && ruinmaw.Sated && canApplyParameters.Condition.IsNegative,
 						async parameters =>
 						{
 							parameters.SetPrevented(true);
@@ -86,21 +80,21 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 							await GDTask.CompletedTask;
 						});
 
-					if (state.Performer is Ruinmaw ruinmaw)
-                    {
+					if(state.Performer is Ruinmaw ruinmaw)
+					{
 						ruinmaw.SateEvent += RemoveConditions;
-                    }
+					}
 
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
 				{
 					ScenarioEvents.InflictConditionEvent.Unsubscribe(state, this);
-					if (state.Performer is Ruinmaw ruinmaw)
+					if(state.Performer is Ruinmaw ruinmaw)
 					{
 						ruinmaw.SateEvent -= RemoveConditions;
 					}
-					
+
 					await GDTask.CompletedTask;
 				})
 				.Build())
@@ -108,12 +102,14 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 
 		protected override bool Persistent => true;
 
-		private async void RemoveConditions(Ruinmaw ruinmaw)
-        {
+		private async GDTask RemoveConditions(Ruinmaw ruinmaw)
+		{
 			foreach(ConditionModel condition in ruinmaw.Conditions)
 			{
 				await AbilityCmd.RemoveCondition(ruinmaw, condition);
 			}
-        }
+
+			await GDTask.CompletedTask;
+		}
 	}
 }

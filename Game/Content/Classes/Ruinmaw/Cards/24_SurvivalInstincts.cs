@@ -24,32 +24,20 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 						canApplyParameters => canApplyParameters.Figure == state.Performer && canApplyParameters.SufferDamageParameters.FromAttack,
 						async applyParameters =>
 						{
-							ScenarioEvents.AbilityEndedEvent.Subscribe(state, this, parameters => true,
+							ScenarioEvents.AbilityEndedEvent.Subscribe(state, this,
+								parameters => applyParameters.PotentialAbilityState == parameters.AbilityState,
 								async parameters =>
 								{
 									ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
 									ActionState actionState = new ActionState(state.Performer,
 									[
-										HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).WithConditions(Conditions.EmpowerRuinmaw).Build(),
+										HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).WithConditions(Ruinmaw.EmpowerRuinmaw).Build(),
 									]);
 									await actionState.Perform();
+									await state.AdvanceUseSlot();
 								}
 							);
-							if(state.UseSlotIndex == 1)
-							{
-								ScenarioEvents.RetaliateEvent.Subscribe(state, this,
-									canApplyParameters =>
-										canApplyParameters.RetaliatingFigure == state.Performer &&
-										RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, canApplyParameters.RetaliatingFigure.Hex) <= 1,
-									async parameters =>
-									{
-										parameters.AdjustRetaliate(3);
-										ScenarioEvents.RetaliateEvent.Unsubscribe(state, this);
-										await GDTask.CompletedTask;
-									});
-							}
-							
-							await state.AdvanceUseSlot();
+							await GDTask.CompletedTask;
 						});
 
 					await GDTask.CompletedTask;
@@ -86,10 +74,12 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1).Where(figure => figure.EnemiesWith(state.Performer)))
-                    {
+					foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1)
+						        .Where(figure => figure.EnemiesWith(state.Performer)))
+					{
 						await AbilityCmd.SufferDamage(state, figure, 1);
-                    }
+						state.SetPerformed();
+					}
 
 					await GDTask.CompletedTask;
 				})

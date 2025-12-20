@@ -114,7 +114,7 @@ public class BloodOozeAbilityCard2 : BloodOozeAbilityCard
 					await AbilityCmd.SufferDamage(state, target, 1);
 				}
 
-					state.SetPerformed();
+				state.SetPerformed();
 			})
 			.Build()),
 

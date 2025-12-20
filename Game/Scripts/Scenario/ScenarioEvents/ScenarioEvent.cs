@@ -360,7 +360,7 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 		FireSubscriptionAddedEvent(subscription);
 	}
 
-	public void Unsubscribe(Subscription subscription)
+	private void Unsubscribe(Subscription subscription)
 	{
 		Unsubscribe(subscription.Subscriber);
 	}

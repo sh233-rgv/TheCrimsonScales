@@ -18,15 +18,16 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 				{
 					List<ScenarioEvents.AbilityEnded.Subscription> subscriptions = [];
 					ScenarioEvents.FigureKilledEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.Figure.EnemiesWith(state.Performer) && canApplyParameters.PotentialAbilityState?.Performer == state.Performer,
+						canApplyParameters => canApplyParameters.Figure.EnemiesWith(state.Performer) &&
+						                      canApplyParameters.PotentialAbilityState?.Performer == state.Performer,
 						async applyParameters =>
 						{
 							bool hasPerformed = false;
 
-							if (state.UseSlotIndex > 2)
+							if(state.UseSlotIndex > 2)
 							{
 								return;
-                            }
+							}
 
 							ScenarioEvent<ScenarioEvents.AbilityEnded.Parameters>.Subscription sub = ScenarioEvents.AbilityEnded.Subscription.New(
 								parameters => !hasPerformed,
@@ -48,10 +49,6 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 							ScenarioEvents.AbilityEndedEvent.Subscribe(state, new object(), sub);
 
 							await state.AdvanceUseSlot();
-							if (state.UseSlotIndex > 2)
-							{
-								state.ActionState.SetOverrideNoPersistent();
-                            }
 						});
 
 					await GDTask.CompletedTask;
@@ -75,7 +72,7 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 		];
 
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
@@ -88,14 +85,14 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
 				.WithTarget(Target.Self)
-				.WithConditions(Conditions.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.EmpowerRuinmaw)
 				.WithDuringHealSubscription(
 					ScenarioEvents.DuringHeal.Subscription.New(
 						parameters => IsSated(parameters.Performer),
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustHealValue(2);
-							parameters.AbilityState.AbilityAddCondition(Conditions.EmpowerRuinmaw);
+							parameters.AbilityState.AbilityAddCondition(Ruinmaw.EmpowerRuinmaw);
 							await GDTask.CompletedTask;
 						}
 					)

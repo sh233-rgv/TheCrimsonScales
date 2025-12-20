@@ -13,7 +13,7 @@ public abstract class AbilityCardSide
 
 	protected virtual bool Round => false;
 	protected virtual bool Persistent => false;
-	protected virtual bool Loss => false;
+	public virtual bool Loss => false;
 	protected virtual bool Unrecoverable => false;
 	protected virtual bool CanDeactivate => true;
 
@@ -21,7 +21,7 @@ public abstract class AbilityCardSide
 	public bool IsBasicTop => AbilityCard.BasicTop == this;
 	public bool IsBottom => AbilityCard.Bottom == this;
 	public bool IsBasicBottom => AbilityCard.BasicBottom == this;
-	protected virtual Action<Figure> ActionPerformed { get; set; }
+	protected virtual Func<Figure, GDTask> ActionPerformed => figure => GDTask.CompletedTask;
 
 	public IEnumerable<AbilityCardAbility> Abilities
 	{
@@ -40,7 +40,7 @@ public abstract class AbilityCardSide
 
 	protected abstract IEnumerable<AbilityCardAbility> GetAbilities();
 
-	public virtual async GDTask Perform(Figure performer)
+	public async GDTask Perform(Figure performer)
 	{
 		ScenarioEvents.AbilityCardSideStarted.Parameters startedParameters =
 			await ScenarioEvents.AbilityCardSideStartedEvent.CreatePrompt(
@@ -54,7 +54,7 @@ public abstract class AbilityCardSide
 
 			if(actionState.GetHasPerformed())
 			{
-				ActionPerformed?.Invoke(actionState.Performer);
+				await ActionPerformed.Invoke(actionState.Performer);
 
 				await AbilityCmd.GainXP(performer, XP);
 
@@ -67,7 +67,7 @@ public abstract class AbilityCardSide
 
 				bool round = Round || actionState.OverrideRound;
 				bool persistent = !actionState.OverrideNoPersistent && (actionState.OverridePersistent || Persistent);
-				bool loss = Loss || actionState.OverrideLoss;
+				bool loss = !actionState.OverrideNoLoss && (actionState.OverrideLoss || Loss);
 
 				if(round && persistent)
 				{
@@ -131,9 +131,4 @@ public abstract class AbilityCardSide
 	{
 		await AbilityCmd.DiscardOrLose(AbilityCard);
 	}
-
-	public bool GetLoss()
-    {
-		return Loss;
-    }
 }

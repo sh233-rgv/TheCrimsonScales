@@ -5,43 +5,33 @@ using GTweensGodot.Extensions;
 
 public partial class SatedIndicator : Node2D
 {
-	public void Init()
+	public void ShowAnimated()
 	{
-		if(!GameController.FastForward)
-		{
-			float destinationScale = Scale.X;
+		Visible = true;
 
-			this.TweenModulateAlpha(0f, 0f).Play(true);
+		float destinationScale = Scale.X;
 
-			SetScale(Vector2.One * 1.3f);
-
-			GTweenSequenceBuilder.New()
-				.Append(this.TweenModulateAlpha(1f, 0.3f))
-				.Join(this.TweenScale(0.8f, 0.3f)) //.SetEasing(Easing.OutBack))
-				.Append(this.TweenScale(destinationScale, 0.2f).SetEasing(Easing.OutBack))
-				.Build().PlayFastForwardable();
-		}
+		GTweenSequenceBuilder.New()
+			.Append(this.TweenModulateAlpha(1f, 0.3f))
+			.Join(this.TweenScale(0.8f, 0.3f))
+			.Append(this.TweenScale(destinationScale, 0.2f)
+				.SetEasing(Easing.OutBack))
+			.Build()
+			.PlayFastForwardable();
 	}
 
-	public void Destroy()
+	public void HideAnimated()
 	{
 		GTweenSequenceBuilder.New()
 			.Append(this.TweenModulateAlpha(0f, 0.4f))
-			.Join(this.TweenScale(1.3f, 0.4f).SetEasing(Easing.InBack))
-			.AppendCallback(QueueFree)
-			.Build().PlayFastForwardable();
-	}
-
-	public void Flash()
-	{
-		if(!GameController.FastForward)
-		{
-			float destinationScale = Scale.X;
-
-			GTweenSequenceBuilder.New()
-				.Append(this.TweenScale(0.8f, 0.2f))
-				.Append(this.TweenScale(destinationScale, 0.2f).SetEasing(Easing.OutBack))
-				.Build().PlayFastForwardable();
-		}
+			.Join(this.TweenScale(1.3f, 0.4f)
+				.SetEasing(Easing.InBack))
+			.AppendCallback(() =>
+			{
+				Visible = false;
+				QueueFree();
+			})
+			.Build()
+			.PlayFastForwardable();
 	}
 }
