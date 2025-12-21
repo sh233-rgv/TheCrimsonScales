@@ -1,6 +1,6 @@
 ﻿using Fractural.Tasks;
 
-public class IgnoreDifficultAndHazardousTerrainTrait() : FigureTrait
+public class IgnoreHazardousTerrainTrait() : FigureTrait
 {
 	public override async GDTask Activate(Figure figure)
 	{
@@ -9,19 +9,10 @@ public class IgnoreDifficultAndHazardousTerrainTrait() : FigureTrait
 		ScenarioCheckEvents.MoveCheckEvent.Subscribe(figure, this,
 			canApplyParameters =>
 				canApplyParameters.Performer == figure &&
-				(canApplyParameters.Hex.HasHexObjectOfType<DifficultTerrain>() ||
-				 canApplyParameters.Hex.HasHexObjectOfType<HazardousTerrain>()),
+				canApplyParameters.Hex.HasHexObjectOfType<HazardousTerrain>(),
 			applyParameters =>
 			{
-				if(applyParameters.Hex.HasHexObjectOfType<DifficultTerrain>())
-				{
-					applyParameters.SetMoveCost(1);
-				}
-
-				if(applyParameters.Hex.HasHexObjectOfType<HazardousTerrain>())
-				{
-					applyParameters.SetAffectedByNegativeHex(false);
-				}
+				applyParameters.SetAffectedByNegativeHex(false);
 			}
 		);
 
@@ -33,6 +24,15 @@ public class IgnoreDifficultAndHazardousTerrainTrait() : FigureTrait
 				await GDTask.CompletedTask;
 			}
 		);
+
+		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(figure, this,
+			parameters => parameters.Figure == figure,
+			parameters =>
+			{
+				parameters.Add(new InfoTextExtraEffect.Parameters(
+					$"This figure ignores the effects of hazardous terrain."));
+			}
+		);
 	}
 
 	public override async GDTask Deactivate(Figure figure)
@@ -41,5 +41,6 @@ public class IgnoreDifficultAndHazardousTerrainTrait() : FigureTrait
 
 		ScenarioCheckEvents.MoveCheckEvent.Unsubscribe(figure, this);
 		ScenarioEvents.HazardousTerrainTriggeredEvent.Unsubscribe(figure, this);
+		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(figure, this);
 	}
 }
