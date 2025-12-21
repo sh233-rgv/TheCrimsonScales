@@ -229,9 +229,9 @@ public class SavedCampaign
 	public void AdjustProsperity(int prosperityAmount)
 	{
 		int oldProsperityLevel = GetProsperityLevel();
-		int thresholdProsperityAmount = ProsperityLevelThresholds[Mathf.Min(oldProsperityLevel, ProsperityLevelThresholds.Length - 1)];
+		int oldThresholdProsperityAmount = ProsperityLevelThresholds[Mathf.Min(oldProsperityLevel - 1, ProsperityLevelThresholds.Length - 1)];
 		Prosperity += prosperityAmount;
-		Prosperity = Mathf.Max(Prosperity, thresholdProsperityAmount);
+		Prosperity = Mathf.Max(Prosperity, oldThresholdProsperityAmount);
 
 		int newProsperityLevel = GetProsperityLevel();
 		if(newProsperityLevel > oldProsperityLevel)
@@ -294,7 +294,7 @@ public class SavedCampaign
 
 	private void UnlockItems(int prosperityLevel)
 	{
-		ItemModel[] itemModels = ItemCollections.Levels[prosperityLevel];
+		ItemModel[] itemModels = ItemCollections.Levels[prosperityLevel - 1];
 		foreach(ItemModel itemModel in itemModels)
 		{
 			SavedItem savedItem = GetSavedItem(itemModel);

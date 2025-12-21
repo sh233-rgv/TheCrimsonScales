@@ -78,18 +78,9 @@ public partial class ItemShop : BetweenScenariosAction
 	{
 		base._Ready();
 
-		foreach((string modelId, SavedItem savedItem) in BetweenScenariosController.Instance.SavedCampaign.SavedItems)
-		{
-			if(savedItem.UnlockedCount > 0)
-			{
-				_allAvailableItems.Add(ModelDB.GetById<ItemModel>(modelId));
-			}
-		}
-
-		_animationPlayer.AnimationFinished += OnAnimationFinished;
-
 		_leftPageIndex = 0;
 
+		_animationPlayer.AnimationFinished += OnAnimationFinished;
 		_flipLeftButton.BetterButton.Pressed += OnFlipLeftPressed;
 		_flipRightButton.BetterButton.Pressed += OnFlipRightPressed;
 
@@ -110,6 +101,15 @@ public partial class ItemShop : BetweenScenariosAction
 
 	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder, BetweenScenariosAction previousActiveAction)
 	{
+		_allAvailableItems.Clear();
+		foreach((string modelId, SavedItem savedItem) in BetweenScenariosController.Instance.SavedCampaign.SavedItems)
+		{
+			if(savedItem.UnlockedCount > 0)
+			{
+				_allAvailableItems.Add(ModelDB.GetById<ItemModel>(modelId));
+			}
+		}
+
 		_3dRoot.SetVisible(true);
 
 		_leftPage?.QueueFree();

@@ -83,11 +83,19 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 				OpenMenuPopup();
 			}
 
-			if(inputEventKey.Keycode == Key.X && OS.IsDebugBuild())
+			if(OS.IsDebugBuild())
 			{
-				foreach(SavedCharacter savedCharacter in SavedCampaign.Characters)
+				if(inputEventKey.Keycode == Key.X)
 				{
-					savedCharacter.AddXP(30);
+					foreach(SavedCharacter savedCharacter in SavedCampaign.Characters)
+					{
+						savedCharacter.AddXP(30);
+					}
+				}
+
+				if(inputEventKey.Keycode == Key.P)
+				{
+					SavedCampaign.AdjustProsperity(1);
 				}
 			}
 		}

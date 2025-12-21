@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 
 public partial class BetweenScenariosSidePanel : Control
 {
@@ -8,6 +9,11 @@ public partial class BetweenScenariosSidePanel : Control
 	private Control _newCharacterButtonContainer;
 	[Export]
 	private BetterButton _newCharacterButton;
+
+	[Export]
+	private BetweenScenariosPartyStat _prosperityStat;
+	[Export]
+	private BetweenScenariosPartyStat _reputationStat;
 
 	public override void _Ready()
 	{
@@ -21,6 +27,14 @@ public partial class BetweenScenariosSidePanel : Control
 		_newCharacterButton.Pressed += OnNewCharacterPressed;
 
 		BetweenScenariosController.Instance.SavedCampaign.CharactersChangedEvent += OnCharactersChanged;
+		BetweenScenariosController.Instance.SavedCampaign.ProsperityChangedEvent += OnProsperityChanged;
+		BetweenScenariosController.Instance.SavedCampaign.ReputationChangedEvent += OnReputationChanged;
+
+		this.DelayedCall(() =>
+		{
+			OnProsperityChanged();
+			OnReputationChanged();
+		});
 	}
 
 	public override void _ExitTree()
@@ -28,6 +42,8 @@ public partial class BetweenScenariosSidePanel : Control
 		base._ExitTree();
 
 		BetweenScenariosController.Instance.SavedCampaign.CharactersChangedEvent -= OnCharactersChanged;
+		BetweenScenariosController.Instance.SavedCampaign.ProsperityChangedEvent -= OnProsperityChanged;
+		BetweenScenariosController.Instance.SavedCampaign.ReputationChangedEvent -= OnReputationChanged;
 	}
 
 	private void OnNewCharacterPressed()
@@ -41,5 +57,26 @@ public partial class BetweenScenariosSidePanel : Control
 	private void OnCharactersChanged()
 	{
 		_newCharacterButtonContainer.SetVisible(BetweenScenariosController.Instance.SavedCampaign.Characters.Count < 4);
+	}
+
+	private void OnProsperityChanged()
+	{
+		SavedCampaign savedCampaign = BetweenScenariosController.Instance.SavedCampaign;
+		int prosperityLevel = savedCampaign.GetProsperityLevel();
+		int oldThresholdProsperityAmount =
+			SavedCampaign.ProsperityLevelThresholds[Mathf.Min(prosperityLevel - 1, SavedCampaign.ProsperityLevelThresholds.Length - 1)];
+		int newThresholdProsperityAmount =
+			SavedCampaign.ProsperityLevelThresholds[Mathf.Min(prosperityLevel, SavedCampaign.ProsperityLevelThresholds.Length - 1)];
+
+		float normalizedProgress =
+			oldThresholdProsperityAmount == newThresholdProsperityAmount
+				? 1f
+				: Mathf.InverseLerp(oldThresholdProsperityAmount, newThresholdProsperityAmount, savedCampaign.Prosperity);
+
+		_prosperityStat.Update(normalizedProgress, prosperityLevel.ToString());
+	}
+
+	private void OnReputationChanged()
+	{
 	}
 }
