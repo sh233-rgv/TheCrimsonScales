@@ -1,10 +1,38 @@
 using System;
 using System.Collections.Generic;
+using Godot;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
 public class SavedCampaign
 {
+	public static int[] ProsperityLevelThresholds =
+	[
+		0, // 1
+		4, // 2
+		9, // 3
+		15, // 4
+		22, // 5
+		30, // 6
+		39, // 7
+		49, // 8
+		59, // 9
+	];
+
+	public static int[] ReputationPriceCostThresholds =
+	[ // -5
+		-18, // -4
+		-14, // -3
+		-10, // -2
+		-6, // -1
+		-2, // -0
+		3, // 1
+		7, // 2
+		11, // 3
+		15, // 4
+		19 // 5
+	];
+
 	[JsonProperty]
 	public string PartyName { get; private set; }
 
@@ -38,7 +66,12 @@ public class SavedCampaign
 	[JsonProperty]
 	public int Reputation { get; private set; }
 
+	[JsonProperty]
+	public int Prosperity { get; private set; }
+
 	public event Action CharactersChangedEvent;
+	public event Action ReputationChangedEvent;
+	public event Action ProsperityChangedEvent;
 
 	public static SavedCampaign New(string partyName, StartingGroup startingGroup)
 	{
@@ -126,7 +159,7 @@ public class SavedCampaign
 
 		foreach(ItemModel itemModel in itemModels)
 		{
-			SavedItem savedItem = new SavedItem();
+			SavedItem savedItem = new SavedItem(itemModel);
 			savedItem.AddUnlocked(itemModel.ShopCount);
 			savedItem.AddStock(itemModel.ShopCount);
 			savedCampaign.SavedItems.Add(itemModel.Id.ToString(), savedItem);
@@ -173,7 +206,7 @@ public class SavedCampaign
 	{
 		if(!SavedItems.TryGetValue(itemModel.Id.ToString(), out SavedItem savedItem))
 		{
-			savedItem = new SavedItem();
+			savedItem = new SavedItem(itemModel);
 			SavedItems.Add(itemModel.Id.ToString(), savedItem);
 		}
 
@@ -217,6 +250,36 @@ public class SavedCampaign
 		CharactersChangedEvent?.Invoke();
 	}
 
+	public void AdjustProsperity(int prosperityAmount)
+	{
+		int oldProsperityLevel = GetProsperityLevel();
+		int thresholdProsperityAmount = ProsperityLevelThresholds[Mathf.Min(oldProsperityLevel, ProsperityLevelThresholds.Length - 1)];
+		Prosperity += prosperityAmount;
+		Prosperity = Mathf.Max(Prosperity, thresholdProsperityAmount);
+
+		int newProsperityLevel = GetProsperityLevel();
+		if(newProsperityLevel > oldProsperityLevel)
+		{
+			// New prosperity level, unlock new items
+		}
+
+		ProsperityChangedEvent?.Invoke();
+	}
+
+	public int GetProsperityLevel()
+	{
+		for(int i = 0; i < ProsperityLevelThresholds.Length; i++)
+		{
+			int threshold = ProsperityLevelThresholds[i];
+			if(threshold > Prosperity)
+			{
+				return i;
+			}
+		}
+
+		return ProsperityLevelThresholds.Length;
+	}
+
 	public void AddPartyAchievement(PartyAchievement partyAchievement)
 	{
 		CollectedPartyAchievements.AddIfNew(partyAchievement);
@@ -225,5 +288,29 @@ public class SavedCampaign
 	public void AdjustReputation(int reputationAmount)
 	{
 		Reputation += reputationAmount;
+		Reputation = Mathf.Clamp(Reputation, -20, 20);
+
+		ReputationChangedEvent?.Invoke();
+	}
+
+	public int GetItemPriceChange()
+	{
+		int thresholdIndex = 0;
+		for(int i = 0; i < ReputationPriceCostThresholds.Length; i++)
+		{
+			int threshold = ReputationPriceCostThresholds[i];
+			if(threshold > Reputation)
+			{
+				thresholdIndex = i;
+				break;
+			}
+
+			if(i == ReputationPriceCostThresholds.Length - 1)
+			{
+				thresholdIndex = ReputationPriceCostThresholds.Length;
+			}
+		}
+
+		return 5 - thresholdIndex;
 	}
 }

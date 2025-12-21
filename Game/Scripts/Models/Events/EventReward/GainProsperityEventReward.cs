@@ -10,6 +10,6 @@ public class GainProsperityEventReward(int prosperity) : EventReward
 	{
 		await base.ImmediateResolve();
 
-		//TODO: Adjust prosperity
+		BetweenScenariosController.Instance.SavedCampaign.AdjustProsperity(prosperity);
 	}
 }

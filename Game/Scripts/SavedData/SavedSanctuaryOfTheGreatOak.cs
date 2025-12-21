@@ -30,6 +30,22 @@ public class SavedSanctuaryOfTheGreatOak
 		ModelDB.AMDCard<PierceSanctuaryRollingAMDCard>(),
 	];
 
+	public static int[] DonationYellowNumbers =
+	[
+		5,
+		10,
+		15,
+		20,
+		25,
+		30,
+		40,
+		50,
+		60,
+		70,
+		80,
+		90,
+	];
+
 	[JsonProperty]
 	public int TotalDonationCount { get; private set; }
 
@@ -54,7 +70,7 @@ public class SavedSanctuaryOfTheGreatOak
 			(savedCharacter.DonationAMDCardIds == null || savedCharacter.DonationAMDCardIds.Length == 0);
 	}
 
-	public void Donate(SavedCharacter savedCharacter)
+	public void Donate(SavedCharacter savedCharacter, SavedCampaign savedCampaign)
 	{
 		if(!CanDonate(savedCharacter))
 		{
@@ -64,6 +80,10 @@ public class SavedSanctuaryOfTheGreatOak
 		savedCharacter.RemoveGold(10);
 
 		TotalDonationCount++;
+		if(DonationYellowNumbers.Contains(TotalDonationCount))
+		{
+			savedCampaign.AdjustProsperity(1);
+		}
 
 		string critAMDCardId = CritAMDCardIds.PickRandom(BetweenScenariosController.Instance.RNG);
 		string rollingAMDCardId = RollingAMDCardIds.PickRandom(BetweenScenariosController.Instance.RNG);

@@ -98,12 +98,12 @@ public partial class ItemShop : BetweenScenariosAction
 
 	public int GetBuyPrice(SavedCharacter buyer, ItemModel itemModel)
 	{
-		int initialPrice = itemModel.Cost;
-		//TODO: Adjust price based on reputation
+		int price = itemModel.Cost;
+		price += BetweenScenariosController.Instance.SavedCampaign.GetItemPriceChange();
 
 		BetweenScenariosEvents.CalculateBuyPrice.Parameters parameters =
 			BetweenScenariosEvents.CalculateBuyPriceEvent.Fire(
-				new BetweenScenariosEvents.CalculateBuyPrice.Parameters(buyer, itemModel, initialPrice));
+				new BetweenScenariosEvents.CalculateBuyPrice.Parameters(buyer, itemModel, price));
 
 		return parameters.Price;
 	}
