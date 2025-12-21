@@ -1,5 +1,4 @@
-﻿using System;
-using Godot;
+﻿using Godot;
 
 public partial class BetweenScenariosSidePanel : Control
 {
@@ -78,5 +77,18 @@ public partial class BetweenScenariosSidePanel : Control
 
 	private void OnReputationChanged()
 	{
+		SavedCampaign savedCampaign = BetweenScenariosController.Instance.SavedCampaign;
+		int thresholdIndex = savedCampaign.GetReputationThresholdIndex();
+		int oldThresholdReputationAmount =
+			SavedCampaign.ReputationPriceCostThresholds[Mathf.Clamp(thresholdIndex - 1, 0, SavedCampaign.ReputationPriceCostThresholds.Length - 1)];
+		int newThresholdReputationAmount =
+			SavedCampaign.ReputationPriceCostThresholds[Mathf.Min(thresholdIndex, SavedCampaign.ReputationPriceCostThresholds.Length - 1)];
+
+		float normalizedProgress =
+			oldThresholdReputationAmount == newThresholdReputationAmount
+				? 1f
+				: Mathf.InverseLerp(oldThresholdReputationAmount, newThresholdReputationAmount, savedCampaign.Reputation);
+
+		_reputationStat.Update(normalizedProgress, (-savedCampaign.GetItemPriceChange()).ToString());
 	}
 }

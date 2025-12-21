@@ -97,6 +97,18 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 				{
 					SavedCampaign.AdjustProsperity(1);
 				}
+
+				if(inputEventKey.Keycode == Key.R)
+				{
+					if(Input.IsKeyPressed(Key.Shift))
+					{
+						SavedCampaign.AdjustReputation(-1);
+					}
+					else
+					{
+						SavedCampaign.AdjustReputation(1);
+					}
+				}
 			}
 		}
 	}

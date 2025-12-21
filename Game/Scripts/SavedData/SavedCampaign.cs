@@ -70,8 +70,8 @@ public class SavedCampaign
 	public int Prosperity { get; private set; }
 
 	public event Action CharactersChangedEvent;
-	public event Action ReputationChangedEvent;
 	public event Action ProsperityChangedEvent;
+	public event Action ReputationChangedEvent;
 	public event Action<int> ProsperityLevelChangedEvent;
 
 	public static SavedCampaign New(string partyName, StartingGroup startingGroup)
@@ -271,24 +271,23 @@ public class SavedCampaign
 		ReputationChangedEvent?.Invoke();
 	}
 
-	public int GetItemPriceChange()
+	public int GetReputationThresholdIndex()
 	{
-		int thresholdIndex = 0;
 		for(int i = 0; i < ReputationPriceCostThresholds.Length; i++)
 		{
 			int threshold = ReputationPriceCostThresholds[i];
 			if(threshold > Reputation)
 			{
-				thresholdIndex = i;
-				break;
-			}
-
-			if(i == ReputationPriceCostThresholds.Length - 1)
-			{
-				thresholdIndex = ReputationPriceCostThresholds.Length;
+				return i;
 			}
 		}
 
+		return ReputationPriceCostThresholds.Length;
+	}
+
+	public int GetItemPriceChange()
+	{
+		int thresholdIndex = GetReputationThresholdIndex();
 		return 5 - thresholdIndex;
 	}
 
