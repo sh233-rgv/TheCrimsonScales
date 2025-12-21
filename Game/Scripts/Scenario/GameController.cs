@@ -478,6 +478,11 @@ public partial class GameController : SceneController<GameController>
 					break;
 				}
 			}
+
+			if(!undoPerformed && newScenario.CardSelectionStates.Count == 0 && newScenario.PromptAnswers.Count == 0)
+			{
+				break;
+			}
 		}
 
 		if(newScenario.CardSelectionStates.Count == 0 && newScenario.PromptAnswers.Count == 0)
