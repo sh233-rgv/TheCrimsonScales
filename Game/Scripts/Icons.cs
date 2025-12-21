@@ -7,7 +7,7 @@ public static class Icons
 	public const string RecoverCard = "res://Art/Icons/Abilities/LoseCard.svg";
 	public const string Attack = "res://Art/Icons/Abilities/Attack.svg";
 	public const string Move = "res://Art/Icons/Abilities/Move.svg";
-	public const string Heal = "res://Art/Icons/Abilities/Health.svg";
+	public const string Heal = "res://Art/Icons/Abilities/Heal.svg";
 	public const string Range = "res://Art/Icons/Abilities/Range.svg";
 	public const string Damage = "res://Art/Icons/Abilities/Damage.svg";
 	public const string Push = "res://Art/Icons/ConditionsAndEffects/Push.svg";

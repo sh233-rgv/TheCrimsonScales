@@ -72,6 +72,7 @@ public class SavedCampaign
 	public event Action CharactersChangedEvent;
 	public event Action ReputationChangedEvent;
 	public event Action ProsperityChangedEvent;
+	public event Action<int> ProsperityLevelChangedEvent;
 
 	public static SavedCampaign New(string partyName, StartingGroup startingGroup)
 	{
@@ -138,32 +139,7 @@ public class SavedCampaign
 		savedCampaign.SavedScenarioProgresses.ScenarioProgresses.Add(ModelDB.GetId<Scenario001>().ToString(), firstScenario);
 
 		// Unlock the first set of items
-		ItemModel[] itemModels =
-		[
-			ModelDB.Item<AmuletOfLife>(),
-			ModelDB.Item<CircletOfElements>(),
-			ModelDB.Item<HideArmor>(),
-			ModelDB.Item<LeatherArmor>(),
-			ModelDB.Item<WeatheredBoots>(),
-			ModelDB.Item<WingedShoes>(),
-			ModelDB.Item<ShoesOfHappiness>(),
-			ModelDB.Item<BootsOfSpeed>(),
-			ModelDB.Item<HeaterShield>(),
-			ModelDB.Item<PoisonDagger>(),
-			ModelDB.Item<HookedChain>(),
-			ModelDB.Item<IronSpear>(),
-			ModelDB.Item<MinorHealingPotion>(),
-			ModelDB.Item<MinorPowerPotion>(),
-			ModelDB.Item<MinorManaPotion>(),
-		];
-
-		foreach(ItemModel itemModel in itemModels)
-		{
-			SavedItem savedItem = new SavedItem(itemModel);
-			savedItem.AddUnlocked(itemModel.ShopCount);
-			savedItem.AddStock(itemModel.ShopCount);
-			savedCampaign.SavedItems.Add(itemModel.Id.ToString(), savedItem);
-		}
+		savedCampaign.UnlockItems(1);
 
 		return savedCampaign;
 	}
@@ -261,6 +237,8 @@ public class SavedCampaign
 		if(newProsperityLevel > oldProsperityLevel)
 		{
 			// New prosperity level, unlock new items
+			UnlockItems(newProsperityLevel);
+			ProsperityLevelChangedEvent?.Invoke(newProsperityLevel);
 		}
 
 		ProsperityChangedEvent?.Invoke();
@@ -312,5 +290,17 @@ public class SavedCampaign
 		}
 
 		return 5 - thresholdIndex;
+	}
+
+	private void UnlockItems(int prosperityLevel)
+	{
+		ItemModel[] itemModels = ItemCollections.Levels[prosperityLevel];
+		foreach(ItemModel itemModel in itemModels)
+		{
+			SavedItem savedItem = GetSavedItem(itemModel);
+			int currentlyUnlockedCount = savedItem.UnlockedCount;
+			savedItem.AddUnlocked(itemModel.ShopCount - currentlyUnlockedCount);
+			savedItem.AddStock(itemModel.ShopCount - currentlyUnlockedCount);
+		}
 	}
 }
