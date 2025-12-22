@@ -210,6 +210,7 @@ public partial class ItemShop : BetweenScenariosAction
 	private ItemShopPage CreatePage(int pageIndex)
 	{
 		ItemShopPage shopPage = _itemShopPageScene.Instantiate<ItemShopPage>();
+		AddChild(shopPage);
 		int startIndex = pageIndex * ItemsPerPage;
 		int endIndex = Mathf.Min(startIndex + ItemsPerPage, _allAvailableItems.Count);
 		int itemCount = endIndex - startIndex;
