@@ -521,6 +521,18 @@ public static class AbilityCmd
 			}
 		}
 
+		if(ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Fire(
+			   new ScenarioCheckEvents.ImmuneToForcedMovementCheck.Parameters(figureA)).ImmuneToForcedMovement)
+		{
+			return false;
+		}
+
+		if(ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Fire(
+			   new ScenarioCheckEvents.ImmuneToForcedMovementCheck.Parameters(figureB)).ImmuneToForcedMovement)
+		{
+			return false;
+		}
+
 		return true;
 	}
 
