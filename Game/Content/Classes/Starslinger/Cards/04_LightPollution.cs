@@ -18,25 +18,18 @@ public class LightPollution : StarslingerCardModel<LightPollution.CardTop, Light
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Poison1)
 				.WithAOEPattern(new AOEPattern([
-							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Yellow),
-							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Yellow),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
-						]))
+					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Yellow),
+					new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Yellow),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
+					new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
+				]))
 				.Build()),
 			new AbilityCardAbility(OtherTargetedAbility.Builder()
 				.WithOnAfterConditionsApplied(async (state, target) =>
 				{
-					for(int i = target.Conditions.Count - 1; i >= 0; i--)
-					{
-						ConditionModel condition = target.Conditions[i];
-						if(condition.IsNegative)
-						{
-							await AbilityCmd.RemoveCondition(target, condition);
-						}
-					}
+					await AbilityCmd.RemoveAllNegativeConditions(target);
 				})
 				.WithTarget(Target.Allies | Target.TargetAll)
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))

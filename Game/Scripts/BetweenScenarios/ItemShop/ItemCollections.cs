@@ -1,6 +1,6 @@
 ﻿public static class ItemCollections
 {
-	public static ItemModel[][] Levels =
+	public static readonly ItemModel[][] Levels =
 	[
 		[ // 1
 			ModelDB.Item<AmuletOfLife>(),
@@ -20,14 +20,14 @@
 			ModelDB.Item<MinorManaPotion>(),
 		],
 		[ // 2
-			// ModelDB.Item<HornedHelm>(),
-			// ModelDB.Item<HawkHelm>(),
-			// ModelDB.Item<RobesOfSummoning>(),
-			// ModelDB.Item<HeavyGreaves>(),
+			ModelDB.Item<HornedHelm>(),
+			ModelDB.Item<HawkHelm>(),
+			ModelDB.Item<RobesOfSummoning>(),
+			ModelDB.Item<HeavyGreaves>(),
 			ModelDB.Item<WeightedNet>(),
-			// ModelDB.Item<FueledFalchion>(),
-			// ModelDB.Item<MinorCurePotion>(),
-			// ModelDB.Item<OakCharm>(),
+			ModelDB.Item<FueledFalchion>(),
+			ModelDB.Item<MinorCurePotion>(),
+			ModelDB.Item<OakCharm>(),
 		],
 		[ // 3
 			ModelDB.Item<IronHelmet>(),
@@ -62,7 +62,7 @@
 			// ModelDB.Item<VersatileDagger>(),
 			// ModelDB.Item<BlackCandle>(),
 			// ModelDB.Item<MajorManaPotion>(),
-			// ModelDB.Item<MajorCurePotion>(),
+			ModelDB.Item<MajorCurePotion>(),
 			// ModelDB.Item<RingOfStrength>(),
 		],
 		[ // 6
@@ -121,7 +121,7 @@
 		],
 	];
 
-	public static ItemModel[] Random =
+	public static readonly ItemModel[] Random =
 	[
 		// ModelDB.Item<HeavyBasinet>(),
 		// ModelDB.Item<ChainHood>(),

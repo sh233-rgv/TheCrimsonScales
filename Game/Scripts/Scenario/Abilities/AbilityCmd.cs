@@ -204,6 +204,55 @@ public static class AbilityCmd
 		return false;
 	}
 
+	public static async GDTask RemoveOneNegativeCondition(Figure target)
+	{
+		List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
+			new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
+		foreach(ConditionModel conditionModel in target.Conditions)
+		{
+			if(conditionModel.IsNegative)
+			{
+				subscriptions.Add(ScenarioEvents.GenericChoice.Subscription.New(
+					applyFunction: async applyParameters =>
+					{
+						await AbilityCmd.RemoveCondition(target, conditionModel);
+					},
+					effectType: EffectType.SelectableMandatory,
+					effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(conditionModel)),
+					effectInfoViewParameters: new TextEffectInfoView.Parameters($"Remove {Icons.Inline(Icons.GetCondition(conditionModel))}")
+				));
+			}
+		}
+
+		await GenericChoice(target, subscriptions, hintText: "Select a condition to remove");
+	}
+
+	public static async GDTask<int> RemoveAllNegativeConditions(Figure target)
+	{
+		int removedConditionsCount = 0;
+		while(target.Conditions.Any(condition => condition.IsNegative))
+		{
+			ConditionModel condition = target.Conditions.First(condition => condition.IsNegative);
+
+			if(await RemoveCondition(target, condition))
+			{
+				removedConditionsCount++;
+			}
+		}
+
+		return removedConditionsCount;
+	}
+
+	public static async GDTask RemoveAllPositiveConditions(Figure target)
+	{
+		while(target.Conditions.Any(condition => condition.IsPositive))
+		{
+			ConditionModel condition = target.Conditions.First(condition => condition.IsPositive);
+
+			await RemoveCondition(target, condition);
+		}
+	}
+
 	public static async GDTask RemoveAllChill(Figure target)
 	{
 		while(target.HasCondition(Conditions.Chill))

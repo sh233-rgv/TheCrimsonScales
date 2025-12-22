@@ -88,14 +88,7 @@ public class Scenario007 : ScenarioModel
 				{
 					if(tokenNumber % 2 == 0)
 					{
-						for(int i = character.Conditions.Count - 1; i >= 0; i--)
-						{
-							ConditionModel condition = character.Conditions[i];
-							if(condition.IsNegative)
-							{
-								await AbilityCmd.RemoveCondition(character, condition);
-							}
-						}
+						await AbilityCmd.RemoveAllNegativeConditions(character);
 
 						await AbilityCmd.GainXP(character, 5);
 					}

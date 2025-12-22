@@ -16,7 +16,11 @@ public class IronSpear : JotLItem
 		base.Subscribe();
 
 		SubscribeDuringAttack(
-			canApply: state => state.Performer == Owner && state.SingleTargetRangeType == RangeType.Melee && state.AbilityTargets == 1 && state.SingleTargetRange == 1,
+			canApply: state =>
+				state.Performer == Owner &&
+				state.SingleTargetRangeType == RangeType.Melee &&
+				state.AbilityTargets == 1 &&
+				state.SingleTargetRange == 1,
 			apply: async state =>
 			{
 				await Use(async user =>
