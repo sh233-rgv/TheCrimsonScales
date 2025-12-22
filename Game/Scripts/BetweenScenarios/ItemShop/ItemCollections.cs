@@ -31,20 +31,20 @@
 		],
 		[ // 3
 			ModelDB.Item<IronHelmet>(),
-			// ModelDB.Item<Chainmail>(),
-			// ModelDB.Item<StuddedLeather>(),
+			ModelDB.Item<Chainmail>(),
+			ModelDB.Item<StuddedLeather>(),
 			ModelDB.Item<BootsOfStriding>(),
-			// ModelDB.Item<JaggedSword>(),
+			ModelDB.Item<JaggedSword>(),
 			ModelDB.Item<BattleAxe>(),
-			// ModelDB.Item<ThrowingHammer>(),
+			ModelDB.Item<ThrowingHammer>(),
 			ModelDB.Item<MinorStaminaPotion>(),
 			ModelDB.Item<StunPowder>(),
-			// ModelDB.Item<FatefulCompass>(),
+			ModelDB.Item<FatefulCompass>(),
 		],
 		[ // 4
 			ModelDB.Item<EagleEyeGoggles>(),
 			// ModelDB.Item<SacrificialRobes>(),
-			// ModelDB.Item<ConfortableShoes>(),
+			// ModelDB.Item<ComfortableShoes>(),
 			// ModelDB.Item<BlackKnife>(),
 			// ModelDB.Item<TowerShield>(),
 			ModelDB.Item<PiercingBow>(),
@@ -60,10 +60,10 @@
 			// ModelDB.Item<SteelSabatons>(),
 			ModelDB.Item<WarHammer>(),
 			// ModelDB.Item<VersatileDagger>(),
-			// ModelDB.Item<BlackCandle>(),
+			ModelDB.Item<BlackCandle>(),
 			// ModelDB.Item<MajorManaPotion>(),
 			ModelDB.Item<MajorCurePotion>(),
-			// ModelDB.Item<RingOfStrength>(),
+			ModelDB.Item<RingOfStrength>(),
 		],
 		[ // 6
 			// ModelDB.Item<ProtectiveCharm>(),
@@ -130,20 +130,20 @@
 		// ModelDB.Item<ThiefsHood>(),
 		// ModelDB.Item<HelmOfTheMountain>(),
 		// ModelDB.Item<WaveCrest>(),
-		//
+
 		// ModelDB.Item<BlinkingCape>(),
 		// ModelDB.Item<SwordedgeArmor>(),
 		// ModelDB.Item<SecondSkin>(),
 		// ModelDB.Item<DrakescaleArmor>(),
 		// ModelDB.Item<SteamArmor>(),
 		// ModelDB.Item<FleaBittenShawl>(),
-		// ModelDB.Item<RobesOfCommand>(),
-		//
+		ModelDB.Item<RobesOfCommand>(),
+
 		// ModelDB.Item<EnduranceFootwraps>(),
 		// ModelDB.Item<DrakescaleBoots>(),
 		// ModelDB.Item<MagmaWaders>(),
-		// ModelDB.Item<JetBoots>(),
-		//
+		ModelDB.Item<JetBoots>(),
+
 		// ModelDB.Item<SkullbaneAxe>(),
 		// ModelDB.Item<StaffOfXorn>(),
 		// ModelDB.Item<MountainHammer>(),
@@ -153,8 +153,8 @@
 		// ModelDB.Item<SkullOfHatred>(),
 		// ModelDB.Item<OrbOfDawn>(),
 		// ModelDB.Item<OrbOfTwilight>(),
-		// ModelDB.Item<BarbedAxe>(),
-		//
+		ModelDB.Item<BarbedAxe>(),
+
 		// ModelDB.Item<SteelRing>(),
 		// ModelDB.Item<DampeningRing>(),
 		// ModelDB.Item<ScrollOfPower>(),

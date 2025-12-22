@@ -1,13 +1,13 @@
-public class OakCharm : JotLItem
+public class RingOfStrength : JotLItem
 {
-	public override string Name => "Oak Charm";
-	public override int ItemNumber => 26;
-	public override int ShopCount => 2;
-	public override int Cost => 30;
+	public override string Name => "Ring of Strength";
+	public override int ItemNumber => 31;
+	public override int ShopCount => 1;
+	public override int Cost => 40;
 	public override ItemType ItemType => ItemType.Small;
 	public override ItemUseType ItemUseType => ItemUseType.Consume;
 
-	protected override int AtlasIndex => 4;
+	protected override int AtlasIndex => 6;
 
 	protected override void Subscribe()
 	{
@@ -20,10 +20,12 @@ public class OakCharm : JotLItem
 				await Use(async user =>
 				{
 					ActionState actionState = new ActionState(user,
-						[
-							ConditionAbility.Builder().WithConditions(Conditions.Bless).WithRange(5).Build()
-						]
-					);
+					[
+						ConditionAbility.Builder()
+							.WithConditions(Conditions.Strengthen)
+							.WithTarget(Target.Self)
+							.Build()
+					]);
 					await actionState.Perform();
 				});
 			}

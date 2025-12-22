@@ -1,15 +1,15 @@
 using Fractural.Tasks;
 
-public class LightweightBoots : CS1Item
+public class JetBoots : JotLItem
 {
-	public override string Name => "Lightweight Boots";
-	public override int ItemNumber => 17;
-	public override int ShopCount => 2;
-	public override int Cost => 40;
+	public override string Name => "Jet Boots";
+	public override int ItemNumber => 36;
+	public override int ShopCount => 1;
+	public override int Cost => 30;
 	public override ItemType ItemType => ItemType.Feet;
 	public override ItemUseType ItemUseType => ItemUseType.Spend;
 
-	protected override int AtlasIndex => 29;
+	protected override int AtlasIndex => 9;
 
 	protected override void Subscribe()
 	{

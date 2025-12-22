@@ -1,16 +1,15 @@
-using System.Linq;
 using Fractural.Tasks;
 
-public class WovenPlateArmor : CS1Item
+public class StuddedLeather : Prosperity4Item
 {
-	public override string Name => "Woven Plate Armor";
-	public override int ItemNumber => 23;
+	public override string Name => "Studded Leather";
+	public override int ItemNumber => 30;
 	public override int ShopCount => 2;
-	public override int Cost => 50;
+	public override int Cost => 30;
 	public override ItemType ItemType => ItemType.Body;
 	public override ItemUseType ItemUseType => ItemUseType.Spend;
 
-	protected override int AtlasIndex => 39;
+	protected override int AtlasIndex => 2;
 
 	private object _subscriber;
 
@@ -38,7 +37,7 @@ public class WovenPlateArmor : CS1Item
 							parameters.FromAttack && parameters.PotentialAttackAbilityState == state && parameters.Figure == Owner,
 						apply: async parameters =>
 						{
-							parameters.AdjustShield(2);
+							parameters.AdjustShield(1);
 							ScenarioEvents.SufferDamageEvent.Unsubscribe(this, _subscriber);
 
 							await GDTask.CompletedTask;
