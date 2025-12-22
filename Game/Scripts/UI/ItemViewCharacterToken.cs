@@ -19,7 +19,12 @@ public partial class ItemViewCharacterToken : Control
 		_textureRect.Texture = texture;
 		Control parent = GetParent<Control>();
 		_normalizedPosition = normalizedPosition;
-		Position = _normalizedPosition * parent.Size - 0.5f * Size;
+		_textureRect.SetVisible(false);
+		this.DelayedCall(() =>
+		{
+			SetPosition(_normalizedPosition * parent.Size - 0.5f * Size);
+			_textureRect.SetVisible(true);
+		});
 	}
 
 	public override void _Process(double delta)

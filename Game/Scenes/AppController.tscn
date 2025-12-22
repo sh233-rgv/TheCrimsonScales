@@ -165,6 +165,8 @@ script = ExtResource("22_x7plq")
 _itemView = NodePath("ItemView")
 
 [node name="ItemView" parent="CanvasLayer/CardPreviewView/MarginContainer/Container/ItemPreview" instance=ExtResource("23_p2uns")]
+offset_right = 180.0
+offset_bottom = 275.4
 
 [node name="LongPressIndicator" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("_background", "_fill")]
 layout_mode = 3

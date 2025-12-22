@@ -3,7 +3,7 @@ public class AmuletOfLife : Prosperity3Item
 	public override string Name => "Amulet of Life";
 	public override int ItemNumber => 24;
 	public override int ShopCount => 2;
-	public override int Cost => 20;
+	public override int Cost => 15;
 	public override ItemType ItemType => ItemType.Head;
 	public override ItemUseType ItemUseType => ItemUseType.Spend;
 

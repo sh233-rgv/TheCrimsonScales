@@ -5,7 +5,7 @@ public class IronSpear : JotLItem
 	public override string Name => "Iron Spear";
 	public override int ItemNumber => 3;
 	public override int ShopCount => 2;
-	public override int Cost => 20;
+	public override int Cost => 15;
 	public override ItemType ItemType => ItemType.OneHand;
 	public override ItemUseType ItemUseType => ItemUseType.Spend;
 

@@ -743,6 +743,7 @@ offset_right = 135.0
 offset_bottom = 273.1
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="ChoiceButtonsView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_continueButton", "_skipButton")]
 layout_mode = 1
