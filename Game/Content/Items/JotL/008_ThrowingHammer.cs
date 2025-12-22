@@ -9,7 +9,7 @@ public class ThrowingHammer : JotLItem
 	public override ItemType ItemType => ItemType.OneHand;
 	public override ItemUseType ItemUseType => ItemUseType.Consume;
 
-	protected override int AtlasIndex => 2;
+	protected override int AtlasIndex => 1;
 
 	protected override void Subscribe()
 	{
