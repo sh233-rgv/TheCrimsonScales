@@ -346,6 +346,18 @@ public static class MoveHelper
 			}
 		}
 
+		if(hex.TryGetHexObjectOfType(out Objective objective) && moveType == MoveType.Regular)
+		{
+			ScenarioCheckEvents.FlyingCheck.Parameters flyingCheckParameters =
+				ScenarioCheckEvents.FlyingCheckEvent.Fire(
+					new ScenarioCheckEvents.FlyingCheck.Parameters(performer));
+
+			if(!flyingCheckParameters.HasFlying)
+			{
+				return false;
+			}
+		}
+
 		if(hex.TryGetHexObjectOfType(out Door door) && performer is not Character)
 		{
 			if(door.Locked || forcedMovement)

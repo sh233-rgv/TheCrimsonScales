@@ -1078,14 +1078,14 @@ alignment = 1
 [node name="Fire" parent="CanvasLayer/UI/ElementsView/Elements" instance=ExtResource("36_juek3")]
 layout_mode = 2
 
-[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Fire" index="0"]
+[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Fire/Container" index="0"]
 texture_under = ExtResource("38_bytl6")
 texture_progress = ExtResource("39_gpo0a")
 
 [node name="Ice" parent="CanvasLayer/UI/ElementsView/Elements" instance=ExtResource("36_juek3")]
 layout_mode = 2
 
-[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Ice" index="0"]
+[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Ice/Container" index="0"]
 texture_under = ExtResource("40_vfiu8")
 texture_progress = ExtResource("41_4cwam")
 
@@ -1095,21 +1095,21 @@ layout_mode = 2
 [node name="Earth" parent="CanvasLayer/UI/ElementsView/Elements" instance=ExtResource("36_juek3")]
 layout_mode = 2
 
-[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Earth" index="0"]
+[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Earth/Container" index="0"]
 texture_under = ExtResource("42_1a4nl")
 texture_progress = ExtResource("43_d62nx")
 
 [node name="Light" parent="CanvasLayer/UI/ElementsView/Elements" instance=ExtResource("36_juek3")]
 layout_mode = 2
 
-[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Light" index="0"]
+[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Light/Container" index="0"]
 texture_under = ExtResource("44_krl23")
 texture_progress = ExtResource("45_qr3ow")
 
 [node name="Dark" parent="CanvasLayer/UI/ElementsView/Elements" instance=ExtResource("36_juek3")]
 layout_mode = 2
 
-[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Dark" index="0"]
+[node name="TextureProgressBar" parent="CanvasLayer/UI/ElementsView/Elements/Dark/Container" index="0"]
 texture_under = ExtResource("46_ri0y1")
 texture_progress = ExtResource("47_vmwrb")
 
