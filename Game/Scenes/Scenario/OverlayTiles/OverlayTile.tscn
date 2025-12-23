@@ -28,7 +28,7 @@ self_modulate = Color(0.133333, 0.0627451, 0.0313726, 1)
 texture = ExtResource("3_ehph8")
 
 [node name="OverlayTileViewComponent" type="Node2D" parent="." node_paths=PackedStringArray("_icon")]
-z_index = 10
+z_index = 1
 script = ExtResource("5_2chyt")
 _icon = NodePath("Icon")
 

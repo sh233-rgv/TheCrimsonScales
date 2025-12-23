@@ -35,11 +35,11 @@ public partial class Summon : Figure
 		CharacterOwner = characterOwner;
 		_name = name;
 
-		_figureViewComponent.Outline.SetSelfModulate(CharacterOwner.OutlineColor);
-		_figureViewComponent.TurnStartPS.SetSelfModulate(CharacterOwner.OutlineColor);
-		_figureViewComponent.ActivePS.SetModulate(_figureViewComponent.Outline.SelfModulate);
+		_outline.SetSelfModulate(CharacterOwner.OutlineColor);
+		_figureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);
+		_figureViewComponent.ActivePS.SetModulate(OutlineColor);
 
-		_summonViewComponent.StandeeNumberCircle.SetSelfModulate(CharacterOwner.OutlineColor);
+		_summonViewComponent.StandeeNumberCircle.SetSelfModulate(OutlineColor);
 
 		Texture = ResourceLoader.Load<Texture2D>(texturePath);
 		Texture2D mapIconTexture = ResourceLoader.Load<Texture2D>(mapIconTexturePath);

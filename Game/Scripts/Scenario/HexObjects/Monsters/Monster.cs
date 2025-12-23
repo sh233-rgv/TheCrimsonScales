@@ -73,9 +73,9 @@ public partial class Monster : Figure
 				throw new ArgumentOutOfRangeException(nameof(monsterType), monsterType, null);
 		}
 
-		_figureViewComponent.Outline.SelfModulate = TypeColor;
+		_outline.SelfModulate = TypeColor;
 		_figureViewComponent.TurnStartPS.SelfModulate = TypeColor;
-		_figureViewComponent.ActivePS.Modulate = _figureViewComponent.Outline.SelfModulate;
+		_figureViewComponent.ActivePS.Modulate = OutlineColor;
 		_monsterViewComponent.StandeeNumberCircle.SelfModulate = TypeColor;
 		_monsterViewComponent.StandeeNumberCircle.Visible = MonsterType != MonsterType.Boss;
 

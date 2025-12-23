@@ -9,6 +9,7 @@ using GTweensGodot.Extensions;
 
 public abstract partial class Figure : HexObject
 {
+	protected Sprite2D _outline;
 	protected FigureViewComponent _figureViewComponent;
 
 	private int _shield;
@@ -46,7 +47,7 @@ public abstract partial class Figure : HexObject
 
 	public abstract Texture2D MapIconTexture { get; }
 
-	public Color OutlineColor => _figureViewComponent.Outline.SelfModulate;
+	public Color OutlineColor => _outline.SelfModulate;
 
 	public bool IsDead => IsDestroyed;
 
@@ -60,6 +61,7 @@ public abstract partial class Figure : HexObject
 	{
 		base._Ready();
 
+		_outline = GetNode<Sprite2D>("Outline");
 		_figureViewComponent = GetViewComponent<FigureViewComponent>();
 	}
 
