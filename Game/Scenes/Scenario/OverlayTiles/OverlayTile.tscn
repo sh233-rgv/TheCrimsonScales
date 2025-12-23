@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://biv5sw06a7dxd"]
+[gd_scene load_steps=9 format=3 uid="uid://biv5sw06a7dxd"]
 
+[ext_resource type="Material" uid="uid://1x8yfhwue0ki" path="res://Materials/Tint.tres" id="2_i3owi"]
 [ext_resource type="Script" uid="uid://cga0mgtsgequm" path="res://Scripts/Scenario/SnapToHexGrid.cs" id="2_qh5ej"]
 [ext_resource type="Texture2D" uid="uid://bwkiygdik2t7q" path="res://Art/Other/OverlayTileStroke1H.svg" id="3_ehph8"]
 [ext_resource type="Texture2D" uid="uid://cuqpi0vkwqe6k" path="res://Art/Other/Hexagon.svg" id="3_f3pnr"]
@@ -14,6 +15,8 @@
 script = ExtResource("2_qh5ej")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+material = ExtResource("2_i3owi")
+instance_shader_parameters/tintFactor = 0.0
 texture = ExtResource("4_yj4e0")
 
 [node name="Outline" type="Sprite2D" parent="."]

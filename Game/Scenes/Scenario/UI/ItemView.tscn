@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://sq1077vshk5a" path="res://Content/Items/ItemExample.tres" id="1_imbgr"]
 [ext_resource type="Script" uid="uid://dpkrgi18thmnd" path="res://Scripts/UI/ItemView.cs" id="1_keb7s"]
 [ext_resource type="PackedScene" uid="uid://ccpjqijfvbhvn" path="res://Scenes/Scenario/UI/ItemViewCharacterToken.tscn" id="2_5m6ac"]
-[ext_resource type="Material" uid="uid://bgdcydtsmmrb" path="res://Materials/AbilityCard.tres" id="2_nrwrn"]
+[ext_resource type="Material" uid="uid://bgdcydtsmmrb" path="res://Materials/TintGrayscale.tres" id="2_nrwrn"]
 [ext_resource type="Texture2D" uid="uid://6elyxd3p8fml" path="res://Art/Other/ItemCoinNoShadow.png" id="5_gxl1g"]
 [ext_resource type="FontFile" uid="uid://c4k3lpnj0wc06" path="res://Fonts/PirataOne-Gloomhaven.ttf" id="6_aqyqe"]
 [ext_resource type="Texture2D" uid="uid://dhgbmm4g83lqe" path="res://Art/Other/ItemFront.png" id="7_aqyqe"]

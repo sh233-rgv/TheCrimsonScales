@@ -11,7 +11,8 @@ script = ExtResource("2_l2rcq")
 [node name="Outline" parent="." index="2"]
 self_modulate = Color(0.933333, 0.741176, 0.14902, 1)
 
-[node name="FigureViewComponent" parent="." index="4" instance=ExtResource("4_l2rcq")]
+[node name="FigureViewComponent" parent="." index="4" node_paths=PackedStringArray("Outline") instance=ExtResource("4_l2rcq")]
+Outline = NodePath("../Outline")
 
 [node name="Health" parent="FigureViewComponent" index="0"]
 position = Vector2(0, 0)
