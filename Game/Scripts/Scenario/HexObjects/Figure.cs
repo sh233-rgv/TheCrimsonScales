@@ -79,6 +79,8 @@ public abstract partial class Figure : HexObject
 
 		CanTakeTurn = true;
 
+		SetCrackedShield(false);
+
 		object figureEnteredHexEventSubscriber = new object();
 		ScenarioEvents.FigureEnteredHexEvent.Subscribe(this, figureEnteredHexEventSubscriber,
 			enteredHexParameters => enteredHexParameters.PotentialAbilityState is MoveAbility.State or PullSelfAbility.State,
@@ -361,6 +363,12 @@ public abstract partial class Figure : HexObject
 	{
 		CanTakeTurn = true;
 		RoundPerformedActionStates.Clear();
+	}
+
+	public void SetCrackedShield(bool crackedShield)
+	{
+		_figureViewComponent.ShieldIcon.SetVisible(!crackedShield);
+		_figureViewComponent.CrackedShieldIcon.SetVisible(crackedShield);
 	}
 
 	private void UpdateHealthProgressBar()

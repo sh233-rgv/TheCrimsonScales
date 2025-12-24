@@ -18,6 +18,12 @@ public partial class FigureViewComponent : HexObjectViewComponent
 	public Node2D Shield { get; private set; }
 
 	[Export]
+	public Sprite2D ShieldIcon { get; private set; }
+
+	[Export]
+	public Sprite2D CrackedShieldIcon { get; private set; }
+
+	[Export]
 	public Label ShieldLabel { get; private set; }
 
 	[Export]
