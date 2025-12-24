@@ -12,7 +12,7 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 {
 	public class HealAbilitySingleTargetState : SingleTargetState
 	{
-		public List<ConditionModel> RemovedConditions = new List<ConditionModel>();
+		public List<ConditionModel> RemovedConditions { get; } = new List<ConditionModel>();
 
 		public void AddRemovedCondition(ConditionModel condition)
 		{
@@ -43,11 +43,9 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 
 	public List<ScenarioEvents.DuringHeal.Subscription> DuringHealSubscriptions { get; private set; } = [];
 
-	public List<ScenarioEvents.HealAfterTargetConfirmed.Subscription>
-		AfterTargetConfirmedSubscriptions { get; private set; } = [];
+	public List<ScenarioEvents.HealAfterTargetConfirmed.Subscription> AfterTargetConfirmedSubscriptions { get; private set; } = [];
 
-	public List<ScenarioEvents.AfterHealPerformed.Subscription>
-		AfterHealPerformedSubscriptions { get; private set; } = [];
+	public List<ScenarioEvents.AfterHealPerformed.Subscription> AfterHealPerformedSubscriptions { get; private set; } = [];
 
 	/// <summary>
 	/// A builder extending <see cref="TargetedAbility{T, TSingleTargetState}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods
@@ -190,8 +188,6 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 
 		if(!blockedAbilityStateParameters.IsBlocked)
 		{
-			AppController.Instance.AudioController.PlayFastForwardable(SFX.Heal, delay: 0.0f);
-
 			int newHealth = Mathf.Min(target.Health + abilityState.SingleTargetHealValue, target.MaxHealth);
 
 			target.SetHealth(newHealth);
@@ -199,6 +195,8 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 
 		if(!GameController.FastForward)
 		{
+			AppController.Instance.AudioController.PlayFastForwardable(SFX.Heal, delay: 0.0f);
+
 			PackedScene healEffectScene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Effects/HealEffect.tscn");
 			HealEffect healEffect = healEffectScene.Instantiate<HealEffect>();
 			target.AddChild(healEffect);
