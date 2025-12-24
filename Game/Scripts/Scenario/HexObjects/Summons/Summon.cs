@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -18,9 +17,9 @@ public partial class Summon : Figure
 
 	public override string DisplayName => _name;
 	public override string DebugName => _name;
-
 	public override AMDCardDeck AMDCardDeck => CharacterOwner.AMDCardDeck;
 	public override Texture2D MapIconTexture => _summonViewComponent.Sprite.Texture;
+	public override Node2D Visual => _summonViewComponent.Sprite;
 
 	public override async GDTask Init(Hex originHex, int rotationIndex = 0, bool hexCanBeNull = false)
 	{

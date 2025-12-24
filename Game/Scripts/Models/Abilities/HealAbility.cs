@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 using Godot;
+using GTweens.Builders;
+using GTweens.Easings;
 
 /// <summary>
 /// A <see cref="TargetedAbility{T, TSingleTargetState}"/> that allows a figure to restore hit points to other figures.
@@ -194,6 +195,33 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 			int newHealth = Mathf.Min(target.Health + abilityState.SingleTargetHealValue, target.MaxHealth);
 
 			target.SetHealth(newHealth);
+		}
+
+		if(!GameController.FastForward)
+		{
+			PackedScene healEffectScene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Effects/HealEffect.tscn");
+			HealEffect healEffect = healEffectScene.Instantiate<HealEffect>();
+			target.AddChild(healEffect);
+			healEffect.Init();
+
+			Color healColor = Color.Color8(44, 199, 10);
+
+			target.Visual.SetSelfModulate(healColor);
+			GTweenSequenceBuilder.New()
+				.Append(target.Visual.TweenInstanceShaderPropertyFloat("tintFactor", 0.4f, 0.6f))
+				.AppendTime(0.1f)
+				.Append(target.Visual.TweenInstanceShaderPropertyFloat("tintFactor", 0f, 0.5f))
+				.Build().PlayFastForwardable();
+
+			GTweenSequenceBuilder.New()
+				.Append(target.TweenScale(1.2f, 0.4f).SetEasing(Easing.InOutBack))
+				.AppendTime(0.4f)
+				.Append(target.TweenScale(1f, 0.2f).SetEasing(Easing.InBack))
+				.Build().PlayFastForwardable();
+
+			await GDTask.DelayFastForwardable(1.2f);
+
+			target.Visual.SetSelfModulate(Colors.White);
 		}
 
 		for(int i = target.Conditions.Count - 1; i >= 0; i--)

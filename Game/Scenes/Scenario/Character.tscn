@@ -44,5 +44,4 @@ _framesPerSecond = 10
 scale = Vector2(0.9, 0.9)
 texture = ExtResource("4_pjbno")
 
-[node name="FigureViewComponent" parent="." node_paths=PackedStringArray("Outline") instance=ExtResource("6_eo6v4")]
-Outline = NodePath("../Outline")
+[node name="FigureViewComponent" parent="." instance=ExtResource("6_eo6v4")]

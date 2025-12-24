@@ -22,9 +22,6 @@ public abstract partial class Figure : HexObject
 	private GTween _shieldTween;
 	private GTween _retaliateTween;
 
-	public abstract string DisplayName { get; }
-	public abstract string DebugName { get; }
-
 	public int Health { get; private set; }
 	public int MaxHealth { get; private set; }
 
@@ -39,13 +36,15 @@ public abstract partial class Figure : HexObject
 
 	public bool CanTakeTurn { get; protected set; }
 
-	public abstract AMDCardDeck AMDCardDeck { get; }
-
 	public List<Hex> TurnMovedHexes { get; private set; } = new List<Hex>();
 	public List<ActionState> TurnPerformedActionStates { get; } = new List<ActionState>();
 	public List<ActionState> RoundPerformedActionStates { get; } = new List<ActionState>();
 
+	public abstract string DisplayName { get; }
+	public abstract string DebugName { get; }
+	public abstract AMDCardDeck AMDCardDeck { get; }
 	public abstract Texture2D MapIconTexture { get; }
+	public abstract Node2D Visual { get; }
 
 	public Color OutlineColor => _outline.SelfModulate;
 
