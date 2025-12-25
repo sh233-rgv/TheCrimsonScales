@@ -1,4 +1,4 @@
-[gd_scene load_steps=103 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=121 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -21,7 +21,7 @@
 [ext_resource type="Material" uid="uid://rdsus6ec1nmq" path="res://Materials/Gold.tres" id="18_1n38g"]
 [ext_resource type="Texture2D" uid="uid://cfrq1meyfpqgx" path="res://Art/BetweenScenarios/ItemShop/BookCover.jpg" id="18_3hv00"]
 [ext_resource type="Texture2D" uid="uid://cgrc2ho6w58yc" path="res://Art/Icons/BetweenScenariosActions/TreasureMap.svg" id="18_nmjfa"]
-[ext_resource type="Shader" path="res://Shaders/CrystalBall.gdshader" id="19_lv8vq"]
+[ext_resource type="Shader" uid="uid://1deu7u58adcl" path="res://Shaders/CrystalBall.gdshader" id="19_lv8vq"]
 [ext_resource type="Texture2D" uid="uid://d0kjhh1qav1gd" path="res://Art/Icons/BetweenScenariosActions/Oak.svg" id="19_ywvcx"]
 [ext_resource type="Texture2D" uid="uid://bydbxbc7udwta" path="res://Art/Icons/BetweenScenariosActions/CrystalBall.svg" id="20_1ehwm"]
 [ext_resource type="Shader" uid="uid://csl6uc8relo7u" path="res://Shaders/CrystallBallSwirlingBack.tres" id="21_7gbn5"]
@@ -45,10 +45,23 @@
 [ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="27_hkul8"]
 [ext_resource type="PackedScene" uid="uid://bm8we16yjsmag" path="res://Scenes/BetweenScenarios/SanctuaryOfTheGreatOak/DonationCoin.tscn" id="27_j84ia"]
 [ext_resource type="Script" uid="uid://d2lbo81ici357" path="res://Scripts/BetweenScenarios/SanctuaryOfTheGreatOak/SyncingBody.cs" id="27_w2guo"]
-[ext_resource type="Texture2D" uid="uid://xcevbjw5n8no" path="res://Art/Icons/Abilities/XP.svg" id="28_5k12q"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="28_jr74k"]
 [ext_resource type="Script" uid="uid://ck1ncviofqosh" path="res://Scripts/UI/ResizingLabel.cs" id="28_psaff"]
+[ext_resource type="Script" uid="uid://cupkvjgt2qge0" path="res://Scripts/BetweenScenarios/Events/EventCard.cs" id="30_dl2j2"]
+[ext_resource type="Shader" uid="uid://cvigpjylr2cci" path="res://Shaders/RotatingCard.gdshader" id="31_sagt1"]
 [ext_resource type="PackedScene" uid="uid://ct6pmvbmsh7lf" path="res://Scenes/UI/MenuButton.tscn" id="32_5k12q"]
+[ext_resource type="Material" uid="uid://bgdcydtsmmrb" path="res://Materials/TintGrayscale.tres" id="32_su2xo"]
+[ext_resource type="Texture2D" uid="uid://byfj7yio15h8c" path="res://Art/BetweenScenarios/Events/CityFront.jpg" id="33_2yhfp"]
+[ext_resource type="Texture2D" uid="uid://bbdiabye37ueg" path="res://Art/BetweenScenarios/Events/cs-ce-01-f.png" id="34_rtdf2"]
+[ext_resource type="Script" uid="uid://b0n1q2n5kef18" path="res://Scripts/BetweenScenarios/Events/ShapedEventText.cs" id="35_0rh5w"]
+[ext_resource type="FontFile" uid="uid://djm7xa0rh5wqv" path="res://Fonts/HTOWERT.TTF" id="36_bny7g"]
+[ext_resource type="PackedScene" uid="uid://d0tqt5fvbsn2x" path="res://Scenes/BetweenScenarios/BetweenScenariosPartyStat.tscn" id="45_rtdf2"]
+[ext_resource type="Script" uid="uid://cc4ctr6004sg4" path="res://Scripts/BetweenScenarios/Events/EventOverlay.cs" id="49_dl2j2"]
+[ext_resource type="PackedScene" uid="uid://co015244vhv5u" path="res://Scenes/BetweenScenarios/Events/EventChoiceButton.tscn" id="57_dl2j2"]
+[ext_resource type="PackedScene" uid="uid://hux023lpvkr0" path="res://Scenes/BetweenScenarios/Events/CityEventRewardLabel.tscn" id="58_rtdf2"]
+[ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="58_sagt1"]
+[ext_resource type="Texture2D" uid="uid://dg5cclbmnwikj" path="res://Art/BetweenScenarios/Events/RoadFront.jpg" id="58_su2xo"]
+[ext_resource type="PackedScene" uid="uid://dhhay14damdhi" path="res://Scenes/BetweenScenarios/Events/RoadEventRewardLabel.tscn" id="60_0rh5w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fpmem"]
 shader = ExtResource("9_fpmem")
@@ -470,11 +483,40 @@ font_size = 20
 font = ExtResource("28_jr74k")
 font_size = 30
 
-[node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wg15a"]
+shader = ExtResource("31_sagt1")
+shader_parameter/fov = 20.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_12j2q"]
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="Curve" id="Curve_d3wm2"]
+_data = [Vector2(0, 0.632714), 0.0, 2.98578, 0, 0, Vector2(0.342857, 1), 0.0816562, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_16mqd"]
+font = ExtResource("4_csc1w")
+font_size = 20
+
+[sub_resource type="Curve" id="Curve_tq2dg"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay", "ActionManager", "ItemShop")]
 script = ExtResource("1_rtyjh")
 BetweenScenariosSidePanel = NodePath("CanvasLayer/UI/SidePanel")
 CharacterPortraitManager = NodePath("CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/Characters")
 ScenarioFlowchart = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart")
+EventOverlay = NodePath("CanvasLayer/UI/EventOverlay")
+ActionManager = NodePath("CanvasLayer/UI/BetweenScenariosActionManager")
+ItemShop = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ItemShop")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -833,7 +875,6 @@ layers = 2
 light_cull_mask = 4293918722
 
 [node name="ItemShop" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("_animationPlayer", "_frontSubViewport", "_backSubViewport", "_bookSubViewportContainer", "_leftPageParent", "_rightPageParent", "_frontPageParent", "_backPageParent", "_flipLeftButton", "_flipRightButton", "_bookContainer", "_bookCover", "_frontBookCover", "_leftPageCoverInside", "_backPageCoverInside", "_3dRoot", "Button")]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1028,7 +1069,7 @@ stretch = true
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1920, 1300)
-render_target_update_mode = 0
+render_target_update_mode = 4
 
 [node name="Root" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport"]
 visible = false
@@ -1136,10 +1177,14 @@ label_settings = SubResource("LabelSettings_57ue0")
 
 [node name="FlipLeftButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop" instance=ExtResource("7_blgb5")]
 layout_mode = 1
+anchors_preset = 8
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_left = -700.0
-offset_top = -638.5
+offset_top = -98.5
 offset_right = -620.0
-offset_bottom = -558.5
+offset_bottom = -18.5
+grow_vertical = 2
 
 [node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipLeftButton/BetterButton/Panel" index="0"]
 visible = false
@@ -1165,10 +1210,14 @@ expand_mode = 1
 
 [node name="FlipRightButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop" instance=ExtResource("7_blgb5")]
 layout_mode = 1
+anchors_preset = 8
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_left = 620.0
-offset_top = -638.5
+offset_top = -98.5
 offset_right = 700.0
-offset_bottom = -558.5
+offset_bottom = -18.5
+grow_vertical = 2
 
 [node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton/BetterButton/Panel" index="0"]
 visible = false
@@ -1303,6 +1352,7 @@ libraries = {
 }
 
 [node name="SanctuaryOfTheGreatOak" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("_titheBowl3DRoot", "_animationPlayer", "_donationCoinContainer", "_syncingBody", "_bowlVisualContainer", "_donateButton", "_envelopeB", "Button")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1440,6 +1490,7 @@ render_target_update_mode = 4
 [node name="Root" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport"]
 
 [node name="EnvelopeBRoot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root"]
+visible = false
 
 [node name="Container" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/EnvelopeBRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.26, 0.02, 0)
@@ -1464,6 +1515,7 @@ skeleton = NodePath("../../../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_8rcsx")
 
 [node name="TitheBowlRoot" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root"]
+visible = false
 
 [node name="TitheBowlContainer" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.68)
@@ -1624,7 +1676,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="SidePanel" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_partyNameLabel", "_newCharacterButtonContainer", "_newCharacterButton")]
+[node name="SidePanel" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_partyNameLabel", "_newCharacterButtonContainer", "_newCharacterButton", "_prosperityStat", "_reputationStat")]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -1634,6 +1686,8 @@ script = ExtResource("23_5k12q")
 _partyNameLabel = NodePath("MarginContainer/VBoxContainer/PartyStats/PartyNameContainer/PartyName")
 _newCharacterButtonContainer = NodePath("MarginContainer/VBoxContainer/NewCharacterButton")
 _newCharacterButton = NodePath("MarginContainer/VBoxContainer/NewCharacterButton/BetterButton")
+_prosperityStat = NodePath("MarginContainer/VBoxContainer/PartyStats/Prosperity")
+_reputationStat = NodePath("MarginContainer/VBoxContainer/PartyStats/Reputation")
 
 [node name="Panel" type="Panel" parent="CanvasLayer/UI/SidePanel"]
 material = ExtResource("23_1ehwm")
@@ -1685,81 +1739,25 @@ script = ExtResource("28_psaff")
 _minSize = 10
 _maxSize = 40
 
-[node name="Prosperity" type="Control" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats"]
-custom_minimum_size = Vector2(0, 30)
+[node name="Prosperity" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats" instance=ExtResource("45_rtdf2")]
 layout_mode = 2
-mouse_filter = 2
 
-[node name="Panel" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_blvf2")
+[node name="Reputation" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats" instance=ExtResource("45_rtdf2")]
+layout_mode = 2
 
-[node name="ProgressBar" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
-self_modulate = Color(0.78451, 0.253912, 0.268934, 1)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.615, 1)
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_wuydi")
+[node name="ProgressBar" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation" index="1"]
+self_modulate = Color(0.654877, 0.413723, 0.787502, 1)
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
+[node name="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation" index="2"]
+text = "Reputation"
+
+[node name="OldReputation" type="Control" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats"]
 visible = false
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 21.0
-offset_top = -13.0
-offset_right = 47.0
-offset_bottom = 13.0
-grow_vertical = 2
-pivot_offset = Vector2(17, 17)
-mouse_filter = 2
-texture = ExtResource("28_5k12q")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_right = 93.0
-grow_vertical = 2
-text = "Prosperity"
-label_settings = SubResource("LabelSettings_seeb3")
-vertical_alignment = 1
-
-[node name="Amount" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -93.0
-offset_right = -8.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "1"
-label_settings = SubResource("LabelSettings_1n38g")
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Reputation" type="Control" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Panel" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
+[node name="Panel" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/OldReputation"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1769,35 +1767,19 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_blvf2")
 
-[node name="ProgressBar" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
+[node name="ProgressBar" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/OldReputation"]
 self_modulate = Color(0.788235, 0.615686, 0.890196, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -180.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.615, 1)
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wuydi")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
-visible = false
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 21.0
-offset_top = -13.0
-offset_right = 47.0
-offset_bottom = 13.0
-grow_vertical = 2
-pivot_offset = Vector2(17, 17)
-mouse_filter = 2
-texture = ExtResource("28_5k12q")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
+[node name="Label" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/OldReputation"]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -1808,7 +1790,7 @@ text = "Reputation"
 label_settings = SubResource("LabelSettings_seeb3")
 vertical_alignment = 1
 
-[node name="Amount" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
+[node name="Amount" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/OldReputation"]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
@@ -1839,6 +1821,485 @@ layout_mode = 2
 text = "New Character"
 label_settings = SubResource("LabelSettings_f340v")
 
+[node name="EventOverlay" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_background", "_skipTextButton", "_subViewportContainer", "_cityEventCard", "_roadEventCard", "_continueButton", "_eventChoiceButtonParent")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("49_dl2j2")
+_background = NodePath("Background")
+_skipTextButton = NodePath("SkipTextButton")
+_subViewportContainer = NodePath("EventCard/SubViewportContainer")
+_cityEventCard = NodePath("EventCard/SubViewportContainer/SubViewport/Mask/City")
+_roadEventCard = NodePath("EventCard/SubViewportContainer/SubViewport/Mask/Road")
+_continueButton = NodePath("ContinueButton")
+_eventChoiceButtonScene = ExtResource("57_dl2j2")
+_eventChoiceButtonParent = NodePath("HBoxContainer")
+
+[node name="Background" type="ColorRect" parent="CanvasLayer/UI/EventOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.705882)
+
+[node name="EventCard" type="Control" parent="CanvasLayer/UI/EventOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -480.0
+offset_right = 250.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/UI/EventOverlay/EventCard"]
+material = SubResource("ShaderMaterial_wg15a")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(500, 700)
+render_target_update_mode = 0
+
+[node name="Mask" type="Panel" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport"]
+clip_children = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_12j2q")
+
+[node name="City" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask" node_paths=PackedStringArray("FrontContainer", "FrontEventText", "BackContainer", "BackEventText", "NumberLabel", "_rewardLabelParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("30_dl2j2")
+FrontContainer = NodePath("Front")
+FrontEventText = NodePath("Front/ShapedEventText")
+BackContainer = NodePath("Back")
+BackEventText = NodePath("Back/ShapedEventText")
+NumberLabel = NodePath("Front/NumberLabel")
+_rewardLabelScene = ExtResource("58_rtdf2")
+_rewardLabelParent = NodePath("Back/ShapedEventText/MarginContainer/Labels/Rewards")
+
+[node name="Front" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Front"]
+material = ExtResource("32_su2xo")
+instance_shader_parameters/grayscaleFactor = 0.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.09, 1.07)
+pivot_offset = Vector2(250, 350)
+mouse_filter = 2
+texture = ExtResource("33_2yhfp")
+expand_mode = 1
+
+[node name="Example" type="TextureRect" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Front"]
+visible = false
+material = ExtResource("32_su2xo")
+instance_shader_parameters/grayscaleFactor = 0.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("34_rtdf2")
+expand_mode = 1
+
+[node name="ShapedEventText" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Front" node_paths=PackedStringArray("_richTextLabelParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("35_0rh5w")
+TextShapeCurve = SubResource("Curve_d3wm2")
+Font = ExtResource("36_bny7g")
+FontSize = 22
+LineHeight = 22.5
+TextColor = Color(1, 1, 1, 1)
+_richTextLabelParent = NodePath("MarginContainer/Labels")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Front/ShapedEventText"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 132
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Labels" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Front/ShapedEventText/MarginContainer"]
+layout_mode = 2
+
+[node name="NumberLabel" type="Label" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Front"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -33.0
+offset_right = 20.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "25"
+label_settings = SubResource("LabelSettings_16mqd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Back" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Back"]
+material = ExtResource("32_su2xo")
+instance_shader_parameters/grayscaleFactor = 0.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -71.0
+offset_bottom = -71.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.593, 1.564)
+pivot_offset = Vector2(250, 350)
+mouse_filter = 2
+texture = ExtResource("33_2yhfp")
+expand_mode = 1
+
+[node name="ShapedEventText" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Back" node_paths=PackedStringArray("_richTextLabelParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("35_0rh5w")
+TextShapeCurve = SubResource("Curve_tq2dg")
+Font = ExtResource("36_bny7g")
+FontSize = 22
+LineHeight = 22.5
+TextColor = Color(1, 1, 1, 1)
+_richTextLabelParent = NodePath("MarginContainer/Labels")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Back/ShapedEventText"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Labels" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Back/ShapedEventText/MarginContainer"]
+layout_mode = 2
+
+[node name="Rewards" type="VBoxContainer" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Back/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="Road" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask" node_paths=PackedStringArray("FrontContainer", "FrontEventText", "BackContainer", "BackEventText", "NumberLabel", "_rewardLabelParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("30_dl2j2")
+FrontContainer = NodePath("Front")
+FrontEventText = NodePath("Front/ShapedEventText")
+BackContainer = NodePath("Back")
+BackEventText = NodePath("Back/ShapedEventText")
+NumberLabel = NodePath("Front/NumberLabel")
+_rewardLabelScene = ExtResource("60_0rh5w")
+_rewardLabelParent = NodePath("Back/ShapedEventText/MarginContainer/Labels/Rewards")
+
+[node name="Front" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Front"]
+material = ExtResource("32_su2xo")
+instance_shader_parameters/grayscaleFactor = 0.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.09, 1.07)
+pivot_offset = Vector2(250, 350)
+mouse_filter = 2
+texture = ExtResource("58_su2xo")
+expand_mode = 1
+
+[node name="ShapedEventText" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Front" node_paths=PackedStringArray("_richTextLabelParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("35_0rh5w")
+TextShapeCurve = SubResource("Curve_d3wm2")
+Font = ExtResource("36_bny7g")
+FontSize = 22
+LineHeight = 22.5
+TextColor = Color(0.137255, 0.121569, 0.12549, 1)
+_richTextLabelParent = NodePath("MarginContainer/Labels")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Front/ShapedEventText"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 132
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Labels" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Front/ShapedEventText/MarginContainer"]
+layout_mode = 2
+
+[node name="NumberLabel" type="Label" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Front"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -33.0
+offset_right = 20.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "25"
+label_settings = SubResource("LabelSettings_16mqd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Back" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Back"]
+material = ExtResource("32_su2xo")
+instance_shader_parameters/grayscaleFactor = 0.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -71.0
+offset_bottom = -71.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.593, 1.564)
+pivot_offset = Vector2(250, 350)
+mouse_filter = 2
+texture = ExtResource("58_su2xo")
+expand_mode = 1
+
+[node name="ShapedEventText" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Back" node_paths=PackedStringArray("_richTextLabelParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("35_0rh5w")
+TextShapeCurve = SubResource("Curve_tq2dg")
+Font = ExtResource("36_bny7g")
+FontSize = 22
+LineHeight = 22.5
+TextColor = Color(0.137255, 0.121569, 0.12549, 1)
+_richTextLabelParent = NodePath("MarginContainer/Labels")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Back/ShapedEventText"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Labels" type="Control" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Back/ShapedEventText/MarginContainer"]
+layout_mode = 2
+
+[node name="Rewards" type="VBoxContainer" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Back/ShapedEventText/MarginContainer/Labels"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/EventOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 250.0
+offset_right = 100.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="SkipTextButton" type="BaseButton" parent="CanvasLayer/UI/EventOverlay"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = ExtResource("58_sagt1")
+metadata/_custom_type_script = "uid://dir5vjdxjac3n"
+
+[node name="ContinueButton" parent="CanvasLayer/UI/EventOverlay" instance=ExtResource("7_blgb5")]
+layout_mode = 1
+anchors_preset = 8
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = 250.0
+offset_bottom = 350.0
+grow_vertical = 2
+
+[node name="Label" parent="CanvasLayer/UI/EventOverlay/ContinueButton/BetterButton/Panel" index="0"]
+text = "Continue"
+
 [node name="MenuButton" parent="CanvasLayer/UI" instance=ExtResource("32_5k12q")]
 layout_mode = 1
 
@@ -1852,4 +2313,6 @@ layout_mode = 1
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnhancerButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EventButton"]
+[editable path="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
 [editable path="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/NewCharacterButton"]
+[editable path="CanvasLayer/UI/EventOverlay/ContinueButton"]

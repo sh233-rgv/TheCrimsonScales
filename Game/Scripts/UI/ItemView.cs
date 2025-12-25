@@ -4,7 +4,15 @@ using Godot;
 public partial class ItemView : Control
 {
 	[Export]
+	private Control _container;
+
+	[Export]
 	public TextureRect TextureRect;
+
+	[Export]
+	private Label _costLabel;
+	[Export]
+	private Label _itemCountLabel;
 
 	[Export]
 	private PackedScene _characterTokenScene;
@@ -21,22 +29,32 @@ public partial class ItemView : Control
 	{
 		ItemModel = itemModel;
 
+		foreach(ItemViewCharacterToken token in _tokens)
+		{
+			token.QueueFree();
+		}
+
+		_tokens.Clear();
+
 		if(ItemModel == null)
 		{
-			TextureRect.SetVisible(false);
-
-			foreach(ItemViewCharacterToken token in _tokens)
-			{
-				token.QueueFree();
-			}
-
-			_tokens.Clear();
+			_container.SetVisible(false);
 
 			return;
 		}
 
-		TextureRect.SetVisible(true);
+		_container.SetVisible(true);
+
 		TextureRect.SetTexture(ItemModel.GetTexture());
+
+		SetCost(ItemModel.Cost);
+		SetItemCount(1, ItemModel.ShopCount);
+
+		_container.SetScale(Size / _container.Size);
+		this.DelayedCall(() =>
+		{
+			_container.SetScale(Size / _container.Size);
+		});
 
 		if(showCharacterToken)
 		{
@@ -66,5 +84,15 @@ public partial class ItemView : Control
 				}
 			}
 		}
+	}
+
+	public void SetCost(int cost)
+	{
+		_costLabel.SetText(cost.ToString());
+	}
+
+	public void SetItemCount(int first, int second)
+	{
+		_itemCountLabel.SetText($"{first}/{second}");
 	}
 }

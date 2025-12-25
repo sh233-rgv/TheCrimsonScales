@@ -73,7 +73,7 @@ public class Backdraft : FireKnightLevelUpCardModel<Backdraft.CardTop, Backdraft
 				{
 					ScenarioEvents.FigureEnteredHexEvent.Subscribe(state, this,
 						parameters =>
-							parameters.AbilityState == state &&
+							parameters.PotentialAbilityState == state &&
 							parameters.Hex.HasHexObjectOfType<Ladder>(),
 						async parameters =>
 						{

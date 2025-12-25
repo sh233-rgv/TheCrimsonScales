@@ -66,20 +66,7 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 			new AbilityCardAbility(OtherTargetedAbility.Builder()
 				.WithOnAfterConditionsApplied(async (state, target) =>
 				{
-					int conditionCount = 0;
-
-					for(int i = target.Conditions.Count - 1; i >= 0; i--)
-					{
-						ConditionModel condition = target.Conditions[i];
-						if(condition.IsNegative)
-						{
-							if(await AbilityCmd.RemoveCondition(target, condition))
-							{
-								conditionCount++;
-							}
-						}
-					}
-
+					int conditionCount = await AbilityCmd.RemoveAllNegativeConditions(target);
 					state.SetCustomValue(this, "ConditionCount", conditionCount);
 				})
 				.WithRange(3)

@@ -32,7 +32,6 @@ public class Regenerate : ConditionModel
 			apply: async parameters =>
 			{
 				await AbilityCmd.RemoveCondition(target, this);
-				await Remove();
 			});
 	}
 

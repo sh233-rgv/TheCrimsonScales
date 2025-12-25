@@ -105,18 +105,18 @@ public abstract class TargetedAbilityState : AbilityState
 	{
 		AbilityTarget = target;
 		if(target.HasFlag(global::Target.TargetAll))
-        {
+		{
 			AbilityTargets = int.MaxValue;
-        }
+		}
 	}
 
 	public void AdjustTarget(Target target)
 	{
 		AbilityTarget |= target;
 		if(target.HasFlag(global::Target.TargetAll))
-        {
+		{
 			AbilityTargets = int.MaxValue;
-        }
+		}
 	}
 
 	public void AdjustTargets(int amount)
@@ -446,118 +446,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			abilityState.AOEHexes = aoeHexes;
 		}
 
-		Action<List<Figure>> getValidTargets = figures =>
-		{
-			if(abilityState.AbilityTarget == Target.Self)
-			{
-				figures.Add(performer);
-			}
-			else if(abilityState.AbilityCustomGetTargets != null)
-			{
-				abilityState.AbilityCustomGetTargets(abilityState, figures);
-			}
-			else if(abilityState.AOEHexes != null)
-			{
-				foreach(Hex redAOEHex in abilityState.GetRedAOEHexes())
-				{
-					figures.AddRange(redAOEHex.GetHexObjectsOfType<Figure>());
-				}
-			}
-			else if(TargetHex != null)
-			{
-				figures.AddRange(TargetHex.GetHexObjectsOfType<Figure>());
-			}
-			else
-			{
-				HexCache.Clear();
-				RangeHelper.FindHexesInRange(performer.Hex, abilityState.SingleTargetRange, true, HexCache);
-
-				foreach(Hex hex in HexCache)
-				{
-					figures.AddRange(hex.GetHexObjectsOfType<Figure>());
-				}
-			}
-
-			for(int i = figures.Count - 1; i >= 0; i--)
-			{
-				Figure figure = figures[i];
-
-				bool remove = false;
-
-				// Remove any duplicates
-				for(int j = 0; j < i - 1; j++)
-				{
-					if(figures[j] == figure)
-					{
-						remove = true;
-					}
-				}
-
-				if(abilityState.Authority.AlliedWith(figure, true) &&
-					!abilityState.AbilityTarget.HasFlag(Target.Self) &&
-					!abilityState.AbilityTarget.HasFlag(Target.Allies))
-				{
-					remove = true;
-				}
-
-				if(!abilityState.AbilityTarget.HasFlag(Target.Enemies) && abilityState.Authority.EnemiesWith(figure))
-				{
-					remove = true;
-				}
-
-				if(!abilityState.AbilityTarget.HasFlag(Target.Self) && abilityState.Performer == figure)
-				{
-					remove = true;
-				}
-
-				if(abilityState.AbilityTarget.HasFlag(Target.SelfCountsForTargets) &&
-				   abilityState.SingleTargetStates.Count + 1 == abilityState.AbilityTargets &&
-				   !abilityState.UniqueTargetedFigures.Contains(performer) && abilityState.Performer != figure)
-				{
-					remove = true;
-				}
-
-				if(!abilityState.AbilityTarget.HasFlag(Target.MustTargetSameWithAllTargets) && abilityState.UniqueTargetedFigures.Contains(figure))
-				{
-					remove = true;
-				}
-
-				if(abilityState.AbilityTarget.HasFlag(Target.MustTargetSameWithAllTargets) && abilityState.UniqueTargetedFigures.Count > 0 &&
-				   abilityState.UniqueTargetedFigures[0] != figure)
-				{
-					remove = true;
-				}
-
-				if(abilityState.AbilityTarget.HasFlag(Target.MustTargetCharacters) && figure is not Character)
-				{
-					remove = true;
-				}
-
-				if(RequiresLineOfSight && !GameController.Instance.Map.HasLineOfSight(abilityState.Performer.Hex, figure.Hex))
-				{
-					remove = true;
-				}
-
-				ScenarioCheckEvents.CanBeTargetedCheck.Parameters canBeTargetedParameters =
-					ScenarioCheckEvents.CanBeTargetedCheckEvent.Fire(
-						new ScenarioCheckEvents.CanBeTargetedCheck.Parameters(abilityState, performer, figure));
-
-				if(!canBeTargetedParameters.CanBeTargeted)
-				{
-					remove = true;
-				}
-
-				if(figure.IsDead)
-				{
-					remove = true;
-				}
-
-				if(remove)
-				{
-					figures.RemoveAt(i);
-				}
-			}
-		};
+		Action<List<Figure>> getValidTargets = figures => GetValidTargets(abilityState, figures);
 
 		while(true)
 		{
@@ -578,7 +467,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 					Mandatory ||
 					abilityState.AbilityTarget == Target.Self ||
 					(TargetHex != null && abilityState.AbilityAOEPattern == null);
-				target = await AbilityCmd.SelectFigure(abilityState, getValidTargets, Mandatory, autoSelectIfOne, duringTargetedAbilityEffectCollection,
+				target = await AbilityCmd.SelectFigure(abilityState, getValidTargets, Mandatory, autoSelectIfOne,
+					duringTargetedAbilityEffectCollection,
 					() => _getTargetingHintText(abilityState));
 			}
 			else
@@ -650,23 +540,6 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			}
 		}
 	}
-
-	// protected virtual async GDTask InitAbilityState(T abilityState)
-	// {
-	// 	abilityState.AbilityTargets = Targets;
-	// 	if(TargetAll)
-	// 	{
-	// 		abilityState.AbilityTargets = int.MaxValue;
-	// 	}
-	//
-	// 	abilityState.AbilityRange = Range;
-	// 	abilityState.AbilityRangeType = RangeType;
-	// 	abilityState.AbilityConditionModels = Conditions.ToList();
-	// 	abilityState.AbilityPush = Push;
-	// 	abilityState.AbilityPull = Pull;
-	//
-	// 	await GDTask.CompletedTask;
-	// }
 
 	protected virtual void InitAbilityStateForSingleTarget(T abilityState)
 	{
@@ -785,6 +658,121 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 		if(!target.IsDestroyed)
 		{
 			await AbilityCmd.AddConditions(abilityState, target, conditionModels);
+		}
+	}
+
+	protected virtual void GetValidTargets(T abilityState, List<Figure> figures)
+	{
+		Figure performer = abilityState.Performer;
+
+		if(abilityState.AbilityTarget == Target.Self)
+		{
+			figures.Add(performer);
+		}
+		else if(CustomGetTargets != null)
+		{
+			CustomGetTargets(abilityState, figures);
+		}
+		else if(abilityState.AOEHexes != null)
+		{
+			foreach(Hex redAOEHex in abilityState.GetRedAOEHexes())
+			{
+				figures.AddRange(redAOEHex.GetHexObjectsOfType<Figure>());
+			}
+		}
+		else if(TargetHex != null)
+		{
+			figures.AddRange(TargetHex.GetHexObjectsOfType<Figure>());
+		}
+		else
+		{
+			HexCache.Clear();
+			RangeHelper.FindHexesInRange(performer.Hex, abilityState.SingleTargetRange, true, HexCache);
+
+			foreach(Hex hex in HexCache)
+			{
+				figures.AddRange(hex.GetHexObjectsOfType<Figure>());
+			}
+		}
+
+		for(int i = figures.Count - 1; i >= 0; i--)
+		{
+			Figure figure = figures[i];
+
+			bool remove = false;
+
+			// Remove any duplicates
+			for(int j = 0; j < i - 1; j++)
+			{
+				if(figures[j] == figure)
+				{
+					remove = true;
+				}
+			}
+
+			if(abilityState.Authority.AlliedWith(figure, true) &&
+			   !abilityState.AbilityTarget.HasFlag(Target.Self) &&
+			   !abilityState.AbilityTarget.HasFlag(Target.Allies))
+			{
+				remove = true;
+			}
+
+			if(!abilityState.AbilityTarget.HasFlag(Target.Enemies) && abilityState.Authority.EnemiesWith(figure))
+			{
+				remove = true;
+			}
+
+			if(!abilityState.AbilityTarget.HasFlag(Target.Self) && abilityState.Performer == figure)
+			{
+				remove = true;
+			}
+
+			if(abilityState.AbilityTarget.HasFlag(Target.SelfCountsForTargets) &&
+			   abilityState.SingleTargetStates.Count + 1 == abilityState.AbilityTargets &&
+			   !abilityState.UniqueTargetedFigures.Contains(performer) && abilityState.Performer != figure)
+			{
+				remove = true;
+			}
+
+			if(!abilityState.AbilityTarget.HasFlag(Target.MustTargetSameWithAllTargets) && abilityState.UniqueTargetedFigures.Contains(figure))
+			{
+				remove = true;
+			}
+
+			if(abilityState.AbilityTarget.HasFlag(Target.MustTargetSameWithAllTargets) && abilityState.UniqueTargetedFigures.Count > 0 &&
+			   abilityState.UniqueTargetedFigures[0] != figure)
+			{
+				remove = true;
+			}
+
+			if(abilityState.AbilityTarget.HasFlag(Target.MustTargetCharacters) && figure is not Character)
+			{
+				remove = true;
+			}
+
+			if(RequiresLineOfSight && !GameController.Instance.Map.HasLineOfSight(abilityState.Performer.Hex, figure.Hex))
+			{
+				remove = true;
+			}
+
+			ScenarioCheckEvents.CanBeTargetedCheck.Parameters canBeTargetedParameters =
+				ScenarioCheckEvents.CanBeTargetedCheckEvent.Fire(
+					new ScenarioCheckEvents.CanBeTargetedCheck.Parameters(abilityState, performer, figure));
+
+			if(!canBeTargetedParameters.CanBeTargeted)
+			{
+				remove = true;
+			}
+
+			if(figure.IsDead)
+			{
+				remove = true;
+			}
+
+			if(remove)
+			{
+				figures.RemoveAt(i);
+			}
 		}
 	}
 

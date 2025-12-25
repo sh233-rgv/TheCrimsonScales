@@ -18,7 +18,7 @@ public static class ModelDB
 		return new ModelId()
 		{
 			Category = SlugHelper.GetSlug(type.BaseType?.Name),
-			Entry = SlugHelper.GetSlug(type.Name)
+			Entry = SlugHelper.GetSlug(type.FullName)
 		};
 	}
 
@@ -122,6 +122,16 @@ public static class ModelDB
 	}
 
 	public static T AMDCard<T>() where T : AMDCardModel
+	{
+		return GetOrCreate<T>();
+	}
+
+	public static T Event<T>() where T : EventModel
+	{
+		return GetOrCreate<T>();
+	}
+
+	public static T EventChoice<T>() where T : EventChoiceModel
 	{
 		return GetOrCreate<T>();
 	}

@@ -20,7 +20,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 	}
 
 	private SummonStats _summonStats;
-	private string _name;
+	public string Name { get; private set; }
 	private string _texturePath;
 	private string _mapIconTexturePath;
 	private Action<State, List<Hex>> _getValidHexes;
@@ -61,7 +61,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 
 		public ITexturePathStep WithName(string name)
 		{
-			Obj._name = name;
+			Obj.Name = name;
 			return (TBuilder)this;
 		}
 
@@ -104,26 +104,26 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 	{
 		// Target a hex within range
 		Hex targetedHex = await AbilityCmd.SelectHex(abilityState, list =>
-		{
-			if(_getValidHexes == null)
 			{
-				RangeHelper.FindHexesInRange(abilityState.Performer.Hex, 1, true, list);
-
-				for(int i = list.Count - 1; i >= 0; i--)
+				if(_getValidHexes == null)
 				{
-					Hex hex = list[i];
+					RangeHelper.FindHexesInRange(abilityState.Performer.Hex, 1, true, list);
 
-					if(!hex.IsEmpty())
+					for(int i = list.Count - 1; i >= 0; i--)
 					{
-						list.RemoveAt(i);
+						Hex hex = list[i];
+
+						if(!hex.IsEmpty())
+						{
+							list.RemoveAt(i);
+						}
 					}
 				}
-			}
-			else
-			{
-				_getValidHexes(abilityState, list);
-			}
-		}, hintText: $"Select a hex to summon {_name}");
+				else
+				{
+					_getValidHexes(abilityState, list);
+				}
+			}, hintText: $"Select a hex to summon {Name}");
 
 		if(targetedHex != null)
 		{
@@ -131,7 +131,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 			Summon summon = summonScene.Instantiate<Summon>();
 			GameController.Instance.Map.AddChild(summon);
 			await summon.Init(targetedHex);
-			await summon.Spawn(_summonStats, (Character)abilityState.Performer, _name, _texturePath, _mapIconTexturePath);
+			await summon.Spawn(_summonStats, (Character)abilityState.Performer, Name, _texturePath, _mapIconTexturePath);
 			abilityState.SetSummon(summon);
 
 			summon.Scale = Vector2.Zero;

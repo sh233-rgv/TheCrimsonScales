@@ -33,7 +33,7 @@ public class ConditionImmunityTrait : FigureTrait
 					parameters.Condition?.ImmunityCompareBaseConditions != null &&
 					_conditionModel?.ImmunityCompareBaseConditions != null &&
 					parameters.Condition.ImmunityCompareBaseConditions
-						.Any(c1 => _conditionModel.ImmunityCompareBaseConditions.Contains(c1));
+						.Any(condition => _conditionModel.ImmunityCompareBaseConditions.Contains(condition));
 			},
 			async parameters =>
 			{

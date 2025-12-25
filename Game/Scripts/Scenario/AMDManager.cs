@@ -24,16 +24,10 @@
 
 		if(deck.Owner != AMDCardOwner.Monsters)
 		{
-			if(RemainingCharacterCurseCount == 0)
+			if(!CurseMonsters())
 			{
 				return false;
 			}
-
-			RemainingCharacterCurseCount--;
-
-			AMDCard card = new AMDCard(ModelDB.AMDCard<CurseAMDCard>(), deck.Owner);
-			card.DrawnEvent += OnCharacterCurseDrawn;
-			figure.AMDCardDeck.AddCard(card, true);
 		}
 		else
 		{
@@ -48,6 +42,22 @@
 			card.DrawnEvent += OnMonsterCurseDrawn;
 			figure.AMDCardDeck.AddCard(card, true);
 		}
+
+		return true;
+	}
+
+	public bool CurseMonsters()
+	{
+		if(RemainingMonsterCurseCount == 0)
+		{
+			return false;
+		}
+
+		RemainingMonsterCurseCount--;
+
+		AMDCard card = new AMDCard(ModelDB.AMDCard<CurseAMDCard>(), AMDCardOwner.Monsters);
+		card.DrawnEvent += OnMonsterCurseDrawn;
+		GameController.Instance.MonsterAMDCardDeck.AddCard(card, true);
 
 		return true;
 	}
