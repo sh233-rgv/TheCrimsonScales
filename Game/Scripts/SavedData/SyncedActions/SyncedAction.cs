@@ -6,10 +6,10 @@ using Newtonsoft.Json;
 public abstract class SyncedAction
 {
 	[JsonProperty]
-	public int OwnerCharacterIndex { get; set; }
+	public int OwnerCharacterIndex { get; private set; }
 
 	[JsonProperty]
-	public int PromptIndex { get; set; }
+	public int PromptIndex { get; private set; }
 
 	public Character Owner => GameController.Instance.CharacterManager.GetCharacter(OwnerCharacterIndex);
 
@@ -17,7 +17,7 @@ public abstract class SyncedAction
 	{
 	}
 
-	public SyncedAction(Character character)
+	protected SyncedAction(Character character)
 	{
 		OwnerCharacterIndex = character.Index;
 		PromptIndex = GameController.Instance.SavedScenario.PromptAnswers.Count;

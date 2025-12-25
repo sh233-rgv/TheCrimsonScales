@@ -278,6 +278,7 @@ public class ScenarioSetupPhase : ScenarioPhase
 	private void OnContinuePressed()
 	{
 		_scenarioSetupState.Completed = true;
+		GameController.Instance.UndoManager.AddStep(new ScenarioSetupUndoStep());
 	}
 
 	private CharacterScenarioSetupState GetCharacterCardSelectionState(Character character)
