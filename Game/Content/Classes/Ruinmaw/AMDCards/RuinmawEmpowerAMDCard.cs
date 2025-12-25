@@ -1,6 +1,6 @@
 public class RuinmawEmpowerAMDCard : EmpowerAMDCard
 {
-	protected override string TexturePath => "res://Content/Classes/Ruinmaw/AMDCards/AMDCards.png";
+	protected override string GetTexturePath(AMDCardOwner owner) => "res://Content/Classes/Ruinmaw/AMDCards/AMDCards.png";
 	protected override int ColumnCount => 3;
 	protected override int RowCount => 2;
 	protected override int AtlasIndex => 5;

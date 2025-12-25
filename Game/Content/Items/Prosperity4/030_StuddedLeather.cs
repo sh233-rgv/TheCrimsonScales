@@ -34,7 +34,7 @@ public class StuddedLeather : Prosperity4Item
 
 					ScenarioEvents.SufferDamageEvent.Subscribe(this, _subscriber,
 						canApply: parameters =>
-							parameters.FromAttack && parameters.PotentialAttackAbilityState == state && parameters.Figure == Owner,
+							parameters.FromAttack && parameters.PotentialAbilityState == state && parameters.Figure == Owner,
 						apply: async parameters =>
 						{
 							parameters.AdjustShield(1);

@@ -72,7 +72,7 @@ public partial class Ruinmaw : Character, IHasEmpower
 			parameters => parameters.Figure == this,
 			parameters =>
 			{
-				parameters.Add(new FigureInfoTextExtraEffect.Parameters($"{Icons.Inline("res://Content/Classes/Ruinmaw/RuinmawSated.png")}"));
+				parameters.Add(new InfoTextExtraEffect.Parameters($"{Icons.Inline("res://Content/Classes/Ruinmaw/RuinmawSated.png")}"));
 			}
 		);
 

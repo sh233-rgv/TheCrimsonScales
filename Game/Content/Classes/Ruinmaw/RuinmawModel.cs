@@ -6,6 +6,7 @@ public class RuinmawModel : ClassModel
 	public override string Name => "Ruinmaw";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.Medium;
 	public override int HandSize => 11;
+	public override Ancestry Ancestry => Ancestry.Vermling;
 	public override string AssetPath => "res://Content/Classes/Ruinmaw";
 	public override Color PrimaryColor => Color.FromHtml("c9252c");
 	public override Color SecondaryColor => Color.FromHtml("833332");
