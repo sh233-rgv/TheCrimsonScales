@@ -45,8 +45,8 @@ public partial class MenuPopup : Popup<MenuPopup.Request>
 	{
 		base.OnOpen();
 
-		_undoTurnButton.GetParent<Control>().SetVisible(GameController.Instance != null && GameController.Instance.CanUndo(UndoType.Turn));
-		_undoRoundButton.GetParent<Control>().SetVisible(GameController.Instance != null && GameController.Instance.CanUndo(UndoType.Round));
+		_undoTurnButton.GetParent<Control>().SetVisible(GameController.Instance != null && GameController.Instance.UndoManager.CanUndoTurn);
+		_undoRoundButton.GetParent<Control>().SetVisible(GameController.Instance != null && GameController.Instance.UndoManager.CanUndoRound);
 		_resignButton.GetParent<Control>().SetVisible(GameController.Instance != null);
 		_winButton.GetParent<Control>().SetVisible(GameController.Instance != null);
 		_copyToClipboardButton.GetParent<Control>().SetVisible(GameController.Instance != null);
@@ -68,7 +68,7 @@ public partial class MenuPopup : Popup<MenuPopup.Request>
 	{
 		Close();
 
-		GameController.Instance.Undo(UndoType.Turn);
+		GameController.Instance.UndoManager.UndoTurn();
 	}
 
 	private void OnUndoRoundPressed()
@@ -81,7 +81,7 @@ public partial class MenuPopup : Popup<MenuPopup.Request>
 			{
 				Close();
 
-				GameController.Instance.Undo(UndoType.Round);
+				GameController.Instance.UndoManager.UndoRound();
 			}, TextButton.ColorType.Red)
 		));
 	}

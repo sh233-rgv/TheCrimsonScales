@@ -120,6 +120,8 @@ public class PromptManager
 
 				_promptIndex++;
 
+				GameController.Instance.UndoManager.AddStep(new RemovePromptAnswerUndoStep(answer));
+
 				if(!answer.ImmediateCompletion)
 				{
 					GameController.Instance.SetRelevantTurnTakerPrompt(_promptIndex);
