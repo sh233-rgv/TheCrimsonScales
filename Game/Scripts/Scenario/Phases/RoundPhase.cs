@@ -63,8 +63,6 @@ public class RoundPhase : ScenarioPhase
 			GameController.Instance.UndoManager.SetTurnStart();
 			await figure.TakeFullTurn();
 
-			GameController.Instance.ResetRelevantTurnTaker();
-
 			await GDTask.DelayFastForwardable(0.5f);
 
 			if(activeFigureIndex + 1 < _sortedFigures.Count)

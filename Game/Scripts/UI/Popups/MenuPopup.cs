@@ -73,7 +73,8 @@ public partial class MenuPopup : Popup<MenuPopup.Request>
 
 	private void OnUndoRoundPressed()
 	{
-		AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request("Win", "Are you sure you undo to the start of the past round?",
+		AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request("Undo Round",
+			"Are you sure you undo to the start of the past round?",
 			new TextButton.Parameters("Cancel", () =>
 			{
 			}),

@@ -122,11 +122,6 @@ public class PromptManager
 
 				GameController.Instance.UndoManager.AddStep(new RemovePromptAnswerUndoStep(answer));
 
-				if(!answer.ImmediateCompletion)
-				{
-					GameController.Instance.SetRelevantTurnTakerPrompt(_promptIndex);
-				}
-
 				if(answer.SelectedEffectIndex >= 0)
 				{
 					await prompt.EffectCollection.Effects[answer.SelectedEffectIndex].Apply();
