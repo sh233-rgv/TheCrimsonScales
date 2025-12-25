@@ -144,6 +144,8 @@ public class CardSelectionPhase : ScenarioPhase
 				await card.SetCardState(CardState.Playing);
 			}
 		}
+
+		GameController.Instance.UndoManager.AddStep(new StartRoundUndoStep(_cardSelectionState));
 	}
 
 	private void OnPromptStarted(Character character)
