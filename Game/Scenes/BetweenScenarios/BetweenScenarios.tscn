@@ -1915,7 +1915,6 @@ grow_vertical = 2
 
 [node name="Background" type="TextureRect" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Front"]
 material = ExtResource("32_su2xo")
-instance_shader_parameters/grayscaleFactor = 0.0
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1931,7 +1930,6 @@ expand_mode = 1
 [node name="Example" type="TextureRect" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Front"]
 visible = false
 material = ExtResource("32_su2xo")
-instance_shader_parameters/grayscaleFactor = 0.0
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2000,7 +1998,6 @@ grow_vertical = 2
 
 [node name="Background" type="TextureRect" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/City/Back"]
 material = ExtResource("32_su2xo")
-instance_shader_parameters/grayscaleFactor = 0.0
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2077,7 +2074,6 @@ grow_vertical = 2
 
 [node name="Background" type="TextureRect" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Front"]
 material = ExtResource("32_su2xo")
-instance_shader_parameters/grayscaleFactor = 0.0
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2148,7 +2144,6 @@ grow_vertical = 2
 
 [node name="Background" type="TextureRect" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport/Mask/Road/Back"]
 material = ExtResource("32_su2xo")
-instance_shader_parameters/grayscaleFactor = 0.0
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
