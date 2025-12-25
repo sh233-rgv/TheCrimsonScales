@@ -19,7 +19,7 @@ public class AgilePredator : ChieftainCardModel<AgilePredator.CardTop, AgilePred
 					Health = 5,
 					Move = 3,
 					Attack = 1,
-					Traits = 
+					Traits =
 					[
 						new RetaliateTrait(1),
 						new AttackersGainDisadvantageTrait(),
@@ -34,7 +34,7 @@ public class AgilePredator : ChieftainCardModel<AgilePredator.CardTop, AgilePred
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChieftainCardSide
@@ -53,7 +53,7 @@ public class AgilePredator : ChieftainCardModel<AgilePredator.CardTop, AgilePred
 							await GDTask.CompletedTask;
 						})
 						.Build()
-				])				
+				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{
 					figures.AddRange(((Character)grantState.Performer).Summons

@@ -41,7 +41,7 @@ public class PositiveReinforcement : ChieftainCardModel<PositiveReinforcement.Ca
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChieftainCardSide
@@ -63,31 +63,32 @@ public class PositiveReinforcement : ChieftainCardModel<PositiveReinforcement.Ca
 					AttackAbility.Builder()
 						.WithDamage(0)
 						.WithDuringAttackSubscriptions([
-							ScenarioEvents.DuringAttack.Subscription.New(
-								parameters => parameters.Performer == grantState.Target,
-								async parameters =>
-								{
-									parameters.AbilityState.AbilityAdjustAttackValue(((Summon)parameters.Performer).Stats.Attack ?? 0);
+								ScenarioEvents.DuringAttack.Subscription.New(
+									parameters => parameters.Performer == grantState.Target,
+									async parameters =>
+									{
+										parameters.AbilityState.AbilityAdjustAttackValue(((Summon)parameters.Performer).Stats.Attack ?? 0);
 
-									int range = ((Summon)parameters.Performer).Stats.Range ?? 1;
-									parameters.AbilityState.AbilityAdjustRange(range - 1);
-									parameters.AbilityState.AbilitySetRangeType(range == 1 ? RangeType.Melee : RangeType.Range);
+										int range = ((Summon)parameters.Performer).Stats.Range ?? 1;
+										parameters.AbilityState.AbilityAdjustRange(range - 1);
+										parameters.AbilityState.AbilitySetRangeType(range == 1 ? RangeType.Melee : RangeType.Range);
 
-									await GDTask.CompletedTask;
-								}
-							),
-							ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Earth,
-								applyFunction: async applyParameters =>
-								{
-									applyParameters.AbilityState.AbilityAdjustAttackValue(1);
+										await GDTask.CompletedTask;
+									}
+								),
+								ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Earth,
+									applyFunction: async applyParameters =>
+									{
+										applyParameters.AbilityState.AbilityAdjustAttackValue(1);
 
-									await AbilityCmd.GainXP(applyParameters.Performer, 1);
-								},
-								effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
-							)]
+										await AbilityCmd.GainXP(applyParameters.Performer, 1);
+									},
+									effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
+								)
+							]
 						)
 						.Build()
-				])				
+				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{
 					figures.AddRange(((Character)grantState.Performer).Summons

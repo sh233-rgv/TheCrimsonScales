@@ -17,7 +17,7 @@ public class ChestThumper : ChieftainCardModel<ChestThumper.CardTop, ChestThumpe
 					Health = 7,
 					Move = 3,
 					Attack = 2,
-					Traits = 
+					Traits =
 					[
 						new JumpTrait(),
 						new HealOnKillTrait(2),
@@ -32,7 +32,7 @@ public class ChestThumper : ChieftainCardModel<ChestThumper.CardTop, ChestThumpe
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 		protected override bool Unrecoverable => true;
 	}
 

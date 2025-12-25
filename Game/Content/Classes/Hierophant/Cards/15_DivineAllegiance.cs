@@ -38,7 +38,7 @@ public class DivineAllegiance : HierophantLevelUpCardModel<DivineAllegiance.Card
 					{
 						if(!targetedFigure.IsDead)
 						{
-							await AbilityCmd.SufferDamage(null, targetedFigure, 1);
+							await AbilityCmd.SufferDamage(state, targetedFigure, 1);
 							state.SetPerformed();
 						}
 					}
@@ -48,7 +48,7 @@ public class DivineAllegiance : HierophantLevelUpCardModel<DivineAllegiance.Card
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Light];
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : HierophantCardSide

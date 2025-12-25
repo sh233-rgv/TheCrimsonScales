@@ -26,21 +26,15 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 						new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
 					]
 				))
-				.WithAbilityEndedSubscription(
-					ScenarioEvents.AbilityEnded.Subscription.New(
-						parameters => true,
-						async parameters =>
-						{
-							foreach(Figure target in ((AttackAbility.State)parameters.AbilityState).UniqueTargetedFigures.Where(target =>
-								        target.HasWound() && !target.IsDead))
-							{
-								await AbilityCmd.SufferDamage(null, target, 1);
-							}
+				.WithOnAbilityEndedPerformed(async state =>
+				{
+					foreach(Figure target in state.UniqueTargetedFigures.Where(target => target.HasWound()))
+					{
+						await AbilityCmd.SufferDamage(state, target, 1);
+					}
 
-							await GDTask.CompletedTask;
-						}
-					)
-				)
+					await GDTask.CompletedTask;
+				})
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -83,7 +77,7 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 				{
 					foreach(Figure target in GameController.Instance.Map.Figures.Where(target => target.HasWound()))
 					{
-						await AbilityCmd.SufferDamage(null, target, state.GetCustomValue<bool>(this, "Fire Consumed") ? 2 : 1);
+						await AbilityCmd.SufferDamage(state, target, state.GetCustomValue<bool>(this, "Fire Consumed") ? 2 : 1);
 						state.SetPerformed();
 					}
 

@@ -17,14 +17,14 @@ public class ChampionOfChains : ChainguardLevelUpCardModel<ChampionOfChains.Card
 				{
 					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
 						canApply: parameters => parameters.Condition is Shackle &&
-							parameters.PotentialAbilityState != null &&
-							parameters.PotentialAbilityState.Performer == state.Performer,
+						                        parameters.PotentialAbilityState != null &&
+						                        parameters.PotentialAbilityState.Performer == state.Performer,
 						async parameters =>
 						{
 							await AbilityCmd.AddCondition(null, parameters.Target, Conditions.Wound1);
 						}
 					);
-				
+
 					Chainguard chainguard = (Chainguard)AbilityCard.OriginalOwner;
 					await chainguard.SetMaximumShackles(3);
 				})
@@ -47,7 +47,7 @@ public class ChampionOfChains : ChainguardLevelUpCardModel<ChampionOfChains.Card
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChainguardCardSide
@@ -87,9 +87,10 @@ public class ChampionOfChains : ChainguardLevelUpCardModel<ChampionOfChains.Card
 					{
 						ScenarioEvents.SwingDirectionCheckEvent.Subscribe(state, this,
 							canApply: parameters => state == parameters.AbilityState,
-							apply: async parameters => 
+							apply: async parameters =>
 							{
-								bool clockwise = MoveHelper.IsClockwise(state.Performer.Hex, swingState.TargetedHexes[0], swingState.SingleTargetState.ForcedMovementHexes[0]);
+								bool clockwise = MoveHelper.IsClockwise(state.Performer.Hex, swingState.TargetedHexes[0],
+									swingState.SingleTargetState.ForcedMovementHexes[0]);
 								parameters.SetRequiredSwingDirection(clockwise ? SwingDirectionType.Clockwise : SwingDirectionType.Counterclockwise);
 
 								ScenarioEvents.SwingDirectionCheckEvent.Unsubscribe(state, this);
@@ -101,7 +102,7 @@ public class ChampionOfChains : ChainguardLevelUpCardModel<ChampionOfChains.Card
 
 					await GDTask.CompletedTask;
 				})
-				.WithConditionalAbilityCheck(async state => 
+				.WithConditionalAbilityCheck(async state =>
 				{
 					SwingAbility.State swingState = state.ActionState.GetAbilityState<SwingAbility.State>(0);
 					int remainingSwing = swingState.AbilitySwing - swingState.SingleTargetState.ForcedMovementHexes.Count;

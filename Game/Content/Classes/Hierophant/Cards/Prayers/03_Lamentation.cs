@@ -36,6 +36,6 @@ public class Lamentation : HierophantPrayerCardModel<Lamentation.CardTopBottom, 
 		];
 
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

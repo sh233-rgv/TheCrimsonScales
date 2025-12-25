@@ -69,7 +69,7 @@ public class FireWhirl : FireKnightCardModel<FireWhirl.CardTop, FireWhirl.CardBo
 
 		protected override IEnumerable<Element> Elements => [Element.Fire, Element.Air];
 		protected override int XP => 1;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : FireKnightCardSide

@@ -53,13 +53,13 @@ public class ImpetuousInquisition : HierophantCardModel<ImpetuousInquisition.Car
 						{
 							return
 								canApplyParameters.SufferDamageParameters.FromAttack &&
-								state.Performer.EnemiesWith(canApplyParameters.SufferDamageParameters.PotentialAttackAbilityState.Performer) &&
+								state.Performer.EnemiesWith(canApplyParameters.SufferDamageParameters.PotentialAbilityState.Performer) &&
 								state.Performer.AlliedWith(canApplyParameters.SufferDamageParameters.Figure) &&
 								canApplyParameters.Damage >= 3;
 						},
 						apply: async applyParameters =>
 						{
-							await AbilityCmd.SufferDamage(null, applyParameters.PotentialAttackAbilityState.Performer, 2);
+							await AbilityCmd.SufferDamage(state, applyParameters.PotentialAbilityState.Performer, 2);
 						}
 					);
 
@@ -99,6 +99,6 @@ public class ImpetuousInquisition : HierophantCardModel<ImpetuousInquisition.Car
 
 		protected override int XP => 1;
 		protected override bool Round => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }
