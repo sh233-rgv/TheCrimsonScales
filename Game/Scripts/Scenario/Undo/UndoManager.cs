@@ -9,7 +9,7 @@ public class UndoManager
 
 	public bool CanUndo => !GameController.Instance.ScenarioEnded && _stack.Count > 0;
 	public bool CanUndoTurn => CanUndo && _turnStackIndices.Count > 0;
-	public bool CanUndoRound => false;
+	public bool CanUndoRound => CanUndo && _roundStackIndices.Count > 0;
 
 	private SavedScenario SavedScenario => GameController.Instance.SavedScenario;
 
@@ -73,6 +73,23 @@ public class UndoManager
 		{
 			return;
 		}
+
+		bool undoneNonSilent = false;
+		while(!undoneNonSilent && CanUndoRound)
+		{
+			int roundIndex = _roundStackIndices.Last();
+			_roundStackIndices.RemoveLast();
+
+			while(CanUndo && _stack.Count > roundIndex)
+			{
+				if(!Pop().Silent)
+				{
+					undoneNonSilent = true;
+				}
+			}
+		}
+
+		AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(GameController.Instance.SavedCampaign, true));
 	}
 
 	private UndoStep Pop()

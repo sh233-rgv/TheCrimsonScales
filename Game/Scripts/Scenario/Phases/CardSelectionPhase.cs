@@ -145,6 +145,7 @@ public class CardSelectionPhase : ScenarioPhase
 			}
 		}
 
+		GameController.Instance.UndoManager.SetRoundStart();
 		GameController.Instance.UndoManager.AddStep(new StartRoundUndoStep(_cardSelectionState));
 	}
 
