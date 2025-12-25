@@ -11,7 +11,7 @@ public abstract class AMDCardModel : AbstractModel<AMDCardModel>
 	protected abstract int RowCount { get; }
 
 	public virtual bool Reshuffles => false;
-	public virtual bool RemoveAfterDraw { get; protected set; } = false;
+	public virtual bool RemoveAfterDraw => false;
 
 	public virtual AMDCardType Type => AMDCardType.Value;
 
@@ -36,9 +36,4 @@ public abstract class AMDCardModel : AbstractModel<AMDCardModel>
 			AtlasIndex, ColumnCount, RowCount,
 			ResourceLoader.Load<Texture2D>(TexturePath));
 	}
-
-	public void SetRemoveAfterDraw(bool removeAfterDraw)
-    {
-        RemoveAfterDraw = removeAfterDraw;
-    }
 }

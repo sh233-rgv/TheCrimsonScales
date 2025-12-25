@@ -19,12 +19,14 @@ public class UnstoppableForce : HierophantLevelUpCardModel<UnstoppableForce.Card
 				{
 					ScenarioEvents.AfterSufferDamageEvent.Subscribe(state, this,
 						canApplyParameters => canApplyParameters.SufferDamageParameters.FromAttack &&
-							canApplyParameters.PotentialAttackAbilityState.Target.AlliedWith(state.Performer) &&
-							RangeHelper.Distance(canApplyParameters.PotentialAttackAbilityState.Target.Hex, state.Performer.Hex) <= 1,
+						                      canApplyParameters.PotentialAttackAbilityState.Target.AlliedWith(state.Performer) &&
+						                      RangeHelper.Distance(canApplyParameters.PotentialAttackAbilityState.Target.Hex, state.Performer.Hex) <=
+						                      1,
 						async applyParameters =>
 						{
 							//TODO: Change to state
-							await AbilityCmd.SufferDamage(/*state*/null, applyParameters.PotentialAttackAbilityState.Performer, applyParameters.Damage);
+							await AbilityCmd.SufferDamage( /*state*/null, applyParameters.PotentialAttackAbilityState.Performer,
+								applyParameters.Damage);
 
 							await state.AdvanceUseSlot();
 						}
@@ -62,7 +64,8 @@ public class UnstoppableForce : HierophantLevelUpCardModel<UnstoppableForce.Card
 				.WithRange(4)
 				.WithAfterTargetConfirmedSubscription(
 					ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
-						parameters => RangeHelper.GetFiguresInRange(parameters.AbilityState.Target.Hex, 1).Any(figure => figure.AlliedWith(parameters.AbilityState.Performer)),
+						parameters => RangeHelper.GetFiguresInRange(parameters.AbilityState.Target.Hex, 1)
+							.Any(figure => figure.AlliedWith(parameters.AbilityState.Performer)),
 						async parameters =>
 						{
 							parameters.AbilityState.SingleTargetAddCondition(Conditions.Wound1);
@@ -96,15 +99,7 @@ public class UnstoppableForce : HierophantLevelUpCardModel<UnstoppableForce.Card
 						list.AddRange(RangeHelper.GetFiguresInRange(target.Hex, 1));
 					}
 				})
-				.WithConditionalAbilityCheck(async state =>
-					{
-						await GDTask.CompletedTask;
-
-						AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
-
-						return attackAbilityState.Performed;
-					}
-				)
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.Build())
 		];
 	}

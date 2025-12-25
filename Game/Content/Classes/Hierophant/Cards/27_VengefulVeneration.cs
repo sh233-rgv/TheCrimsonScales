@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.CardTop, VengefulVeneration.CardBottom>
 {
@@ -23,12 +22,13 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 					ScenarioEvents.AfterAttackPerformedEvent.Subscribe(state, this,
 						canApplyParameters =>
-							canApplyParameters.Performer == attackAbilityState.Target && canApplyParameters.AbilityState.Target.AlliedWith(state.Performer),
+							canApplyParameters.Performer == attackAbilityState.Target &&
+							canApplyParameters.AbilityState.Target.AlliedWith(state.Performer),
 						async applyParameters =>
 						{
 							//TODO: Add visual (character token) to target(?)
 							//TODO: Change to state
-							await AbilityCmd.SufferDamage(/*state*/null, applyParameters.Performer, 2);
+							await AbilityCmd.SufferDamage( /*state*/null, applyParameters.Performer, 2);
 
 							await state.ActionState.RequestDiscardOrLose();
 						});
@@ -57,16 +57,16 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
-                {
-                    IEnumerable<Figure> figures = RangeHelper.GetFiguresInRange(state.Performer.Hex, 1).Where(figure => figure.EnemiesWith(state.Performer));
+				{
+					List<Figure> figures = RangeHelper.GetFiguresInRange(state.Performer.Hex, 1).Where(figure => figure.EnemiesWith(state.Performer))
+						.ToList();
 					foreach(Figure figure in figures)
-                    {
+					{
 						//TODO: Change to state
-                        await AbilityCmd.SufferDamage(/*state*/null, figure, (figures.Count() == 1) ? 2 : 1);
+						await AbilityCmd.SufferDamage( /*state*/null, figure, (figures.Count() == 1) ? 2 : 1);
 						state.SetPerformed();
-                    }
-					await GDTask.CompletedTask;
-                })
+					}
+				})
 				.Build())
 		];
 	}

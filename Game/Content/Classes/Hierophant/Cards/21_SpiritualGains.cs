@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -20,25 +21,25 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 					//TODO: Add visual for character tokens
 					ScenarioEvents.AbilityCardSideEndedEvent.Subscribe(state, this,
 						parameters => parameters.Performer == state.Performer &&
-							parameters.AbilityCardSide.AbilityCard.CardState is
-								CardState.PersistentLoss or
-								CardState.Lost or
-								CardState.RoundLoss or
-								CardState.UnrecoverablyLost &&
-							parameters.AbilityCardSide != this,
+						              parameters.AbilityCardSide.AbilityCard.CardState is
+							              CardState.PersistentLoss or
+							              CardState.Lost or
+							              CardState.RoundLoss or
+							              CardState.UnrecoverablyLost &&
+						              parameters.AbilityCardSide != this,
 						async parameters =>
 						{
 							characterTokens++;
+							await GDTask.CompletedTask;
 						});
 
 					ScenarioEvents.LongRestStartedEvent.Subscribe(state, this,
-						parameters => {
-                            return parameters.Character == state.Performer && characterTokens > 0;
-                        },
+						parameters => parameters.Character == state.Performer && characterTokens > 0,
 						async parameters =>
 						{
 							parameters.SetLoseCard(false);
 							characterTokens--;
+							await GDTask.CompletedTask;
 						}, EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.LoseCard),
 						effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(this));
@@ -74,13 +75,11 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 						async applyParameters =>
 						{
 							applyParameters.SetLoseCard(false);
-							foreach(ItemModel item in applyParameters.Character.Items)
+							foreach(ItemModel item in applyParameters.Character.Items.Where(item => item.ItemUseType == ItemUseType.Spend))
 							{
-								if(item.ItemUseType == ItemUseType.Spend)
-								{
-									await AbilityCmd.RefreshItem(item);
-								}
+								await AbilityCmd.RefreshItem(item);
 							}
+
 							ActionState actionState = new ActionState(applyParameters.Character,
 							[
 								HealAbility.Builder()

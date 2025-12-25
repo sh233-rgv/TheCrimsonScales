@@ -15,39 +15,44 @@ public class RighteousAtonement : HierophantLevelUpCardModel<RighteousAtonement.
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
-                {
-                    ScenarioEvents.FigureTurnStartedEvent.Subscribe(state, this,
+				{
+					ScenarioEvents.FigureTurnStartedEvent.Subscribe(state, this,
 						turnStartedParameters => turnStartedParameters.Figure.AlliedWith(state.Performer),
 						async turnStartedParameters =>
-                        {
+						{
 							await ApplyParameters(turnStartedParameters.Figure, state);
-                        }, EffectType.Selectable,
+						}, EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.Damage),
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Suffer up to {Icons.Inline(Icons.Damage)}5 for to increase the value of your next single target attack by that much"));
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"Suffer up to {Icons.Inline(Icons.Damage)}5 for to increase the value of your next single target attack by that much"));
 					ScenarioEvents.AbilityEndedEvent.Subscribe(state, this,
-						abilityEndedParameters => abilityEndedParameters.Performer.AlliedWith(state.Performer) && abilityEndedParameters.Performer.TakingTurn,
+						abilityEndedParameters => abilityEndedParameters.Performer.AlliedWith(state.Performer) &&
+						                          abilityEndedParameters.Performer.TakingTurn,
 						async abilityEndedParameters =>
-                        {
+						{
 							await ApplyParameters(abilityEndedParameters.Performer, state);
-                        }, EffectType.Selectable,
+						}, EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.Damage),
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Suffer up to {Icons.Inline(Icons.Damage)}5 for to increase the value of your next single target attack by that much"));
-                })
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"Suffer up to {Icons.Inline(Icons.Damage)}5 for to increase the value of your next single target attack by that much"));
+					await GDTask.CompletedTask;
+				})
 				.WithOnDeactivate(async state =>
-                {
-                    ScenarioEvents.FigureTurnStartedEvent.Unsubscribe(state, this);
+				{
+					ScenarioEvents.FigureTurnStartedEvent.Unsubscribe(state, this);
 					ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
 					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
 					ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
-                })
+					await GDTask.CompletedTask;
+				})
 				.Build()),
 		];
 
 		protected override bool Round => true;
 
 		private async GDTask ApplyParameters(Figure figure, AbilityState state)
-        {
-            int damageToSuffer = 0;
+		{
+			int damageToSuffer = 0;
 
 			IEnumerable<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription> choices = Enumerable.Range(1, 5)
 				.Select(i =>
@@ -76,7 +81,8 @@ public class RighteousAtonement : HierophantLevelUpCardModel<RighteousAtonement.
 				{
 					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
 						abilityStartedParameters => abilityStartedParameters.Performer == figure &&
-							abilityStartedParameters.AbilityState is AttackAbility.State attackAbilityState && attackAbilityState.IsSingleTarget,
+						                            abilityStartedParameters.AbilityState is AttackAbility.State attackAbilityState &&
+						                            attackAbilityState.IsSingleTarget,
 						async abilityStartedParameters =>
 						{
 							((AttackAbility.State)abilityStartedParameters.AbilityState).AbilityAdjustAttackValue(afterSufferParameters.Damage);
@@ -90,9 +96,9 @@ public class RighteousAtonement : HierophantLevelUpCardModel<RighteousAtonement.
 						});
 					await GDTask.CompletedTask;
 				});
-			await AbilityCmd.SufferDamage(/*state*/null, figure, damageToSuffer);
+			await AbilityCmd.SufferDamage( /*state*/null, figure, damageToSuffer);
 			ScenarioEvents.AfterSufferDamageEvent.Unsubscribe(state, this);
-        }
+		}
 	}
 
 	public class CardBottom : HierophantCardSide
@@ -101,15 +107,16 @@ public class RighteousAtonement : HierophantLevelUpCardModel<RighteousAtonement.
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
-                {
-                    ScenarioEvents.RoundEndedEvent.Subscribe(state, this,
+				{
+					ScenarioEvents.RoundEndedEvent.Subscribe(state, this,
 						parameters => true,
 						async parameters =>
-                        {
+						{
 							List<Character> characters = [];
-                            foreach(Character ally in GameController.Instance.Map.Figures.Where(figure => figure is Character && figure.AlliedWith(state.Performer)))
-                            {
-                                AbilityCard abilityCard = await AbilityCmd.SelectAbilityCard(ally, list =>
+							foreach(Character ally in GameController.Instance.Map.Figures.Where(figure =>
+								        figure is Character && figure.AlliedWith(state.Performer)))
+							{
+								AbilityCard abilityCard = await AbilityCmd.SelectAbilityCard(ally, list =>
 								{
 									foreach(AbilityCard roundCard in ally.RoundCards)
 									{
@@ -125,17 +132,20 @@ public class RighteousAtonement : HierophantLevelUpCardModel<RighteousAtonement.
 									await AbilityCmd.ReturnToHand(abilityCard);
 									characters.Add(ally);
 								}
-                            }
-							if (characters.Count == 1)
-                            {
-                                await GivePrayerCard(state, characters[0]);
-                            }
-                        });
-                })
+							}
+
+							if(characters.Count == 1)
+							{
+								await GivePrayerCard(state, characters[0]);
+							}
+						});
+					await GDTask.CompletedTask;
+				})
 				.WithOnDeactivate(async state =>
-                {
-                    ScenarioEvents.RoundEndedEvent.Unsubscribe(state, this);
-                })
+				{
+					ScenarioEvents.RoundEndedEvent.Unsubscribe(state, this);
+					await GDTask.CompletedTask;
+				})
 				.Build()),
 		];
 

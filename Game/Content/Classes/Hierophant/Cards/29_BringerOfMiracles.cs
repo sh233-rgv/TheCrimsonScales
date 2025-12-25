@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.CardTop, BringerOfMiracles.CardBottom>
 {
@@ -61,11 +58,13 @@ public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.Ca
                             await actionState.Perform();
 							await state.ActionState.RequestDiscardOrLose();
                         });
+					await GDTask.CompletedTask;
                 })
 				.WithOnDeactivate(async state =>
                 {
                     ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this);
 					ScenarioEvents.AMDCardDrawnEvent.Unsubscribe(state, this);
+					await GDTask.CompletedTask;
                 })
 				.Build())
 		];
@@ -98,7 +97,7 @@ public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.Ca
 							parameters.Condition?.ImmunityCompareBaseConditions != null &&
 							Conditions.Bless.ImmunityCompareBaseConditions != null &&
 							parameters.Condition.ImmunityCompareBaseConditions
-								.Any(c1 => Conditions.Bless.ImmunityCompareBaseConditions.Contains(c1)),
+								.Any(condition => Conditions.Bless.ImmunityCompareBaseConditions.Contains(condition)),
 						async parameters =>
 						{
 							parameters.SetPrevented(true);

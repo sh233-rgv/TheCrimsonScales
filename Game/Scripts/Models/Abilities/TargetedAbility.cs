@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Fractural.Tasks;
 using Godot;
 using GTweensGodot.Extensions;
@@ -42,7 +41,7 @@ public abstract class TargetedAbilityState : AbilityState
 
 	public Target AbilityTarget { get; set; }
 	public int AbilityTargets { get; set; }
-	public Action<TargetedAbilityState, List<Figure>> CustomGetTargets { get; set; }
+	public Action<TargetedAbilityState, List<Figure>> AbilityCustomGetTargets { get; set; }
 	public AOEPattern AbilityAOEPattern { get; set; }
 
 	public RangeType AbilityRangeType { get; set; }
@@ -97,9 +96,9 @@ public abstract class TargetedAbilityState : AbilityState
 		}
 	}
 
-	public void SetCustomTargets(Action<TargetedAbilityState, List<Figure>> customTargets)
+	public void SetAbilityCustomTargets(Action<TargetedAbilityState, List<Figure>> customTargets)
 	{
-		CustomGetTargets = customTargets;
+		AbilityCustomGetTargets = customTargets;
 	}
   
 	public void SetTarget(Target target)
@@ -390,7 +389,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 		abilityState.AbilityPush = Push;
 		abilityState.AbilityPull = Pull;
 		abilityState.AbilitySwing = Swing;
-		abilityState.CustomGetTargets = CustomGetTargets != null
+		abilityState.AbilityCustomGetTargets = CustomGetTargets != null
 			? (state, figures) => CustomGetTargets((T)state, figures)
 			: null;
 	}
@@ -453,9 +452,9 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			{
 				figures.Add(performer);
 			}
-			else if(abilityState.CustomGetTargets != null)
+			else if(abilityState.AbilityCustomGetTargets != null)
 			{
-				abilityState.CustomGetTargets(abilityState, figures);
+				abilityState.AbilityCustomGetTargets(abilityState, figures);
 			}
 			else if(abilityState.AOEHexes != null)
 			{

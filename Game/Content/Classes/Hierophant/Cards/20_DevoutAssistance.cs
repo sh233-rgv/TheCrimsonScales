@@ -22,15 +22,15 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 						async parameters =>
 						{
 							ActionState actionState = new ActionState(state.Performer,
-                            [
-                                GrantAbility.Builder()
+							[
+								GrantAbility.Builder()
 									.WithGetAbilities(grantAbilityState =>
-                                    [
-                                        ShieldAbility.Builder()
+									[
+										ShieldAbility.Builder()
 											.WithShieldValue(1)
 											.WithOnAbilityStarted(async shieldAbilityState =>
 											{
-												await AbilityCmd.GenericChoice(shieldAbilityState.Performer, 
+												await AbilityCmd.GenericChoice(shieldAbilityState.Performer,
 												[
 													ScenarioEvents.GenericChoice.Subscription.ConsumeElement(Element.Earth,
 														applyFunction: async applyParameters =>
@@ -38,7 +38,8 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 															shieldAbilityState.SetCustomValue(this, "ChoseShield", true);
 															await GDTask.CompletedTask;
 														},
-														effectInfoViewParameters: new TextEffectInfoView.Parameters($"Perform {Icons.Inline(Icons.Shield)}1 ability"),
+														effectInfoViewParameters: new TextEffectInfoView.Parameters(
+															$"Perform {Icons.Inline(Icons.Shield)}1 ability"),
 														effectType: EffectType.SelectableMandatory
 													),
 													ScenarioEvents.GenericChoice.Subscription.ConsumeElement(Element.Light,
@@ -47,34 +48,37 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 															shieldAbilityState.SetBlocked();
 															await GDTask.CompletedTask;
 														},
-														effectInfoViewParameters: new TextEffectInfoView.Parameters($"Perform {Icons.Inline(Icons.Heal)}3, self ability"),
+														effectInfoViewParameters: new TextEffectInfoView.Parameters(
+															$"Perform {Icons.Inline(Icons.Heal)}3, self ability"),
 														effectType: EffectType.SelectableMandatory
 													)
 												], hintText: "Select an ability to perform:");
 											})
 											.WithOnAbilityEndedPerformed(async shieldAbilityState =>
-                                            {
-                                                ScenarioEvents.RoundEndedEvent.Subscribe(shieldAbilityState, this,
+											{
+												ScenarioEvents.RoundEndedEvent.Subscribe(shieldAbilityState, this,
 													parameters => true,
 													async parameters =>
-                                                    {
-                                                        await shieldAbilityState.RemoveFromActive();
-                                                    });
+													{
+														await shieldAbilityState.RemoveFromActive();
+													});
 												await GDTask.CompletedTask;
-                                            })
+											})
 											.Build(),
 
 										HealAbility.Builder()
 											.WithHealValue(3)
 											.WithTarget(Target.Self)
-											.WithConditionalAbilityCheck(async healAbilityState => 
+											.WithConditionalAbilityCheck(async healAbilityState =>
 											{
-												return !healAbilityState.ActionState.GetAbilityState<ShieldAbility.State>(0).GetCustomValue<bool>(this, "ChoseShield");
+												await GDTask.CompletedTask;
+												return !healAbilityState.ActionState.GetAbilityState<ShieldAbility.State>(0)
+													.GetCustomValue<bool>(this, "ChoseShield");
 											})
 											.Build()
 									])
 									.Build()
-                            ]);
+							]);
 							await actionState.Perform();
 						});
 
@@ -101,17 +105,17 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(4)
 				.WithOnAbilityEndedPerformed(async state =>
-                {
-					if (RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false).Any(figure => figure.EnemiesWith(state.Performer)))
-                    {
-                        await AbilityCmd.InfuseElement(Element.Earth);
-                    }
-					if (RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false).Any(figure => figure.AlliedWith(state.Performer)))
-                    {
-                        await AbilityCmd.InfuseElement(Element.Light);
-                    }
-                    await GDTask.CompletedTask;
-                })
+				{
+					if(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false).Any(figure => figure.EnemiesWith(state.Performer)))
+					{
+						await AbilityCmd.InfuseElement(Element.Earth);
+					}
+
+					if(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false).Any(figure => figure.AlliedWith(state.Performer)))
+					{
+						await AbilityCmd.InfuseElement(Element.Light);
+					}
+				})
 				.Build()),
 		];
 	}

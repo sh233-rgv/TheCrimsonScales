@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Fractural.Tasks;
 
 public class SymphonyOfOppression : HierophantLevelUpCardModel<SymphonyOfOppression.CardTop, SymphonyOfOppression.CardBottom>
 {
@@ -18,23 +19,25 @@ public class SymphonyOfOppression : HierophantLevelUpCardModel<SymphonyOfOppress
 						.WithDamage(3)
 						.WithRange(3)
 						.WithOnAbilityStarted(async state =>
-                        {
-                            if (grantAbilityState.GetCustomValue<bool>(this, "TargetOneAlly"))
-                            {
-                                state.AbilityAdjustAttackValue(1);
-                            }
-							else if (grantAbilityState.GrantAbilityActionStates.Count > 1)
-                            {
-                                state.SetCustomTargets((state, figures) =>
-                                {
+						{
+							if(grantAbilityState.GetCustomValue<bool>(this, "TargetOneAlly"))
+							{
+								state.AbilityAdjustAttackValue(1);
+							}
+							else if(grantAbilityState.GrantAbilityActionStates.Count > 1)
+							{
+								state.SetAbilityCustomTargets((state, figures) =>
+								{
 									Figure target = grantAbilityState.GrantAbilityActionStates[0].GetAbilityState<AttackAbility.State>(0).Target;
-									if (RangeHelper.Distance(target.Hex, state.Performer.Hex) <= 3)
+									if(RangeHelper.Distance(target.Hex, state.Performer.Hex) <= 3)
 									{
-                                    	figures.Add(target);
+										figures.Add(target);
 									}
-                                });
-                            }
-                        })
+								});
+							}
+
+							await GDTask.CompletedTask;
+						})
 						.Build(),
 				])
 				.WithAbilityStartedSubscription(
@@ -44,18 +47,20 @@ public class SymphonyOfOppression : HierophantLevelUpCardModel<SymphonyOfOppress
 						{
 							parameters.AbilityState.SetCustomValue(this, "TargetOneAlly", true);
 							((GrantAbility.State)parameters.AbilityState).AdjustTargets(-1);
+							await GDTask.CompletedTask;
 						}, EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.Attack),
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Target only one ally for +1{Icons.Inline(Icons.Attack)}, give that ally a Prayer card")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"Target only one ally for +1{Icons.Inline(Icons.Attack)}, give that ally a Prayer card")
 					)
 				)
 				.WithOnAbilityEndedPerformed(async grantAbilityState =>
-                {
-					if (grantAbilityState.GetCustomValue<bool>(this, "TargetOneAlly"))
+				{
+					if(grantAbilityState.GetCustomValue<bool>(this, "TargetOneAlly"))
 					{
-                    	await GivePrayerCard(grantAbilityState, grantAbilityState.Target);
+						await GivePrayerCard(grantAbilityState, grantAbilityState.Target);
 					}
-                })
+				})
 				.WithTargets(2)
 				.Build()),
 		];
@@ -67,26 +72,30 @@ public class SymphonyOfOppression : HierophantLevelUpCardModel<SymphonyOfOppress
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
-                {
-                    ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
+				{
+					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
 						parameters => parameters.AbilityState.Performer.AlliedWith(state.Performer) &&
-							(parameters.AbilityState is ShieldAbility.State || parameters.AbilityState is RetaliateAbility.State),
+						              (parameters.AbilityState is ShieldAbility.State || parameters.AbilityState is RetaliateAbility.State),
 						async parameters =>
-                        {
-                            if (parameters.AbilityState is ShieldAbility.State shieldAbilityState)
-                            {
-                                shieldAbilityState.AdjustAdditionalShield(1);
-                            }
-							else if (parameters.AbilityState is RetaliateAbility.State retaliateAbilityState)
-                            {
-                                retaliateAbilityState.AdjustRetaliateValue(1);
-                            }
-                        });
-                })
+						{
+							if(parameters.AbilityState is ShieldAbility.State shieldAbilityState)
+							{
+								shieldAbilityState.AdjustAdditionalShield(1);
+							}
+							else if(parameters.AbilityState is RetaliateAbility.State retaliateAbilityState)
+							{
+								retaliateAbilityState.AdjustRetaliateValue(1);
+							}
+
+							await GDTask.CompletedTask;
+						});
+					await GDTask.CompletedTask;
+				})
 				.WithOnDeactivate(async state =>
-                {
-                    ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
-                })
+				{
+					ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
+					await GDTask.CompletedTask;
+				})
 				.Build()),
 		];
 

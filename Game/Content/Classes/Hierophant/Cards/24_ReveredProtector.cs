@@ -19,8 +19,9 @@ public class ReveredProtector : HierophantLevelUpCardModel<ReveredProtector.Card
 				{
 					ScenarioEvents.SufferDamageEvent.Subscribe(state, this,
 						canApplyParameters => canApplyParameters.FromAttack &&
-							canApplyParameters.PotentialAttackAbilityState.Target.AlliedWith(state.Performer, true) &&
-							RangeHelper.Distance(canApplyParameters.PotentialAttackAbilityState.Target.Hex, state.Performer.Hex) <= 1,
+						                      canApplyParameters.PotentialAttackAbilityState.Target.AlliedWith(state.Performer, true) &&
+						                      RangeHelper.Distance(canApplyParameters.PotentialAttackAbilityState.Target.Hex, state.Performer.Hex) <=
+						                      1,
 						async applyParameters =>
 						{
 							int shieldVal = state.UseSlotIndex switch
@@ -69,7 +70,8 @@ public class ReveredProtector : HierophantLevelUpCardModel<ReveredProtector.Card
 				.WithMoveType(MoveType.Jump)
 				.WithOnAbilityEndedPerformed(async state =>
 				{
-					foreach(Figure figure in state.Hexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>().Where(figure => figure.AlliedWith(state.Performer))).Distinct())
+					foreach(Figure figure in state.Hexes
+						        .SelectMany(hex => hex.GetHexObjectsOfType<Figure>().Where(figure => figure.AlliedWith(state.Performer))).Distinct())
 					{
 						List<ScenarioEvents.GenericChoice.Subscription> subscriptions = [];
 						foreach(ConditionModel condition in figure.Conditions)
@@ -87,7 +89,6 @@ public class ReveredProtector : HierophantLevelUpCardModel<ReveredProtector.Card
 
 						await AbilityCmd.GenericChoice(figure, subscriptions);
 					}
-					await GDTask.CompletedTask;
 				})
 				.Build()),
 		];

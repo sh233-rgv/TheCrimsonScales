@@ -2,11 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
-
 public class ChainsOfLightning : HierophantLevelUpCardModel<ChainsOfLightning.CardTop, ChainsOfLightning.CardBottom>
 {
 	public override string Name => "Chains Of Lightning";
-	public override int Level => 6;
+	public override int Level => 1;
 	public override int Initiative => 31;
 	protected override int AtlasIndex => 15 - 9;
 
@@ -22,6 +21,17 @@ public class ChainsOfLightning : HierophantLevelUpCardModel<ChainsOfLightning.Ca
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
 				.WithTarget(Target.TargetAll | Target.Enemies)
+				.WithDuringAttackSubscription(
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Light,
+						applyFunction: async parameters =>
+						{
+							parameters.AbilityState.SingleTargetAddCondition(Conditions.Stun);
+
+							await GDTask.CompletedTask;
+						},
+						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Add {Icons.Inline(Icons.GetCondition((Conditions.Stun)))} to one attack")
+					)
+				)
 				.Build())
 		];
 	}
@@ -38,15 +48,14 @@ public class ChainsOfLightning : HierophantLevelUpCardModel<ChainsOfLightning.Ca
 				.WithPush(3)
 				.WithRange(1)
 				.WithOnAbilityEndedPerformed(async state =>
-                {
-                    foreach (Figure enemy in state.UniqueTargetedFigures
-						.Where(enemy => RangeHelper.GetFiguresInRange(enemy.Hex, 1)
-							.Any(f => f.AlliedWith(state.Performer))))
+				{
+					foreach(Figure enemy in state.UniqueTargetedFigures
+						        .Where(enemy => RangeHelper.GetFiguresInRange(enemy.Hex, 1)
+							        .Any(f => f.AlliedWith(state.Performer))))
 					{
 						await AbilityCmd.AddCondition(state, enemy, Conditions.Immobilize);
-                    }
-					await GDTask.CompletedTask;
-                })
+					}
+				})
 				.Build())
 		];
 	}
