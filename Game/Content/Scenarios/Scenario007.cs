@@ -88,14 +88,7 @@ public class Scenario007 : ScenarioModel
 				{
 					if(tokenNumber % 2 == 0)
 					{
-						for(int i = character.Conditions.Count - 1; i >= 0; i--)
-						{
-							ConditionModel condition = character.Conditions[i];
-							if(condition.IsNegative)
-							{
-								await AbilityCmd.RemoveCondition(character, condition);
-							}
-						}
+						await AbilityCmd.RemoveAllNegativeConditions(character);
 
 						await AbilityCmd.GainXP(character, 5);
 					}
@@ -291,7 +284,10 @@ public class Scenario007 : ScenarioModel
 				if(character.Items.Any(item => item.ItemState == ItemState.Spent))
 				{
 					ItemModel item = await AbilityCmd.SelectItem(character, ItemState.Spent, hintText: "Select an item to refresh");
-					await AbilityCmd.RefreshItem(item);
+					if(item != null)
+					{
+						await AbilityCmd.RefreshItem(item);
+					}
 				}
 
 				switch(GameController.Instance.CharacterManager.Characters.Count)

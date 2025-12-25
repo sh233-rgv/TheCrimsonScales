@@ -306,11 +306,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 
 	protected override async GDTask AfterTargetConfirmedBeforeConditionsApplied(State abilityState, Figure target)
 	{
-		bool rangeDisadvantage =
-			abilityState.SingleTargetRangeType == RangeType.Range &&
-			RangeHelper.Distance(abilityState.Performer.Hex, target.Hex) == 1;
-
-		if(rangeDisadvantage)
+		if(CheckRangeDisadvantage(abilityState.Performer.Hexes, target.Hexes, abilityState.SingleTargetRangeType))
 		{
 			abilityState.SingleTargetSetHasDisadvantage();
 		}
@@ -407,5 +403,24 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 	protected override string DefaultTargetingHintText(State abilityState)
 	{
 		return $"Select a target for {Icons.HintText(Icons.Attack)}{abilityState.SingleTargetAttackValue}";
+	}
+
+	public static bool CheckRangeDisadvantage(Hex[] performerHexes, Hex[] targetHexes, RangeType rangeType)
+	{
+		if(rangeType == RangeType.Range)
+		{
+			foreach(Hex performerHex in performerHexes)
+			{
+				foreach(Hex targetHex in targetHexes)
+				{
+					if(RangeHelper.Distance(performerHex, targetHex) == 1)
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 }

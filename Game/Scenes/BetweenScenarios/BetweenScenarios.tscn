@@ -21,7 +21,7 @@
 [ext_resource type="Material" uid="uid://rdsus6ec1nmq" path="res://Materials/Gold.tres" id="18_1n38g"]
 [ext_resource type="Texture2D" uid="uid://cfrq1meyfpqgx" path="res://Art/BetweenScenarios/ItemShop/BookCover.jpg" id="18_3hv00"]
 [ext_resource type="Texture2D" uid="uid://cgrc2ho6w58yc" path="res://Art/Icons/BetweenScenariosActions/TreasureMap.svg" id="18_nmjfa"]
-[ext_resource type="Shader" path="res://Shaders/CrystalBall.gdshader" id="19_lv8vq"]
+[ext_resource type="Shader" uid="uid://1deu7u58adcl" path="res://Shaders/CrystalBall.gdshader" id="19_lv8vq"]
 [ext_resource type="Texture2D" uid="uid://d0kjhh1qav1gd" path="res://Art/Icons/BetweenScenariosActions/Oak.svg" id="19_ywvcx"]
 [ext_resource type="Texture2D" uid="uid://bydbxbc7udwta" path="res://Art/Icons/BetweenScenariosActions/CrystalBall.svg" id="20_1ehwm"]
 [ext_resource type="Shader" uid="uid://csl6uc8relo7u" path="res://Shaders/CrystallBallSwirlingBack.tres" id="21_7gbn5"]
@@ -45,17 +45,17 @@
 [ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="27_hkul8"]
 [ext_resource type="PackedScene" uid="uid://bm8we16yjsmag" path="res://Scenes/BetweenScenarios/SanctuaryOfTheGreatOak/DonationCoin.tscn" id="27_j84ia"]
 [ext_resource type="Script" uid="uid://d2lbo81ici357" path="res://Scripts/BetweenScenarios/SanctuaryOfTheGreatOak/SyncingBody.cs" id="27_w2guo"]
-[ext_resource type="Texture2D" uid="uid://xcevbjw5n8no" path="res://Art/Icons/Abilities/XP.svg" id="28_5k12q"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="28_jr74k"]
 [ext_resource type="Script" uid="uid://ck1ncviofqosh" path="res://Scripts/UI/ResizingLabel.cs" id="28_psaff"]
 [ext_resource type="Script" uid="uid://cupkvjgt2qge0" path="res://Scripts/BetweenScenarios/Events/EventCard.cs" id="30_dl2j2"]
 [ext_resource type="Shader" uid="uid://cvigpjylr2cci" path="res://Shaders/RotatingCard.gdshader" id="31_sagt1"]
 [ext_resource type="PackedScene" uid="uid://ct6pmvbmsh7lf" path="res://Scenes/UI/MenuButton.tscn" id="32_5k12q"]
-[ext_resource type="Material" uid="uid://bgdcydtsmmrb" path="res://Materials/AbilityCard.tres" id="32_su2xo"]
+[ext_resource type="Material" uid="uid://bgdcydtsmmrb" path="res://Materials/TintGrayscale.tres" id="32_su2xo"]
 [ext_resource type="Texture2D" uid="uid://byfj7yio15h8c" path="res://Art/BetweenScenarios/Events/CityFront.jpg" id="33_2yhfp"]
 [ext_resource type="Texture2D" uid="uid://bbdiabye37ueg" path="res://Art/BetweenScenarios/Events/cs-ce-01-f.png" id="34_rtdf2"]
 [ext_resource type="Script" uid="uid://b0n1q2n5kef18" path="res://Scripts/BetweenScenarios/Events/ShapedEventText.cs" id="35_0rh5w"]
 [ext_resource type="FontFile" uid="uid://djm7xa0rh5wqv" path="res://Fonts/HTOWERT.TTF" id="36_bny7g"]
+[ext_resource type="PackedScene" uid="uid://d0tqt5fvbsn2x" path="res://Scenes/BetweenScenarios/BetweenScenariosPartyStat.tscn" id="45_rtdf2"]
 [ext_resource type="Script" uid="uid://cc4ctr6004sg4" path="res://Scripts/BetweenScenarios/Events/EventOverlay.cs" id="49_dl2j2"]
 [ext_resource type="PackedScene" uid="uid://co015244vhv5u" path="res://Scenes/BetweenScenarios/Events/EventChoiceButton.tscn" id="57_dl2j2"]
 [ext_resource type="PackedScene" uid="uid://hux023lpvkr0" path="res://Scenes/BetweenScenarios/Events/CityEventRewardLabel.tscn" id="58_rtdf2"]
@@ -509,13 +509,14 @@ font_size = 20
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
 point_count = 1
 
-[node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay", "ActionManager")]
+[node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay", "ActionManager", "ItemShop")]
 script = ExtResource("1_rtyjh")
 BetweenScenariosSidePanel = NodePath("CanvasLayer/UI/SidePanel")
 CharacterPortraitManager = NodePath("CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/Characters")
 ScenarioFlowchart = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart")
 EventOverlay = NodePath("CanvasLayer/UI/EventOverlay")
 ActionManager = NodePath("CanvasLayer/UI/BetweenScenariosActionManager")
+ItemShop = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ItemShop")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -874,7 +875,6 @@ layers = 2
 light_cull_mask = 4293918722
 
 [node name="ItemShop" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("_animationPlayer", "_frontSubViewport", "_backSubViewport", "_bookSubViewportContainer", "_leftPageParent", "_rightPageParent", "_frontPageParent", "_backPageParent", "_flipLeftButton", "_flipRightButton", "_bookContainer", "_bookCover", "_frontBookCover", "_leftPageCoverInside", "_backPageCoverInside", "_3dRoot", "Button")]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1069,7 +1069,7 @@ stretch = true
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1920, 1300)
-render_target_update_mode = 0
+render_target_update_mode = 4
 
 [node name="Root" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport"]
 visible = false
@@ -1177,10 +1177,14 @@ label_settings = SubResource("LabelSettings_57ue0")
 
 [node name="FlipLeftButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop" instance=ExtResource("7_blgb5")]
 layout_mode = 1
+anchors_preset = 8
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_left = -700.0
-offset_top = -638.5
+offset_top = -98.5
 offset_right = -620.0
-offset_bottom = -558.5
+offset_bottom = -18.5
+grow_vertical = 2
 
 [node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipLeftButton/BetterButton/Panel" index="0"]
 visible = false
@@ -1206,10 +1210,14 @@ expand_mode = 1
 
 [node name="FlipRightButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop" instance=ExtResource("7_blgb5")]
 layout_mode = 1
+anchors_preset = 8
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_left = 620.0
-offset_top = -638.5
+offset_top = -98.5
 offset_right = 700.0
-offset_bottom = -558.5
+offset_bottom = -18.5
+grow_vertical = 2
 
 [node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton/BetterButton/Panel" index="0"]
 visible = false
@@ -1668,7 +1676,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="SidePanel" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_partyNameLabel", "_newCharacterButtonContainer", "_newCharacterButton")]
+[node name="SidePanel" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_partyNameLabel", "_newCharacterButtonContainer", "_newCharacterButton", "_prosperityStat", "_reputationStat")]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -1678,6 +1686,8 @@ script = ExtResource("23_5k12q")
 _partyNameLabel = NodePath("MarginContainer/VBoxContainer/PartyStats/PartyNameContainer/PartyName")
 _newCharacterButtonContainer = NodePath("MarginContainer/VBoxContainer/NewCharacterButton")
 _newCharacterButton = NodePath("MarginContainer/VBoxContainer/NewCharacterButton/BetterButton")
+_prosperityStat = NodePath("MarginContainer/VBoxContainer/PartyStats/Prosperity")
+_reputationStat = NodePath("MarginContainer/VBoxContainer/PartyStats/Reputation")
 
 [node name="Panel" type="Panel" parent="CanvasLayer/UI/SidePanel"]
 material = ExtResource("23_1ehwm")
@@ -1729,81 +1739,25 @@ script = ExtResource("28_psaff")
 _minSize = 10
 _maxSize = 40
 
-[node name="Prosperity" type="Control" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats"]
-custom_minimum_size = Vector2(0, 30)
+[node name="Prosperity" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats" instance=ExtResource("45_rtdf2")]
 layout_mode = 2
-mouse_filter = 2
 
-[node name="Panel" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_blvf2")
+[node name="Reputation" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats" instance=ExtResource("45_rtdf2")]
+layout_mode = 2
 
-[node name="ProgressBar" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
-self_modulate = Color(0.78451, 0.253912, 0.268934, 1)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.615, 1)
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_wuydi")
+[node name="ProgressBar" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation" index="1"]
+self_modulate = Color(0.654877, 0.413723, 0.787502, 1)
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
+[node name="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation" index="2"]
+text = "Reputation"
+
+[node name="OldReputation" type="Control" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats"]
 visible = false
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 21.0
-offset_top = -13.0
-offset_right = 47.0
-offset_bottom = 13.0
-grow_vertical = 2
-pivot_offset = Vector2(17, 17)
-mouse_filter = 2
-texture = ExtResource("28_5k12q")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_right = 93.0
-grow_vertical = 2
-text = "Prosperity"
-label_settings = SubResource("LabelSettings_seeb3")
-vertical_alignment = 1
-
-[node name="Amount" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Prosperity"]
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -93.0
-offset_right = -8.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "1"
-label_settings = SubResource("LabelSettings_1n38g")
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Reputation" type="Control" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Panel" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
+[node name="Panel" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/OldReputation"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1813,35 +1767,19 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_blvf2")
 
-[node name="ProgressBar" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
+[node name="ProgressBar" type="Panel" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/OldReputation"]
 self_modulate = Color(0.788235, 0.615686, 0.890196, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -180.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.615, 1)
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wuydi")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
-visible = false
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 21.0
-offset_top = -13.0
-offset_right = 47.0
-offset_bottom = 13.0
-grow_vertical = 2
-pivot_offset = Vector2(17, 17)
-mouse_filter = 2
-texture = ExtResource("28_5k12q")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
+[node name="Label" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/OldReputation"]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -1852,7 +1790,7 @@ text = "Reputation"
 label_settings = SubResource("LabelSettings_seeb3")
 vertical_alignment = 1
 
-[node name="Amount" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
+[node name="Amount" type="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/OldReputation"]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
@@ -2375,5 +2313,6 @@ layout_mode = 1
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnhancerButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EventButton"]
+[editable path="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
 [editable path="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/NewCharacterButton"]
 [editable path="CanvasLayer/UI/EventOverlay/ContinueButton"]

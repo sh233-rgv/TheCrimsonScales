@@ -69,7 +69,6 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 							.SelectMany(f => RangeHelper.GetFiguresInRange(f.Hex, 1, false))
 							.Except(targets)
 					);
-					GD.Print(targets.Count);
 				})
 				.WithMandatory(true)
 				.Build()),

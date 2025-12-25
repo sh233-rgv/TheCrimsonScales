@@ -32,13 +32,15 @@ public partial class Character : Figure
 
 	public bool IsLocal => true;
 
-	public override string DisplayName => SavedCharacter.Name;
-	public override string DebugName => SavedCharacter.ClassModel.Name;
-
 	public Texture2D PortraitTexture => ClassModel.PortraitTexture;
 
+	public override string DisplayName => SavedCharacter.Name;
+	public override string DebugName => SavedCharacter.ClassModel.Name;
 	public override AMDCardDeck AMDCardDeck => _amdCardDeck;
 	public override Texture2D MapIconTexture => _staticSprite.Texture;
+
+	public override Node2D Visual =>
+		AppController.Instance.Options.AnimatedCharacters.Value && ClassModel.HasAnimatedSprite ? _animatedSprite : _staticSprite;
 
 	public event Action<Character> ShortRestedEvent;
 	public event Action<Character> CoinsChangedEvent;
@@ -84,8 +86,8 @@ public partial class Character : Figure
 
 		PlayableAbilityCardCount = 2;
 
-		_figureViewComponent.TurnStartPS.SetSelfModulate(_figureViewComponent.Outline.SelfModulate);
-		_figureViewComponent.ActivePS.SetModulate(_figureViewComponent.Outline.SelfModulate);
+		_figureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);
+		_figureViewComponent.ActivePS.SetModulate(OutlineColor);
 
 		GameController.Instance.Map.RegisterFigure(this);
 

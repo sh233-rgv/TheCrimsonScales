@@ -78,6 +78,30 @@ public partial class ItemShop : BetweenScenariosAction
 	{
 		base._Ready();
 
+		_leftPageIndex = 0;
+
+		_animationPlayer.AnimationFinished += OnAnimationFinished;
+		_flipLeftButton.BetterButton.Pressed += OnFlipLeftPressed;
+		_flipRightButton.BetterButton.Pressed += OnFlipRightPressed;
+
+		UpdateButtons();
+	}
+
+	public int GetBuyPrice(SavedCharacter buyer, ItemModel itemModel)
+	{
+		int price = itemModel.Cost;
+		price += BetweenScenariosController.Instance.SavedCampaign.GetItemPriceChange();
+
+		BetweenScenariosEvents.CalculateBuyPrice.Parameters parameters =
+			BetweenScenariosEvents.CalculateBuyPriceEvent.Fire(
+				new BetweenScenariosEvents.CalculateBuyPrice.Parameters(buyer, itemModel, price));
+
+		return parameters.Price;
+	}
+
+	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder, BetweenScenariosAction previousActiveAction)
+	{
+		_allAvailableItems.Clear();
 		foreach((string modelId, SavedItem savedItem) in BetweenScenariosController.Instance.SavedCampaign.SavedItems)
 		{
 			if(savedItem.UnlockedCount > 0)
@@ -86,18 +110,6 @@ public partial class ItemShop : BetweenScenariosAction
 			}
 		}
 
-		_animationPlayer.AnimationFinished += OnAnimationFinished;
-
-		_leftPageIndex = 0;
-
-		_flipLeftButton.BetterButton.Pressed += OnFlipLeftPressed;
-		_flipRightButton.BetterButton.Pressed += OnFlipRightPressed;
-
-		UpdateButtons();
-	}
-
-	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder, BetweenScenariosAction previousActiveAction)
-	{
 		_3dRoot.SetVisible(true);
 
 		_leftPage?.QueueFree();
@@ -198,6 +210,7 @@ public partial class ItemShop : BetweenScenariosAction
 	private ItemShopPage CreatePage(int pageIndex)
 	{
 		ItemShopPage shopPage = _itemShopPageScene.Instantiate<ItemShopPage>();
+		AddChild(shopPage);
 		int startIndex = pageIndex * ItemsPerPage;
 		int endIndex = Mathf.Min(startIndex + ItemsPerPage, _allAvailableItems.Count);
 		int itemCount = endIndex - startIndex;

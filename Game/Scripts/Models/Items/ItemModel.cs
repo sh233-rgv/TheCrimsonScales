@@ -16,6 +16,8 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 	public abstract ItemType ItemType { get; }
 	public abstract ItemUseType ItemUseType { get; }
 
+	public virtual bool CanUseWhenStunned => false;
+
 	public virtual int MinusOneCount => 0; // Amount of -1 cards this would add to the character's AMD if they do not have the ignore -1 card perk
 
 	public virtual int SmallItemSlotCount => 0; // Amount of small item slots this would add to the character's inventory

@@ -105,15 +105,7 @@ public class Scenario026 : ScenarioModel
 				_thermalStonesDestroyed++;
 				UpdateScenarioText(_text);
 				Figure figure = applyParameters.PotentialAbilityState.Performer;
-				for(int i = figure.Conditions.Count - 1; i >= 0; i--)
-				{
-					ConditionModel condition = figure.Conditions[i];
-					if(condition.IsNegative)
-					{
-						await AbilityCmd.RemoveCondition(figure, condition);
-					}
-				}
-
+				await AbilityCmd.RemoveAllNegativeConditions(figure);
 				ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(this, icyFireThermalStone);
 				ScenarioEvents.FigureKilledEvent.Unsubscribe(this, icyFireThermalStone);
 			}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Fractural.Tasks;
@@ -21,9 +22,16 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 	[Export]
 	public BetweenScenariosActionManager ActionManager { get; private set; }
 
+	[Export]
+	public ItemShop ItemShop { get; private set; }
+
+	private readonly List<EventReward> _duringDowntimeEventRewards = new List<EventReward>();
+
 	public BetweenScenariosSceneRequest SceneRequest { get; private set; }
 
 	public RandomNumberGenerator RNG { get; private set; }
+
+	public BetweenScenariosEvents Events { get; private set; }
 
 	public SavedCampaign SavedCampaign => SceneRequest.SavedCampaign;
 
@@ -41,6 +49,8 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		RNG = new RandomNumberGenerator();
 		RNG.Randomize();
 
+		Events = new BetweenScenariosEvents();
+
 		AppController.Instance.AudioController.SetBGM("res://Audio/BGM/old-tavern-cinematic-atmosphere-fairytale-273871.mp3");
 		AppController.Instance.AudioController.SetBGS(null);
 	}
@@ -50,6 +60,16 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		base._Ready();
 
 		StartSequence().Forget();
+	}
+
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+
+		for(int i = _duringDowntimeEventRewards.Count - 1; i >= 0; i--)
+		{
+			UnsubscribeDuringDowntime(_duringDowntimeEventRewards[i]);
+		}
 	}
 
 	public override void _Input(InputEvent @event)
@@ -63,11 +83,31 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 				OpenMenuPopup();
 			}
 
-			if(inputEventKey.Keycode == Key.X && OS.IsDebugBuild())
+			if(OS.IsDebugBuild())
 			{
-				foreach(SavedCharacter savedCharacter in SavedCampaign.Characters)
+				if(inputEventKey.Keycode == Key.X)
 				{
-					savedCharacter.AddXP(30);
+					foreach(SavedCharacter savedCharacter in SavedCampaign.Characters)
+					{
+						savedCharacter.AddXP(30);
+					}
+				}
+
+				if(inputEventKey.Keycode == Key.P)
+				{
+					SavedCampaign.AdjustProsperity(1);
+				}
+
+				if(inputEventKey.Keycode == Key.R)
+				{
+					if(Input.IsKeyPressed(Key.Shift))
+					{
+						SavedCampaign.AdjustReputation(-1);
+					}
+					else
+					{
+						SavedCampaign.AdjustReputation(1);
+					}
 				}
 			}
 		}
@@ -110,6 +150,12 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		));
 	}
 
+	public void UnsubscribeDuringDowntime(EventReward eventReward)
+	{
+		eventReward.UnsubscribeDuringDowntime();
+		_duringDowntimeEventRewards.Remove(eventReward);
+	}
+
 	private async GDTaskVoid StartSequence()
 	{
 		CancellationToken cancellationToken = DestroyCancellationToken;
@@ -120,6 +166,19 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		if(SavedCampaign.SavedEvents.CanDrawCityEvent && SavedCampaign.SavedEvents.CityEventDeckIds.Count > 0)
 		{
 			await EventOverlay.DrawEventCard(EventType.City, cancellationToken);
+		}
+
+		foreach(SavedEventState savedEventState in SavedCampaign.SavedEvents.SavedEventStates)
+		{
+			foreach(EventReward eventReward in savedEventState.Choice.GetRewards(savedEventState))
+			{
+				if(eventReward.Type == EventRewardType.DuringDowntime)
+				{
+					eventReward.SubscribeDuringDowntime(savedEventState);
+
+					_duringDowntimeEventRewards.Add(eventReward);
+				}
+			}
 		}
 
 		if(SceneRequest.SavedCampaign.Characters.Count == 0)
@@ -148,7 +207,14 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 	{
 		CancellationToken cancellationToken = DestroyCancellationToken;
 
-		await EventOverlay.DrawEventCard(EventType.Road, cancellationToken);
+		BetweenScenariosEvents.DrawRoadEvent.Parameters drawRoadEventParameters =
+			BetweenScenariosEvents.DrawRoadEventEvent.Fire(
+				new BetweenScenariosEvents.DrawRoadEvent.Parameters());
+
+		if(drawRoadEventParameters.DrawEvent)
+		{
+			await EventOverlay.DrawEventCard(EventType.Road, cancellationToken);
+		}
 
 		SavedCampaign savedCampaign = SavedCampaign;
 		float characterLevelSum = savedCampaign.Characters.Sum(character => character.Level);

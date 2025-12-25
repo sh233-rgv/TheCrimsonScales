@@ -6,22 +6,6 @@ using GTweensGodot.Extensions;
 
 public partial class EnvelopeB : Control
 {
-	private static int[] DonationYellowNumbers =
-	[
-		5,
-		10,
-		15,
-		20,
-		25,
-		30,
-		40,
-		50,
-		60,
-		70,
-		80,
-		90,
-	];
-
 	private const int DonationCountPerSet = 45;
 	private static Vector3 AnimationAwayPosition = new Vector3(3f, 0f, -5f);
 	private static Vector3 AnimationAwayRotation = new Vector3(0f, -30f, 0f);
@@ -52,7 +36,7 @@ public partial class EnvelopeB : Control
 		for(int i = 0; i < DonationCountPerSet; i++)
 		{
 			int number = i + 1;
-			PackedScene circleScene = DonationYellowNumbers.Contains(number) ? _yellowCircleScene : _normalCircleScene;
+			PackedScene circleScene = SavedSanctuaryOfTheGreatOak.DonationYellowNumbers.Contains(number) ? _yellowCircleScene : _normalCircleScene;
 			EnvelopeBCircle circle = circleScene.Instantiate<EnvelopeBCircle>();
 			_circleParent.AddChild(circle);
 			circle.Init(number * 10, i < donationsCount);

@@ -129,7 +129,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 						canApplyParameters => CanApply(canApplyParameters.Figure, state, true),
 						async parameters =>
 						{
-							StrengthenRemove(parameters.Figure);
+							await StrengthenRemove(parameters.Figure);
 
 							await GDTask.CompletedTask;
 						},
@@ -143,7 +143,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 						canApplyParameters => CanApply(canApplyParameters.Performer, state, true),
 						async parameters =>
 						{
-							StrengthenRemove(parameters.Performer);
+							await StrengthenRemove(parameters.Performer);
 
 							await GDTask.CompletedTask;
 						},
@@ -171,13 +171,14 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 
 		private bool CanApply(Figure performer, OtherActiveAbility.State state, bool requireStrengthen)
 		{
-			return performer.AlliedWith(state.Performer) &&
-			       state.Performer.Hex.HasHexObjectOfType<Ladder>() &&
-			       RangeHelper.Distance(state.Performer.Hex, performer.Hex) <= 1 &&
-			       (!requireStrengthen || performer.HasCondition(Conditions.Strengthen));
+			return
+				performer.AlliedWith(state.Performer) &&
+				state.Performer.Hex.HasHexObjectOfType<Ladder>() &&
+				RangeHelper.Distance(state.Performer.Hex, performer.Hex) <= 1 &&
+				(!requireStrengthen || performer.HasCondition(Conditions.Strengthen));
 		}
 
-		private async void StrengthenRemove(Figure performer)
+		private async GDTask StrengthenRemove(Figure performer)
 		{
 			await AbilityCmd.RemoveCondition(performer, Conditions.Strengthen);
 			bool attackPerformedYet = performer.RoundPerformedActionStates
