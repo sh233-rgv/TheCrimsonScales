@@ -4,9 +4,11 @@ using System.Linq;
 public class UndoManager
 {
 	private readonly List<UndoStep> _stack = new List<UndoStep>();
+	private readonly List<int> _turnStackIndices = new List<int>();
+	private readonly List<int> _roundStackIndices = new List<int>();
 
 	public bool CanUndo => !GameController.Instance.ScenarioEnded && _stack.Count > 0;
-	public bool CanUndoTurn => false;
+	public bool CanUndoTurn => CanUndo && _turnStackIndices.Count > 0;
 	public bool CanUndoRound => false;
 
 	private SavedScenario SavedScenario => GameController.Instance.SavedScenario;
@@ -14,6 +16,16 @@ public class UndoManager
 	public void AddStep(UndoStep undoStep)
 	{
 		_stack.Add(undoStep);
+	}
+
+	public void SetTurnStart()
+	{
+		_turnStackIndices.Add(_stack.Count);
+	}
+
+	public void SetRoundStart()
+	{
+		_roundStackIndices.Add(_stack.Count);
 	}
 
 	public void Undo()
@@ -27,7 +39,6 @@ public class UndoManager
 		{
 		}
 
-		//GameController.Instance.SavedCampaign.SetSavedScenario(SavedScenario);
 		AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(GameController.Instance.SavedCampaign, true));
 	}
 
@@ -37,6 +48,23 @@ public class UndoManager
 		{
 			return;
 		}
+
+		bool undoneNonSilent = false;
+		while(!undoneNonSilent && CanUndoTurn)
+		{
+			int turnIndex = _turnStackIndices.Last();
+			_turnStackIndices.RemoveLast();
+
+			while(CanUndo && _stack.Count > turnIndex)
+			{
+				if(!Pop().Silent)
+				{
+					undoneNonSilent = true;
+				}
+			}
+		}
+
+		AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(GameController.Instance.SavedCampaign, true));
 	}
 
 	public void UndoRound()

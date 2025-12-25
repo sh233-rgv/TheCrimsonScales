@@ -60,6 +60,7 @@ public class RoundPhase : ScenarioPhase
 			}
 
 			GameController.Instance.Map.SetTurnTaker(figure);
+			GameController.Instance.UndoManager.SetTurnStart();
 			await figure.TakeFullTurn();
 
 			GameController.Instance.ResetRelevantTurnTaker();
@@ -70,12 +71,12 @@ public class RoundPhase : ScenarioPhase
 			{
 				ScenarioEvents.NextActiveFigure.Parameters nextActiveFigureParameters =
 					await ScenarioEvents.NextActiveFigureEvent.CreatePrompt(
-						new ScenarioEvents.NextActiveFigure.Parameters(figure, _sortedFigures[activeFigureIndex+1]));
+						new ScenarioEvents.NextActiveFigure.Parameters(figure, _sortedFigures[activeFigureIndex + 1]));
 
 				if(nextActiveFigureParameters.SortingRequired)
-            	{
-            	    _sortingRequired = true;
-            	}
+				{
+					_sortingRequired = true;
+				}
 			}
 		}
 
