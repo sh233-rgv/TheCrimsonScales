@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 using Godot;
@@ -21,7 +20,6 @@ public abstract class AbilityCardSide
 	public bool IsBasicTop => AbilityCard.BasicTop == this;
 	public bool IsBottom => AbilityCard.Bottom == this;
 	public bool IsBasicBottom => AbilityCard.BasicBottom == this;
-	protected virtual Func<Figure, GDTask> ActionPerformed => figure => GDTask.CompletedTask;
 
 	public IEnumerable<AbilityCardAbility> Abilities
 	{
@@ -54,7 +52,7 @@ public abstract class AbilityCardSide
 
 			if(actionState.GetHasPerformed())
 			{
-				await ActionPerformed.Invoke(actionState.Performer);
+				await OnActionPerformed(actionState.Performer);
 
 				await AbilityCmd.GainXP(performer, XP);
 
@@ -130,5 +128,10 @@ public abstract class AbilityCardSide
 	private async GDTask OnDiscardOrLoseRequested(ActionState actionState)
 	{
 		await AbilityCmd.DiscardOrLose(AbilityCard);
+	}
+	
+	protected virtual async GDTask OnActionPerformed(Figure figure)
+	{
+		await GDTask.CompletedTask;
 	}
 }

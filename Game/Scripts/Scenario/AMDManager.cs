@@ -71,7 +71,7 @@ public class AMDManager
 		}
 
 		originalOwner.RemainingEmpowerCount--;
-		AMDCard card = new AMDCard(originalOwner.CreateEmpower(), figure.AMDCardDeck.Owner, (Figure)originalOwner);
+		AMDCard card = new AMDCard( originalOwner.CreateEmpower(), figure.AMDCardDeck.Owner, (Figure)originalOwner);
 		ScenarioEvents.EmpowerAdded.Parameters empowerAddedParameters =
 			await ScenarioEvents.EmpowerAddedEvent.CreatePrompt(
 				new ScenarioEvents.EmpowerAdded.Parameters(figure));

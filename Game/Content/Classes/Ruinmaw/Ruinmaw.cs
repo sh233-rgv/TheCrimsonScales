@@ -4,10 +4,11 @@ using Godot;
 
 public partial class Ruinmaw : Character, IHasEmpower
 {
-	public bool Sated { get; private set; }
-	private bool _satedAppliedThisTurn;
 	[Export]
 	private SatedIndicator _satedIndicator;
+	private bool _satedAppliedThisTurn;
+	public bool Sated { get; private set; }
+
 	public int RemainingEmpowerCount { get; set; } = 12;
 	public event Func<Ruinmaw, GDTask> SateEvent;
 
@@ -35,7 +36,7 @@ public partial class Ruinmaw : Character, IHasEmpower
 		);
 	}
 
-	public void Sate()
+	public async GDTask Sate()
 	{
 		if(TakingTurn)
 		{
@@ -76,7 +77,12 @@ public partial class Ruinmaw : Character, IHasEmpower
 		);
 
 		Sated = true;
-		SateEvent?.Invoke(this);
+		if(SateEvent != null)
+		{
+			await SateEvent(this);
+		}
+
+		await GDTask.CompletedTask;
 	}
 
 	public AMDCardModel CreateEmpower()

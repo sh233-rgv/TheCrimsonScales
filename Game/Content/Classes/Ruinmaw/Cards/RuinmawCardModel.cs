@@ -1,5 +1,4 @@
-﻿using System;
-using Fractural.Tasks;
+﻿using Fractural.Tasks;
 
 public abstract class RuinmawCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
 	where TTop : RuinmawCardSide, new()
@@ -13,20 +12,21 @@ public abstract class RuinmawCardModel<TTop, TBottom> : AtlasAbilityCardModel<TT
 public abstract class RuinmawCardSide : AbilityCardSide
 {
 	protected virtual bool Sate => false;
-
-	protected override Func<Figure, GDTask> ActionPerformed => async (performer) =>
+	
+	protected override async GDTask OnActionPerformed(Figure figure)
 	{
+		await base.OnActionPerformed(figure);
 		if(Sate)
 		{
-			await SateRuinmaw(performer);
+			await SateRuinmaw(figure);
 		}
-	};
+	}
 
 	protected async GDTask SateRuinmaw(Figure figure)
 	{
 		if(figure is Ruinmaw ruinmaw)
 		{
-			ruinmaw.Sate();
+			await ruinmaw.Sate();
 		}
 
 		await GDTask.CompletedTask;
