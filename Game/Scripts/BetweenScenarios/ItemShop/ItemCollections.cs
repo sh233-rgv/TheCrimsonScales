@@ -35,7 +35,7 @@
 			ModelDB.Item<StuddedLeather>(),
 			ModelDB.Item<BootsOfStriding>(),
 			ModelDB.Item<JaggedSword>(),
-			ModelDB.Item<BattleAxe>(),
+			// ModelDB.Item<BattleAxe>(),
 			ModelDB.Item<ThrowingHammer>(),
 			ModelDB.Item<MinorStaminaPotion>(),
 			ModelDB.Item<StunPowder>(),
