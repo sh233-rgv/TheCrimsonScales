@@ -21,8 +21,8 @@ public class Chill : ConditionModel
 		int totalChill = GetChillCount();
 		if(totalChill > 1)
 		{
-			Chill secondChill = (Chill)Owner.Conditions.Where(c => c.ImmutableInstance ==
-				Conditions.Chill).Skip(1).FirstOrDefault();
+			Chill secondChill = (Chill)Owner.Conditions
+				.Where(c => c.ImmutableInstance == Conditions.Chill).Skip(1).FirstOrDefault();
 			ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.Unsubscribe(secondChill);
 			SetChillText();
 			ScenarioEvents.InflictConditionDuplicatesCheckEvent.Unsubscribe(this);
@@ -49,7 +49,7 @@ public class Chill : ConditionModel
 					return GDTask.CompletedTask;
 				},
 				EffectType.MandatoryAfterOptionals);
-			
+
 			return GDTask.CompletedTask;
 		}
 		else
@@ -57,13 +57,13 @@ public class Chill : ConditionModel
 			return base.Remove();
 		}
 	}
-	
+
 	private void SetChillText()
 	{
 		Chill lastChill = (Chill)Owner.Conditions.LastOrDefault(c => c.ImmutableInstance == Conditions.Chill);
 		lastChill.Node.SetStackText(GetChillCount() == 1 ? null : GetChillCount().ToString());
 	}
-	
+
 	protected override GDTask DuplicatesCheckApply(ScenarioEvents.InflictConditionDuplicatesCheck.Parameters parameters)
 	{
 		parameters.SetPrevented(true);
@@ -77,6 +77,7 @@ public class Chill : ConditionModel
 		{
 			return false;
 		}
+
 		return base.DuplicatesCheckCanApply(parameters);
 	}
 
@@ -84,8 +85,9 @@ public class Chill : ConditionModel
 	{
 		ScenarioEvents.AbilityStartedEvent.Subscribe(
 			this,
-			parameters => parameters.Performer == Owner &&
-						 (parameters.AbilityState is AttackAbility.State || parameters.AbilityState is MoveAbility.State),
+			parameters =>
+				parameters.Performer == Owner &&
+				(parameters.AbilityState is AttackAbility.State || parameters.AbilityState is MoveAbility.State),
 			parameters =>
 			{
 				int currentStacks = GetChillCount();
@@ -98,16 +100,18 @@ public class Chill : ConditionModel
 				{
 					moveState.AdjustMoveValue(-currentStacks);
 				}
+
 				Node.Flash();
 				return GDTask.CompletedTask;
 			},
 			EffectType.MandatoryBeforeOptionals
 		);
 	}
+
 	public override bool ShouldShowOnFigure(Figure figure)
-    {
+	{
 		return !figure.HasCondition(Conditions.Chill);
-    }
+	}
 
 	private int GetChillCount()
 	{

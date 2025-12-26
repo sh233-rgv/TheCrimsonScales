@@ -38,9 +38,6 @@ public partial class FigureViewComponent : HexObjectViewComponent
 	[Export]
 	public Node2D ConditionParent { get; private set; }
 
-	// [Export]
-	// public Sprite2D Outline { get; private set; }
-
 	[Export]
 	public GpuParticles2D TurnStartPS { get; private set; }
 

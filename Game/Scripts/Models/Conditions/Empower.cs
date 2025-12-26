@@ -6,7 +6,7 @@ public abstract class Empower : ConditionModel
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Empower.svg";
 	public override bool CanStack => true;
 	public override bool IsPositive => true;
-	public override string ConditionAnimationScenePath => "res://Scenes/Scenario/ConditionAnimations/EmpowerAnimation.tscn";
+	protected override string ConditionAnimationScenePath => "res://Scenes/Scenario/ConditionAnimations/EmpowerAnimation.tscn";
 
 	private IHasEmpower EmpowerOwner { get; set; }
 

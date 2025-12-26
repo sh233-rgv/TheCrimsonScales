@@ -12,10 +12,10 @@ public abstract class ConditionModel : AbstractModel<ConditionModel>, IEventSubs
 	public virtual bool IsPositive => false;
 	public virtual bool IsNegative => !IsPositive;
 	public virtual bool RemovedByHeal => false;
-	public virtual string ConditionAnimationScenePath => null;
+	protected virtual string ConditionAnimationScenePath => null;
 
 	protected bool _appliedDuringThisTurn;
-	
+
 	protected Figure Owner { get; private set; }
 	public ConditionNode Node { get; protected set; }
 
@@ -30,11 +30,11 @@ public abstract class ConditionModel : AbstractModel<ConditionModel>, IEventSubs
 			_appliedDuringThisTurn = true;
 		}
 
-		ScenarioEvents.InflictConditionDuplicatesCheckEvent.Subscribe(this, DuplicatesCheckCanApply, DuplicatesCheckApply, EffectType.MandatoryBeforeOptionals);
+		ScenarioEvents.InflictConditionDuplicatesCheckEvent.Subscribe(this, DuplicatesCheckCanApply, DuplicatesCheckApply);
 
 		if(RemovedAtEndOfTurn)
 		{
-			ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.Subscribe(this, TurnEndedCanApply, TurnEndedApply, EffectType.MandatoryBeforeOptionals);
+			ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.Subscribe(this, TurnEndedCanApply, TurnEndedApply);
 		}
 
 		if(!GameController.FastForward && ConditionAnimationScenePath != null)
@@ -92,9 +92,9 @@ public abstract class ConditionModel : AbstractModel<ConditionModel>, IEventSubs
 			await AbilityCmd.RemoveCondition(Owner, ImmutableInstance);
 		}
 	}
-	
+
 	public virtual bool ShouldShowOnFigure(Figure figure)
-    {
+	{
 		return true;
-    }
+	}
 }

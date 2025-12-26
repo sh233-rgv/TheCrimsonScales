@@ -278,6 +278,23 @@ public static class AbilityCmd
 		}
 	}
 
+	public static async GDTask AddCharacterToken(AbilityState abilityState, Figure target, string effectText)
+	{
+		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(abilityState, target,
+			parameters => parameters.Figure == target,
+			parameters => parameters.Add(new InfoTextExtraEffect.Parameters(effectText))
+		);
+
+		await GDTask.CompletedTask;
+	}
+
+	public static async GDTask RemoveCharacterToken(AbilityState abilityState, Figure target)
+	{
+		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(abilityState, target);
+
+		await GDTask.CompletedTask;
+	}
+
 	public static async GDTask GainXP(Figure figure, int xp)
 	{
 		if(figure is Character character)

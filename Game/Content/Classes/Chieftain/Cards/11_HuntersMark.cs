@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
-using Godot;
 
 public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.CardBottom>
 {
@@ -26,7 +25,7 @@ public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.C
 								list.Add(figure);
 							}
 						}
-					}, hintText: () => $"Choose an enemy within range {Icons.Inline(Icons.Range)}3 ");
+					}, hintText: () => $"Choose an enemy within range {Icons.Inline(Icons.Range)}3");
 
 					if(chosenFigure == null)
 					{
