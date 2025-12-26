@@ -88,15 +88,15 @@ public static class AbilityCmd
 			.Build();
 	}
 
-	public static async GDTask<int> SufferDamage(AttackAbility.State potentialAttackAbilityState, Figure target, int damage)
+	public static async GDTask<int> SufferDamage(AbilityState potentialAbilityState, Figure target, int damage,
+		Figure authority = null, bool fromAttack = false)
 	{
+		authority ??= potentialAbilityState.Authority;
 		ScenarioEvents.SufferDamage.Parameters sufferDamageParameters =
-			new ScenarioEvents.SufferDamage.Parameters(potentialAttackAbilityState, target, damage);
+			new ScenarioEvents.SufferDamage.Parameters(potentialAbilityState, target, damage, fromAttack);
 		EffectCollection sufferDamageCollection = ScenarioEvents.SufferDamageEvent.CreateEffectCollection(sufferDamageParameters);
 		await PromptManager.Prompt(new SufferDamagePrompt(sufferDamageParameters, sufferDamageCollection,
-			() => $"Suffer {Icons.HintText(Icons.Damage)}{sufferDamageParameters.CalculatedCurrentDamage}?"), target);
-
-		potentialAttackAbilityState?.SetPerformed();
+			() => $"Suffer {Icons.HintText(Icons.Damage)}{sufferDamageParameters.CalculatedCurrentDamage}?"), authority);
 
 		if(sufferDamageParameters.DamagePrevented)
 		{
@@ -107,13 +107,15 @@ public static class AbilityCmd
 
 		ScenarioEvents.JustBeforeSufferDamage.Parameters justBeforeSufferDamageParameters =
 			await ScenarioEvents.JustBeforeSufferDamageEvent.CreatePrompt(
-				new ScenarioEvents.JustBeforeSufferDamage.Parameters(target, finalDamage, potentialAttackAbilityState, sufferDamageParameters),
-				potentialAttackAbilityState?.Authority ?? target);
+				new ScenarioEvents.JustBeforeSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters),
+				authority);
 
 		if(justBeforeSufferDamageParameters.Prevented)
 		{
 			return 0;
 		}
+
+		potentialAbilityState?.DamagedFigures.Add(target);
 
 		int newHealth = Mathf.Max(target.Health - finalDamage, 0);
 
@@ -121,28 +123,43 @@ public static class AbilityCmd
 
 		if(newHealth == 0)
 		{
-			await KillOrExhaust(potentialAttackAbilityState, target);
+			if(potentialAbilityState == null)
+			{
+				await KillOrExhaust(authority, target);
+			}
+			else
+			{
+				await KillOrExhaust(potentialAbilityState, target);
+			}
 		}
 
 		if(finalDamage > 0)
 		{
 			await ScenarioEvents.AfterSufferDamageEvent.CreatePrompt(
-				new ScenarioEvents.AfterSufferDamage.Parameters(target, finalDamage, potentialAttackAbilityState, sufferDamageParameters),
-				potentialAttackAbilityState?.Authority ?? target);
+				new ScenarioEvents.AfterSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters),
+				authority);
 		}
 
 		return finalDamage;
 	}
 
-	public static async GDTask KillOrExhaust(AbilityState state, Figure target)
+	public static async GDTask<int> SufferDamage(Figure target, int damage, Figure authority, bool fromAttack = false)
 	{
-		state?.SetPerformed();
+		return await SufferDamage(null, target, damage, authority, fromAttack);
+	}
 
+	public static async GDTask KillOrExhaust(Figure authority, Figure target)
+	{
 		await target.Destroy();
 
 		ScenarioEvents.FigureKilled.Parameters parameters =
 			await ScenarioEvents.FigureKilledEvent.CreatePrompt(
-				new ScenarioEvents.FigureKilled.Parameters(state, target), state?.Authority ?? target);
+				new ScenarioEvents.FigureKilled.Parameters(null, target), authority);
+	}
+
+	public static async GDTask KillOrExhaust(AbilityState state, Figure target)
+	{
+		await KillOrExhaust(state.Authority, target);
 	}
 
 	public static GDTask AddCondition(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel)
@@ -508,7 +525,7 @@ public static class AbilityCmd
 				if(hazardousTerrainParameters.AffectedByHazardousTerrain)
 				{
 					int damage = HazardousTerrain.DamageAmount;
-					await SufferDamage(null, figure, damage);
+					await SufferDamage(potentialAbilityState, figure, damage);
 				}
 			}
 		}
@@ -840,7 +857,9 @@ public static class AbilityCmd
 		{
 			AbilityCard = abilityCard,
 			CanPlayTop = true,
-			CanPlayBottom = true
+			CanPlayBottom = true,
+			CanPlayBasicTop = true,
+			CanPlayBasicBottom = true
 		});
 
 		AbilityCardSectionSelectionPrompt.Answer cardSectionAnswer = await PromptManager.Prompt(

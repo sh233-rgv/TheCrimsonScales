@@ -38,7 +38,7 @@ public class Resurrection : ChieftainCardModel<Resurrection.CardTop, Resurrectio
 				.WithPerformAbility(async state =>
 				{
 					IEnumerable<AbilityCard> selectedAbilityCards =
-						await AbilityCmd.SelectAbilityCards((Character)state.Performer, CardState.Lost, 0, 3, 
+						await AbilityCmd.SelectAbilityCards((Character)state.Performer, CardState.Lost, 0, 3,
 							hintText: $"Select up to 3 lost cards to recover");
 
 					foreach(AbilityCard selectedAbilityCard in selectedAbilityCards)
@@ -53,7 +53,7 @@ public class Resurrection : ChieftainCardModel<Resurrection.CardTop, Resurrectio
 
 		protected override IEnumerable<Element> Elements => [Element.Earth];
 
-		protected override bool Loss => true;
+		public override bool Loss => true;
 		protected override bool Unrecoverable => true;
 	}
 }

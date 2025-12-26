@@ -93,7 +93,7 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 		];
 
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 
 		private async GDTask Heal(AbilityState state)
 		{

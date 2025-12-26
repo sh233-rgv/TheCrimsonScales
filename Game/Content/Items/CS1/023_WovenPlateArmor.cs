@@ -1,4 +1,3 @@
-using System.Linq;
 using Fractural.Tasks;
 
 public class WovenPlateArmor : CS1Item
@@ -35,7 +34,7 @@ public class WovenPlateArmor : CS1Item
 
 					ScenarioEvents.SufferDamageEvent.Subscribe(this, _subscriber,
 						canApply: parameters =>
-							parameters.FromAttack && parameters.PotentialAttackAbilityState == state && parameters.Figure == Owner,
+							parameters.FromAttack && parameters.PotentialAbilityState == state && parameters.Figure == Owner,
 						apply: async parameters =>
 						{
 							parameters.AdjustShield(2);

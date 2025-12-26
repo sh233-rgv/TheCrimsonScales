@@ -295,7 +295,9 @@ public partial class Character : Figure
 				{
 					AbilityCard = card,
 					CanPlayTop = true,
-					CanPlayBottom = true
+					CanPlayBottom = true,
+					CanPlayBasicTop = true,
+					CanPlayBasicBottom = true
 				});
 			}
 
@@ -348,6 +350,8 @@ public partial class Character : Figure
 					{
 						cardData.CanPlayTop = false;
 						cardData.CanPlayBottom = false;
+						cardData.CanPlayBasicTop = false;
+						cardData.CanPlayBasicBottom = false;
 					}
 				}
 
@@ -360,6 +364,7 @@ public partial class Character : Figure
 						foreach(CardPlayCardData cardData in cardDatas)
 						{
 							cardData.CanPlayBottom = false;
+							cardData.CanPlayBasicBottom = false;
 						}
 					}
 
@@ -368,6 +373,7 @@ public partial class Character : Figure
 						foreach(CardPlayCardData cardData in cardDatas)
 						{
 							cardData.CanPlayTop = false;
+							cardData.CanPlayBasicTop = false;
 						}
 					}
 				}
@@ -446,7 +452,7 @@ public partial class Character : Figure
 
 			if(shortRestAnswer.Redraw)
 			{
-				await AbilityCmd.SufferDamage(null, this, 1);
+				await AbilityCmd.SufferDamage(this, 1, this);
 
 				AbilityCard cardRedrawnFor = GameController.Instance.ReferenceManager.Get<AbilityCard>(shortRestAnswer.AbilityCardReferenceId);
 				await AbilityCmd.ReturnToHand(cardRedrawnFor);
@@ -483,7 +489,7 @@ public partial class Character : Figure
 
 		if(playableCardCount < 2 && discardedCardCount < 2)
 		{
-			await AbilityCmd.KillOrExhaust(null, this);
+			await AbilityCmd.KillOrExhaust(this, this);
 		}
 	}
 

@@ -63,7 +63,7 @@ public class Scenario026 : ScenarioModel
 				                      (canApplyParameters.AbilityState.Performer is Character || canApplyParameters.AbilityState.Performer is Summon),
 				async applyParameters =>
 				{
-					await AbilityCmd.SufferDamage(null, applyParameters.AbilityState.Performer, 1);
+					await AbilityCmd.SufferDamage(applyParameters.AbilityState.Performer, 1, objective);
 				}
 			);
 			ScenarioEvents.FigureKilledEvent.Subscribe(this, objective,

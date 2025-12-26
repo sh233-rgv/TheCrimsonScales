@@ -54,7 +54,7 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 		];
 
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : BombardCardSide

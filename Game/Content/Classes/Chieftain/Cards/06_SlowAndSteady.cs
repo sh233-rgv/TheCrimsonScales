@@ -52,7 +52,7 @@ public class SlowAndSteady : ChieftainCardModel<SlowAndSteady.CardTop, SlowAndSt
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChieftainCardSide

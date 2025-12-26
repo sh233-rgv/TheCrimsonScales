@@ -19,7 +19,7 @@ public class DoubleKO : ChainguardLevelUpCardModel<DoubleKO.CardTop, DoubleKO.Ca
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
-				.WithConditionalAbilityCheck(async state => 
+				.WithConditionalAbilityCheck(async state =>
 				{
 					bool killedAnEnemy = state.ActionState.GetAbilityState<AttackAbility.State>(0).KilledTargets.Count > 0;
 
@@ -27,6 +27,7 @@ public class DoubleKO : ChainguardLevelUpCardModel<DoubleKO.CardTop, DoubleKO.Ca
 					{
 						await AbilityCmd.GainXP(state.Performer, 1);
 					}
+
 					return killedAnEnemy;
 				})
 				.Build()),
@@ -66,6 +67,6 @@ public class DoubleKO : ChainguardLevelUpCardModel<DoubleKO.CardTop, DoubleKO.Ca
 		];
 
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

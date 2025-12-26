@@ -40,7 +40,7 @@ public class VocalSermon : HierophantCardModel<VocalSermon.CardTop, VocalSermon.
 
 		protected override IEnumerable<Element> Elements => [Element.Earth, Element.Light];
 		protected override int XP => 1;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : HierophantCardSide

@@ -104,7 +104,7 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 		];
 
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChainguardCardSide
@@ -129,7 +129,7 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 							ScenarioEvents.TrapTriggeredEvent.Unsubscribe(state, this);
 							if(applyParameters.Figure.HasCondition(Chainguard.Shackle))
 							{
-								await AbilityCmd.SufferDamage(null, applyParameters.Figure, 1);
+								await AbilityCmd.SufferDamage(state, applyParameters.Figure, 1);
 								await AbilityCmd.RemoveCondition(applyParameters.Figure, Chainguard.Shackle);
 							}
 

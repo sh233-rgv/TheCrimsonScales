@@ -137,7 +137,7 @@ public class GelatinousGiant : MonsterModel, IBossMonsterModel
 
 					foreach(Figure figure in monsterGroup)
 					{
-						damageSuffered += await AbilityCmd.SufferDamage(null, figure, damage);
+						damageSuffered += await AbilityCmd.SufferDamage(state, figure, damage);
 					}
 				}
 

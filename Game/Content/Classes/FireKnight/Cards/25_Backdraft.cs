@@ -49,14 +49,13 @@ public class Backdraft : FireKnightLevelUpCardModel<Backdraft.CardTop, Backdraft
 
 					list.AddRange(attackAbilityState.GetRedAOEHexes().SelectMany(hex => hex.GetHexObjectsOfType<Figure>()));
 				})
-				
 				.WithMandatory(true)
 				.Build())
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Fire, Element.Dark];
 		protected override int XP => 1;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : FireKnightCardSide
@@ -77,7 +76,7 @@ public class Backdraft : FireKnightLevelUpCardModel<Backdraft.CardTop, Backdraft
 							parameters.Hex.HasHexObjectOfType<Ladder>(),
 						async parameters =>
 						{
-							await AbilityCmd.SufferDamage(null, parameters.Figure, 2);
+							await AbilityCmd.SufferDamage(state, parameters.Figure, 2);
 							await AbilityCmd.AddCondition(state, parameters.Figure, Conditions.Wound1);
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}

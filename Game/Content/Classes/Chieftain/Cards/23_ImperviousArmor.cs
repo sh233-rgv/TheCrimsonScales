@@ -18,12 +18,12 @@ public class ImperviousArmor : ChieftainCardModel<ImperviousArmor.CardTop, Imper
 					Health = 7,
 					Move = 2,
 					Attack = 2,
-					Traits = 
+					Traits =
 					[
 						new ShieldTrait(1),
 						new PierceTrait(3),
 						new MountTrait(
-							async (owner, mount) => 
+							async (owner, mount) =>
 							{
 								ScenarioCheckEvents.ShieldCheckEvent.Subscribe(owner, this,
 									parameters => parameters.Figure == owner,
@@ -45,7 +45,7 @@ public class ImperviousArmor : ChieftainCardModel<ImperviousArmor.CardTop, Imper
 
 								await GDTask.CompletedTask;
 							},
-							async (owner, mount) => 
+							async (owner, mount) =>
 							{
 								ScenarioCheckEvents.ShieldCheckEvent.Unsubscribe(owner, this);
 								ScenarioEvents.SufferDamageEvent.Unsubscribe(owner, this);
@@ -63,7 +63,7 @@ public class ImperviousArmor : ChieftainCardModel<ImperviousArmor.CardTop, Imper
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 		protected override bool Unrecoverable => true;
 	}
 
