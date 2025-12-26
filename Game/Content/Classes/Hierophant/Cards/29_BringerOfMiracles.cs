@@ -89,7 +89,7 @@ public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.Ca
                     }
 
 					await AbilityCmd.AddCondition(state, state.Performer, Conditions.Bless);
-					state.Performer.AMDCardDeck.DrawPile.First(card => card.Model is BlessAMDCard).Model.SetRemoveAfterDraw(false);
+					//state.Performer.AMDCardDeck.DrawPile.First(card => card.Model is BlessAMDCard).Model.SetRemoveAfterDraw(false);
 
 					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
 						parameters =>

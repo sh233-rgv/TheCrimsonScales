@@ -4,8 +4,8 @@ using Fractural.Tasks;
 
 public class ChainsOfLightning : HierophantLevelUpCardModel<ChainsOfLightning.CardTop, ChainsOfLightning.CardBottom>
 {
-	public override string Name => "Chains Of Lightning";
-	public override int Level => 1;
+	public override string Name => "Chains of Lightning";
+	public override int Level => 6;
 	public override int Initiative => 31;
 	protected override int AtlasIndex => 15 - 9;
 
@@ -29,7 +29,7 @@ public class ChainsOfLightning : HierophantLevelUpCardModel<ChainsOfLightning.Ca
 
 							await GDTask.CompletedTask;
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Add {Icons.Inline(Icons.GetCondition((Conditions.Stun)))} to one attack")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Add {Icons.Inline(Icons.GetCondition((Conditions.Stun)))} to the next attack")
 					)
 				)
 				.Build())

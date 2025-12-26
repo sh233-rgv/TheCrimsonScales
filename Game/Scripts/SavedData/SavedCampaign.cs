@@ -152,7 +152,7 @@ public class SavedCampaign
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), "Bombo");
 		savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), "Conclave Man");
 		//savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), "Vuur Knecht");
-		savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), "Ketting Garde");
+		//savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), "Ketting Garde");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), "Dierenzitter");
 		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), "Sterrenwerper");
 
