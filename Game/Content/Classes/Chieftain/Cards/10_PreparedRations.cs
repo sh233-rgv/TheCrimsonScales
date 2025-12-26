@@ -17,25 +17,25 @@ public class PreparedRations : ChieftainCardModel<PreparedRations.CardTop, Prepa
 				{
 					Health = 4,
 					Move = 3,
-					Traits = 
+					Traits =
 					[
 						new RetaliateTrait(1),
 						new MountTrait(
-							async (owner, mount) => 
+							async (owner, mount) =>
 							{
 								ScenarioEvents.RoundEndedEvent.Subscribe(owner, this,
 									parameters => true,
-									async parameters => 
+									async parameters =>
 									{
-										ActionState actionState = new ActionState(owner, 
+										ActionState actionState = new ActionState(owner,
 											[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()]);
 										await actionState.Perform();
 									}
 								);
 								await GDTask.CompletedTask;
 							},
-							async (owner, mount) => 
-							{ 
+							async (owner, mount) =>
+							{
 								ScenarioEvents.RoundEndedEvent.Unsubscribe(owner, this);
 
 								await GDTask.CompletedTask;
@@ -51,7 +51,7 @@ public class PreparedRations : ChieftainCardModel<PreparedRations.CardTop, Prepa
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChieftainCardSide

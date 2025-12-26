@@ -167,7 +167,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 
 		private bool CanApply(Figure performer, OtherActiveAbility.State state, bool requireStrengthen)
 		{

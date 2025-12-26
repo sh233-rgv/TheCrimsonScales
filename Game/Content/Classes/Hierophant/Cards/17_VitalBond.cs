@@ -113,6 +113,6 @@ public class VitalBond : HierophantLevelUpCardModel<VitalBond.CardTop, VitalBond
 		protected override IEnumerable<Element> Elements => [Element.Earth];
 		protected override int XP => 1;
 		protected override bool Unrecoverable => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

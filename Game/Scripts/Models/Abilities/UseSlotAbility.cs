@@ -30,6 +30,7 @@ public class UseSlotAbility : ActiveAbility<UseSlotAbility.State>
 
 			if(UseSlotIndex >= Slots.Count)
 			{
+				ActionState.SetOverrideNoPersistent();
 				await ActionState.RequestDiscardOrLose();
 			}
 		}

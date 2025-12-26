@@ -29,7 +29,9 @@ public sealed partial class ActionState
 
 	public bool OverrideRound { get; private set; }
 	public bool OverridePersistent { get; private set; }
+	public bool OverrideNoPersistent { get; private set; }
 	public bool OverrideLoss { get; private set; }
+	public bool OverrideNoLoss { get; private set; }
 
 	public IReadOnlyList<AbilityState> AbilityStates => _abilityStates;
 	public int CurrentAbilityStateIndex => _abilityStates.Count - 1;
@@ -163,10 +165,24 @@ public sealed partial class ActionState
 		ParentActionState?.SetOverridePersistent();
 	}
 
+	public void SetOverrideNoPersistent()
+	{
+		OverrideNoPersistent = true;
+
+		ParentActionState?.SetOverrideNoPersistent();
+	}
+
 	public void SetOverrideLoss()
 	{
 		OverrideLoss = true;
 
 		ParentActionState?.SetOverrideLoss();
+	}
+
+	public void SetOverrideNoLoss()
+	{
+		OverrideNoLoss = true;
+
+		ParentActionState?.SetOverrideNoLoss();
 	}
 }

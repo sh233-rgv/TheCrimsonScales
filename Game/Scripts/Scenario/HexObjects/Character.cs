@@ -295,7 +295,9 @@ public partial class Character : Figure
 				{
 					AbilityCard = card,
 					CanPlayTop = true,
-					CanPlayBottom = true
+					CanPlayBottom = true,
+					CanPlayBasicTop = true,
+					CanPlayBasicBottom = true
 				});
 			}
 
@@ -348,6 +350,8 @@ public partial class Character : Figure
 					{
 						cardData.CanPlayTop = false;
 						cardData.CanPlayBottom = false;
+						cardData.CanPlayBasicTop = false;
+						cardData.CanPlayBasicBottom = false;
 					}
 				}
 
@@ -360,6 +364,7 @@ public partial class Character : Figure
 						foreach(CardPlayCardData cardData in cardDatas)
 						{
 							cardData.CanPlayBottom = false;
+							cardData.CanPlayBasicBottom = false;
 						}
 					}
 
@@ -368,6 +373,7 @@ public partial class Character : Figure
 						foreach(CardPlayCardData cardData in cardDatas)
 						{
 							cardData.CanPlayTop = false;
+							cardData.CanPlayBasicTop = false;
 						}
 					}
 				}
@@ -445,7 +451,15 @@ public partial class Character : Figure
 
 			if(shortRestParameters.CanSelectCardToLose)
 			{
-				lostCard = await AbilityCmd.SelectAbilityCard(this, CardState.Discarded, mandatory: true, hintText: "Select a card to lose");
+				await AbilityCmd.SufferDamage(this, 1, this);
+
+				AbilityCard cardRedrawnFor = GameController.Instance.ReferenceManager.Get<AbilityCard>(shortRestAnswer.AbilityCardReferenceId);
+				await AbilityCmd.ReturnToHand(cardRedrawnFor);
+
+				ShortRestPrompt.Answer redrawAnswer =
+					await PromptManager.Prompt(new ShortRestPrompt(this, false, null, () => "Confirm Short Rest"), this);
+
+				lostCard = GameController.Instance.ReferenceManager.Get<AbilityCard>(redrawAnswer.AbilityCardReferenceId);
 			}
 			else
 			{
@@ -492,7 +506,7 @@ public partial class Character : Figure
 
 		if(playableCardCount < 2 && discardedCardCount < 2)
 		{
-			await AbilityCmd.KillOrExhaust(null, this);
+			await AbilityCmd.KillOrExhaust(this, this);
 		}
 	}
 
