@@ -23,5 +23,7 @@ public abstract class SyncedAction
 		PromptIndex = GameController.Instance.SavedScenario.PromptAnswers.Count;
 	}
 
+	public abstract bool Validate();
+
 	public abstract GDTask Perform();
 }

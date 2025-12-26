@@ -131,7 +131,10 @@ public class PromptManager
 
 				if(answer.SyncedAction != null)
 				{
-					await answer.SyncedAction.Perform();
+					if(answer.SyncedAction.Validate())
+					{
+						await answer.SyncedAction.Perform();
+					}
 
 					continue;
 				}

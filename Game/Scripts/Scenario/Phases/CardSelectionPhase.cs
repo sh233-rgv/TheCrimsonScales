@@ -299,7 +299,11 @@ public class CardSelectionPhase : ScenarioPhase
 			// Perform all the synced actions
 			SyncedAction syncedAction = _cardSelectionState.SyncedActions[_syncedActionIndex];
 			GameController.Instance.UndoManager.AddStep(new StartSyncedActionStep(_cardSelectionState, syncedAction));
-			await syncedAction.Perform();
+			if(syncedAction.Validate())
+			{
+				await syncedAction.Perform();
+			}
+
 			_syncedActionIndex++;
 
 			//SetState(_cardSelectionState);
