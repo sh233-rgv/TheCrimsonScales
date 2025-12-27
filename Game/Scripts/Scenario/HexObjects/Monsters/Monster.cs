@@ -132,7 +132,7 @@ public partial class Monster : Figure
 		if(Stats.Traits != null)
 		{
 			foreach(FigureTrait trait in Stats.Traits)
-			{
+			{ 
 				await trait.Deactivate(this);
 			}
 		}
