@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 
 public class EnvironmentalSurvey : BrightsparkCardModel<EnvironmentalSurvey.CardTop, EnvironmentalSurvey.CardBottom>
@@ -12,7 +13,37 @@ public class EnvironmentalSurvey : BrightsparkCardModel<EnvironmentalSurvey.Card
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			//TODO: Top ability
+			new AbilityCardAbility(OtherAbility.Builder()
+				.WithPerformAbility(async state =>
+				{
+					Hex hex = (await AbilityCmd.SelectHex(state.Performer, list =>
+					{
+						list.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 2)
+							.Where(hex => hex.TryGetHexObjectOfType(out Obstacle obs) || hex.TryGetHexObjectOfType(out Trap trap)));
+					}, hintText: "Select an obstacle to move"));
+
+					if(hex == null)
+					{
+						return;
+					}
+
+					OverlayTile overlayTile;
+					if(hex.TryGetHexObjectOfType(out Obstacle obstacle))
+					{
+						overlayTile = obstacle;
+					}
+					else
+					{
+						overlayTile = hex.GetHexObjectOfType<Trap>();
+					}
+
+					await AbilityCmd.MoveOverlayTile(state.Performer, overlayTile, list =>
+					{
+						list.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 2)
+							.Where(moveToHex => moveToHex.IsEmpty()));
+					});
+				})
+				.Build())
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Earth];
@@ -23,48 +54,50 @@ public class EnvironmentalSurvey : BrightsparkCardModel<EnvironmentalSurvey.Card
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(OtherAbility.Builder()
-				.WithPerformAbility(async state =>
-				{
-					IEnumerable<AbilityCard> selectedAbilityCards =
-						await AbilityCmd.SelectAbilityCards((Character)state.Performer, CardState.Discarded, 0, 3,
-							hintText: $"Select up to 3 cards to recover");
-
-					foreach(AbilityCard selectedAbilityCard in selectedAbilityCards)
-					{
-						await AbilityCmd.ReturnToHand(selectedAbilityCard);
-
-						state.SetPerformed();
-					}
-				})
-				.Build()),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					ScenarioEvents.ShortRestStartedEvent.Subscribe(state, this,
-						parameters => parameters.Character == state.Performer,
-						async parameters =>
+					ScenarioCheckEvents.MoveCheckEvent.Subscribe(state, this,
+						canApplyParameters =>
+							canApplyParameters.Performer.AlliedWith(state.Performer, true) &&
+							RangeHelper.Distance(canApplyParameters.Performer.Hex, state.Performer.Hex) <= 4 &&
+							(canApplyParameters.Hex.HasHexObjectOfType<DifficultTerrain>() ||
+							 canApplyParameters.Hex.HasHexObjectOfType<HazardousTerrain>()),
+						applyParameters =>
 						{
-							parameters.SetCanSelectCardToUse();
-							ItemModel item = await AbilityCmd.SelectItem(parameters.Character, ItemState.Spent,
-								hintText: "Select an item to recover");
-							if(item != null)
+							if(applyParameters.Hex.HasHexObjectOfType<DifficultTerrain>())
 							{
-								await item.Refresh();
+								applyParameters.SetMoveCost(1);
 							}
-						});
+
+							if(applyParameters.Hex.HasHexObjectOfType<HazardousTerrain>())
+							{
+								applyParameters.SetAffectedByNegativeHex(false);
+							}
+						}
+					);
+
+					ScenarioEvents.HazardousTerrainTriggeredEvent.Subscribe(state, this,
+						canApplyParameters => canApplyParameters.Figure.AlliedWith(state.Performer, true) &&
+						                      RangeHelper.Distance(canApplyParameters.Figure.Hex, state.Performer.Hex) <= 4,
+						async applyParameters =>
+						{
+							applyParameters.SetAffectedByHazardousTerrain(false);
+							await GDTask.CompletedTask;
+						}
+					);
+
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
 				{
-					ScenarioEvents.ShortRestStartedEvent.Unsubscribe(state, this);
+					ScenarioCheckEvents.MoveCheckEvent.Unsubscribe(state, this);
+					ScenarioEvents.HazardousTerrainTriggeredEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})
 				.Build())
 		];
 
-		//TODO: Add any element
-		//protected override IEnumerable<Element> Elements => WildElement;
 		protected override int XP => 2;
 		protected override bool Persistent => true;
 		public override bool Loss => true;

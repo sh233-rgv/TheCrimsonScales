@@ -561,11 +561,13 @@ public class ScenarioEvents
 
 	public class HazardousTerrainTriggered : ScenarioEvent<HazardousTerrainTriggered.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, Hex hex, HazardousTerrain hazardousTerrain, bool affectedByHazardousTerrain)
+		public class Parameters(
+			AbilityState potentialAbilityState, Hex hex, Figure figure, HazardousTerrain hazardousTerrain, bool affectedByHazardousTerrain)
 			: ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Hex Hex { get; } = hex;
+			public Figure Figure { get; } = figure;
 			public HazardousTerrain HazardousTerrain { get; } = hazardousTerrain;
 			public bool AffectedByHazardousTerrain { get; private set; } = affectedByHazardousTerrain;
 
