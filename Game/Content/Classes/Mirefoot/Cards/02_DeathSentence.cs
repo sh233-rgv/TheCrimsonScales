@@ -19,7 +19,7 @@ public class DeathSentence : MirefootCardModel<DeathSentence.CardTop, DeathSente
 		];
 
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : MirefootCardSide
@@ -32,7 +32,7 @@ public class DeathSentence : MirefootCardModel<DeathSentence.CardTop, DeathSente
 				{
 					ScenarioEvents.FigureEnteredHexEvent.Subscribe(state, this,
 						canApplyParameters =>
-							canApplyParameters.AbilityState == state &&
+							canApplyParameters.PotentialAbilityState == state &&
 							canApplyParameters.Hex.HasHexObjectOfType<DifficultTerrain>(),
 						async applyParameters =>
 						{

@@ -120,10 +120,7 @@ public class PromptManager
 
 				_promptIndex++;
 
-				if(!answer.ImmediateCompletion)
-				{
-					GameController.Instance.SetRelevantTurnTakerPrompt(_promptIndex);
-				}
+				GameController.Instance.UndoManager.AddStep(new RemovePromptAnswerUndoStep(answer));
 
 				if(answer.SelectedEffectIndex >= 0)
 				{
@@ -134,7 +131,10 @@ public class PromptManager
 
 				if(answer.SyncedAction != null)
 				{
-					await answer.SyncedAction.Perform();
+					if(answer.SyncedAction.Validate())
+					{
+						await answer.SyncedAction.Perform();
+					}
 
 					continue;
 				}

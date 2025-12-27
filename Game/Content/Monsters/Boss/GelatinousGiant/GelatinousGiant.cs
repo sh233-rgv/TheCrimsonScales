@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
+[IgnoreModelId]
 public class GelatinousGiant : MonsterModel, IBossMonsterModel
 {
 	public override MonsterStats[] BossLevelStats =>
@@ -136,7 +137,7 @@ public class GelatinousGiant : MonsterModel, IBossMonsterModel
 
 					foreach(Figure figure in monsterGroup)
 					{
-						damageSuffered += await AbilityCmd.SufferDamage(null, figure, damage);
+						damageSuffered += await AbilityCmd.SufferDamage(state, figure, damage);
 					}
 				}
 

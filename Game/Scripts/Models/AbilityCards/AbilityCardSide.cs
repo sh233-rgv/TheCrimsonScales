@@ -12,8 +12,9 @@ public abstract class AbilityCardSide
 
 	protected virtual bool Round => false;
 	protected virtual bool Persistent => false;
-	protected virtual bool Loss => false;
+	public virtual bool Loss => false;
 	protected virtual bool Unrecoverable => false;
+	protected virtual bool CanDeactivate => true;
 
 	public bool IsTop => AbilityCard.Top == this;
 	public bool IsBasicTop => AbilityCard.BasicTop == this;
@@ -51,6 +52,8 @@ public abstract class AbilityCardSide
 
 			if(actionState.GetHasPerformed())
 			{
+				await OnActionPerformed(actionState.Performer);
+
 				await AbilityCmd.GainXP(performer, XP);
 
 				foreach(Element element in Elements)
@@ -61,8 +64,8 @@ public abstract class AbilityCardSide
 				CardState resultingState = CardState.Discarded;
 
 				bool round = Round || actionState.OverrideRound;
-				bool persistent = Persistent || actionState.OverridePersistent;
-				bool loss = Loss || actionState.OverrideLoss;
+				bool persistent = !actionState.OverrideNoPersistent && (actionState.OverridePersistent || Persistent);
+				bool loss = !actionState.OverrideNoLoss && (actionState.OverrideLoss || Loss);
 
 				if(round && persistent)
 				{
@@ -72,7 +75,7 @@ public abstract class AbilityCardSide
 				AbilityCard.SetUnrecoverable(Unrecoverable);
 
 				// If no persistent/round ability has been performed, discard or lose it instead
-				if(actionState.HasPerformedActiveAbility)
+				if(actionState.HasPerformedActiveAbility && !actionState.OverrideNoPersistent)
 				{
 					if(round)
 					{
@@ -80,7 +83,7 @@ public abstract class AbilityCardSide
 					}
 					else if(persistent)
 					{
-						resultingState = loss ? CardState.PersistentLoss : CardState.Persistent;
+						resultingState = loss ? CardState.PersistentLoss : (CanDeactivate ? CardState.Persistent : CardState.PersistentNoDeactivate);
 					}
 					else
 					{
@@ -129,5 +132,10 @@ public abstract class AbilityCardSide
 	private async GDTask OnDiscardOrLoseRequested(ActionState actionState)
 	{
 		await AbilityCmd.DiscardOrLose(AbilityCard);
+	}
+	
+	protected virtual async GDTask OnActionPerformed(Figure figure)
+	{
+		await GDTask.CompletedTask;
 	}
 }

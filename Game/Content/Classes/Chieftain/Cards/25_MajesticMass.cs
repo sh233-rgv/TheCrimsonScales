@@ -18,7 +18,7 @@ public class MajesticMass : ChieftainCardModel<MajesticMass.CardTop, MajesticMas
 					Health = 8,
 					Move = 2,
 					Attack = 3,
-					Traits = 
+					Traits =
 					[
 						new DestroyAdjacentSingleHexObstacleAfterAttackTrait(),
 						new AOEAttackTrait(new AOEPattern(
@@ -38,7 +38,7 @@ public class MajesticMass : ChieftainCardModel<MajesticMass.CardTop, MajesticMas
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 		protected override bool Unrecoverable => true;
 	}
 
@@ -50,7 +50,7 @@ public class MajesticMass : ChieftainCardModel<MajesticMass.CardTop, MajesticMas
 				.WithGetAbilities(state =>
 				[
 					MoveAbility.Builder().WithDistance(4).Build()
-				])				
+				])
 				.WithCustomGetTargets((state, figures) =>
 				{
 					Figure mount = Chieftain.GetMount(state.Performer);

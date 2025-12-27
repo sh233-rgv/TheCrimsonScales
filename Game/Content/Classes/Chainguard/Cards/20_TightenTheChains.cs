@@ -53,8 +53,10 @@ public class TightenTheChains : ChainguardLevelUpCardModel<TightenTheChains.Card
 									.WithPull(1)
 									.WithCustomGetTargets((state, figures) =>
 									{
-										IEnumerable<Figure> adjacentFigures = RangeHelper.GetFiguresInRange(state.Performer.Hex, 2, includeOrigin: false);
-										figures.AddRange(adjacentFigures.Where(figure => figure.EnemiesWith(state.Performer) && figure.HasCondition(Chainguard.Shackle)));
+										IEnumerable<Figure> adjacentFigures =
+											RangeHelper.GetFiguresInRange(state.Performer.Hex, 2, includeOrigin: false);
+										figures.AddRange(adjacentFigures.Where(figure =>
+											figure.EnemiesWith(state.Performer) && figure.HasCondition(Chainguard.Shackle)));
 									})
 									.Build()
 							]);
@@ -74,6 +76,6 @@ public class TightenTheChains : ChainguardLevelUpCardModel<TightenTheChains.Card
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

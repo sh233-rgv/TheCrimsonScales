@@ -20,21 +20,21 @@ public class WarPaint : ChieftainCardModel<WarPaint.CardTop, WarPaint.CardBottom
 					Figure mount = Chieftain.GetMount(state.Performer);
 					if(mount != null)
 					{
-						await AbilityCmd.AddCondition(state,mount, Conditions.Invisible);
+						await AbilityCmd.AddCondition(state, mount, Conditions.Invisible);
 						state.SetCustomValue(this, "Mount", mount);
 					}
 
 					state.SetCustomValue(this, "IsMounted", mount != null);
 				})
-				.WithOnDeactivate(async state => 
+				.WithOnDeactivate(async state =>
 				{
 					await AbilityCmd.RemoveCondition(state.Performer, Conditions.Invisible);
 
 					if(state.GetCustomValue<bool>(this, "IsMounted"))
-                    {
+					{
 						// The figure might not be mounted at this moment, still remove the invisibility
-                        await AbilityCmd.RemoveCondition(state.GetCustomValue<Figure>(this, "Mount"), Conditions.Invisible);
-                    }
+						await AbilityCmd.RemoveCondition(state.GetCustomValue<Figure>(this, "Mount"), Conditions.Invisible);
+					}
 				})
 				.Build())
 		];
@@ -68,9 +68,9 @@ public class WarPaint : ChieftainCardModel<WarPaint.CardTop, WarPaint.CardBottom
 						{
 							// If owner already acted then this effect was already applied
 							if(parameters.PreviousActiveFigure == state.Performer)
-                            {
-                                return false;
-                            }
+							{
+								return false;
+							}
 
 							return Chieftain.GetMount(state.Performer) == parameters.NextActiveFigure;
 						},
@@ -114,6 +114,6 @@ public class WarPaint : ChieftainCardModel<WarPaint.CardTop, WarPaint.CardBottom
 
 		protected override int XP => 1;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

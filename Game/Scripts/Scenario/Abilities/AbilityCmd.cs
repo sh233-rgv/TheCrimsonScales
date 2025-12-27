@@ -31,7 +31,7 @@ public static class AbilityCmd
 
 	public static async GDTask DiscardOrLose(AbilityCard card)
 	{
-		if(card.CardState == CardState.Round || card.CardState == CardState.Persistent)
+		if(card.CardState == CardState.Round || card.CardState == CardState.Persistent || card.CardState == CardState.PersistentNoDeactivate)
 		{
 			await DiscardCard(card);
 		}
@@ -72,7 +72,7 @@ public static class AbilityCmd
 				ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(state, subscriber,
 					parameters => state.Performer == parameters.Figure,
 					parameters => parameters.Add(
-						new FigureInfoTextExtraEffect.Parameters("All attacks targeting this figure this round gain disadvantage."))
+						new InfoTextExtraEffect.Parameters("All attacks targeting this figure this round gain disadvantage."))
 				);
 
 				return GDTask.CompletedTask;
@@ -89,15 +89,15 @@ public static class AbilityCmd
 			.Build();
 	}
 
-	public static async GDTask<int> SufferDamage(AttackAbility.State potentialAttackAbilityState, Figure target, int damage)
+	public static async GDTask<int> SufferDamage(AbilityState potentialAbilityState, Figure target, int damage,
+		Figure authority = null, bool fromAttack = false)
 	{
+		authority ??= potentialAbilityState.Authority;
 		ScenarioEvents.SufferDamage.Parameters sufferDamageParameters =
-			new ScenarioEvents.SufferDamage.Parameters(potentialAttackAbilityState, target, damage);
+			new ScenarioEvents.SufferDamage.Parameters(potentialAbilityState, target, damage, fromAttack);
 		EffectCollection sufferDamageCollection = ScenarioEvents.SufferDamageEvent.CreateEffectCollection(sufferDamageParameters);
 		await PromptManager.Prompt(new SufferDamagePrompt(sufferDamageParameters, sufferDamageCollection,
-			() => $"Suffer {Icons.HintText(Icons.Damage)}{sufferDamageParameters.CalculatedCurrentDamage}?"), target);
-
-		potentialAttackAbilityState?.SetPerformed();
+			() => $"Suffer {Icons.HintText(Icons.Damage)}{sufferDamageParameters.CalculatedCurrentDamage}?"), authority);
 
 		if(sufferDamageParameters.DamagePrevented)
 		{
@@ -108,13 +108,15 @@ public static class AbilityCmd
 
 		ScenarioEvents.JustBeforeSufferDamage.Parameters justBeforeSufferDamageParameters =
 			await ScenarioEvents.JustBeforeSufferDamageEvent.CreatePrompt(
-				new ScenarioEvents.JustBeforeSufferDamage.Parameters(target, finalDamage, potentialAttackAbilityState, sufferDamageParameters),
-				potentialAttackAbilityState?.Authority ?? target);
+				new ScenarioEvents.JustBeforeSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters),
+				authority);
 
 		if(justBeforeSufferDamageParameters.Prevented)
 		{
 			return 0;
 		}
+
+		potentialAbilityState?.DamagedFigures.Add(target);
 
 		int newHealth = Mathf.Max(target.Health - finalDamage, 0);
 
@@ -122,28 +124,43 @@ public static class AbilityCmd
 
 		if(newHealth == 0)
 		{
-			await KillOrExhaust(potentialAttackAbilityState, target);
+			if(potentialAbilityState == null)
+			{
+				await KillOrExhaust(authority, target);
+			}
+			else
+			{
+				await KillOrExhaust(potentialAbilityState, target);
+			}
 		}
 
 		if(finalDamage > 0)
 		{
 			await ScenarioEvents.AfterSufferDamageEvent.CreatePrompt(
-				new ScenarioEvents.AfterSufferDamage.Parameters(target, finalDamage, potentialAttackAbilityState, sufferDamageParameters),
-				potentialAttackAbilityState?.Authority ?? target);
+				new ScenarioEvents.AfterSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters),
+				authority);
 		}
 
 		return finalDamage;
 	}
 
-	public static async GDTask KillOrExhaust(AbilityState state, Figure target)
+	public static async GDTask<int> SufferDamage(Figure target, int damage, Figure authority, bool fromAttack = false)
 	{
-		state?.SetPerformed();
+		return await SufferDamage(null, target, damage, authority, fromAttack);
+	}
 
+	public static async GDTask KillOrExhaust(Figure authority, Figure target)
+	{
 		await target.Destroy();
 
 		ScenarioEvents.FigureKilled.Parameters parameters =
 			await ScenarioEvents.FigureKilledEvent.CreatePrompt(
-				new ScenarioEvents.FigureKilled.Parameters(state, target), state?.Authority ?? target);
+				new ScenarioEvents.FigureKilled.Parameters(null, target), authority);
+	}
+
+	public static async GDTask KillOrExhaust(AbilityState state, Figure target)
+	{
+		await KillOrExhaust(state.Authority, target);
 	}
 
 	public static GDTask AddCondition(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel)
@@ -205,6 +222,55 @@ public static class AbilityCmd
 		return false;
 	}
 
+	public static async GDTask RemoveOneNegativeCondition(Figure target)
+	{
+		List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
+			new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
+		foreach(ConditionModel conditionModel in target.Conditions)
+		{
+			if(conditionModel.IsNegative)
+			{
+				subscriptions.Add(ScenarioEvents.GenericChoice.Subscription.New(
+					applyFunction: async applyParameters =>
+					{
+						await AbilityCmd.RemoveCondition(target, conditionModel);
+					},
+					effectType: EffectType.SelectableMandatory,
+					effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(conditionModel)),
+					effectInfoViewParameters: new TextEffectInfoView.Parameters($"Remove {Icons.Inline(Icons.GetCondition(conditionModel))}")
+				));
+			}
+		}
+
+		await GenericChoice(target, subscriptions, hintText: "Select a condition to remove");
+	}
+
+	public static async GDTask<int> RemoveAllNegativeConditions(Figure target)
+	{
+		int removedConditionsCount = 0;
+		while(target.Conditions.Any(condition => condition.IsNegative))
+		{
+			ConditionModel condition = target.Conditions.First(condition => condition.IsNegative);
+
+			if(await RemoveCondition(target, condition))
+			{
+				removedConditionsCount++;
+			}
+		}
+
+		return removedConditionsCount;
+	}
+
+	public static async GDTask RemoveAllPositiveConditions(Figure target)
+	{
+		while(target.Conditions.Any(condition => condition.IsPositive))
+		{
+			ConditionModel condition = target.Conditions.First(condition => condition.IsPositive);
+
+			await RemoveCondition(target, condition);
+		}
+	}
+
 	public static async GDTask RemoveAllChill(Figure target)
 	{
 		while(target.HasCondition(Conditions.Chill))
@@ -223,12 +289,15 @@ public static class AbilityCmd
 		await GDTask.CompletedTask;
 	}
 
-	public static async GDTask DestroyObstacle(Obstacle obstacle)
+	public static async GDTask<bool> TryDestroyObstacle(Obstacle obstacle)
 	{
 		if(!obstacle.CannotBeDestroyed)
 		{
 			await obstacle.Destroy();
+			return true;
 		}
+
+		return false;
 	}
 
 	public static async GDTask DestroyDifficultTerrain(DifficultTerrain difficultTerrain)
@@ -435,11 +504,13 @@ public static class AbilityCmd
 			new ScenarioEvents.FigureExitingHex.Parameters(potentialAbilityState, figure), authority);
 	}
 
-	public static async GDTask EnterHex(AbilityState state, Figure figure, Figure authority, Hex hex, bool triggerHexEffects, bool setPosition)
+	public static async GDTask EnterHex(AbilityState potentialAbilityState, Figure figure, Figure authority, Hex hex, bool triggerHexEffects,
+		bool setPosition)
 	{
 		figure.SetOriginHexAndRotation(hex, setPosition: setPosition);
 
-		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(state, figure), authority);
+		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(potentialAbilityState, figure),
+			authority);
 
 		HazardousTerrain hazardousTerrain = hex.GetHexObjectOfType<HazardousTerrain>();
 		if(hazardousTerrain != null && triggerHexEffects)
@@ -451,11 +522,11 @@ public static class AbilityCmd
 			{
 				ScenarioEvents.HazardousTerrainTriggered.Parameters hazardousTerrainParameters =
 					await ScenarioEvents.HazardousTerrainTriggeredEvent.CreatePrompt(
-						new ScenarioEvents.HazardousTerrainTriggered.Parameters(state, hex, hazardousTerrain, true), authority);
+						new ScenarioEvents.HazardousTerrainTriggered.Parameters(potentialAbilityState, hex, hazardousTerrain, true), authority);
 				if(hazardousTerrainParameters.AffectedByHazardousTerrain)
 				{
 					int damage = HazardousTerrain.DamageAmount;
-					await SufferDamage(null, figure, damage);
+					await SufferDamage(potentialAbilityState, figure, damage);
 				}
 			}
 		}
@@ -470,13 +541,66 @@ public static class AbilityCmd
 			{
 				ScenarioEvents.TrapTriggered.Parameters trapTriggeredParameters =
 					await ScenarioEvents.TrapTriggeredEvent.CreatePrompt(
-						new ScenarioEvents.TrapTriggered.Parameters(state, hex, trap, figure, true), authority);
+						new ScenarioEvents.TrapTriggered.Parameters(potentialAbilityState, hex, trap, figure, true), authority);
 				if(trapTriggeredParameters.TriggersTrap)
 				{
-					await trap.Trigger(state, figure);
+					await trap.Trigger(potentialAbilityState, figure);
 				}
 			}
 		}
+	}
+
+	public static GDTask<bool> TrySwap(Figure authority, Figure figureA, Figure figureB)
+	{
+		return TrySwap(null, authority, figureA, figureB);
+	}
+
+	public static GDTask<bool> TrySwap(AbilityState abilityState, Figure figureA, Figure figureB)
+	{
+		return TrySwap(abilityState, abilityState.Authority, figureA, figureB);
+	}
+
+	public static bool CanSwap(Figure figureA, Figure figureB)
+	{
+		if(figureA.Hex.TryGetHexObjectOfType(out Obstacle obstacle) &&
+		   !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figureB)).HasFlying)
+		{
+			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
+				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
+					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figureB, figureA.Hex, obstacle, true));
+
+			if(!canEnterObstacleParameters.CanEnter)
+			{
+				return false;
+			}
+		}
+
+		if(figureB.Hex.TryGetHexObjectOfType(out Obstacle obstacle2) &&
+		   !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figureA)).HasFlying)
+		{
+			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
+				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
+					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figureA, figureB.Hex, obstacle2, true));
+
+			if(!canEnterObstacleParameters.CanEnter)
+			{
+				return false;
+			}
+		}
+
+		if(ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Fire(
+			   new ScenarioCheckEvents.ImmuneToForcedMovementCheck.Parameters(figureA)).ImmuneToForcedMovement)
+		{
+			return false;
+		}
+
+		if(ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Fire(
+			   new ScenarioCheckEvents.ImmuneToForcedMovementCheck.Parameters(figureB)).ImmuneToForcedMovement)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	public static async GDTask<bool> HasPerformedAbility(AbilityState abilityState, int abilityIndex)
@@ -532,8 +656,10 @@ public static class AbilityCmd
 		return InfuseElement(Elements.All, authority,  state);
 	}
 
-	public static GDTask InfuseElement(IReadOnlyCollection<Element> possibleElements, Figure authority, AbilityState state = null)
+	public static async GDTask<Element?> InfuseElement(IReadOnlyCollection<Element> possibleElements, Figure authority, AbilityState state = null)
 	{
+		Element? element = null;
+
 		List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
 			new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
 		foreach(Element possibleElement in possibleElements)
@@ -541,6 +667,7 @@ public static class AbilityCmd
 			subscriptions.Add(ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.New(
 				applyFunction: async parameters =>
 				{
+					element = possibleElement;
 					await InfuseElement(possibleElement, authority, state);
 				},
 				effectType: EffectType.SelectableMandatory,
@@ -549,7 +676,9 @@ public static class AbilityCmd
 			));
 		}
 
-		return GenericChoice(authority, subscriptions);
+		await GenericChoice(authority, subscriptions);
+
+		return element;
 	}
 
 	public static async GDTask InfuseElement(Element element, Figure authority, AbilityState state = null, bool immediately = false)
@@ -722,6 +851,11 @@ public static class AbilityCmd
 		await item.Refresh();
 	}
 
+	public static async GDTask SpendItem(ItemModel item)
+	{
+		await item.SetItemState(ItemState.Spent);
+	}
+
 	public static async GDTask<AbilityCardSection> PerformAbilityCardTopOrBottom(Figure performer, AbilityCard abilityCard)
 	{
 		List<CardPlayCardData> cardDatas = new List<CardPlayCardData>();
@@ -730,7 +864,9 @@ public static class AbilityCmd
 		{
 			AbilityCard = abilityCard,
 			CanPlayTop = true,
-			CanPlayBottom = true
+			CanPlayBottom = true,
+			CanPlayBasicTop = true,
+			CanPlayBasicBottom = true
 		});
 
 		AbilityCardSectionSelectionPrompt.Answer cardSectionAnswer = await PromptManager.Prompt(
@@ -842,5 +978,92 @@ public static class AbilityCmd
 		GameController.Instance.MarkScenarioEnded();
 		GameController.Instance.ScenarioWonView.Open();
 		return GDTask.Never(GameController.CancellationToken);
+	}
+
+	public static void SubscribeDuringCharacterTurn(IEventSubscriber eventSubscriber, EffectType effectType, Func<Character, bool> canApply,
+		Func<Character, GDTask> apply,
+		EffectButtonParameters effectButtonParameters, EffectInfoViewParameters effectInfoViewParameters,
+		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
+	{
+		ScenarioEvents.CardSideSelectionEvent.Subscribe(eventSubscriber,
+			canApplyParameters => canApply == null || canApply(canApplyParameters.Character),
+			async applyParameters =>
+			{
+				if(apply != null)
+				{
+					await apply(applyParameters.Character);
+				}
+			},
+			effectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: effectButtonParameters,
+			effectInfoViewParameters: effectInfoViewParameters);
+
+		ScenarioEvents.AfterCardsPlayedEvent.Subscribe(eventSubscriber,
+			canApplyParameters => canApply == null || canApply(canApplyParameters.Character),
+			async applyParameters =>
+			{
+				if(apply != null)
+				{
+					await apply(applyParameters.Character);
+				}
+			},
+			effectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: effectButtonParameters,
+			effectInfoViewParameters: effectInfoViewParameters);
+
+		ScenarioEvents.LongRestCardSelectionEvent.Subscribe(eventSubscriber,
+			canApplyParameters => canApply == null || canApply(canApplyParameters.Character),
+			async applyParameters =>
+			{
+				if(apply != null)
+				{
+					await apply(applyParameters.Character);
+				}
+			},
+			effectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: effectButtonParameters,
+			effectInfoViewParameters: effectInfoViewParameters);
+	}
+
+	public static void UnsubscribeDuringTurn(IEventSubscriber eventSubscriber)
+	{
+		ScenarioEvents.CardSideSelectionEvent.Unsubscribe(eventSubscriber);
+		ScenarioEvents.AfterCardsPlayedEvent.Unsubscribe(eventSubscriber);
+		ScenarioEvents.LongRestCardSelectionEvent.Unsubscribe(eventSubscriber);
+	}
+
+	public static async GDTask<bool> CurseMonsters()
+	{
+		await GDTask.CompletedTask;
+
+		bool success = GameController.Instance.AMDManager.CurseMonsters();
+		return success;
+	}
+
+	private static async GDTask<bool> TrySwap(AbilityState potentialAbilityState, Figure authority, Figure figureA, Figure figureB)
+	{
+		if(!CanSwap(figureA, figureB))
+		{
+			return false;
+		}
+
+		if(!GameController.FastForward)
+		{
+			await GameController.Instance.ScreenDistortion.Swap(figureA, figureB, 1.4f).PlayFastForwardableAsync();
+		}
+
+		Hex hexA = figureA.Hex;
+		Hex hexB = figureB.Hex;
+		await EnterHex(potentialAbilityState, figureB, authority, hexA, true, true);
+		await EnterHex(potentialAbilityState, figureA, authority, hexB, true, true);
+		potentialAbilityState?.SetPerformed();
+
+		return true;
 	}
 }

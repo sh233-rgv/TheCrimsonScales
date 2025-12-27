@@ -57,7 +57,7 @@ public class BeaconOfHope : HierophantLevelUpCardModel<BeaconOfHope.CardTop, Bea
 						ScenarioEvents.AMDCardDrawnEvent.Subscribe(state, this,
 							canApply: canApplyParameters =>
 								state.Performer.AlliedWith(canApplyParameters.Performer) &&
-								canApplyParameters.AMDCard is BlessAMDCard,
+								canApplyParameters.AMDCard.Model is BlessAMDCard,
 							apply: async applyParameters =>
 							{
 								ScenarioEvents.AfterAttackPerformedEvent.Subscribe(state, this,
@@ -67,11 +67,13 @@ public class BeaconOfHope : HierophantLevelUpCardModel<BeaconOfHope.CardTop, Bea
 									{
 										ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this);
 
-										ActionState actionState = new ActionState(parameters.AbilityState.Performer, 
-											[HealAbility.Builder()
-												.WithHealValue(6)
-												.WithTarget(Target.Self)
-												.Build()]
+										ActionState actionState = new ActionState(parameters.AbilityState.Performer,
+											[
+												HealAbility.Builder()
+													.WithHealValue(6)
+													.WithTarget(Target.Self)
+													.Build()
+											]
 										);
 
 										await actionState.Perform();
@@ -101,6 +103,6 @@ public class BeaconOfHope : HierophantLevelUpCardModel<BeaconOfHope.CardTop, Bea
 
 		protected override int XP => 1;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

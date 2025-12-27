@@ -22,8 +22,9 @@ public class MercilessBeatdown : ChainguardCardModel<MercilessBeatdown.CardTop, 
 						async parameters =>
 						{
 							IEnumerable<Figure> figures = RangeHelper.GetFiguresInRange(parameters.AbilityState.Target.Hex, 1, includeOrigin: false);
-							
-							parameters.AbilityState.SingleTargetAdjustAttackValue(2 * figures.Count(figure => figure.EnemiesWith(parameters.Performer)));
+
+							parameters.AbilityState.SingleTargetAdjustAttackValue(2 *
+							                                                      figures.Count(figure => figure.EnemiesWith(parameters.Performer)));
 
 							await GDTask.CompletedTask;
 						}
@@ -34,7 +35,7 @@ public class MercilessBeatdown : ChainguardCardModel<MercilessBeatdown.CardTop, 
 		];
 
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChainguardCardSide
@@ -45,7 +46,7 @@ public class MercilessBeatdown : ChainguardCardModel<MercilessBeatdown.CardTop, 
 				.WithGetAbilities(state =>
 				[
 					AttackAbility.Builder().WithDamage(3).Build()
-				])				
+				])
 				.WithCustomGetTargets((state, figures) =>
 				{
 					IEnumerable<Figure> adjacentFigures = RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, includeOrigin: false);

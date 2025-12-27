@@ -9,6 +9,7 @@ using GTweensGodot.Extensions;
 
 public abstract partial class Figure : HexObject
 {
+	protected Sprite2D _outline;
 	protected FigureViewComponent _figureViewComponent;
 
 	private int _shield;
@@ -20,9 +21,6 @@ public abstract partial class Figure : HexObject
 
 	private GTween _shieldTween;
 	private GTween _retaliateTween;
-
-	public abstract string DisplayName { get; }
-	public abstract string DebugName { get; }
 
 	public int Health { get; private set; }
 	public int MaxHealth { get; private set; }
@@ -38,14 +36,17 @@ public abstract partial class Figure : HexObject
 
 	public bool CanTakeTurn { get; protected set; }
 
-	public abstract AMDCardDeck AMDCardDeck { get; }
-
-	public int TurnMovedHexCount { get; private set; }
+	public List<Hex> TurnMovedHexes { get; private set; } = new List<Hex>();
 	public List<ActionState> TurnPerformedActionStates { get; } = new List<ActionState>();
+	public List<ActionState> RoundPerformedActionStates { get; } = new List<ActionState>();
 
+	public abstract string DisplayName { get; }
+	public abstract string DebugName { get; }
+	public abstract AMDCardDeck AMDCardDeck { get; }
 	public abstract Texture2D MapIconTexture { get; }
+	public abstract Node2D Visual { get; }
 
-	public Color OutlineColor => _figureViewComponent.Outline.SelfModulate;
+	public Color OutlineColor => _outline.SelfModulate;
 
 	public bool IsDead => IsDestroyed;
 
@@ -59,6 +60,7 @@ public abstract partial class Figure : HexObject
 	{
 		base._Ready();
 
+		_outline = GetNode<Sprite2D>("Outline");
 		_figureViewComponent = GetViewComponent<FigureViewComponent>();
 	}
 
@@ -77,12 +79,14 @@ public abstract partial class Figure : HexObject
 
 		CanTakeTurn = true;
 
+		SetCrackedShield(false);
+
 		object figureEnteredHexEventSubscriber = new object();
 		ScenarioEvents.FigureEnteredHexEvent.Subscribe(this, figureEnteredHexEventSubscriber,
-			enteredHexParameters => enteredHexParameters.AbilityState is MoveAbility.State or PullSelfAbility.State,
+			enteredHexParameters => enteredHexParameters.PotentialAbilityState is MoveAbility.State or PullSelfAbility.State,
 			async enteredHexParameters =>
 			{
-				TurnMovedHexCount++;
+				TurnMovedHexes.Add(enteredHexParameters.Hex);
 
 				await GDTask.CompletedTask;
 			}
@@ -91,6 +95,7 @@ public abstract partial class Figure : HexObject
 		ScenarioCheckEvents.ShieldCheckEvent.SubscribersChangedEvent += OnShieldSubscriptionsChanged;
 		ScenarioCheckEvents.RetaliateCheckEvent.SubscribersChangedEvent += OnRetaliateSubscriptionsChanged;
 		ScenarioCheckEvents.FlyingCheckEvent.SubscribersChangedEvent += OnFlyingSubscriptionsChanged;
+		ScenarioCheckEvents.InitiativeCheckEvent.SubscribersChangedEvent += OnInitiativeSubscriptionsChanged;
 		//ScenarioCheckEvents.IsMountedCheckEvent.SubscribersChangedEvent += OnIsMountedSubscriptionsChanged;
 
 		OnShieldSubscriptionsChanged();
@@ -110,6 +115,7 @@ public abstract partial class Figure : HexObject
 		ScenarioCheckEvents.ShieldCheckEvent.SubscribersChangedEvent -= OnShieldSubscriptionsChanged;
 		ScenarioCheckEvents.RetaliateCheckEvent.SubscribersChangedEvent -= OnRetaliateSubscriptionsChanged;
 		ScenarioCheckEvents.FlyingCheckEvent.SubscribersChangedEvent -= OnFlyingSubscriptionsChanged;
+		ScenarioCheckEvents.InitiativeCheckEvent.SubscribersChangedEvent -= OnInitiativeSubscriptionsChanged;
 		//ScenarioCheckEvents.IsMountedCheckEvent.SubscribersChangedEvent -= OnIsMountedSubscriptionsChanged;
 	}
 
@@ -201,7 +207,7 @@ public abstract partial class Figure : HexObject
 		}
 
 		TakingTurn = true;
-		TurnMovedHexCount = 0;
+		TurnMovedHexes.Clear();
 		TurnPerformedActionStates.Clear();
 
 		_figureViewComponent.ActivePS.Show();
@@ -223,7 +229,10 @@ public abstract partial class Figure : HexObject
 			new ScenarioEvents.FigureTurnEnding.Parameters(this), this);
 
 		// Little hack here to make sure looting is performed at the right time
-		await EndOfTurnLooting();
+		if(Hex != null)
+		{
+			await EndOfTurnLooting();
+		}
 
 		await ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.CreatePrompt(
 			new ScenarioEvents.FigureTurnEndedConditionsFallOff.Parameters(this), this);
@@ -353,11 +362,20 @@ public abstract partial class Figure : HexObject
 	public virtual void RoundEnd()
 	{
 		CanTakeTurn = true;
+		RoundPerformedActionStates.Clear();
+	}
+
+	public void SetCrackedShield(bool crackedShield)
+	{
+		_figureViewComponent.ShieldIcon.SetVisible(!crackedShield);
+		_figureViewComponent.CrackedShieldIcon.SetVisible(crackedShield);
 	}
 
 	private void UpdateHealthProgressBar()
 	{
-		_figureViewComponent.HealthProgressBar.Value = (float)Health / MaxHealth;
+		float t = (float)Health / MaxHealth;
+		float fill = _figureViewComponent.HealthProgressBarCurve.Sample(t);
+		_figureViewComponent.HealthProgressBar.SetValue(fill);
 	}
 
 	private void OnShieldSubscriptionsChanged()
@@ -388,6 +406,11 @@ public abstract partial class Figure : HexObject
 			ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(this));
 
 		SetFlying(parameters.HasFlying);
+	}
+
+	private void OnInitiativeSubscriptionsChanged()
+	{
+		UpdateInitiative();
 	}
 
 	private void SetShield(int shield, bool extraValue)
@@ -502,5 +525,10 @@ public abstract partial class Figure : HexObject
 
 			index++;
 		}
+	}
+
+	public void SetTakingTurn(bool takingTurn)
+	{
+		TakingTurn = takingTurn;
 	}
 }

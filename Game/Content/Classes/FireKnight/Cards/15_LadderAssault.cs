@@ -19,11 +19,11 @@ public class LadderAssault : FireKnightLevelUpCardModel<LadderAssault.CardTop, L
 				{
 					ScenarioEvents.FigureEnteredHexEvent.Subscribe(state, this,
 						parameters =>
-							parameters.AbilityState == state &&
+							parameters.PotentialAbilityState == state &&
 							parameters.Hex.HasHexObjectOfType<Ladder>(),
 						async parameters =>
 						{
-							await AbilityCmd.SufferDamage(null, parameters.Figure, 2);
+							await AbilityCmd.SufferDamage(state, parameters.Figure, 2);
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
 					);
@@ -69,7 +69,7 @@ public class LadderAssault : FireKnightLevelUpCardModel<LadderAssault.CardTop, L
 					);
 
 					ScenarioEvents.HazardousTerrainTriggeredEvent.Subscribe(abilityState, this,
-						canApplyParameters => canApplyParameters.AbilityState.Performer == abilityState.Performer,
+						canApplyParameters => canApplyParameters.PotentialAbilityState?.Performer == abilityState.Performer,
 						async applyParameters =>
 						{
 							applyParameters.SetAffectedByHazardousTerrain(false);

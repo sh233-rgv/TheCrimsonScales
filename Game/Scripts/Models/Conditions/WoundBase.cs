@@ -29,7 +29,7 @@ public abstract class WoundBase : ConditionModel
 			async parameters =>
 			{
 				Node.Flash();
-				await AbilityCmd.SufferDamage(null, Owner, WoundValue);
+				await AbilityCmd.SufferDamage(Owner, WoundValue, Owner);
 			},
 			EffectType.MandatoryBeforeOptionals
 		);
@@ -51,6 +51,7 @@ public abstract class WoundBase : ConditionModel
 	{
 		return
 			base.DuplicatesCheckCanApply(parameters) ||
-			(!parameters.Prevented && parameters.Target == Owner && parameters.Condition.ImmutableInstance is WoundBase woundBase && woundBase.WoundValue < WoundValue);
+			(!parameters.Prevented && parameters.Target == Owner && parameters.Condition.ImmutableInstance is WoundBase woundBase &&
+			 woundBase.WoundValue < WoundValue);
 	}
 }

@@ -13,6 +13,8 @@ public class MonsterAOEPrompt(
 		public List<AOEHexType> HexTypes { get; init; }
 	}
 
+	private static readonly HashSet<Figure> AttackableFiguresCache = new HashSet<Figure>();
+
 	private readonly List<AIAttackNode> _bestAIAttackNodes = new List<AIAttackNode>();
 
 	private AIAttackNode _selectedNode;
@@ -95,8 +97,8 @@ public class MonsterAOEPrompt(
 					}
 
 					Figure attackableFocus = null;
-					int attackableFigureCount = 0;
 					int disadvantageCount = 0;
+					AttackableFiguresCache.Clear();
 
 					Vector2I pivotOffset = -pivotAOEHex.LocalCoords;
 					foreach(AOEHex aoeHex in pattern.Hexes)
@@ -116,21 +118,47 @@ public class MonsterAOEPrompt(
 
 						foreach(Figure potentialTarget in potentialTargetHex.GetHexObjectsOfType<Figure>())
 						{
+							if(AttackableFiguresCache.Contains(potentialTarget))
+							{
+								continue;
+							}
+
 							if(!abilityState.Authority.EnemiesWith(potentialTarget))
 							{
 								continue;
 							}
+
+							ScenarioCheckEvents.CanBeTargetedCheck.Parameters canBeTargetedParameters =
+								ScenarioCheckEvents.CanBeTargetedCheckEvent.Fire(
+									new ScenarioCheckEvents.CanBeTargetedCheck.Parameters(abilityState, abilityState.Performer, potentialTarget));
+
+							if(!canBeTargetedParameters.CanBeTargeted)
+							{
+								continue;
+							}
+
+							// ScenarioCheckEvents.CanBeFocusedCheck.Parameters canBeFocusedParameters =
+							// 	ScenarioCheckEvents.CanBeFocusedCheckEvent.Fire(
+							// 		new ScenarioCheckEvents.CanBeFocusedCheck.Parameters(performer, potentialTarget));
+							//
+							// if(!canBeFocusedParameters.CanBeFocused)
+							// {
+							// 	continue;
+							// }
 
 							if(potentialTarget == focus)
 							{
 								attackableFocus = potentialTarget;
 							}
 
-							attackableFigureCount++;
+							AttackableFiguresCache.Add(potentialTarget);
 
-							ScenarioCheckEvents.DisadvantageCheck.Parameters disadvantageCheck = ScenarioCheckEvents.DisadvantageCheckEvent.Fire(
-								new ScenarioCheckEvents.DisadvantageCheck.Parameters(potentialTarget, abilityState.Performer, abilityState.Performer.Hex,
-									rangeType == RangeType.Range && RangeHelper.Distance(abilityState.Performer.Hex, potentialTargetHex) == 1));
+							bool rangeDisadvantage =
+								AttackAbility.CheckRangeDisadvantage(abilityState.Performer.Hexes, potentialTarget.Hexes, rangeType);
+							ScenarioCheckEvents.DisadvantageCheck.Parameters disadvantageCheck =
+								ScenarioCheckEvents.DisadvantageCheckEvent.Fire(
+									new ScenarioCheckEvents.DisadvantageCheck.Parameters(potentialTarget, abilityState.Performer,
+										abilityState.Performer.Hex, rangeDisadvantage));
 
 							if(disadvantageCheck.HasDisadvantage)
 							{
@@ -140,7 +168,7 @@ public class MonsterAOEPrompt(
 					}
 
 					// We are ignoring focusParameters.Targets here because it's an AOE. If we have a weird AOE ability like Boldening Blow, that would not work properly.
-					int finalTargetCount = attackableFigureCount;
+					int finalTargetCount = AttackableFiguresCache.Count;
 					//int finalTargetCount = Mathf.Min(attackableFigureCount, focusParameters.Targets);
 					AIAttackNode newAIAttackNode = new AIAttackNode(hexInRange, pivotOffset, i, attackableFocus, finalTargetCount, disadvantageCount);
 
@@ -179,7 +207,8 @@ public class MonsterAOEPrompt(
 
 		foreach(AOEHex aoeHex in pattern.Hexes)
 		{
-			Vector2I globalCoords = _selectedNode.HexInRange.Coords + Map.RotateCoordsClockwise(_selectedNode.PivotOffset + aoeHex.LocalCoords, _selectedNode.RotationIndex);
+			Vector2I globalCoords = _selectedNode.HexInRange.Coords +
+			                        Map.RotateCoordsClockwise(_selectedNode.PivotOffset + aoeHex.LocalCoords, _selectedNode.RotationIndex);
 			Hex potentialTargetHex = GameController.Instance.Map.GetHex(globalCoords);
 
 			if(potentialTargetHex == null)

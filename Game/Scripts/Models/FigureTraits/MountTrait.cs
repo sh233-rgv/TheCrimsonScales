@@ -22,12 +22,15 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 
 		Figure characterOwner = ((Summon)figure).CharacterOwner;
 
-		// Allow entering the same hex to mount
-		ScenarioCheckEvents.CanEnterHexWithFigureCheckEvent.Subscribe(figure, this,
-			parameters => parameters.OtherFigure == figure && parameters.Figure == characterOwner,
+		// Allow stopping movement in the same hex to mount
+		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Subscribe(figure, this,
+			parameters =>
+				parameters.PotentialAbilityState is MoveAbility.State &&
+				parameters.OtherFigure == figure &&
+				parameters.Figure == characterOwner,
 			parameters =>
 			{
-				parameters.SetCanEnter();
+				parameters.SetCanStopAt();
 			}
 		);
 
@@ -58,38 +61,42 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 			parameters => parameters.SetSortingInitiative(characterOwner.Initiative.SortingInitiative - 1)
 		);
 
-		// Trigger mounted effect
-		ScenarioEvents.FigureEnteredHexEvent.Subscribe(figure, this,
-			parameters => parameters.Figure == characterOwner,
+		// Mounting is done by the owner ending their movement in a hex occupied by the mount
+		ScenarioEvents.AbilityPerformedEvent.Subscribe(figure, this,
+			parameters =>
+				!_mounted &&
+				parameters.AbilityState is MoveAbility.State &&
+				parameters.Performer == characterOwner &&
+				characterOwner.Hex == figure.Hex &&
+				!ScenarioCheckEvents.IsMountedCheckEvent.Fire(new ScenarioCheckEvents.IsMountedCheck.Parameters(characterOwner)).IsMounted,
 			async parameters =>
 			{
-				if(!_mounted && parameters.Hex == figure.Hex)
+				_mounted = true;
+				figure.UpdateInitiative();
+
+				characterOwner.Reparent(figure.GetNode<Node2D>(MountedAnchorName));
+				characterOwner.TweenScale(1f, 0.3f).SetEasing(Easing.InOutBack).PlayFastForwardable();
+				characterOwner.TweenPosition(Vector2.Zero, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
+				await GDTask.Delay(0.3f);
+
+				if(onMounted != null)
 				{
-					_mounted = true;
-					figure.UpdateInitiative();
-
-					parameters.Figure.Reparent(figure.GetNode<Node2D>(MountedAnchorName));
-					parameters.Figure.TweenScale(1f, 0.3f).SetEasing(Easing.InOutBack).PlayFastForwardable();
-					parameters.Figure.TweenPosition(Vector2.Zero, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
-					await GDTask.Delay(0.3f);
-
-					if(onMounted != null)
-					{
-						await onMounted(characterOwner, figure);
-					}
+					await onMounted(characterOwner, figure);
 				}
 			}
 		);
 
 		ScenarioEvents.FigureExitingHexEvent.Subscribe(figure, this,
-			parameters => parameters.Figure == characterOwner && _mounted && parameters.Hex == figure.Hex,
+			parameters =>
+				parameters.Figure == characterOwner &&
+				_mounted &&
+				parameters.Hex == figure.Hex,
 			async parameters =>
 			{
-				// Owner is exiting the hex the mount is on, so they are no longer mounted
-				_mounted = false;
-				figure.UpdateInitiative();
-
 				await Dismount(figure);
+
+				// Owner is exiting the hex the mount is on, so they are no longer mounted
+				figure.UpdateInitiative();
 			}
 		);
 
@@ -122,21 +129,24 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 	{
 		await base.Deactivate(figure);
 
-		_mounted = false;
+		if(_mounted)
+		{
+			await Dismount(figure);
+		}
 
-		ScenarioCheckEvents.CanEnterHexWithFigureCheckEvent.Unsubscribe(figure, this);
+		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.IsSummonControlledCheckEvent.Unsubscribe(figure, this);
 		ScenarioEvents.MoveTogetherCheckEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(figure, this);
 		ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.IsMountedCheckEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.CanOpenDoorsCheckEvent.Unsubscribe(figure, this);
-
-		await Dismount(figure);
 	}
 
 	private async GDTask Dismount(Figure figure)
 	{
+		_mounted = false;
+
 		Figure characterOwner = ((Summon)figure).CharacterOwner;
 
 		if(onDismounted != null)
@@ -146,7 +156,7 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 
 		characterOwner.Reparent(GameController.Instance.Map);
 		characterOwner.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
-		characterOwner.TweenGlobalPosition(characterOwner.Hex.GlobalPosition, 0.2f)
+		characterOwner.TweenGlobalPosition(figure.Hex.GlobalPosition, 0.2f)
 			.SetEasing(Easing.InBack).PlayFastForwardable();
 		await GDTask.Delay(0.3f);
 	}

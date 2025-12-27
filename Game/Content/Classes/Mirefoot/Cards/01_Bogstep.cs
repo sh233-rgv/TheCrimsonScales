@@ -54,7 +54,7 @@ public class Bogstep : MirefootCardModel<Bogstep.CardTop, Bogstep.CardBottom>
 						});
 
 					ScenarioEvents.HazardousTerrainTriggeredEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.AbilityState.Performer == state.Performer,
+						canApplyParameters => canApplyParameters.PotentialAbilityState?.Performer == state.Performer,
 						applyParameters =>
 						{
 							applyParameters.SetAffectedByHazardousTerrain(false);
@@ -78,6 +78,6 @@ public class Bogstep : MirefootCardModel<Bogstep.CardTop, Bogstep.CardBottom>
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

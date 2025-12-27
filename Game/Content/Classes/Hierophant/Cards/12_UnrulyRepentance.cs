@@ -24,7 +24,7 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 					ScenarioEvents.AMDCardDrawnEvent.Subscribe(state, this,
 						canApply: canApplyParameters =>
 							state.Performer.EnemiesWith(canApplyParameters.Performer) &&
-							canApplyParameters.AMDCard is CurseAMDCard,
+							canApplyParameters.AMDCard.Model is CurseAMDCard,
 						apply: async applyParameters =>
 						{
 							ScenarioEvents.AfterAttackPerformedEvent.Subscribe(state, this,
@@ -32,7 +32,7 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 									canApplyParameters.AbilityState == applyParameters.AbilityState,
 								apply: async parameters =>
 								{
-									await AbilityCmd.SufferDamage(null, parameters.Performer, 10);
+									await AbilityCmd.SufferDamage(state, parameters.Performer, 10);
 									await state.AdvanceUseSlot();
 								}
 							);
@@ -46,7 +46,7 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 				.WithOnDeactivate(async state =>
 				{
 					ScenarioEvents.AMDCardDrawnEvent.Unsubscribe(state, this);
-					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this); 
+					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
 				})
@@ -56,7 +56,7 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : HierophantCardSide
@@ -66,20 +66,7 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 			new AbilityCardAbility(OtherTargetedAbility.Builder()
 				.WithOnAfterConditionsApplied(async (state, target) =>
 				{
-					int conditionCount = 0;
-
-					for(int i = target.Conditions.Count - 1; i >= 0; i--)
-					{
-						ConditionModel condition = target.Conditions[i];
-						if(condition.IsNegative)
-						{
-							if(await AbilityCmd.RemoveCondition(target, condition))
-							{
-								conditionCount++;
-							}
-						}
-					}
-
+					int conditionCount = await AbilityCmd.RemoveAllNegativeConditions(target);
 					state.SetCustomValue(this, "ConditionCount", conditionCount);
 				})
 				.WithRange(3)

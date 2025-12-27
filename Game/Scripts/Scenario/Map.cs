@@ -214,6 +214,13 @@ public partial class Map : Node2D
 		return QRSCoordsToQR(tempCoords);
 	}
 
+	public static Vector2I MirrorCoords(Vector2I coords)
+	{
+		Vector3I tempCoords = QRCoordsToQRS(coords);
+		tempCoords = new Vector3I(tempCoords.Z, tempCoords.Y, tempCoords.X);
+		return QRSCoordsToQR(tempCoords);
+	}
+
 	private static Vector3I QRCoordsToQRS(Vector2I coords)
 	{
 		return new Vector3I(coords.X, coords.Y, -coords.X - coords.Y);

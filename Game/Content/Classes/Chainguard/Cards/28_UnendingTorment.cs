@@ -14,11 +14,11 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
-				.WithOnActivate(async state => 
+				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.TrapTriggeredEvent.Subscribe(state, this,
-						canApply: canApplyParameters => canApplyParameters.Authority == state.Performer &&
-							canApplyParameters.Figure.HasCondition(Chainguard.Shackle),
+						canApply: canApplyParameters => canApplyParameters.PotentialAbilityState?.Authority == state.Performer &&
+						                                canApplyParameters.Figure.HasCondition(Chainguard.Shackle),
 						async applyParameters =>
 						{
 							applyParameters.AdjustTrapDamage(applyParameters.Trap.Damage);
@@ -28,19 +28,19 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 					);
 
 					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
-						canApply: parameters => parameters.Condition is Shackle && 
-							parameters.PotentialAbilityState != null && 
-							parameters.PotentialAbilityState.Performer == state.Performer,
+						canApply: parameters => parameters.Condition is Shackle &&
+						                        parameters.PotentialAbilityState != null &&
+						                        parameters.PotentialAbilityState.Performer == state.Performer,
 						async parameters =>
 						{
-							await AbilityCmd.SufferDamage(null, state.Performer, 1);
+							await AbilityCmd.SufferDamage(state, state.Performer, 1);
 						},
 						EffectType.MandatoryBeforeOptionals
 					);
 
 					await GDTask.CompletedTask;
 				})
-				.WithOnDeactivate(async state => 
+				.WithOnDeactivate(async state =>
 				{
 					ScenarioEvents.TrapTriggeredEvent.Unsubscribe(state, this);
 
@@ -51,7 +51,7 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChainguardCardSide
@@ -59,48 +59,49 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ControlAbility.Builder()
-				.WithGetAbilities(state => 
-					[MoveAbility.Builder()
-						.WithDistance(3)
-						.WithOnAbilityStarted(async moveState =>
-						{
-							ScenarioEvents.CanMoveFurtherCheckEvent.Subscribe(moveState, this, 
-								parameters => parameters.Performer == state.Target &&
-									moveState.Performer == parameters.Performer &&
-									parameters.Performer.HasCondition(Chainguard.Shackle),
-								async parameters =>
-								{
-									parameters.SetCannotMoveFurther(false);
+				.WithGetAbilities(state =>
+					[
+						MoveAbility.Builder()
+							.WithDistance(3)
+							.WithOnAbilityStarted(async moveState =>
+							{
+								ScenarioEvents.CanMoveFurtherCheckEvent.Subscribe(moveState, this,
+									parameters => parameters.Performer == state.Target &&
+									              moveState.Performer == parameters.Performer &&
+									              parameters.Performer.HasCondition(Chainguard.Shackle),
+									async parameters =>
+									{
+										parameters.SetCannotMoveFurther(false);
 
-									await GDTask.CompletedTask;
-								},
-								// Go after shackle and unblock it
-								order: 1
-							);
+										await GDTask.CompletedTask;
+									},
+									// Go after shackle and unblock it
+									order: 1
+								);
 
-							await GDTask.CompletedTask;
-						})
-						.WithAbilityStartedSubscription(
-							ScenarioEvents.AbilityStarted.Subscription.New(
-								parameters => parameters.Performer == state.Target && parameters.AbilityState is MoveAbility.State &&
-									parameters.Performer.HasCondition(Chainguard.Shackle),
-								parameters =>
-								{
-									parameters.SetIsBlocked(false);
+								await GDTask.CompletedTask;
+							})
+							.WithAbilityStartedSubscription(
+								ScenarioEvents.AbilityStarted.Subscription.New(
+									parameters => parameters.Performer == state.Target && parameters.AbilityState is MoveAbility.State &&
+									              parameters.Performer.HasCondition(Chainguard.Shackle),
+									parameters =>
+									{
+										parameters.SetIsBlocked(false);
 
-									return GDTask.CompletedTask;
-								},
-								// Go after shackle and unblock it
-								order: 1
+										return GDTask.CompletedTask;
+									},
+									// Go after shackle and unblock it
+									order: 1
+								)
 							)
-						)
-						.WithOnAbilityEnded(async moveState =>
-						{
-							ScenarioEvents.CanMoveFurtherCheckEvent.Unsubscribe(moveState, this);
+							.WithOnAbilityEnded(async moveState =>
+							{
+								ScenarioEvents.CanMoveFurtherCheckEvent.Unsubscribe(moveState, this);
 
-							await GDTask.CompletedTask;
-						})
-						.Build()
+								await GDTask.CompletedTask;
+							})
+							.Build()
 					]
 				)
 				.WithCustomGetTargets((state, figures) =>
@@ -112,20 +113,20 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 				.Build()),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
-				.WithOnActivate(async state => 
+				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.AfterAttackPerformedEvent.Subscribe(state, this,
 						canApply: parameters => parameters.AbilityState.Target.HasCondition(Chainguard.Shackle) &&
-							parameters.AbilityState.Target.EnemiesWith(state.Performer),
+						                        parameters.AbilityState.Target.EnemiesWith(state.Performer),
 						async parameters =>
 						{
-							await AbilityCmd.SufferDamage(null, parameters.AbilityState.Target, 1);
+							await AbilityCmd.SufferDamage(state, parameters.AbilityState.Target, 1);
 						}
 					);
 
 					await GDTask.CompletedTask;
 				})
-				.WithOnDeactivate(async state => 
+				.WithOnDeactivate(async state =>
 				{
 					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this);
 

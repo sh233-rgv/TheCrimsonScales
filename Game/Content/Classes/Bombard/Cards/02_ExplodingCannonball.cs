@@ -41,7 +41,7 @@ public class ExplodingCannonball : BombardCardModel<ExplodingCannonball.CardTop,
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : BombardCardSide
@@ -71,7 +71,7 @@ public class ExplodingCannonball : BombardCardModel<ExplodingCannonball.CardTop,
 						});
 
 					ScenarioEvents.HazardousTerrainTriggeredEvent.Subscribe(abilityState, this,
-						canApplyParameters => canApplyParameters.AbilityState.Performer == abilityState.Performer,
+						canApplyParameters => canApplyParameters.PotentialAbilityState?.Performer == abilityState.Performer,
 						applyParameters =>
 						{
 							applyParameters.SetAffectedByHazardousTerrain(false);

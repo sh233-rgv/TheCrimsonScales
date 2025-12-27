@@ -32,13 +32,15 @@ public partial class Character : Figure
 
 	public bool IsLocal => true;
 
-	public override string DisplayName => SavedCharacter.Name;
-	public override string DebugName => SavedCharacter.ClassModel.Name;
-
 	public Texture2D PortraitTexture => ClassModel.PortraitTexture;
 
+	public override string DisplayName => SavedCharacter.Name;
+	public override string DebugName => SavedCharacter.ClassModel.Name;
 	public override AMDCardDeck AMDCardDeck => _amdCardDeck;
 	public override Texture2D MapIconTexture => _staticSprite.Texture;
+
+	public override Node2D Visual =>
+		AppController.Instance.Options.AnimatedCharacters.Value && ClassModel.HasAnimatedSprite ? _animatedSprite : _staticSprite;
 
 	public event Action<Character> ShortRestedEvent;
 	public event Action<Character> CoinsChangedEvent;
@@ -70,13 +72,22 @@ public partial class Character : Figure
 		SetEnemies(Alignment.Enemies);
 
 		// Create AMD
-		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards($"res://Art/AMDs/Player{index + 1}AMD.jpg");
-		_amdCardDeck = new AMDCardDeck(amdCards, true);
+		AMDCardOwner amdCardOwner = (AMDCardOwner)(Index + 1);
+		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards(amdCardOwner);
+		_amdCardDeck = new AMDCardDeck(amdCards, amdCardOwner);
+		if(savedCharacter.DonationAMDCardIds != null)
+		{
+			foreach(string donationAMDCardId in savedCharacter.DonationAMDCardIds)
+			{
+				AMDCardModel amdCardModel = ModelDB.GetById<AMDCardModel>(donationAMDCardId);
+				_amdCardDeck.AddCard(new AMDCard(amdCardModel, amdCardOwner), true);
+			}
+		}
 
 		PlayableAbilityCardCount = 2;
 
-		_figureViewComponent.TurnStartPS.SelfModulate = _figureViewComponent.Outline.SelfModulate;
-		_figureViewComponent.ActivePS.Modulate = _figureViewComponent.Outline.SelfModulate;
+		_figureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);
+		_figureViewComponent.ActivePS.SetModulate(OutlineColor);
 
 		GameController.Instance.Map.RegisterFigure(this);
 
@@ -118,7 +129,7 @@ public partial class Character : Figure
 	{
 		base._Notification(what);
 
-		if(what == NotificationPredelete)
+		if(what == NotificationPredelete && AppController.Instance != null)
 		{
 			AppController.Instance.Options.AnimatedCharacters.ValueChangedEvent -= OnAnimatedCharactersChanged;
 		}
@@ -284,13 +295,15 @@ public partial class Character : Figure
 				{
 					AbilityCard = card,
 					CanPlayTop = true,
-					CanPlayBottom = true
+					CanPlayBottom = true,
+					CanPlayBasicTop = true,
+					CanPlayBasicBottom = true
 				});
 			}
 
 			for(int i = 0; i < cardDatas.Count; i++)
 			{
-				if(IsDead)
+				if(IsDead || !TakingTurn)
 				{
 					break;
 				}
@@ -337,6 +350,8 @@ public partial class Character : Figure
 					{
 						cardData.CanPlayTop = false;
 						cardData.CanPlayBottom = false;
+						cardData.CanPlayBasicTop = false;
+						cardData.CanPlayBasicBottom = false;
 					}
 				}
 
@@ -349,6 +364,7 @@ public partial class Character : Figure
 						foreach(CardPlayCardData cardData in cardDatas)
 						{
 							cardData.CanPlayBottom = false;
+							cardData.CanPlayBasicBottom = false;
 						}
 					}
 
@@ -357,6 +373,7 @@ public partial class Character : Figure
 						foreach(CardPlayCardData cardData in cardDatas)
 						{
 							cardData.CanPlayTop = false;
+							cardData.CanPlayBasicTop = false;
 						}
 					}
 				}
@@ -435,7 +452,7 @@ public partial class Character : Figure
 
 			if(shortRestAnswer.Redraw)
 			{
-				await AbilityCmd.SufferDamage(null, this, 1);
+				await AbilityCmd.SufferDamage(this, 1, this);
 
 				AbilityCard cardRedrawnFor = GameController.Instance.ReferenceManager.Get<AbilityCard>(shortRestAnswer.AbilityCardReferenceId);
 				await AbilityCmd.ReturnToHand(cardRedrawnFor);
@@ -472,7 +489,7 @@ public partial class Character : Figure
 
 		if(playableCardCount < 2 && discardedCardCount < 2)
 		{
-			await AbilityCmd.KillOrExhaust(null, this);
+			await AbilityCmd.KillOrExhaust(this, this);
 		}
 	}
 

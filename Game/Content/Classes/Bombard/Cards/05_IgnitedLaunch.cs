@@ -43,7 +43,7 @@ public class IgnitedLaunch : BombardCardModel<IgnitedLaunch.CardTop, IgnitedLaun
 						parameters => parameters.Figure == state.Performer,
 						async parameters =>
 						{
-							if(parameters.Figure.TurnMovedHexCount <= 1)
+							if(parameters.Figure.TurnMovedHexes.Count <= 1)
 							{
 								// Gain 2 retaliate for the round
 								ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(state, this,
@@ -115,6 +115,6 @@ public class IgnitedLaunch : BombardCardModel<IgnitedLaunch.CardTop, IgnitedLaun
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

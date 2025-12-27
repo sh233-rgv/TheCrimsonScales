@@ -42,11 +42,11 @@ public class TargetSelectionPrompt(
 
 		GameController.Instance.HexIndicatorManager.StartSettingIndicators();
 
-		HashSet<Hex> hexes = _validTargets.Select(figure => figure.Hex).ToHashSet();
+		HashSet<Hex> hexes = _validTargets.SelectMany(figure => figure.Hexes).ToHashSet();
 		foreach(Hex hex in hexes)
 		{
 			GameController.Instance.HexIndicatorManager.SetIndicator(hex,
-				hex == _selectedFigure?.Hex ? HexIndicatorType.Selected : HexIndicatorType.Normal,
+				_selectedFigure?.Hexes.Contains(hex) ?? false ? HexIndicatorType.Selected : HexIndicatorType.Normal,
 				OnIndicatorPressed);
 		}
 
@@ -93,7 +93,10 @@ public class TargetSelectionPrompt(
 
 	private void OnFigurePressed(Figure figure)
 	{
-		_selectedFigure = figure;
 		GameController.Instance.SelectFigureView.Close();
+
+		_selectedFigure = figure;
+
+		FullUpdateState();
 	}
 }

@@ -16,9 +16,9 @@ public class Penitence : HierophantPrayerCardModel<Penitence.CardTop, Penitence.
 				{
 					ScenarioEvents.AMDCardDrawnEvent.Subscribe(state, this,
 						canApplyParameters =>
-							canApplyParameters.AbilityState.Performer == state.Performer && 
-							canApplyParameters.AMDCard.Type == AMDCardType.Value &&
-							canApplyParameters.AMDCard.Value < 0,
+							canApplyParameters.AbilityState.Performer == state.Performer &&
+							canApplyParameters.Type == AMDCardType.Value &&
+							canApplyParameters.Value < 0,
 						async applyParameters =>
 						{
 							applyParameters.SetValue(0);
@@ -38,8 +38,8 @@ public class Penitence : HierophantPrayerCardModel<Penitence.CardTop, Penitence.
 				)
 				.WithUseSlots(
 					[
-						new UseSlot(new Vector2(0.398f, 0.306f)),
-						new UseSlot(new Vector2(0.603f, 0.306f))
+						new UseSlot(new Vector2(0.38450018f, 0.3065f)),
+						new UseSlot(new Vector2(0.5899994f, 0.3065f))
 					]
 				)
 				.Build())
@@ -58,8 +58,8 @@ public class Penitence : HierophantPrayerCardModel<Penitence.CardTop, Penitence.
 					ScenarioEvents.AMDCardDrawnEvent.Subscribe(state, this,
 						canApplyParameters =>
 							state.Performer.EnemiesWith(canApplyParameters.AbilityState.Performer) &&
-							canApplyParameters.AMDCard.Type == AMDCardType.Value &&
-							canApplyParameters.AMDCard.Value > 0,
+							canApplyParameters.Type == AMDCardType.Value &&
+							canApplyParameters.Value > 0,
 						async applyParameters =>
 						{
 							applyParameters.SetValue(0);
@@ -79,8 +79,8 @@ public class Penitence : HierophantPrayerCardModel<Penitence.CardTop, Penitence.
 				)
 				.WithUseSlots(
 					[
-						new UseSlot(new Vector2(0.398f, 0.772f)),
-						new UseSlot(new Vector2(0.603f, 0.772f))
+						new UseSlot(new Vector2(0.38450018f, 0.7780105f)),
+						new UseSlot(new Vector2(0.5899994f, 0.7780105f))
 					]
 				)
 				.Build())
