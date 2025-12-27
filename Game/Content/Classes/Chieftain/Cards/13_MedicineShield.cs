@@ -33,7 +33,7 @@ public class MedicineShield : ChieftainCardModel<MedicineShield.CardTop, Medicin
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(state => 
+				.WithGetAbilities(state =>
 				[
 					HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build(),
 					ShieldAbility.Builder().WithShieldValue(2).Build()
@@ -46,6 +46,6 @@ public class MedicineShield : ChieftainCardModel<MedicineShield.CardTop, Medicin
 
 		protected override int XP => 2;
 		protected override bool Round => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

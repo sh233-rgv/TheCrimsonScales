@@ -84,7 +84,8 @@ public class SearingBlaze : FireKnightLevelUpCardModel<SearingBlaze.CardTop, Sea
 
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
 						canApplyParameters =>
-							canApplyParameters.Performer == state.Performer && canApplyParameters.AbilityState.Target.HasCondition(Conditions.Wound1) &&
+							canApplyParameters.Performer == state.Performer &&
+							canApplyParameters.AbilityState.Target.HasCondition(Conditions.Wound1) &&
 							!bonusOnWoundedTarget,
 						async parameters =>
 						{
@@ -107,15 +108,15 @@ public class SearingBlaze : FireKnightLevelUpCardModel<SearingBlaze.CardTop, Sea
 
 					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
 						ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
-						canApplyParameters => canApplyParameters.Performer == state.Performer && !woundAdded,
-						async applyParameters =>
-						{
-							applyParameters.AbilityState.SingleTargetAddCondition(Conditions.Wound1);
+							canApplyParameters => canApplyParameters.Performer == state.Performer && !woundAdded,
+							async applyParameters =>
+							{
+								applyParameters.AbilityState.SingleTargetAddCondition(Conditions.Wound1);
 
-							await GDTask.CompletedTask;
-						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Wound1))}")
-					));
+								await GDTask.CompletedTask;
+							},
+							effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Wound1))}")
+						));
 
 					ScenarioEvents.FigureTurnEndedEvent.Subscribe(state, this,
 						canApplyParameters => true,
@@ -126,7 +127,7 @@ public class SearingBlaze : FireKnightLevelUpCardModel<SearingBlaze.CardTop, Sea
 							await GDTask.CompletedTask;
 						}
 					);
-						
+
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
@@ -143,6 +144,6 @@ public class SearingBlaze : FireKnightLevelUpCardModel<SearingBlaze.CardTop, Sea
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

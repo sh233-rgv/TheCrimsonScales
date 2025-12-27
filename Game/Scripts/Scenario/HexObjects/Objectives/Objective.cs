@@ -10,9 +10,9 @@ public partial class Objective : Figure
 
 	public override string DisplayName => _name;
 	public override string DebugName => _name;
-
 	public override AMDCardDeck AMDCardDeck => null;
 	public override Texture2D MapIconTexture => _staticSprite.Texture;
+	public override Node2D Visual => _staticSprite;
 
 	public override void _Ready()
 	{

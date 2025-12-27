@@ -10,6 +10,6 @@ public class LoseReputationEventReward(int reputationAmount) : EventReward
 	{
 		await base.ImmediateResolve();
 
-		//TODO: Adjust reputation
+		BetweenScenariosController.Instance.SavedCampaign.AdjustReputation(-reputationAmount);
 	}
 }

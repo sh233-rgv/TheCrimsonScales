@@ -13,9 +13,6 @@ public partial class Monster : Figure
 	private Sprite2D _staticSprite;
 	private MonsterViewComponent _monsterViewComponent;
 
-	public override string DisplayName => $"{(MonsterType == MonsterType.Elite ? $"{MonsterType} " : string.Empty)}{MonsterGroup.MonsterModel.Name}";
-	public override string DebugName => $"{MonsterGroup.MonsterModel.Name} {StandeeNumber}";
-
 	public MonsterModel MonsterModel { get; private set; }
 	public MonsterGroup MonsterGroup { get; private set; }
 	public MonsterType MonsterType { get; private set; }
@@ -24,8 +21,11 @@ public partial class Monster : Figure
 	public MonsterStats Stats { get; private set; }
 	public Color TypeColor { get; private set; }
 
+	public override string DisplayName => $"{(MonsterType == MonsterType.Elite ? $"{MonsterType} " : string.Empty)}{MonsterGroup.MonsterModel.Name}";
+	public override string DebugName => $"{MonsterGroup.MonsterModel.Name} {StandeeNumber}";
 	public override AMDCardDeck AMDCardDeck => GameController.Instance.MonsterAMDCardDeck;
 	public override Texture2D MapIconTexture => _staticSprite.Texture;
+	public override Node2D Visual => _staticSprite;
 
 	public override void _Ready()
 	{
@@ -73,9 +73,9 @@ public partial class Monster : Figure
 				throw new ArgumentOutOfRangeException(nameof(monsterType), monsterType, null);
 		}
 
-		_figureViewComponent.Outline.SelfModulate = TypeColor;
+		_outline.SelfModulate = TypeColor;
 		_figureViewComponent.TurnStartPS.SelfModulate = TypeColor;
-		_figureViewComponent.ActivePS.Modulate = _figureViewComponent.Outline.SelfModulate;
+		_figureViewComponent.ActivePS.Modulate = OutlineColor;
 		_monsterViewComponent.StandeeNumberCircle.SelfModulate = TypeColor;
 		_monsterViewComponent.StandeeNumberCircle.Visible = MonsterType != MonsterType.Boss;
 

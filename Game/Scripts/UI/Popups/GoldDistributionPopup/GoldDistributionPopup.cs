@@ -34,6 +34,8 @@ public partial class GoldDistributionPopup : Popup<GoldDistributionPopup.Request
 	{
 		base.OnOpen();
 
+		SetCanClose(false);
+
 		// Create "fair" distribution
 		int[] goldDistribution = new int[PopupRequest.Characters.Count];
 		int goldRemaining = PopupRequest.Gold;
@@ -99,6 +101,8 @@ public partial class GoldDistributionPopup : Popup<GoldDistributionPopup.Request
 
 	private void OnConfirmPressed()
 	{
+		SetCanClose(true);
+
 		foreach(GoldDistributionPopupCharacter character in _characters)
 		{
 			if(PopupRequest.LoseGold)

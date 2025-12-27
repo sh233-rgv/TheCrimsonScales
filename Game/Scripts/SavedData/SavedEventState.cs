@@ -12,6 +12,8 @@ public class SavedEventState
 	[JsonProperty]
 	public Dictionary<string, object> CustomValues { get; private set; } = new Dictionary<string, object>();
 
+	public bool Completed { get; private set; }
+
 	public EventChoiceModel Choice => ModelDB.GetById<EventChoiceModel>(ChoiceId);
 
 	public SavedEventState()
@@ -63,5 +65,15 @@ public class SavedEventState
 
 		value = castValue;
 		return true;
+	}
+
+	public void Complete(EventReward eventReward)
+	{
+		Completed = true;
+
+		if(BetweenScenariosController.Instance != null)
+		{
+			BetweenScenariosController.Instance.UnsubscribeDuringDowntime(eventReward);
+		}
 	}
 }

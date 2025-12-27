@@ -11,7 +11,9 @@ public class Infect : ConditionModel
 	public override async GDTask Add(Figure target, ConditionNode node)
 	{
 		await base.Add(target, node);
-		
+
+		Owner.SetCrackedShield(true);
+
 		ScenarioEvents.AbilityStartedEvent.Subscribe(this,
 			parameters => parameters.Performer == Owner && parameters.AbilityState is ShieldAbility.State,
 			parameters =>
@@ -28,15 +30,17 @@ public class Infect : ConditionModel
 	{
 		await base.Remove();
 
+		Owner.SetCrackedShield(false);
+
 		ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(this);
 		ScenarioEvents.AbilityStartedEvent.Unsubscribe(this);
 	}
-	
+
 	private bool CanApply(ScenarioEvents.AttackAfterTargetConfirmed.Parameters abilityStateParameters)
 	{
 		return abilityStateParameters.AbilityState.Target == Owner;
 	}
-	
+
 	private GDTask Apply(ScenarioEvents.AttackAfterTargetConfirmed.Parameters abilityStateParameters)
 	{
 		Node.Flash();

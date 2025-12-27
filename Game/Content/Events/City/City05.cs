@@ -39,7 +39,26 @@ public class City05 : CityEventModel<City05.ChoiceA, City05.ChoiceB>
 
 		public override List<EventReward> GetRewards(SavedEventState state) =>
 		[
-			//new EachCharacterMaySellOneItemForFullGoldValueEventReward()
+			new DowntimeShopSellPriceEventReward(
+				eventReward =>
+					parameters =>
+					{
+						if(!state.GetCustomValue<bool>(parameters.Seller.Guid.ToString()))
+						{
+							parameters.AdjustSellPrice(parameters.ItemModel.Cost - parameters.SellPrice);
+						}
+					},
+				eventReward =>
+					parameters =>
+					{
+						if(!state.GetCustomValue<bool>(parameters.Seller.Guid.ToString()))
+						{
+							state.SetCustomValue(parameters.Seller.Guid.ToString(), true);
+						}
+					},
+				color =>
+					$"During this City Phase, each character may sell one item to the shop for its full gold value."
+			)
 		];
 	}
 }

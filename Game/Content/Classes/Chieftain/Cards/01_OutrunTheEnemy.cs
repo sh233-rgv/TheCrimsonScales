@@ -18,29 +18,29 @@ public class OutrunTheEnemy : ChieftainCardModel<OutrunTheEnemy.CardTop, OutrunT
 					Health = 4,
 					Move = 3,
 					Attack = 1,
-					Traits = 
+					Traits =
 					[
 						new MountTrait(
-							async (owner, mount) => 
+							async (owner, mount) =>
 							{
 								ScenarioEvents.RoundStartedBeforeInitiativesSortedEvent.Subscribe(owner, this,
 									canApplyParameters => true,
 									async applyParameters =>
-								{
-									ScenarioCheckEvents.InitiativeCheckEvent.Subscribe(owner, this,
-										parameters => parameters.Figure == owner,
-										parameters => parameters.AdjustInitiative(-10)
-									);
+									{
+										ScenarioCheckEvents.InitiativeCheckEvent.Subscribe(owner, this,
+											parameters => parameters.Figure == owner,
+											parameters => parameters.AdjustInitiative(-10)
+										);
 
-									owner.UpdateInitiative();
-									ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(owner, this);
+										owner.UpdateInitiative();
+										ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(owner, this);
 
-									await GDTask.CompletedTask;
-								});
+										await GDTask.CompletedTask;
+									});
 
 								await GDTask.CompletedTask;
 							},
-							async (owner, mount) => 
+							async (owner, mount) =>
 							{
 								ScenarioEvents.RoundStartedBeforeInitiativesSortedEvent.Unsubscribe(owner, this);
 
@@ -57,7 +57,7 @@ public class OutrunTheEnemy : ChieftainCardModel<OutrunTheEnemy.CardTop, OutrunT
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChieftainCardSide
@@ -87,7 +87,7 @@ public class OutrunTheEnemy : ChieftainCardModel<OutrunTheEnemy.CardTop, OutrunT
 							)
 						)
 						.Build()
-				])				
+				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{
 					figures.AddRange(((Character)grantState.Performer).Summons);

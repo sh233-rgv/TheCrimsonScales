@@ -25,7 +25,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 						canApplyParameters => canApplyParameters.Figure == summonAbilityState.Summon,
 						async parameters =>
 						{
-							if (characterTokens < 2)
+							if(characterTokens < 2)
 							{
 								characterTokens++;
 								//TODO: Add visual indicator for number of character tokens
@@ -35,7 +35,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 									{
 										summonAbility = SummonDrakefiend();
 										await summonAbility.Perform(state.ActionState);
-										summonAbilityState = state.ActionState.GetAbilityState<SummonAbility.State>(characterTokens+1);
+										summonAbilityState = state.ActionState.GetAbilityState<SummonAbility.State>(characterTokens + 1);
 										ScenarioEvents.FigureKilledEvent.Unsubscribe(summonAbilityState, summonAbility);
 										ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
 
@@ -64,10 +64,10 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 
 		private SummonAbility SummonDrakefiend()
-        {
+		{
 			return SummonAbility.Builder()
 				.WithSummonStats(new SummonStats()
 				{
@@ -80,7 +80,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 				.WithName("Reigniting Drakefiend")
 				.WithTexturePath("res://Content/Classes/FireKnight/Drakefiend.jpg")
 				.Build();
-        }
+		}
 	}
 
 	public class CardBottom : FireKnightCardSide
@@ -141,14 +141,15 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 				{
 					foreach(Figure target in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false))
 					{
-						await AbilityCmd.SufferDamage(null, target, 2);
-						if (state.GetCustomValue<bool>(this, "Fire Consumed"))
+						await AbilityCmd.SufferDamage(state, target, 2);
+						if(state.GetCustomValue<bool>(this, "Fire Consumed"))
 						{
 							await AbilityCmd.AddCondition(state, target, Conditions.Wound1);
 						}
+
 						state.SetPerformed();
 					}
-					
+
 					await GDTask.CompletedTask;
 				})
 				.WithAbilityStartedSubscription(
@@ -163,12 +164,12 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 					)
 				)
 				.WithConditionalAbilityCheck(async state =>
-                {
-                    ConfirmPrompt.Answer confirmAnswer =
+				{
+					ConfirmPrompt.Answer confirmAnswer =
 						await PromptManager.Prompt(new ConfirmPrompt(null, () => "Perform damage ability?"), state.Authority);
-					
+
 					return confirmAnswer.Confirmed;
-                })
+				})
 				.Build())
 		];
 	}

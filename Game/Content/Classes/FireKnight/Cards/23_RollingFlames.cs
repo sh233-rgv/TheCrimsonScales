@@ -26,31 +26,28 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 						new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
 					]
 				))
-				.WithAbilityEndedSubscription(
-					ScenarioEvents.AbilityEnded.Subscription.New(
-						parameters => true,
-						async parameters =>
-						{
-							foreach(Figure target in ((AttackAbility.State)parameters.AbilityState).UniqueTargetedFigures.Where(target => target.HasWound() && !target.IsDead))
-							{
-								await AbilityCmd.SufferDamage(null, target, 1);
-							}
+				.WithOnAbilityEndedPerformed(async state =>
+				{
+					foreach(Figure target in state.UniqueTargetedFigures.Where(target => target.HasWound()))
+					{
+						await AbilityCmd.SufferDamage(state, target, 1);
+					}
 
-							await GDTask.CompletedTask;
-						}
-					)
-				)
+					await GDTask.CompletedTask;
+				})
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					foreach(Figure target in state.ActionState.GetAbilityState<AttackAbility.State>(0).UniqueTargetedFigures.Where(target => !target.IsDead))
+					foreach(Figure target in state.ActionState.GetAbilityState<AttackAbility.State>(0).UniqueTargetedFigures
+						        .Where(target => !target.IsDead))
 					{
 						await AbilityCmd.AddCondition(state, target, Conditions.Wound1);
 					}
+
 					await AbilityCmd.InfuseElement(Element.Fire);
 					state.SetPerformed();
-                    await AbilityCmd.GainXP(state.Performer, 1);
+					await AbilityCmd.GainXP(state.Performer, 1);
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))
 				.Build())
@@ -72,7 +69,6 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 							.SelectMany(f => RangeHelper.GetFiguresInRange(f.Hex, 1, false))
 							.Except(targets)
 					);
-					GD.Print(targets.Count);
 				})
 				.WithMandatory(true)
 				.Build()),
@@ -81,10 +77,10 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 				{
 					foreach(Figure target in GameController.Instance.Map.Figures.Where(target => target.HasWound()))
 					{
-						await AbilityCmd.SufferDamage(null, target, state.GetCustomValue<bool>(this, "Fire Consumed") ? 2 : 1);
+						await AbilityCmd.SufferDamage(state, target, state.GetCustomValue<bool>(this, "Fire Consumed") ? 2 : 1);
 						state.SetPerformed();
 					}
-					
+
 					await GDTask.CompletedTask;
 				})
 				.WithAbilityStartedSubscription(
@@ -96,16 +92,17 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 							await AbilityCmd.InfuseElement(Element.Fire);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Damage)}, {Icons.Inline(Icons.GetElement(Element.Fire))}")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"+1{Icons.Inline(Icons.Damage)}, {Icons.Inline(Icons.GetElement(Element.Fire))}")
 					)
 				)
 				.WithConditionalAbilityCheck(async state =>
-                {
-                    ConfirmPrompt.Answer confirmAnswer =
+				{
+					ConfirmPrompt.Answer confirmAnswer =
 						await PromptManager.Prompt(new ConfirmPrompt(null, () => "Perform damage ability?"), state.Authority);
-					
+
 					return confirmAnswer.Confirmed;
-                })
+				})
 				.Build())
 		];
 	}

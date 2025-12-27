@@ -101,6 +101,10 @@ public partial class HexObject : Node2D, IReferenced
 
 		DestroyEvent?.Invoke(this);
 
+		ScenarioEvents.HexObjectDestroyed.Parameters parameters =
+			await ScenarioEvents.HexObjectDestroyedEvent.CreatePrompt(
+				new ScenarioEvents.HexObjectDestroyed.Parameters(this));
+
 		await GDTask.CompletedTask;
 	}
 

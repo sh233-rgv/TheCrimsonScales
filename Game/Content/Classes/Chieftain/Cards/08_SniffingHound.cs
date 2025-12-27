@@ -17,7 +17,7 @@ public class SniffingHound : ChieftainCardModel<SniffingHound.CardTop, SniffingH
 					Health = 4,
 					Move = 3,
 					Attack = 1,
-					Traits = 
+					Traits =
 					[
 						new TrapDisarmTrait(1)
 					]
@@ -30,7 +30,7 @@ public class SniffingHound : ChieftainCardModel<SniffingHound.CardTop, SniffingH
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChieftainCardSide

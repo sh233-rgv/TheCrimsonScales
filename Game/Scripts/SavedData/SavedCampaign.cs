@@ -1,10 +1,38 @@
 using System;
 using System.Collections.Generic;
+using Godot;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
 public class SavedCampaign
 {
+	public static int[] ProsperityLevelThresholds =
+	[
+		0, // 1
+		4, // 2
+		9, // 3
+		15, // 4
+		22, // 5
+		30, // 6
+		39, // 7
+		49, // 8
+		59, // 9
+	];
+
+	public static int[] ReputationPriceCostThresholds =
+	[ // -5
+		-18, // -4
+		-14, // -3
+		-10, // -2
+		-6, // -1
+		-2, // -0
+		3, // 1
+		7, // 2
+		11, // 3
+		15, // 4
+		19 // 5
+	];
+
 	[JsonProperty]
 	public string PartyName { get; private set; }
 
@@ -38,7 +66,13 @@ public class SavedCampaign
 	[JsonProperty]
 	public int Reputation { get; private set; }
 
+	[JsonProperty]
+	public int Prosperity { get; private set; }
+
 	public event Action CharactersChangedEvent;
+	public event Action ProsperityChangedEvent;
+	public event Action ReputationChangedEvent;
+	public event Action<int> ProsperityLevelChangedEvent;
 
 	public static SavedCampaign New(string partyName, StartingGroup startingGroup)
 	{
@@ -105,32 +139,7 @@ public class SavedCampaign
 		savedCampaign.SavedScenarioProgresses.ScenarioProgresses.Add(ModelDB.GetId<Scenario001>().ToString(), firstScenario);
 
 		// Unlock the first set of items
-		ItemModel[] itemModels =
-		[
-			ModelDB.Item<AmuletOfLife>(),
-			ModelDB.Item<CircletOfElements>(),
-			ModelDB.Item<HideArmor>(),
-			ModelDB.Item<LeatherArmor>(),
-			ModelDB.Item<WeatheredBoots>(),
-			ModelDB.Item<WingedShoes>(),
-			ModelDB.Item<ShoesOfHappiness>(),
-			ModelDB.Item<BootsOfSpeed>(),
-			ModelDB.Item<HeaterShield>(),
-			ModelDB.Item<PoisonDagger>(),
-			ModelDB.Item<HookedChain>(),
-			ModelDB.Item<IronSpear>(),
-			ModelDB.Item<MinorHealingPotion>(),
-			ModelDB.Item<MinorPowerPotion>(),
-			ModelDB.Item<MinorManaPotion>(),
-		];
-
-		foreach(ItemModel itemModel in itemModels)
-		{
-			SavedItem savedItem = new SavedItem();
-			savedItem.AddUnlocked(itemModel.ShopCount);
-			savedItem.AddStock(itemModel.ShopCount);
-			savedCampaign.SavedItems.Add(itemModel.Id.ToString(), savedItem);
-		}
+		savedCampaign.UnlockItems(1);
 
 		return savedCampaign;
 	}
@@ -139,18 +148,20 @@ public class SavedCampaign
 	{
 		SavedCampaign savedCampaign = New("Party Time", StartingGroup.Militants);
 
-		savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), "Swampguy");
+		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), "Swampguy");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), "Bombo");
 		//savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), "Conclave Man");
 		//savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), "Vuur Knecht");
-		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), "Sterrenwerper");
+		savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), "Ketting Garde");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), "Dierenzitter");
+		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), "Sterrenwerper");
 
 		//savedCampaign.Characters[0].AddItem(ModelDB.Item<MinorManaPotion>());
-		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<MinorManaPotion>());
+		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<TranslocationDevice>());
 		//savedCampaign.Characters[1].SetEquippedSmallSlotItem(0, ModelDB.Item<ScrollOfCharisma>());
 		//savedCampaign.Characters[1].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[0].AddItem(ModelDB.Item<PoisonDagger>());
+		savedCampaign.Characters[0].AddItem(ModelDB.Item<Chainmail>());
 
 		// SavedScenarioProgress testScenario = new SavedScenarioProgress();
 		// testScenario.Discover();
@@ -173,7 +184,7 @@ public class SavedCampaign
 	{
 		if(!SavedItems.TryGetValue(itemModel.Id.ToString(), out SavedItem savedItem))
 		{
-			savedItem = new SavedItem();
+			savedItem = new SavedItem(itemModel);
 			SavedItems.Add(itemModel.Id.ToString(), savedItem);
 		}
 
@@ -217,6 +228,38 @@ public class SavedCampaign
 		CharactersChangedEvent?.Invoke();
 	}
 
+	public void AdjustProsperity(int prosperityAmount)
+	{
+		int oldProsperityLevel = GetProsperityLevel();
+		int oldThresholdProsperityAmount = ProsperityLevelThresholds[Mathf.Min(oldProsperityLevel - 1, ProsperityLevelThresholds.Length - 1)];
+		Prosperity += prosperityAmount;
+		Prosperity = Mathf.Max(Prosperity, oldThresholdProsperityAmount);
+
+		int newProsperityLevel = GetProsperityLevel();
+		if(newProsperityLevel > oldProsperityLevel)
+		{
+			// New prosperity level, unlock new items
+			UnlockItems(newProsperityLevel);
+			ProsperityLevelChangedEvent?.Invoke(newProsperityLevel);
+		}
+
+		ProsperityChangedEvent?.Invoke();
+	}
+
+	public int GetProsperityLevel()
+	{
+		for(int i = 0; i < ProsperityLevelThresholds.Length; i++)
+		{
+			int threshold = ProsperityLevelThresholds[i];
+			if(threshold > Prosperity)
+			{
+				return i;
+			}
+		}
+
+		return ProsperityLevelThresholds.Length;
+	}
+
 	public void AddPartyAchievement(PartyAchievement partyAchievement)
 	{
 		CollectedPartyAchievements.AddIfNew(partyAchievement);
@@ -225,5 +268,40 @@ public class SavedCampaign
 	public void AdjustReputation(int reputationAmount)
 	{
 		Reputation += reputationAmount;
+		Reputation = Mathf.Clamp(Reputation, -20, 20);
+
+		ReputationChangedEvent?.Invoke();
+	}
+
+	public int GetReputationThresholdIndex()
+	{
+		for(int i = 0; i < ReputationPriceCostThresholds.Length; i++)
+		{
+			int threshold = ReputationPriceCostThresholds[i];
+			if(threshold > Reputation)
+			{
+				return i;
+			}
+		}
+
+		return ReputationPriceCostThresholds.Length;
+	}
+
+	public int GetItemPriceChange()
+	{
+		int thresholdIndex = GetReputationThresholdIndex();
+		return 5 - thresholdIndex;
+	}
+
+	private void UnlockItems(int prosperityLevel)
+	{
+		ItemModel[] itemModels = ItemCollections.Levels[prosperityLevel - 1];
+		foreach(ItemModel itemModel in itemModels)
+		{
+			SavedItem savedItem = GetSavedItem(itemModel);
+			int currentlyUnlockedCount = savedItem.UnlockedCount;
+			savedItem.AddUnlocked(itemModel.ShopCount - currentlyUnlockedCount);
+			savedItem.AddStock(itemModel.ShopCount - currentlyUnlockedCount);
+		}
 	}
 }
