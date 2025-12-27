@@ -395,13 +395,13 @@ public partial class Character : Figure
 
 	private async GDTask LongRest()
 	{
-		ScenarioEvents.LongRestStarted.Parameters longRestStartedParamaters =
+		ScenarioEvents.LongRestStarted.Parameters longRestStartedParameters =
 			await ScenarioEvents.LongRestStartedEvent.CreatePrompt(
 				new ScenarioEvents.LongRestStarted.Parameters(this));
 
 		EffectCollection cardSelectionEffectCollection =
 			ScenarioEvents.LongRestCardSelectionEvent.CreateEffectCollection(new ScenarioEvents.LongRestCardSelection.Parameters(this));
-		if(longRestStartedParamaters.LoseCard)
+		if(longRestStartedParameters.LoseCard)
 		{
 			AbilityCard cardToLose = await AbilityCmd.SelectAbilityCard(this, CardState.Discarded, true, null, cardSelectionEffectCollection,
 				"Select a card to lose for your long rest");
@@ -445,21 +445,13 @@ public partial class Character : Figure
 			await ScenarioEvents.ShortRestStartedEvent.CreatePrompt(
 				new ScenarioEvents.ShortRestStarted.Parameters(this), this);
 
-		if (shortRestParameters.LoseCard)
+		if(shortRestParameters.LoseCard)
 		{
-			AbilityCard lostCard = null;
+			AbilityCard lostCard;
 
 			if(shortRestParameters.CanSelectCardToLose)
 			{
-				await AbilityCmd.SufferDamage(this, 1, this);
-
-				AbilityCard cardRedrawnFor = GameController.Instance.ReferenceManager.Get<AbilityCard>(shortRestAnswer.AbilityCardReferenceId);
-				await AbilityCmd.ReturnToHand(cardRedrawnFor);
-
-				ShortRestPrompt.Answer redrawAnswer =
-					await PromptManager.Prompt(new ShortRestPrompt(this, false, null, () => "Confirm Short Rest"), this);
-
-				lostCard = GameController.Instance.ReferenceManager.Get<AbilityCard>(redrawAnswer.AbilityCardReferenceId);
+				lostCard = await AbilityCmd.SelectAbilityCard(this, CardState.Discarded, mandatory: true, hintText: "Select a card to lose");
 			}
 			else
 			{
@@ -468,7 +460,7 @@ public partial class Character : Figure
 
 				if(shortRestAnswer.Redraw)
 				{
-					await AbilityCmd.SufferDamage(null, this, 1);
+					await AbilityCmd.SufferDamage(this, 1, this);
 
 					AbilityCard cardRedrawnFor = GameController.Instance.ReferenceManager.Get<AbilityCard>(shortRestAnswer.AbilityCardReferenceId);
 					await AbilityCmd.ReturnToHand(cardRedrawnFor);

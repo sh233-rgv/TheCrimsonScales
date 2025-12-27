@@ -11,7 +11,7 @@ public class PikeHook : FireKnightItem
 		base.Subscribe();
 
 		SubscribeDuringAttack(
-			canApply: state => state.Performer == Owner && state.SingleTargetRangeType == RangeType.Melee && state.AbilityTargets == 1,
+			canApply: state => state.Performer == Owner && state.SingleTargetRangeType == RangeType.Melee && state.IsSingleTarget,
 			apply: async state =>
 			{
 				await Use(async user =>

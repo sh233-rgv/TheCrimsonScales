@@ -42,6 +42,7 @@ public abstract class TargetedAbilityState : AbilityState
 	public Target AbilityTarget { get; set; }
 	public int AbilityTargets { get; set; }
 	public Action<TargetedAbilityState, List<Figure>> AbilityCustomGetTargets { get; set; }
+	public Func<TargetedAbilityState, Figure, bool> AbilityFilterTargets { get; set; }
 	public AOEPattern AbilityAOEPattern { get; set; }
 
 	public RangeType AbilityRangeType { get; set; }
@@ -100,7 +101,12 @@ public abstract class TargetedAbilityState : AbilityState
 	{
 		AbilityCustomGetTargets = customTargets;
 	}
-  
+
+	public void SetAbilityFilterTargets(Func<TargetedAbilityState, Figure, bool> filterTargets)
+	{
+		AbilityFilterTargets = filterTargets;
+	}
+
 	public void SetTarget(Target target)
 	{
 		AbilityTarget = target;
@@ -254,6 +260,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 	public ConditionModel[] Conditions { get; private set; } = [];
 
 	public Action<T, List<Figure>> CustomGetTargets { get; private set; }
+	public Func<T, Figure, bool> FilterTargets { get; private set; }
 
 	/// <summary>
 	/// A builder extending <see cref="Ability{T}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods
@@ -356,6 +363,12 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			return (TBuilder)this;
 		}
 
+		public TBuilder WithFilterTargets(Func<T, Figure, bool> filterTargets)
+		{
+			Obj.FilterTargets = filterTargets;
+			return (TBuilder)this;
+		}
+
 		/// <summary>
 		/// Overriding so we can set default values.
 		/// </summary>
@@ -391,6 +404,9 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 		abilityState.AbilitySwing = Swing;
 		abilityState.AbilityCustomGetTargets = CustomGetTargets != null
 			? (state, figures) => CustomGetTargets((T)state, figures)
+			: null;
+		abilityState.AbilityFilterTargets = FilterTargets != null
+			? (state, figures) => FilterTargets((T)state, figures)
 			: null;
 	}
 
@@ -669,7 +685,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 		{
 			figures.Add(performer);
 		}
-		else if(CustomGetTargets != null)
+		else if(abilityState.AbilityCustomGetTargets != null)
 		{
 			CustomGetTargets(abilityState, figures);
 		}
@@ -694,6 +710,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 				figures.AddRange(hex.GetHexObjectsOfType<Figure>());
 			}
 		}
+
+		bool shouldFilterTargets = abilityState.AbilityFilterTargets != null;
 
 		for(int i = figures.Count - 1; i >= 0; i--)
 		{
@@ -765,6 +783,11 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			}
 
 			if(figure.IsDead)
+			{
+				remove = true;
+			}
+
+			if(shouldFilterTargets && !abilityState.AbilityFilterTargets(abilityState, figure))
 			{
 				remove = true;
 			}

@@ -57,7 +57,7 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 		];
 
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : HierophantCardSide
@@ -105,6 +105,6 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 		];
 
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

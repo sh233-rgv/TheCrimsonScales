@@ -19,7 +19,7 @@ public class IronSpear : JotLItem
 			canApply: state =>
 				state.Performer == Owner &&
 				state.SingleTargetRangeType == RangeType.Melee &&
-				state.AbilityTargets == 1 &&
+				state.IsSingleTarget &&
 				state.SingleTargetRange == 1,
 			apply: async state =>
 			{

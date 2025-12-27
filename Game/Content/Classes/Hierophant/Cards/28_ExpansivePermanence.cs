@@ -13,7 +13,7 @@ public class ExpansivePermanence : HierophantLevelUpCardModel<ExpansivePermanenc
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-                .WithGetAbilities(grantAbilityState =>
+				.WithGetAbilities(grantAbilityState =>
 					[
 						ShieldAbility.Builder()
 							.WithShieldValue(2)
@@ -27,31 +27,52 @@ public class ExpansivePermanence : HierophantLevelUpCardModel<ExpansivePermanenc
 										await AbilityCmd.AddCondition(null, applyParameters.Performer, Conditions.Immobilize);
 										await AbilityCmd.GainXP(grantAbilityState.Performer, 1);
 									},
-									effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Shield)}, gain {Icons.Inline(Icons.GetCondition(Conditions.Immobilize))}"))
+									effectInfoViewParameters: new TextEffectInfoView.Parameters(
+										$"+1{Icons.Inline(Icons.Shield)}, gain {Icons.Inline(Icons.GetCondition(Conditions.Immobilize))}"))
 							)
 							.WithOnAbilityEndedPerformed(async shieldAbilityState =>
-                            {
-                                ScenarioEvents.AbilityStartedEvent.Subscribe(shieldAbilityState, this,
+							{
+								ScenarioEvents.AbilityStartedEvent.Subscribe(shieldAbilityState, this,
 									parameters => parameters.Performer == shieldAbilityState.Performer &&
-										parameters.AbilityState is AttackAbility.State attackAbilityState &&
-										attackAbilityState.IsSingleTarget,
+									              parameters.AbilityState is AttackAbility.State attackAbilityState &&
+									              attackAbilityState.IsSingleTarget,
 									async parameters =>
-                                    {
-                                        ((AttackAbility.State)parameters.AbilityState).AbilityAdjustRange(100);
+									{
+										((AttackAbility.State)parameters.AbilityState).AbilityAdjustRange(100);
 										await GDTask.CompletedTask;
-                                    });
+									});
 								ScenarioEvents.RoundEndedEvent.Subscribe(shieldAbilityState, this,
 									parameters => true,
 									async parameters =>
-                                    {
-                                        ScenarioEvents.AbilityStartedEvent.Unsubscribe(shieldAbilityState, this);
-                                        ScenarioEvents.RoundEndedEvent.Unsubscribe(shieldAbilityState, this);
+									{
+										ScenarioEvents.AbilityStartedEvent.Unsubscribe(shieldAbilityState, this);
+										ScenarioEvents.RoundEndedEvent.Unsubscribe(shieldAbilityState, this);
 										await GDTask.CompletedTask;
-                                    });
+									});
 								await GDTask.CompletedTask;
-                            })
+							})
+							.Build(),
+						OtherActiveAbility.Builder()
+							.WithOnActivate(async state =>
+							{
+								ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
+									parameters => parameters.Performer == state.Performer &&
+									              parameters.AbilityState is AttackAbility.State attackAbilityState &&
+									              attackAbilityState.IsSingleTarget,
+									async parameters =>
+									{
+										((AttackAbility.State)parameters.AbilityState).AbilityAdjustRange(100);
+										await GDTask.CompletedTask;
+									});
+								await GDTask.CompletedTask;
+							})
+							.WithOnDeactivate(async state =>
+							{
+								ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
+								await GDTask.CompletedTask;
+							})
 							.Build()
-                	]
+					]
 				)
 				.WithRange(3)
 				.WithTarget(Target.SelfOrAllies)
@@ -67,29 +88,30 @@ public class ExpansivePermanence : HierophantLevelUpCardModel<ExpansivePermanenc
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
-                {
-                    ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
-						parameters => parameters.AbilityState is AttackAbility.State && 
-							(parameters.AbilityState.Performer.AlliedWith(state.Performer) ||
-							parameters.AbilityState.Performer.EnemiesWith(state.Performer)),
+				{
+					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
+						parameters => parameters.AbilityState is AttackAbility.State &&
+						              (parameters.AbilityState.Performer.AlliedWith(state.Performer) ||
+						               parameters.AbilityState.Performer.EnemiesWith(state.Performer)),
 						async parameters =>
-                        {
-							((AttackAbility.State)parameters.AbilityState).AbilityAdjustAttackValue(parameters.AbilityState.Performer.AlliedWith(state.Performer) ? 2 : -2);
+						{
+							((AttackAbility.State)parameters.AbilityState).AbilityAdjustAttackValue(
+								parameters.AbilityState.Performer.AlliedWith(state.Performer) ? 2 : -2);
 							await GDTask.CompletedTask;
-                        });
+						});
 					await GDTask.CompletedTask;
-                })
+				})
 				.WithOnDeactivate(async state =>
-                {
-                    ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
+				{
+					ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-                })
+				})
 				.Build())
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Earth];
 		protected override int XP => 2;
 		protected override bool Round => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

@@ -19,13 +19,12 @@ public class UnstoppableForce : HierophantLevelUpCardModel<UnstoppableForce.Card
 				{
 					ScenarioEvents.AfterSufferDamageEvent.Subscribe(state, this,
 						canApplyParameters => canApplyParameters.SufferDamageParameters.FromAttack &&
-						                      canApplyParameters.PotentialAttackAbilityState.Target.AlliedWith(state.Performer) &&
-						                      RangeHelper.Distance(canApplyParameters.PotentialAttackAbilityState.Target.Hex, state.Performer.Hex) <=
-						                      1,
+						                      ((AttackAbility.State)canApplyParameters.PotentialAbilityState).Target.AlliedWith(state.Performer) &&
+						                      RangeHelper.Distance(((AttackAbility.State)canApplyParameters.PotentialAbilityState).Target.Hex,
+							                      state.Performer.Hex) <= 1,
 						async applyParameters =>
 						{
-							//TODO: Change to state
-							await AbilityCmd.SufferDamage( /*state*/null, applyParameters.PotentialAttackAbilityState.Performer,
+							await AbilityCmd.SufferDamage(state, applyParameters.PotentialAbilityState.Performer,
 								applyParameters.Damage);
 
 							await state.AdvanceUseSlot();
@@ -52,7 +51,7 @@ public class UnstoppableForce : HierophantLevelUpCardModel<UnstoppableForce.Card
 		];
 
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : HierophantCardSide

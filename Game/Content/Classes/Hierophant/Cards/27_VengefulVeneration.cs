@@ -26,9 +26,7 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 							canApplyParameters.AbilityState.Target.AlliedWith(state.Performer),
 						async applyParameters =>
 						{
-							//TODO: Add visual (character token) to target(?)
-							//TODO: Change to state
-							await AbilityCmd.SufferDamage( /*state*/null, applyParameters.Performer, 2);
+							await AbilityCmd.SufferDamage(state, applyParameters.Performer, 2);
 
 							await state.ActionState.RequestDiscardOrLose();
 						});
@@ -62,8 +60,7 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 						.ToList();
 					foreach(Figure figure in figures)
 					{
-						//TODO: Change to state
-						await AbilityCmd.SufferDamage( /*state*/null, figure, (figures.Count() == 1) ? 2 : 1);
+						await AbilityCmd.SufferDamage(state, figure, (figures.Count == 1) ? 2 : 1);
 						state.SetPerformed();
 					}
 				})

@@ -28,7 +28,7 @@ public class FueledFalchion : GHRewardsItem
 			canApply: state =>
 				state.Performer == Owner &&
 				state.SingleTargetRangeType == RangeType.Melee &&
-				state.AbilityTargets == 1,
+				state.IsSingleTarget,
 			apply: async state =>
 			{
 				await Use(async user =>
@@ -41,7 +41,7 @@ public class FueledFalchion : GHRewardsItem
 
 							foreach(Figure figure in RangeHelper.GetFiguresInRange(parameters.AbilityState.Target.Hex, 1, requiresLineOfSight: false))
 							{
-								await AbilityCmd.SufferDamage(null, figure, 1);
+								await AbilityCmd.SufferDamage(state, figure, 1);
 							}
 						}
 					);

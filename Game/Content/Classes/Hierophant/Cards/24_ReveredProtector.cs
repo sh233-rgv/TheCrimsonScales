@@ -19,9 +19,10 @@ public class ReveredProtector : HierophantLevelUpCardModel<ReveredProtector.Card
 				{
 					ScenarioEvents.SufferDamageEvent.Subscribe(state, this,
 						canApplyParameters => canApplyParameters.FromAttack &&
-						                      canApplyParameters.PotentialAttackAbilityState.Target.AlliedWith(state.Performer, true) &&
-						                      RangeHelper.Distance(canApplyParameters.PotentialAttackAbilityState.Target.Hex, state.Performer.Hex) <=
-						                      1,
+						                      ((AttackAbility.State)canApplyParameters.PotentialAbilityState).Target
+						                      .AlliedWith(state.Performer, true) &&
+						                      RangeHelper.Distance(((AttackAbility.State)canApplyParameters.PotentialAbilityState).Target.Hex,
+							                      state.Performer.Hex) <= 1,
 						async applyParameters =>
 						{
 							int shieldVal = state.UseSlotIndex switch
@@ -48,11 +49,11 @@ public class ReveredProtector : HierophantLevelUpCardModel<ReveredProtector.Card
 				)
 				.WithUseSlots(
 					[
-						new UseSlot(new Vector2(0.28100282f, 0.3734997f)),
-						new UseSlot(new Vector2(0.48650017f, 0.3734997f)),
-						new UseSlot(new Vector2(0.68950886f, 0.3734997f)),
-						new UseSlot(new Vector2(0.68950886f, 0.3734997f)),
-						new UseSlot(new Vector2(0.68950886f, 0.3734997f))
+						new UseSlot(new Vector2(0.2825028f, 0.31599984f)),
+						new UseSlot(new Vector2(0.48800266f, 0.31599984f)),
+						new UseSlot(new Vector2(0.6910024f, 0.31599984f)),
+						new UseSlot(new Vector2(0.37300277f, 0.43199965f)),
+						new UseSlot(new Vector2(0.57800215f, 0.43199965f))
 					]
 				)
 				.Build())
@@ -73,21 +74,7 @@ public class ReveredProtector : HierophantLevelUpCardModel<ReveredProtector.Card
 					foreach(Figure figure in state.Hexes
 						        .SelectMany(hex => hex.GetHexObjectsOfType<Figure>().Where(figure => figure.AlliedWith(state.Performer))).Distinct())
 					{
-						List<ScenarioEvents.GenericChoice.Subscription> subscriptions = [];
-						foreach(ConditionModel condition in figure.Conditions)
-						{
-							subscriptions.Add(ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.New(
-								applyFunction: async parameters =>
-								{
-									await AbilityCmd.RemoveCondition(figure, condition);
-								},
-								effectType: EffectType.Selectable,
-								effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(condition)),
-								effectInfoViewParameters: new TextEffectInfoView.Parameters($"Remove {Icons.Inline(Icons.GetCondition(condition))}")
-							));
-						}
-
-						await AbilityCmd.GenericChoice(figure, subscriptions);
+						await AbilityCmd.RemoveOneNegativeCondition(figure);
 					}
 				})
 				.Build()),

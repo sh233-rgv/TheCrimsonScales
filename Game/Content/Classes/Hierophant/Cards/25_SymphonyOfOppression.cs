@@ -26,14 +26,8 @@ public class SymphonyOfOppression : HierophantLevelUpCardModel<SymphonyOfOppress
 							}
 							else if(grantAbilityState.GrantAbilityActionStates.Count > 1)
 							{
-								state.SetAbilityCustomTargets((state, figures) =>
-								{
-									Figure target = grantAbilityState.GrantAbilityActionStates[0].GetAbilityState<AttackAbility.State>(0).Target;
-									if(RangeHelper.Distance(target.Hex, state.Performer.Hex) <= 3)
-									{
-										figures.Add(target);
-									}
-								});
+								state.SetAbilityFilterTargets((attackAbilityState, figure) =>
+									grantAbilityState.GrantAbilityActionStates[0].GetAbilityState<AttackAbility.State>(0).Target == figure);
 							}
 
 							await GDTask.CompletedTask;
@@ -101,6 +95,6 @@ public class SymphonyOfOppression : HierophantLevelUpCardModel<SymphonyOfOppress
 
 		protected override int XP => 2;
 		protected override bool Round => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }
