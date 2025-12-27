@@ -54,6 +54,6 @@ public class VolatileTonic : MirefootCardModel<VolatileTonic.CardTop, VolatileTo
 		];
 
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

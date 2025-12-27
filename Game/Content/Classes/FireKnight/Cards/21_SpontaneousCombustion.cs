@@ -41,9 +41,9 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 							Hex hex = applyParameters.Figure.Hex;
 							List<Figure> figures = RangeHelper.GetFiguresInRange(hex, 1, false).ToList();
 							foreach(Figure figure in figures)
-                            {
+							{
 								await AbilityCmd.AddCondition(abilityState, figure, Conditions.Wound1);
-                            }
+							}
 						});
 					await GDTask.CompletedTask;
 				})
@@ -58,7 +58,7 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 
 		protected override IEnumerable<Element> Elements => [Element.Fire];
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : FireKnightCardSide
@@ -113,7 +113,9 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 				customGetTargets: (state, list) =>
 				{
 					list.AddRange(GameController.Instance.Map.Figures
-						.Where(figure => figure.AlliedWith(state.Performer) && state.Performer.TurnMovedHexes.Any(hex => RangeHelper.Distance(hex, figure.Hex) <= 1))
+						.Where(figure =>
+							figure.AlliedWith(state.Performer) &&
+							state.Performer.TurnMovedHexes.Any(hex => RangeHelper.Distance(hex, figure.Hex) <= 1))
 						.ToList());
 				}
 			))

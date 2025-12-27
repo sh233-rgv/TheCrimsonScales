@@ -1,4 +1,3 @@
-using System.Linq;
 using Fractural.Tasks;
 
 public class ShoesOfPhasing : CS1Item
@@ -9,10 +8,11 @@ public class ShoesOfPhasing : CS1Item
 	public override int Cost => 20;
 	public override ItemType ItemType => ItemType.Feet;
 	public override ItemUseType ItemUseType => ItemUseType.Always;
-	private object _subscriber;
 
 	protected override int AtlasIndex => 28;
-	
+
+	private object _subscriber;
+
 	public override void Init(Character owner)
 	{
 		_subscriber = new object();
@@ -26,21 +26,17 @@ public class ShoesOfPhasing : CS1Item
 
 		ScenarioCheckEvents.CanPassEnemyCheckEvent.Subscribe(this, _subscriber,
 			canApplyParameters => canApplyParameters.AbilityState.Performer == Owner,
-			async applyParameters =>
+			applyParameters =>
 			{
-				await Use(async user =>
-				{
-					applyParameters.SetCanPass();
-
-					await GDTask.CompletedTask;
-				});
-			});
+				applyParameters.SetCanPass();
+			}
+		);
 	}
 
 	protected override void Unsubscribe()
 	{
 		base.Unsubscribe();
-		
+
 		ScenarioCheckEvents.CanPassEnemyCheckEvent.Unsubscribe(this, _subscriber);
 	}
 }

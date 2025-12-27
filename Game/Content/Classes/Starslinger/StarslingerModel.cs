@@ -6,6 +6,8 @@ public class StarslingerModel : ClassModel
 	public override string Name => "Starslinger";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.Low;
 	public override int HandSize => 10;
+	public override Ancestry Ancestry => Ancestry.Aesther;
+
 	public override string AssetPath => "res://Content/Classes/Starslinger";
 	public override Color PrimaryColor => Color.FromHtml("6762a1");
 	public override Color SecondaryColor => Color.FromHtml("3f3f3f");

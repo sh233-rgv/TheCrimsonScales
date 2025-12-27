@@ -114,6 +114,7 @@ public partial class Hex : Node2D
 		{
 			switch(hexObject)
 			{
+				case Objective:
 				case Obstacle:
 				case DifficultTerrain:
 				case HazardousTerrain:

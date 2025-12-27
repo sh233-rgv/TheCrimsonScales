@@ -17,7 +17,7 @@ public class CatastrophicCattle : ChieftainCardModel<CatastrophicCattle.CardTop,
 					Health = 4,
 					Move = 2,
 					Attack = 2,
-					Traits = 
+					Traits =
 					[
 						new MountTrait(),
 						new PushTrait(1),
@@ -31,7 +31,7 @@ public class CatastrophicCattle : ChieftainCardModel<CatastrophicCattle.CardTop,
 
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChieftainCardSide
