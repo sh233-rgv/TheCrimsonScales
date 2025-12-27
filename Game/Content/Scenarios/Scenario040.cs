@@ -6,6 +6,7 @@ public class Scenario040 : ScenarioModel
 	public override string ScenePath => "res://Content/Scenarios/Scenario040.tscn";
 	public override int ScenarioNumber => 40;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<EventScenarioChain>();
+
 	protected override ScenarioGoals CreateScenarioGoals() =>
 		new KillSpecificEnemiesTypeGoals(ModelDB.Monster<DrakePorter>(), "Kill the Drake Porter to win this scenario.");
 
@@ -39,23 +40,27 @@ public class Scenario040 : ScenarioModel
 
 	protected override async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters parameters)
 	{
-		Figure drakePorter = GameController.Instance.Map.Figures.FirstOrDefault(figure => figure is Monster monster && monster.MonsterModel is DrakePorter);
+		Figure drakePorter =
+			GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is DrakePorter);
 		ScenarioEvents.FigureKilledEvent.Subscribe(this, _door1,
-			canApply: parameters => parameters.Figure is Monster monster && (monster.MonsterModel is RendingDrake || monster.MonsterModel is SpittingDrake),
+			canApply: parameters =>
+				parameters.Figure is Monster monster && (monster.MonsterModel is RendingDrake || monster.MonsterModel is SpittingDrake),
 			apply: async parameters =>
 			{
 				if(!drakePorter.IsDead)
 				{
-					await AbilityCmd.SufferDamage(/*parameters.parameters.PotentialAbilityState*/null, drakePorter, 2);
+					await AbilityCmd.SufferDamage(parameters.PotentialAbilityState, drakePorter, 2);
 					//TODO: add state
 				}
+
 				await GDTask.CompletedTask;
 			}
 		);
 		UpdateScenarioText($"""
-			The Drake Porter draws from the boss ability deck.
+		                    The Drake Porter draws from the boss ability deck.
 
-			Every time you kill a drake, the Drake Porter suffers 2 damage.
-			""");
-    }
+		                    Every time you kill a drake, the Drake Porter suffers 2 damage.
+		                    """);
+		await GDTask.CompletedTask;
+	}
 }

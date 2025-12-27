@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjtejnl6vsov6"
-path="res://.godot/imported/Portrait.jpg-18fb2bb12e0bd0b836938e68da3f6346.ctex"
+uid="uid://cueo8fhnj1t06"
+path="res://.godot/imported/CaptainOfTheGuard.jpeg-26a125a370b2c3cf326a794bfa7528e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Monsters/Boss/CaptainOfTheGuard/Portrait.jpg"
-dest_files=["res://.godot/imported/Portrait.jpg-18fb2bb12e0bd0b836938e68da3f6346.ctex"]
+source_file="res://Content/Monsters/Boss/CaptainOfTheGuard/CaptainOfTheGuard.jpeg"
+dest_files=["res://.godot/imported/CaptainOfTheGuard.jpeg-26a125a370b2c3cf326a794bfa7528e4.ctex"]
 
 [params]
 

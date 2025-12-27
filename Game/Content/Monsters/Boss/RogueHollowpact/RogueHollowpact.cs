@@ -11,72 +11,96 @@ public class RogueHollowpact : MonsterModel, IBossMonsterModel
 			Health = 9 * CharacterCount,
 			Move = 3,
 			Attack = 2,
-			Traits = [new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Immobilize), new ConditionImmunityTrait(Conditions.Disarm),
-				new ConditionImmunityTrait(Conditions.Curse)]
+				new ConditionImmunityTrait(Conditions.Curse)
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 10 * CharacterCount,
 			Move = 3,
 			Attack = 3,
-			Traits = [new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Immobilize), new ConditionImmunityTrait(Conditions.Disarm),
-				new ConditionImmunityTrait(Conditions.Curse)]
+				new ConditionImmunityTrait(Conditions.Curse)
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 11 * CharacterCount,
 			Move = 4,
 			Attack = 3,
-			Traits = [new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Immobilize), new ConditionImmunityTrait(Conditions.Disarm),
-				new ConditionImmunityTrait(Conditions.Curse)]
+				new ConditionImmunityTrait(Conditions.Curse)
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 12 * CharacterCount,
 			Move = 4,
 			Attack = 4,
-			Traits = [new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Immobilize), new ConditionImmunityTrait(Conditions.Disarm),
-				new ConditionImmunityTrait(Conditions.Curse)]
+				new ConditionImmunityTrait(Conditions.Curse)
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 14 * CharacterCount,
 			Move = 4,
 			Attack = 4,
-			Traits = [new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Immobilize), new ConditionImmunityTrait(Conditions.Disarm),
-				new ConditionImmunityTrait(Conditions.Curse)]
+				new ConditionImmunityTrait(Conditions.Curse)
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 15 * CharacterCount,
 			Move = 4,
 			Attack = 5,
-			Traits = [new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Immobilize), new ConditionImmunityTrait(Conditions.Disarm),
-				new ConditionImmunityTrait(Conditions.Curse)]
+				new ConditionImmunityTrait(Conditions.Curse)
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 17 * CharacterCount,
 			Move = 4,
 			Attack = 6,
-			Traits = [new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Immobilize), new ConditionImmunityTrait(Conditions.Disarm),
-				new ConditionImmunityTrait(Conditions.Curse)]
+				new ConditionImmunityTrait(Conditions.Curse)
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 19 * CharacterCount,
 			Move = 5,
 			Attack = 7,
-			Traits = [new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Muddle), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Immobilize), new ConditionImmunityTrait(Conditions.Disarm),
-				new ConditionImmunityTrait(Conditions.Curse)]
+				new ConditionImmunityTrait(Conditions.Curse)
+			]
 		},
 	];
 
@@ -113,15 +137,15 @@ public class RogueHollowpact : MonsterModel, IBossMonsterModel
 	[
 		new MonsterAbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
-            {
+			{
 				//TODO: Teleport to void pit
 				await GDTask.CompletedTask;
-            })
+			})
 			.Build()),
 		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, +2, range: 4)),
 		new MonsterAbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
-            {
+			{
 				IEnumerable<Figure> figures =
 					GameController.Instance.Map
 						.GetChildrenOfType<Objective>()
@@ -129,11 +153,10 @@ public class RogueHollowpact : MonsterModel, IBossMonsterModel
 						.SelectMany(objective => RangeHelper.GetFiguresInRange(objective, 1))
 						.Distinct();
 				foreach(Figure figure in figures)
-                {
-					//TODO: Change to state
-                    await AbilityCmd.SufferDamage(/*state*/null, figure, 2);
-                }
-            })
+				{
+					await AbilityCmd.SufferDamage(state, figure, 2);
+				}
+			})
 			.Build())
 	];
 }

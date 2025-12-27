@@ -1,3 +1,5 @@
+using Fractural.Tasks;
+
 public class AshsteelGauntlets : CS2Item
 {
 	public override string Name => "Ashsteel Gauntlets";
@@ -22,6 +24,7 @@ public class AshsteelGauntlets : CS2Item
 				await Use(async user =>
 				{
 					//TODO: Code actual ability (Not sure how to do a round ability for an item)
+					await GDTask.CompletedTask;
 				});
 			}
 		);

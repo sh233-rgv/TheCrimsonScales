@@ -9,7 +9,8 @@ public class Scenario042 : ScenarioModel
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<EventScenarioChain>();
 
 	protected override ScenarioGoals CreateScenarioGoals() => new KillSpecificEnemiesTypeGoals(
-		[ModelDB.Monster<SlyWolf>(), ModelDB.Monster<GoringGrizzly>(), ModelDB.Monster<KingCobra>()], "Kill the Goring Grizzly, King Cobra and Sly Wolf to win this scenario.");
+		[ModelDB.Monster<SlyWolf>(), ModelDB.Monster<GoringGrizzly>(), ModelDB.Monster<KingCobra>()],
+		"Kill the Goring Grizzly, King Cobra and Sly Wolf to win this scenario.");
 
 	private Door _door1;
 	private Door _door2;
@@ -24,9 +25,9 @@ public class Scenario042 : ScenarioModel
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<WovenPlateArmor>());
 		GameController.Instance.Map.Treasures[1].SetObtainLootFunction(async lootingCharacter =>
 		{
-            lootingCharacter.SavedCharacter.AddGold(25);
+			lootingCharacter.SavedCharacter.AddGold(25);
 			await AbilityCmd.AddCondition(null, lootingCharacter, Conditions.Poison1);
-        });
+		});
 		GameController.Instance.Map.Treasures[2].SetItemLoot(ModelDB.Item<SteelHelmet>());
 
 		Marker marker1 = GameController.Instance.Map.GetMarker(Marker.Type._1);
@@ -37,32 +38,34 @@ public class Scenario042 : ScenarioModel
 
 		Marker marker3 = GameController.Instance.Map.GetMarker(Marker.Type._3);
 		_door3 = marker3.GetHexObject<Door>();
-		
+
 		_markersA = GameController.Instance.Map.GetMarkers(Marker.Type.a);
 		_markersB = GameController.Instance.Map.GetMarkers(Marker.Type.b);
 
 		ScenarioEvents.AbilityStartedEvent.Subscribe(this,
 			parameters => parameters.AbilityState is AttackAbility.State &&
-				(parameters.Performer is Character || parameters.Performer is Summon) &&
-				GameController.Instance.Map.Rooms[0].MapTiles.Contains(parameters.Performer.Hex.MapTile),
+			              (parameters.Performer is Character || parameters.Performer is Summon) &&
+			              GameController.Instance.Map.Rooms[0].MapTiles.Contains(parameters.Performer.Hex.MapTile),
 			async parameters =>
-            {
+			{
 				parameters.AbilityState.SetBlocked();
 
 				await GDTask.CompletedTask;
-            });
+			});
 
 		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this,
 			parameters => !parameters.ForgoneAction && RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 1)
-								.Any(figure => figure.EnemiesWith(parameters.Performer)),
+				.Any(figure => figure.EnemiesWith(parameters.Performer)),
 			async parameters =>
 			{
 				parameters.ForgoAction();
 
-				ActionState actionState = new ActionState(parameters.Performer, [PushAbility.Builder()
-					.WithPush(2)
-					.WithRange(1)
-					.Build()]);
+				ActionState actionState = new ActionState(parameters.Performer, [
+					PushAbility.Builder()
+						.WithPush(2)
+						.WithRange(1)
+						.Build()
+				]);
 				await actionState.Perform();
 			},
 			EffectType.Selectable,
@@ -76,33 +79,34 @@ public class Scenario042 : ScenarioModel
 		await base.OnRoomRevealed(parameters);
 
 		if(parameters.OpenedDoor == _door1)
-        {
+		{
 			int houndsToSpawn = 0;
-            ScenarioEvents.FigureKilledEvent.Subscribe(this, _door1,
+			ScenarioEvents.FigureKilledEvent.Subscribe(this, _door1,
 				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel.Name == "Hound" &&
-					GameController.Instance.Map.Figures.Any(figure => figure is Monster monster && monster.MonsterModel is SlyWolf),
+				                      GameController.Instance.Map.Figures.Any(figure => figure is Monster monster && monster.MonsterModel is SlyWolf),
 				async applyParameters =>
-                {
-                    await AbilityCmd.SufferDamage(null, GameController.Instance.Map.Figures
-						.First(figure => figure is Monster monster && monster.MonsterModel is SlyWolf),
-						GameController.Instance.SavedCampaign.Characters.Count);
+				{
+					Figure slyWolf = GameController.Instance.Map.Figures
+						.First(figure => figure is Monster monster && monster.MonsterModel is SlyWolf);
+					await AbilityCmd.SufferDamage(slyWolf,
+						GameController.Instance.SavedCampaign.Characters.Count, slyWolf);
 					houndsToSpawn++;
-                });
+				});
 
 			ScenarioEvents.RoundEndedEvent.Subscribe(this, _door1,
 				canApplyParameters => houndsToSpawn > 0,
 				async applyParameters =>
-                {
-                    while(houndsToSpawn > 0)
-                    {
+				{
+					while(houndsToSpawn > 0)
+					{
 						await SpawnMonster(null, ModelDB.Monster<Hound>(), MonsterType.Normal, _markersA.Select(marker => marker.Hex));
-                        houndsToSpawn--;
-                    }
-                });
-			
+						houndsToSpawn--;
+					}
+				});
+
 			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Subscribe(this, _door1,
 				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel is Hound &&
-					!GameController.Instance.Map.Rooms[1].MapTiles.Contains(canApplyParameters.MapTile),
+				                      !GameController.Instance.Map.Rooms[1].MapTiles.Contains(canApplyParameters.MapTile),
 				applyParameters =>
 				{
 					applyParameters.SetCanEnter(false);
@@ -111,49 +115,52 @@ public class Scenario042 : ScenarioModel
 
 			ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(this, _door1,
 				canApplyParameters => canApplyParameters.Performer is Monster monster && monster.MonsterModel is Hound &&
-					!GameController.Instance.Map.Rooms[1].MapTiles.Contains(canApplyParameters.PotentialTarget.Hex.MapTile),
+				                      !GameController.Instance.Map.Rooms[1].MapTiles.Contains(canApplyParameters.PotentialTarget.Hex.MapTile),
 				applyParameters =>
-                {
-                    applyParameters.SetCannotBeFocused();
-                });
+				{
+					applyParameters.SetCannotBeFocused();
+				});
 
 			UpdateScenarioText($"""
-				The named Hound is the Sly Wolf and is permanently {Icons.Inline(Icons.GetCondition(Conditions.Invisible))}.
+			                    The named Hound is the Sly Wolf and is permanently {Icons.Inline(Icons.GetCondition(Conditions.Invisible))}.
 
-				Whenever a Hound is killed, the Sly Wolf suffers {Icons.Inline(Icons.Damage)}C.
+			                    Whenever a Hound is killed, the Sly Wolf suffers {Icons.Inline(Icons.Damage)}C.
 
-				None of the monsters in the room will focus on enemies outside the D2B tile, nor will they leave the tile. Whenever a Hound is killed, spawn another Hound in one of the hexes marked {Icons.Inline(Icons.GetMarker(Marker.Type.a))} at the end of the round.
-				""");
-        }
+			                    None of the monsters in the room will focus on enemies outside the D2B tile, nor will they leave the tile. Whenever a Hound is killed, spawn another Hound in one of the hexes marked {Icons.Inline(Icons.GetMarker(Marker.Type.a))} at the end of the round.
+			                    """);
+		}
 		else if(parameters.OpenedDoor == _door2)
-        {
+		{
 			int caveBearsToSpawn = 0;
-            ScenarioEvents.FigureKilledEvent.Subscribe(this, _door2,
+			ScenarioEvents.FigureKilledEvent.Subscribe(this, _door2,
 				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel.Name == "Cave Bear" &&
-					GameController.Instance.Map.Figures.Any(figure => figure is Monster monster && monster.MonsterModel is GoringGrizzly),
+				                      GameController.Instance.Map.Figures.Any(figure =>
+					                      figure is Monster monster && monster.MonsterModel is GoringGrizzly),
 				async applyParameters =>
-                {
-					Monster goringGrizzly = (Monster)GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is GoringGrizzly);
-                    ((ShieldTrait)goringGrizzly.Stats.Traits.First(trait => trait is ShieldTrait)).ChangeShieldValue(goringGrizzly, -1);
+				{
+					Monster goringGrizzly =
+						(Monster)GameController.Instance.Map.Figures.First(figure =>
+							figure is Monster monster && monster.MonsterModel is GoringGrizzly);
+					((ShieldTrait)goringGrizzly.Stats.Traits.First(trait => trait is ShieldTrait)).ChangeShieldValue(goringGrizzly, -1);
 					caveBearsToSpawn++;
 
 					await GDTask.CompletedTask;
-                });
+				});
 
 			ScenarioEvents.RoundEndedEvent.Subscribe(this, _door2,
 				canApplyParameters => caveBearsToSpawn > 0,
 				async applyParameters =>
-                {
-                    while(caveBearsToSpawn > 0)
-                    {
+				{
+					while(caveBearsToSpawn > 0)
+					{
 						await SpawnMonster(null, ModelDB.Monster<CaveBear>(), MonsterType.Normal, _markersB.Select(marker => marker.Hex));
-                        caveBearsToSpawn--;
-                    }
-                });
-			
+						caveBearsToSpawn--;
+					}
+				});
+
 			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Subscribe(this, _door2,
 				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel is CaveBear &&
-					!GameController.Instance.Map.Rooms[2].MapTiles.Contains(canApplyParameters.MapTile),
+				                      !GameController.Instance.Map.Rooms[2].MapTiles.Contains(canApplyParameters.MapTile),
 				applyParameters =>
 				{
 					applyParameters.SetCanEnter(false);
@@ -162,36 +169,41 @@ public class Scenario042 : ScenarioModel
 
 			ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(this, _door2,
 				canApplyParameters => canApplyParameters.Performer is Monster monster && monster.MonsterModel is CaveBear &&
-					!GameController.Instance.Map.Rooms[2].MapTiles.Contains(canApplyParameters.PotentialTarget.Hex.MapTile),
+				                      !GameController.Instance.Map.Rooms[2].MapTiles.Contains(canApplyParameters.PotentialTarget.Hex.MapTile),
 				applyParameters =>
-                {
-                    applyParameters.SetCannotBeFocused();
-                });
-			
+				{
+					applyParameters.SetCannotBeFocused();
+				});
+
 			UpdateScenarioText($"""
-				The named Cave Bear is the Goring Grizzly.
+			                    The named Cave Bear is the Goring Grizzly.
 
-				None of the monsters in the room will focus on enemies outside the D1B tile, nor will they leave the tile. Whenever a Cave Bear is killed, reduce the Shield value of the Goring Grizzly by 1 and spawn another Cave Bear in one of the hexes marked {Icons.Inline(Icons.GetMarker(Marker.Type.b))} at the end of the round.
-				""");
-        }
+			                    None of the monsters in the room will focus on enemies outside the D1B tile, nor will they leave the tile. Whenever a Cave Bear is killed, reduce the Shield value of the Goring Grizzly by 1 and spawn another Cave Bear in one of the hexes marked {Icons.Inline(Icons.GetMarker(Marker.Type.b))} at the end of the round.
+			                    """);
+		}
 		else if(parameters.OpenedDoor == _door3)
-        {
-            ScenarioEvents.AfterSufferDamageEvent.Subscribe(this, _door3,
+		{
+			ScenarioEvents.AfterSufferDamageEvent.Subscribe(this, _door3,
 				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel.Name == "Giant Viper" &&
-					GameController.Instance.Map.Figures.Any(figure => figure is Monster monster && monster.MonsterModel is KingCobra),
+				                      GameController.Instance.Map.Figures.Any(figure =>
+					                      figure is Monster monster && monster.MonsterModel is KingCobra),
 				async applyParameters =>
-                {
-					Monster goringGrizzly = (Monster)GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is GoringGrizzly);
-                    ((ShieldTrait)goringGrizzly.Stats.Traits.First(trait => trait is ShieldTrait)).ChangeShieldValue(goringGrizzly, -1);
+				{
+					Monster goringGrizzly =
+						(Monster)GameController.Instance.Map.Figures.First(figure =>
+							figure is Monster monster && monster.MonsterModel is GoringGrizzly);
+					((ShieldTrait)goringGrizzly.Stats.Traits.First(trait => trait is ShieldTrait)).ChangeShieldValue(goringGrizzly, -1);
 
-					await AbilityCmd.SufferDamage(null, GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is KingCobra), applyParameters.Damage);
+					Figure kingCobra =
+						GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is KingCobra);
+					await AbilityCmd.SufferDamage(kingCobra, applyParameters.Damage, kingCobra);
 
 					await GDTask.CompletedTask;
-                });
+				});
 
 			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Subscribe(this, _door3,
 				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel is GiantViper &&
-					!GameController.Instance.Map.Rooms[3].MapTiles.Contains(canApplyParameters.MapTile),
+				                      !GameController.Instance.Map.Rooms[3].MapTiles.Contains(canApplyParameters.MapTile),
 				applyParameters =>
 				{
 					applyParameters.SetCanEnter(false);
@@ -200,17 +212,17 @@ public class Scenario042 : ScenarioModel
 
 			ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(this, _door3,
 				canApplyParameters => canApplyParameters.Performer is Monster monster && monster.MonsterModel is GiantViper &&
-					!GameController.Instance.Map.Rooms[3].MapTiles.Contains(canApplyParameters.PotentialTarget.Hex.MapTile),
+				                      !GameController.Instance.Map.Rooms[3].MapTiles.Contains(canApplyParameters.PotentialTarget.Hex.MapTile),
 				applyParameters =>
-                {
-                    applyParameters.SetCannotBeFocused();
-                });
+				{
+					applyParameters.SetCannotBeFocused();
+				});
 
 			UpdateScenarioText($"""
-				The named Giant Viper is the King Cobra.
+			                    The named Giant Viper is the King Cobra.
 
-				None of the monsters in the room will focus on enemies outside the C2A tile, nor will they leave the tile. Whenever a Giant Viper is damaged, the King Cobra suffers an equal amount of {Icons.Inline(Icons.Damage)}.
-				""");
-        }
+			                    None of the monsters in the room will focus on enemies outside the C2A tile, nor will they leave the tile. Whenever a Giant Viper is damaged, the King Cobra suffers an equal amount of {Icons.Inline(Icons.Damage)}.
+			                    """);
+		}
 	}
 }
