@@ -1,0 +1,94 @@
+using System.Collections.Generic;
+using Fractural.Tasks;
+using Godot;
+
+public class CorrosiveCombustion : BrightsparkCardModel<CorrosiveCombustion.CardTop, CorrosiveCombustion.CardBottom>
+{
+	public override string Name => "Corrosive Combustion";
+	public override int Level => 1;
+	public override int Initiative => 32;
+	protected override int AtlasIndex => 4;
+
+	public class CardTop : BrightsparkCardSide
+	{
+		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		[
+			new AbilityCardAbility(AttackAbility.Builder()
+				.WithDamage(3)
+				.WithAOEPattern(new AOEPattern(
+					[
+						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
+					]
+				))
+				.WithDuringAttackSubscription(
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
+						applyFunction: async parameters =>
+						{
+							parameters.AbilityState.AbilitySetAOEPattern(new AOEPattern(
+								[
+									new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+									new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+									new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+									new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
+									new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
+									new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
+								]
+							));
+
+							await GDTask.CompletedTask;
+						},
+						effectInfoViewParameters: new TextEffectInfoView.Parameters("Increase the area of effect as shown")
+					)
+				)
+				.Build()),
+		];
+
+		protected override int XP => 1;
+		public override bool Loss => true;
+	}
+
+	public class CardBottom : BrightsparkCardSide
+	{
+		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		[
+			new AbilityCardAbility(UseSlotAbility.Builder()
+				.WithOnActivate(async state =>
+				{
+					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
+						parameters => parameters.Performer == state.Performer && parameters.AbilityState.SingleTargetRangeType == RangeType.Range,
+						async parameters =>
+						{
+							parameters.AbilityState.SingleTargetAdjustRange(1);
+							await GDTask.CompletedTask;
+						});
+					ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
+						parameters => parameters.Performer == state.Performer && parameters.AbilityState.SingleTargetRangeType == RangeType.Range,
+						async parameters =>
+						{
+							parameters.AbilityState.SingleTargetAdjustPierce(2);
+							await state.AdvanceUseSlot();
+						});
+					await GDTask.CompletedTask;
+				})
+				.WithOnDeactivate(async state =>
+				{
+					ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
+					ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, this);
+					await GDTask.CompletedTask;
+				})
+				.WithUseSlots(
+				[
+					//TODO: Fix Use slot positioning
+					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
+					new UseSlot(new Vector2(0.57749975f, 0.3549993f), state => AbilityCmd.InfuseElement(Element.Fire)),
+					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+				])
+				.Build())
+		];
+
+		protected override bool Persistent => true;
+	}
+}

@@ -2,29 +2,21 @@ using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
 
-public class AcquireFunding : BrightsparkCardModel<AcquireFunding.CardTop, AcquireFunding.CardBottom>
+public class CellRegeneration : BrightsparkCardModel<CellRegeneration.CardTop, CellRegeneration.CardBottom>
 {
-	public override string Name => "Acquire Funding";
+	public override string Name => "Cell Regeneration";
 	public override int Level => 1;
-	public override int Initiative => 61;
-	protected override int AtlasIndex => 0;
+	public override int Initiative => 73;
+	protected override int AtlasIndex => 2;
 
 	public class CardTop : BrightsparkCardSide
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
-				.WithRange(3)
-				.WithAfterAttackPerformedSubscription(
-					ScenarioEvents.AfterAttackPerformed.Subscription.New(
-						parameters => parameters.AbilityState.Target.IsDead,
-						async parameters =>
-						{
-							//TODO: Loot Coin
-							await GDTask.CompletedTask;
-						})
-				)
+			new AbilityCardAbility(HealAbility.Builder()
+				.WithHealValue(3)
+				.WithTarget(Target.Self)
+				//TODO: Add Light Consumption
 				.Build())
 		];
 	}
@@ -42,10 +34,10 @@ public class AcquireFunding : BrightsparkCardModel<AcquireFunding.CardTop, Acqui
 						{
 							ActionState actionState = new ActionState(parameters.Figure,
 							[
-								MoveAbility.Builder().WithDistance(1).Build(),
-								LootAbility.Builder().WithRange(1).Build()
+								HealAbility.Builder().WithHealValue(1).Build(),
 							]);
 							await actionState.Perform();
+
 							await state.AdvanceUseSlot();
 						});
 					await GDTask.CompletedTask;
@@ -60,12 +52,21 @@ public class AcquireFunding : BrightsparkCardModel<AcquireFunding.CardTop, Acqui
 					//TODO: Fix Use slot positioning
 					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
 					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.78700954f, 0.3549993f), FinalSlotAbility)
 				])
 				.Build())
 		];
 
 		protected override bool Persistent => true;
-		public override bool Loss => true;
+
+		private async GDTask FinalSlotAbility(AbilityState abilityState)
+		{
+			ActionState actionState = new ActionState(abilityState.Performer,
+			[
+				HealAbility.Builder().WithHealValue(1).Build(),
+			]);
+			await actionState.Perform();
+			await AbilityCmd.GainXP(abilityState.Performer, 1);
+		}
 	}
 }
