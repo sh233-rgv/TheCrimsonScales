@@ -30,9 +30,9 @@ public class ConditionImmunityTrait : FigureTrait
 			{
 				return
 					parameters.Target == figure &&
-					parameters.Condition?.ImmunityCompareBaseConditions != null &&
+					parameters.ConditionModel?.ImmunityCompareBaseConditions != null &&
 					_conditionModel?.ImmunityCompareBaseConditions != null &&
-					parameters.Condition.ImmunityCompareBaseConditions
+					parameters.ConditionModel.ImmunityCompareBaseConditions
 						.Any(condition => _conditionModel.ImmunityCompareBaseConditions.Contains(condition));
 			},
 			async parameters =>

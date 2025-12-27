@@ -42,7 +42,7 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 					Figure target = state.ActionState.GetAbilityState<GiveAbilityCardAbility.State>(0).UniqueTargetedFigures[0];
 
 					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
-						parameters => parameters.Target == target && parameters.Condition.GetType().IsAssignableTo(typeof(PoisonBase)),
+						parameters => parameters.Target == target && parameters.ConditionModel.GetType().IsAssignableTo(typeof(PoisonBase)),
 						async parameters =>
 						{
 							parameters.SetPrevented(true);

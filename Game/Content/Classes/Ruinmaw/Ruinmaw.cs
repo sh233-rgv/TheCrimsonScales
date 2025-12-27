@@ -27,10 +27,10 @@ public partial class Ruinmaw : Character, IHasEmpower
 		object subscriber = new();
 
 		ScenarioEvents.InflictConditionEvent.Subscribe(this, subscriber,
-			canApply: parameters => parameters.Condition is EmpowerRuinmaw,
+			canApply: parameters => parameters.ConditionModel is EmpowerRuinmaw,
 			apply: async parameters =>
 			{
-				((EmpowerRuinmaw)parameters.Condition).SetEmpowerOwner(this);
+				((EmpowerRuinmaw)parameters.ConditionModel).SetEmpowerOwner(this);
 				await GDTask.CompletedTask;
 			}
 		);

@@ -1,21 +1,19 @@
 using Fractural.Tasks;
-using System.Collections.Generic;
 using Godot;
-using System.Threading;
-using System.Linq;
-using System.Runtime.InteropServices;
 
 public class Chill : ConditionModel
 {
 	public override string Name => "Chill";
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Chill.svg";
-	public override bool CanBeUpgraded => true;
+	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Negative;
+	public override bool CanBeAppliedMultipleTimesInSingleTarget => true;
+	public virtual bool CanBeUpgraded => true;
 	public override bool RemovedAtEndOfTurn => true;
 	public override ConditionModel[] ImmunityCompareBaseConditions => [Conditions.Immobilize, Conditions.Muddle];
 
-	public override async GDTask Add(Figure target, ConditionNode node)
+	public override async GDTask OnAdded(Condition condition)
 	{
-		await base.Add(target, node);
+		await base.OnAdded(condition);
 
 		_appliedDuringThisTurn = false;
 		int totalChill = GetChillCount();
@@ -33,7 +31,7 @@ public class Chill : ConditionModel
 		}
 	}
 
-	public override GDTask Remove()
+	public override GDTask OnRemoved(Condition condition)
 	{
 		if(GetChillCount() > 1)
 		{
@@ -54,7 +52,7 @@ public class Chill : ConditionModel
 		}
 		else
 		{
-			return base.Remove();
+			return base.OnRemoved(condition);
 		}
 	}
 
@@ -73,7 +71,7 @@ public class Chill : ConditionModel
 
 	protected override bool DuplicatesCheckCanApply(ScenarioEvents.InflictConditionDuplicatesCheck.Parameters parameters)
 	{
-		if(parameters.Condition is Chill)
+		if(parameters.ConditionModel is Chill)
 		{
 			return false;
 		}
@@ -106,11 +104,6 @@ public class Chill : ConditionModel
 			},
 			EffectType.MandatoryBeforeOptionals
 		);
-	}
-
-	public override bool ShouldShowOnFigure(Figure figure)
-	{
-		return !figure.HasCondition(Conditions.Chill);
 	}
 
 	private int GetChillCount()

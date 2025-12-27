@@ -3,15 +3,16 @@
 public abstract class PoisonBase : ConditionModel
 {
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Poison.svg";
+	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Negative;
 	public override bool RemovedByHeal => true;
-	public override bool CanBeUpgraded => true;
+	public virtual bool CanBeUpgraded => true;
 	public override ConditionModel[] ImmunityCompareBaseConditions => [Conditions.Poison1];
 
 	protected abstract int PoisonValue { get; }
 
-	public override async GDTask Add(Figure target, ConditionNode node)
+	public override async GDTask OnAdded(Condition condition)
 	{
-		await base.Add(target, node);
+		await base.OnAdded(condition);
 
 		for(int i = target.Conditions.Count - 1; i >= 0; i--)
 		{
@@ -47,9 +48,9 @@ public abstract class PoisonBase : ConditionModel
 		// );
 	}
 
-	public override async GDTask Remove()
+	public override async GDTask OnRemoved(Condition condition)
 	{
-		await base.Remove();
+		await base.OnRemoved(condition);
 
 		ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(this);
 		ScenarioEvents.HealBlockTimeEvent.Unsubscribe(this);
@@ -60,7 +61,8 @@ public abstract class PoisonBase : ConditionModel
 	{
 		return
 			base.DuplicatesCheckCanApply(parameters) ||
-			(!parameters.Prevented && parameters.Target == Owner && parameters.Condition.ImmutableInstance is PoisonBase poisonBase && poisonBase.PoisonValue < PoisonValue);
+			(!parameters.Prevented && parameters.Target == Owner && parameters.ConditionModel.ImmutableInstance is PoisonBase poisonBase &&
+			 poisonBase.PoisonValue < PoisonValue);
 	}
 
 	private bool CanApply(ScenarioEvents.AttackAfterTargetConfirmed.Parameters abilityStateParameters)

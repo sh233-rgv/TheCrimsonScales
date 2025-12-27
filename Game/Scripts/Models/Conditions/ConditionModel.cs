@@ -1,35 +1,24 @@
 ﻿using Fractural.Tasks;
 using Godot;
 
-public abstract class ConditionModel : AbstractModel<ConditionModel>, IEventSubscriber
+public abstract class ConditionModel : AbstractModel
 {
 	public abstract string Name { get; }
 	public abstract string IconPath { get; }
-	public virtual bool CanStack => false;
-	public virtual bool CanBeUpgraded => false;
-	public virtual ConditionModel[] ImmunityCompareBaseConditions => [IsMutable ? ImmutableInstance : this];
+	public abstract ConditionPolarity ConditionPolarity { get; }
+	public virtual bool CanBeAppliedMultipleTimesInSingleTarget => false;
+	public virtual ConditionModel[] ImmunityCompareBaseConditions => [this];
 	public virtual bool RemovedAtEndOfTurn => false;
-	public virtual bool IsPositive => false;
-	public virtual bool IsNegative => !IsPositive;
+	public virtual bool ImmediatelyRemovedOnApply => false;
 	public virtual bool RemovedByHeal => false;
+	public virtual bool ShouldShowOnFigure => true;
 	protected virtual string ConditionAnimationScenePath => null;
 
-	protected bool _appliedDuringThisTurn;
+	public bool IsPositive => ConditionPolarity == ConditionPolarity.Positive;
+	public bool IsNegative => ConditionPolarity == ConditionPolarity.Negative;
 
-	protected Figure Owner { get; private set; }
-	public ConditionNode Node { get; protected set; }
-
-	public virtual async GDTask Add(Figure target, ConditionNode node)
+	public virtual async GDTask OnAdded(Condition condition)
 	{
-		Owner = target;
-		Node = node;
-		Owner.Conditions.Insert(0, this);
-
-		if(target.TakingTurn)
-		{
-			_appliedDuringThisTurn = true;
-		}
-
 		ScenarioEvents.InflictConditionDuplicatesCheckEvent.Subscribe(this, DuplicatesCheckCanApply, DuplicatesCheckApply);
 
 		if(RemovedAtEndOfTurn)
@@ -48,7 +37,7 @@ public abstract class ConditionModel : AbstractModel<ConditionModel>, IEventSubs
 		}
 	}
 
-	public virtual GDTask Remove()
+	public virtual GDTask OnRemoved(Condition condition)
 	{
 		Node?.Destroy();
 		Owner.Conditions.Remove(this);
@@ -61,7 +50,7 @@ public abstract class ConditionModel : AbstractModel<ConditionModel>, IEventSubs
 
 	protected virtual bool DuplicatesCheckCanApply(ScenarioEvents.InflictConditionDuplicatesCheck.Parameters parameters)
 	{
-		return !parameters.Prevented && parameters.Target == Owner && parameters.Condition.ImmutableInstance == ImmutableInstance;
+		return !parameters.Prevented && parameters.Target == Owner && parameters.ConditionModel.ImmutableInstance == ImmutableInstance;
 	}
 
 	protected virtual GDTask DuplicatesCheckApply(ScenarioEvents.InflictConditionDuplicatesCheck.Parameters parameters)
@@ -91,10 +80,5 @@ public abstract class ConditionModel : AbstractModel<ConditionModel>, IEventSubs
 		{
 			await AbilityCmd.RemoveCondition(Owner, ImmutableInstance);
 		}
-	}
-
-	public virtual bool ShouldShowOnFigure(Figure figure)
-	{
-		return true;
 	}
 }

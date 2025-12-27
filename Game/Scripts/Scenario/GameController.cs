@@ -133,7 +133,7 @@ public partial class GameController : SceneController<GameController>
 
 	public AMDCardDeck MonsterAMDCardDeck { get; private set; }
 
-	public static bool FastForward { get; private set; } // = true;
+	public static bool FastForward { get; private set; }
 
 	public SavedScenarioProgress SavedScenarioProgress { get; private set; }
 
@@ -363,8 +363,6 @@ public partial class GameController : SceneController<GameController>
 			SavedCampaign.SanctuaryOfTheGreatOak.ReturnCards(character.SavedCharacter);
 		}
 
-		//SavedScenarioProgress.Unlocked = true;
-
 		if(won)
 		{
 			SavedScenarioProgress.Complete();
@@ -406,11 +404,7 @@ public partial class GameController : SceneController<GameController>
 
 	private void EditorPrintSaveGame()
 	{
-		// Formatting oldFormatting = SaveFile.JsonSerializerSettings.Formatting;
-		// SaveFile.JsonSerializerSettings.Formatting = Formatting.Indented;
 		string json = JsonConvert.SerializeObject(SavedCampaign, SaveFile.JsonSerializerSettings);
-		//SaveFile.JsonSerializerSettings.Formatting = oldFormatting;
-		//GD.Print(json);
 		DisplayServer.ClipboardSet(json);
 	}
 
@@ -430,13 +424,11 @@ public partial class GameController : SceneController<GameController>
 		if(fastForward)
 		{
 			_fastForwardStopwatch.Start();
-			//GD.Print($"Started stopwatch at {DateTime.Now}");
 		}
 		else
 		{
 			_fastForwardStopwatch.Stop();
 			Log.Write($"Fast forwarding took {_fastForwardStopwatch.ElapsedMilliseconds} milliseconds");
-			//GD.Print($"Stopped stopwatch at {DateTime.Now}");
 		}
 	}
 

@@ -3,15 +3,16 @@
 public abstract class WoundBase : ConditionModel
 {
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Wound.svg";
+	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Negative;
 	public override bool RemovedByHeal => true;
-	public override bool CanBeUpgraded => true;
+	public virtual bool CanBeUpgraded => true;
 	public override ConditionModel[] ImmunityCompareBaseConditions => [Conditions.Wound1];
 
 	protected abstract int WoundValue { get; }
 
-	public override async GDTask Add(Figure target, ConditionNode node)
+	public override async GDTask OnAdded(Condition condition)
 	{
-		await base.Add(target, node);
+		await base.OnAdded(condition);
 
 		for(int i = target.Conditions.Count - 1; i >= 0; i--)
 		{
@@ -39,9 +40,9 @@ public abstract class WoundBase : ConditionModel
 		// 	async parameters => await AbilityCmd.RemoveCondition(Owner, this), EffectType.MandatoryBeforeOptionals);
 	}
 
-	public override async GDTask Remove()
+	public override async GDTask OnRemoved(Condition condition)
 	{
-		await base.Remove();
+		await base.OnRemoved(condition);
 
 		ScenarioEvents.FigureTurnStartedEvent.Unsubscribe(this);
 		//ScenarioEvents.AfterHealPerformedEvent.Unsubscribe(this);
@@ -51,7 +52,7 @@ public abstract class WoundBase : ConditionModel
 	{
 		return
 			base.DuplicatesCheckCanApply(parameters) ||
-			(!parameters.Prevented && parameters.Target == Owner && parameters.Condition.ImmutableInstance is WoundBase woundBase &&
+			(!parameters.Prevented && parameters.Target == Owner && parameters.ConditionModel.ImmutableInstance is WoundBase woundBase &&
 			 woundBase.WoundValue < WoundValue);
 	}
 }

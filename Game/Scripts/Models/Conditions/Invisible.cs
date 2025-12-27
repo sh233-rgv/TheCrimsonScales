@@ -4,12 +4,12 @@ public class Invisible : ConditionModel
 {
 	public override string Name => "Invisible";
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Invisible.svg";
+	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Positive;
 	public override bool RemovedAtEndOfTurn => true;
-	public override bool IsPositive => true;
 
-	public override async GDTask Add(Figure target, ConditionNode node)
+	public override async GDTask OnAdded(Condition condition)
 	{
-		await base.Add(target, node);
+		await base.OnAdded(condition);
 
 		ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(Owner, this,
 			parameters => parameters.PotentialTarget == Owner && parameters.Performer.EnemiesWith(Owner),
@@ -36,9 +36,9 @@ public class Invisible : ConditionModel
 		);
 	}
 
-	public override async GDTask Remove()
+	public override async GDTask OnRemoved(Condition condition)
 	{
-		await base.Remove();
+		await base.OnRemoved(condition);
 
 		ScenarioCheckEvents.CanBeFocusedCheckEvent.Unsubscribe(Owner, this);
 		ScenarioCheckEvents.CanBeTargetedCheckEvent.Unsubscribe(Owner, this);

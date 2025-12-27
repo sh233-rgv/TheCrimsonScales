@@ -228,11 +228,11 @@ public class ScenarioEvents
 
 	public class InflictCondition : ScenarioEvent<InflictCondition.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, Figure target, ConditionModel condition) : ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Figure Target { get; } = target;
-			public ConditionModel Condition { get; } = condition;
+			public ConditionModel ConditionModel { get; } = conditionModel;
 
 			public bool Prevented { get; private set; }
 
@@ -248,12 +248,12 @@ public class ScenarioEvents
 
 	public class InflictConditionDuplicatesCheck : ScenarioEvent<InflictConditionDuplicatesCheck.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, Figure target, ConditionModel condition)
+		public class Parameters(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel)
 			: ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Figure Target { get; } = target;
-			public ConditionModel Condition { get; } = condition;
+			public ConditionModel ConditionModel { get; } = conditionModel;
 
 			public bool Prevented { get; private set; }
 
@@ -278,10 +278,12 @@ public class ScenarioEvents
 
 	public class RemoveCondition : ScenarioEvent<RemoveCondition.Parameters>
 	{
-		public class Parameters(Figure figure, ConditionModel condition) : ParametersBase
+		public class Parameters(Condition condition) : ParametersBase
 		{
-			public Figure Figure { get; } = figure;
-			public ConditionModel Condition { get; } = condition;
+			public Condition Condition { get; } = condition;
+
+			public Figure Figure => Condition.Owner;
+			public ConditionModel ConditionModel => Condition.ConditionModel;
 		}
 	}
 

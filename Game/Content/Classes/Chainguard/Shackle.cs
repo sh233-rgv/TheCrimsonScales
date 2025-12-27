@@ -6,24 +6,22 @@ public class Shackle : ConditionModel
 {
 	public override string Name => "Shackle";
 	public override string IconPath => "res://Content/Classes/Chainguard/Shackle.svg";
-	public override bool RemovedByHeal => false;
-	public override bool CanBeUpgraded => false;
-	public override bool IsPositive => false;
-	public override bool IsNegative => false;
+	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Negative;
 	public override ConditionModel[] ImmunityCompareBaseConditions => [Conditions.Immobilize];
+	public override bool ShouldShowOnFigure => false;
 
-	public Figure Shackler { get; private set; }
+	// public Figure Shackler { get; private set; }
+	//
+	// private ShackleIndicator _indicator;
 
-	private ShackleIndicator _indicator;
+	// public void SetShackler(Figure shackler)
+	// {
+	// 	Shackler = shackler;
+	// }
 
-	public void SetShackler(Figure shackler)
+	public override async GDTask OnAdded(Condition condition)
 	{
-		Shackler = shackler;
-	}
-
-	public override async GDTask Add(Figure target, ConditionNode node)
-	{
-		await base.Add(target, node);
+		await base.OnAdded(condition);
 
 		_indicator = ResourceLoader.Load<PackedScene>("res://Content/Classes/Chainguard/ShackleIndicator.tscn").Instantiate<ShackleIndicator>();
 		target.AddChild(_indicator);
@@ -31,8 +29,9 @@ public class Shackle : ConditionModel
 
 		// Stop movement if became adjacent to the Shackler
 		ScenarioEvents.CanMoveFurtherCheckEvent.Subscribe(target, this,
-			parameters => parameters.Performer == Owner &&
-			              RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 1).Any(figure => figure == Shackler),
+			parameters =>
+				parameters.Performer == Owner &&
+				RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 1).Any(figure => figure == Shackler),
 			async parameters =>
 			{
 				_indicator.Flash();
@@ -58,7 +57,7 @@ public class Shackle : ConditionModel
 		// Don't allow movement through an ally that is adjacent to the Chainguard
 		ScenarioCheckEvents.CanPassAllyCheckEvent.Subscribe(Owner, this,
 			parameters => parameters.Figure == Owner &&
-				RangeHelper.GetFiguresInRange(parameters.AlliedFigure.Hex, 1).Any(figure => figure == Shackler),
+			              RangeHelper.GetFiguresInRange(parameters.AlliedFigure.Hex, 1).Any(figure => figure == Shackler),
 			parameters =>
 			{
 				parameters.SetCannotPass();
@@ -66,9 +65,9 @@ public class Shackle : ConditionModel
 		);
 	}
 
-	public override async GDTask Remove()
+	public override async GDTask OnRemoved(Condition condition)
 	{
-		await base.Remove();
+		await base.OnRemoved(condition);
 
 		_indicator?.Destroy();
 
@@ -76,9 +75,4 @@ public class Shackle : ConditionModel
 		ScenarioEvents.AbilityStartedEvent.Unsubscribe(Owner, this);
 		ScenarioCheckEvents.CanPassAllyCheckEvent.Unsubscribe(Owner, this);
 	}
-
-	public override bool ShouldShowOnFigure(Figure figure)
-    {
-		return false;
-    }
 }

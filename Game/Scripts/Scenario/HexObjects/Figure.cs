@@ -25,7 +25,8 @@ public abstract partial class Figure : HexObject
 	public int Health { get; private set; }
 	public int MaxHealth { get; private set; }
 
-	public List<ConditionModel> Conditions { get; } = new List<ConditionModel>();
+	public List<HexObjectEffectViewBase> Effects { get; } = new List<HexObjectEffectViewBase>();
+	public List<Condition> Conditions { get; } = new List<Condition>();
 
 	public Alignment Alignment { get; private set; }
 	public Alignment Enemies { get; private set; }
@@ -270,11 +271,11 @@ public abstract partial class Figure : HexObject
 		return HasCondition(global::Conditions.Wound1) || HasCondition(global::Conditions.Wound2);
 	}
 
-	public ConditionModel GetCondition(ConditionModel conditionModel)
+	public Condition GetCondition(ConditionModel conditionModel)
 	{
-		foreach(ConditionModel condition in Conditions)
+		foreach(Condition condition in Conditions)
 		{
-			if(condition.ImmutableInstance == conditionModel)
+			if(condition.ConditionModel == conditionModel)
 			{
 				return condition;
 			}
@@ -283,35 +284,42 @@ public abstract partial class Figure : HexObject
 		return null;
 	}
 
-	public async GDTask<ConditionNode> AddCondition(ConditionModel condition)
+	public async GDTask<Condition> AddCondition(ConditionModel conditionModel, Figure potentialFigure)
 	{
-		ConditionNode conditionNode = null;
-		if(condition.ShouldShowOnFigure(this))
+		HexObjectEffectViewBase effectView = null;
+		if(conditionModel.ShouldShowOnFigure(this))
 		{
-			conditionNode = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Condition.tscn").Instantiate<ConditionNode>();
-			_figureViewComponent.ConditionParent.AddChild(conditionNode);
-			conditionNode.Init(condition);
+			effectView = AddEffect(new ConditionHexObjectEffectView.Parameters(conditionModel));
 		}
-		//ConditionNodes.Add(condition, conditionNode);
+
+		Condition condition = new Condition(conditionModel, effectView as ConditionHexObjectEffectView, this);
 
 		ConditionsChangedEvent?.Invoke(this);
 
-		await condition.Add(this, conditionNode);
+		await condition.OnAdded();
+		//await condition.Add(this, conditionNode);
 
-		ReorderConditions();
+		ReorderEffects();
 
-		return conditionNode;
+		return condition;
 	}
 
-	public async GDTask RemoveCondition(ConditionModel conditionModel)
+	public async GDTask RemoveCondition(Condition condition)
 	{
-		ConditionModel condition = GetCondition(conditionModel);
-
 		ConditionsChangedEvent?.Invoke(this);
 
-		await condition.Remove();
+		await condition.OnRemoved();
 
-		ReorderConditions();
+		ReorderEffects();
+	}
+
+	public HexObjectEffectViewBase AddEffect(HexObjectEffectViewParameters parameters)
+	{
+		HexObjectEffectViewBase effectView = ResourceLoader.Load<PackedScene>(parameters.ScenePath).Instantiate<HexObjectEffectViewBase>();
+		_figureViewComponent.EffectParent.AddChild(effectView);
+		effectView.Init(parameters);
+
+		return effectView;
 	}
 
 	public void SetAlignment(Alignment alignment)
@@ -509,19 +517,19 @@ public abstract partial class Figure : HexObject
 		_flying = flying;
 	}
 
-	private void ReorderConditions()
+	private void ReorderEffects()
 	{
-		List<ConditionNode> nodes = Conditions.Where(condition => condition.Node != null).Select(condition => condition.Node).ToList();
+		//List<HexObjectEffectViewBase> effects = Effects.Where(effect => effect.Node != null).Select(condition => condition.Node).ToList();
 
-		int conditionCount = nodes.Count;
+		int effectCount = Effects.Count;
 		int index = 0;
 		const float maxOffset = 50f;
-		foreach(ConditionNode node in nodes)
+		foreach(HexObjectEffectViewBase effect in Effects)
 		{
-			float progress = (index + 1f) / (conditionCount + 1);
+			float progress = (index + 1f) / (effectCount + 1);
 			float posY = Mathf.Lerp(-maxOffset, maxOffset, progress);
-			node.Move(new Vector2(0f, posY));
-			_figureViewComponent.ConditionParent.MoveChild(node, index);
+			effect.Move(new Vector2(0f, posY));
+			_figureViewComponent.EffectParent.MoveChild(effect, index);
 
 			index++;
 		}

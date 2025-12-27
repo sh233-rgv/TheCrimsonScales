@@ -4,11 +4,12 @@ public class Immobilize : ConditionModel
 {
 	public override string Name => "Immobilize";
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Immobilize.svg";
+	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Negative;
 	public override bool RemovedAtEndOfTurn => true;
 
-	public override async GDTask Add(Figure target, ConditionNode node)
+	public override async GDTask OnAdded(Condition condition)
 	{
-		await base.Add(target, node);
+		await base.OnAdded(condition);
 
 		ScenarioEvents.AbilityStartedEvent.Subscribe(Owner, this,
 			parameters => parameters.Performer == Owner && parameters.AbilityState is MoveAbility.State,
@@ -34,9 +35,9 @@ public class Immobilize : ConditionModel
 		);
 	}
 
-	public override async GDTask Remove()
+	public override async GDTask OnRemoved(Condition condition)
 	{
-		await base.Remove();
+		await base.OnRemoved(condition);
 
 		ScenarioEvents.AbilityStartedEvent.Unsubscribe(Owner, this);
 		ScenarioEvents.CanMoveFurtherCheckEvent.Unsubscribe(Owner, this);

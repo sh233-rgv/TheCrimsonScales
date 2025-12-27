@@ -175,8 +175,6 @@ public static class AbilityCmd
 
 		foreach(ConditionModel conditionModel in inflictConditionsParameters.ConditionModels)
 		{
-			ConditionModel condition = conditionModel.ToMutable();
-
 			ScenarioEvents.InflictCondition.Parameters inflictConditionParameters =
 				await ScenarioEvents.InflictConditionEvent.CreatePrompt(
 					new ScenarioEvents.InflictCondition.Parameters(potentialAbilityState, target, condition),
@@ -191,7 +189,7 @@ public static class AbilityCmd
 
 				if(!inflictConditionDuplicatesCheckParameters.Prevented)
 				{
-					await target.AddCondition(condition);
+					await target.AddCondition(conditionModel);
 				}
 			}
 		}
@@ -199,22 +197,21 @@ public static class AbilityCmd
 		potentialAbilityState?.SetPerformed();
 	}
 
-	public static async GDTask<bool> RemoveCondition(Figure target, ConditionModel conditionModel)
+	public static async GDTask RemoveCondition(Condition condition)
 	{
 		ScenarioEvents.RemoveCondition.Parameters removeConditionParameters =
 			await ScenarioEvents.RemoveConditionEvent.CreatePrompt(
-				new ScenarioEvents.RemoveCondition.Parameters(target, conditionModel), target);
+				new ScenarioEvents.RemoveCondition.Parameters(condition), condition.Owner);
 
-		if(conditionModel.IsMutable)
-		{
-			conditionModel = conditionModel.ImmutableInstance;
-		}
+		await condition.Owner.RemoveCondition(condition);
+	}
 
-		ConditionModel condition = target.GetCondition(conditionModel);
+	public static async GDTask<bool> RemoveCondition(Figure target, ConditionModel conditionModel)
+	{
+		Condition condition = target.GetCondition(conditionModel);
 		if(condition != null)
 		{
-			await target.RemoveCondition(conditionModel);
-
+			await RemoveCondition(condition);
 			return true;
 		}
 
@@ -225,18 +222,19 @@ public static class AbilityCmd
 	{
 		List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
 			new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
-		foreach(ConditionModel conditionModel in target.Conditions)
+		foreach(Condition condition in target.Conditions)
 		{
-			if(conditionModel.IsNegative)
+			if(condition.ConditionModel.ConditionPolarity == ConditionPolarity.Negative)
 			{
 				subscriptions.Add(ScenarioEvents.GenericChoice.Subscription.New(
 					applyFunction: async applyParameters =>
 					{
-						await AbilityCmd.RemoveCondition(target, conditionModel);
+						await RemoveCondition(target, condition.ConditionModel);
 					},
 					effectType: EffectType.SelectableMandatory,
-					effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(conditionModel)),
-					effectInfoViewParameters: new TextEffectInfoView.Parameters($"Remove {Icons.Inline(Icons.GetCondition(conditionModel))}")
+					effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(condition.ConditionModel)),
+					effectInfoViewParameters: new TextEffectInfoView.Parameters(
+						$"Remove {Icons.Inline(Icons.GetCondition(condition.ConditionModel))}")
 				));
 			}
 		}
@@ -247,11 +245,11 @@ public static class AbilityCmd
 	public static async GDTask<int> RemoveAllNegativeConditions(Figure target)
 	{
 		int removedConditionsCount = 0;
-		while(target.Conditions.Any(condition => condition.IsNegative))
+		while(target.Conditions.Any(condition => condition.ConditionModel.IsNegative))
 		{
-			ConditionModel condition = target.Conditions.First(condition => condition.IsNegative);
+			Condition condition = target.Conditions.First(condition => condition.ConditionModel.IsNegative);
 
-			if(await RemoveCondition(target, condition))
+			if(await RemoveCondition(target, condition.ConditionModel))
 			{
 				removedConditionsCount++;
 			}
@@ -262,11 +260,11 @@ public static class AbilityCmd
 
 	public static async GDTask RemoveAllPositiveConditions(Figure target)
 	{
-		while(target.Conditions.Any(condition => condition.IsPositive))
+		while(target.Conditions.Any(condition => condition.ConditionModel.IsPositive))
 		{
-			ConditionModel condition = target.Conditions.First(condition => condition.IsPositive);
+			Condition condition = target.Conditions.First(condition => condition.ConditionModel.IsPositive);
 
-			await RemoveCondition(target, condition);
+			await RemoveCondition(target, condition.ConditionModel);
 		}
 	}
 

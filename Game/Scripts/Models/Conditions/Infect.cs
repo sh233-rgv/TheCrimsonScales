@@ -4,13 +4,13 @@ public class Infect : ConditionModel
 {
 	public override string Name => "Infect";
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Infect.svg";
+	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Negative;
 	public override bool RemovedByHeal => true;
 	public override ConditionModel[] ImmunityCompareBaseConditions => [Conditions.Poison1];
-	public override bool IsNegative => true;
 
-	public override async GDTask Add(Figure target, ConditionNode node)
+	public override async GDTask OnAdded(Condition condition)
 	{
-		await base.Add(target, node);
+		await base.OnAdded(condition);
 
 		Owner.SetCrackedShield(true);
 
@@ -26,9 +26,9 @@ public class Infect : ConditionModel
 		ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(this, CanApply, Apply, EffectType.MandatoryBeforeOptionals);
 	}
 
-	public override async GDTask Remove()
+	public override async GDTask OnRemoved(Condition condition)
 	{
-		await base.Remove();
+		await base.OnRemoved(condition);
 
 		Owner.SetCrackedShield(false);
 

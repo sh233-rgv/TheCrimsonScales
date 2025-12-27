@@ -6,14 +6,14 @@ public class Rupture : ConditionModel
 {
 	public override string Name => "Rupture";
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Rupture.svg";
+	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Negative;
 	public override bool RemovedByHeal => true;
 	public override ConditionModel[] ImmunityCompareBaseConditions => [Conditions.Wound1];
-	public override bool IsNegative => true;
 
-	public override async GDTask Add(Figure target, ConditionNode node)
+	public override async GDTask OnAdded(Condition condition)
 	{
-		await base.Add(target, node);
-		
+		await base.OnAdded(condition);
+
 		ScenarioEvents.AbilityEndedEvent.Subscribe(this,
 			//TODO: Make rupture trigger at the end of the movement rather than the end of the ability (matters on some rare occasions)
 			parameters =>
@@ -29,9 +29,9 @@ public class Rupture : ConditionModel
 			EffectType.MandatoryBeforeOptionals);
 	}
 
-	public override async GDTask Remove()
+	public override async GDTask OnRemoved(Condition condition)
 	{
-		await base.Remove();
+		await base.OnRemoved(condition);
 
 		ScenarioEvents.AbilityEndedEvent.Unsubscribe(this);
 	}

@@ -39,7 +39,7 @@ public abstract class AbilityCardModel<TTop, TBottom> : AbilityCardModel
 	}
 }
 
-public abstract class AbilityCardModel : AbstractModel<AbilityCardModel>
+public abstract class AbilityCardModel : AbstractModel
 {
 	public abstract string Name { get; }
 	public abstract int Level { get; }

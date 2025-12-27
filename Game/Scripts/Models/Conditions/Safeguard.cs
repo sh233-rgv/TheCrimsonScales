@@ -5,11 +5,11 @@ public class Safeguard : ConditionModel
 {
 	public override string Name => "Safeguard";
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Safeguard.svg";
-	public override bool IsPositive => true;
+	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Positive;
 
-	public override async GDTask Add(Figure target, ConditionNode node)
+	public override async GDTask OnAdded(Condition condition)
 	{
-		await base.Add(target, node);
+		await base.OnAdded(condition);
 
 		ScenarioEvents.InflictConditionsEvent.Subscribe(this,
 			parameters => parameters.Target == Owner && parameters.ConditionModels.Count > 0,
@@ -17,7 +17,8 @@ public class Safeguard : ConditionModel
 			{
 				Node.Flash();
 
-				List<ScenarioEvents.GenericChoice.Subscription> subscriptions = new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
+				List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
+					new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
 				foreach(ConditionModel conditionModel in parameters.ConditionModels)
 				{
 					subscriptions.Add(ScenarioEvents.GenericChoice.Subscription.New(
@@ -41,9 +42,9 @@ public class Safeguard : ConditionModel
 		);
 	}
 
-	public override async GDTask Remove()
+	public override async GDTask OnRemoved(Condition condition)
 	{
-		await base.Remove();
+		await base.OnRemoved(condition);
 
 		ScenarioEvents.InflictConditionsEvent.Unsubscribe(this);
 	}

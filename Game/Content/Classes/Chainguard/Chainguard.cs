@@ -23,10 +23,10 @@ public partial class Chainguard : Character
 		object subscriber = new();
 
 		ScenarioEvents.InflictConditionEvent.Subscribe(this, subscriber,
-			canApply: parameters => parameters.Condition is Shackle,
+			canApply: parameters => parameters.ConditionModel is Shackle,
 			apply: async parameters =>
 			{
-				((Shackle)parameters.Condition).SetShackler(parameters.PotentialAbilityState.Performer);
+				((Shackle)parameters.ConditionModel).SetShackler(parameters.PotentialAbilityState.Performer);
 
 				int shacklesToKeep = _maximumShackles - 1;
 

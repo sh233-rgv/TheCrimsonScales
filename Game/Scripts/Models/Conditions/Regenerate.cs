@@ -4,12 +4,12 @@ public class Regenerate : ConditionModel
 {
 	public override string Name => "Regenerate";
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Regenerate.svg";
-	public override bool IsPositive => true;
+	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Positive;
 	public override bool RemovedAtEndOfTurn => false;
 
-	public override async GDTask Add(Figure target, ConditionNode node)
+	public override async GDTask OnAdded(Condition condition)
 	{
-		await base.Add(target, node);
+		await base.OnAdded(condition);
 
 		ScenarioEvents.FigureTurnStartedEvent.Subscribe(Owner, this,
 			parameters => parameters.Figure == Owner,
@@ -35,9 +35,9 @@ public class Regenerate : ConditionModel
 			});
 	}
 
-	public override async GDTask Remove()
+	public override async GDTask OnRemoved(Condition condition)
 	{
-		await base.Remove();
+		await base.OnRemoved(condition);
 
 		ScenarioEvents.FigureTurnStartedEvent.Unsubscribe(Owner, this);
 		ScenarioEvents.AfterSufferDamageEvent.Unsubscribe(Owner, this);
