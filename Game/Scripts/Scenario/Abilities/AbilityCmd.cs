@@ -162,6 +162,15 @@ public static class AbilityCmd
 		await KillOrExhaust(state.Authority, target);
 	}
 
+	public static bool CheckImmunity(ConditionModel conditionModel, ConditionModel immunityConditionModel)
+	{
+		return
+			//conditionModel.ImmunityCompareBaseConditions != null &&
+			//immunityConditionModel.ImmunityCompareBaseConditions != null &&
+			conditionModel.ImmunityCompareBaseConditions.Contains(immunityConditionModel);
+		//.Any(condition => immunityConditionModel.ImmunityCompareBaseConditions.Contains(condition));
+	}
+
 	public static GDTask AddCondition(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel)
 	{
 		return AddConditions(potentialAbilityState, target, [conditionModel]);

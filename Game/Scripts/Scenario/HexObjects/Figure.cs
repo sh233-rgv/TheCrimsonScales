@@ -286,17 +286,11 @@ public abstract partial class Figure : HexObject
 
 	public async GDTask<Condition> AddCondition(ConditionModel conditionModel, Figure potentialCauser)
 	{
-		HexObjectEffectViewBase effectView = null;
-		if(conditionModel.ShouldShowOnFigure)
-		{
-			effectView = AddEffect(new ConditionHexObjectEffectView.Parameters(conditionModel));
-		}
-
 		ConditionsChangedEvent?.Invoke(this);
 
-		Condition condition = new Condition(conditionModel, effectView as ConditionHexObjectEffectView, this, potentialCauser);
+		Condition condition = new Condition(conditionModel, this, potentialCauser);
 		await condition.OnAdded();
-		//await condition.Add(this, conditionNode);
+		Conditions.Add(condition);
 
 		ReorderEffects();
 
@@ -313,13 +307,21 @@ public abstract partial class Figure : HexObject
 		ReorderEffects();
 	}
 
-	public HexObjectEffectViewBase AddEffect(HexObjectEffectViewParameters parameters)
+	public T AddEffectView<T>(HexObjectEffectViewParameters parameters)
+		where T : HexObjectEffectViewBase
 	{
 		HexObjectEffectViewBase effectView = ResourceLoader.Load<PackedScene>(parameters.ScenePath).Instantiate<HexObjectEffectViewBase>();
 		_figureViewComponent.EffectParent.AddChild(effectView);
 		effectView.Init(parameters);
+		Effects.Add(effectView);
 
-		return effectView;
+		return (T)effectView;
+	}
+
+	public void RemoveEffectView(HexObjectEffectViewBase effectView)
+	{
+		Effects.Remove(effectView);
+		effectView.Destroy();
 	}
 
 	public void SetAlignment(Alignment alignment)

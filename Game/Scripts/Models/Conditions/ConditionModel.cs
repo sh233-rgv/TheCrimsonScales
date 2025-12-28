@@ -11,7 +11,7 @@ public abstract class ConditionModel : AbstractModel
 	public virtual bool RemovedAtEndOfTurn => false;
 	public virtual bool ImmediatelyRemovedOnApply => false;
 	public virtual bool RemovedByHeal => false;
-	public virtual ConditionModel BaseConditionLevel => this;
+	public virtual ConditionModel BaseLevelCondition => this;
 	public virtual int UpgradableLevel => 1;
 	public virtual bool RequiresCauser => false;
 	public virtual bool Stackable => false;
@@ -23,66 +23,19 @@ public abstract class ConditionModel : AbstractModel
 
 	public virtual async GDTask OnAdded(Condition condition)
 	{
-		ScenarioEvents.InflictConditionDuplicatesCheckEvent.Subscribe(this, DuplicatesCheckCanApply, DuplicatesCheckApply);
-
-		if(RemovedAtEndOfTurn)
-		{
-			ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.Subscribe(this, TurnEndedCanApply, TurnEndedApply);
-		}
-
 		if(!GameController.FastForward && ConditionAnimationScenePath != null)
 		{
 			PackedScene conditionScene = ResourceLoader.Load<PackedScene>(ConditionAnimationScenePath);
 			ConditionAnimation conditionAnimation = conditionScene.Instantiate<ConditionAnimation>();
 			GameController.Instance.Map.AddChild(conditionAnimation);
-			conditionAnimation.Init(target);
+			conditionAnimation.Init(condition.Owner);
 
 			await GDTask.Delay(0.5f);
 		}
 	}
 
-	public virtual GDTask OnRemoved(Condition condition)
+	public virtual async GDTask OnRemoved(Condition condition)
 	{
-		Node?.Destroy();
-		Owner.Conditions.Remove(this);
-
-		ScenarioEvents.InflictConditionDuplicatesCheckEvent.Unsubscribe(this);
-		ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.Unsubscribe(this);
-
-		return GDTask.CompletedTask;
-	}
-
-	protected virtual bool DuplicatesCheckCanApply(ScenarioEvents.InflictConditionDuplicatesCheck.Parameters parameters)
-	{
-		return !parameters.Prevented && parameters.Target == Owner && parameters.ConditionModel.ImmutableInstance == ImmutableInstance;
-	}
-
-	protected virtual GDTask DuplicatesCheckApply(ScenarioEvents.InflictConditionDuplicatesCheck.Parameters parameters)
-	{
-		parameters.SetPrevented(true);
-
-		if(parameters.Target.TakingTurn)
-		{
-			_appliedDuringThisTurn = true;
-		}
-
-		return GDTask.CompletedTask;
-	}
-
-	protected bool TurnEndedCanApply(ScenarioEvents.FigureTurnEndedConditionsFallOff.Parameters parameters)
-	{
-		return parameters.Figure == Owner;
-	}
-
-	protected async GDTask TurnEndedApply(ScenarioEvents.FigureTurnEndedConditionsFallOff.Parameters parameters)
-	{
-		if(_appliedDuringThisTurn)
-		{
-			_appliedDuringThisTurn = false;
-		}
-		else
-		{
-			await AbilityCmd.RemoveCondition(Owner, ImmutableInstance);
-		}
+		await GDTask.CompletedTask;
 	}
 }

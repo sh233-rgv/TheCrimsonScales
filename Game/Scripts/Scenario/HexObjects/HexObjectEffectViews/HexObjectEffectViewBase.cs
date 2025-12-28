@@ -18,6 +18,11 @@ public abstract partial class HexObjectEffectViewBase : Node2D
 		_container.TweenScale(1f, 0.15f).SetEasing(Easing.OutBack).Play();
 	}
 
+	public void Destroy()
+	{
+		_container.TweenScale(0.5f, 0.15f).SetEasing(Easing.InBack).OnComplete(QueueFree).Play();
+	}
+
 	public void Move(Vector2 position)
 	{
 		_tween?.Kill();
@@ -34,10 +39,5 @@ public abstract partial class HexObjectEffectViewBase : Node2D
 	public void Flash()
 	{
 		_container.TweenPulse(1.4f, 0.2f).PlayFastForwardable();
-	}
-
-	public void Destroy()
-	{
-		_container.TweenScale(0.5f, 0.15f).SetEasing(Easing.InBack).OnComplete(QueueFree).Play();
 	}
 }
