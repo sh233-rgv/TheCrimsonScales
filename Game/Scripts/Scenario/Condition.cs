@@ -1,29 +1,31 @@
-﻿using Fractural.Tasks;
+﻿using System.Collections.Generic;
+using Fractural.Tasks;
 using Godot;
 
 public class Condition : IEventSubscriber
 {
 	private readonly EventSubscriberPair _subscriberPair;
+	private readonly Dictionary<string, object> _customValues = new Dictionary<string, object>();
 
 	private bool _appliedDuringThisTurn;
 
 	public ConditionModel ConditionModel { get; private set; }
 	public ConditionHexObjectEffectView EffectView { get; private set; }
 	public Figure Owner { get; private set; }
-	public Figure PotentialCauser { get; private set; }
+	public Figure PotentialGiver { get; private set; }
 
 	public int StackCount { get; private set; }
 
-	public Condition(ConditionModel conditionModel, Figure owner, Figure potentialCauser)
+	public Condition(ConditionModel conditionModel, Figure owner, Figure potentialGiver)
 	{
 		ConditionModel = conditionModel;
 		Owner = owner;
-		PotentialCauser = potentialCauser;
+		PotentialGiver = potentialGiver;
 		StackCount = 1;
 
-		if(conditionModel.RequiresCauser && potentialCauser == null)
+		if(conditionModel.RequiresGiver && potentialGiver == null)
 		{
-			Log.Error($"Trying to add {conditionModel.Name} to {owner.DisplayName}, but {nameof(potentialCauser)} is null.");
+			Log.Error($"Trying to add {conditionModel.Name} to {owner.DisplayName}, but {nameof(potentialGiver)} is null.");
 		}
 
 		// Create a custom subscriber pair, so it can't interfere with subscriptions added by Condition Models
@@ -121,5 +123,46 @@ public class Condition : IEventSubscriber
 	public void Flash()
 	{
 		EffectView?.Flash();
+	}
+
+	public void SetCustomValue(string key, object value)
+	{
+		_customValues[key] = value;
+	}
+
+	public T GetCustomValue<T>(string key)
+	{
+		if(!_customValues.TryGetValue(key, out object value))
+		{
+			//Log.Error($"Could not find custom value for key: {key}");
+			return default;
+		}
+
+		if(value is not T castValue)
+		{
+			Log.Error($"Could not cast custom value for key: {key}");
+			return default;
+		}
+
+		return castValue;
+	}
+
+	public bool TryGetCustomValue<T>(string key, out T value)
+	{
+		if(!_customValues.TryGetValue(key, out object retrievedValue))
+		{
+			value = default;
+			return false;
+		}
+
+		if(retrievedValue is not T castValue)
+		{
+			Log.Error($"Could not cast custom value for key: {key}");
+			value = default;
+			return false;
+		}
+
+		value = castValue;
+		return true;
 	}
 }

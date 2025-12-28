@@ -22,22 +22,6 @@ public partial class Ruinmaw : Character, IHasEmpower
 		_satedIndicator.Hide();
 	}
 
-	public override async GDTask OnScenarioSetupCompleted()
-	{
-		await base.OnScenarioSetupCompleted();
-
-		object subscriber = new object();
-
-		ScenarioEvents.InflictConditionEvent.Subscribe(this, subscriber,
-			canApply: parameters => parameters.ConditionModel == Empower,
-			apply: async parameters =>
-			{
-				((EmpowerRuinmaw)parameters.ConditionModel).SetEmpowerOwner(this);
-				await GDTask.CompletedTask;
-			}
-		);
-	}
-
 	public async GDTask Sate()
 	{
 		if(TakingTurn)

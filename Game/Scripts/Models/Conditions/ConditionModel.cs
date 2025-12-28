@@ -13,7 +13,7 @@ public abstract class ConditionModel : AbstractModel
 	public virtual bool RemovedByHeal => false;
 	public virtual ConditionModel BaseLevelCondition => this;
 	public virtual int UpgradableLevel => 1;
-	public virtual bool RequiresCauser => false;
+	public virtual bool RequiresGiver => false;
 	public virtual bool Stackable => false;
 	public virtual bool ShouldShowOnFigure => true;
 	protected virtual string ConditionAnimationScenePath => null;
