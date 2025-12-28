@@ -11,21 +11,22 @@ public class Strengthen : ConditionModel
 	{
 		await base.OnAdded(condition);
 
-		ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(this,
-			parameters => parameters.Performer == Owner,
-			parameters =>
+		ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(condition,
+			parameters => parameters.Performer == condition.Owner,
+			async parameters =>
 			{
-				Node.Flash();
+				condition.Flash();
 				parameters.AbilityState.SingleTargetSetHasAdvantage();
-				return GDTask.CompletedTask;
-			},
-			EffectType.MandatoryBeforeOptionals);
+
+				await GDTask.CompletedTask;
+			}
+		);
 	}
 
 	public override async GDTask OnRemoved(Condition condition)
 	{
 		await base.OnRemoved(condition);
 
-		ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(this);
+		ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(condition);
 	}
 }

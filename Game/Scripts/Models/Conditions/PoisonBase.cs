@@ -8,8 +8,6 @@ public abstract class PoisonBase : ConditionModel
 	public virtual bool CanBeUpgraded => true;
 	public override ConditionModel[] ImmunityCompareBaseConditions => [Conditions.Poison1];
 
-	protected abstract int PoisonValue { get; }
-
 	public override async GDTask OnAdded(Condition condition)
 	{
 		await base.OnAdded(condition);

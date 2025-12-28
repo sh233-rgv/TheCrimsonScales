@@ -11,21 +11,24 @@ public class Disarm : ConditionModel
 	{
 		await base.OnAdded(condition);
 
-		ScenarioEvents.AbilityStartedEvent.Subscribe(this,
-			parameters => parameters.Performer == Owner && parameters.AbilityState is AttackAbility.State,
+		ScenarioEvents.AbilityStartedEvent.Subscribe(condition,
 			parameters =>
+				parameters.Performer == condition.Owner &&
+				parameters.AbilityState is AttackAbility.State,
+			async parameters =>
 			{
-				Node.Flash();
+				condition.Flash();
 				parameters.SetIsBlocked(true);
-				return GDTask.CompletedTask;
-			},
-			EffectType.MandatoryBeforeOptionals);
+
+				await GDTask.CompletedTask;
+			}
+		);
 	}
 
 	public override async GDTask OnRemoved(Condition condition)
 	{
-		await base.OnRemoved(TODO);
+		await base.OnRemoved(condition);
 
-		ScenarioEvents.AbilityStartedEvent.Unsubscribe(this);
+		ScenarioEvents.AbilityStartedEvent.Unsubscribe(condition);
 	}
 }

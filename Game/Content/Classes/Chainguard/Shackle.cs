@@ -8,6 +8,7 @@ public class Shackle : ConditionModel
 	public override string IconPath => "res://Content/Classes/Chainguard/Shackle.svg";
 	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Negative;
 	public override ConditionModel[] ImmunityCompareBaseConditions => [Conditions.Immobilize];
+	public override bool RequiresCauser => true;
 	public override bool ShouldShowOnFigure => false;
 
 	// public Figure Shackler { get; private set; }
@@ -28,13 +29,13 @@ public class Shackle : ConditionModel
 		_indicator.Init();
 
 		// Stop movement if became adjacent to the Shackler
-		ScenarioEvents.CanMoveFurtherCheckEvent.Subscribe(target, this,
+		ScenarioEvents.CanMoveFurtherCheckEvent.Subscribe(condition,
 			parameters =>
-				parameters.Performer == Owner &&
-				RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 1).Any(figure => figure == Shackler),
+				parameters.Performer == condition.Owner &&
+				RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 1).Any(figure => figure == condition.PotentialCauser),
 			async parameters =>
 			{
-				_indicator.Flash();
+				condition.Flash();
 				parameters.SetCannotMoveFurther(true);
 
 				await GDTask.CompletedTask;
@@ -42,9 +43,10 @@ public class Shackle : ConditionModel
 		);
 
 		// Don't allow new movement when adjacent to the Shackler
-		ScenarioEvents.AbilityStartedEvent.Subscribe(target, this,
-			parameters => parameters.Performer == Owner && parameters.AbilityState is MoveAbility.State &&
-			              RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 1).Any(figure => figure == Shackler),
+		ScenarioEvents.AbilityStartedEvent.Subscribe(condition,
+			parameters =>
+				parameters.Performer == Owner && parameters.AbilityState is MoveAbility.State &&
+				RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 1).Any(figure => figure == Shackler),
 			parameters =>
 			{
 				_indicator.Flash();
@@ -55,9 +57,10 @@ public class Shackle : ConditionModel
 			EffectType.MandatoryBeforeOptionals);
 
 		// Don't allow movement through an ally that is adjacent to the Chainguard
-		ScenarioCheckEvents.CanPassAllyCheckEvent.Subscribe(Owner, this,
-			parameters => parameters.Figure == Owner &&
-			              RangeHelper.GetFiguresInRange(parameters.AlliedFigure.Hex, 1).Any(figure => figure == Shackler),
+		ScenarioCheckEvents.CanPassAllyCheckEvent.Subscribe(condition,
+			parameters =>
+				parameters.Figure == Owner &&
+				RangeHelper.GetFiguresInRange(parameters.AlliedFigure.Hex, 1).Any(figure => figure == Shackler),
 			parameters =>
 			{
 				parameters.SetCannotPass();
@@ -71,8 +74,8 @@ public class Shackle : ConditionModel
 
 		_indicator?.Destroy();
 
-		ScenarioEvents.CanMoveFurtherCheckEvent.Unsubscribe(Owner, this);
-		ScenarioEvents.AbilityStartedEvent.Unsubscribe(Owner, this);
-		ScenarioCheckEvents.CanPassAllyCheckEvent.Unsubscribe(Owner, this);
+		ScenarioEvents.CanMoveFurtherCheckEvent.Unsubscribe(condition);
+		ScenarioEvents.AbilityStartedEvent.Unsubscribe(condition);
+		ScenarioCheckEvents.CanPassAllyCheckEvent.Unsubscribe(condition);
 	}
 }

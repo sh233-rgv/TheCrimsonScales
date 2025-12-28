@@ -28,7 +28,7 @@ public class Heartripper : RuinmawCardModel<Heartripper.CardTop, Heartripper.Car
 				.Build()),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(5)
-				.WithConditions(Ruinmaw.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.Empower)
 				.WithTarget(Target.Self)
 				.Build())
 		];

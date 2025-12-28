@@ -11,24 +11,28 @@ public class Invisible : ConditionModel
 	{
 		await base.OnAdded(condition);
 
-		ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(Owner, this,
-			parameters => parameters.PotentialTarget == Owner && parameters.Performer.EnemiesWith(Owner),
+		ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(condition,
+			parameters =>
+				parameters.PotentialTarget == condition.Owner &&
+				parameters.Performer.EnemiesWith(condition.Owner),
 			parameters =>
 			{
 				parameters.SetCannotBeFocused();
 			}
 		);
 
-		ScenarioCheckEvents.CanBeTargetedCheckEvent.Subscribe(Owner, this,
-			parameters => parameters.PotentialTarget == Owner && parameters.Performer.EnemiesWith(Owner),
+		ScenarioCheckEvents.CanBeTargetedCheckEvent.Subscribe(condition,
+			parameters =>
+				parameters.PotentialTarget == condition.Owner &&
+				parameters.Performer.EnemiesWith(condition.Owner),
 			parameters =>
 			{
 				parameters.SetCannotBeTargeted();
 			}
 		);
 
-		ScenarioCheckEvents.CanPassEnemyCheckEvent.Subscribe(Owner, this,
-			parameters => parameters.EnemyFigure == Owner,
+		ScenarioCheckEvents.CanPassEnemyCheckEvent.Subscribe(condition,
+			parameters => parameters.EnemyFigure == condition.Owner,
 			parameters =>
 			{
 				parameters.SetCanPass();
@@ -40,8 +44,8 @@ public class Invisible : ConditionModel
 	{
 		await base.OnRemoved(condition);
 
-		ScenarioCheckEvents.CanBeFocusedCheckEvent.Unsubscribe(Owner, this);
-		ScenarioCheckEvents.CanBeTargetedCheckEvent.Unsubscribe(Owner, this);
-		ScenarioCheckEvents.CanPassEnemyCheckEvent.Unsubscribe(Owner, this);
+		ScenarioCheckEvents.CanBeFocusedCheckEvent.Unsubscribe(condition);
+		ScenarioCheckEvents.CanBeTargetedCheckEvent.Unsubscribe(condition);
+		ScenarioCheckEvents.CanPassEnemyCheckEvent.Unsubscribe(condition);
 	}
 }

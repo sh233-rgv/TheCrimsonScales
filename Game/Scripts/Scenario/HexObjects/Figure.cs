@@ -284,18 +284,17 @@ public abstract partial class Figure : HexObject
 		return null;
 	}
 
-	public async GDTask<Condition> AddCondition(ConditionModel conditionModel, Figure potentialFigure)
+	public async GDTask<Condition> AddCondition(ConditionModel conditionModel, Figure potentialCauser)
 	{
 		HexObjectEffectViewBase effectView = null;
-		if(conditionModel.ShouldShowOnFigure(this))
+		if(conditionModel.ShouldShowOnFigure)
 		{
 			effectView = AddEffect(new ConditionHexObjectEffectView.Parameters(conditionModel));
 		}
 
-		Condition condition = new Condition(conditionModel, effectView as ConditionHexObjectEffectView, this);
-
 		ConditionsChangedEvent?.Invoke(this);
 
+		Condition condition = new Condition(conditionModel, effectView as ConditionHexObjectEffectView, this, potentialCauser);
 		await condition.OnAdded();
 		//await condition.Add(this, conditionNode);
 
@@ -309,6 +308,7 @@ public abstract partial class Figure : HexObject
 		ConditionsChangedEvent?.Invoke(this);
 
 		await condition.OnRemoved();
+		Conditions.Remove(condition);
 
 		ReorderEffects();
 	}

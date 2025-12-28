@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Fractural.Tasks;
 
 public class Rupture : ConditionModel
@@ -14,25 +13,26 @@ public class Rupture : ConditionModel
 	{
 		await base.OnAdded(condition);
 
-		ScenarioEvents.AbilityEndedEvent.Subscribe(this,
+		ScenarioEvents.AbilityEndedEvent.Subscribe(condition,
 			//TODO: Make rupture trigger at the end of the movement rather than the end of the ability (matters on some rare occasions)
 			parameters =>
 				parameters.AbilityState is TargetedAbilityState<SingleTargetState> targetedAbilityState &&
 				((targetedAbilityState.SingleTargetStates
-					.FirstOrDefault(singleTargetState => singleTargetState.Target == target)
+					.FirstOrDefault(singleTargetState => singleTargetState.Target == condition.Owner)
 					?.ForcedMovementHexes.Count ?? 0) > 0) ||
-				(parameters.AbilityState.Performer == target && parameters.AbilityState is MoveAbility.State moveState && moveState.Hexes.Count > 0),
+				(parameters.AbilityState.Performer == condition.Owner &&
+				 parameters.AbilityState is MoveAbility.State moveState && moveState.Hexes.Count > 0),
 			async parameters =>
 			{
-				await AbilityCmd.SufferDamage(parameters.AbilityState, target, 1);
-			},
-			EffectType.MandatoryBeforeOptionals);
+				await AbilityCmd.SufferDamage(parameters.AbilityState, condition.Owner, 1);
+			}
+		);
 	}
 
 	public override async GDTask OnRemoved(Condition condition)
 	{
 		await base.OnRemoved(condition);
 
-		ScenarioEvents.AbilityEndedEvent.Unsubscribe(this);
+		ScenarioEvents.AbilityEndedEvent.Unsubscribe(condition);
 	}
 }

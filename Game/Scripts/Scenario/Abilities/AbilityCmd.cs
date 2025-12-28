@@ -177,19 +177,19 @@ public static class AbilityCmd
 		{
 			ScenarioEvents.InflictCondition.Parameters inflictConditionParameters =
 				await ScenarioEvents.InflictConditionEvent.CreatePrompt(
-					new ScenarioEvents.InflictCondition.Parameters(potentialAbilityState, target, condition),
+					new ScenarioEvents.InflictCondition.Parameters(potentialAbilityState, target, conditionModel),
 					potentialAbilityState?.Authority ?? target);
 
 			if(!inflictConditionParameters.Prevented)
 			{
 				ScenarioEvents.InflictConditionDuplicatesCheck.Parameters inflictConditionDuplicatesCheckParameters =
 					await ScenarioEvents.InflictConditionDuplicatesCheckEvent.CreatePrompt(
-						new ScenarioEvents.InflictConditionDuplicatesCheck.Parameters(potentialAbilityState, target, condition),
+						new ScenarioEvents.InflictConditionDuplicatesCheck.Parameters(potentialAbilityState, target, conditionModel),
 						potentialAbilityState?.Authority ?? target);
 
 				if(!inflictConditionDuplicatesCheckParameters.Prevented)
 				{
-					await target.AddCondition(conditionModel);
+					await target.AddCondition(conditionModel, potentialAbilityState?.Performer);
 				}
 			}
 		}

@@ -6,10 +6,10 @@ public class Chill : ConditionModel
 	public override string Name => "Chill";
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Chill.svg";
 	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Negative;
-	public override bool CanBeAppliedMultipleTimesInSingleTarget => true;
-	public virtual bool CanBeUpgraded => true;
-	public override bool RemovedAtEndOfTurn => true;
+	public override bool CanBeAppliedMultipleTimesOnSingleTarget => true;
 	public override ConditionModel[] ImmunityCompareBaseConditions => [Conditions.Immobilize, Conditions.Muddle];
+	public override bool RemovedAtEndOfTurn => true;
+	public override bool Stackable => true;
 
 	public override async GDTask OnAdded(Condition condition)
 	{

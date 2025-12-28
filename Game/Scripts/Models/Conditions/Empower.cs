@@ -5,7 +5,7 @@ public abstract class Empower : ConditionModel
 	public override string Name => "Empower";
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Empower.svg";
 	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Positive;
-	public override bool CanBeAppliedMultipleTimesInSingleTarget => true;
+	public override bool CanBeAppliedMultipleTimesOnSingleTarget => true;
 	public override bool ImmediatelyRemovedOnApply => true;
 	public override bool ShouldShowOnFigure => false;
 	protected override string ConditionAnimationScenePath => "res://Scenes/Scenario/ConditionAnimations/EmpowerAnimation.tscn";

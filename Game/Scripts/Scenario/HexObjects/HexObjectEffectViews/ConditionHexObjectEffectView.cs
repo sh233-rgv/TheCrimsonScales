@@ -18,4 +18,9 @@ public partial class ConditionHexObjectEffectView : HexObjectEffectView<Conditio
 
 		_conditionView.SetCondition(parameters.ConditionModel);
 	}
+
+	public void SetStackCount(int count)
+	{
+		_conditionView.SetStackText(count > 1 ? count.ToString() : null);
+	}
 }

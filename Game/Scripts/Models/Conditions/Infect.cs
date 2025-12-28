@@ -12,39 +12,40 @@ public class Infect : ConditionModel
 	{
 		await base.OnAdded(condition);
 
-		Owner.SetCrackedShield(true);
+		condition.Owner.SetCrackedShield(true);
 
-		ScenarioEvents.AbilityStartedEvent.Subscribe(this,
-			parameters => parameters.Performer == Owner && parameters.AbilityState is ShieldAbility.State,
+		ScenarioEvents.AbilityStartedEvent.Subscribe(condition,
 			parameters =>
+				parameters.Performer == condition.Owner &&
+				parameters.AbilityState is ShieldAbility.State,
+			async parameters =>
 			{
-				Node.Flash();
+				condition.Flash();
 				parameters.SetIsBlocked(true);
-				return GDTask.CompletedTask;
-			},
-			EffectType.MandatoryBeforeOptionals);
-		ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(this, CanApply, Apply, EffectType.MandatoryBeforeOptionals);
+
+				await GDTask.CompletedTask;
+			}
+		);
+
+		ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(condition,
+			parameters => parameters.AbilityState.Target == condition.Owner,
+			async parameters =>
+			{
+				condition.Flash();
+				parameters.AbilityState.SingleTargetSetIgnoresAllShields();
+
+				await GDTask.CompletedTask;
+			}
+		);
 	}
 
 	public override async GDTask OnRemoved(Condition condition)
 	{
 		await base.OnRemoved(condition);
 
-		Owner.SetCrackedShield(false);
+		condition.Owner.SetCrackedShield(false);
 
-		ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(this);
-		ScenarioEvents.AbilityStartedEvent.Unsubscribe(this);
-	}
-
-	private bool CanApply(ScenarioEvents.AttackAfterTargetConfirmed.Parameters abilityStateParameters)
-	{
-		return abilityStateParameters.AbilityState.Target == Owner;
-	}
-
-	private GDTask Apply(ScenarioEvents.AttackAfterTargetConfirmed.Parameters abilityStateParameters)
-	{
-		Node.Flash();
-		abilityStateParameters.AbilityState.SingleTargetSetIgnoresAllShields();
-		return GDTask.CompletedTask;
+		ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(condition);
+		ScenarioEvents.AbilityStartedEvent.Unsubscribe(condition);
 	}
 }

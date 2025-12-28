@@ -18,7 +18,7 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithTarget(Target.Self)
-				.WithConditions(Ruinmaw.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.Empower)
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>

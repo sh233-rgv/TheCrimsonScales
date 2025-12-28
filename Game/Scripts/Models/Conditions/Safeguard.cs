@@ -11,11 +11,11 @@ public class Safeguard : ConditionModel
 	{
 		await base.OnAdded(condition);
 
-		ScenarioEvents.InflictConditionsEvent.Subscribe(this,
-			parameters => parameters.Target == Owner && parameters.ConditionModels.Count > 0,
+		ScenarioEvents.InflictConditionsEvent.Subscribe(condition,
+			parameters => parameters.Target == condition.Owner && parameters.ConditionModels.Count > 0,
 			async parameters =>
 			{
-				Node.Flash();
+				condition.Flash();
 
 				List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
 					new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
@@ -34,11 +34,11 @@ public class Safeguard : ConditionModel
 					));
 				}
 
-				await AbilityCmd.GenericChoice(Owner, subscriptions, hintText: "Select a condition to prevent");
+				await AbilityCmd.GenericChoice(condition.Owner, subscriptions, hintText: "Select a condition to prevent");
 
-				await AbilityCmd.RemoveCondition(target, this);
+				await AbilityCmd.RemoveCondition(condition);
 			},
-			EffectType.MandatoryBeforeOptionals, 100
+			order: 100
 		);
 	}
 
@@ -46,6 +46,6 @@ public class Safeguard : ConditionModel
 	{
 		await base.OnRemoved(condition);
 
-		ScenarioEvents.InflictConditionsEvent.Unsubscribe(this);
+		ScenarioEvents.InflictConditionsEvent.Unsubscribe(condition);
 	}
 }

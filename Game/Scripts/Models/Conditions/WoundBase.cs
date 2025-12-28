@@ -8,8 +8,6 @@ public abstract class WoundBase : ConditionModel
 	public virtual bool CanBeUpgraded => true;
 	public override ConditionModel[] ImmunityCompareBaseConditions => [Conditions.Wound1];
 
-	protected abstract int WoundValue { get; }
-
 	public override async GDTask OnAdded(Condition condition)
 	{
 		await base.OnAdded(condition);
@@ -25,12 +23,12 @@ public abstract class WoundBase : ConditionModel
 
 		Node.SetStackText(WoundValue == 1 ? null : WoundValue.ToString());
 
-		ScenarioEvents.FigureTurnStartedEvent.Subscribe(this,
-			parameters => parameters.Figure == Owner,
+		ScenarioEvents.FigureTurnStartedEvent.Subscribe(condition,
+			parameters => parameters.Figure == condition.Owner,
 			async parameters =>
 			{
-				Node.Flash();
-				await AbilityCmd.SufferDamage(Owner, WoundValue, Owner);
+				condition.Flash();
+				await AbilityCmd.SufferDamage(condition.Owner, UpgradableLevel, condition.Owner);
 			},
 			EffectType.MandatoryBeforeOptionals
 		);
@@ -44,7 +42,7 @@ public abstract class WoundBase : ConditionModel
 	{
 		await base.OnRemoved(condition);
 
-		ScenarioEvents.FigureTurnStartedEvent.Unsubscribe(this);
+		ScenarioEvents.FigureTurnStartedEvent.Unsubscribe(condition);
 		//ScenarioEvents.AfterHealPerformedEvent.Unsubscribe(this);
 	}
 

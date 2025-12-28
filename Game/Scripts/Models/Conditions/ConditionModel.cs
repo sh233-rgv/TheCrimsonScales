@@ -6,11 +6,15 @@ public abstract class ConditionModel : AbstractModel
 	public abstract string Name { get; }
 	public abstract string IconPath { get; }
 	public abstract ConditionPolarity ConditionPolarity { get; }
-	public virtual bool CanBeAppliedMultipleTimesInSingleTarget => false;
+	public virtual bool CanBeAppliedMultipleTimesOnSingleTarget => false;
 	public virtual ConditionModel[] ImmunityCompareBaseConditions => [this];
 	public virtual bool RemovedAtEndOfTurn => false;
 	public virtual bool ImmediatelyRemovedOnApply => false;
 	public virtual bool RemovedByHeal => false;
+	public virtual ConditionModel BaseConditionLevel => this;
+	public virtual int UpgradableLevel => 1;
+	public virtual bool RequiresCauser => false;
+	public virtual bool Stackable => false;
 	public virtual bool ShouldShowOnFigure => true;
 	protected virtual string ConditionAnimationScenePath => null;
 

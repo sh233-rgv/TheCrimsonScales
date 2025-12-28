@@ -17,7 +17,7 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
 				.WithTarget(Target.Self)
-				.WithConditions(Ruinmaw.EmpowerRuinmaw, Ruinmaw.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.Empower, Ruinmaw.Empower)
 				.WithConditionalAbilityCheck(async state =>
 				{
 					Figure adjacentAlly = await AbilityCmd.SelectFigure(state, list =>

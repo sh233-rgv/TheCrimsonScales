@@ -4,15 +4,17 @@ using Godot;
 
 public partial class Ruinmaw : Character, IHasEmpower
 {
+	public static EmpowerRuinmaw Empower { get; } = ModelDB.Condition<EmpowerRuinmaw>();
+
 	[Export]
 	private SatedIndicator _satedIndicator;
+
 	private bool _satedAppliedThisTurn;
+
 	public bool Sated { get; private set; }
-
 	public int RemainingEmpowerCount { get; set; } = 12;
-	public event Func<Ruinmaw, GDTask> SateEvent;
 
-	public static EmpowerRuinmaw EmpowerRuinmaw { get; } = ModelDB.Condition<EmpowerRuinmaw>();
+	public event Func<Ruinmaw, GDTask> SateEvent;
 
 	public override void Spawn(SavedCharacter savedCharacter, int index)
 	{

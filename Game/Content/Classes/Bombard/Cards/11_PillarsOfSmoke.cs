@@ -25,8 +25,8 @@ public class PillarsOfSmoke : BombardCardModel<PillarsOfSmoke.CardTop, PillarsOf
 						{
 							state.SetCustomValue(this, "LastUseRoundIndex", GameController.Instance.ScenarioPhaseManager.RoundIndex);
 
-							await AbilityCmd.AddCondition(null, parameters.Figure, Conditions.Immobilize);
-							await AbilityCmd.AddCondition(null, parameters.Figure, Conditions.Invisible);
+							await AbilityCmd.AddCondition(state, parameters.Figure, Conditions.Immobilize);
+							await AbilityCmd.AddCondition(state, parameters.Figure, Conditions.Invisible);
 						},
 						EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Invisible)),

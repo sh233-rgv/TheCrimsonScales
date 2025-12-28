@@ -135,7 +135,7 @@ public abstract class TargetedAbilityState : AbilityState
 
 	public void AbilityAddCondition(ConditionModel conditionModel)
 	{
-		if(conditionModel.CanBeAppliedMultipleTimesInSingleTarget)
+		if(conditionModel.CanBeAppliedMultipleTimesOnSingleTarget)
 		{
 			AbilityConditionModels.Add(conditionModel);
 			SingleTargetConditionModels?.Add(conditionModel);
@@ -192,7 +192,7 @@ public abstract class TargetedAbilityState : AbilityState
 
 	public void SingleTargetAddCondition(ConditionModel conditionModel)
 	{
-		if(conditionModel.CanBeAppliedMultipleTimesInSingleTarget)
+		if(conditionModel.CanBeAppliedMultipleTimesOnSingleTarget)
 		{
 			SingleTargetConditionModels.Add(conditionModel);
 		}
