@@ -21,7 +21,7 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 		protected override int XP => 1;
 		protected override bool Persistent => true;
 
-		protected Ability GlowAbility(List<Element> elements)
+		private Ability GlowAbility(List<Element> elements)
 		{
 			return OtherAbility.Builder()
 				.WithPerformAbility(async state =>

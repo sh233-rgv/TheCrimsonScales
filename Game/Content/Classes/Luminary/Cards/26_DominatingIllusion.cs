@@ -14,37 +14,38 @@ public class DominatingIllusion : LuminaryCardModel<DominatingIllusion.CardTop, 
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
 			Glow(new GlowAbilityModel([Element.Fire], GlowAbility1,
-				$"Add +1{Icons.Inline(Icons.Attack)} to all your attacks this turn", Icons.Attack),
+					$"Add +1{Icons.Inline(Icons.Attack)} to all your attacks this turn", Icons.Attack),
 				new GlowAbilityModel([Element.Light], GlowAbility2,
-				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Bless))}, self", Icons.GetCondition(Conditions.Bless)))
+					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Bless))}, self", Icons.GetCondition(Conditions.Bless)))
 		];
 
 		protected override int XP => 1;
 		protected override bool Persistent => true;
 
-		protected Ability GlowAbility1(List<Element> elements)
-        {
-            return OtherAbility.Builder()
+		private Ability GlowAbility1(List<Element> elements)
+		{
+			return OtherAbility.Builder()
 				.WithPerformAbility(async state =>
-                {
+				{
 					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
 						canApplyParameters => canApplyParameters.Performer == state.Performer,
 						async parameters =>
-                        {
-                            parameters.AbilityState.SingleTargetAdjustAttackValue(1);
+						{
+							parameters.AbilityState.SingleTargetAdjustAttackValue(1);
 							await GDTask.CompletedTask;
-                        });
+						});
 
 					ScenarioEvents.FigureTurnEndedEvent.Subscribe(state, this,
 						canApplyParameters => true,
 						async applyParameters =>
-                        {
-                            ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
-                            ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
+						{
+							ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
+							ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
 							await GDTask.CompletedTask;
-                        });
-                    await GDTask.CompletedTask;
-                })
+						});
+					await GDTask.CompletedTask;
+					state.SetPerformed();
+				})
 				.WithOnAbilityStarted(async state =>
 				{
 					state.SetCustomValue(state.Performer, "Glow Ability", true);
@@ -53,11 +54,11 @@ public class DominatingIllusion : LuminaryCardModel<DominatingIllusion.CardTop, 
 					await GDTask.CompletedTask;
 				})
 				.Build();
-        }
+		}
 
-		protected Ability GlowAbility2(List<Element> elements)
-        {
-            return ConditionAbility.Builder()
+		private Ability GlowAbility2(List<Element> elements)
+		{
+			return ConditionAbility.Builder()
 				.WithConditions(Conditions.Bless)
 				.WithTarget(Target.Self)
 				.WithOnAbilityStarted(async state =>
@@ -68,7 +69,7 @@ public class DominatingIllusion : LuminaryCardModel<DominatingIllusion.CardTop, 
 					await GDTask.CompletedTask;
 				})
 				.Build();
-        }
+		}
 	}
 
 	public class CardBottom : LuminaryCardSide

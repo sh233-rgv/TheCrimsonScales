@@ -21,7 +21,7 @@ public class RadiantGlare : LuminaryCardModel<RadiantGlare.CardTop, RadiantGlare
 		protected override int XP => 1;
 		protected override bool Persistent => true;
 
-		protected Ability GlowAbility(List<Element> elements)
+		private Ability GlowAbility(List<Element> elements)
         {
             return ConditionAbility.Builder()
 				.WithConditions(Conditions.Immobilize)

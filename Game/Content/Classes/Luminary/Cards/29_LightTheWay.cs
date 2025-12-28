@@ -19,7 +19,7 @@ public class LightTheWay : LuminaryCardModel<LightTheWay.CardTop, LightTheWay.Ca
 		protected override int XP => 1;
 		protected override bool Persistent => true;
 
-		protected Ability GlowAbility(List<Element> elements)
+		private Ability GlowAbility(List<Element> elements)
 		{
 			return SummonAbility.Builder()
 				.WithSummonStats(new SummonStats()

@@ -20,7 +20,7 @@ public class ShiningDiversion : LuminaryCardModel<ShiningDiversion.CardTop, Shin
 		protected override int XP => 1;
 		protected override bool Persistent => true;
 
-		protected Ability GlowAbility(List<Element> elements)
+		private Ability GlowAbility(List<Element> elements)
         {
             return GrantAbility.Builder()
 				.WithGetAbilities(state =>

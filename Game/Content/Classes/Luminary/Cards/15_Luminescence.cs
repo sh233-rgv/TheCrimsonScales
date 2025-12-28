@@ -20,7 +20,7 @@ public class Luminescence : LuminaryCardModel<Luminescence.CardTop, Luminescence
 		protected override int XP => 1;
 		protected override bool Persistent => true;
 
-		protected Ability GlowAbility(List<Element> elements)
+		private Ability GlowAbility(List<Element> elements)
         {
             return HealAbility.Builder()
 				.WithHealValue(2)

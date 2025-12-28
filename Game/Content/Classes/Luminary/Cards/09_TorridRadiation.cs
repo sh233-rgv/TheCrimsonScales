@@ -55,6 +55,7 @@ public class TorridRadiation : LuminaryCardModel<TorridRadiation.CardTop, Torrid
 						        .Where(figure => figure.EnemiesWith(state.Performer)))
 					{
 						await AbilityCmd.SufferDamage(state, figure, 1);
+						state.SetPerformed();
 					}
 
 					for(int i = 0; i < state.DamagedFigures.Count; i++)

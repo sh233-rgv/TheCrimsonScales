@@ -83,6 +83,7 @@ public abstract class LuminaryCardSide : AbilityCardSide
 					if(glowState != null)
 					{
 						await GlowAbility(state.Performer, glowState.GetCustomValue<GlowAbilityModel[]>(state.Performer, "Glow Perform"), false);
+						state.SetPerformed();
 						break;
 					}
 				}
