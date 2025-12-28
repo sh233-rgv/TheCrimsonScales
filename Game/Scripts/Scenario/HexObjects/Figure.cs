@@ -284,6 +284,12 @@ public abstract partial class Figure : HexObject
 		return null;
 	}
 
+	public bool TryGetCondition(ConditionModel conditionModel, out Condition condition)
+	{
+		condition = GetCondition(conditionModel);
+		return condition != null;
+	}
+
 	public async GDTask<Condition> AddCondition(ConditionModel conditionModel, Figure potentialCauser)
 	{
 		ConditionsChangedEvent?.Invoke(this);

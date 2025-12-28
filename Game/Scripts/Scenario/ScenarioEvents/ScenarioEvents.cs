@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Godot;
 
-public class ScenarioEvents
+public partial class ScenarioEvents
 {
 	private readonly List<EventSubscriberPair> _eventSubscriberPairs = new List<EventSubscriberPair>();
 	private static List<EventSubscriberPair> EventSubscriberPairs => GameController.Instance.ScenarioEvents._eventSubscriberPairs;

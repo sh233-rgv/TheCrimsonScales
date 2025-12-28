@@ -26,10 +26,10 @@ public partial class Ruinmaw : Character, IHasEmpower
 	{
 		await base.OnScenarioSetupCompleted();
 
-		object subscriber = new();
+		object subscriber = new object();
 
 		ScenarioEvents.InflictConditionEvent.Subscribe(this, subscriber,
-			canApply: parameters => parameters.ConditionModel is EmpowerRuinmaw,
+			canApply: parameters => parameters.ConditionModel == Empower,
 			apply: async parameters =>
 			{
 				((EmpowerRuinmaw)parameters.ConditionModel).SetEmpowerOwner(this);

@@ -26,15 +26,23 @@ public class ChampionOfChains : ChainguardLevelUpCardModel<ChampionOfChains.Card
 						}
 					);
 
-					Chainguard chainguard = (Chainguard)AbilityCard.OriginalOwner;
-					await chainguard.SetMaximumShackles(3);
+					ScenarioCheckEvents.MaxShackleCountCheckEvent.Subscribe(state, this,
+						parameters => parameters.Shackler == state.Performer,
+						parameters =>
+						{
+							parameters.AdjustMaxShackleCount(2);
+						}
+					);
+
+					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
 				{
 					ScenarioEvents.InflictConditionEvent.Unsubscribe(state, this);
+					ScenarioCheckEvents.MaxShackleCountCheckEvent.Unsubscribe(state, this);
 
-					Chainguard chainguard = (Chainguard)AbilityCard.OriginalOwner;
-					await chainguard.SetMaximumShackles(1);
+					int maxShackleCount = Chainguard.GetMaxShackleCount(state.Performer);
+					await Chainguard.RemoveAllExtraShackles(state.Performer, maxShackleCount);
 				})
 				.Build()),
 
