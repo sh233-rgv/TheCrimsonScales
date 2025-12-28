@@ -35,7 +35,7 @@ public class EmpoweringRays : LuminaryCardModel<EmpoweringRays.CardTop, Empoweri
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Fire, Element.Light, Element.Dark];
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : LuminaryCardSide
@@ -47,16 +47,17 @@ public class EmpoweringRays : LuminaryCardModel<EmpoweringRays.CardTop, Empoweri
 				{
 					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
 						canApply: parameters => parameters.AbilityState.Performer == state.Performer &&
-							parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
+						                        parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
 						apply: async parameters =>
-                        {
-                            if (parameters.AbilityState is TargetedAbilityState targetedAbilityState)
-                            {
-                                targetedAbilityState.AbilityAddCondition(Conditions.Poison1);
-                            }
+						{
+							if(parameters.AbilityState is TargetedAbilityState targetedAbilityState)
+							{
+								targetedAbilityState.AbilityAddCondition(Conditions.Poison1);
+							}
+
 							await state.ActionState.RequestDiscardOrLose();
 							//TODO: Add Remove Immediately
-                        });
+						});
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>

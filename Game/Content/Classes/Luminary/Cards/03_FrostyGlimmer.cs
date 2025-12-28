@@ -68,7 +68,7 @@ public class FrostyGlimmer : LuminaryCardModel<FrostyGlimmer.CardTop, FrostyGlim
 							);
 
 							ScenarioEvents.TrapTriggeredEvent.Subscribe(parameters.AbilityState, this,
-								canApplyParameters => canApplyParameters.AbilityState.Performer == parameters.AbilityState.Performer,
+								canApplyParameters => canApplyParameters.PotentialAbilityState?.Performer == parameters.AbilityState.Performer,
 								async applyParameters =>
 								{
 									applyParameters.SetTriggersTrap(false);
@@ -85,13 +85,13 @@ public class FrostyGlimmer : LuminaryCardModel<FrostyGlimmer.CardTop, FrostyGlim
 									ScenarioCheckEvents.MoveCheckEvent.Unsubscribe(parameters.AbilityState, this);
 
 									Hex hex = await AbilityCmd.SelectHex(parameters.AbilityState, list =>
-										{
-											list.AddRange(parameters.AbilityState.Hexes.Where(hex => hex.HasHexObjectOfType<Trap>()));
-										}, hintText: "Select a trap to destroy");
-									if (hex != null)
-                                    {
+									{
+										list.AddRange(parameters.AbilityState.Hexes.Where(hex => hex.HasHexObjectOfType<Trap>()));
+									}, hintText: "Select a trap to destroy");
+									if(hex != null)
+									{
 										await hex.GetHexObjectOfType<Trap>().Destroy();
-                                    }
+									}
 								}
 							);
 

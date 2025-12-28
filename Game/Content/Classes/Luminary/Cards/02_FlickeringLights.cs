@@ -36,7 +36,7 @@ public class FlickeringLights : LuminaryCardModel<FlickeringLights.CardTop, Flic
 		];
 
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : LuminaryCardSide
@@ -50,12 +50,12 @@ public class FlickeringLights : LuminaryCardModel<FlickeringLights.CardTop, Flic
 			new AbilityCardAbility(LootAbility.Builder()
 				.WithRange(1)
 				.WithOnAbilityEndedPerformed(async state =>
-                {
-                    if (state.LootedObjects.Count >= 2)
-                    {
-                        await AbilityCmd.InfuseWildElement(state.Authority, state);
-                    }
-                })
+				{
+					if(state.LootedObjects.Count >= 2)
+					{
+						await AbilityCmd.InfuseWildElement(state.Authority, state);
+					}
+				})
 				.Build())
 		];
 	}

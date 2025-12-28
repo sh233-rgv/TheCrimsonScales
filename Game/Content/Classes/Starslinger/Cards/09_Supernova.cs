@@ -83,7 +83,7 @@ public class Supernova : StarslingerCardModel<Supernova.CardTop, Supernova.CardB
 
 		private async GDTask Light(AbilityState state)
 		{
-			await AbilityCmd.InfuseElement(Element.Light);
+			await AbilityCmd.InfuseElement(Element.Light, state.Authority, state);
 		}
 	}
 }

@@ -27,16 +27,15 @@ public class TorridRadiation : LuminaryCardModel<TorridRadiation.CardTop, Torrid
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					await AbilityCmd.SufferDamage(/*state*/null, state.ActionState.GetAbilityState<AttackAbility.State>(0).Target, 1);
-					//TODO: change to state
+					await AbilityCmd.SufferDamage(state, state.ActionState.GetAbilityState<AttackAbility.State>(0).Target, 1);
 					state.SetPerformed();
 					await AbilityCmd.GainXP(state.Performer, 1);
 				})
 				.WithConditionalAbilityCheck(async state =>
 				{
-                    return state.ActionState.GetAbilityState<AttackAbility.State>(0).Target != null &&
-						await AbilityCmd.AskConsumeElement(state.Performer, Element.Fire);
-                })
+					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Target != null &&
+					       await AbilityCmd.AskConsumeElement(state.Performer, Element.Fire);
+				})
 				.Build()),
 			Scuttle(1, [Element.Dark]),
 		];
@@ -52,17 +51,21 @@ public class TorridRadiation : LuminaryCardModel<TorridRadiation.CardTop, Torrid
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false).Where(figure => figure.EnemiesWith(state.Performer)))
-                    {
-                        await AbilityCmd.SufferDamage(/*state*/null, figure, 1);
-						//TODO: change to state
-                    }
-					//TODO: Elements (needs damaged figures)
+					foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false)
+						        .Where(figure => figure.EnemiesWith(state.Performer)))
+					{
+						await AbilityCmd.SufferDamage(state, figure, 1);
+					}
+
+					for(int i = 0; i < state.DamagedFigures.Count; i++)
+					{
+						await AbilityCmd.InfuseWildElement(state.Authority, state);
+					}
 				})
 				.Build()),
 		];
 
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

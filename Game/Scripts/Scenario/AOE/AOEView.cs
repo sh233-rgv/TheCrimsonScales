@@ -13,8 +13,8 @@ public partial class AOEView : Node2D
 	private PackedScene _yellowHexScene;
 	[Export]
 	private PackedScene _grayHexScene;
-	// [Export]
-	// private PackedScene _emptyHexScene;
+	[Export]
+	private PackedScene _emptyHexScene;
 
 	[Export]
 	private Node2D _hexParent;
@@ -64,16 +64,20 @@ public partial class AOEView : Node2D
 		foreach(AOEHex aoeHex in pattern.Hexes)
 		{
 			PackedScene hexScene = null;
-			if (aoeHex.Type.HasFlag(AOEHexType.Red))
+			if(aoeHex.Type.HasFlag(AOEHexType.Red))
 			{
 				hexScene = _redHexScene;
 			}
-			else if (aoeHex.Type.HasFlag(AOEHexType.Gray))
+			else if(aoeHex.Type.HasFlag(AOEHexType.Gray))
 			{
 				_hasGrayHex = true;
 				hexScene = _grayHexScene;
 			}
-			else if (aoeHex.Type.HasFlag(AOEHexType.Empty))
+			else if(aoeHex.Type.HasFlag(AOEHexType.Yellow))
+			{
+				hexScene = _yellowHexScene;
+			}
+			else if(aoeHex.Type.HasFlag(AOEHexType.Empty))
 			{
 				hexScene = _emptyHexScene;
 			}

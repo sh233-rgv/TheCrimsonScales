@@ -45,7 +45,7 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 						await AbilityCmd.AddCondition(state, target, Conditions.Wound1);
 					}
 
-					await AbilityCmd.InfuseElement(Element.Fire);
+					await AbilityCmd.InfuseElement(Element.Fire, state.Authority, state);
 					state.SetPerformed();
 					await AbilityCmd.GainXP(state.Performer, 1);
 				})
@@ -89,7 +89,7 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 						{
 							parameters.AbilityState.SetCustomValue(this, "Fire Consumed", true);
 
-							await AbilityCmd.InfuseElement(Element.Fire);
+							await AbilityCmd.InfuseElement(Element.Fire, parameters.Performer, parameters.AbilityState);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(

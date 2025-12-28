@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Fractural.Tasks;
 using Godot;
 using GTweensGodot.Extensions;
@@ -492,7 +491,9 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			abilityState.AOEHexes = aoeHexes;
 		}
 
-		Action<List<Figure>> getValidTargets = figures => GetValidTargets(abilityState, figures);
+		int targetsOutOfAOE = 0;
+		//TODO: Check this out
+		Action<List<Figure>> getValidTargets = figures => GetValidTargets(abilityState, figures, targetsOutOfAOE);
 
 		while(true)
 		{
@@ -536,10 +537,10 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			abilityState.AddSingleTargetState(target);
 			abilityState.UniqueTargetedFigures.AddIfNew(target);
 			abilityState.TargetedHexes.AddIfNew(target.Hex);
-			if (!abilityState.GetRedAOEHexes().Contains(target.Hex))
-            {
-                targetsOutOfAOE++;
-            }
+			if(!abilityState.GetRedAOEHexes().Contains(target.Hex))
+			{
+				targetsOutOfAOE++;
+			}
 
 			abilityState.SetPerformed();
 
@@ -579,7 +580,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 			if(abilityState.AbilityAOEPattern != null)
 			{
-				if(abilityState.TargetedHexes.Count == abilityState.AbilityAOEPattern.Hexes.Count && targetsOutOfAOE == abilityState.AbilityTargets - 1)
+				if(abilityState.TargetedHexes.Count == abilityState.AbilityAOEPattern.Hexes.Count &&
+				   targetsOutOfAOE == abilityState.AbilityTargets - 1)
 				{
 					break;
 				}
@@ -711,7 +713,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 		}
 	}
 
-	protected virtual void GetValidTargets(T abilityState, List<Figure> figures)
+	protected virtual void GetValidTargets(T abilityState, List<Figure> figures, int targetsOutOfAOE)
 	{
 		Figure performer = abilityState.Performer;
 
@@ -728,6 +730,17 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			foreach(Hex redAOEHex in abilityState.GetRedAOEHexes())
 			{
 				figures.AddRange(redAOEHex.GetHexObjectsOfType<Figure>());
+			}
+
+			if(targetsOutOfAOE < abilityState.AbilityTargets - 1)
+			{
+				HexCache.Clear();
+				RangeHelper.FindHexesInRange(performer.Hex, abilityState.SingleTargetRange, true, HexCache);
+
+				foreach(Hex hex in HexCache)
+				{
+					figures.AddRange(hex.GetHexObjectsOfType<Figure>());
+				}
 			}
 		}
 		else if(TargetHex != null)

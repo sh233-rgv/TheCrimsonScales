@@ -111,7 +111,6 @@ public class ShadowClaws : LuminaryCardModel<ShadowClaws.CardTop, ShadowClaws.Ca
 						async parameters =>
 						{
 							await state.ActionState.RequestDiscardOrLose();
-							//TODO: Discard immediately
 							await AbilityCmd.InfuseElement(global::Elements.All
 								.Except(parameters.AbilityState.GetCustomValue<List<Element>>(state.Performer, "Consumed Elements"))
 								.ToList(), state.Authority, state);

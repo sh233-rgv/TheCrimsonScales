@@ -17,26 +17,26 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 			Glow(new GlowAbilityModel([Element.Fire], GlowAbility,
 				$"Perform {Icons.Inline(Icons.Damage)}2 ability", Icons.Damage))
 		];
-		
+
 		protected override int XP => 1;
 		protected override bool Persistent => true;
 
 		protected Ability GlowAbility(List<Element> elements)
-        {
-            return OtherAbility.Builder()
+		{
+			return OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
 					Dictionary<Vector2I, AOEHexType> aoeHexes = new Dictionary<Vector2I, AOEHexType>();
 
 					AOEPrompt.Answer aoeAnswer =
 						await PromptManager.Prompt(new AOEPrompt(state, new AOEPattern(
-							[
-								new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-								new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
-								new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-								new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-							]
-						), state.Performer.Hex, null, () => "Select the hexes for the area of effect"),
+								[
+									new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+									new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
+									new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+									new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+								]
+							), state.Performer.Hex, null, () => "Select the hexes for the area of effect"),
 							state.Authority);
 
 					if(aoeAnswer.Skipped)
@@ -56,12 +56,13 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 						if(hex != null && type.HasFlag(AOEHexType.Red))
 						{
 							foreach(Figure figure in hex.GetHexObjectsOfType<Figure>().Where(figure => figure.EnemiesWith(state.Performer)))
-                            {
-                                await AbilityCmd.SufferDamage(/*state*/null, figure, 2);
-								//TODO: Change to state
-                            }
+							{
+								await AbilityCmd.SufferDamage(state, figure, 2);
+								state.SetPerformed();
+							}
 						}
 					}
+
 					await GDTask.CompletedTask;
 				})
 				.WithOnAbilityStarted(async state =>
@@ -79,19 +80,19 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
 					int consumedElements = 0;
 					for(int i = 0; i < 6; i++)
 					{
-						if (await AbilityCmd.TryConsumeElement((Element)i))
-                        {
+						if(await AbilityCmd.TryConsumeElement((Element)i))
+						{
 							consumedElements++;
 							state.SetPerformed();
-                        }
+						}
 					}
+
 					state.SetCustomValue(this, "ConsumedElements", consumedElements);
 
 					await GDTask.CompletedTask;
@@ -102,17 +103,17 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 				.WithTargets(0)
 				.WithRange(3)
 				.WithOnAbilityStarted(async state =>
-                {
+				{
 					int consumedElements = state.ActionState.GetAbilityState<OtherAbility.State>(0).GetCustomValue<int>(this, "ConsumedElements");
-                    state.AbilityAdjustAttackValue(consumedElements);
+					state.AbilityAdjustAttackValue(consumedElements);
 					state.AdjustTargets(consumedElements);
 
 					await GDTask.CompletedTask;
-                })
+				})
 				.Build()),
 		];
 
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

@@ -48,15 +48,13 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 		];
 
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : LuminaryCardSide
 	{
-		
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)
 				.Build()),
@@ -65,14 +63,15 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 				{
 					ScenarioEvents.AbilityEndedEvent.Subscribe(state, this,
 						canApply: parameters => parameters.AbilityState.Performer == state.Performer &&
-							parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
+						                        parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
 						apply: async parameters =>
-                        {
-							if (parameters.AbilityState is TargetedAbilityState targetedAbilityState && targetedAbilityState.GetRedAOEHexes().Any())
+						{
+							if(parameters.AbilityState is TargetedAbilityState targetedAbilityState && targetedAbilityState.GetRedAOEHexes().Any())
 							{
 								ActionState actionState = new ActionState(state.Performer, [
 									GrantAbility.Builder()
-										.WithGetAbilities(grantAbilityState => [HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()])
+										.WithGetAbilities(grantAbilityState =>
+											[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()])
 										.WithTarget(Target.Allies | Target.TargetAll)
 										.WithCustomGetTargets((state, targets) =>
 										{
@@ -82,15 +81,15 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 											);
 										})
 										.WithGetTargetingHintText(grantAbilityState =>
-											$"Select an ally to grant {Icons.HintText(Icons.Heal)}2, self"
+											$"Select an ally to grant {Icons.HintText(Icons.Heal)}2, Self"
 										)
 										.Build()
 								]);
 								await actionState.Perform();
 							}
+
 							await state.ActionState.RequestDiscardOrLose();
-							//TODO: Add Remove Immediately
-                        });
+						});
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>

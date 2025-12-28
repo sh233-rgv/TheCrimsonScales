@@ -34,7 +34,7 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 												await GDTask.CompletedTask;
 											}
 										);
-										
+
 										await GDTask.CompletedTask;
 									},
 									effectButtonParameters: new IconEffectButton.Parameters(Icons.Shield),
@@ -50,7 +50,7 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 											canApplyParameters =>
 											{
 												return canApplyParameters.RetaliatingFigure == state.Performer &&
-													RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, state.Performer.Hex) <= 1;
+												       RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, state.Performer.Hex) <= 1;
 											},
 											async applyParameters =>
 											{
@@ -64,12 +64,13 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 										await GDTask.CompletedTask;
 									},
 									effectButtonParameters: new IconEffectButton.Parameters(Icons.Retaliate),
-									effectInfoViewParameters: new TextEffectInfoView.Parameters($"Gain {Icons.Inline(Icons.Retaliate)}3 for the attack"),
+									effectInfoViewParameters: new TextEffectInfoView.Parameters(
+										$"Gain {Icons.Inline(Icons.Retaliate)}3 for the attack"),
 									effectType: EffectType.SelectableMandatory
 								);
 
-							await AbilityCmd.GenericChoice(state.Performer, 
-								[shieldChosenSubscription, retaliateChosenSubscription], 
+							await AbilityCmd.GenericChoice(state.Performer,
+								[shieldChosenSubscription, retaliateChosenSubscription],
 								hintText: "Select an effect to gain for the attack:");
 
 							switch(state.UseSlotIndex)
@@ -111,9 +112,9 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 				])
 				.Build())
 		];
-		
+
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : LuminaryCardSide
@@ -128,9 +129,9 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 				{
 					ScenarioEvents.AbilityEndedEvent.Subscribe(state, this,
 						canApply: parameters => parameters.AbilityState.Performer == state.Performer &&
-							parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
+						                        parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
 						apply: async parameters =>
-                        {
+						{
 							ActionState actionState = new ActionState(state.Performer, [
 								MoveAbility.Builder()
 									.WithDistance(3)
@@ -138,8 +139,7 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 							]);
 							await actionState.Perform();
 							await state.ActionState.RequestDiscardOrLose();
-							//TODO: Add Remove Immediately
-                        });
+						});
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>

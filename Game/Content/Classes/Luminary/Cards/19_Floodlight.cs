@@ -36,9 +36,9 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
 				})
 				.WithConditionalAbilityCheck(async state =>
 				{
-                    return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed &&
-						await AbilityCmd.AskConsumeElement(state.Performer, Element.Ice);
-                })
+					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed &&
+					       await AbilityCmd.AskConsumeElement(state.Performer, Element.Ice);
+				})
 				.Build()),
 			Scuttle(2, [Element.Light]),
 		];
@@ -52,15 +52,15 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
-                {
-                    ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
+				{
+					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
 						parameters =>
 						{
 							return parameters.Target == state.Performer &&
-								parameters.Condition?.ImmunityCompareBaseConditions != null &&
-								Conditions.Immobilize.ImmunityCompareBaseConditions != null &&
-								parameters.Condition.ImmunityCompareBaseConditions
-									.Any(c1 => Conditions.Immobilize.ImmunityCompareBaseConditions.Contains(c1));
+							       parameters.Condition?.ImmunityCompareBaseConditions != null &&
+							       Conditions.Immobilize.ImmunityCompareBaseConditions != null &&
+							       parameters.Condition.ImmunityCompareBaseConditions
+								       .Any(c1 => Conditions.Immobilize.ImmunityCompareBaseConditions.Contains(c1));
 						},
 						async parameters =>
 						{
@@ -78,20 +78,20 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
 						}
 					);
 					await GDTask.CompletedTask;
-                })
+				})
 				.WithOnDeactivate(async state =>
-                {
-                    ScenarioEvents.InflictConditionEvent.Unsubscribe(state, this);
-                    ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Unsubscribe(state, this);
-                    await GDTask.CompletedTask;
-                })
+				{
+					ScenarioEvents.InflictConditionEvent.Unsubscribe(state, this);
+					ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Unsubscribe(state, this);
+					await GDTask.CompletedTask;
+				})
 				.Build()),
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
-                {
-                    ScenarioEvents.InfuseElementEvent.Subscribe(state, this,
+				{
+					ScenarioEvents.InfuseElementEvent.Subscribe(state, this,
 						parameters => parameters.Authority == state.Performer && parameters.Element == Element.Dark
-							&& parameters.AbilityState != state,
+						                                                      && parameters.AbilityState != state,
 						async parameters =>
 						{
 							parameters.SetCanInfuse(false);
@@ -103,12 +103,12 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
 						}
 					);
 					await GDTask.CompletedTask;
-                })
+				})
 				.WithOnDeactivate(async state =>
-                {
-                    ScenarioEvents.InfuseElementEvent.Unsubscribe(state, this);
-                    await GDTask.CompletedTask;
-                })
+				{
+					ScenarioEvents.InfuseElementEvent.Unsubscribe(state, this);
+					await GDTask.CompletedTask;
+				})
 				.WithUseSlots(
 				[
 					new UseSlot(new Vector2(0.16350047f, 0.8974989f), GainXP),
@@ -119,6 +119,6 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
 		];
 
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

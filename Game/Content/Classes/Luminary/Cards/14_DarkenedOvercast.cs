@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Fractural.Tasks;
 
 public class DarkenedOvercast : LuminaryCardModel<DarkenedOvercast.CardTop, DarkenedOvercast.CardBottom>
@@ -19,7 +17,7 @@ public class DarkenedOvercast : LuminaryCardModel<DarkenedOvercast.CardTop, Dark
 				{
 					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
 						canApplyParameters => canApplyParameters.Performer.EnemiesWith(state.Performer) &&
-							RangeHelper.Distance(canApplyParameters.Performer.Hex, state.Performer.Hex) <= 3,
+						                      RangeHelper.Distance(canApplyParameters.Performer.Hex, state.Performer.Hex) <= 3,
 						async applyParameters =>
 						{
 							applyParameters.AbilityState.SingleTargetSetHasDisadvantage();
@@ -48,21 +46,18 @@ public class DarkenedOvercast : LuminaryCardModel<DarkenedOvercast.CardTop, Dark
 						async parameters =>
 						{
 							await AbilityCmd.RemoveCondition(state.Performer, Conditions.Invisible);
-
 						}
 					);
 					await GDTask.CompletedTask;
 				})
-				.WithOnDeactivate(
-					async state =>
-                    {
+				.WithOnDeactivate(async state =>
+					{
 						ScenarioEvents.RoundEndedEvent.Unsubscribe(state, this);
 
 						await GDTask.CompletedTask;
-                    }
+					}
 				)
-				//.WithMandatory(true)
-				//TODO: Add once starslinger gets added
+				.WithMandatory(true)
 				.Build())
 		];
 
@@ -80,7 +75,7 @@ public class DarkenedOvercast : LuminaryCardModel<DarkenedOvercast.CardTop, Dark
 					int glowsPerformed = 0;
 					ScenarioEvents.AbilityPerformedEvent.Subscribe(state, this,
 						canApply: canApplyParameters => canApplyParameters.Performer == state.Performer &&
-							canApplyParameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
+						                                canApplyParameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
 						async applyParameters =>
 						{
 							glowsPerformed++;
@@ -100,7 +95,7 @@ public class DarkenedOvercast : LuminaryCardModel<DarkenedOvercast.CardTop, Dark
 								async parameters =>
 								{
 									parameters.AdjustShield(glowsPerformed);
-									
+
 									await GDTask.CompletedTask;
 								}
 							);
@@ -138,6 +133,6 @@ public class DarkenedOvercast : LuminaryCardModel<DarkenedOvercast.CardTop, Dark
 		//TODO: protected override IEnumerable<Element> Elements => [Wild Element];
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

@@ -61,7 +61,7 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 					bool glowDiscarded = false;
 					ScenarioEvents.AbilityPerformedEvent.Subscribe(state, this,
 						canApply: canApplyParameters => canApplyParameters.Performer == state.Performer && !glowDiscarded &&
-							canApplyParameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
+						                                canApplyParameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
 						async applyParameters =>
 						{
 							glowDiscarded = true;
@@ -69,24 +69,28 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 							{
 								foreach(ActionState actionState in abilityCard.ActiveActionStates)
 								{
-									if(actionState.AbilityStates.Any(abilityState => abilityState.GetCustomValue<bool>(state.Performer, "Active Glow")))
+									if(actionState.AbilityStates.Any(abilityState =>
+										   abilityState.GetCustomValue<bool>(state.Performer, "Active Glow")))
 									{
 										await actionState.RequestDiscardOrLose();
 										break;
 									}
 								}
 							}
-							if (applyParameters.AbilityState is TargetedAbilityState targetedAbilityState && targetedAbilityState.GetRedAOEHexes().Any())
+
+							if(applyParameters.AbilityState is TargetedAbilityState targetedAbilityState &&
+							   targetedAbilityState.GetRedAOEHexes().Any())
 							{
 								foreach(Figure figure in targetedAbilityState.GetRedAOEHexes().SelectMany(hex => hex.GetHexObjectsOfType<Figure>())
-									.Where(figure => figure.EnemiesWith(applyParameters.Performer)))
-                                {
-                                    await AbilityCmd.SufferDamage(/*applyParameters.AbilityState*/null, figure, 2);
-									//TODO: Change abilitystate
-                                }
+									        .Where(figure => figure.EnemiesWith(applyParameters.Performer)))
+								{
+									await AbilityCmd.SufferDamage(applyParameters.AbilityState, figure, 2);
+								}
+
 								ActionState actionState = new ActionState(state.Performer, [
 									GrantAbility.Builder()
-										.WithGetAbilities(grantAbilityState => [HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()])
+										.WithGetAbilities(grantAbilityState =>
+											[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()])
 										.WithTarget(Target.Allies | Target.TargetAll)
 										.WithCustomGetTargets((state, targets) =>
 										{
@@ -106,7 +110,8 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 							await GDTask.CompletedTask;
 						}, effectType: EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters("res://Content/Classes/Luminary/Glow.svg"),
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Discard your active {Icons.Inline("res://Content/Classes/Luminary/Glow.svg")}")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"Discard your active {Icons.Inline("res://Content/Classes/Luminary/Glow.svg")}")
 					);
 
 					ScenarioEvents.RoundEndedEvent.Subscribe(state, this,
@@ -134,6 +139,6 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 		//TODO: protected override IEnumerable<Element> Elements => [Wild Element];
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

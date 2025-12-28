@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -49,16 +48,16 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
 				{
 					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
 						canApply: parameters => parameters.AbilityState.Performer == state.Performer &&
-							parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
+						                        parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
 						apply: async parameters =>
-                        {
-                            if (parameters.AbilityState is TargetedAbilityState targetedAbilityState)
-                            {
-                                targetedAbilityState.AbilityAddCondition(Conditions.Stun);
-                            }
+						{
+							if(parameters.AbilityState is TargetedAbilityState targetedAbilityState)
+							{
+								targetedAbilityState.AbilityAddCondition(Conditions.Stun);
+							}
+
 							await state.ActionState.RequestDiscardOrLose();
-							//TODO: Add Remove Immediately
-                        });
+						});
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
@@ -73,6 +72,6 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
 
 		protected override int XP => 2;
 		protected override bool Round => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

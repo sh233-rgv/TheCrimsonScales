@@ -5,7 +5,8 @@ public class LuminaryModel : ClassModel
 {
 	public override string Name => "Luminary";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.High;
-	public override int HandSize => 15;
+	public override int HandSize => 11;
+	public override Ancestry Ancestry => Ancestry.Lurker;
 	public override string AssetPath => "res://Content/Classes/Luminary";
 	public override Color PrimaryColor => Color.FromHtml("b289be");
 	public override Color SecondaryColor => Color.FromHtml("383f74");

@@ -59,8 +59,8 @@ public class BlackenedRage : LuminaryCardModel<BlackenedRage.CardTop, BlackenedR
 						.SelectMany(hex => hex.GetHexObjectsOfType<Figure>())
 						.Where(figure => figure.EnemiesWith(state.Performer)))
 					{
-						await AbilityCmd.SufferDamage(/*state*/null, figure, 1);
-						//TODO: Change null to state
+						await AbilityCmd.SufferDamage(state, figure, 1);
+						state.SetPerformed();
 					}
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))

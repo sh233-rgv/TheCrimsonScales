@@ -28,7 +28,7 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 
 							await AbilityCmd.InfuseElement(Element.Ice, parameters.AbilityState.Authority, parameters.AbilityState);
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Add the shown area of effect")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters("Add the shown area of effect")
 					)
 				)
 				.WithDuringAttackSubscriptions(
@@ -85,6 +85,6 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 
 		protected override IEnumerable<Element> Elements => [Element.Fire, Element.Ice, Element.Light, Element.Dark];
 		protected override int XP => 2;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

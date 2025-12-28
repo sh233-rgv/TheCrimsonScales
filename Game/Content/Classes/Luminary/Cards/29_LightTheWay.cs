@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public class LightTheWay : LuminaryCardModel<LightTheWay.CardTop, LightTheWay.CardBottom>
 {
@@ -22,18 +20,17 @@ public class LightTheWay : LuminaryCardModel<LightTheWay.CardTop, LightTheWay.Ca
 		protected override bool Persistent => true;
 
 		protected Ability GlowAbility(List<Element> elements)
-        {
-            return SummonAbility.Builder()
+		{
+			return SummonAbility.Builder()
 				.WithSummonStats(new SummonStats()
 				{
 					Health = 3,
 					Move = 3,
 					Attack = 2,
-					Traits = 
+					Traits =
 					[
 						new PierceTrait(2),
-						//new InfuseElementAfterAttackTrait(Element.Light)
-						//TODO: Element on attack (requires FireKnightL9)
+						new InfuseElementAfterAttackTrait(Element.Light)
 					]
 				})
 				.WithName("Gleaming Squid")
@@ -46,7 +43,7 @@ public class LightTheWay : LuminaryCardModel<LightTheWay.CardTop, LightTheWay.Ca
 					await GDTask.CompletedTask;
 				})
 				.Build();
-        }
+		}
 	}
 
 	public class CardBottom : LuminaryCardSide
@@ -57,13 +54,15 @@ public class LightTheWay : LuminaryCardModel<LightTheWay.CardTop, LightTheWay.Ca
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.FigureTurnEndedEvent.Subscribe(state, this,
-						parameters => parameters.Figure == state.Performer && parameters.Figure.TurnMovedHexCount >= 4,
+						parameters => parameters.Figure == state.Performer && parameters.Figure.TurnMovedHexes.Count >= 4,
 						async parameters =>
-                        {
+						{
 							await AbilityCmd.InfuseElement([Element.Fire, Element.Light], parameters.Figure, state);
-                        }, EffectType.Selectable,
-						effectButtonParameters: new TextEffectButton.Parameters($"{Icons.Inline(Icons.GetElement(Element.Fire))} or {Icons.Inline(Icons.GetElement(Element.Light))}"),
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetElement(Element.Fire))} or {Icons.Inline(Icons.GetElement(Element.Light))}"));
+						}, EffectType.Selectable,
+						effectButtonParameters: new TextEffectButton.Parameters(
+							$"{Icons.Inline(Icons.GetElement(Element.Fire))} or {Icons.Inline(Icons.GetElement(Element.Light))}"),
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"{Icons.Inline(Icons.GetElement(Element.Fire))} or {Icons.Inline(Icons.GetElement(Element.Light))}"));
 
 					await GDTask.CompletedTask;
 				})
@@ -79,6 +78,6 @@ public class LightTheWay : LuminaryCardModel<LightTheWay.CardTop, LightTheWay.Ca
 		//TODO: protected override IEnumerable<Element> Elements => [Wild Element];
 		protected override int XP => 2;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

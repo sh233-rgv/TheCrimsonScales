@@ -19,13 +19,14 @@ public class TricklingSting : LuminaryCardModel<TricklingSting.CardTop, Tricklin
 				{
 					int count = 0;
 					foreach(Element element in global::Elements.All)
-                    {
-                        if (GameController.Instance.ElementManager.GetState(element) == ElementState.Waning ||
-							GameController.Instance.ElementManager.GetState(element) == ElementState.Strong)
+					{
+						if(GameController.Instance.ElementManager.GetState(element) == ElementState.Waning ||
+						   GameController.Instance.ElementManager.GetState(element) == ElementState.Strong)
 						{
-							count = Math.Min(count+1, 4);
+							count = Math.Min(count + 1, 4);
 						}
-                    }
+					}
+
 					state.AbilityAdjustAttackValue(count);
 
 					await GDTask.CompletedTask;
@@ -71,6 +72,6 @@ public class TricklingSting : LuminaryCardModel<TricklingSting.CardTop, Tricklin
 
 		protected override int XP => 1;
 		protected override bool Persistent => true;
-		protected override bool Loss => true;
+		public override bool Loss => true;
 	}
 }

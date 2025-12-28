@@ -19,7 +19,7 @@ public class BlueMoon : StarslingerCardModel<BlueMoon.CardTop, BlueMoon.CardBott
 					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Light,
 						applyFunction: async parameters =>
 						{
-							await AbilityCmd.InfuseElement(Element.Dark);
+							await AbilityCmd.InfuseElement(Element.Dark, parameters.Performer, parameters.AbilityState);
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.GetElement(Element.Dark)}")
 					))
