@@ -17,7 +17,7 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					Figure figure = state.GetCustomValue<Figure>(state, "Figure");
+					Figure figure = state.GetCustomValue<Figure>(this, "Figure");
 
 					await AbilityCmd.AddCharacterToken(state, figure,
 						$"The next time an ally attacks this enemy this round, they add +2{Icons.Inline(Icons.Attack)} to the attack.");
@@ -59,7 +59,7 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 						return false;
 					}
 
-					state.SetCustomValue(state, "Figure", figure);
+					state.SetCustomValue(this, "Figure", figure);
 					return true;
 				})
 				.WithSkipConfirmation()
