@@ -29,6 +29,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public bool SingleTargetHasDisadvantage { get; set; }
 		public bool SingleTargetIgnoresAllShields { get; set; }
 		public bool SingleTargetDrawAMDCard { get; set; }
+		public bool IsSingleTarget => AbilityAOEPattern == null && AbilityTargets <= 1;
 
 		public void AbilityAdjustAttackValue(int amount)
 		{
