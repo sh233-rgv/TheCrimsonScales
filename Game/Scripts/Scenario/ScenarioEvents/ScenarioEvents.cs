@@ -256,10 +256,16 @@ public partial class ScenarioEvents
 			public ConditionModel ConditionModel { get; } = conditionModel;
 
 			public bool Prevented { get; private set; }
+			public bool AddStack { get; private set; }
 
 			public void SetPrevented(bool prevented)
 			{
 				Prevented = prevented;
+			}
+
+			public void SetAddStack()
+			{
+				AddStack = true;
 			}
 		}
 	}

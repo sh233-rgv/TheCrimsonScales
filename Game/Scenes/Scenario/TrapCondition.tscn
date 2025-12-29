@@ -3,8 +3,9 @@
 [ext_resource type="Script" uid="uid://dsja5echn6ba2" path="res://Scripts/Scenario/TrapCondition.cs" id="1_jsf8m"]
 [ext_resource type="PackedScene" uid="uid://b3yfqgp66ss0d" path="res://Scenes/UI/ConditionView.tscn" id="2_mkg7x"]
 
-[node name="TrapCondition" type="Node2D"]
+[node name="TrapCondition" type="Node2D" node_paths=PackedStringArray("_conditionView")]
 script = ExtResource("1_jsf8m")
+_conditionView = NodePath("Container/ConditionView")
 
 [node name="Container" type="Node2D" parent="."]
 

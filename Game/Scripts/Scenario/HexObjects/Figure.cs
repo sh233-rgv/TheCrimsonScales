@@ -303,6 +303,21 @@ public abstract partial class Figure : HexObject
 		return condition;
 	}
 
+	public async GDTask<Condition> AddConditionStack(ConditionModel conditionModel)
+	{
+		foreach(Condition condition in Conditions)
+		{
+			if(condition.ConditionModel == conditionModel)
+			{
+				condition.AdjustStackCount(1);
+				return condition;
+			}
+		}
+
+		await GDTask.CompletedTask;
+		return null;
+	}
+
 	public async GDTask RemoveCondition(Condition condition)
 	{
 		ConditionsChangedEvent?.Invoke(this);

@@ -52,6 +52,11 @@ public class Condition : IEventSubscriber
 					return false;
 				}
 
+				if(ConditionModel.Stackable)
+				{
+					return true;
+				}
+
 				// Block either the exact same condition, or the same condition of a lower level, like regular Poison for Poison 2
 				return
 					parameters.ConditionModel.BaseLevelCondition == ConditionModel.BaseLevelCondition &&
@@ -59,7 +64,14 @@ public class Condition : IEventSubscriber
 			},
 			async parameters =>
 			{
-				parameters.SetPrevented(true);
+				if(ConditionModel.Stackable)
+				{
+					parameters.SetAddStack();
+				}
+				else
+				{
+					parameters.SetPrevented(true);
+				}
 
 				if(parameters.Target.TakingTurn)
 				{
@@ -76,13 +88,27 @@ public class Condition : IEventSubscriber
 				parameters => parameters.Figure == Owner,
 				async parameters =>
 				{
-					if(_appliedDuringThisTurn)
+					if(ConditionModel.Stackable)
 					{
-						_appliedDuringThisTurn = false;
+						if(StackCount == 1)
+						{
+							await AbilityCmd.RemoveCondition(this);
+						}
+						else
+						{
+							AdjustStackCount(-1);
+						}
 					}
 					else
 					{
-						await AbilityCmd.RemoveCondition(this);
+						if(_appliedDuringThisTurn)
+						{
+							_appliedDuringThisTurn = false;
+						}
+						else
+						{
+							await AbilityCmd.RemoveCondition(this);
+						}
 					}
 				}
 			);
@@ -118,6 +144,13 @@ public class Condition : IEventSubscriber
 
 		ScenarioEvents.InflictConditionDuplicatesCheckEvent.Unsubscribe(_subscriberPair);
 		ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.Unsubscribe(_subscriberPair);
+	}
+
+	public void AdjustStackCount(int amount)
+	{
+		StackCount += amount;
+		EffectView?.SetStackCount(StackCount);
+		Flash();
 	}
 
 	public void Flash()

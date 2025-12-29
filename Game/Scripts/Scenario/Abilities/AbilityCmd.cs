@@ -198,7 +198,14 @@ public static class AbilityCmd
 
 				if(!inflictConditionDuplicatesCheckParameters.Prevented)
 				{
-					await target.AddCondition(conditionModel, potentialAbilityState?.Performer);
+					if(inflictConditionDuplicatesCheckParameters.AddStack)
+					{
+						await target.AddConditionStack(conditionModel);
+					}
+					else
+					{
+						await target.AddCondition(conditionModel, potentialAbilityState?.Performer);
+					}
 				}
 			}
 		}
