@@ -94,9 +94,9 @@ public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.Ca
 					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
 						parameters =>
 							parameters.Target == state.Performer &&
-							parameters.Condition?.ImmunityCompareBaseConditions != null &&
+							parameters.ConditionModel?.ImmunityCompareBaseConditions != null &&
 							Conditions.Bless.ImmunityCompareBaseConditions != null &&
-							parameters.Condition.ImmunityCompareBaseConditions
+							parameters.ConditionModel.ImmunityCompareBaseConditions
 								.Any(condition => Conditions.Bless.ImmunityCompareBaseConditions.Contains(condition)),
 						async parameters =>
 						{

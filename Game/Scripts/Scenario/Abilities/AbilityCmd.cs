@@ -91,7 +91,7 @@ public static class AbilityCmd
 	public static async GDTask<int> SufferDamage(AbilityState potentialAbilityState, Figure target, int damage,
 		Figure authority = null, bool fromAttack = false)
 	{
-		authority ??= potentialAbilityState.Authority;
+		authority ??= potentialAbilityState?.Authority ?? target;
 		ScenarioEvents.SufferDamage.Parameters sufferDamageParameters =
 			new ScenarioEvents.SufferDamage.Parameters(potentialAbilityState, target, damage, fromAttack);
 		EffectCollection sufferDamageCollection = ScenarioEvents.SufferDamageEvent.CreateEffectCollection(sufferDamageParameters);
@@ -164,11 +164,7 @@ public static class AbilityCmd
 
 	public static bool CheckImmunity(ConditionModel conditionModel, ConditionModel immunityConditionModel)
 	{
-		return
-			//conditionModel.ImmunityCompareBaseConditions != null &&
-			//immunityConditionModel.ImmunityCompareBaseConditions != null &&
-			conditionModel.ImmunityCompareBaseConditions.Contains(immunityConditionModel);
-		//.Any(condition => immunityConditionModel.ImmunityCompareBaseConditions.Contains(condition));
+		return conditionModel.ImmunityCompareBaseConditions.Contains(immunityConditionModel);
 	}
 
 	public static GDTask AddCondition(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel)
