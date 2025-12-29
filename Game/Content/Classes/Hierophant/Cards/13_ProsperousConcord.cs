@@ -39,7 +39,7 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 				{
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, this);
 
-					Figure figure = state.GetCustomValue<Figure>(state, "Figure");
+					Figure figure = state.GetCustomValue<Figure>(this, "Figure");
 
 					await AbilityCmd.RemoveCharacterToken(state, figure);
 				})
