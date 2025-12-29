@@ -12,7 +12,7 @@ public partial class ConditionHexObjectEffectView : HexObjectEffectView<Conditio
 	[Export]
 	private ConditionView _conditionView;
 
-	public override void Init(Parameters parameters)
+	protected override void Init(Parameters parameters)
 	{
 		base.Init(parameters);
 

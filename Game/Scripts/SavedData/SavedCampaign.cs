@@ -150,9 +150,9 @@ public class SavedCampaign
 
 		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), "Moerasvoet");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), "Beschieter");
-		//savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), "Opperpriester");
+		savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), "Opperpriester");
 		//savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), "Vuur Knecht");
-		savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), "Ketting Garde");
+		//savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), "Ketting Garde");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), "Dierenzitter");
 		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), "Sterrenwerper");
 		//savedCampaign.AddCharacter(ModelDB.Class<RuinmawModel>(), "Ruineerkaak");

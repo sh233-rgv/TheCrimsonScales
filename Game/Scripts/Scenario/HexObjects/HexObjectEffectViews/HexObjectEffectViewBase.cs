@@ -15,12 +15,12 @@ public abstract partial class HexObjectEffectViewBase : Node2D
 		_container = GetNode<Node2D>("Container");
 
 		_container.SetScale(Vector2.One * 0.01f);
-		_container.TweenScale(1f, 0.15f).SetEasing(Easing.OutBack).Play();
+		_container.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).Play();
 	}
 
 	public void Destroy()
 	{
-		_container.TweenScale(0.5f, 0.15f).SetEasing(Easing.InBack).OnComplete(QueueFree).Play();
+		_container.TweenScale(0.5f, 0.2f).SetEasing(Easing.InBack).OnComplete(QueueFree).Play();
 	}
 
 	public void Move(Vector2 position)

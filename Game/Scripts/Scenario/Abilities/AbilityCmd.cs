@@ -299,12 +299,29 @@ public static class AbilityCmd
 			parameters => parameters.Add(new InfoTextExtraEffect.Parameters(effectText))
 		);
 
+		if(abilityState.Performer is Character character)
+		{
+			target.AddEffectView<CharacterTokenHexObjectEffectView>(new CharacterTokenHexObjectEffectView.Parameters(character, abilityState));
+		}
+
 		await GDTask.CompletedTask;
 	}
 
 	public static async GDTask RemoveCharacterToken(AbilityState abilityState, Figure target)
 	{
 		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(abilityState, target);
+
+		foreach(HexObjectEffectViewBase effect in target.Effects)
+		{
+			if(effect is CharacterTokenHexObjectEffectView characterTokenHexObjectEffectView)
+			{
+				if(characterTokenHexObjectEffectView.ViewParameters.Subscriber == abilityState)
+				{
+					target.RemoveEffectView(characterTokenHexObjectEffectView);
+					return;
+				}
+			}
+		}
 
 		await GDTask.CompletedTask;
 	}

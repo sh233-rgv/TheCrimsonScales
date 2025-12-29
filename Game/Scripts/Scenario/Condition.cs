@@ -37,6 +37,7 @@ public class Condition : IEventSubscriber
 		if(ConditionModel.ShouldShowOnFigure)
 		{
 			EffectView = Owner.AddEffectView<ConditionHexObjectEffectView>(new ConditionHexObjectEffectView.Parameters(ConditionModel));
+			EffectView.SetStackCount(ConditionModel.UpgradableLevel);
 		}
 
 		if(Owner.TakingTurn)
