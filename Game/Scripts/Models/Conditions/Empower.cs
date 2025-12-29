@@ -15,8 +15,18 @@ public abstract class Empower : ConditionModel
 	{
 		await base.OnAdded(condition);
 
-		//TODO: Currently expects the giver to have empowers, should probably retrace to original owner of the ability card used to perform the ability? 
-		if(condition.PotentialGiver is IHasEmpower hasEmpower)
+		//TODO: Currently expects the giver or its summoner to have empowers, should probably retrace to original owner of the ability card used to perform the ability?
+		IHasEmpower hasEmpower;
+		if(condition.PotentialGiver is Summon summon)
+		{
+			hasEmpower = summon.CharacterOwner as IHasEmpower;
+		}
+		else
+		{
+			hasEmpower = condition.PotentialGiver as IHasEmpower;
+		}
+
+		if(hasEmpower != null)
 		{
 			await GameController.Instance.AMDManager.Empower(hasEmpower, condition.Owner);
 		}
