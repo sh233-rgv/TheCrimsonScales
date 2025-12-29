@@ -445,9 +445,9 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 			parameters =>
 			{
 				return parameters.Target == Owner &&
-				       parameters.Condition?.ImmunityCompareBaseConditions != null &&
+				       parameters.ConditionModel?.ImmunityCompareBaseConditions != null &&
 				       conditionModel.ImmunityCompareBaseConditions != null &&
-				       parameters.Condition.ImmunityCompareBaseConditions
+				       parameters.ConditionModel.ImmunityCompareBaseConditions
 					       .Any(c1 => conditionModel.ImmunityCompareBaseConditions.Contains(c1));
 			},
 			async parameters =>

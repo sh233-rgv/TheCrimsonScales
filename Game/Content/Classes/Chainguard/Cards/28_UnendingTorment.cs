@@ -28,7 +28,7 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 					);
 
 					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
-						canApply: parameters => parameters.Condition is Shackle &&
+						canApply: parameters => parameters.ConditionModel is Shackle &&
 						                        parameters.PotentialAbilityState != null &&
 						                        parameters.PotentialAbilityState.Performer == state.Performer,
 						async parameters =>

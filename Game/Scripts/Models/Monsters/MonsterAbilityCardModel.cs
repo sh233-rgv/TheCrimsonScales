@@ -5,7 +5,7 @@ using Fractural.Tasks;
 using Godot;
 
 [Serializable]
-public abstract class MonsterAbilityCardModel : AbstractModel<MonsterAbilityCardModel> //, IDeckCard
+public abstract class MonsterAbilityCardModel : AbstractModel //, IDeckCard
 {
 	public abstract string CardsAtlasPath { get; }
 

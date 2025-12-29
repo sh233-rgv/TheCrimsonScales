@@ -215,7 +215,7 @@ public class Scenario004 : ScenarioModel
 			);
 
 			ScenarioEvents.RemoveConditionEvent.Subscribe(monster, this,
-				parameters => parameters.Figure == monster && parameters.Condition == Conditions.Infect,
+				parameters => parameters.Figure == monster && parameters.ConditionModel == Conditions.Infect,
 				async parameters =>
 				{
 					monster.SetAlignment(Alignment.Characters);

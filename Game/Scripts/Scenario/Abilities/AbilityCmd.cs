@@ -162,6 +162,15 @@ public static class AbilityCmd
 		await KillOrExhaust(state.Authority, target);
 	}
 
+	public static bool CheckImmunity(ConditionModel conditionModel, ConditionModel immunityConditionModel)
+	{
+		return
+			//conditionModel.ImmunityCompareBaseConditions != null &&
+			//immunityConditionModel.ImmunityCompareBaseConditions != null &&
+			conditionModel.ImmunityCompareBaseConditions.Contains(immunityConditionModel);
+		//.Any(condition => immunityConditionModel.ImmunityCompareBaseConditions.Contains(condition));
+	}
+
 	public static GDTask AddCondition(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel)
 	{
 		return AddConditions(potentialAbilityState, target, [conditionModel]);
@@ -175,23 +184,28 @@ public static class AbilityCmd
 
 		foreach(ConditionModel conditionModel in inflictConditionsParameters.ConditionModels)
 		{
-			ConditionModel condition = conditionModel.ToMutable();
-
 			ScenarioEvents.InflictCondition.Parameters inflictConditionParameters =
 				await ScenarioEvents.InflictConditionEvent.CreatePrompt(
-					new ScenarioEvents.InflictCondition.Parameters(potentialAbilityState, target, condition),
+					new ScenarioEvents.InflictCondition.Parameters(potentialAbilityState, target, conditionModel),
 					potentialAbilityState?.Authority ?? target);
 
 			if(!inflictConditionParameters.Prevented)
 			{
 				ScenarioEvents.InflictConditionDuplicatesCheck.Parameters inflictConditionDuplicatesCheckParameters =
 					await ScenarioEvents.InflictConditionDuplicatesCheckEvent.CreatePrompt(
-						new ScenarioEvents.InflictConditionDuplicatesCheck.Parameters(potentialAbilityState, target, condition),
+						new ScenarioEvents.InflictConditionDuplicatesCheck.Parameters(potentialAbilityState, target, conditionModel),
 						potentialAbilityState?.Authority ?? target);
 
 				if(!inflictConditionDuplicatesCheckParameters.Prevented)
 				{
-					await target.AddCondition(condition);
+					if(inflictConditionDuplicatesCheckParameters.AddStack)
+					{
+						await target.AddConditionStack(conditionModel);
+					}
+					else
+					{
+						await target.AddCondition(conditionModel, potentialAbilityState?.Performer);
+					}
 				}
 			}
 		}
@@ -199,22 +213,21 @@ public static class AbilityCmd
 		potentialAbilityState?.SetPerformed();
 	}
 
-	public static async GDTask<bool> RemoveCondition(Figure target, ConditionModel conditionModel)
+	public static async GDTask RemoveCondition(Condition condition)
 	{
 		ScenarioEvents.RemoveCondition.Parameters removeConditionParameters =
 			await ScenarioEvents.RemoveConditionEvent.CreatePrompt(
-				new ScenarioEvents.RemoveCondition.Parameters(target, conditionModel), target);
+				new ScenarioEvents.RemoveCondition.Parameters(condition), condition.Owner);
 
-		if(conditionModel.IsMutable)
-		{
-			conditionModel = conditionModel.ImmutableInstance;
-		}
+		await condition.Owner.RemoveCondition(condition);
+	}
 
-		ConditionModel condition = target.GetCondition(conditionModel);
+	public static async GDTask<bool> RemoveCondition(Figure target, ConditionModel conditionModel)
+	{
+		Condition condition = target.GetCondition(conditionModel);
 		if(condition != null)
 		{
-			await target.RemoveCondition(conditionModel);
-
+			await RemoveCondition(condition);
 			return true;
 		}
 
@@ -225,18 +238,19 @@ public static class AbilityCmd
 	{
 		List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
 			new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
-		foreach(ConditionModel conditionModel in target.Conditions)
+		foreach(Condition condition in target.Conditions)
 		{
-			if(conditionModel.IsNegative)
+			if(condition.ConditionModel.ConditionPolarity == ConditionPolarity.Negative)
 			{
 				subscriptions.Add(ScenarioEvents.GenericChoice.Subscription.New(
 					applyFunction: async applyParameters =>
 					{
-						await AbilityCmd.RemoveCondition(target, conditionModel);
+						await RemoveCondition(target, condition.ConditionModel);
 					},
 					effectType: EffectType.SelectableMandatory,
-					effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(conditionModel)),
-					effectInfoViewParameters: new TextEffectInfoView.Parameters($"Remove {Icons.Inline(Icons.GetCondition(conditionModel))}")
+					effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(condition.ConditionModel)),
+					effectInfoViewParameters: new TextEffectInfoView.Parameters(
+						$"Remove {Icons.Inline(Icons.GetCondition(condition.ConditionModel))}")
 				));
 			}
 		}
@@ -247,11 +261,11 @@ public static class AbilityCmd
 	public static async GDTask<int> RemoveAllNegativeConditions(Figure target)
 	{
 		int removedConditionsCount = 0;
-		while(target.Conditions.Any(condition => condition.IsNegative))
+		while(target.Conditions.Any(condition => condition.ConditionModel.IsNegative))
 		{
-			ConditionModel condition = target.Conditions.First(condition => condition.IsNegative);
+			Condition condition = target.Conditions.First(condition => condition.ConditionModel.IsNegative);
 
-			if(await RemoveCondition(target, condition))
+			if(await RemoveCondition(target, condition.ConditionModel))
 			{
 				removedConditionsCount++;
 			}
@@ -262,11 +276,11 @@ public static class AbilityCmd
 
 	public static async GDTask RemoveAllPositiveConditions(Figure target)
 	{
-		while(target.Conditions.Any(condition => condition.IsPositive))
+		while(target.Conditions.Any(condition => condition.ConditionModel.IsPositive))
 		{
-			ConditionModel condition = target.Conditions.First(condition => condition.IsPositive);
+			Condition condition = target.Conditions.First(condition => condition.ConditionModel.IsPositive);
 
-			await RemoveCondition(target, condition);
+			await RemoveCondition(target, condition.ConditionModel);
 		}
 	}
 
@@ -276,6 +290,40 @@ public static class AbilityCmd
 		{
 			await RemoveCondition(target, Conditions.Chill);
 		}
+	}
+
+	public static async GDTask AddCharacterToken(AbilityState abilityState, Figure target, string effectText)
+	{
+		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(abilityState, target,
+			parameters => parameters.Figure == target,
+			parameters => parameters.Add(new InfoTextExtraEffect.Parameters(effectText))
+		);
+
+		if(abilityState.Performer is Character character)
+		{
+			target.AddEffectView<CharacterTokenHexObjectEffectView>(new CharacterTokenHexObjectEffectView.Parameters(character, abilityState));
+		}
+
+		await GDTask.CompletedTask;
+	}
+
+	public static async GDTask RemoveCharacterToken(AbilityState abilityState, Figure target)
+	{
+		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(abilityState, target);
+
+		foreach(HexObjectEffectViewBase effect in target.Effects)
+		{
+			if(effect is CharacterTokenHexObjectEffectView characterTokenHexObjectEffectView)
+			{
+				if(characterTokenHexObjectEffectView.ViewParameters.Subscriber == abilityState)
+				{
+					target.RemoveEffectView(characterTokenHexObjectEffectView);
+					return;
+				}
+			}
+		}
+
+		await GDTask.CompletedTask;
 	}
 
 	public static async GDTask GainXP(Figure figure, int xp)

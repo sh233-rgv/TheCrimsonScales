@@ -31,7 +31,7 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 									ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
 									ActionState actionState = new ActionState(state.Performer,
 									[
-										HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).WithConditions(Ruinmaw.EmpowerRuinmaw).Build(),
+										HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).WithConditions(Ruinmaw.Empower).Build(),
 									]);
 									await actionState.Perform();
 									await state.AdvanceUseSlot();

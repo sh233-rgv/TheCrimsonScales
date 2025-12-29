@@ -16,14 +16,14 @@ public class DigIn : RuinmawCardModel<DigIn.CardTop, DigIn.CardBottom>
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
 				.WithTarget(Target.Self)
-				.WithConditions(Ruinmaw.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.Empower)
 				.WithDuringHealSubscription(
 					ScenarioEvents.DuringHeal.Subscription.New(
 						parameters => RangeHelper.GetHexesInRange(parameters.Performer.Hex, 1).Any(hex => hex.HasHexObjectOfType<Obstacle>()),
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustHealValue(1);
-							parameters.AbilityState.AbilityAddCondition(Ruinmaw.EmpowerRuinmaw);
+							parameters.AbilityState.AbilityAddCondition(Ruinmaw.Empower);
 							await GDTask.CompletedTask;
 						}
 					)
