@@ -20,6 +20,14 @@
 [ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="15_xjx63"]
 [ext_resource type="Script" uid="uid://e1u4nmwejxw5" path="res://Scripts/Scenario/UI/ChoiceButtonsView/ChoiceButton.cs" id="18_qdqnt"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p5y0s"]
+shader = ExtResource("2_car6k")
+shader_parameter/inner_radius = 0.3
+shader_parameter/outer_radius = 1.0
+shader_parameter/vignette_strength = 0.8
+shader_parameter/dither_strength = 0.03
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+
 [sub_resource type="LabelSettings" id="LabelSettings_lqwu3"]
 font = ExtResource("2_40brb")
 font_size = 120
@@ -50,14 +58,6 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 expand_margin_left = 8.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_p5y0s"]
-shader = ExtResource("2_car6k")
-shader_parameter/inner_radius = 0.3
-shader_parameter/outer_radius = 1.0
-shader_parameter/vignette_strength = 0.8
-shader_parameter/dither_strength = 0.03
-shader_parameter/vignette_color = Color(0, 0, 0, 1)
-
 [node name="NewCampaign" type="Node" node_paths=PackedStringArray("_steps", "_backButton", "_confirmButton")]
 script = ExtResource("1_h7fbo")
 _steps = [NodePath("CanvasLayer/UI/StartingGroup"), NodePath("CanvasLayer/UI/PartyName")]
@@ -84,6 +84,16 @@ grow_vertical = 2
 texture = ExtResource("1_t6x8m")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="Vignette" type="ColorRect" parent="CanvasLayer/UI"]
+material = SubResource("ShaderMaterial_p5y0s")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="StartingGroup" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_startingGroups")]
 layout_mode = 1
@@ -362,16 +372,6 @@ placeholder_text = "..."
 alignment = 1
 max_length = 20
 caret_blink = true
-
-[node name="Vignette" type="ColorRect" parent="CanvasLayer/UI"]
-material = SubResource("ShaderMaterial_p5y0s")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
 
 [node name="BackButton" parent="CanvasLayer/UI" node_paths=PackedStringArray("BetterButton") instance=ExtResource("15_xjx63")]
 layout_mode = 1
