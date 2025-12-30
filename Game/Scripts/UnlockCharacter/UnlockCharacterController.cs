@@ -1,20 +1,37 @@
 ﻿using System.Threading;
 using Fractural.Tasks;
 using Godot;
+using GTweens.Builders;
+using GTweens.Easings;
+using GTweensGodot.Extensions;
 
 public partial class UnlockCharacterController : Node
 {
+	private static readonly Vector2 ReferenceResolution = new Vector2(1920, 1080);
+
+	[Export]
+	private SubViewport _subViewport;
+
+	[Export]
+	private Node3D _root3D;
+	[Export]
+	private Camera3D _camera3D;
 	[Export]
 	private Tuckbox _tuckbox;
 	[Export]
 	private BetterButton _tuckboxButton;
 	[Export]
 	private Sprite3D[] _classIconSprites;
+	[Export]
+	private Sprite3D _classMat3DSprite;
 
 	[Export]
-	private Control _characterMatContainer;
+	private Control _classMatContainer;
 	[Export]
-	private TextureRect _characterMatTextureRect;
+	private TextureRect _classMatTextureRect;
+
+	private float _worldUnitsPerPixel;
+	private Vector3 _initialMat3DSpritePosition;
 
 	private bool _buttonPressed;
 
@@ -22,9 +39,26 @@ public partial class UnlockCharacterController : Node
 	{
 		base._Ready();
 
+		float fovRad = Mathf.DegToRad(_camera3D.Fov);
+		float visibleHeight =
+			2.0f * _camera3D.Position.Z * Mathf.Tan(fovRad * 0.5f);
+
+		_worldUnitsPerPixel = visibleHeight / ReferenceResolution.Y;
+
+		_initialMat3DSpritePosition = _classMat3DSprite.Position;
+
+		Reset();
+
 		_tuckboxButton.Pressed += OnTuckboxPressed;
 
-		//this.DelayedCall(() => Open(ModelDB.Class<MirefootModel>()), 2f);
+		this.DelayedCall(() => Open(ModelDB.Class<MirefootModel>()), 2f);
+	}
+
+	public override void _Process(double delta)
+	{
+		base._Process(delta);
+
+		UpdateScale();
 	}
 
 	public void Open(ClassModel classModel)
@@ -34,15 +68,15 @@ public partial class UnlockCharacterController : Node
 			classIconSprite.SetTexture(classModel.IconTexture);
 		}
 
-		_characterMatTextureRect.SetTexture(classModel.MatFrontTexture);
+		_classMatTextureRect.SetTexture(classModel.MatFrontTexture);
+		_classMat3DSprite.SetTexture(classModel.MatFrontTexture);
 
 		Open(AppController.Instance.DestroyCancellationToken).Forget();
 	}
 
 	private async GDTaskVoid Open(CancellationToken cancellationToken)
 	{
-		_tuckboxButton.SetEnabled(false, false);
-		_buttonPressed = false;
+		Reset();
 
 		await _tuckbox.AnimateIn(cancellationToken);
 
@@ -53,8 +87,42 @@ public partial class UnlockCharacterController : Node
 
 		_tuckbox.OpenAnimation(cancellationToken).Forget();
 
+		_classMat3DSprite.SetVisible(true);
+
+		GTweenSequenceBuilder.New()
+			.AppendTime(0.0f)
+			.Append(_classMat3DSprite.TweenPosition(new Vector3(0f, 0.8f, 0f), 0.5f).SetEasing(Easing.OutBack))
+			.AppendTime(0.2f)
+			.Append(_classMat3DSprite.TweenPosition(_initialMat3DSpritePosition, 0.3f)) //.SetEasing(Easing.OutBack))
+			.Build().Play();
+
+		await GDTask.Delay(1.5f, cancellationToken: cancellationToken);
+
+		_classMat3DSprite.SetVisible(false);
+		_classMatContainer.SetVisible(true);
+
+		await _classMatContainer.TweenScale(0.65f * Vector2.One, 0.5f).SetEasing(Easing.OutBack).PlayAsync(cancellationToken);
 
 		this.DelayedCall(() => Open(ModelDB.Class<BombardModel>()), 2f);
+	}
+
+	private void Reset()
+	{
+		_classMatContainer.SetScale(0.4f * Vector2.One);
+		_classMatContainer.SetVisible(false);
+		_classMat3DSprite.SetPosition(_initialMat3DSpritePosition);
+		_classMat3DSprite.SetVisible(false);
+		_tuckboxButton.SetEnabled(false, false);
+		_buttonPressed = false;
+	}
+
+	private void UpdateScale()
+	{
+		Vector2 current = _subViewport.Size;
+
+		float scaleY = current.Y / ReferenceResolution.Y;
+
+		_root3D.SetScale(Vector3.One / scaleY);
 	}
 
 	private void OnTuckboxPressed()

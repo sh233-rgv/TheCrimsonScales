@@ -6,7 +6,8 @@ using GTweensGodot.Extensions;
 
 public partial class Tuckbox : Node3D
 {
-	private static readonly Vector3 OffScreenPosition = new Vector3(0f, -15f, 0f);
+	private static readonly Vector3 OffScreenPosition = new Vector3(0f, -10f, 0f);
+
 	[Export]
 	private Node3D _top;
 	[Export]
@@ -29,7 +30,7 @@ public partial class Tuckbox : Node3D
 	public async GDTask AnimateIn(CancellationToken cancellationToken)
 	{
 		SetVisible(true);
-		SetPosition(OffScreenPosition);
+		SetPosition(_initialPosition + OffScreenPosition);
 		SetRotationDegrees(new Vector3(0f, 180f, 0f));
 		_top.SetRotationDegrees(new Vector3(-90f, 0f, 0f));
 		_flop.SetRotationDegrees(new Vector3(-90f, 0f, 0f));
@@ -44,7 +45,7 @@ public partial class Tuckbox : Node3D
 
 	public async GDTask OpenAnimation(CancellationToken cancellationToken)
 	{
-		this.DelayedCall(() => this.TweenPosition(OffScreenPosition * 2, 1f).SetEasing(Easing.InSine).Play(), 0.1f);
+		this.DelayedCall(() => this.TweenPosition(_initialPosition + OffScreenPosition * 2, 1f).SetEasing(Easing.InSine).Play(), 0.2f);
 
 		_top.TweenRotationX(0f, 0.6f).SetEasing(Easing.OutBack).Play();
 		await GDTask.Delay(0.2f, cancellationToken: cancellationToken);
