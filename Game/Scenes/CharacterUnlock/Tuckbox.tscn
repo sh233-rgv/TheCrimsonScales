@@ -1,6 +1,7 @@
-[gd_scene load_steps=16 format=4 uid="uid://godk4xmw8i43"]
+[gd_scene load_steps=17 format=4 uid="uid://godk4xmw8i43"]
 
-[ext_resource type="Material" uid="uid://bekw3gb37va8a" path="res://Scenes/BetweenScenarios/CharacterUnlock/TuckboxFlop.tres" id="1_j4uki"]
+[ext_resource type="Material" uid="uid://bekw3gb37va8a" path="res://Scenes/CharacterUnlock/TuckboxFlop.tres" id="1_j4uki"]
+[ext_resource type="Script" uid="uid://bqkf61vwp68dd" path="res://Scripts/UnlockCharacter/Tuckbox.cs" id="1_wvv3h"]
 [ext_resource type="Texture2D" uid="uid://rtgyomd3jl5v" path="res://Art/Tuckbox/Tuckbox.jpg" id="2_i17cy"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mae5l"]
@@ -135,10 +136,14 @@ shadow_mesh = SubResource("ArrayMesh_emgmv")
 cull_mode = 2
 albedo_texture = ExtResource("2_i17cy")
 
-[node name="Tuckbox" type="Node3D"]
+[node name="Tuckbox" type="Node3D" node_paths=PackedStringArray("_top", "_flop", "_floplip")]
+script = ExtResource("1_wvv3h")
+_top = NodePath("Box/Top")
+_flop = NodePath("Box/Top/Flop")
+_floplip = NodePath("Box/Top/Flop/Floplip")
 
 [node name="Box" type="MeshInstance3D" parent="."]
-transform = Transform3D(100, 0, 0, 0, -1.19209e-05, 100, 0, -100, -1.19209e-05, 0, 0, 0)
+transform = Transform3D(100, 0, 0, 0, -1.19209e-05, 100, 0, -100, -1.19209e-05, 0, 0, 0.5)
 material_override = ExtResource("1_j4uki")
 mesh = SubResource("ArrayMesh_bvoq4")
 skeleton = NodePath("")
@@ -156,7 +161,7 @@ mesh = SubResource("ArrayMesh_nl7gk")
 skeleton = NodePath("")
 
 [node name="Floplip" type="MeshInstance3D" parent="Box/Top/Flop"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.038)
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 0, 0.038)
 material_override = ExtResource("1_j4uki")
 mesh = SubResource("ArrayMesh_t2xy6")
 skeleton = NodePath("")
@@ -174,9 +179,3 @@ material_override = SubResource("StandardMaterial3D_j4uki")
 cast_shadow = 3
 mesh = SubResource("ArrayMesh_nl7gk")
 skeleton = NodePath("")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-1, 3.11526e-15, -8.74228e-08, 3.20426e-10, 0.999993, -0.00366518, 8.74222e-08, -0.00366518, -0.999993, 0, 0, 0)
-shadow_enabled = true
-shadow_bias = 0.03
-sky_mode = 1
