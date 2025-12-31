@@ -25,7 +25,7 @@ shader_parameter/vignette_color = Color(0, 0, 0, 1)
 font = ExtResource("3_n5kph")
 font_size = 120
 
-[node name="UnlockCharacterView" type="Control" node_paths=PackedStringArray("_subViewport", "_root3D", "_camera3D", "_tuckbox", "_tuckboxButton", "_classIconSprites", "_classMat3DSprite", "_classMatContainer", "_classMatTextureRect", "_continueButton")]
+[node name="UnlockCharacterView" type="Control" node_paths=PackedStringArray("_subViewport", "_root3D", "_camera3D", "_tuckbox", "_skipButton", "_classIconSprites", "_classMat3DSprite", "_classMatContainer", "_classMatTextureRect", "_continueButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,7 +37,7 @@ _subViewport = NodePath("UI/SubViewportContainer/SubViewport")
 _root3D = NodePath("UI/SubViewportContainer/SubViewport/3DRoot")
 _camera3D = NodePath("UI/SubViewportContainer/SubViewport/Camera3D")
 _tuckbox = NodePath("UI/SubViewportContainer/SubViewport/3DRoot/Tuckbox")
-_tuckboxButton = NodePath("UI/TuckboxButton")
+_skipButton = NodePath("UI/SkipButton")
 _classIconSprites = [NodePath("UI/SubViewportContainer/SubViewport/3DRoot/Tuckbox/OpenSideIcon"), NodePath("UI/SubViewportContainer/SubViewport/3DRoot/Tuckbox/CloseSideIcon")]
 _classMat3DSprite = NodePath("UI/SubViewportContainer/SubViewport/3DRoot/ClassMat3D")
 _classMatContainer = NodePath("UI/ClassMat")
@@ -166,7 +166,7 @@ text = "Press the envelope to continue."
 label_settings = ExtResource("4_do51w")
 horizontal_alignment = 1
 
-[node name="TuckboxButton" type="BaseButton" parent="UI"]
+[node name="SkipButton" type="BaseButton" parent="UI"]
 _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
@@ -176,7 +176,7 @@ process_thread_group = 0
 physics_interpolation_mode = 2
 auto_translate_mode = 0
 editor_description = ""
-visible = false
+visible = true
 modulate = Color(1, 1, 1, 1)
 self_modulate = Color(1, 1, 1, 1)
 show_behind_parent = false

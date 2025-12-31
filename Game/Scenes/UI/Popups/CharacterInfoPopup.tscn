@@ -135,6 +135,7 @@ theme_override_font_sizes/font_size = 40
 theme_override_styles/focus = SubResource("StyleBoxFlat_jyu3w")
 theme_override_styles/normal = SubResource("StyleBoxFlat_rkkap")
 placeholder_text = "..."
+max_length = 20
 caret_blink = true
 
 [node name="CancelButton" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons" index="0" instance=ExtResource("8_bnawq")]

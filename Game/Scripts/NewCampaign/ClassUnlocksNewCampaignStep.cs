@@ -21,6 +21,7 @@ public partial class ClassUnlocksNewCampaignStep : NewCampaignStep
 		_classIndex = 0;
 
 		_unlockCharacterView.ClosedEvent += OnUnlockViewClosed;
+		_unlockCharacterView.SkipButtonPressedEvent += OnSkipButtonPressed;
 
 		_unlockCharacterView.Open(_classModels[_classIndex], _cancellationTokenSource.Token);
 	}
@@ -32,6 +33,7 @@ public partial class ClassUnlocksNewCampaignStep : NewCampaignStep
 		_cancellationTokenSource.Cancel();
 
 		_unlockCharacterView.ClosedEvent -= OnUnlockViewClosed;
+		_unlockCharacterView.SkipButtonPressedEvent -= OnSkipButtonPressed;
 	}
 
 	public override void _ExitTree()
@@ -52,5 +54,12 @@ public partial class ClassUnlocksNewCampaignStep : NewCampaignStep
 		}
 
 		_unlockCharacterView.Open(_classModels[_classIndex], _cancellationTokenSource.Token);
+	}
+
+	private void OnSkipButtonPressed()
+	{
+		_cancellationTokenSource?.Cancel();
+		_cancellationTokenSource = new CancellationTokenSource();
+		_unlockCharacterView.Skip();
 	}
 }

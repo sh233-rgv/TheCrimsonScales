@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=4 uid="uid://godk4xmw8i43"]
 
-[ext_resource type="Material" uid="uid://bekw3gb37va8a" path="res://Scenes/CharacterUnlock/TuckboxFlop.tres" id="1_j4uki"]
+[ext_resource type="Material" uid="uid://bekw3gb37va8a" path="res://Scenes/CharacterUnlock/Tuckbox.tres" id="1_j4uki"]
 [ext_resource type="Script" uid="uid://bqkf61vwp68dd" path="res://Scripts/UnlockCharacter/Tuckbox.cs" id="1_wvv3h"]
 [ext_resource type="Material" uid="uid://nsb142m66ll6" path="res://Scenes/CharacterUnlock/TuckboxShadow.tres" id="3_wvv3h"]
 
