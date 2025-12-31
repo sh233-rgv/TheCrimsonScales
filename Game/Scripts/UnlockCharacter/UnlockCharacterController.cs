@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Fractural.Tasks;
 using Godot;
 using GTweens.Builders;
@@ -30,6 +31,9 @@ public partial class UnlockCharacterController : Node
 	[Export]
 	private TextureRect _classMatTextureRect;
 
+	[Export]
+	private ChoiceButton _continueButton;
+
 	private float _worldUnitsPerPixel;
 	private Vector3 _initialMat3DSpritePosition;
 
@@ -50,6 +54,7 @@ public partial class UnlockCharacterController : Node
 		Reset();
 
 		_tuckboxButton.Pressed += OnTuckboxPressed;
+		_continueButton.BetterButton.Pressed += OnContinuePressed;
 
 		this.DelayedCall(() => Open(ModelDB.Class<MirefootModel>()), 2f);
 	}
@@ -90,7 +95,7 @@ public partial class UnlockCharacterController : Node
 		_classMat3DSprite.SetVisible(true);
 
 		GTweenSequenceBuilder.New()
-			.AppendTime(0.0f)
+			.AppendTime(0.1f)
 			.Append(_classMat3DSprite.TweenPosition(new Vector3(0f, 0.8f, 0f), 0.5f).SetEasing(Easing.OutBack))
 			.AppendTime(0.2f)
 			.Append(_classMat3DSprite.TweenPosition(_initialMat3DSpritePosition, 0.3f)) //.SetEasing(Easing.OutBack))
@@ -101,7 +106,7 @@ public partial class UnlockCharacterController : Node
 		_classMat3DSprite.SetVisible(false);
 		_classMatContainer.SetVisible(true);
 
-		await _classMatContainer.TweenScale(0.65f * Vector2.One, 0.5f).SetEasing(Easing.OutBack).PlayAsync(cancellationToken);
+		await _classMatContainer.TweenScale(0.7f * Vector2.One, 0.5f).SetEasing(Easing.OutBack).PlayAsync(cancellationToken);
 
 		this.DelayedCall(() => Open(ModelDB.Class<BombardModel>()), 2f);
 	}
@@ -128,5 +133,9 @@ public partial class UnlockCharacterController : Node
 	private void OnTuckboxPressed()
 	{
 		_buttonPressed = true;
+	}
+
+	private void OnContinuePressed()
+	{
 	}
 }
