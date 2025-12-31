@@ -13,8 +13,6 @@ void fragment()
 {
 	COLOR = texture(TEXTURE, UV);
 
-	vec3 grayscale = vec3(0.2126 * COLOR.r + 0.7152 * COLOR.g + 0.0722 * COLOR.b);
-
 	COLOR.rgb = mix(COLOR.rgb, modulate.rgb, tintFactor);
 	COLOR.a *= modulate.a;
 }

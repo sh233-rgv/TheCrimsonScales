@@ -7,7 +7,7 @@ public partial class ItemView : Control
 	private Control _container;
 
 	[Export]
-	public TextureRect TextureRect;
+	public TextureRect TextureRect { get; private set; }
 
 	[Export]
 	private Label _costLabel;
@@ -20,6 +20,9 @@ public partial class ItemView : Control
 	private Control _characterTokenParent;
 	[Export]
 	private Control _maxUseCountTokenParent;
+
+	[Export]
+	public TextureRect[] TextureRects { get; private set; }
 
 	private readonly List<ItemViewCharacterToken> _tokens = new List<ItemViewCharacterToken>();
 
