@@ -6,7 +6,7 @@ using GTweens.Builders;
 using GTweens.Easings;
 using GTweensGodot.Extensions;
 
-public partial class UnlockCharacterController : Node
+public partial class UnlockCharacterView : Control
 {
 	private static readonly Vector2 ReferenceResolution = new Vector2(1920, 1080);
 
@@ -39,24 +39,26 @@ public partial class UnlockCharacterController : Node
 
 	private bool _buttonPressed;
 
+	public event Action ClosedEvent;
+
 	public override void _Ready()
 	{
 		base._Ready();
 
 		float fovRad = Mathf.DegToRad(_camera3D.Fov);
-		float visibleHeight =
-			2.0f * _camera3D.Position.Z * Mathf.Tan(fovRad * 0.5f);
+		float visibleHeight = 2.0f * _camera3D.Position.Z * Mathf.Tan(fovRad * 0.5f);
 
 		_worldUnitsPerPixel = visibleHeight / ReferenceResolution.Y;
 
 		_initialMat3DSpritePosition = _classMat3DSprite.Position;
 
 		Reset();
+		//SetVisible(false);
 
 		_tuckboxButton.Pressed += OnTuckboxPressed;
 		_continueButton.BetterButton.Pressed += OnContinuePressed;
 
-		this.DelayedCall(() => Open(ModelDB.Class<MirefootModel>()), 2f);
+		//this.DelayedCall(() => Open(ModelDB.Class<MirefootModel>()), 2f);
 	}
 
 	public override void _Process(double delta)
@@ -66,7 +68,12 @@ public partial class UnlockCharacterController : Node
 		UpdateScale();
 	}
 
-	public void Open(ClassModel classModel)
+	public void Open(ClassModel classModel, CancellationToken cancellationToken)
+	{
+		OpenAsync(classModel, cancellationToken).Forget();
+	}
+
+	private async GDTaskVoid OpenAsync(ClassModel classModel, CancellationToken cancellationToken)
 	{
 		foreach(Sprite3D classIconSprite in _classIconSprites)
 		{
@@ -76,12 +83,14 @@ public partial class UnlockCharacterController : Node
 		_classMatTextureRect.SetTexture(classModel.MatFrontTexture);
 		_classMat3DSprite.SetTexture(classModel.MatFrontTexture);
 
-		Open(AppController.Instance.DestroyCancellationToken).Forget();
-	}
-
-	private async GDTaskVoid Open(CancellationToken cancellationToken)
-	{
 		Reset();
+
+		await GDTask.Delay(0.1f, cancellationToken: cancellationToken);
+
+		SetVisible(true);
+		SetProcess(true);
+		this.TweenModulateAlpha(1f, 0.5f).Play();
+		await GDTask.Delay(0.3f, cancellationToken: cancellationToken);
 
 		await _tuckbox.AnimateIn(cancellationToken);
 
@@ -108,11 +117,15 @@ public partial class UnlockCharacterController : Node
 
 		await _classMatContainer.TweenScale(0.7f * Vector2.One, 0.5f).SetEasing(Easing.OutBack).PlayAsync(cancellationToken);
 
-		this.DelayedCall(() => Open(ModelDB.Class<BombardModel>()), 2f);
+		_continueButton.SetActive(true);
 	}
 
 	private void Reset()
 	{
+		_continueButton.SetActive(false);
+		SetVisible(false);
+		SetProcess(false);
+		SetModulate(Colors.Transparent);
 		_classMatContainer.SetScale(0.4f * Vector2.One);
 		_classMatContainer.SetVisible(false);
 		_classMat3DSprite.SetPosition(_initialMat3DSpritePosition);
@@ -137,5 +150,12 @@ public partial class UnlockCharacterController : Node
 
 	private void OnContinuePressed()
 	{
+		_continueButton.SetActive(false);
+		this.TweenModulateAlpha(0f, 0.5f).OnComplete(() =>
+		{
+			Reset();
+
+			ClosedEvent?.Invoke();
+		}).Play();
 	}
 }

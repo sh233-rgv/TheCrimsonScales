@@ -88,46 +88,7 @@ public class SavedCampaign
 			},
 		};
 
-		ClassModel[] unlockedClassModels = savedCampaign.StartingGroup switch
-		{
-			StartingGroup.Militants =>
-			[
-				ModelDB.Class<BombardModel>(),
-				ModelDB.Class<FireKnightModel>(),
-				ModelDB.Class<HierophantModel>(),
-				ModelDB.Class<MirefootModel>()
-			],
-			StartingGroup.Protectors =>
-			[
-				ModelDB.Class<ChainguardModel>(),
-				ModelDB.Class<ChieftainModel>(),
-				ModelDB.Class<FireKnightModel>(),
-				ModelDB.Class<HierophantModel>()
-			],
-			StartingGroup.Explorers =>
-			[
-				//ModelDB.Class<BrightsparkModel>(),
-				ModelDB.Class<ChainguardModel>(),
-				//ModelDB.Class<HollowpactModel>(),
-				ModelDB.Class<StarslingerModel>()
-			],
-			StartingGroup.Trailblazers =>
-			[
-				ModelDB.Class<BombardModel>(),
-				//ModelDB.Class<BrightsparkModel>(),
-				//ModelDB.Class<LuminaryModel>(),
-				ModelDB.Class<StarslingerModel>()
-			],
-			StartingGroup.Naturalists =>
-			[
-				ModelDB.Class<ChieftainModel>(),
-				//ModelDB.Class<HollowpactModel>(),
-				//ModelDB.Class<LuminaryModel>(),
-				ModelDB.Class<MirefootModel>()
-			],
-			_ => throw new ArgumentOutOfRangeException(nameof(startingGroup), startingGroup, null)
-		};
-
+		ClassModel[] unlockedClassModels = GetStartingClasses(savedCampaign.StartingGroup);
 		foreach(ClassModel unlockedClassModel in unlockedClassModels)
 		{
 			savedCampaign.UnlockClass(unlockedClassModel);
@@ -292,6 +253,49 @@ public class SavedCampaign
 	{
 		int thresholdIndex = GetReputationThresholdIndex();
 		return 5 - thresholdIndex;
+	}
+
+	public static ClassModel[] GetStartingClasses(StartingGroup startingGroup)
+	{
+		return startingGroup switch
+		{
+			StartingGroup.Militants =>
+			[
+				ModelDB.Class<BombardModel>(),
+				ModelDB.Class<FireKnightModel>(),
+				ModelDB.Class<HierophantModel>(),
+				ModelDB.Class<MirefootModel>()
+			],
+			StartingGroup.Protectors =>
+			[
+				ModelDB.Class<ChainguardModel>(),
+				ModelDB.Class<ChieftainModel>(),
+				ModelDB.Class<FireKnightModel>(),
+				ModelDB.Class<HierophantModel>()
+			],
+			StartingGroup.Explorers =>
+			[
+				//ModelDB.Class<BrightsparkModel>(),
+				ModelDB.Class<ChainguardModel>(),
+				//ModelDB.Class<HollowpactModel>(),
+				ModelDB.Class<StarslingerModel>()
+			],
+			StartingGroup.Trailblazers =>
+			[
+				ModelDB.Class<BombardModel>(),
+				//ModelDB.Class<BrightsparkModel>(),
+				//ModelDB.Class<LuminaryModel>(),
+				ModelDB.Class<StarslingerModel>()
+			],
+			StartingGroup.Naturalists =>
+			[
+				ModelDB.Class<ChieftainModel>(),
+				//ModelDB.Class<HollowpactModel>(),
+				//ModelDB.Class<LuminaryModel>(),
+				ModelDB.Class<MirefootModel>()
+			],
+			_ => throw new ArgumentOutOfRangeException(nameof(startingGroup), startingGroup, null)
+		};
 	}
 
 	private void UnlockItems(int prosperityLevel)

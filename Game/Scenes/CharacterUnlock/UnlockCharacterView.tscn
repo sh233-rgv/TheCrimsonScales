@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://d20kxebd41qbn"]
 
 [ext_resource type="Texture2D" uid="uid://cw111i6yk01f1" path="res://Art/Backgrounds/ArtbookBackground.jpg" id="1_b7l8o"]
-[ext_resource type="Script" uid="uid://c7s5716lt15bd" path="res://Scripts/UnlockCharacter/UnlockCharacterController.cs" id="1_dfw8q"]
+[ext_resource type="Script" uid="uid://c7s5716lt15bd" path="res://Scripts/UnlockCharacter/UnlockCharacterView.cs" id="1_dfw8q"]
 [ext_resource type="FontVariation" uid="uid://ciy2q5rti2m6m" path="res://Fonts/MarkaziVariation.tres" id="3_n5kph"]
 [ext_resource type="LabelSettings" uid="uid://co0cqpevlny13" path="res://Resources/PanelLabel.tres" id="4_do51w"]
 [ext_resource type="Shader" uid="uid://coeiuysk5p21c" path="res://Shaders/Vignette.gdshader" id="5_12i7o"]
@@ -25,7 +25,7 @@ shader_parameter/vignette_color = Color(0, 0, 0, 1)
 font = ExtResource("3_n5kph")
 font_size = 120
 
-[node name="UnlockCharacter" type="Control" node_paths=PackedStringArray("_subViewport", "_root3D", "_camera3D", "_tuckbox", "_tuckboxButton", "_classIconSprites", "_classMat3DSprite", "_classMatContainer", "_classMatTextureRect", "_continueButton")]
+[node name="UnlockCharacterView" type="Control" node_paths=PackedStringArray("_subViewport", "_root3D", "_camera3D", "_tuckbox", "_tuckboxButton", "_classIconSprites", "_classMat3DSprite", "_classMatContainer", "_classMatTextureRect", "_continueButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -98,7 +98,6 @@ fov = 50.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="UI/SubViewportContainer/SubViewport"]
 transform = Transform3D(-1, -2.32999e-10, -1.50995e-07, 3.20426e-10, 0.999993, -0.00366518, 1.50995e-07, -0.00366518, -0.999993, 0, 0, 0)
-shadow_enabled = true
 shadow_bias = 0.02
 shadow_opacity = 0.96
 sky_mode = 1
@@ -109,8 +108,10 @@ sky_mode = 1
 transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 0, -4, 0)
 
 [node name="Seal" type="Sprite3D" parent="UI/SubViewportContainer/SubViewport/3DRoot/Tuckbox/Box/Top/Flop/Floplip" index="1"]
-transform = Transform3D(-0.008, -2.32941e-10, -1.31659e-09, 1.09479e-09, 0.00338095, -0.00725046, 7.6753e-10, -0.00725046, -0.00338095, 0, -0.000868258, 0.00180189)
+transform = Transform3D(-0.008, -2.32941e-10, -1.31659e-09, 1.09479e-09, 0.00338095, -0.00725046, 7.67531e-10, -0.00725046, -0.00338095, -0.000472244, -0.000999999, 0.002)
 double_sided = false
+no_depth_test = true
+render_priority = 1
 texture = ExtResource("6_gwn7s")
 
 [node name="OpenSideIcon" type="Sprite3D" parent="UI/SubViewportContainer/SubViewport/3DRoot/Tuckbox"]

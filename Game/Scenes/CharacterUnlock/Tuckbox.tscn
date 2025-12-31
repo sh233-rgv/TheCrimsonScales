@@ -1,8 +1,8 @@
-[gd_scene load_steps=17 format=4 uid="uid://godk4xmw8i43"]
+[gd_scene load_steps=16 format=4 uid="uid://godk4xmw8i43"]
 
 [ext_resource type="Material" uid="uid://bekw3gb37va8a" path="res://Scenes/CharacterUnlock/TuckboxFlop.tres" id="1_j4uki"]
 [ext_resource type="Script" uid="uid://bqkf61vwp68dd" path="res://Scripts/UnlockCharacter/Tuckbox.cs" id="1_wvv3h"]
-[ext_resource type="Texture2D" uid="uid://rtgyomd3jl5v" path="res://Art/Tuckbox/Tuckbox.jpg" id="2_i17cy"]
+[ext_resource type="Material" uid="uid://nsb142m66ll6" path="res://Scenes/CharacterUnlock/TuckboxShadow.tres" id="3_wvv3h"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mae5l"]
 
@@ -132,10 +132,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_emgmv")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j4uki"]
-cull_mode = 2
-albedo_texture = ExtResource("2_i17cy")
-
 [node name="Tuckbox" type="Node3D" node_paths=PackedStringArray("_top", "_flop", "_floplip")]
 script = ExtResource("1_wvv3h")
 _top = NodePath("Box/Top")
@@ -168,14 +164,13 @@ skeleton = NodePath("")
 
 [node name="Shadow" type="MeshInstance3D" parent="Box/Top/Flop/Floplip"]
 transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 0, 0, 0)
-material_override = ExtResource("1_j4uki")
-cast_shadow = 3
+visible = false
+material_override = ExtResource("3_wvv3h")
 mesh = SubResource("ArrayMesh_t2xy6")
 skeleton = NodePath("")
 
 [node name="Shadow" type="MeshInstance3D" parent="Box/Top/Flop"]
-transform = Transform3D(1.02, 0, 0, 0, 1.02, 0, 0, 0, 1.02, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_j4uki")
-cast_shadow = 3
+transform = Transform3D(1.02, 0, 0, 0, 1.02, -1.42109e-14, 0, 1.42109e-14, 1.02, 0, 0.000209108, 0)
+material_override = ExtResource("3_wvv3h")
 mesh = SubResource("ArrayMesh_nl7gk")
 skeleton = NodePath("")
