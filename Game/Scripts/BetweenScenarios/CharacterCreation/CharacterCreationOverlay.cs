@@ -1,0 +1,124 @@
+﻿using Godot;
+using GTweens.Builders;
+using GTweensGodot.Extensions;
+
+public partial class CharacterCreationOverlay : Control
+{
+	[Export]
+	private CharacterCreationStep[] _steps;
+
+	[Export]
+	private ChoiceButton _backButton;
+	[Export]
+	private ChoiceButton _confirmButton;
+
+	private int _stepIndex;
+	private CharacterCreationStep _currentStep;
+
+	private ClassModel _classModel;
+	private PersonalQuestModel _personalQuestModel;
+	private string _characterName;
+
+	public SavedCampaign SavedCampaign { get; private set; }
+
+	public override void _Ready()
+	{
+		base._Ready();
+
+		_backButton.BetterButton.Pressed += OnBackPressed;
+		_confirmButton.BetterButton.Pressed += OnConfirmPressed;
+
+		foreach(CharacterCreationStep step in _steps)
+		{
+			step.Init(this);
+		}
+
+		Hide();
+	}
+
+	public void Open(SavedCampaign savedCampaign)
+	{
+		SavedCampaign = savedCampaign;
+	}
+
+	public void Close()
+	{
+	}
+
+	public void NextStep()
+	{
+		if(_stepIndex == _steps.Length - 1)
+		{
+			// Final step completed, time to create the character!
+			FinalizeCharacter();
+
+			return;
+		}
+
+		SetStep(_stepIndex + 1);
+	}
+
+	public void UpdateConfirmVisible()
+	{
+		_confirmButton.SetActive(_currentStep?.ConfirmButtonActive ?? false);
+	}
+
+	public void SetClassModel(ClassModel classModel)
+	{
+		_classModel = classModel;
+	}
+
+	public void SetPersonalQuestModel(PersonalQuestModel personalQuestModel)
+	{
+		_personalQuestModel = personalQuestModel;
+	}
+
+	public void SetCharacterName(string characterName)
+	{
+		_characterName = characterName;
+	}
+
+	private void SetStep(int newStepIndex)
+	{
+		CharacterCreationStep oldStep = _currentStep;
+
+		_stepIndex = newStepIndex;
+		_currentStep = _steps[_stepIndex];
+
+		if(oldStep == null)
+		{
+			_currentStep.Activate();
+			UpdateConfirmVisible();
+		}
+		else
+		{
+			GTweenSequenceBuilder.New()
+				.AppendCallback(oldStep.Deactivate)
+				.AppendCallback(UpdateConfirmVisible)
+				.AppendTime(0.5f)
+				.AppendCallback(_currentStep.Activate)
+				.AppendCallback(UpdateConfirmVisible)
+				.Build().Play();
+		}
+	}
+
+	private void FinalizeCharacter()
+	{
+	}
+
+	private void OnBackPressed()
+	{
+		if(_stepIndex == 0)
+		{
+			AppController.Instance.SceneLoader.RequestSceneChange(new MainMenuSceneRequest());
+			return;
+		}
+
+		SetStep(_stepIndex - 1);
+	}
+
+	private void OnConfirmPressed()
+	{
+		NextStep();
+	}
+}

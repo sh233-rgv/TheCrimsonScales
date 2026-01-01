@@ -1,4 +1,4 @@
-[gd_scene load_steps=121 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=137 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -48,7 +48,6 @@
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="28_jr74k"]
 [ext_resource type="Script" uid="uid://ck1ncviofqosh" path="res://Scripts/UI/ResizingLabel.cs" id="28_psaff"]
 [ext_resource type="Script" uid="uid://cupkvjgt2qge0" path="res://Scripts/BetweenScenarios/Events/EventCard.cs" id="30_dl2j2"]
-[ext_resource type="Shader" uid="uid://cvigpjylr2cci" path="res://Shaders/RotatingCard.gdshader" id="31_sagt1"]
 [ext_resource type="PackedScene" uid="uid://ct6pmvbmsh7lf" path="res://Scenes/UI/MenuButton.tscn" id="32_5k12q"]
 [ext_resource type="Material" uid="uid://bgdcydtsmmrb" path="res://Materials/TintGrayscale.tres" id="32_su2xo"]
 [ext_resource type="Texture2D" uid="uid://byfj7yio15h8c" path="res://Art/BetweenScenarios/Events/CityFront.jpg" id="33_2yhfp"]
@@ -57,11 +56,23 @@
 [ext_resource type="FontFile" uid="uid://djm7xa0rh5wqv" path="res://Fonts/HTOWERT.TTF" id="36_bny7g"]
 [ext_resource type="PackedScene" uid="uid://d0tqt5fvbsn2x" path="res://Scenes/BetweenScenarios/BetweenScenariosPartyStat.tscn" id="45_rtdf2"]
 [ext_resource type="Script" uid="uid://cc4ctr6004sg4" path="res://Scripts/BetweenScenarios/Events/EventOverlay.cs" id="49_dl2j2"]
+[ext_resource type="Material" uid="uid://gfilfltix5vm" path="res://Materials/RotatingCard.tres" id="51_rtdf2"]
+[ext_resource type="Script" uid="uid://b4tm7wjgmvnd2" path="res://Scripts/UI/RotatingCardView.cs" id="52_0un3t"]
 [ext_resource type="PackedScene" uid="uid://co015244vhv5u" path="res://Scenes/BetweenScenarios/Events/EventChoiceButton.tscn" id="57_dl2j2"]
 [ext_resource type="PackedScene" uid="uid://hux023lpvkr0" path="res://Scenes/BetweenScenarios/Events/CityEventRewardLabel.tscn" id="58_rtdf2"]
 [ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="58_sagt1"]
 [ext_resource type="Texture2D" uid="uid://dg5cclbmnwikj" path="res://Art/BetweenScenarios/Events/RoadFront.jpg" id="58_su2xo"]
 [ext_resource type="PackedScene" uid="uid://dhhay14damdhi" path="res://Scenes/BetweenScenarios/Events/RoadEventRewardLabel.tscn" id="60_0rh5w"]
+[ext_resource type="Texture2D" uid="uid://cw111i6yk01f1" path="res://Art/Backgrounds/ArtbookBackground.jpg" id="62_bny7g"]
+[ext_resource type="FontVariation" uid="uid://ciy2q5rti2m6m" path="res://Fonts/MarkaziVariation.tres" id="63_16mqd"]
+[ext_resource type="Script" uid="uid://bcm3hmph2dm2g" path="res://Scripts/BetweenScenarios/CharacterCreation/CharacterCreationOverlay.cs" id="63_38ram"]
+[ext_resource type="LabelSettings" uid="uid://co0cqpevlny13" path="res://Resources/PanelLabel.tres" id="64_tq2dg"]
+[ext_resource type="Texture2D" uid="uid://diddsge2c7sli" path="res://Content/Classes/Mirefoot/MatFront.png" id="64_wg15a"]
+[ext_resource type="Script" uid="uid://f2ncrb1ur234" path="res://Scripts/BetweenScenarios/CharacterCreation/ClassCharacterCreationStep.cs" id="65_sursi"]
+[ext_resource type="PackedScene" uid="uid://c6ydkmedgm2lb" path="res://Scenes/BetweenScenarios/CharacterCreation/CharacterCreationClass.tscn" id="66_bnord"]
+[ext_resource type="Script" uid="uid://e1u4nmwejxw5" path="res://Scripts/Scenario/UI/ChoiceButtonsView/ChoiceButton.cs" id="67_0un3t"]
+[ext_resource type="PackedScene" uid="uid://dsc4dpb4vpe8c" path="res://Scenes/BetweenScenarios/CharacterCreation/CharacterCreationPersonalQuest.tscn" id="68_0un3t"]
+[ext_resource type="Script" uid="uid://bsdabd5cpwvem" path="res://Scripts/BetweenScenarios/CharacterCreation/CharacterNameCharacterCreationStep.cs" id="70_38ram"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fpmem"]
 shader = ExtResource("9_fpmem")
@@ -483,14 +494,6 @@ font_size = 20
 font = ExtResource("28_jr74k")
 font_size = 30
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wg15a"]
-shader = ExtResource("31_sagt1")
-shader_parameter/fov = 20.0
-shader_parameter/cull_back = true
-shader_parameter/y_rot = 0.0
-shader_parameter/x_rot = 0.0
-shader_parameter/inset = 0.0
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_12j2q"]
 corner_radius_top_left = 20
 corner_radius_top_right = 20
@@ -508,6 +511,56 @@ font_size = 20
 [sub_resource type="Curve" id="Curve_tq2dg"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
 point_count = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wg15a"]
+shader = ExtResource("23_psaff")
+shader_parameter/inner_radius = 0.3
+shader_parameter/outer_radius = 1.0
+shader_parameter/vignette_strength = 0.8
+shader_parameter/dither_strength = 0.03
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vapya"]
+font = ExtResource("63_16mqd")
+font_size = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3wm2"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_0un3t"]
+font = ExtResource("63_16mqd")
+font_size = 120
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vapya"]
+bg_color = Color(0, 0, 0, 0.305882)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bnord"]
+bg_color = Color(0, 0, 0, 0.305882)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 8.0
 
 [node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay", "ActionManager", "ItemShop")]
 script = ExtResource("1_rtyjh")
@@ -1821,8 +1874,7 @@ layout_mode = 2
 text = "New Character"
 label_settings = SubResource("LabelSettings_f340v")
 
-[node name="EventOverlay" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_background", "_skipTextButton", "_subViewportContainer", "_cityEventCard", "_roadEventCard", "_continueButton", "_eventChoiceButtonParent")]
-visible = false
+[node name="EventOverlay" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_background", "_skipTextButton", "_rotatingCardView", "_cityEventCard", "_roadEventCard", "_continueButton", "_eventChoiceButtonParent")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1833,7 +1885,7 @@ mouse_filter = 2
 script = ExtResource("49_dl2j2")
 _background = NodePath("Background")
 _skipTextButton = NodePath("SkipTextButton")
-_subViewportContainer = NodePath("EventCard/SubViewportContainer")
+_rotatingCardView = NodePath("EventCard/SubViewportContainer")
 _cityEventCard = NodePath("EventCard/SubViewportContainer/SubViewport/Mask/City")
 _roadEventCard = NodePath("EventCard/SubViewportContainer/SubViewport/Mask/Road")
 _continueButton = NodePath("ContinueButton")
@@ -1864,7 +1916,8 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/UI/EventOverlay/EventCard"]
-material = SubResource("ShaderMaterial_wg15a")
+material = ExtResource("51_rtdf2")
+instance_shader_parameters/y_rot = 0.0
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1872,12 +1925,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
+script = ExtResource("52_0un3t")
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(500, 700)
-render_target_update_mode = 0
+render_target_update_mode = 4
 
 [node name="Mask" type="Panel" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport"]
 clip_children = 1
@@ -2295,6 +2349,298 @@ grow_vertical = 2
 [node name="Label" parent="CanvasLayer/UI/EventOverlay/ContinueButton/BetterButton/Panel" index="0"]
 text = "Continue"
 
+[node name="CharacterCreationOverlay" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_steps", "_backButton", "_confirmButton")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("63_38ram")
+_steps = [NodePath("Steps/Class"), NodePath("Steps/CharacterName")]
+_backButton = NodePath("BackButton")
+_confirmButton = NodePath("ConfirmButton")
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/UI/CharacterCreationOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("62_bny7g")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Vignette" type="ColorRect" parent="CanvasLayer/UI/CharacterCreationOverlay"]
+material = SubResource("ShaderMaterial_wg15a")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Steps" type="Control" parent="CanvasLayer/UI/CharacterCreationOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Class" type="Control" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps" node_paths=PackedStringArray("_classParent", "_matFrontTexture")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("65_sursi")
+_classScene = ExtResource("66_bnord")
+_classParent = NodePath("HBoxContainer/ClassesGrid")
+_matFrontTexture = NodePath("HBoxContainer/VBoxContainer/MatFront/Mask/TextureRect")
+
+[node name="Header" type="Label" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/Class"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -465.0
+offset_top = 50.0
+offset_right = 465.0
+offset_bottom = 187.0
+grow_horizontal = 2
+text = "Select a Class"
+label_settings = SubResource("LabelSettings_vapya")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/Class"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -565.0
+offset_top = 180.0
+offset_right = 565.0
+offset_bottom = 221.0
+grow_horizontal = 2
+text = "The classes not included in the chosen group can be unlocked during the campaign."
+label_settings = ExtResource("64_tq2dg")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/Class"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -585.0
+offset_top = -315.0
+offset_right = 585.0
+offset_bottom = 315.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="ClassesGrid" type="GridContainer" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/Class/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/Class/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="MatFront" type="Control" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/Class/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(970, 630)
+layout_mode = 2
+
+[node name="Mask" type="Panel" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/Class/HBoxContainer/VBoxContainer/MatFront"]
+clip_children = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_d3wm2")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/Class/HBoxContainer/VBoxContainer/MatFront/Mask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("64_wg15a")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="PersonalQuest" type="Control" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Header" type="Label" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/PersonalQuest"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -465.0
+offset_top = 50.0
+offset_right = 465.0
+offset_bottom = 187.0
+grow_horizontal = 2
+text = "Select a Personal Quest"
+label_settings = SubResource("LabelSettings_vapya")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/PersonalQuest"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -565.0
+offset_top = 180.0
+offset_right = 565.0
+offset_bottom = 221.0
+grow_horizontal = 2
+text = "The classes not included in the chosen group can be unlocked during the campaign."
+label_settings = ExtResource("64_tq2dg")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/PersonalQuest"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="CharacterCreationPersonalQuestCard" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/PersonalQuest/HBoxContainer" instance=ExtResource("68_0un3t")]
+layout_mode = 2
+
+[node name="CharacterName" type="Control" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps" node_paths=PackedStringArray("_nameLineEdit")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("70_38ram")
+_nameLineEdit = NodePath("LineEdit")
+
+[node name="Header" type="Label" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/CharacterName"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -465.0
+offset_top = 50.0
+offset_right = 465.0
+offset_bottom = 187.0
+grow_horizontal = 2
+text = "Enter a Name for your Character"
+label_settings = SubResource("LabelSettings_0un3t")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/CharacterName"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -565.0
+offset_top = 180.0
+offset_right = 565.0
+offset_bottom = 221.0
+grow_horizontal = 2
+text = "The classes not included in the chosen group can be unlocked during the campaign."
+label_settings = ExtResource("64_tq2dg")
+horizontal_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/CharacterName"]
+custom_minimum_size = Vector2(800, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -50.0
+offset_right = 400.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/caret_width = 2
+theme_override_fonts/font = ExtResource("28_jr74k")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/focus = SubResource("StyleBoxFlat_vapya")
+theme_override_styles/normal = SubResource("StyleBoxFlat_bnord")
+placeholder_text = "..."
+alignment = 1
+max_length = 20
+caret_blink = true
+
+[node name="BackButton" parent="CanvasLayer/UI/CharacterCreationOverlay" node_paths=PackedStringArray("BetterButton") instance=ExtResource("27_hkul8")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_top = -180.0
+offset_right = 300.0
+offset_bottom = -100.0
+grow_vertical = 0
+script = ExtResource("67_0un3t")
+BetterButton = NodePath("BetterButton")
+_startActive = true
+
+[node name="Label" parent="CanvasLayer/UI/CharacterCreationOverlay/BackButton/BetterButton/Panel" index="0"]
+text = "Back"
+
+[node name="ConfirmButton" parent="CanvasLayer/UI/CharacterCreationOverlay" node_paths=PackedStringArray("BetterButton") instance=ExtResource("27_hkul8")]
+modulate = Color(0.458824, 1, 0.372549, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -180.0
+offset_right = -100.0
+offset_bottom = -100.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("67_0un3t")
+BetterButton = NodePath("BetterButton")
+_startActive = false
+
 [node name="MenuButton" parent="CanvasLayer/UI" instance=ExtResource("32_5k12q")]
 layout_mode = 1
 
@@ -2311,3 +2657,5 @@ layout_mode = 1
 [editable path="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
 [editable path="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/NewCharacterButton"]
 [editable path="CanvasLayer/UI/EventOverlay/ContinueButton"]
+[editable path="CanvasLayer/UI/CharacterCreationOverlay/BackButton"]
+[editable path="CanvasLayer/UI/CharacterCreationOverlay/ConfirmButton"]

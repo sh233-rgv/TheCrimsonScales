@@ -1,8 +1,10 @@
 ﻿using Godot;
 using GTweensGodot.Extensions;
 
-public partial class NewCampaignStep : Control
+public partial class CharacterCreationStep : Control
 {
+	protected CharacterCreationOverlay _characterCreationOverlay;
+
 	public bool Active { get; private set; }
 
 	public virtual bool ConfirmButtonActive => false;
@@ -13,6 +15,11 @@ public partial class NewCampaignStep : Control
 
 		SetModulate(Colors.Transparent);
 		Hide();
+	}
+
+	public void Init(CharacterCreationOverlay characterCreationOverlay)
+	{
+		_characterCreationOverlay = characterCreationOverlay;
 	}
 
 	public virtual void Activate()

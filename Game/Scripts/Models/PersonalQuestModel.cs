@@ -6,6 +6,7 @@ public abstract class PersonalQuestModel : AbstractModel
 	public abstract string Name { get; }
 	public abstract ClassModel ClassToUnlock { get; }
 	public abstract int MaxProgress { get; }
+	public virtual ScenarioModel UnlockedScenarioModel => null;
 
 	protected abstract string TexturePath { get; }
 	protected abstract int ColumnCount { get; }
