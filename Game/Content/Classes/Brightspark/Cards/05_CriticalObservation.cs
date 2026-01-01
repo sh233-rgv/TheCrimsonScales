@@ -47,7 +47,7 @@ public class CriticalObservation : BrightsparkCardModel<CriticalObservation.Card
 								0 => Conditions.Muddle,
 								1 => Conditions.Poison1,
 								2 => Conditions.Wound1,
-								_ => null
+								_ => throw new ArgumentOutOfRangeException()
 							});
 							await state.AdvanceUseSlot();
 						});
@@ -60,10 +60,9 @@ public class CriticalObservation : BrightsparkCardModel<CriticalObservation.Card
 				})
 				.WithUseSlots(
 				[
-					//TODO: Fix Use slot positioning
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f))
+					new UseSlot(new Vector2(0.2925002f, 0.8124983f)),
+					new UseSlot(new Vector2(0.50000006f, 0.8124983f)),
+					new UseSlot(new Vector2(0.70749974f, 0.8124983f))
 				])
 				.Build())
 		];

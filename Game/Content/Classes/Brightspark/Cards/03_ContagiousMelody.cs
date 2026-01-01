@@ -78,6 +78,7 @@ public class ContagiousMelody : BrightsparkCardModel<ContagiousMelody.CardTop, C
 					}
 
 					await AbilityCmd.AddCondition(state, figure, conditionGiven);
+					state.SetPerformed();
 					await AbilityCmd.GainXP(state.Performer, 1);
 				})
 				.Build())

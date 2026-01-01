@@ -28,10 +28,10 @@ public partial class CardViewCharacterToken : Control
 
 		Vector2 moveInput = Vector2.Zero;
 		float mult = 1f;
-		if (Input.IsKeyPressed(Key.Shift))
-        {
-            mult = 10f;
-        }
+		if(Input.IsKeyPressed(Key.Shift))
+		{
+			mult = 10f;
+		}
 
 		if(Input.IsKeyPressed(Key.L))
 		{
@@ -59,7 +59,7 @@ public partial class CardViewCharacterToken : Control
 			Control parent = GetParent<Control>();
 			Position = _normalizedPosition * parent.Size - 0.5f * Size;
 
-			Log.Write(_normalizedPosition.ToString());
+			Log.Write($"({_normalizedPosition.X}f, {_normalizedPosition.Y}f)");
 		}
 	}
 }

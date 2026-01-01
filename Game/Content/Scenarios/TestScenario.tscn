@@ -48,38 +48,45 @@ MonsterType2Characters = 1
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
-[node name="CharacterStartHex" parent="Map/Rooms/Room" index="7" instance=ExtResource("9_6v84j")]
+[node name="MonsterSpawner3" parent="Map/Rooms/Room" index="7" instance=ExtResource("8_5bvco")]
+position = Vector2(327.358, -189)
+MonsterModelId = "MONSTER_MODEL.VERMLING_SCOUT"
+MonsterType2Characters = 0
+MonsterType3Characters = 1
+MonsterType4Characters = 1
+
+[node name="CharacterStartHex" parent="Map/Rooms/Room" index="8" instance=ExtResource("9_6v84j")]
 position = Vector2(-109.119, 189)
 
-[node name="CharacterStartHex2" parent="Map/Rooms/Room" index="8" instance=ExtResource("9_6v84j")]
+[node name="CharacterStartHex2" parent="Map/Rooms/Room" index="9" instance=ExtResource("9_6v84j")]
 position = Vector2(109.119, 189)
 
-[node name="CharacterStartHex3" parent="Map/Rooms/Room" index="9" instance=ExtResource("9_6v84j")]
+[node name="CharacterStartHex3" parent="Map/Rooms/Room" index="10" instance=ExtResource("9_6v84j")]
 position = Vector2(-218.238, 378)
 
-[node name="CharacterStartHex4" parent="Map/Rooms/Room" index="10" instance=ExtResource("9_6v84j")]
+[node name="CharacterStartHex4" parent="Map/Rooms/Room" index="11" instance=ExtResource("9_6v84j")]
 position = Vector2(0, 378)
 
-[node name="CharacterStartHex5" parent="Map/Rooms/Room" index="11" instance=ExtResource("9_6v84j")]
+[node name="CharacterStartHex5" parent="Map/Rooms/Room" index="12" instance=ExtResource("9_6v84j")]
 position = Vector2(218.238, 378)
 
-[node name="Treasure1H" parent="Map/Rooms/Room" index="12" instance=ExtResource("8_libyu")]
+[node name="Treasure1H" parent="Map/Rooms/Room" index="13" instance=ExtResource("8_libyu")]
 position = Vector2(218.238, -378)
 TreasureNumber = 11
 
-[node name="Bush1H" parent="Map/Rooms/Room" index="13" instance=ExtResource("9_hqk2m")]
+[node name="Bush1H" parent="Map/Rooms/Room" index="14" instance=ExtResource("9_hqk2m")]
 position = Vector2(-327.358, 189)
 
-[node name="BearTrap1H" parent="Map/Rooms/Room" index="14" instance=ExtResource("10_5r4do")]
+[node name="BearTrap1H" parent="Map/Rooms/Room" index="15" instance=ExtResource("10_5r4do")]
 position = Vector2(-436.477, 378)
 
-[node name="Boulder3H" parent="Map/Rooms/Room" index="15" instance=ExtResource("11_rv36e")]
+[node name="Boulder3H" parent="Map/Rooms/Room" index="16" instance=ExtResource("11_rv36e")]
 position = Vector2(436.477, -378)
 rotation = 1.0472
 
-[node name="BarrelObjective1H" parent="Map/Rooms/Room" index="16" instance=ExtResource("12_x5m5f")]
+[node name="BarrelObjective1H" parent="Map/Rooms/Room" index="17" instance=ExtResource("12_x5m5f")]
 position = Vector2(-218.238, -378)
 
-[node name="TreeObjective3H" parent="Map/Rooms/Room" index="17" instance=ExtResource("13_x5m5f")]
+[node name="TreeObjective3H" parent="Map/Rooms/Room" index="18" instance=ExtResource("13_x5m5f")]
 position = Vector2(-327.358, -189)
 rotation = 2.0944

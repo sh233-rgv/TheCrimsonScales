@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 
 public class NutrientOverdose : BrightsparkCardModel<NutrientOverdose.CardTop, NutrientOverdose.CardBottom>
@@ -14,6 +15,25 @@ public class NutrientOverdose : BrightsparkCardModel<NutrientOverdose.CardTop, N
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
+				.WithDuringAttackSubscription(
+					ScenarioEvents.DuringAttack.Subscription.New(
+						parameters => parameters.Performer is Character character && character.RoundCardData.Any(roundCardData =>
+							roundCardData.AbilityCard != AbilityCard && roundCardData.CanPlayBasicBottom || roundCardData.CanPlayBottom),
+						async parameters =>
+						{
+							foreach(CardPlayCardData cardData in ((Character)parameters.Performer).RoundCardData)
+							{
+								cardData.CanPlayBottom = false;
+								cardData.CanPlayBasicBottom = false;
+							}
+
+							parameters.AbilityState.AbilityAdjustAttackValue(3);
+
+							await GDTask.CompletedTask;
+						}, EffectType.Selectable,
+						effectButtonParameters: new IconEffectButton.Parameters(Icons.HintText(Icons.Attack)),
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"Forgo your bottom action to add +3{Icons.Inline(Icons.Attack)}")))
 				.Build())
 		];
 	}
@@ -24,28 +44,26 @@ public class NutrientOverdose : BrightsparkCardModel<NutrientOverdose.CardTop, N
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)
-				.Build()),
-			new AbilityCardAbility(OtherActiveAbility.Builder()
-				.WithOnActivate(async state =>
-				{
-					ScenarioEvents.ItemStateChangedEvent.Subscribe(state, this,
-						canApplyParameters =>
-							canApplyParameters.Item.Owner == state.Performer && canApplyParameters.Item.ItemState == ItemState.Consumed,
-						async applyParameters =>
+				.WithDuringMovementSubscription(
+					ScenarioEvents.DuringMovement.Subscription.New(
+						parameters => parameters.Performer is Character character && character.RoundCardData.Any(roundCardData =>
+							roundCardData.AbilityCard != AbilityCard && roundCardData.CanPlayBasicTop || roundCardData.CanPlayTop),
+						async parameters =>
 						{
-							await AbilityCmd.InfuseWildElement(state.Performer);
-							await state.ActionState.RequestDiscardOrLose();
-						});
-					await GDTask.CompletedTask;
-				})
-				.WithOnDeactivate(async state =>
-				{
-					ScenarioEvents.ItemStateChangedEvent.Unsubscribe(state, this);
-					await GDTask.CompletedTask;
-				})
+							foreach(CardPlayCardData cardData in ((Character)parameters.Performer).RoundCardData)
+							{
+								cardData.CanPlayTop = false;
+								cardData.CanPlayBasicTop = false;
+							}
+
+							parameters.AbilityState.AdjustMoveValue(3);
+
+							await GDTask.CompletedTask;
+						}, EffectType.Selectable,
+						effectButtonParameters: new IconEffectButton.Parameters(Icons.HintText(Icons.Move)),
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"Forgo your bottom action to add +3{Icons.Inline(Icons.Move)}")))
 				.Build())
 		];
-
-		protected override bool Round => true;
 	}
 }

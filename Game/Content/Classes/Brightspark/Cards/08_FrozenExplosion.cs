@@ -11,7 +11,6 @@ public class FrozenExplosion : BrightsparkCardModel<FrozenExplosion.CardTop, Fro
 
 	public class CardTop : BrightsparkCardSide
 	{
-		//TODO: Change visual to 2xp
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
@@ -68,10 +67,9 @@ public class FrozenExplosion : BrightsparkCardModel<FrozenExplosion.CardTop, Fro
 				})
 				.WithUseSlots(
 				[
-					//TODO: Fix Use slot positioning
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.29149997f, 0.7649989f)),
+					new UseSlot(new Vector2(0.4999995f, 0.7649989f)),
+					new UseSlot(new Vector2(0.70799917f, 0.7649989f), GainXP)
 				])
 				.Build()),
 			new AbilityCardAbility(MoveAbility.Builder()

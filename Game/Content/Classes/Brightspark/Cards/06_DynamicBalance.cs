@@ -3,7 +3,6 @@ using Fractural.Tasks;
 
 public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, DynamicBalance.CardBottom>
 {
-	//TODO: Change card name on graphic from observation to balance
 	public override string Name => "Dynamic Balance";
 	public override int Level => 1;
 	public override int Initiative => 22;

@@ -16,7 +16,16 @@ public class CellRegeneration : BrightsparkCardModel<CellRegeneration.CardTop, C
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
 				.WithTarget(Target.Self)
-				//TODO: Add Light Consumption
+				.WithDuringHealSubscription(
+					ScenarioEvents.DuringHeal.Subscription.ConsumeElement(Element.Light,
+						applyFunction: async parameters =>
+						{
+							parameters.AbilityState.AdjustTargets(1);
+							parameters.AbilityState.AdjustTarget(Target.SelfOrAllies | Target.SelfCountsForTargets);
+							await AbilityCmd.GainXP(parameters.Performer, 1);
+						},
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"{Icons.Inline(Icons.Targets)}1 adjacent ally and self instead")))
 				.Build())
 		];
 	}
@@ -34,7 +43,7 @@ public class CellRegeneration : BrightsparkCardModel<CellRegeneration.CardTop, C
 						{
 							ActionState actionState = new ActionState(parameters.Figure,
 							[
-								HealAbility.Builder().WithHealValue(1).Build(),
+								HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build(),
 							]);
 							await actionState.Perform();
 
@@ -49,10 +58,9 @@ public class CellRegeneration : BrightsparkCardModel<CellRegeneration.CardTop, C
 				})
 				.WithUseSlots(
 				[
-					//TODO: Fix Use slot positioning
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), FinalSlotAbility)
+					new UseSlot(new Vector2(0.29150033f, 0.7689984f)),
+					new UseSlot(new Vector2(0.5004996f, 0.7689984f)),
+					new UseSlot(new Vector2(0.7074981f, 0.7689984f), FinalSlotAbility)
 				])
 				.Build())
 		];
@@ -63,7 +71,7 @@ public class CellRegeneration : BrightsparkCardModel<CellRegeneration.CardTop, C
 		{
 			ActionState actionState = new ActionState(abilityState.Performer,
 			[
-				HealAbility.Builder().WithHealValue(1).Build(),
+				HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build(),
 			]);
 			await actionState.Perform();
 			await AbilityCmd.GainXP(abilityState.Performer, 1);

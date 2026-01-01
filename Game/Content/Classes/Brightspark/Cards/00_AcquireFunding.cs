@@ -25,6 +25,39 @@ public class AcquireFunding : BrightsparkCardModel<AcquireFunding.CardTop, Acqui
 							await GDTask.CompletedTask;
 						})
 				)
+				.WithOnAbilityStarted(async abilityState =>
+				{
+					bool lootCoin = false;
+					ScenarioCheckEvents.SpawnCoinCheckEvent.Subscribe(abilityState, this,
+						canApplyParameters => abilityState.Target == canApplyParameters.Figure && canApplyParameters.SpawnCoin,
+						applyParameters =>
+						{
+							applyParameters.SetSpawnCoin(false);
+							lootCoin = true;
+						}, order: 100
+					);
+					ScenarioEvents.AfterAttackPerformedEvent.Subscribe(abilityState, this,
+						parameters => parameters.AbilityState.Target.IsDead && lootCoin,
+						async parameters =>
+						{
+							PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/CoinStack.tscn");
+							CoinStack coinStack = scene.Instantiate<CoinStack>();
+							GameController.Instance.Map.AddChild(coinStack);
+							await coinStack.Init(abilityState.Target.Hex);
+
+							await coinStack.Loot(abilityState.Performer);
+						});
+
+					await GDTask.CompletedTask;
+				})
+				.WithOnAbilityEnded(async abilityState =>
+					{
+						ScenarioCheckEvents.SpawnCoinCheckEvent.Unsubscribe(abilityState, this);
+						ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(abilityState, this);
+
+						await GDTask.CompletedTask;
+					}
+				)
 				.Build())
 		];
 	}
@@ -57,10 +90,9 @@ public class AcquireFunding : BrightsparkCardModel<AcquireFunding.CardTop, Acqui
 				})
 				.WithUseSlots(
 				[
-					//TODO: Fix Use slot positioning
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.29199997f, 0.7944986f)),
+					new UseSlot(new Vector2(0.4999998f, 0.7944986f)),
+					new UseSlot(new Vector2(0.7079987f, 0.7944986f), GainXP)
 				])
 				.Build())
 		];

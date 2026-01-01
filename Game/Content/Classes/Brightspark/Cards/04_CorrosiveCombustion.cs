@@ -81,10 +81,9 @@ public class CorrosiveCombustion : BrightsparkCardModel<CorrosiveCombustion.Card
 				})
 				.WithUseSlots(
 				[
-					//TODO: Fix Use slot positioning
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f), state => AbilityCmd.InfuseElement(Element.Fire)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.29100034f, 0.76699734f)),
+					new UseSlot(new Vector2(0.4990001f, 0.76699734f), state => AbilityCmd.InfuseElement(Element.Fire)),
+					new UseSlot(new Vector2(0.7075f, 0.76699734f), GainXP)
 				])
 				.Build())
 		];

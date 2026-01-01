@@ -19,7 +19,8 @@ public class EnvironmentalSurvey : BrightsparkCardModel<EnvironmentalSurvey.Card
 					Hex hex = (await AbilityCmd.SelectHex(state.Performer, list =>
 					{
 						list.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 2)
-							.Where(hex => hex.TryGetHexObjectOfType(out Obstacle obs) || hex.TryGetHexObjectOfType(out Trap trap)));
+							.Where(hex => hex.TryGetHexObjectOfType(out Obstacle obs) && obs.HexObjectShape == HexObjectShape.Single ||
+							              hex.TryGetHexObjectOfType(out Trap trap)));
 					}, hintText: "Select an obstacle to move"));
 
 					if(hex == null)
@@ -42,6 +43,7 @@ public class EnvironmentalSurvey : BrightsparkCardModel<EnvironmentalSurvey.Card
 						list.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 2)
 							.Where(moveToHex => moveToHex.IsEmpty()));
 					});
+					state.SetPerformed();
 				})
 				.Build())
 		];

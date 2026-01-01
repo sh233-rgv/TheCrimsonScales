@@ -39,10 +39,9 @@ public class LeftoverTonic : BrightsparkCardModel<LeftoverTonic.CardTop, Leftove
 				})
 				.WithUseSlots(
 				[
-					//TODO: Fix Use slot positioning
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.29050028f, 0.3929994f)),
+					new UseSlot(new Vector2(0.49949962f, 0.3929994f)),
+					new UseSlot(new Vector2(0.7080005f, 0.3929994f), GainXP)
 				])
 				.Build()),
 		];
@@ -79,10 +78,9 @@ public class LeftoverTonic : BrightsparkCardModel<LeftoverTonic.CardTop, Leftove
 				})
 				.WithUseSlots(
 				[
-					//TODO: Fix Use slot positioning
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.29150033f, 0.86599743f)),
+					new UseSlot(new Vector2(0.49949986f, 0.86599743f)),
+					new UseSlot(new Vector2(0.70699996f, 0.86599743f), GainXP)
 				])
 				.Build()),
 		];

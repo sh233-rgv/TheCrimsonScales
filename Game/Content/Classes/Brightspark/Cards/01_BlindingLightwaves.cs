@@ -35,6 +35,7 @@ public class BlindingLightwaves : BrightsparkCardModel<BlindingLightwaves.CardTo
 						        .Where(figure => figure.EnemiesWith(state.Performer)))
 					{
 						await AbilityCmd.SufferDamage(state, figure, 1);
+						state.SetPerformed();
 					}
 				}).Build()),
 			new AbilityCardAbility(MoveAbility.Builder()

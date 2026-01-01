@@ -132,7 +132,7 @@ public partial class Monster : Figure
 		if(Stats.Traits != null)
 		{
 			foreach(FigureTrait trait in Stats.Traits)
-			{ 
+			{
 				await trait.Deactivate(this);
 			}
 		}
@@ -147,7 +147,7 @@ public partial class Monster : Figure
 
 		await base.Destroy(immediately, forceDestroy);
 
-		await AbilityCmd.SpawnCoin(Hex);
+		await AbilityCmd.SpawnCoin(Hex, this);
 	}
 
 	protected override Initiative GetInitiative()

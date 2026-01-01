@@ -16,6 +16,22 @@ public class BrightsparkModel : ClassModel
 
 	public override IList<AbilityCardModel> AbilityCards { get; } =
 	[
-		
+		ModelDB.Card<AcquireFunding>(),
+		ModelDB.Card<BlindingLightwaves>(),
+		ModelDB.Card<CellRegeneration>(),
+		ModelDB.Card<ContagiousMelody>(),
+		ModelDB.Card<CorrosiveCombustion>(),
+		ModelDB.Card<CriticalObservation>(),
+		ModelDB.Card<DynamicBalance>(),
+		ModelDB.Card<ExothermicCocktail>(),
+		ModelDB.Card<FrozenExplosion>(),
+		ModelDB.Card<MagneticField>(),
+		ModelDB.Card<PreliminaryResearch>(),
+
+		ModelDB.Card<EnvironmentalSurvey>(),
+		ModelDB.Card<LeftoverTonic>(),
+		ModelDB.Card<ElevatedIntake>(),
+
+		ModelDB.Card<NutrientOverdose>(),
 	];
 }
