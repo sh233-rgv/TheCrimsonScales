@@ -41,6 +41,7 @@ public class WeatherForecast : BrightsparkCardModel<WeatherForecast.CardTop, Wea
 								2 => Element.Air,
 								_ => throw new ArgumentOutOfRangeException()
 							};
+							//TODO: Add state to infuse
 							await AbilityCmd.InfuseElement(element);
 							await state.AdvanceUseSlot();
 						});

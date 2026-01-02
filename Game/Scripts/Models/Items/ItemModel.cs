@@ -214,6 +214,8 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 
 		await apply(user);
 
+		user.TurnItemsUsed.Add(this);
+
 		await ScenarioEvents.ItemUseEndedEvent.CreatePrompt(new ScenarioEvents.ItemUseEnded.Parameters(this, Owner));
 	}
 
@@ -465,5 +467,10 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 				parameters.AddImmunity(conditionModel);
 			}
 		);
+	}
+
+	public bool IsConsumed()
+	{
+		return ItemState == ItemState.Consumed || ItemState == ItemState.UnrecoverablyConsumed;
 	}
 }

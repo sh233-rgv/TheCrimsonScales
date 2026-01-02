@@ -50,7 +50,8 @@ public class AstronomicalStrike : BrightsparkCardModel<AstronomicalStrike.CardTo
 				.WithSummonStats(new SummonStats()
 				{
 					Health = 6,
-					Move = 1,
+					//TODO: Pull ability
+					Range = 4,
 					Traits =
 					[
 						new PerformAtEndOfTurnTrait(OtherAbility.Builder().WithPerformAbility(async state =>
@@ -62,11 +63,12 @@ public class AstronomicalStrike : BrightsparkCardModel<AstronomicalStrike.CardTo
 								state.SetPerformed();
 							}
 						}).Build()),
-						
+						//TODO: Scenarios added: new PermanentConditionTrait(Conditions.Invisible),
+						//TODO: Cannot be moved
 					]
 				})
-				.WithName("Metal Detector")
-				.WithTexturePath("res://Content/Classes/Brightspark/MetalDetector.png")
+				.WithName("Black Hole")
+				.WithTexturePath("res://Content/Classes/Brightspark/BlackHole.png")
 				.Build()
 			),
 		];

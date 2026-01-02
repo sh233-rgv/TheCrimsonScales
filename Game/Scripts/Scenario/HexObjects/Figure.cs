@@ -223,7 +223,7 @@ public abstract partial class Figure : HexObject
 		await GDTask.CompletedTask;
 	}
 
-	protected async GDTask EndTurn()
+	protected virtual async GDTask EndTurn()
 	{
 		await ScenarioEvents.FigureTurnEndingEvent.CreatePrompt(
 			new ScenarioEvents.FigureTurnEnding.Parameters(this), this);

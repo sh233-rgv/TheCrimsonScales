@@ -22,6 +22,7 @@ public partial class Character : Figure
 
 	public List<AbilityCard> RoundCards { get; } = new List<AbilityCard>();
 	public List<CardPlayCardData> RoundCardData = new List<CardPlayCardData>();
+	public List<ItemModel> TurnItemsUsed = [];
 	public bool LongResting { get; private set; }
 
 	public int ShortRestSeed { get; private set; }
@@ -385,6 +386,13 @@ public partial class Character : Figure
 				await ScenarioEvents.AfterCardsPlayedEvent.CreatePrompt(new ScenarioEvents.AfterCardsPlayed.Parameters(this), this, "End turn?");
 			}
 		}
+	}
+
+	protected override async GDTask EndTurn()
+	{
+		await base.EndTurn();
+
+		TurnItemsUsed.Clear();
 	}
 
 	protected override async GDTask EndOfTurnLooting()
