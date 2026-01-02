@@ -8,9 +8,10 @@ public partial class RotatingCardView : Control
 {
 	private static readonly StringName RotationName = "y_rot";
 
-	public GTween GetRotationTween(Action flipSideCallback)
+	public GTween GetRotationTween(Action flipSideCallback, float initialDelay = 0f)
 	{
 		return GTweenSequenceBuilder.New()
+			.AppendTime(initialDelay)
 			.Append(this.TweenInstanceShaderPropertyFloat(RotationName, 90f, 0.2f).SetEasing(Easing.Linear))
 			.AppendCallback(() =>
 			{

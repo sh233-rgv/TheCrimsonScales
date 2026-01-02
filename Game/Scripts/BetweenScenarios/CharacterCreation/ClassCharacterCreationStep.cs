@@ -45,7 +45,7 @@ public partial class ClassCharacterCreationStep : CharacterCreationStep
 			characterCreationClass.Init(classModel);
 			_characterCreationClasses.Add(characterCreationClass);
 
-			characterCreationClass.PressedEvent += OnClassButtonPressed;
+			characterCreationClass.PressedEvent += OnClassPressed;
 		}
 
 		SelectButton(_characterCreationClasses[0]);
@@ -72,7 +72,7 @@ public partial class ClassCharacterCreationStep : CharacterCreationStep
 		_characterCreationOverlay.SetClassModel(_selectedClass.ClassModel);
 	}
 
-	private void OnClassButtonPressed(CharacterCreationClass characterCreationClass)
+	private void OnClassPressed(CharacterCreationClass characterCreationClass)
 	{
 		SelectButton(characterCreationClass);
 	}

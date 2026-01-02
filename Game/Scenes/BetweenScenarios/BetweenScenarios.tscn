@@ -1,4 +1,4 @@
-[gd_scene load_steps=137 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=138 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -73,6 +73,7 @@
 [ext_resource type="Script" uid="uid://e1u4nmwejxw5" path="res://Scripts/Scenario/UI/ChoiceButtonsView/ChoiceButton.cs" id="67_0un3t"]
 [ext_resource type="PackedScene" uid="uid://dsc4dpb4vpe8c" path="res://Scenes/BetweenScenarios/CharacterCreation/CharacterCreationPersonalQuest.tscn" id="68_0un3t"]
 [ext_resource type="Script" uid="uid://bsdabd5cpwvem" path="res://Scripts/BetweenScenarios/CharacterCreation/CharacterNameCharacterCreationStep.cs" id="70_38ram"]
+[ext_resource type="Script" uid="uid://1cmilwv1hjb3" path="res://Scripts/BetweenScenarios/CharacterCreation/PersonalQuestCharacterCreationStep.cs" id="70_sursi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fpmem"]
 shader = ExtResource("9_fpmem")
@@ -2358,7 +2359,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("63_38ram")
-_steps = [NodePath("Steps/Class"), NodePath("Steps/CharacterName")]
+_steps = [NodePath("Steps/Class"), NodePath("Steps/PersonalQuest"), NodePath("Steps/CharacterName")]
 _backButton = NodePath("BackButton")
 _confirmButton = NodePath("ConfirmButton")
 
@@ -2488,8 +2489,7 @@ texture = ExtResource("64_wg15a")
 expand_mode = 5
 stretch_mode = 4
 
-[node name="PersonalQuest" type="Control" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps"]
-visible = false
+[node name="PersonalQuest" type="Control" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps" node_paths=PackedStringArray("_questParent")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2497,6 +2497,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("70_sursi")
+_questScene = ExtResource("68_0un3t")
+_questParent = NodePath("HBoxContainer")
 
 [node name="Header" type="Label" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/PersonalQuest"]
 layout_mode = 1
@@ -2538,9 +2541,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 50
 alignment = 1
-
-[node name="CharacterCreationPersonalQuestCard" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/PersonalQuest/HBoxContainer" instance=ExtResource("68_0un3t")]
-layout_mode = 2
 
 [node name="CharacterName" type="Control" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps" node_paths=PackedStringArray("_nameLineEdit")]
 layout_mode = 1
