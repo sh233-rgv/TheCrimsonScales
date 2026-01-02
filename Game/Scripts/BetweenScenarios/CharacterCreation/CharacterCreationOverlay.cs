@@ -39,10 +39,21 @@ public partial class CharacterCreationOverlay : Control
 	public void Open(SavedCampaign savedCampaign)
 	{
 		SavedCampaign = savedCampaign;
+
+		Show();
+		SetModulate(Colors.Transparent);
+		this.TweenModulateAlpha(1f, 0.3f).Play();
+
+		SetStep(0);
 	}
 
 	public void Close()
 	{
+		_confirmButton.SetActive(false);
+
+		_currentStep?.Deactivate();
+		_currentStep = null;
+		this.TweenModulateAlpha(0f, 0.3f).OnComplete(Hide).Play();
 	}
 
 	public void NextStep()
@@ -95,7 +106,7 @@ public partial class CharacterCreationOverlay : Control
 			GTweenSequenceBuilder.New()
 				.AppendCallback(oldStep.Deactivate)
 				.AppendCallback(UpdateConfirmVisible)
-				.AppendTime(0.5f)
+				.AppendTime(0.3f)
 				.AppendCallback(_currentStep.Activate)
 				.AppendCallback(UpdateConfirmVisible)
 				.Build().Play();
@@ -104,13 +115,18 @@ public partial class CharacterCreationOverlay : Control
 
 	private void FinalizeCharacter()
 	{
+		SavedCampaign.AddCharacter(_classModel, _characterName);
+
+		AppController.Instance.SaveFile.Save();
+
+		Close();
 	}
 
 	private void OnBackPressed()
 	{
 		if(_stepIndex == 0)
 		{
-			AppController.Instance.SceneLoader.RequestSceneChange(new MainMenuSceneRequest());
+			Close();
 			return;
 		}
 

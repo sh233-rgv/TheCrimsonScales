@@ -22,6 +22,13 @@ public partial class ClassCharacterCreationStep : CharacterCreationStep
 	{
 		base.Activate();
 
+		foreach(CharacterCreationClass characterCreationClass in _characterCreationClasses)
+		{
+			characterCreationClass.QueueFree();
+		}
+
+		_characterCreationClasses.Clear();
+
 		List<ClassModel> unlockedClasses =
 			_characterCreationOverlay.SavedCampaign.SavedClasses
 				.Where(savedClass => savedClass.Value.Unlocked)
@@ -44,19 +51,7 @@ public partial class ClassCharacterCreationStep : CharacterCreationStep
 		SelectButton(_characterCreationClasses[0]);
 	}
 
-	public override void Deactivate()
-	{
-		base.Deactivate();
-
-		foreach(CharacterCreationClass characterCreationClass in _characterCreationClasses)
-		{
-			characterCreationClass.QueueFree();
-		}
-
-		_characterCreationClasses.Clear();
-	}
-
-	public void SelectButton(CharacterCreationClass characterCreationClass)
+	private void SelectButton(CharacterCreationClass characterCreationClass)
 	{
 		if(characterCreationClass == _selectedClass)
 		{
@@ -73,6 +68,8 @@ public partial class ClassCharacterCreationStep : CharacterCreationStep
 		_selectedClass.SetSelected(true, true);
 
 		_matFrontTexture.SetTexture(_selectedClass.ClassModel.MatFrontTexture);
+
+		_characterCreationOverlay.SetClassModel(_selectedClass.ClassModel);
 	}
 
 	private void OnClassButtonPressed(CharacterCreationClass characterCreationClass)

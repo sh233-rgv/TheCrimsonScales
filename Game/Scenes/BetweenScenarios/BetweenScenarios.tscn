@@ -562,7 +562,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 expand_margin_left = 8.0
 
-[node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay", "ActionManager", "ItemShop")]
+[node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay", "ActionManager", "ItemShop", "CharacterCreationOverlay")]
 script = ExtResource("1_rtyjh")
 BetweenScenariosSidePanel = NodePath("CanvasLayer/UI/SidePanel")
 CharacterPortraitManager = NodePath("CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/Characters")
@@ -570,6 +570,7 @@ ScenarioFlowchart = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/Scena
 EventOverlay = NodePath("CanvasLayer/UI/EventOverlay")
 ActionManager = NodePath("CanvasLayer/UI/BetweenScenariosActionManager")
 ItemShop = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ItemShop")
+CharacterCreationOverlay = NodePath("CanvasLayer/UI/CharacterCreationOverlay")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

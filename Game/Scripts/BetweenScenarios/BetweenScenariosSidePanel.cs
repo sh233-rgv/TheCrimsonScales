@@ -47,10 +47,7 @@ public partial class BetweenScenariosSidePanel : Control
 
 	private void OnNewCharacterPressed()
 	{
-		AppController.Instance.PopupManager.RequestPopup(new CreateCharacterPopup.Request()
-		{
-			SavedCampaign = BetweenScenariosController.Instance.SavedCampaign
-		});
+		BetweenScenariosController.Instance.CharacterCreationOverlay.Open(BetweenScenariosController.Instance.SavedCampaign);
 	}
 
 	private void OnCharactersChanged()

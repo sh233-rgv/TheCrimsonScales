@@ -27,13 +27,13 @@ public partial class CharacterCreationStep : Control
 		Active = true;
 
 		Show();
-		this.TweenModulateAlpha(1f, 0.5f).Play();
+		this.TweenModulateAlpha(1f, 0.3f).Play();
 	}
 
 	public virtual void Deactivate()
 	{
 		Active = false;
 
-		this.TweenModulateAlpha(0f, 0.5f).OnComplete(Hide).Play();
+		this.TweenModulateAlpha(0f, 0.3f).OnComplete(Hide).Play();
 	}
 }

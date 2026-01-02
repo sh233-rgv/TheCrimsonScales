@@ -25,6 +25,9 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 	[Export]
 	public ItemShop ItemShop { get; private set; }
 
+	[Export]
+	public CharacterCreationOverlay CharacterCreationOverlay { get; private set; }
+
 	private readonly List<EventReward> _duringDowntimeEventRewards = new List<EventReward>();
 
 	public BetweenScenariosSceneRequest SceneRequest { get; private set; }
