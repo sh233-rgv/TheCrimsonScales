@@ -57,15 +57,6 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		GameController.Instance.SpecialRulesView.SetText(displayText);
 	}
 
-	protected static void SetMonsterGroupAlignment(Type monsterGroup, Alignment alignment, Alignment enemies)
-    {
-        foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Monster monster && monster.MonsterModel.GetType() == monsterGroup))
-        {
-            figure.SetAlignment(alignment);
-			figure.SetEnemies(enemies);
-        }
-    }
-
 	protected async GDTask SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, IEnumerable<Hex> spawnHexes,
 		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
 	{

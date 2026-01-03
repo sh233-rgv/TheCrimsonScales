@@ -45,7 +45,6 @@ public class Scenario045 : ScenarioModel
 				{
 					await SpawnMonster(ModelDB.Monster<CaveBear>(), MonsterType.Normal);
 					await SpawnMonster(ModelDB.Monster<CaveBear>(), MonsterType.Normal);
-					SetMonsterGroupAlignment(typeof(CaveBear), Alignment.Characters, Alignment.Enemies);
 					foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Monster monster && monster.MonsterModel is CaveBear))
                     {
 						ConditionImmunityTrait curseImmunity = new ConditionImmunityTrait(Conditions.Curse);
@@ -68,8 +67,6 @@ public class Scenario045 : ScenarioModel
 				{
 					await SpawnMonster(ModelDB.Monster<RendingDrake>(), MonsterType.Normal);
 					await SpawnMonster(ModelDB.Monster<SpittingDrake>(), MonsterType.Normal);
-					SetMonsterGroupAlignment(typeof(RendingDrake), Alignment.Characters, Alignment.Enemies);
-					SetMonsterGroupAlignment(typeof(SpittingDrake), Alignment.Characters, Alignment.Enemies);
 					foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Monster monster && (monster.MonsterModel is RendingDrake || monster.MonsterModel is SpittingDrake)))
                     {
 						ConditionImmunityTrait curseImmunity = new ConditionImmunityTrait(Conditions.Curse);
@@ -93,8 +90,6 @@ public class Scenario045 : ScenarioModel
 					await SpawnMonster(ModelDB.Monster<Lurker>(), MonsterType.Normal);
 					await SpawnMonster(ModelDB.Monster<Lurker>(), MonsterType.Normal);
 					await SpawnMonster(ModelDB.Monster<GiantViper>(), MonsterType.Elite);
-					SetMonsterGroupAlignment(typeof(Lurker), Alignment.Characters, Alignment.Enemies);
-					SetMonsterGroupAlignment(typeof(GiantViper), Alignment.Characters, Alignment.Enemies);
 					foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Monster monster && (monster.MonsterModel is GiantViper || monster.MonsterModel is Lurker)))
                     {
 						ConditionImmunityTrait curseImmunity = new ConditionImmunityTrait(Conditions.Curse);
