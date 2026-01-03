@@ -1,4 +1,4 @@
-﻿// public class NoRestForTheWicked : TheCrimsonScalesPersonalQuest
+﻿// public class NoRestForTheWicked : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 // {
 // 	public override string Name => "No Rest for the Wicked";
 // 	public override ClassModel ClassToUnlock => ModelDB.Class<SpiritCallerModel>();

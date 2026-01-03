@@ -1,4 +1,4 @@
-﻿public class TrapSetter : TheCrimsonScalesPersonalQuest
+﻿public class TrapSetter : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 {
 	public override string Name => "Trap Setter";
 	public override ClassModel ClassToUnlock => ModelDB.Class<ChainguardModel>();

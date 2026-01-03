@@ -1,4 +1,4 @@
-﻿public class BanditBanisher : TheCrimsonScalesPersonalQuest
+﻿public class BanditBanisher : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 {
 	public override string Name => "Bandit Banisher";
 	public override ClassModel ClassToUnlock => ModelDB.Class<ChainguardModel>();

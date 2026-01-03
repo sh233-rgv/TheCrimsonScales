@@ -1,6 +1,7 @@
-﻿public abstract class TheCrimsonScalesPersonalQuest : PersonalQuestModel
+﻿public abstract class TheCrimsonScalesPersonalQuest<T> : PersonalQuestModel<T>
+	where T : PersonalQuestData, new()
 {
-	protected override string TexturePath => "res://Content/PersonalQuests/PersonalQuests.jpg";
-	protected override int ColumnCount => 7;
-	protected override int RowCount => 4;
+	protected sealed override string TexturePath => "res://Content/PersonalQuests/PersonalQuests.jpg";
+	protected sealed override int ColumnCount => 7;
+	protected sealed override int RowCount => 4;
 }

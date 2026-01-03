@@ -1,4 +1,4 @@
-﻿public class ThyBeBlessed : TheCrimsonScalesPersonalQuest
+﻿public class ThyBeBlessed : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 {
 	public override string Name => "Thy be Blessed";
 	public override ClassModel ClassToUnlock => ModelDB.Class<HierophantModel>();

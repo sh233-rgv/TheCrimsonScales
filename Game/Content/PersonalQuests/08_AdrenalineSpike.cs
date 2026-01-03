@@ -1,4 +1,4 @@
-﻿public class AdrenalineSpike : TheCrimsonScalesPersonalQuest
+﻿public class AdrenalineSpike : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 {
 	public override string Name => "Adrenaline Spike";
 	public override ClassModel ClassToUnlock => ModelDB.Class<FireKnightModel>();

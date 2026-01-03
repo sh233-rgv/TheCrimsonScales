@@ -1,4 +1,4 @@
-﻿// public class TheDyingOfLight : TheCrimsonScalesPersonalQuest
+﻿// public class TheDyingOfLight : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 // {
 // 	public override string Name => "The Dying of Light";
 // 	public override ClassModel ClassToUnlock => ModelDB.Class<VoidPactModel>();

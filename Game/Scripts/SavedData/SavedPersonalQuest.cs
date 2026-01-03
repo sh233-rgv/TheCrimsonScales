@@ -7,6 +7,9 @@ public class SavedPersonalQuest
 	[JsonProperty]
 	public string ModelId { get; private set; }
 
+	[JsonProperty]
+	public PersonalQuestData PersonalQuestData { get; private set; }
+
 	public PersonalQuestModel Model => ModelDB.GetById<PersonalQuestModel>(ModelId);
 
 	public SavedPersonalQuest()

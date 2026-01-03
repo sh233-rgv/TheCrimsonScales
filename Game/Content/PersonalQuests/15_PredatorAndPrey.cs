@@ -1,4 +1,4 @@
-﻿// public class PredatorAndPrey : TheCrimsonScalesPersonalQuest
+﻿// public class PredatorAndPrey : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 // {
 // 	public override string Name => "Predator and Prey";
 // 	public override ClassModel ClassToUnlock => ModelDB.Class<LuminaryModel>();

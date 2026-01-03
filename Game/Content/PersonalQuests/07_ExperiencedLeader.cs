@@ -1,4 +1,4 @@
-﻿public class ExperiencedLeader : TheCrimsonScalesPersonalQuest
+﻿public class ExperiencedLeader : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 {
 	public override string Name => "Experienced Leader";
 	public override ClassModel ClassToUnlock => ModelDB.Class<ChieftainModel>();

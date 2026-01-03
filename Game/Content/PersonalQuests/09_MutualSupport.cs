@@ -1,4 +1,4 @@
-﻿public class MutualSupport : TheCrimsonScalesPersonalQuest
+﻿public class MutualSupport : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 {
 	public override string Name => "Mutual Support";
 	public override ClassModel ClassToUnlock => ModelDB.Class<FireKnightModel>();

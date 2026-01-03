@@ -1,4 +1,4 @@
-﻿public class SpiritualGainsPersonalQuest : TheCrimsonScalesPersonalQuest
+﻿public class SpiritualGainsPersonalQuest : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 {
 	public override string Name => "Spiritual Gains";
 	public override ClassModel ClassToUnlock => ModelDB.Class<HierophantModel>();

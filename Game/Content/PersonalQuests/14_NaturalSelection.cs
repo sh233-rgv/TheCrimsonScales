@@ -1,4 +1,4 @@
-﻿// public class NaturalSelection : TheCrimsonScalesPersonalQuest
+﻿// public class NaturalSelection : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 // {
 // 	public override string Name => "Natural Selection";
 // 	public override ClassModel ClassToUnlock => ModelDB.Class<LuminaryModel>();

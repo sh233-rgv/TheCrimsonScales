@@ -1,4 +1,4 @@
-﻿public class HealthFirst : TheCrimsonScalesPersonalQuest
+﻿public class HealthFirst : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 {
 	public override string Name => "Health First";
 	public override ClassModel ClassToUnlock => ModelDB.Class<StarslingerModel>();

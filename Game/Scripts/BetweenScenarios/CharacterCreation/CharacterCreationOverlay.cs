@@ -15,11 +15,11 @@ public partial class CharacterCreationOverlay : Control
 	private int _stepIndex;
 	private CharacterCreationStep _currentStep;
 
-	private ClassModel _classModel;
-	private PersonalQuestModel _personalQuestModel;
-	private string _characterName;
-
 	public SavedCampaign SavedCampaign { get; private set; }
+
+	public ClassModel ClassModel { get; private set; }
+	public PersonalQuestModel PersonalQuestModel { get; private set; }
+	public string CharacterName { get; private set; }
 
 	public override void _Ready()
 	{
@@ -76,17 +76,17 @@ public partial class CharacterCreationOverlay : Control
 
 	public void SetClassModel(ClassModel classModel)
 	{
-		_classModel = classModel;
+		ClassModel = classModel;
 	}
 
 	public void SetPersonalQuestModel(PersonalQuestModel personalQuestModel)
 	{
-		_personalQuestModel = personalQuestModel;
+		PersonalQuestModel = personalQuestModel;
 	}
 
 	public void SetCharacterName(string characterName)
 	{
-		_characterName = characterName;
+		CharacterName = characterName;
 	}
 
 	private void SetStep(int newStepIndex)
@@ -115,7 +115,7 @@ public partial class CharacterCreationOverlay : Control
 
 	private void FinalizeCharacter()
 	{
-		SavedCampaign.AddCharacter(_classModel, _characterName);
+		SavedCampaign.AddCharacter(ClassModel, CharacterName);
 
 		AppController.Instance.SaveFile.Save();
 

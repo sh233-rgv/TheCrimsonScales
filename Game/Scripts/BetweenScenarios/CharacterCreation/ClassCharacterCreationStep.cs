@@ -48,7 +48,8 @@ public partial class ClassCharacterCreationStep : CharacterCreationStep
 			characterCreationClass.PressedEvent += OnClassPressed;
 		}
 
-		SelectButton(_characterCreationClasses[0]);
+		SelectButton(_characterCreationClasses.FirstOrDefault(characterCreationClass =>
+			characterCreationClass.ClassModel == _characterCreationOverlay.ClassModel) ?? _characterCreationClasses[0]);
 	}
 
 	private void SelectButton(CharacterCreationClass characterCreationClass)

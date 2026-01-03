@@ -1,4 +1,4 @@
-﻿// public class Experimentation : TheCrimsonScalesPersonalQuest
+﻿// public class Experimentation : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 // {
 // 	public override string Name => "Experimentation";
 // 	public override ClassModel ClassToUnlock => ModelDB.Class<BrightsparkModel>();

@@ -1,4 +1,4 @@
-﻿public class LimitlessSearching : TheCrimsonScalesPersonalQuest
+﻿public class LimitlessSearching : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 {
 	public override string Name => "Limitless Searching";
 	public override ClassModel ClassToUnlock => ModelDB.Class<StarslingerModel>();
