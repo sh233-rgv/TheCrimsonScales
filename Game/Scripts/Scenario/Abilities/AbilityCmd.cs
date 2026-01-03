@@ -354,11 +354,14 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask DisarmTrap(Trap trap)
+	public static async GDTask DisarmTrap(Trap trap, Figure potentialDisarmer)
 	{
 		if(!trap.CannotBeDestroyed)
 		{
 			await trap.Disarm();
+
+			await ScenarioEvents.TrapDisarmedEvent.CreatePrompt(
+				new ScenarioEvents.TrapDisarmed.Parameters(trap, potentialDisarmer));
 		}
 	}
 

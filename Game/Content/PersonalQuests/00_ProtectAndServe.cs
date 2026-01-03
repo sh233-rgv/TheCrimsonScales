@@ -17,9 +17,9 @@ public class ProtectAndServe : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 			parameters =>
 				parameters.PotentialKiller == figure &&
 				parameters.Figure is Monster monster &&
-				monster.MonsterModel == ModelDB.Monster<InoxGuard>() &&
-				monster.MonsterModel == ModelDB.Monster<InoxArcher>() &&
-				monster.MonsterModel == ModelDB.Monster<InoxShaman>(),
+				(monster.MonsterModel == ModelDB.Monster<InoxGuard>() ||
+				 monster.MonsterModel == ModelDB.Monster<InoxArcher>() ||
+				 monster.MonsterModel == ModelDB.Monster<InoxShaman>()),
 			async parameters =>
 			{
 				personalQuestData.AdjustProgress(1);

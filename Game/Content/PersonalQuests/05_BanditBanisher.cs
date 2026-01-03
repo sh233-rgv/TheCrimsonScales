@@ -1,10 +1,34 @@
-﻿public class BanditBanisher : TheCrimsonScalesPersonalQuest<PersonalQuestData>
+﻿using Fractural.Tasks;
+
+public class BanditBanisher : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 {
 	public override string Name => "Bandit Banisher";
 	public override ClassModel ClassToUnlock => ModelDB.Class<ChainguardModel>();
-
 	public override int MaxProgress => 10;
 
 // 	public override ScenarioModel UnlockedScenarioModel => ModelDB.Scenario<Scenario035>();
 	protected override int AtlasIndex => 5;
+
+	public override async GDTask OnScenarioSetupPhaseCompleted(Figure figure, PersonalQuestData personalQuestData)
+	{
+		await base.OnScenarioSetupPhaseCompleted(figure, personalQuestData);
+
+		ScenarioEvents.FigureKilledEvent.Subscribe(figure, this,
+			parameters =>
+				parameters.PotentialKiller == figure &&
+				parameters.Figure is Monster monster &&
+				(monster.MonsterModel == ModelDB.Monster<InoxGuard>() ||
+				 monster.MonsterModel == ModelDB.Monster<BanditGuard>() ||
+				 monster.MonsterModel == ModelDB.Monster<CityGuard>() ||
+				 monster.MonsterModel == ModelDB.Monster<InoxArcher>() ||
+				 monster.MonsterModel == ModelDB.Monster<BanditArcher>() ||
+				 monster.MonsterModel == ModelDB.Monster<CityArcher>()),
+			async parameters =>
+			{
+				personalQuestData.AdjustProgress(1);
+
+				await GDTask.CompletedTask;
+			}
+		);
+	}
 }

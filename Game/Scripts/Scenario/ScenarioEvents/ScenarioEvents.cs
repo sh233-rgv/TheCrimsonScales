@@ -617,6 +617,19 @@ public partial class ScenarioEvents
 	private readonly TrapTriggered _trapTriggered = new TrapTriggered();
 	public static TrapTriggered TrapTriggeredEvent => GameController.Instance.ScenarioEvents._trapTriggered;
 
+	public class TrapDisarmed : ScenarioEvent<TrapDisarmed.Parameters>
+	{
+		public class Parameters(Trap trap, Figure potentialDisarmer)
+			: ParametersBase
+		{
+			public Trap Trap { get; } = trap;
+			public Figure PotentialDisarmer { get; } = potentialDisarmer;
+		}
+	}
+
+	private readonly TrapDisarmed _trapDisarmed = new TrapDisarmed();
+	public static TrapDisarmed TrapDisarmedEvent => GameController.Instance.ScenarioEvents._trapDisarmed;
+
 	public class ConsumeElement : ScenarioEvent<ConsumeElement.Parameters>
 	{
 		public class Parameters(IEnumerable<Element> elements)
