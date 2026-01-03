@@ -315,7 +315,9 @@ public partial class ScenarioEvents
 		{
 			public AbilityState PotentialAbilityState { get; }
 			public Figure Figure { get; }
+			public Figure PotentialDamageDealer { get; }
 			public int InitialDamage { get; }
+
 			public int CalculatedCurrentDamage { get; private set; }
 
 			public int Shield { get; private set; } = 0;
@@ -330,10 +332,11 @@ public partial class ScenarioEvents
 
 			public bool WouldSufferDamage => CalculatedCurrentDamage > 0 && !DamagePrevented;
 
-			public Parameters(AbilityState abilityState, Figure figure, int initialDamage, bool fromAttack)
+			public Parameters(AbilityState abilityState, Figure figure, Figure potentialDamageDealer, int initialDamage, bool fromAttack)
 			{
 				PotentialAbilityState = abilityState;
 				Figure = figure;
+				PotentialDamageDealer = potentialDamageDealer;
 				InitialDamage = initialDamage;
 				FromAttack = fromAttack;
 
@@ -449,10 +452,11 @@ public partial class ScenarioEvents
 
 	public class FigureKilled : ScenarioEvent<FigureKilled.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, Figure figure) : ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, Figure figure, Figure potentialKiller) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Figure Figure { get; } = figure;
+			public Figure PotentialKiller { get; } = potentialKiller;
 		}
 	}
 
