@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class PersonalQuestCharacterCreationStep : CharacterCreationStep
@@ -9,8 +10,9 @@ public partial class PersonalQuestCharacterCreationStep : CharacterCreationStep
 	private Control _questParent;
 
 	private readonly List<CharacterCreationPersonalQuest> _quests = new List<CharacterCreationPersonalQuest>();
+	private CharacterCreationPersonalQuest _selectedQuest;
 
-	public override bool ConfirmButtonActive => true;
+	public override bool ConfirmButtonActive => _selectedQuest != null;
 
 	public override void Activate()
 	{
@@ -23,18 +25,18 @@ public partial class PersonalQuestCharacterCreationStep : CharacterCreationStep
 
 		_quests.Clear();
 
-		List<PersonalQuestModel> usableClassModels = [ModelDB.PersonalQuest<ProtectAndServe>(), ModelDB.PersonalQuest<WeaponsSpecialist>()];
+		List<PersonalQuestModel> personalQuests = [ModelDB.PersonalQuest<ProtectAndServe>(), ModelDB.PersonalQuest<WeaponsSpecialist>()];
 
-		for(int i = 0; i < usableClassModels.Count; i++)
+		for(int i = 0; i < personalQuests.Count; i++)
 		{
-			PersonalQuestModel personalQuestModel = usableClassModels[i];
-			CharacterCreationPersonalQuest characterCreationClass = _questScene.Instantiate<CharacterCreationPersonalQuest>();
-			_questParent.AddChild(characterCreationClass);
-			characterCreationClass.Init(personalQuestModel, 0.3f + i * 0.3f);
-			characterCreationClass.Fade(1f, 0.3f);
-			_quests.Add(characterCreationClass);
+			PersonalQuestModel personalQuestModel = personalQuests[i];
+			CharacterCreationPersonalQuest personalQuest = _questScene.Instantiate<CharacterCreationPersonalQuest>();
+			_questParent.AddChild(personalQuest);
+			personalQuest.Init(personalQuestModel, 0.3f + i * 0.3f);
+			personalQuest.Fade(1f, 0.3f);
+			_quests.Add(personalQuest);
 
-			//characterCreationClass.PressedEvent += OnQuestPressed;
+			personalQuest.PressedEvent += OnQuestPressed;
 		}
 	}
 
@@ -42,9 +44,31 @@ public partial class PersonalQuestCharacterCreationStep : CharacterCreationStep
 	{
 		base.Deactivate();
 
+		_selectedQuest = null;
+
 		foreach(CharacterCreationPersonalQuest quest in _quests)
 		{
 			quest.Fade(0f, 0.3f);
 		}
+	}
+
+	private void OnQuestPressed(CharacterCreationPersonalQuest personalQuest)
+	{
+		if(personalQuest == _selectedQuest)
+		{
+			return;
+		}
+
+		_selectedQuest = personalQuest;
+
+		foreach(CharacterCreationPersonalQuest otherQuest in _quests)
+		{
+			otherQuest.SetSelected(false, true);
+		}
+
+		_selectedQuest.SetSelected(true, true);
+
+		_characterCreationOverlay.SetPersonalQuestModel(_selectedQuest.PersonalQuestModel);
+		_characterCreationOverlay.UpdateConfirmVisible();
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 using GTweensGodot.Extensions;
 
 public partial class CharacterCreationPersonalQuest : Control
@@ -6,23 +7,45 @@ public partial class CharacterCreationPersonalQuest : Control
 	[Export]
 	private RotatingCardView _rotatingCardView;
 	[Export]
-	private PersonalQuestView _personalQuestView;
+	private PersonalQuestToggleButton _personalQuestToggleButton;
+	[Export]
+	private BetterButton _betterButton;
 
-	public PersonalQuestModel QuestModel { get; private set; }
+	public PersonalQuestModel PersonalQuestModel => _personalQuestToggleButton.PersonalQuestModel;
+
+	public event Action<CharacterCreationPersonalQuest> PressedEvent;
+
+	public override void _Ready()
+	{
+		base._Ready();
+
+		_betterButton.Pressed += OnPressed;
+	}
 
 	public void Init(PersonalQuestModel questModel, float rotationDelay)
 	{
-		QuestModel = questModel;
-
-		_personalQuestView.SetModulate(Colors.Transparent);
+		_betterButton.SetEnabled(false, false);
+		_personalQuestToggleButton.SetModulate(Colors.Transparent);
 		_rotatingCardView.GetRotationTween(() =>
 		{
-			_personalQuestView?.SetPersonalQuest(QuestModel);
+			_personalQuestToggleButton.Init(questModel);
+			_betterButton.SetEnabled(true, false);
 		}, rotationDelay).Play();
 	}
 
 	public void Fade(float target, float duration)
 	{
-		_personalQuestView.TweenModulateAlpha(target, duration).Play();
+		_personalQuestToggleButton.TweenModulateAlpha(target, duration).Play();
+	}
+
+	public void SetSelected(bool active, bool canPress)
+	{
+		_personalQuestToggleButton.SetSelected(active, canPress);
+		_betterButton.SetEnabled(canPress, false);
+	}
+
+	private void OnPressed()
+	{
+		PressedEvent?.Invoke(this);
 	}
 }

@@ -1,21 +1,31 @@
-[gd_scene load_steps=6 format=3 uid="uid://dsc4dpb4vpe8c"]
+[gd_scene load_steps=3 format=3 uid="uid://ddtpp0xpoq8tq"]
 
-[ext_resource type="Material" uid="uid://gfilfltix5vm" path="res://Materials/RotatingCard.tres" id="1_0qoq3"]
-[ext_resource type="Script" uid="uid://t4mcv7pstw0j" path="res://Scripts/BetweenScenarios/CharacterCreation/CharacterCreationPersonalQuest.cs" id="1_kpwqy"]
-[ext_resource type="Script" uid="uid://b4tm7wjgmvnd2" path="res://Scripts/UI/RotatingCardView.cs" id="2_kpwqy"]
-[ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="2_lk6xs"]
-[ext_resource type="PackedScene" uid="uid://bfpnjhm68e114" path="res://Scenes/UI/PersonalQuestToggleButton.tscn" id="5_lk6xs"]
+[ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="2_fj6f1"]
 
-[node name="CharacterCreationPersonalQuestCard" type="Control" node_paths=PackedStringArray("_rotatingCardView", "_personalQuestToggleButton", "_betterButton")]
-custom_minimum_size = Vector2(450, 630)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3u3vf"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[node name="ToggleButton" type="Control"]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 3
 anchors_preset = 0
-script = ExtResource("1_kpwqy")
-_rotatingCardView = NodePath("BetterButton/SubViewportContainer")
-_personalQuestToggleButton = NodePath("BetterButton/SubViewportContainer/SubViewport/PersonalQuestToggleButton")
-_betterButton = NodePath("BetterButton")
+mouse_filter = 2
 
-[node name="BetterButton" type="BaseButton" parent="."]
+[node name="Container" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BetterButton" type="BaseButton" parent="Container"]
 _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
@@ -86,12 +96,12 @@ button_group = null
 shortcut = null
 shortcut_feedback = true
 shortcut_in_tooltip = true
-script = ExtResource("2_lk6xs")
+script = ExtResource("2_fj6f1")
 metadata/_custom_type_script = "uid://dir5vjdxjac3n"
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="BetterButton"]
-material = ExtResource("1_0qoq3")
-instance_shader_parameters/y_rot = 0.0
+[node name="InactiveOverlay" type="Panel" parent="Container/BetterButton"]
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(0, 0, 0, 0.588235)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -99,17 +109,4 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("2_kpwqy")
-
-[node name="SubViewport" type="SubViewport" parent="BetterButton/SubViewportContainer"]
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(450, 630)
-render_target_update_mode = 4
-
-[node name="PersonalQuestToggleButton" parent="BetterButton/SubViewportContainer/SubViewport" instance=ExtResource("5_lk6xs")]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3u3vf")

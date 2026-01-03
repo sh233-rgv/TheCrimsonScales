@@ -9,6 +9,8 @@ public partial class PersonalQuestView : Control
 
 	public void SetPersonalQuest(PersonalQuestModel personalQuestModel)
 	{
+		PersonalQuestModel = personalQuestModel;
+
 		_textureRect.SetTexture(personalQuestModel.GetTexture());
 	}
 }
