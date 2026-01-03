@@ -394,7 +394,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 
 		if(!retaliateParameters.RetaliateBlocked && retaliateParameters.Retaliate > 0)
 		{
-			await AbilityCmd.SufferDamage(abilityState.Performer, retaliateParameters.Retaliate, authority: retaliateParameters.RetaliatingFigure);
+			await AbilityCmd.SufferDamage(abilityState.Performer, retaliateParameters.Retaliate, damageDealer: retaliateParameters.RetaliatingFigure);
 		}
 
 		await ScenarioEvents.AfterAttackPerformedEvent.CreatePrompt(

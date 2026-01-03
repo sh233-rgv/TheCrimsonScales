@@ -89,14 +89,14 @@ public static class AbilityCmd
 	}
 
 	public static async GDTask<int> SufferDamage(AbilityState potentialAbilityState, Figure target, int damage,
-		Figure authority = null, bool fromAttack = false)
+		Figure potentialDamageDealer = null, bool fromAttack = false)
 	{
-		authority ??= potentialAbilityState?.Authority ?? target;
+		potentialDamageDealer ??= potentialAbilityState?.Authority;
 		ScenarioEvents.SufferDamage.Parameters sufferDamageParameters =
-			new ScenarioEvents.SufferDamage.Parameters(potentialAbilityState, target, damage, fromAttack);
+			new ScenarioEvents.SufferDamage.Parameters(potentialAbilityState, target, potentialDamageDealer, damage, fromAttack);
 		EffectCollection sufferDamageCollection = ScenarioEvents.SufferDamageEvent.CreateEffectCollection(sufferDamageParameters);
 		await PromptManager.Prompt(new SufferDamagePrompt(sufferDamageParameters, sufferDamageCollection,
-			() => $"Suffer {Icons.HintText(Icons.Damage)}{sufferDamageParameters.CalculatedCurrentDamage}?"), authority);
+			() => $"Suffer {Icons.HintText(Icons.Damage)}{sufferDamageParameters.CalculatedCurrentDamage}?"), target);
 
 		if(sufferDamageParameters.DamagePrevented)
 		{
@@ -107,8 +107,7 @@ public static class AbilityCmd
 
 		ScenarioEvents.JustBeforeSufferDamage.Parameters justBeforeSufferDamageParameters =
 			await ScenarioEvents.JustBeforeSufferDamageEvent.CreatePrompt(
-				new ScenarioEvents.JustBeforeSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters),
-				authority);
+				new ScenarioEvents.JustBeforeSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters), target);
 
 		if(justBeforeSufferDamageParameters.Prevented)
 		{
@@ -125,7 +124,7 @@ public static class AbilityCmd
 		{
 			if(potentialAbilityState == null)
 			{
-				await KillOrExhaust(authority, target);
+				await KillOrExhaust(target, potentialDamageDealer);
 			}
 			else
 			{
@@ -136,30 +135,34 @@ public static class AbilityCmd
 		if(finalDamage > 0)
 		{
 			await ScenarioEvents.AfterSufferDamageEvent.CreatePrompt(
-				new ScenarioEvents.AfterSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters),
-				authority);
+				new ScenarioEvents.AfterSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters), target);
 		}
 
 		return finalDamage;
 	}
 
-	public static async GDTask<int> SufferDamage(Figure target, int damage, Figure authority, bool fromAttack = false)
+	public static async GDTask<int> SufferDamage(Figure target, int damage, Figure damageDealer, bool fromAttack = false)
 	{
-		return await SufferDamage(null, target, damage, authority, fromAttack);
+		return await SufferDamage(null, target, damage, damageDealer, fromAttack);
 	}
 
-	public static async GDTask KillOrExhaust(Figure authority, Figure target)
+	public static async GDTask KillOrExhaust(AbilityState potentialAbilityState, Figure target, Figure potentialKiller)
 	{
 		await target.Destroy();
 
 		ScenarioEvents.FigureKilled.Parameters parameters =
 			await ScenarioEvents.FigureKilledEvent.CreatePrompt(
-				new ScenarioEvents.FigureKilled.Parameters(null, target), authority);
+				new ScenarioEvents.FigureKilled.Parameters(potentialAbilityState, target, potentialKiller), target);
+	}
+
+	public static async GDTask KillOrExhaust(Figure target, Figure potentialKiller)
+	{
+		await KillOrExhaust(null, target, potentialKiller);
 	}
 
 	public static async GDTask KillOrExhaust(AbilityState state, Figure target)
 	{
-		await KillOrExhaust(state.Authority, target);
+		await KillOrExhaust(state, target, state.Authority);
 	}
 
 	public static bool CheckImmunity(ConditionModel conditionModel, ConditionModel immunityConditionModel)
