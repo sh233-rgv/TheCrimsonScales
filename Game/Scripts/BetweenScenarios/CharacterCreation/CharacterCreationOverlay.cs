@@ -15,6 +15,8 @@ public partial class CharacterCreationOverlay : Control
 	private int _stepIndex;
 	private CharacterCreationStep _currentStep;
 
+	private bool _animating;
+
 	public SavedCampaign SavedCampaign { get; private set; }
 
 	public ClassModel ClassModel { get; private set; }
@@ -43,6 +45,10 @@ public partial class CharacterCreationOverlay : Control
 		Show();
 		SetModulate(Colors.Transparent);
 		this.TweenModulateAlpha(1f, 0.3f).Play();
+
+		SetClassModel(null);
+		SetPersonalQuestModel(null);
+		SetCharacterName(string.Empty);
 
 		SetStep(0);
 	}
@@ -103,19 +109,22 @@ public partial class CharacterCreationOverlay : Control
 		}
 		else
 		{
+			_animating = true;
 			GTweenSequenceBuilder.New()
 				.AppendCallback(oldStep.Deactivate)
 				.AppendCallback(UpdateConfirmVisible)
 				.AppendTime(0.3f)
 				.AppendCallback(_currentStep.Activate)
 				.AppendCallback(UpdateConfirmVisible)
+				.AppendCallback(() => _animating = false)
 				.Build().Play();
 		}
 	}
 
 	private void FinalizeCharacter()
 	{
-		SavedCampaign.AddCharacter(ClassModel, CharacterName);
+		SavedCampaign.SavedPersonalQuests.DrawPersonalQuest(PersonalQuestModel);
+		SavedCampaign.AddCharacter(ClassModel, PersonalQuestModel, CharacterName);
 
 		AppController.Instance.SaveFile.Save();
 
@@ -135,6 +144,11 @@ public partial class CharacterCreationOverlay : Control
 
 	private void OnConfirmPressed()
 	{
+		if(_animating)
+		{
+			return;
+		}
+
 		NextStep();
 	}
 }

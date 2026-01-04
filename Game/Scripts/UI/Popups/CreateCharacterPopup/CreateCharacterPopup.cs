@@ -119,7 +119,7 @@ public partial class CreateCharacterPopup : Popup<CreateCharacterPopup.Request>
 	private void OnConfirmPressed()
 	{
 		// Create a new character and add it to the party
-		PopupRequest.SavedCampaign.AddCharacter(_selectedButton.ClassModel, _nameLineEdit.Text);
+		PopupRequest.SavedCampaign.AddCharacter(_selectedButton.ClassModel, null, _nameLineEdit.Text);
 
 		AppController.Instance.SaveFile.Save();
 

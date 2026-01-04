@@ -9,13 +9,13 @@ public class ProtectAndServe : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 // 	public override ScenarioModel UnlockedScenarioModel => ModelDB.Scenario<Scenario033>();
 	protected override int AtlasIndex => 0;
 
-	public override async GDTask OnScenarioSetupPhaseCompleted(Figure figure, PersonalQuestData personalQuestData)
+	protected override async GDTask OnScenarioSetupPhaseCompleted(Character character, PersonalQuestData personalQuestData)
 	{
-		await base.OnScenarioSetupPhaseCompleted(figure, personalQuestData);
+		await base.OnScenarioSetupPhaseCompleted(character, personalQuestData);
 
-		ScenarioEvents.FigureKilledEvent.Subscribe(figure, this,
+		ScenarioEvents.FigureKilledEvent.Subscribe(character, this,
 			parameters =>
-				parameters.PotentialKiller == figure &&
+				parameters.PotentialKiller == character &&
 				parameters.Figure is Monster monster &&
 				(monster.MonsterModel == ModelDB.Monster<InoxGuard>() ||
 				 monster.MonsterModel == ModelDB.Monster<InoxArcher>() ||

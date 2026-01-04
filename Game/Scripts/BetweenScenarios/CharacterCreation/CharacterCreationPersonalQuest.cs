@@ -13,6 +13,8 @@ public partial class CharacterCreationPersonalQuest : Control
 
 	public PersonalQuestModel PersonalQuestModel => _personalQuestToggleButton.PersonalQuestModel;
 
+	public bool Animating { get; private set; }
+
 	public event Action<CharacterCreationPersonalQuest> PressedEvent;
 
 	public override void _Ready()
@@ -26,10 +28,15 @@ public partial class CharacterCreationPersonalQuest : Control
 	{
 		_betterButton.SetEnabled(false, false);
 		_personalQuestToggleButton.SetModulate(Colors.Transparent);
+
+		Animating = true;
+
 		_rotatingCardView.GetRotationTween(() =>
 		{
 			_personalQuestToggleButton.Init(questModel);
 			_betterButton.SetEnabled(true, false);
+
+			Animating = false;
 		}, rotationDelay).Play();
 	}
 

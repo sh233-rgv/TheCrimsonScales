@@ -1,5 +1,6 @@
 ﻿using Fractural.Tasks;
 using Godot;
+using Newtonsoft.Json;
 
 public abstract class PersonalQuestModel<T> : PersonalQuestModel
 	where T : PersonalQuestData, new()
@@ -9,14 +10,25 @@ public abstract class PersonalQuestModel<T> : PersonalQuestModel
 		return new T();
 	}
 
-	public sealed override async GDTask OnScenarioSetupPhaseCompleted(Figure figure, SavedPersonalQuest savedPersonalQuest)
+	public sealed override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 	{
-		await base.OnScenarioSetupPhaseCompleted(figure, savedPersonalQuest);
+		// Clone the quest data to overwrite the original later, after the scenario is finished
+		T personalQuestData = (T)character.SavedCharacter.SavedPersonalQuest.PersonalQuestData;
+		string serializedData = JsonConvert.SerializeObject(personalQuestData, SaveFile.JsonSerializerSettings);
+		T clonedQuestData = JsonConvert.DeserializeObject<T>(serializedData);
 
-		await OnScenarioSetupPhaseCompleted(figure, (T)savedPersonalQuest.PersonalQuestData);
+		await OnScenarioSetupPhaseCompleted(character, (T)clonedQuestData);
+
+		GameController.Instance.EndEvent += OnEndEvent;
+		return;
+
+		void OnEndEvent(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress)
+		{
+			character.SavedCharacter.SavedPersonalQuest.OverwritePersonalQuestData(personalQuestData);
+		}
 	}
 
-	public virtual async GDTask OnScenarioSetupPhaseCompleted(Figure figure, T personalQuestData)
+	protected virtual async GDTask OnScenarioSetupPhaseCompleted(Character character, T personalQuestData)
 	{
 		await GDTask.CompletedTask;
 	}
@@ -43,8 +55,5 @@ public abstract class PersonalQuestModel : AbstractModel
 			ResourceLoader.Load<Texture2D>(TexturePath));
 	}
 
-	public virtual async GDTask OnScenarioSetupPhaseCompleted(Figure figure, SavedPersonalQuest savedPersonalQuest)
-	{
-		await GDTask.CompletedTask;
-	}
+	public abstract GDTask OnScenarioSetupPhaseCompleted(Character character);
 }

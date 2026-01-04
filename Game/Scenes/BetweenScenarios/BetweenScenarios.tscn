@@ -1,4 +1,4 @@
-[gd_scene load_steps=138 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=139 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -532,6 +532,10 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 anti_aliasing = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_sursi"]
+font = ExtResource("63_16mqd")
+font_size = 60
 
 [sub_resource type="LabelSettings" id="LabelSettings_0un3t"]
 font = ExtResource("63_16mqd")
@@ -2394,6 +2398,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="Class" type="Control" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps" node_paths=PackedStringArray("_classParent", "_matFrontTexture")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2489,7 +2494,7 @@ texture = ExtResource("64_wg15a")
 expand_mode = 5
 stretch_mode = 4
 
-[node name="PersonalQuest" type="Control" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps" node_paths=PackedStringArray("_questParent")]
+[node name="PersonalQuest" type="Control" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps" node_paths=PackedStringArray("_questParent", "_noneRemainingLabel")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2500,6 +2505,7 @@ mouse_filter = 2
 script = ExtResource("70_sursi")
 _questScene = ExtResource("68_0un3t")
 _questParent = NodePath("HBoxContainer")
+_noneRemainingLabel = NodePath("NoneRemainingLabel")
 
 [node name="Header" type="Label" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/PersonalQuest"]
 layout_mode = 1
@@ -2530,6 +2536,23 @@ text = "The classes not included in the chosen group can be unlocked during the 
 label_settings = ExtResource("64_tq2dg")
 horizontal_alignment = 1
 
+[node name="NoneRemainingLabel" type="Label" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/PersonalQuest"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -565.0
+offset_top = -20.5
+offset_right = 565.0
+offset_bottom = 20.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "No personal quests remaining!"
+label_settings = SubResource("LabelSettings_sursi")
+horizontal_alignment = 1
+
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps/PersonalQuest"]
 layout_mode = 1
 anchors_preset = 8
@@ -2543,6 +2566,7 @@ theme_override_constants/separation = 50
 alignment = 1
 
 [node name="CharacterName" type="Control" parent="CanvasLayer/UI/CharacterCreationOverlay/Steps" node_paths=PackedStringArray("_nameLineEdit")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

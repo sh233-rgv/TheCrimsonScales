@@ -64,6 +64,9 @@ public class SavedCampaign
 	public SavedEvents SavedEvents { get; private set; } = new SavedEvents();
 
 	[JsonProperty]
+	public SavedPersonalQuests SavedPersonalQuests { get; private set; } = new SavedPersonalQuests();
+
+	[JsonProperty]
 	public int Reputation { get; private set; }
 
 	[JsonProperty]
@@ -109,14 +112,14 @@ public class SavedCampaign
 	{
 		SavedCampaign savedCampaign = New("Party Time", StartingGroup.Militants);
 
-		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), "Moerasvoet");
-		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), "Beschieter");
-		savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), "Opperpriester");
-		//savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), "Vuur Knecht");
-		//savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), "Ketting Garde");
-		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), "Dierenzitter");
-		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), "Sterrenwerper");
-		//savedCampaign.AddCharacter(ModelDB.Class<RuinmawModel>(), "Ruineerkaak");
+		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), null, "Moerasvoet");
+		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), null, "Beschieter");
+		savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), null, "Opperpriester");
+		//savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), null, "Vuur Knecht");
+		//savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), null, "Ketting Garde");
+		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), null, "Dierenzitter");
+		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), null, "Sterrenwerper");
+		//savedCampaign.AddCharacter(ModelDB.Class<RuinmawModel>(), null, "Ruineerkaak");
 
 		//savedCampaign.Characters[0].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<TranslocationDevice>());
@@ -165,9 +168,9 @@ public class SavedCampaign
 		savedClass.Unlock();
 	}
 
-	public void AddCharacter(ClassModel classModel, string name)
+	public void AddCharacter(ClassModel classModel, PersonalQuestModel personalQuestModel, string name)
 	{
-		SavedCharacter character = new SavedCharacter(classModel, name);
+		SavedCharacter character = new SavedCharacter(classModel, personalQuestModel, name);
 		Characters.Add(character);
 
 		CharactersChangedEvent?.Invoke();

@@ -19,5 +19,11 @@ public class SavedPersonalQuest
 	public SavedPersonalQuest(PersonalQuestModel model)
 	{
 		ModelId = model.Id.ToString();
+		PersonalQuestData = model.CreateData();
+	}
+
+	public void OverwritePersonalQuestData(PersonalQuestData personalQuestData)
+	{
+		PersonalQuestData = personalQuestData;
 	}
 }

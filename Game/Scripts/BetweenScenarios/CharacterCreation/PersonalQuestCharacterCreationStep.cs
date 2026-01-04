@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public partial class PersonalQuestCharacterCreationStep : CharacterCreationStep
@@ -7,11 +8,14 @@ public partial class PersonalQuestCharacterCreationStep : CharacterCreationStep
 	private PackedScene _questScene;
 	[Export]
 	private Control _questParent;
+	[Export]
+	private Label _noneRemainingLabel;
 
 	private readonly List<CharacterCreationPersonalQuest> _quests = new List<CharacterCreationPersonalQuest>();
 	private CharacterCreationPersonalQuest _selectedQuest;
 
-	public override bool ConfirmButtonActive => _selectedQuest != null;
+	public override bool ConfirmButtonActive =>
+		_characterCreationOverlay.SavedCampaign.SavedPersonalQuests.PersonalQuestDeckIds.Count == 0 || _selectedQuest != null;
 
 	public override void Activate()
 	{
@@ -24,7 +28,19 @@ public partial class PersonalQuestCharacterCreationStep : CharacterCreationStep
 
 		_quests.Clear();
 
-		List<PersonalQuestModel> personalQuests = [ModelDB.PersonalQuest<ProtectAndServe>(), ModelDB.PersonalQuest<WeaponsSpecialist>()];
+		_noneRemainingLabel.SetVisible(_characterCreationOverlay.SavedCampaign.SavedPersonalQuests.PersonalQuestDeckIds.Count == 0);
+
+		List<PersonalQuestModel> personalQuests = new List<PersonalQuestModel>();
+		for(int i = 0; i < 2; i++)
+		{
+			PersonalQuestModel personalQuestModel = _characterCreationOverlay.SavedCampaign.SavedPersonalQuests.PeekPersonalQuest(i);
+			if(personalQuestModel == null)
+			{
+				break;
+			}
+
+			personalQuests.Add(personalQuestModel);
+		}
 
 		for(int i = 0; i < personalQuests.Count; i++)
 		{
@@ -54,6 +70,11 @@ public partial class PersonalQuestCharacterCreationStep : CharacterCreationStep
 	private void OnQuestPressed(CharacterCreationPersonalQuest personalQuest)
 	{
 		if(personalQuest == _selectedQuest)
+		{
+			return;
+		}
+
+		if(_quests.Any(quest => quest.Animating))
 		{
 			return;
 		}

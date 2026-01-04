@@ -7,13 +7,13 @@ public class WeaponsSpecialist : TheCrimsonScalesPersonalQuest<PersonalQuestData
 	public override int MaxProgress => 15;
 	protected override int AtlasIndex => 1;
 
-	public override async GDTask OnScenarioSetupPhaseCompleted(Figure figure, PersonalQuestData personalQuestData)
+	protected override async GDTask OnScenarioSetupPhaseCompleted(Character character, PersonalQuestData personalQuestData)
 	{
-		await base.OnScenarioSetupPhaseCompleted(figure, personalQuestData);
+		await base.OnScenarioSetupPhaseCompleted(character, personalQuestData);
 
-		ScenarioEvents.ItemStateChangedEvent.Subscribe(figure, this,
+		ScenarioEvents.ItemStateChangedEvent.Subscribe(character, this,
 			parameters =>
-				parameters.Item.Owner == figure &&
+				parameters.Item.Owner == character &&
 				parameters.Item.ItemType is ItemType.OneHand or ItemType.TwoHands &&
 				parameters.Item.ItemState == ItemState.Consumed,
 			async parameters =>

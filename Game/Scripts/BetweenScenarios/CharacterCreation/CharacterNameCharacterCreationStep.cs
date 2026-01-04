@@ -20,6 +20,7 @@ public partial class CharacterNameCharacterCreationStep : CharacterCreationStep
 	{
 		base.Activate();
 
+		_nameLineEdit.SetText(_characterCreationOverlay.CharacterName);
 		OnNameChanged(_nameLineEdit.Text);
 	}
 

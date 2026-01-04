@@ -952,7 +952,7 @@ public static class AbilityCmd
 
 		await PromptManager.Prompt(new TreasureItemRewardPrompt(character, itemModel, null), character);
 
-		void OnScenarioEnd(bool backToTown, bool won, SavedScenarioProgress savedScenarioProgress)
+		void OnScenarioEnd(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress)
 		{
 			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(itemModel);
 			savedItem.AddUnlocked(1);

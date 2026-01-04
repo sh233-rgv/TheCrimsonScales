@@ -7,16 +7,16 @@ public class TrapSetter : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 	public override int MaxProgress => 15;
 	protected override int AtlasIndex => 4;
 
-	public override async GDTask OnScenarioSetupPhaseCompleted(Figure figure, PersonalQuestData personalQuestData)
+	protected override async GDTask OnScenarioSetupPhaseCompleted(Character character, PersonalQuestData personalQuestData)
 	{
-		await base.OnScenarioSetupPhaseCompleted(figure, personalQuestData);
+		await base.OnScenarioSetupPhaseCompleted(character, personalQuestData);
 
 		// Cause enemy to trigger a trap
-		ScenarioEvents.TrapTriggeredEvent.Subscribe(figure, this,
+		ScenarioEvents.TrapTriggeredEvent.Subscribe(character, this,
 			parameters =>
-				GameController.Instance.Map.CurrentTurnTaker == figure &&
-				figure.EnemiesWith(parameters.Figure) &&
-				parameters.PotentialAbilityState?.Authority == figure,
+				GameController.Instance.Map.CurrentTurnTaker == character &&
+				character.EnemiesWith(parameters.Figure) &&
+				parameters.PotentialAbilityState?.Authority == character,
 			async parameters =>
 			{
 				personalQuestData.AdjustProgress(1);
@@ -26,10 +26,10 @@ public class TrapSetter : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 		);
 
 		// Disarm a trap
-		ScenarioEvents.TrapDisarmedEvent.Subscribe(figure, this,
+		ScenarioEvents.TrapDisarmedEvent.Subscribe(character, this,
 			parameters =>
-				GameController.Instance.Map.CurrentTurnTaker == figure &&
-				parameters.PotentialDisarmer == figure,
+				GameController.Instance.Map.CurrentTurnTaker == character &&
+				parameters.PotentialDisarmer == character,
 			async parameters =>
 			{
 				personalQuestData.AdjustProgress(1);
