@@ -54,7 +54,7 @@
 [ext_resource type="Texture2D" uid="uid://bbdiabye37ueg" path="res://Art/BetweenScenarios/Events/cs-ce-01-f.png" id="34_rtdf2"]
 [ext_resource type="Script" uid="uid://b0n1q2n5kef18" path="res://Scripts/BetweenScenarios/Events/ShapedEventText.cs" id="35_0rh5w"]
 [ext_resource type="FontFile" uid="uid://djm7xa0rh5wqv" path="res://Fonts/HTOWERT.TTF" id="36_bny7g"]
-[ext_resource type="PackedScene" uid="uid://d0tqt5fvbsn2x" path="res://Scenes/BetweenScenarios/BetweenScenariosPartyStat.tscn" id="45_rtdf2"]
+[ext_resource type="PackedScene" uid="uid://d0tqt5fvbsn2x" path="res://Scenes/UI/ProgressBar.tscn" id="45_rtdf2"]
 [ext_resource type="Script" uid="uid://cc4ctr6004sg4" path="res://Scripts/BetweenScenarios/Events/EventOverlay.cs" id="49_dl2j2"]
 [ext_resource type="Material" uid="uid://gfilfltix5vm" path="res://Materials/RotatingCard.tres" id="51_rtdf2"]
 [ext_resource type="Script" uid="uid://b4tm7wjgmvnd2" path="res://Scripts/UI/RotatingCardView.cs" id="52_0un3t"]
@@ -1881,6 +1881,7 @@ text = "New Character"
 label_settings = SubResource("LabelSettings_f340v")
 
 [node name="EventOverlay" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_background", "_skipTextButton", "_rotatingCardView", "_cityEventCard", "_roadEventCard", "_continueButton", "_eventChoiceButtonParent")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1937,7 +1938,7 @@ script = ExtResource("52_0un3t")
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(500, 700)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="Mask" type="Panel" parent="CanvasLayer/UI/EventOverlay/EventCard/SubViewportContainer/SubViewport"]
 clip_children = 1
@@ -2356,6 +2357,7 @@ grow_vertical = 2
 text = "Continue"
 
 [node name="CharacterCreationOverlay" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_steps", "_backButton", "_confirmButton")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

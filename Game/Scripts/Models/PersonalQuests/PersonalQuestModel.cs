@@ -10,6 +10,11 @@ public abstract class PersonalQuestModel<T> : PersonalQuestModel
 		return new T();
 	}
 
+	public override bool GetCanRetire(PersonalQuestData personalQuestData)
+	{
+		return GetCanRetire((T)personalQuestData);
+	}
+
 	public sealed override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 	{
 		// Clone the quest data to overwrite the original later, after the scenario is finished
@@ -26,6 +31,11 @@ public abstract class PersonalQuestModel<T> : PersonalQuestModel
 		{
 			character.SavedCharacter.SavedPersonalQuest.OverwritePersonalQuestData(personalQuestData);
 		}
+	}
+
+	protected virtual bool GetCanRetire(T personalQuestData)
+	{
+		return personalQuestData.Progress >= MaxProgress;
 	}
 
 	protected virtual async GDTask OnScenarioSetupPhaseCompleted(Character character, T personalQuestData)
@@ -46,14 +56,16 @@ public abstract class PersonalQuestModel : AbstractModel
 	protected abstract int RowCount { get; }
 	protected abstract int AtlasIndex { get; }
 
-	public abstract PersonalQuestData CreateData();
-
 	public Texture2D GetTexture()
 	{
 		return AtlasTextureHelper.CreateAtlasTexture(
 			AtlasIndex, ColumnCount, RowCount,
 			ResourceLoader.Load<Texture2D>(TexturePath));
 	}
+
+	public abstract PersonalQuestData CreateData();
+
+	public abstract bool GetCanRetire(PersonalQuestData personalQuestData);
 
 	public abstract GDTask OnScenarioSetupPhaseCompleted(Character character);
 }

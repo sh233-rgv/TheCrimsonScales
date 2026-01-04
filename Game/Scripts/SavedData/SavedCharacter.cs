@@ -54,6 +54,8 @@ public class SavedCharacter
 
 	public ClassModel ClassModel => ModelDB.GetById<ClassModel>(ClassModelId);
 
+	public bool CanRetire => SavedPersonalQuest != null && SavedPersonalQuest.Model.GetCanRetire(SavedPersonalQuest.PersonalQuestData);
+
 	public event Action<SavedCharacter> GoldChangedEvent;
 	public event Action<SavedCharacter> XPChangedEvent;
 	public event Action<SavedCharacter> LevelChangedEvent;

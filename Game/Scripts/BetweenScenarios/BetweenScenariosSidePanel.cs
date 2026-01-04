@@ -10,9 +10,9 @@ public partial class BetweenScenariosSidePanel : Control
 	private BetterButton _newCharacterButton;
 
 	[Export]
-	private BetweenScenariosPartyStat _prosperityStat;
+	private ProgressBar _prosperityStat;
 	[Export]
-	private BetweenScenariosPartyStat _reputationStat;
+	private ProgressBar _reputationStat;
 
 	public override void _Ready()
 	{

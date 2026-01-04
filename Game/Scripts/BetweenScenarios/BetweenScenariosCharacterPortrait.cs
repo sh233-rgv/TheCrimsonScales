@@ -38,6 +38,13 @@ public partial class BetweenScenariosCharacterPortrait : Control
 	private BetterButton _cardsButton;
 
 	[Export]
+	private Texture2D _normalInfoTexture;
+	[Export]
+	private Texture2D _retireInfoTexture;
+	[Export]
+	private TextureRect _infoButtonTextureRect;
+
+	[Export]
 	private Control _levelUpScaleContainer;
 	[Export]
 	private BetterButton _levelUpButton;
@@ -147,6 +154,8 @@ public partial class BetweenScenariosCharacterPortrait : Control
 		_xpLabel.Text = $"{SavedCharacter.XP}/{nextLevelXP}";
 		_xpProgressBar.Scale = new Vector2(Mathf.Clamp(Mathf.InverseLerp(currentLevelXP, nextLevelXP, SavedCharacter.XP), 0f, 1f), 1f);
 		_goldLabel.Text = SavedCharacter.Gold.ToString();
+
+		_infoButtonTextureRect.SetTexture(SavedCharacter.CanRetire ? _retireInfoTexture : _normalInfoTexture);
 
 		_levelUpTween?.Complete();
 		if(SavedCharacter.LevelUpInProgress || SavedCharacter.CheckCanLevelUp())

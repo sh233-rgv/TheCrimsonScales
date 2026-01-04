@@ -95,6 +95,7 @@ public class SavedCampaign
 		foreach(ClassModel unlockedClassModel in unlockedClassModels)
 		{
 			savedCampaign.UnlockClass(unlockedClassModel);
+			savedCampaign.SavedPersonalQuests.FilterOutClassPersonalQuests(unlockedClassModel);
 		}
 
 		// Unlock the first scenario
@@ -186,7 +187,11 @@ public class SavedCampaign
 			savedItem.AddStock(1);
 		}
 
+		// Return temporary AMD cards
 		SanctuaryOfTheGreatOak.ReturnCards(savedCharacter);
+
+		// Return personal quest
+		SavedPersonalQuests.AddPersonalQuest(savedCharacter.SavedPersonalQuest.Model);
 
 		Characters.Remove(savedCharacter);
 

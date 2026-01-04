@@ -12,6 +12,13 @@ public partial class CharacterInfoPopup : Popup<CharacterInfoPopup.Request>
 	private TextureRect _matFrontTexture;
 
 	[Export]
+	private Control _personalQuestContainer;
+	[Export]
+	private PersonalQuestView _personalQuestView;
+	[Export]
+	private ProgressBar _personalQuestProgressBar;
+
+	[Export]
 	private LineEdit _nameLineEdit;
 
 	[Export]
@@ -42,6 +49,18 @@ public partial class CharacterInfoPopup : Popup<CharacterInfoPopup.Request>
 		base.OnOpen();
 
 		_matFrontTexture.Texture = PopupRequest.SavedCharacter.ClassModel.MatFrontTexture;
+
+		SavedPersonalQuest savedPersonalQuest = PopupRequest.SavedCharacter.SavedPersonalQuest;
+		_personalQuestContainer.SetVisible(savedPersonalQuest != null);
+		if(savedPersonalQuest != null)
+		{
+			_personalQuestView.SetPersonalQuest(savedPersonalQuest.Model);
+			int progress = savedPersonalQuest.PersonalQuestData.Progress;
+			int maxProgress = savedPersonalQuest.Model.MaxProgress;
+			float normalizedProgress = (float)progress / maxProgress;
+			this.DelayedCall(() => _personalQuestProgressBar.Update(normalizedProgress, $"{progress}/{maxProgress}"));
+			_personalQuestProgressBar.ProgressBarFill.SetSelfModulate(PopupRequest.SavedCharacter.ClassModel.PrimaryColor);
+		}
 
 		_nameLineEdit.SetText(PopupRequest.SavedCharacter.Name);
 		OnNameChanged(_nameLineEdit.Text);

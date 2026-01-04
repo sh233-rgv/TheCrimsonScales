@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://d0tqt5fvbsn2x"]
 
-[ext_resource type="Script" uid="uid://kc34l1um7gri" path="res://Scripts/BetweenScenarios/BetweenScenariosPartyStat.cs" id="1_6jx7e"]
+[ext_resource type="Script" uid="uid://kc34l1um7gri" path="res://Scripts/UI/ProgressBar.cs" id="1_6jx7e"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="2_y0b1e"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_blvf2"]
@@ -27,14 +27,14 @@ font_size = 20
 font = ExtResource("2_y0b1e")
 font_size = 20
 
-[node name="Prosperity" type="Control" node_paths=PackedStringArray("_progressBarContainer", "_progressBarFill", "_valueLabel")]
+[node name="ProgressBar" type="Control" node_paths=PackedStringArray("_progressBarContainer", "ProgressBarFill", "_valueLabel")]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
 script = ExtResource("1_6jx7e")
 _progressBarContainer = NodePath(".")
-_progressBarFill = NodePath("ProgressBar")
+ProgressBarFill = NodePath("ProgressBar")
 _valueLabel = NodePath("Amount")
 
 [node name="Panel" type="Panel" parent="."]

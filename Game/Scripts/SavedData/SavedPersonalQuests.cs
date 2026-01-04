@@ -38,9 +38,7 @@ public class SavedPersonalQuests
 	{
 		PersonalQuestDeckIds = StartingPersonalQuestDeck.Select(personalQuestModel => personalQuestModel.Id.ToString()).ToList();
 
-		RandomNumberGenerator tempRNG = new RandomNumberGenerator();
-		tempRNG.Randomize();
-		PersonalQuestDeckIds.Shuffle(tempRNG);
+		ShuffleDeck();
 	}
 
 	public PersonalQuestModel PeekPersonalQuest(int indexFromTop)
@@ -61,9 +59,38 @@ public class SavedPersonalQuests
 
 		if(shuffle)
 		{
-			RandomNumberGenerator tempRNG = new RandomNumberGenerator();
-			tempRNG.Randomize();
-			PersonalQuestDeckIds.Shuffle(tempRNG);
+			ShuffleDeck();
 		}
+	}
+
+	public void AddPersonalQuest(PersonalQuestModel personalQuestModel, bool shuffle = true)
+	{
+		PersonalQuestDeckIds.Add(personalQuestModel.Id.ToString());
+
+		if(shuffle)
+		{
+			ShuffleDeck();
+		}
+	}
+
+	public void FilterOutClassPersonalQuests(ClassModel classModel)
+	{
+		for(int i = PersonalQuestDeckIds.Count - 1; i >= 0; i--)
+		{
+			string personalQuestDeckId = PersonalQuestDeckIds[i];
+			PersonalQuestModel personalQuestModel = ModelDB.GetById<PersonalQuestModel>(personalQuestDeckId);
+
+			if(personalQuestModel.ClassToUnlock == classModel)
+			{
+				PersonalQuestDeckIds.RemoveAt(i);
+			}
+		}
+	}
+
+	private void ShuffleDeck()
+	{
+		RandomNumberGenerator tempRNG = new RandomNumberGenerator();
+		tempRNG.Randomize();
+		PersonalQuestDeckIds.Shuffle(tempRNG);
 	}
 }
