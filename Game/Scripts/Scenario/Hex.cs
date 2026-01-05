@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public partial class Hex : Node2D
@@ -146,5 +147,10 @@ public partial class Hex : Node2D
 	private void SortHexObjects()
 	{
 		HexObjects.Sort((a, b) => b.DefaultZIndex.CompareTo(a.DefaultZIndex));
+	}
+	
+	public Room GetRoom()
+	{
+		return GameController.Instance.Map.Rooms.FirstOrDefault(room => room.MapTiles.Contains(MapTile));
 	}
 }

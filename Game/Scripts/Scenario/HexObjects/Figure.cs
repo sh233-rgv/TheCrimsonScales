@@ -562,9 +562,4 @@ public abstract partial class Figure : HexObject
 	{
 		TakingTurn = takingTurn;
 	}
-
-	public Room GetRoom()
-	{
-		return GameController.Instance.Map.Rooms.FirstOrDefault(room => room.MapTiles.Contains(Hex.MapTile));
-	}
 }
