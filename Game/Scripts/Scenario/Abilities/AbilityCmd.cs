@@ -150,16 +150,23 @@ public static class AbilityCmd
 
 	public static async GDTask KillOrExhaust(Figure authority, Figure target)
 	{
-		await target.Destroy();
-
-		ScenarioEvents.FigureKilled.Parameters parameters =
-			await ScenarioEvents.FigureKilledEvent.CreatePrompt(
-				new ScenarioEvents.FigureKilled.Parameters(null, target), authority);
+		await KillOrExhaust(authority, null, target);
 	}
 
 	public static async GDTask KillOrExhaust(AbilityState state, Figure target)
 	{
-		await KillOrExhaust(state.Authority, target);
+		await KillOrExhaust(state.Authority, state, target);
+	}
+
+	private static async GDTask KillOrExhaust(Figure authority, AbilityState state, Figure target)
+	{
+		await ScenarioEvents.BeforeFigureKilledEvent.CreatePrompt(
+			new ScenarioEvents.BeforeFigureKilled.Parameters(state, target), authority);
+
+		await target.Destroy();
+
+		await ScenarioEvents.FigureKilledEvent.CreatePrompt(
+			new ScenarioEvents.FigureKilled.Parameters(state, target), authority);
 	}
 
 	public static bool CheckImmunity(ConditionModel conditionModel, ConditionModel immunityConditionModel)
@@ -410,8 +417,8 @@ public static class AbilityCmd
 		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, false, monsterLevel);
 	}
 
-	public static async GDTask<T> CreateOverlayTile<T>(Hex hex, PackedScene scene)
-		where T : HexObject
+	public static async GDTask<T> CreateOverlayTile<T>(Hex hex, PackedScene scene, Action<OverlayTile> onInstantiate = null)
+		where T : OverlayTile
 	{
 		if(!hex.IsFeatureless())
 		{
@@ -419,32 +426,25 @@ public static class AbilityCmd
 			return null;
 		}
 
-		HexObject hexObject = scene.Instantiate<HexObject>();
-		GameController.Instance.Map.AddChild(hexObject);
-		await hexObject.Init(hex);
+		OverlayTile overlayTile = scene.Instantiate<OverlayTile>();
+		GameController.Instance.Map.AddChild(overlayTile);
+		onInstantiate?.Invoke(overlayTile);
+		await overlayTile.Init(hex);
 
-		hexObject.Scale = Vector2.Zero;
-		hexObject.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
+		overlayTile.Scale = Vector2.Zero;
+		overlayTile.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
 
-		await GDTask.CompletedTask;
+		await ScenarioEvents.OverlayTileCreatedEvent.CreatePrompt(
+			new ScenarioEvents.OverlayTileCreated.Parameters(overlayTile));
 
-		return (T)hexObject;
+		return (T)overlayTile;
 	}
 
 	public static async GDTask<Trap> CreateTrap(Hex hex, string assetPath, int damage = 0, ConditionModel[] conditions = null)
 	{
 		PackedScene scene = ResourceLoader.Load<PackedScene>(assetPath);
-		Trap trap = scene.Instantiate<Trap>();
-		GameController.Instance.Map.AddChild(trap);
-		trap.SetTrapValues(damage, conditions ?? []);
-		await trap.Init(hex);
 
-		trap.Scale = Vector2.Zero;
-		trap.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
-
-		await GDTask.CompletedTask;
-
-		return trap;
+		return await CreateOverlayTile<Trap>(hex, scene, trap => ((Trap)trap).SetTrapValues(damage, conditions ?? []));
 	}
 
 	public static GDTask<List<Hex>> SelectHexes(AbilityState state, Action<List<Hex>> getValidHexes, int minSelectionCount, int maxSelectionCount,
@@ -489,6 +489,7 @@ public static class AbilityCmd
 		TargetSelectionPrompt.Answer targetAnswer = await PromptManager.Prompt(
 			new TargetSelectionPrompt(getValidTargets, autoSelectIfOne, mandatory, effectCollection, hintText ?? (() => "Select a target")),
 			authority);
+
 
 		if(targetAnswer.Skipped)
 		{

@@ -37,5 +37,15 @@ public class MirefootModel : ClassModel
 		ModelDB.Card<HideAndSeek>(),
 		ModelDB.Card<RadiantForestFungi>(),
 		ModelDB.Card<FirerootSap>(),
+		ModelDB.Card<PersonalPoison>(),
+		ModelDB.Card<CompoundToxin>(),
+		ModelDB.Card<TaintedWaters>(),
+		ModelDB.Card<Anticoagulant>(),
+		ModelDB.Card<WildStings>(),
+		ModelDB.Card<SludgeBomb>(),
+		ModelDB.Card<WhitefireBalm>(),
+		ModelDB.Card<TwistTheBlade>(),
+		ModelDB.Card<LingeringSwampMoss>(),
+		ModelDB.Card<ComplexToxicology>(),
 	];
 }

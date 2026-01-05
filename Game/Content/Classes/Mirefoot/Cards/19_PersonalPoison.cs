@@ -4,7 +4,7 @@ using Fractural.Tasks;
 public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, PersonalPoison.CardBottom>
 {
 	public override string Name => "Personal Poison";
-	public override int Level => 1;
+	public override int Level => 5;
 	public override int Initiative => 86;
 	protected override int AtlasIndex => 19;
 
@@ -28,13 +28,14 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 								await GDTask.CompletedTask;
 							},
 							effectType: EffectType.SelectableMandatory,
-							effectButtonParameters: new IconEffectButton.Parameters(Icons.Inline(group.MonsterModel.PortraitTexturePath)),
+							effectButtonParameters: new IconEffectButton.Parameters(group.MonsterModel.PortraitTexturePath),
 							effectInfoViewParameters: new TextEffectInfoView.Parameters(
-								$"Place a character token on {group}")));
+								$"Place a character token on {group.MonsterModel.Name}s")));
 					}
+
 					await AbilityCmd.GenericChoice(state.Performer,
 						subscriptions, hintText: "Choose a group of monsters to place a character token on");
-					
+
 					if(monsterGroup == null)
 					{
 						return;
@@ -102,12 +103,12 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 						{
 							await new ActionState(state.Performer, [HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()])
 								.Perform();
+							ScenarioEvents.AbilityCardStateChangedEvent.Unsubscribe(state, this);
 						});
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
 				{
-					ScenarioEvents.AbilityCardStateChangedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})
 				.Build())

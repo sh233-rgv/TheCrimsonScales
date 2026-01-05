@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -14,6 +15,7 @@ public partial class Room : Node2D
 
 	public List<MapTile> MapTiles { get; private set; }
 	public List<Hex> Hexes { get; private set; }
+	public List<Figure> Figures => Hexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>()).ToList();
 
 	public void Init()
 	{
