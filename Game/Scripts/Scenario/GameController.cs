@@ -15,7 +15,7 @@ public partial class GameController : SceneController<GameController>
 	public CameraController CameraController { get; private set; }
 
 	[Export]
-	public CursorOverUIChecker CursorOverUIChecker { get; private set; }
+	public CursorOverUItChecker CursorOverUIChecker { get; private set; }
 
 	[Export]
 	public CardSelectionView CardSelectionView { get; private set; }

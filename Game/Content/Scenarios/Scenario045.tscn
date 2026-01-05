@@ -85,52 +85,52 @@ position = Vector2(-545.596, -567)
 
 [node name="MonsterSpawner" parent="Map/Rooms/Room" index="20" instance=ExtResource("7_vfe2g")]
 position = Vector2(-218.238, 378)
-MonsterModelId = "MONSTER_MODEL.BLACK_IMP"
+MonsterModelId = "IMP.BLACK_IMP"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner2" parent="Map/Rooms/Room" index="21" instance=ExtResource("7_vfe2g")]
 position = Vector2(109.119, 567)
-MonsterModelId = "MONSTER_MODEL.BLACK_IMP"
+MonsterModelId = "IMP.BLACK_IMP"
 MonsterType2Characters = 1
 MonsterType3Characters = 0
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner4" parent="Map/Rooms/Room" index="22" instance=ExtResource("7_vfe2g")]
 position = Vector2(-109.119, 1323)
-MonsterModelId = "MONSTER_MODEL.BLACK_IMP"
+MonsterModelId = "IMP.BLACK_IMP"
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner5" parent="Map/Rooms/Room" index="23" instance=ExtResource("7_vfe2g")]
 position = Vector2(0, 1512)
-MonsterModelId = "MONSTER_MODEL.FOREST_IMP"
+MonsterModelId = "IMP.FOREST_IMP"
 MonsterType2Characters = 1
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner8" parent="Map/Rooms/Room" index="24" instance=ExtResource("7_vfe2g")]
 position = Vector2(-436.477, 1134)
-MonsterModelId = "MONSTER_MODEL.FOREST_IMP"
+MonsterModelId = "IMP.FOREST_IMP"
 MonsterType2Characters = 0
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner6" parent="Map/Rooms/Room" index="25" instance=ExtResource("7_vfe2g")]
 position = Vector2(109.119, 1323)
-MonsterModelId = "MONSTER_MODEL.FOREST_IMP"
+MonsterModelId = "IMP.FOREST_IMP"
 MonsterType3Characters = 0
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner7" parent="Map/Rooms/Room" index="26" instance=ExtResource("7_vfe2g")]
 position = Vector2(109.119, 945)
-MonsterModelId = "MONSTER_MODEL.FOREST_IMP"
+MonsterModelId = "IMP.FOREST_IMP"
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner3" parent="Map/Rooms/Room" index="27" instance=ExtResource("7_vfe2g")]
 position = Vector2(218.238, 378)
-MonsterModelId = "MONSTER_MODEL.BLACK_IMP"
+MonsterModelId = "IMP.BLACK_IMP"
 MonsterType4Characters = 0
 
 [node name="Room2" type="Node2D" parent="Map/Rooms" index="1"]
@@ -188,68 +188,68 @@ AdjustMonsterLevel = 1
 
 [node name="MonsterSpawner2" parent="Map/Rooms/Room2" index="14" instance=ExtResource("7_vfe2g")]
 position = Vector2(2182.38, 1512)
-MonsterModelId = "MONSTER_MODEL.FOREST_IMP"
+MonsterModelId = "IMP.FOREST_IMP"
 MonsterType2Characters = 1
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner3" parent="Map/Rooms/Room2" index="15" instance=ExtResource("7_vfe2g")]
 position = Vector2(1636.79, 945)
-MonsterModelId = "MONSTER_MODEL.FOREST_IMP"
+MonsterModelId = "IMP.FOREST_IMP"
 MonsterType3Characters = 0
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner4" parent="Map/Rooms/Room2" index="16" instance=ExtResource("7_vfe2g")]
 position = Vector2(872.954, 1512)
-MonsterModelId = "MONSTER_MODEL.FOREST_IMP"
+MonsterModelId = "IMP.FOREST_IMP"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner5" parent="Map/Rooms/Room2" index="17" instance=ExtResource("7_vfe2g")]
 position = Vector2(654.715, 1512)
-MonsterModelId = "MONSTER_MODEL.FOREST_IMP"
+MonsterModelId = "IMP.FOREST_IMP"
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner6" parent="Map/Rooms/Room2" index="18" instance=ExtResource("7_vfe2g")]
 position = Vector2(763.834, 1701)
-MonsterModelId = "MONSTER_MODEL.FOREST_IMP"
+MonsterModelId = "IMP.FOREST_IMP"
 MonsterType3Characters = 1
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner7" parent="Map/Rooms/Room2" index="19" instance=ExtResource("7_vfe2g")]
 position = Vector2(1091.19, 1890)
-MonsterModelId = "MONSTER_MODEL.BLACK_IMP"
+MonsterModelId = "IMP.BLACK_IMP"
 MonsterType3Characters = 1
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner8" parent="Map/Rooms/Room2" index="20" instance=ExtResource("7_vfe2g")]
 position = Vector2(1309.43, 1890)
-MonsterModelId = "MONSTER_MODEL.BLACK_IMP"
+MonsterModelId = "IMP.BLACK_IMP"
 MonsterType2Characters = 1
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner9" parent="Map/Rooms/Room2" index="21" instance=ExtResource("7_vfe2g")]
 position = Vector2(2073.26, 945)
-MonsterModelId = "MONSTER_MODEL.BLACK_IMP"
+MonsterModelId = "IMP.BLACK_IMP"
 MonsterType4Characters = 0
 
 [node name="MonsterSpawner10" parent="Map/Rooms/Room2" index="22" instance=ExtResource("7_vfe2g")]
 position = Vector2(1855.03, 1701)
-MonsterModelId = "MONSTER_MODEL.BLACK_IMP"
+MonsterModelId = "IMP.BLACK_IMP"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner11" parent="Map/Rooms/Room2" index="23" instance=ExtResource("7_vfe2g")]
 position = Vector2(1091.19, 2268)
-MonsterModelId = "MONSTER_MODEL.BLACK_IMP"
+MonsterModelId = "IMP.BLACK_IMP"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 
 [node name="MonsterSpawner12" parent="Map/Rooms/Room2" index="24" instance=ExtResource("7_vfe2g")]
 position = Vector2(545.596, 2079)
-MonsterModelId = "MONSTER_MODEL.BLACK_IMP"
+MonsterModelId = "IMP.BLACK_IMP"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 MonsterType4Characters = 1
