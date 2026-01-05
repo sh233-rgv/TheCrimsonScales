@@ -53,10 +53,10 @@ _confirmButton = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/V
 _deleteButton = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/DeleteButton/BetterButton")
 
 [node name="Panel" parent="." index="1"]
-offset_left = -521.0
-offset_top = -467.0
-offset_right = 521.0
-offset_bottom = 467.0
+offset_left = -725.0
+offset_top = -467.5
+offset_right = 725.0
+offset_bottom = 467.5
 
 [node name="Label" parent="Panel/MarginContainer/VBoxContainer/Header" index="1"]
 text = "Character Info"

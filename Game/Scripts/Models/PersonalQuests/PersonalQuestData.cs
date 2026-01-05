@@ -1,6 +1,10 @@
-﻿public class PersonalQuestData
+﻿using System;
+
+public class PersonalQuestData
 {
 	public int Progress { get; private set; }
+
+	public event Action<PersonalQuestData> ProgressChangedEvent;
 
 	public void AdjustProgress(int value, Character character)
 	{
@@ -15,5 +19,7 @@
 		{
 			AppController.Instance!.PersonalQuestProgressUpdateView.AddItem(classModel, personalQuestModel, this);
 		}
+
+		ProgressChangedEvent?.Invoke(this);
 	}
 }
