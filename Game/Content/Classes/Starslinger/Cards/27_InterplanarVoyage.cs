@@ -76,7 +76,7 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					Room performerRoom = state.Performer.Hex.GetRoom();
+					Room performerRoom = state.Performer.Hex.Room;
 
 					if(performerRoom == null)
 					{
