@@ -2,12 +2,12 @@
 
 public static class Conditions
 {
-	public static Poison1 Poison1 { get; } = ModelDB.Condition<Poison1>();
+	public static Poison Poison1 { get; } = ModelDB.Condition<Poison>();
 	public static Poison2 Poison2 { get; } = ModelDB.Condition<Poison2>();
 	public static Poison3 Poison3 { get; } = ModelDB.Condition<Poison3>();
 	public static Poison4 Poison4 { get; } = ModelDB.Condition<Poison4>();
 
-	public static Wound1 Wound1 { get; } = ModelDB.Condition<Wound1>();
+	public static Wound Wound1 { get; } = ModelDB.Condition<Wound>();
 	public static Wound2 Wound2 { get; } = ModelDB.Condition<Wound2>();
 
 	public static Muddle Muddle { get; } = ModelDB.Condition<Muddle>();

@@ -16,7 +16,7 @@ public class CorneredAnimal : RuinmawCardModel<CorneredAnimal.CardTop, CorneredA
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
 				.WithTarget(Target.Self)
-				.WithConditions(Ruinmaw.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.Empower)
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(
 						parameters => IsSated(parameters.Performer),

@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bhjy7s2mheqbu" path="res://Art/AbilityCardExample.tres" id="1_njows"]
 [ext_resource type="Script" uid="uid://bbf02642hmere" path="res://Scripts/UI/CardView/CardView.cs" id="1_uiprm"]
-[ext_resource type="PackedScene" uid="uid://drs874b0lo5o6" path="res://Scenes/Scenario/UI/CardViewCharacterToken.tscn" id="2_6wou7"]
+[ext_resource type="PackedScene" uid="uid://drs874b0lo5o6" path="res://Scenes/UI/CardViewCharacterToken.tscn" id="2_6wou7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n4oh2"]
 corner_radius_top_left = 16

@@ -119,4 +119,9 @@ public class GrantAbility : TargetedAbility<GrantAbility.State, SingleTargetStat
 		
 		await actionState.Perform();
 	}
+
+	protected override string DefaultTargetingHintText(State abilityState)
+	{
+		return "Select a target for the grant ability";
+	}
 }

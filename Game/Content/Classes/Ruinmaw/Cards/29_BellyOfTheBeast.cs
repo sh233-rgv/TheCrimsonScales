@@ -143,8 +143,8 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 									ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
 									ActionState actionState = new(state.Performer,
 									[
-										ConditionAbility.Builder().WithConditions(Ruinmaw.EmpowerRuinmaw, Ruinmaw.EmpowerRuinmaw,
-											Ruinmaw.EmpowerRuinmaw, Ruinmaw.EmpowerRuinmaw).WithTarget(Target.Self).Build(),
+										ConditionAbility.Builder().WithConditions(Ruinmaw.Empower, Ruinmaw.Empower,
+											Ruinmaw.Empower, Ruinmaw.Empower).WithTarget(Target.Self).Build(),
 									]);
 									await actionState.Perform();
 								}

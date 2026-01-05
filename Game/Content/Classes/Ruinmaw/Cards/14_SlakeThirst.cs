@@ -20,7 +20,7 @@ public class SlakeThirst : RuinmawCardModel<SlakeThirst.CardTop, SlakeThirst.Car
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
 				.WithTarget(Target.Self)
-				.WithConditions(Ruinmaw.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.Empower)
 				.WithConditionalAbilityCheck(async state =>
 				{
 					await GDTask.CompletedTask;

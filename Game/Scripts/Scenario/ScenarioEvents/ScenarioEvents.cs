@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Godot;
 
-public class ScenarioEvents
+public partial class ScenarioEvents
 {
 	private readonly List<EventSubscriberPair> _eventSubscriberPairs = new List<EventSubscriberPair>();
 	private static List<EventSubscriberPair> EventSubscriberPairs => GameController.Instance.ScenarioEvents._eventSubscriberPairs;
@@ -228,11 +228,11 @@ public class ScenarioEvents
 
 	public class InflictCondition : ScenarioEvent<InflictCondition.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, Figure target, ConditionModel condition) : ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Figure Target { get; } = target;
-			public ConditionModel Condition { get; } = condition;
+			public ConditionModel ConditionModel { get; } = conditionModel;
 
 			public bool Prevented { get; private set; }
 
@@ -248,18 +248,24 @@ public class ScenarioEvents
 
 	public class InflictConditionDuplicatesCheck : ScenarioEvent<InflictConditionDuplicatesCheck.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, Figure target, ConditionModel condition)
+		public class Parameters(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel)
 			: ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Figure Target { get; } = target;
-			public ConditionModel Condition { get; } = condition;
+			public ConditionModel ConditionModel { get; } = conditionModel;
 
 			public bool Prevented { get; private set; }
+			public bool AddStack { get; private set; }
 
 			public void SetPrevented(bool prevented)
 			{
 				Prevented = prevented;
+			}
+
+			public void SetAddStack()
+			{
+				AddStack = true;
 			}
 		}
 	}
@@ -278,10 +284,12 @@ public class ScenarioEvents
 
 	public class RemoveCondition : ScenarioEvent<RemoveCondition.Parameters>
 	{
-		public class Parameters(Figure figure, ConditionModel condition) : ParametersBase
+		public class Parameters(Condition condition) : ParametersBase
 		{
-			public Figure Figure { get; } = figure;
-			public ConditionModel Condition { get; } = condition;
+			public Condition Condition { get; } = condition;
+
+			public Figure Figure => Condition.Owner;
+			public ConditionModel ConditionModel => Condition.ConditionModel;
 		}
 	}
 
@@ -320,7 +328,9 @@ public class ScenarioEvents
 		{
 			public AbilityState PotentialAbilityState { get; }
 			public Figure Figure { get; }
+			public Figure PotentialDamageDealer { get; }
 			public int InitialDamage { get; }
+
 			public int CalculatedCurrentDamage { get; private set; }
 
 			public int Shield { get; private set; } = 0;
@@ -335,10 +345,11 @@ public class ScenarioEvents
 
 			public bool WouldSufferDamage => CalculatedCurrentDamage > 0 && !DamagePrevented;
 
-			public Parameters(AbilityState abilityState, Figure figure, int initialDamage, bool fromAttack)
+			public Parameters(AbilityState abilityState, Figure figure, Figure potentialDamageDealer, int initialDamage, bool fromAttack)
 			{
 				PotentialAbilityState = abilityState;
 				Figure = figure;
+				PotentialDamageDealer = potentialDamageDealer;
 				InitialDamage = initialDamage;
 				FromAttack = fromAttack;
 
@@ -454,10 +465,11 @@ public class ScenarioEvents
 
 	public class FigureKilled : ScenarioEvent<FigureKilled.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, Figure figure) : ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, Figure figure, Figure potentialKiller) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Figure Figure { get; } = figure;
+			public Figure PotentialKiller { get; } = potentialKiller;
 		}
 	}
 
@@ -745,16 +757,39 @@ public class ScenarioEvents
 			public Character Character { get; } = character;
 
 			public bool CanSelectCardToLose { get; private set; } = false;
+			public bool LoseCard { get; private set; } = true;
 
 			public void SetCanSelectCardToUse()
 			{
 				CanSelectCardToLose = true;
+			}
+
+			public void SetLoseCard(bool loseCard)
+			{
+				LoseCard = loseCard;
 			}
 		}
 	}
 
 	private readonly ShortRestStarted _shortRestStarted = new ShortRestStarted();
 	public static ShortRestStarted ShortRestStartedEvent => GameController.Instance.ScenarioEvents._shortRestStarted;
+
+	public class LongRestStarted : ScenarioEvent<LongRestStarted.Parameters>
+	{
+		public class Parameters(Character character) : ParametersBase
+		{
+			public Character Character { get; } = character;
+			public bool LoseCard { get; private set; } = true;
+
+			public void SetLoseCard(bool loseCard)
+			{
+				LoseCard = loseCard;
+			}
+		}
+	}
+
+	private readonly LongRestStarted _longRestStarted = new LongRestStarted();
+	public static LongRestStarted LongRestStartedEvent => GameController.Instance.ScenarioEvents._longRestStarted;
 
 	public class LongRestCardSelection : ScenarioEvent<LongRestCardSelection.Parameters>
 	{

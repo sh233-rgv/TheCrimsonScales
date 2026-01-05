@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://01qkak46738j"]
+[gd_scene load_steps=26 format=3 uid="uid://01qkak46738j"]
 
 [ext_resource type="Script" uid="uid://dydkneeqo4x6j" path="res://Scripts/NewCampaign/NewCampaignController.cs" id="1_h7fbo"]
 [ext_resource type="Texture2D" uid="uid://cw111i6yk01f1" path="res://Art/Backgrounds/ArtbookBackground.jpg" id="1_t6x8m"]
@@ -18,7 +18,17 @@
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="14_lqwu3"]
 [ext_resource type="Script" uid="uid://2k0xbyga2vuc" path="res://Scripts/NewCampaign/PartyNameNewCampaignStep.cs" id="15_72bvk"]
 [ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="15_xjx63"]
+[ext_resource type="Script" uid="uid://dhriq2eupf3pe" path="res://Scripts/NewCampaign/ClassUnlocksNewCampaignStep.cs" id="16_yoarg"]
 [ext_resource type="Script" uid="uid://e1u4nmwejxw5" path="res://Scripts/Scenario/UI/ChoiceButtonsView/ChoiceButton.cs" id="18_qdqnt"]
+[ext_resource type="PackedScene" uid="uid://d20kxebd41qbn" path="res://Scenes/CharacterUnlock/UnlockCharacterView.tscn" id="20_72bvk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p5y0s"]
+shader = ExtResource("2_car6k")
+shader_parameter/inner_radius = 0.3
+shader_parameter/outer_radius = 1.0
+shader_parameter/vignette_strength = 0.8
+shader_parameter/dither_strength = 0.03
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_lqwu3"]
 font = ExtResource("2_40brb")
@@ -50,17 +60,9 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 expand_margin_left = 8.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_p5y0s"]
-shader = ExtResource("2_car6k")
-shader_parameter/inner_radius = 0.3
-shader_parameter/outer_radius = 1.0
-shader_parameter/vignette_strength = 0.8
-shader_parameter/dither_strength = 0.03
-shader_parameter/vignette_color = Color(0, 0, 0, 1)
-
 [node name="NewCampaign" type="Node" node_paths=PackedStringArray("_steps", "_backButton", "_confirmButton")]
 script = ExtResource("1_h7fbo")
-_steps = [NodePath("CanvasLayer/UI/StartingGroup"), NodePath("CanvasLayer/UI/PartyName")]
+_steps = [NodePath("CanvasLayer/UI/StartingGroup"), NodePath("CanvasLayer/UI/ClassUnlocks"), NodePath("CanvasLayer/UI/PartyName")]
 _backButton = NodePath("CanvasLayer/UI/BackButton")
 _confirmButton = NodePath("CanvasLayer/UI/ConfirmButton")
 
@@ -84,6 +86,16 @@ grow_vertical = 2
 texture = ExtResource("1_t6x8m")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="Vignette" type="ColorRect" parent="CanvasLayer/UI"]
+material = SubResource("ShaderMaterial_p5y0s")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="StartingGroup" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_startingGroups")]
 layout_mode = 1
@@ -298,6 +310,35 @@ visible = true
 [node name="Text" parent="CanvasLayer/UI/StartingGroup/StartingGroups/Groups/Naturalists/VBoxContainer/Details/VBoxContainer/Summary/VBoxContainer" index="1"]
 text = "Melee Damage, Summoning, Elements, Support, Area of Effect, Debuffing, and Terrain Creation"
 
+[node name="ClassUnlocks" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_unlockCharacterView")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("16_yoarg")
+_unlockCharacterView = NodePath("UnlockCharacterView")
+
+[node name="Header" type="Label" parent="CanvasLayer/UI/ClassUnlocks"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -465.0
+offset_top = 50.0
+offset_right = 465.0
+offset_bottom = 187.0
+grow_horizontal = 2
+text = "Enter a Name for your Party"
+label_settings = SubResource("LabelSettings_lqwu3")
+horizontal_alignment = 1
+
+[node name="UnlockCharacterView" parent="CanvasLayer/UI/ClassUnlocks" instance=ExtResource("20_72bvk")]
+layout_mode = 1
+
 [node name="PartyName" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_nameLineEdit")]
 layout_mode = 1
 anchors_preset = 15
@@ -363,16 +404,6 @@ alignment = 1
 max_length = 20
 caret_blink = true
 
-[node name="Vignette" type="ColorRect" parent="CanvasLayer/UI"]
-material = SubResource("ShaderMaterial_p5y0s")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
 [node name="BackButton" parent="CanvasLayer/UI" node_paths=PackedStringArray("BetterButton") instance=ExtResource("15_xjx63")]
 layout_mode = 1
 anchors_preset = 2
@@ -393,16 +424,16 @@ text = "Cancel"
 [node name="ConfirmButton" parent="CanvasLayer/UI" node_paths=PackedStringArray("BetterButton") instance=ExtResource("15_xjx63")]
 modulate = Color(0.458824, 1, 0.372549, 1)
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -100.0
+offset_left = -300.0
 offset_top = -180.0
-offset_right = 100.0
+offset_right = -100.0
 offset_bottom = -100.0
-grow_horizontal = 2
+grow_horizontal = 0
 grow_vertical = 0
 script = ExtResource("18_qdqnt")
 BetterButton = NodePath("BetterButton")

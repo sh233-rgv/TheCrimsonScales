@@ -38,6 +38,16 @@ public class HierophantModel : ClassModel
 		ModelDB.Card<VitalBond>(),
 		ModelDB.Card<BeaconOfHope>(),
 		ModelDB.Card<RootedSubjugation>(),
+		ModelDB.Card<DevoutAssistance>(),
+		ModelDB.Card<SpiritualGains>(),
+		ModelDB.Card<UnstoppableForce>(),
+		ModelDB.Card<ChainsOfLightning>(),
+		ModelDB.Card<ReveredProtector>(),
+		ModelDB.Card<SymphonyOfOppression>(),
+		ModelDB.Card<RighteousAtonement>(),
+		ModelDB.Card<VengefulVeneration>(),
+		ModelDB.Card<ExpansivePermanence>(),
+		ModelDB.Card<BringerOfMiracles>(),
 	];
 
 	public IList<AbilityCardModel> AllPrayerCards { get; } =

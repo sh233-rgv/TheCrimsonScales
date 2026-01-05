@@ -7,8 +7,14 @@ using Fractural.Tasks;
 public class ShieldAbility : ActiveAbility<ShieldAbility.State>
 {
 	public class State : ActiveAbilityState
-	{
-	}
+    {
+        public int AdditionalShield { get; set; } = 0;
+
+		public void AdjustAdditionalShield(int value)
+        {
+            AdditionalShield += value;
+        }
+    }
 
 	private Func<ScenarioEvents.SufferDamage.Parameters, bool> _customCanApply;
 	private bool _customCanApplyReplaceFully;
@@ -107,7 +113,7 @@ public class ShieldAbility : ActiveAbility<ShieldAbility.State>
 				else
 				{
 					int shieldValue = ShieldValue.GetValue(abilityState);
-					parameters.AdjustShield(shieldValue);
+					parameters.AdjustShield(shieldValue + abilityState.AdditionalShield);
 				}
 			}
 		);
@@ -139,11 +145,11 @@ public class ShieldAbility : ActiveAbility<ShieldAbility.State>
 
 				if(Pierceable)
 				{
-					parameters.AdjustShield(shieldValue);
+					parameters.AdjustShield(shieldValue + abilityState.AdditionalShield);
 				}
 				else
 				{
-					parameters.AdjustUnpierceableShield(shieldValue);
+					parameters.AdjustUnpierceableShield(shieldValue + abilityState.AdditionalShield);
 				}
 
 				await GDTask.CompletedTask;

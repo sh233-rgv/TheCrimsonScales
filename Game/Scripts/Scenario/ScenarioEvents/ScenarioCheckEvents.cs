@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class ScenarioCheckEvents
+public partial class ScenarioCheckEvents
 {
 	public class AIMoveParametersCheck : ScenarioCheckEvent<AIMoveParametersCheck.Parameters>
 	{

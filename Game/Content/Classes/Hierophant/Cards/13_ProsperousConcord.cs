@@ -17,20 +17,20 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					//TODO: Add visual (character token) to target(?)
-					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
+					Figure figure = state.GetCustomValue<Figure>(this, "Figure");
+
+					await AbilityCmd.AddCharacterToken(state, figure,
+						$"The next time an ally attacks this enemy this round, they add +2{Icons.Inline(Icons.Attack)} to the attack.");
+
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
 						canApplyParameters =>
 							state.Performer.AlliedWith(canApplyParameters.Performer) &&
-							canApplyParameters.AbilityState.Target == attackAbilityState.UniqueTargetedFigures[0],
+							canApplyParameters.AbilityState.Target == figure,
 						async applyParameters =>
 						{
-							//TODO: Add visual (character token) to target(?)
 							applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
 
 							await state.ActionState.RequestDiscardOrLose();
-
-							//await AbilityCmd.DiscardOrLose(AbilityCard);
 						});
 
 					await GDTask.CompletedTask;
@@ -39,9 +39,30 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 				{
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, this);
 
-					await GDTask.CompletedTask;
+					Figure figure = state.GetCustomValue<Figure>(this, "Figure");
+
+					await AbilityCmd.RemoveCharacterToken(state, figure);
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
+				.WithConditionalAbilityCheck(async state =>
+				{
+					if(!await AbilityCmd.HasPerformedAbility(state, 0))
+					{
+						return false;
+					}
+
+					Figure figure = await AbilityCmd.SelectFigure(state,
+						list => list.AddRange(state.ActionState.GetAbilityState<AttackAbility.State>(0).UniqueTargetedFigures),
+						hintText: () => "Place character token?");
+
+					if(figure == null)
+					{
+						return false;
+					}
+
+					state.SetCustomValue(this, "Figure", figure);
+					return true;
+				})
+				.WithSkipConfirmation()
 				.Build())
 		];
 

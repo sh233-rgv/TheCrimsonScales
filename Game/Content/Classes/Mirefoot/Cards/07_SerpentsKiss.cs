@@ -42,7 +42,9 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 					Figure target = state.ActionState.GetAbilityState<GiveAbilityCardAbility.State>(0).UniqueTargetedFigures[0];
 
 					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
-						parameters => parameters.Target == target && parameters.Condition.GetType().IsAssignableTo(typeof(PoisonBase)),
+						parameters =>
+							parameters.Target == target &&
+							AbilityCmd.CheckImmunity(parameters.ConditionModel, Conditions.Poison1),
 						async parameters =>
 						{
 							parameters.SetPrevented(true);
@@ -50,8 +52,6 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 							ActionState actionState =
 								new ActionState(target, [HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()]);
 							await actionState.Perform();
-
-							await GDTask.CompletedTask;
 						}
 					);
 

@@ -85,14 +85,14 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
 				.WithTarget(Target.Self)
-				.WithConditions(Ruinmaw.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.Empower)
 				.WithDuringHealSubscription(
 					ScenarioEvents.DuringHeal.Subscription.New(
 						parameters => IsSated(parameters.Performer),
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustHealValue(2);
-							parameters.AbilityState.AbilityAddCondition(Ruinmaw.EmpowerRuinmaw);
+							parameters.AbilityState.AbilityAddCondition(Ruinmaw.Empower);
 							await GDTask.CompletedTask;
 						}
 					)
