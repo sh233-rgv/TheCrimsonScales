@@ -227,7 +227,7 @@ public static class AbilityCmd
 		Condition condition = target.GetCondition(conditionModel);
 		if(condition != null)
 		{
-			await target.RemoveCondition(conditionModel);
+			await RemoveCondition(condition);
 			ScenarioEvents.AfterRemoveCondition.Parameters afterRemoveConditionParameters =
 				await ScenarioEvents.AfterRemoveConditionEvent.CreatePrompt(
 					new ScenarioEvents.AfterRemoveCondition.Parameters(target, conditionModel), target);
