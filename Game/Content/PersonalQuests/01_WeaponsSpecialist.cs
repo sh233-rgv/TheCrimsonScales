@@ -18,7 +18,7 @@ public class WeaponsSpecialist : TheCrimsonScalesPersonalQuest<PersonalQuestData
 				parameters.Item.ItemState == ItemState.Consumed,
 			async parameters =>
 			{
-				personalQuestData.AdjustProgress(1);
+				personalQuestData.AdjustProgress(1, character);
 
 				await GDTask.CompletedTask;
 			}

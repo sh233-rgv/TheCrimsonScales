@@ -22,14 +22,14 @@ public abstract class PersonalQuestModel<T> : PersonalQuestModel
 		string serializedData = JsonConvert.SerializeObject(personalQuestData, SaveFile.JsonSerializerSettings);
 		T clonedQuestData = JsonConvert.DeserializeObject<T>(serializedData);
 
-		await OnScenarioSetupPhaseCompleted(character, (T)clonedQuestData);
+		await OnScenarioSetupPhaseCompleted(character, clonedQuestData);
 
 		GameController.Instance.EndEvent += OnEndEvent;
 		return;
 
 		void OnEndEvent(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress)
 		{
-			character.SavedCharacter.SavedPersonalQuest.OverwritePersonalQuestData(personalQuestData);
+			character.SavedCharacter.SavedPersonalQuest.OverwritePersonalQuestData(clonedQuestData);
 		}
 	}
 

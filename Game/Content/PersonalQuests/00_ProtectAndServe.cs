@@ -22,7 +22,7 @@ public class ProtectAndServe : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 				 monster.MonsterModel == ModelDB.Monster<InoxShaman>()),
 			async parameters =>
 			{
-				personalQuestData.AdjustProgress(1);
+				personalQuestData.AdjustProgress(1, character);
 
 				await GDTask.CompletedTask;
 			}

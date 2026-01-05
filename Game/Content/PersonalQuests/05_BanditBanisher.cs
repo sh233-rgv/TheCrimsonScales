@@ -25,7 +25,7 @@ public class BanditBanisher : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 				 monster.MonsterModel == ModelDB.Monster<CityArcher>()),
 			async parameters =>
 			{
-				personalQuestData.AdjustProgress(1);
+				personalQuestData.AdjustProgress(1, character);
 
 				await GDTask.CompletedTask;
 			}

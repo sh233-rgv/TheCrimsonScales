@@ -21,7 +21,7 @@ public class CreaturesInTheNight : TheCrimsonScalesPersonalQuest<PersonalQuestDa
 				 monster.MonsterModel == ModelDB.Monster<BlackImp>()),
 			async parameters =>
 			{
-				personalQuestData.AdjustProgress(1);
+				personalQuestData.AdjustProgress(1, character);
 
 				await GDTask.CompletedTask;
 			}

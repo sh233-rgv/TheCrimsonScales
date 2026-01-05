@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://t4mcv7pstw0j" path="res://Scripts/BetweenScenarios/CharacterCreation/CharacterCreationPersonalQuest.cs" id="1_kpwqy"]
 [ext_resource type="Script" uid="uid://b4tm7wjgmvnd2" path="res://Scripts/UI/RotatingCardView.cs" id="2_kpwqy"]
 [ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="2_lk6xs"]
-[ext_resource type="PackedScene" uid="uid://bfpnjhm68e114" path="res://Scenes/UI/PersonalQuestToggleButton.tscn" id="5_lk6xs"]
+[ext_resource type="PackedScene" uid="uid://bfpnjhm68e114" path="res://Scenes/UI/PersonalQuests/PersonalQuestToggleButton.tscn" id="5_lk6xs"]
 
 [node name="CharacterCreationPersonalQuestCard" type="Control" node_paths=PackedStringArray("_rotatingCardView", "_personalQuestToggleButton", "_betterButton")]
 custom_minimum_size = Vector2(450, 630)

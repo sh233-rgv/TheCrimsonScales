@@ -19,7 +19,7 @@ public class TrapSetter : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 				parameters.PotentialAbilityState?.Authority == character,
 			async parameters =>
 			{
-				personalQuestData.AdjustProgress(1);
+				personalQuestData.AdjustProgress(1, character);
 
 				await GDTask.CompletedTask;
 			}
@@ -32,7 +32,7 @@ public class TrapSetter : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 				parameters.PotentialDisarmer == character,
 			async parameters =>
 			{
-				personalQuestData.AdjustProgress(1);
+				personalQuestData.AdjustProgress(1, character);
 
 				await GDTask.CompletedTask;
 			}

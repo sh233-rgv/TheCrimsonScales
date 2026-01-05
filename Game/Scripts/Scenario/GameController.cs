@@ -370,10 +370,6 @@ public partial class GameController : SceneController<GameController>
 
 		if(scenarioResult == ScenarioResult.Retry)
 		{
-			SavedCampaign.SetSavedScenario(null);
-		}
-		else
-		{
 			SavedCampaign.SetSavedScenario(new SavedScenario
 			{
 				Id = Guid.NewGuid(),
@@ -383,6 +379,10 @@ public partial class GameController : SceneController<GameController>
 				ScenarioLevel = SavedCampaign.SavedScenario.ScenarioLevel,
 				IsOnline = SavedCampaign.SavedScenario.IsOnline
 			});
+		}
+		else
+		{
+			SavedCampaign.SetSavedScenario(null);
 		}
 
 		EndEvent?.Invoke(scenarioResult, SavedScenarioProgress);
@@ -394,11 +394,11 @@ public partial class GameController : SceneController<GameController>
 
 		if(scenarioResult == ScenarioResult.Retry)
 		{
-			AppController.Instance.SceneLoader.RequestSceneChange(new BetweenScenariosSceneRequest(SavedCampaign, scenarioModelId));
+			AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(SavedCampaign));
 		}
 		else
 		{
-			AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(SavedCampaign));
+			AppController.Instance.SceneLoader.RequestSceneChange(new BetweenScenariosSceneRequest(SavedCampaign, scenarioModelId));
 		}
 	}
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cbtuwtadxyfut"]
+[gd_scene load_steps=34 format=3 uid="uid://cbtuwtadxyfut"]
 
 [ext_resource type="Script" uid="uid://x4kpb6u0l25u" path="res://Scripts/AppController.cs" id="1_6s6iu"]
 [ext_resource type="Script" uid="uid://bn4208bsiittm" path="res://Scripts/InputController.cs" id="2_2vstq"]
@@ -31,8 +31,10 @@
 [ext_resource type="Script" uid="uid://cl05mha8gf05x" path="res://Scripts/UI/ItemPreview.cs" id="22_x7plq"]
 [ext_resource type="PackedScene" uid="uid://bmixj6gefxlit" path="res://Scenes/UI/ItemView.tscn" id="23_p2uns"]
 [ext_resource type="Script" uid="uid://bgob383cre1d1" path="res://Scripts/ScreenshotHelper.cs" id="28_p2uns"]
+[ext_resource type="Script" uid="uid://ba4uba34l4vdl" path="res://Scripts/UI/PersonalQuests/PersonalQuestProgressUpdateView.cs" id="29_vkcub"]
+[ext_resource type="PackedScene" uid="uid://bq57guwvi3fda" path="res://Scenes/UI/PersonalQuests/PersonalQuestProgressUpdateViewItem.tscn" id="30_naft5"]
 
-[node name="AppController" type="Node" node_paths=PackedStringArray("InputController", "SceneLoader", "PopupManager", "AudioController", "CardSelectionCardPreview", "ItemPreview")]
+[node name="AppController" type="Node" node_paths=PackedStringArray("InputController", "SceneLoader", "PopupManager", "AudioController", "CardSelectionCardPreview", "ItemPreview", "PersonalQuestProgressUpdateView")]
 script = ExtResource("1_6s6iu")
 InputController = NodePath("InputController")
 SceneLoader = NodePath("SceneLoader")
@@ -40,6 +42,7 @@ PopupManager = NodePath("CanvasLayer/PopupManager")
 AudioController = NodePath("AudioController")
 CardSelectionCardPreview = NodePath("CanvasLayer/CardPreviewView/MarginContainer/Container/CardSelectionCardPreview")
 ItemPreview = NodePath("CanvasLayer/CardPreviewView/MarginContainer/Container/ItemPreview")
+PersonalQuestProgressUpdateView = NodePath("CanvasLayer/PersonalQuestProgressUpdateView")
 
 [node name="InputController" type="Node" parent="."]
 script = ExtResource("2_2vstq")
@@ -210,6 +213,33 @@ pivot_offset = Vector2(120, 120)
 mouse_filter = 2
 texture = ExtResource("19_7484g")
 expand_mode = 1
+
+[node name="PersonalQuestProgressUpdateView" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("_itemParent")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("29_vkcub")
+_personalQuestProgressViewScene = ExtResource("30_naft5")
+_itemParent = NodePath("ItemParent")
+
+[node name="ItemParent" type="Control" parent="CanvasLayer/PersonalQuestProgressUpdateView"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -390.0
+offset_top = -265.0
+offset_right = -50.0
+offset_bottom = 265.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="AudioController" type="Node" parent="." node_paths=PackedStringArray("_bgmPlayer", "_bgsPlayer")]
 script = ExtResource("16_u3jyv")
