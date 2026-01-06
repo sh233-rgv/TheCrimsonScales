@@ -1,4 +1,4 @@
-[gd_scene load_steps=139 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=141 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -74,6 +74,8 @@
 [ext_resource type="PackedScene" uid="uid://dsc4dpb4vpe8c" path="res://Scenes/BetweenScenarios/CharacterCreation/CharacterCreationPersonalQuest.tscn" id="68_0un3t"]
 [ext_resource type="Script" uid="uid://bsdabd5cpwvem" path="res://Scripts/BetweenScenarios/CharacterCreation/CharacterNameCharacterCreationStep.cs" id="70_38ram"]
 [ext_resource type="Script" uid="uid://1cmilwv1hjb3" path="res://Scripts/BetweenScenarios/CharacterCreation/PersonalQuestCharacterCreationStep.cs" id="70_sursi"]
+[ext_resource type="Script" uid="uid://b4khct4qavbbp" path="res://Scripts/BetweenScenarios/BetweenScenariosClassUnlockOverlay.cs" id="74_6t0vk"]
+[ext_resource type="PackedScene" uid="uid://d20kxebd41qbn" path="res://Scenes/CharacterUnlock/UnlockCharacterView.tscn" id="74_8tse7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fpmem"]
 shader = ExtResource("9_fpmem")
@@ -567,7 +569,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 expand_margin_left = 8.0
 
-[node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay", "ActionManager", "ItemShop", "CharacterCreationOverlay")]
+[node name="BetweenScenarios" type="Node" node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay", "ActionManager", "ItemShop", "CharacterCreationOverlay", "UnlockOverlay")]
 script = ExtResource("1_rtyjh")
 BetweenScenariosSidePanel = NodePath("CanvasLayer/UI/SidePanel")
 CharacterPortraitManager = NodePath("CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/Characters")
@@ -576,6 +578,7 @@ EventOverlay = NodePath("CanvasLayer/UI/EventOverlay")
 ActionManager = NodePath("CanvasLayer/UI/BetweenScenariosActionManager")
 ItemShop = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ItemShop")
 CharacterCreationOverlay = NodePath("CanvasLayer/UI/CharacterCreationOverlay")
+UnlockOverlay = NodePath("CanvasLayer/UI/ClassUnlockOverlay")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -2667,6 +2670,40 @@ grow_vertical = 0
 script = ExtResource("67_0un3t")
 BetterButton = NodePath("BetterButton")
 _startActive = false
+
+[node name="ClassUnlockOverlay" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_unlockCharacterView")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("74_6t0vk")
+_unlockCharacterView = NodePath("UnlockCharacterView")
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/UI/ClassUnlockOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("62_bny7g")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Vignette" type="ColorRect" parent="CanvasLayer/UI/ClassUnlockOverlay"]
+material = SubResource("ShaderMaterial_wg15a")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="UnlockCharacterView" parent="CanvasLayer/UI/ClassUnlockOverlay" instance=ExtResource("74_8tse7")]
+layout_mode = 1
 
 [node name="MenuButton" parent="CanvasLayer/UI" instance=ExtResource("32_5k12q")]
 layout_mode = 1

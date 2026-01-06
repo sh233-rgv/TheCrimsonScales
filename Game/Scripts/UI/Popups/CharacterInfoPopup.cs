@@ -13,6 +13,8 @@ public partial class CharacterInfoPopup : Popup<CharacterInfoPopup.Request>
 
 	[Export]
 	private PersonalQuestProgressView _personalQuestProgressView;
+	[Export]
+	private BetterButton _retireButton;
 
 	[Export]
 	private LineEdit _nameLineEdit;
@@ -31,6 +33,8 @@ public partial class CharacterInfoPopup : Popup<CharacterInfoPopup.Request>
 	{
 		base._Ready();
 
+		_retireButton.Pressed += OnRetirePressed;
+
 		_nameLineEdit.TextChanged += OnNameChanged;
 
 		_cancelButton.Pressed += OnCancelPressed;
@@ -47,9 +51,22 @@ public partial class CharacterInfoPopup : Popup<CharacterInfoPopup.Request>
 		_matFrontTexture.Texture = PopupRequest.SavedCharacter.ClassModel.MatFrontTexture;
 
 		_personalQuestProgressView.Init(PopupRequest.SavedCharacter);
+		_retireButton.GetParent<Control>().SetVisible(PopupRequest.SavedCharacter.CanRetire);
 
 		_nameLineEdit.SetText(PopupRequest.SavedCharacter.Name);
 		OnNameChanged(_nameLineEdit.Text);
+	}
+
+	private void OnRetirePressed()
+	{
+		if(!PopupRequest.SavedCharacter.CanRetire)
+		{
+			return;
+		}
+
+		BetweenScenariosController.Instance?.RetireCharacter(PopupRequest.SavedCharacter, PopupRequest.SavedCampaign);
+
+		Close();
 	}
 
 	private void OnNameChanged(string newText)

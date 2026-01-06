@@ -28,6 +28,9 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 	[Export]
 	public CharacterCreationOverlay CharacterCreationOverlay { get; private set; }
 
+	[Export]
+	public BetweenScenariosClassUnlockOverlay UnlockOverlay { get; private set; }
+
 	private readonly List<EventReward> _duringDowntimeEventRewards = new List<EventReward>();
 
 	public BetweenScenariosSceneRequest SceneRequest { get; private set; }
@@ -136,6 +139,22 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			return;
 		}
 
+		if(SavedCampaign.Characters.Any(character => character.CanRetire))
+		{
+			AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("Cannot start scenario",
+				"One of your characters is ready to retire."));
+
+			return;
+		}
+
+		if(SavedCampaign.Characters.Any(character => character.CheckCanLevelUp() || character.LevelUpInProgress))
+		{
+			AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("Cannot start scenario",
+				"One of your characters is ready to level up."));
+
+			return;
+		}
+
 		AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request($"Scenario {scenarioModel.ScenarioNumber}",
 			$"Start scenario {scenarioModel.ScenarioNumber}?",
 			new TextButton.Parameters("Cancel",
@@ -151,6 +170,18 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 				TextButton.ColorType.Green
 			)
 		));
+	}
+
+	public void RetireCharacter(SavedCharacter savedCharacter, SavedCampaign savedCampaign)
+	{
+		AppController.Instance.PopupManager.RequestPopup(new RetirementPopup.Request()
+		{
+			Character = savedCharacter,
+			SavedCampaign = savedCampaign,
+			UnlockedClass = savedCampaign.GetUnlockedClass(savedCharacter)
+		});
+
+		savedCampaign.RetireCharacter(savedCharacter);
 	}
 
 	public void UnsubscribeDuringDowntime(EventReward eventReward)

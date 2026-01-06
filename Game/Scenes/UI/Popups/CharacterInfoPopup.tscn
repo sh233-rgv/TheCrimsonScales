@@ -42,10 +42,11 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 expand_margin_left = 8.0
 
-[node name="CharacterInfoPopup" node_paths=PackedStringArray("_matFrontTexture", "_personalQuestProgressView", "_nameLineEdit", "_header", "_cancelButton", "_confirmButton", "_deleteButton") instance=ExtResource("1_0axtw")]
+[node name="CharacterInfoPopup" node_paths=PackedStringArray("_matFrontTexture", "_personalQuestProgressView", "_retireButton", "_nameLineEdit", "_header", "_cancelButton", "_confirmButton", "_deleteButton") instance=ExtResource("1_0axtw")]
 script = ExtResource("2_pnf13")
 _matFrontTexture = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/MatContainer/MatFront/Mask/TextureRect")
 _personalQuestProgressView = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/PersonalQuestProgressView")
+_retireButton = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/PersonalQuestProgressView/PanelButton/BetterButton")
 _nameLineEdit = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Name/Name/LineEdit")
 _header = NodePath("Panel/MarginContainer/VBoxContainer/Header/Label")
 _cancelButton = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/CancelButton/BetterButton")
@@ -100,6 +101,15 @@ stretch_mode = 4
 
 [node name="PersonalQuestProgressView" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer" index="1" instance=ExtResource("4_pnf13")]
 layout_mode = 2
+
+[node name="PanelButton" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/PersonalQuestProgressView" index="2" instance=ExtResource("8_bnawq")]
+layout_mode = 2
+
+[node name="BetterButton" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/PersonalQuestProgressView/PanelButton" index="0"]
+modulate = Color(0.458824, 1, 0.372549, 1)
+
+[node name="Label" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/PersonalQuestProgressView/PanelButton/BetterButton/Panel" index="0"]
+text = "Retire!"
 
 [node name="Name" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content" index="1"]
 layout_mode = 2
@@ -159,6 +169,7 @@ text = "Delete"
 [node name="ConfirmButton" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons" index="2" instance=ExtResource("8_bnawq")]
 layout_mode = 2
 
+[editable path="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/PersonalQuestProgressView/PanelButton"]
 [editable path="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/CancelButton"]
 [editable path="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/DeleteButton"]
 [editable path="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/ConfirmButton"]

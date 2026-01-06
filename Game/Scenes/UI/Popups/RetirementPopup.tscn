@@ -13,10 +13,12 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[node name="RetirementPopup" node_paths=PackedStringArray("_portraitTexture", "_personalQuestProgressView") instance=ExtResource("1_jccpf")]
+[node name="RetirementPopup" node_paths=PackedStringArray("_portraitTexture", "_personalQuestProgressView", "_richTextLabel", "_continueButton") instance=ExtResource("1_jccpf")]
 script = ExtResource("2_c4pd7")
 _portraitTexture = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/Mask/Portrait")
 _personalQuestProgressView = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/HBoxContainer/PersonalQuestProgressView")
+_richTextLabel = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Label")
+_continueButton = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/ContinueButton/BetterButton")
 
 [node name="Panel" parent="." index="1"]
 offset_left = -350.0
@@ -55,7 +57,7 @@ layout_mode = 2
 [node name="Label" type="RichTextLabel" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content" index="1"]
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("6_jccpf")
-theme_override_font_sizes/normal_font_size = 36
+theme_override_font_sizes/normal_font_size = 50
 bbcode_enabled = true
 text = "[img={30}, color=#ef6b26]res://Content/Classes/Mirefoot/Icon.svg[/img] Mirefoot retires from the mercenary lifestyle!
 "

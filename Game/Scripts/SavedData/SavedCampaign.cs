@@ -115,11 +115,11 @@ public class SavedCampaign
 
 		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), null, "Moerasvoet");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), null, "Beschieter");
-		savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), ModelDB.PersonalQuest<ProtectAndServe>(), "Opperpriester");
+		savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), ModelDB.PersonalQuest<BanditBanisher>(), "Opperpriester");
 		//savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), null, "Vuur Knecht");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), null, "Ketting Garde");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), null, "Dierenzitter");
-		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), ModelDB.PersonalQuest<BanditBanisher>(), "Sterrenwerper");
+		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), ModelDB.PersonalQuest<ProtectAndServe>(), "Sterrenwerper");
 		//savedCampaign.AddCharacter(ModelDB.Class<RuinmawModel>(), null, "Ruineerkaak");
 
 		//savedCampaign.Characters[0].AddItem(ModelDB.Item<MinorManaPotion>());
@@ -128,6 +128,8 @@ public class SavedCampaign
 		//savedCampaign.Characters[1].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[0].AddItem(ModelDB.Item<PoisonDagger>());
 		savedCampaign.Characters[0].AddItem(ModelDB.Item<Chainmail>());
+		savedCampaign.Characters[0].SavedPersonalQuest.PersonalQuestData.AdjustProgress(
+			30, savedCampaign.Characters[0].ClassModel, savedCampaign.Characters[0].SavedPersonalQuest.Model);
 
 		// SavedScenarioProgress testScenario = new SavedScenarioProgress();
 		// testScenario.Discover();
@@ -169,6 +171,11 @@ public class SavedCampaign
 		savedClass.Unlock();
 	}
 
+	public bool CheckClassUnlocked(ClassModel classModel)
+	{
+		return SavedClasses.TryGetValue(classModel.Id.ToString(), out SavedClass savedClass) && savedClass.Unlocked;
+	}
+
 	public void AddCharacter(ClassModel classModel, PersonalQuestModel personalQuestModel, string name)
 	{
 		SavedCharacter character = new SavedCharacter(classModel, personalQuestModel, name);
@@ -179,21 +186,29 @@ public class SavedCampaign
 
 	public void DeleteCharacter(SavedCharacter savedCharacter)
 	{
-		// Move all items from this character (back) to the shop
-		foreach(string itemId in savedCharacter.ItemIds)
-		{
-			ItemModel itemModel = ModelDB.GetById<ItemModel>(itemId);
-			SavedItem savedItem = GetSavedItem(itemModel);
-			savedItem.AddStock(1);
-		}
-
-		// Return temporary AMD cards
-		SanctuaryOfTheGreatOak.ReturnCards(savedCharacter);
+		ReturnCards(savedCharacter);
 
 		// Return personal quest
 		SavedPersonalQuests.AddPersonalQuest(savedCharacter.SavedPersonalQuest.Model);
 
 		Characters.Remove(savedCharacter);
+
+		CharactersChangedEvent?.Invoke();
+	}
+
+	public void RetireCharacter(SavedCharacter savedCharacter)
+	{
+		ReturnCards(savedCharacter);
+
+		AdjustProsperity(1);
+
+		Characters.Remove(savedCharacter);
+
+		ClassModel unlockedClass = GetUnlockedClass(savedCharacter);
+		if(unlockedClass != null)
+		{
+			UnlockClass(unlockedClass);
+		}
 
 		CharactersChangedEvent?.Invoke();
 	}
@@ -306,6 +321,19 @@ public class SavedCampaign
 		};
 	}
 
+	public ClassModel GetUnlockedClass(SavedCharacter savedCharacter)
+	{
+		SavedPersonalQuest savedPersonalQuest = savedCharacter.SavedPersonalQuest;
+		if(savedPersonalQuest != null &&
+		   savedPersonalQuest.Model.ClassToUnlock != null &&
+		   !CheckClassUnlocked(savedPersonalQuest.Model.ClassToUnlock))
+		{
+			return savedPersonalQuest.Model.ClassToUnlock;
+		}
+
+		return null;
+	}
+
 	private void UnlockItems(int prosperityLevel)
 	{
 		ItemModel[] itemModels = ItemCollections.Levels[prosperityLevel - 1];
@@ -316,5 +344,19 @@ public class SavedCampaign
 			savedItem.AddUnlocked(itemModel.ShopCount - currentlyUnlockedCount);
 			savedItem.AddStock(itemModel.ShopCount - currentlyUnlockedCount);
 		}
+	}
+
+	private void ReturnCards(SavedCharacter savedCharacter)
+	{
+		// Move all items from this character (back) to the shop
+		foreach(string itemId in savedCharacter.ItemIds)
+		{
+			ItemModel itemModel = ModelDB.GetById<ItemModel>(itemId);
+			SavedItem savedItem = GetSavedItem(itemModel);
+			savedItem.AddStock(1);
+		}
+
+		// Return temporary AMD cards
+		SanctuaryOfTheGreatOak.ReturnCards(savedCharacter);
 	}
 }

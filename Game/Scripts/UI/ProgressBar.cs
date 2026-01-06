@@ -11,6 +11,7 @@ public partial class ProgressBar : Control
 
 	public void Update(float normalizedProgress, string valueLabelText)
 	{
+		normalizedProgress = Mathf.Clamp(normalizedProgress, 0f, 1f);
 		ProgressBarFill.SetSize(new Vector2(normalizedProgress * _progressBarContainer.Size.X, ProgressBarFill.Size.Y));
 		_valueLabel.SetText(valueLabelText);
 	}
