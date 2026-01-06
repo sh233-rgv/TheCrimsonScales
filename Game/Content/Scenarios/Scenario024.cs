@@ -59,15 +59,12 @@ public class Scenario024 : ScenarioModel
 		}
 
 		List<Obstacle> obstacles = GameController.Instance.Map.GetChildrenOfType<Obstacle>();
-		_dome = obstacles[obstacles.Count() - 1];
+		_dome = obstacles[^1];
 		_dome.SetCannotBeDestroyed(true);
 
 		//Scenario Win Condition
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
-			parameters =>
-			{
-				return _orbsPlaced == GameController.Instance.SavedCampaign.Characters.Count;
-			},
+			parameters => _orbsPlaced == GameController.Instance.SavedCampaign.Characters.Count,
 			async parameters =>
 			{
 				await ((CustomScenarioGoals)ScenarioGoals).Win();

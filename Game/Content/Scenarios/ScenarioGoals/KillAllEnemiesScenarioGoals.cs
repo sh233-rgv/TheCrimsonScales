@@ -1,12 +1,18 @@
-﻿public class KillAlLEnemiesScenarioGoals : ScenarioGoals
+﻿public class KillAlLEnemiesScenarioGoals(bool enemiesToBeSpawned = false) : ScenarioGoals
 {
 	public override string Text => "Kill all enemies to win this scenario.";
+	public bool EnemiesToBeSpawned = enemiesToBeSpawned;
 
 	public override void Start()
 	{
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
 			parameters =>
 			{
+				if(EnemiesToBeSpawned)
+				{
+					return false;
+				}
+
 				foreach(Room room in GameController.Instance.Map.Rooms)
 				{
 					if(!room.Revealed)

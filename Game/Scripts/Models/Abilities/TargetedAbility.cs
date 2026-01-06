@@ -44,6 +44,7 @@ public abstract class TargetedAbilityState : AbilityState
 	public Action<TargetedAbilityState, List<Figure>> AbilityCustomGetTargets { get; set; }
 	public Func<TargetedAbilityState, Figure, bool> AbilityFilterTargets { get; set; }
 	public AOEPattern AbilityAOEPattern { get; set; }
+	public Hex AbilityPerformHex { get; set; }
 
 	public RangeType AbilityRangeType { get; set; }
 	public int AbilityRange { get; set; }
@@ -105,6 +106,17 @@ public abstract class TargetedAbilityState : AbilityState
 	public void SetAbilityFilterTargets(Func<TargetedAbilityState, Figure, bool> filterTargets)
 	{
 		AbilityFilterTargets = filterTargets;
+	}
+
+	public async GDTask SetPerformHex(Action<List<Hex>> performHex, bool mandatory = true)
+	{
+		Hex hex = await AbilityCmd.SelectHex(this, performHex, mandatory, "Select a hex to perform this ability from");
+		if(hex == null)
+		{
+			return;
+		}
+
+		AbilityPerformHex = hex;
 	}
 
 	public void SetTarget(Target target)
@@ -248,6 +260,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 	public int Range { get; private set; } = 1;
 	public RangeType RangeType { get; private set; } = RangeType.Melee;
 	public bool RequiresLineOfSight { get; private set; } = true;
+
+	public Hex PerformHex { get; private set; }
 	public Target Target { get; protected set; } = Target.Enemies;
 	public int Targets { get; private set; } = 1;
 	public Hex TargetHex { get; private set; }
@@ -369,6 +383,18 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			return (TBuilder)this;
 		}
 
+		public async GDTask<TBuilder> WithPerformHex(T state, Action<List<Hex>> performHex, bool mandatory = true)
+		{
+			Hex hex = await AbilityCmd.SelectHex(state, performHex, mandatory, "Select a hex to perform this ability from");
+			if(hex == null)
+			{
+				return (TBuilder)this;
+			}
+
+			Obj.PerformHex = hex;
+			return (TBuilder)this;
+		}
+
 		/// <summary>
 		/// Overriding so we can set default values.
 		/// </summary>
@@ -395,6 +421,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 		{
 			abilityState.AbilityTargets = int.MaxValue;
 		}
+
+		abilityState.AbilityPerformHex = PerformHex ?? abilityState.Performer.Hex;
 
 		abilityState.AbilityRange = Range;
 		abilityState.AbilityRangeType = RangeType;
@@ -518,21 +546,21 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			// Pull
 			if(!performer.IsDestroyed && !target.IsDestroyed && abilityState.SingleTargetPull > 0)
 			{
-				await ForcedMovement(abilityState, performer.Hex, target, abilityState.SingleTargetPull, ForcedMovementType.Pull,
+				await ForcedMovement(abilityState, abilityState.AbilityPerformHex, target, abilityState.SingleTargetPull, ForcedMovementType.Pull,
 					() => $"Select a path to {Icons.HintText(Icons.Pull)}{abilityState.SingleTargetPull} target");
 			}
 
 			// Push
 			if(!performer.IsDestroyed && !target.IsDestroyed && abilityState.SingleTargetPush > 0)
 			{
-				await ForcedMovement(abilityState, performer.Hex, target, abilityState.SingleTargetPush, ForcedMovementType.Push,
+				await ForcedMovement(abilityState, abilityState.AbilityPerformHex, target, abilityState.SingleTargetPush, ForcedMovementType.Push,
 					() => $"Select a path to {Icons.HintText(Icons.Push)}{abilityState.SingleTargetPush} target");
 			}
 
 			// Swing
 			if(!performer.IsDestroyed && !target.IsDestroyed && abilityState.SingleTargetSwing > 0)
 			{
-				await ForcedMovement(abilityState, performer.Hex, target, abilityState.SingleTargetSwing, ForcedMovementType.Swing,
+				await ForcedMovement(abilityState, abilityState.AbilityPerformHex, target, abilityState.SingleTargetSwing, ForcedMovementType.Swing,
 					() => $"Select a path to {Icons.HintText(Icons.Swing)}{abilityState.SingleTargetSwing} target");
 			}
 
@@ -703,7 +731,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 		else
 		{
 			HexCache.Clear();
-			RangeHelper.FindHexesInRange(performer.Hex, abilityState.SingleTargetRange, true, HexCache);
+			RangeHelper.FindHexesInRange(abilityState.AbilityPerformHex, abilityState.SingleTargetRange, true, HexCache);
 
 			foreach(Hex hex in HexCache)
 			{
@@ -768,7 +796,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 				remove = true;
 			}
 
-			if(RequiresLineOfSight && !GameController.Instance.Map.HasLineOfSight(abilityState.Performer.Hex, figure.Hex))
+			if(RequiresLineOfSight && !GameController.Instance.Map.HasLineOfSight(abilityState.AbilityPerformHex, figure.Hex))
 			{
 				remove = true;
 			}
