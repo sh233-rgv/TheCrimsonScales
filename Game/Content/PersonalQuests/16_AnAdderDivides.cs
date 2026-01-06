@@ -5,6 +5,7 @@
 
 	public override int MaxProgress => 6;
 
-	//public override ScenarioModel UnlockedScenarioModel => ModelDB.Scenario<Scenario039>();
+	// public override ScenarioModel UnlockedScenarioModel => ModelDB.Scenario<Scenario039>();
+	// public override ScenarioModel RequiredCompletedScenario => ModelDB.Scenario<Scenario039>();
 	protected override int AtlasIndex => 16;
 }

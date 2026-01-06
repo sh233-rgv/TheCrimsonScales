@@ -139,7 +139,7 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			return;
 		}
 
-		if(SavedCampaign.Characters.Any(character => character.CanRetire))
+		if(SavedCampaign.Characters.Any(character => character.GetCanRetire(SavedCampaign)))
 		{
 			AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("Cannot start scenario",
 				"One of your characters is ready to retire."));
@@ -196,6 +196,11 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 
 		await GDTask.Yield(cancellationToken);
 		await GDTask.Delay(0.2f, cancellationToken: cancellationToken);
+
+		foreach(SavedCharacter savedCharacter in SavedCampaign.Characters)
+		{
+			await savedCharacter.SavedPersonalQuest.Model.OnBetweenScenariosStarted(savedCharacter);
+		}
 
 		if(SavedCampaign.SavedEvents.CanDrawCityEvent && SavedCampaign.SavedEvents.CityEventDeckIds.Count > 0)
 		{

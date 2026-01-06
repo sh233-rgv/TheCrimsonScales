@@ -10,9 +10,9 @@ public abstract class PersonalQuestModel<T> : PersonalQuestModel
 		return new T();
 	}
 
-	public override bool GetCanRetire(PersonalQuestData personalQuestData)
+	public override bool GetCanRetire(SavedCampaign savedCampaign, PersonalQuestData personalQuestData)
 	{
-		return GetCanRetire((T)personalQuestData);
+		return GetCanRetire(savedCampaign, (T)personalQuestData);
 	}
 
 	public sealed override async GDTask OnScenarioSetupPhaseCompleted(Character character)
@@ -33,9 +33,11 @@ public abstract class PersonalQuestModel<T> : PersonalQuestModel
 		}
 	}
 
-	protected virtual bool GetCanRetire(T personalQuestData)
+	protected virtual bool GetCanRetire(SavedCampaign savedCampaign, T personalQuestData)
 	{
-		return personalQuestData.Progress >= MaxProgress;
+		return RequiredCompletedScenario == null
+			? personalQuestData.Progress >= MaxProgress
+			: savedCampaign.SavedScenarioProgresses.GetScenarioProgress(RequiredCompletedScenario).Completed;
 	}
 
 	protected virtual async GDTask OnScenarioSetupPhaseCompleted(Character character, T personalQuestData)
@@ -50,6 +52,7 @@ public abstract class PersonalQuestModel : AbstractModel
 	public abstract ClassModel ClassToUnlock { get; }
 	public abstract int MaxProgress { get; }
 	public virtual ScenarioModel UnlockedScenarioModel => null;
+	public virtual ScenarioModel RequiredCompletedScenario => null;
 
 	protected abstract string TexturePath { get; }
 	protected abstract int ColumnCount { get; }
@@ -65,7 +68,17 @@ public abstract class PersonalQuestModel : AbstractModel
 
 	public abstract PersonalQuestData CreateData();
 
-	public abstract bool GetCanRetire(PersonalQuestData personalQuestData);
+	public abstract bool GetCanRetire(SavedCampaign savedCampaign, PersonalQuestData personalQuestData);
+
+	public virtual async GDTask OnBetweenScenariosStarted(SavedCharacter savedCharacter)
+	{
+		if(UnlockedScenarioModel != null && savedCharacter.SavedPersonalQuest.PersonalQuestData.Progress >= MaxProgress)
+		{
+			BetweenScenariosController.Instance.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(UnlockedScenarioModel).Discover();
+		}
+
+		await GDTask.CompletedTask;
+	}
 
 	public abstract GDTask OnScenarioSetupPhaseCompleted(Character character);
 }

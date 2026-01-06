@@ -51,7 +51,7 @@ public partial class CharacterInfoPopup : Popup<CharacterInfoPopup.Request>
 		_matFrontTexture.Texture = PopupRequest.SavedCharacter.ClassModel.MatFrontTexture;
 
 		_personalQuestProgressView.Init(PopupRequest.SavedCharacter);
-		_retireButton.SetVisible(PopupRequest.SavedCharacter.CanRetire);
+		_retireButton.SetVisible(PopupRequest.SavedCharacter.GetCanRetire(PopupRequest.SavedCampaign));
 
 		_nameLineEdit.SetText(PopupRequest.SavedCharacter.Name);
 		OnNameChanged(_nameLineEdit.Text);
@@ -59,7 +59,7 @@ public partial class CharacterInfoPopup : Popup<CharacterInfoPopup.Request>
 
 	private void OnRetirePressed()
 	{
-		if(!PopupRequest.SavedCharacter.CanRetire)
+		if(!PopupRequest.SavedCharacter.GetCanRetire(PopupRequest.SavedCampaign))
 		{
 			return;
 		}

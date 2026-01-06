@@ -50,15 +50,18 @@ public partial class BetweenScenariosCharacterPortrait : Control
 	[Export]
 	private BetterButton _levelUpButton;
 
+	private SavedCampaign _savedCampaign;
+	private PersonalQuestData _personalQuestData;
+
 	private bool _active;
 	private GTween _scaleTween;
 	private GTween _levelUpTween;
-	private PersonalQuestData _personalQuestData;
 
 	public SavedCharacter SavedCharacter { get; private set; }
 
-	public void Init(SavedCharacter savedCharacter)
+	public void Init(SavedCampaign savedCampaign, SavedCharacter savedCharacter)
 	{
+		_savedCampaign = savedCampaign;
 		SavedCharacter = savedCharacter;
 		_personalQuestData = SavedCharacter.SavedPersonalQuest?.PersonalQuestData;
 
@@ -160,7 +163,7 @@ public partial class BetweenScenariosCharacterPortrait : Control
 		_xpProgressBar.Scale = new Vector2(Mathf.Clamp(Mathf.InverseLerp(currentLevelXP, nextLevelXP, SavedCharacter.XP), 0f, 1f), 1f);
 		_goldLabel.Text = SavedCharacter.Gold.ToString();
 
-		_infoButtonTextureRect.SetTexture(SavedCharacter.CanRetire ? _retireInfoTexture : _normalInfoTexture);
+		_infoButtonTextureRect.SetTexture(SavedCharacter.GetCanRetire(_savedCampaign) ? _retireInfoTexture : _normalInfoTexture);
 
 		_levelUpTween?.Complete();
 		if(SavedCharacter.LevelUpInProgress || SavedCharacter.CheckCanLevelUp())
