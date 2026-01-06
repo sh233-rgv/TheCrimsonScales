@@ -228,10 +228,12 @@ public partial class ScenarioEvents
 
 	public class InflictCondition : ScenarioEvent<InflictCondition.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel) : ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, Figure target, Figure potentialConditionGiver, ConditionModel conditionModel)
+			: ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Figure Target { get; } = target;
+			public Figure PotentialConditionGiver { get; } = potentialConditionGiver;
 			public ConditionModel ConditionModel { get; } = conditionModel;
 
 			public bool Prevented { get; private set; }
@@ -630,6 +632,20 @@ public partial class ScenarioEvents
 	private readonly TrapDisarmed _trapDisarmed = new TrapDisarmed();
 	public static TrapDisarmed TrapDisarmedEvent => GameController.Instance.ScenarioEvents._trapDisarmed;
 
+	public class ElementInfused : ScenarioEvent<ElementInfused.Parameters>
+	{
+		public class Parameters(AbilityState potentialAbilityState, Element element, Figure potentialInfuser)
+			: ParametersBase
+		{
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
+			public Element Element { get; } = element;
+			public Figure PotentialInfuser { get; } = potentialInfuser;
+		}
+	}
+
+	private readonly ElementInfused _elementInfused = new ElementInfused();
+	public static ElementInfused ElementInfusedEvent => GameController.Instance.ScenarioEvents._elementInfused;
+
 	public class ConsumeElement : ScenarioEvent<ConsumeElement.Parameters>
 	{
 		public class Parameters(IEnumerable<Element> elements)
@@ -649,7 +665,7 @@ public partial class ScenarioEvents
 	}
 
 	private readonly ConsumeElement _consumeElement = new ConsumeElement();
-	public static ConsumeElement ConsumeElementElement => GameController.Instance.ScenarioEvents._consumeElement;
+	public static ConsumeElement ConsumeElementEvent => GameController.Instance.ScenarioEvents._consumeElement;
 
 	public class AbilityStarted : ScenarioEvent<AbilityStarted.Parameters>
 	{
@@ -824,10 +840,11 @@ public partial class ScenarioEvents
 
 	public class AbilityCardSideEnded : ScenarioEvent<AbilityCardSideEnded.Parameters>
 	{
-		public class Parameters(AbilityCardSide abilityCardSide, Figure performer) : ParametersBase
+		public class Parameters(AbilityCardSide abilityCardSide, Figure performer, CardState resultingState) : ParametersBase
 		{
 			public AbilityCardSide AbilityCardSide { get; } = abilityCardSide;
 			public Figure Performer { get; } = performer;
+			public CardState ResultingState { get; } = resultingState;
 		}
 	}
 
@@ -955,11 +972,12 @@ public partial class ScenarioEvents
 
 	public class RoomRevealed : ScenarioEvent<RoomRevealed.Parameters>
 	{
-		public class Parameters(Room room, Door openedDoor)
+		public class Parameters(Room room, Door openedDoor, Figure potentialOpener)
 			: ParametersBase
 		{
 			public Room Room { get; } = room;
 			public Door OpenedDoor { get; } = openedDoor;
+			public Figure PotentialOpener { get; } = potentialOpener;
 		}
 	}
 
@@ -1042,4 +1060,28 @@ public partial class ScenarioEvents
 
 	private readonly NextActiveFigure _nextActiveFigure = new NextActiveFigure();
 	public static NextActiveFigure NextActiveFigureEvent => GameController.Instance.ScenarioEvents._nextActiveFigure;
+
+	public class ScenarioEnded : ScenarioEvent<ScenarioEnded.Parameters>
+	{
+		public class Parameters(bool win)
+			: ParametersBase
+		{
+			public bool Win { get; } = win;
+		}
+	}
+
+	private readonly ScenarioEnded _scenarioEnded = new ScenarioEnded();
+	public static ScenarioEnded ScenarioEndedEvent => GameController.Instance.ScenarioEvents._scenarioEnded;
+
+	public class CoinLooted : ScenarioEvent<CoinLooted.Parameters>
+	{
+		public class Parameters(Figure lootObtainer)
+			: ParametersBase
+		{
+			public Figure LootObtainer { get; } = lootObtainer;
+		}
+	}
+
+	private readonly CoinLooted _coinLooted = new CoinLooted();
+	public static CoinLooted CoinLootedEvent => GameController.Instance.ScenarioEvents._coinLooted;
 }

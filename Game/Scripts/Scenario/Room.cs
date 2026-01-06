@@ -87,7 +87,7 @@ public partial class Room : Node2D
 		}
 	}
 
-	public async GDTask Reveal(Door openedDoor, bool initializationPhase)
+	public async GDTask Reveal(Door openedDoor, Figure potentialOpener, bool initializationPhase)
 	{
 		if(Revealed)
 		{
@@ -144,7 +144,7 @@ public partial class Room : Node2D
 		if(!initializationPhase)
 		{
 			await ScenarioEvents.RoomRevealedEvent.CreatePrompt(
-				new ScenarioEvents.RoomRevealed.Parameters(this, openedDoor));
+				new ScenarioEvents.RoomRevealed.Parameters(this, openedDoor, potentialOpener));
 		}
 	}
 }

@@ -16,7 +16,7 @@ public class RescueAxe : FireKnightItem
 			{
 				await Use(async user =>
 				{
-					await AbilityCmd.InfuseElement(Element.Fire);
+					await AbilityCmd.InfuseElement(null, Element.Fire, user);
 
 					ActionState actionState = new ActionState(user,
 						[

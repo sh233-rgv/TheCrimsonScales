@@ -73,7 +73,7 @@ public class Equinox : StarslingerCardModel<Equinox.CardTop, Equinox.CardBottom>
 						parameters => true,
 						parameters =>
 						{
-							return AbilityCmd.InfuseElement(Element.Light);
+							return AbilityCmd.InfuseElement(parameters.AbilityState, Element.Light);
 						}
 					)
 				)

@@ -68,7 +68,7 @@ public class AMDCardValue(
 
 			if(canInfuse)
 			{
-				await AbilityCmd.InfuseElement(attackAbilityState.Performer, elementInfusion.PossibleInfusedElements);
+				await AbilityCmd.InfuseElement(null, elementInfusion.PossibleInfusedElements, attackAbilityState.Performer);
 			}
 		}
 
