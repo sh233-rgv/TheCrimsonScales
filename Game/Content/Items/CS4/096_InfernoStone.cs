@@ -20,7 +20,7 @@ public class InfernoStone : CS4Item
 			{
 				await Use(async user =>
 				{
-					await AbilityCmd.InfuseElement(null, [Element.Fire], Owner);
+					await AbilityCmd.InfuseElement(null, Element.Fire, Owner);
 				});
 			}
 		);

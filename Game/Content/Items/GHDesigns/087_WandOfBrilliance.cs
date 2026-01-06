@@ -19,7 +19,7 @@ public class WandOfBrilliance : GHDesignsItem
 			{
 				await Use(async user =>
 				{
-					await AbilityCmd.InfuseElement(null, [Element.Light], Owner);
+					await AbilityCmd.InfuseElement(null, Element.Light, Owner);
 				});
 			}
 		);
