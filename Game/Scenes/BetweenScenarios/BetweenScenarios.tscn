@@ -2672,6 +2672,7 @@ BetterButton = NodePath("BetterButton")
 _startActive = false
 
 [node name="ClassUnlockOverlay" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_unlockCharacterView")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
