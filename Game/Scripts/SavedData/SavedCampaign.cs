@@ -43,6 +43,9 @@ public class SavedCampaign
 	public List<SavedCharacter> Characters { get; private set; } = new List<SavedCharacter>();
 
 	[JsonProperty]
+	public List<SavedCharacter> RetiredCharacters { get; private set; } = new List<SavedCharacter>();
+
+	[JsonProperty]
 	public Dictionary<string, SavedClass> SavedClasses { get; private set; } = new Dictionary<string, SavedClass>();
 
 	[JsonProperty]
@@ -203,6 +206,7 @@ public class SavedCampaign
 		AdjustProsperity(1);
 
 		Characters.Remove(savedCharacter);
+		RetiredCharacters.Add(savedCharacter);
 
 		ClassModel unlockedClass = GetUnlockedClass(savedCharacter);
 		if(unlockedClass != null)
