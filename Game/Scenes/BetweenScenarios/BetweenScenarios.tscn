@@ -1619,7 +1619,7 @@ layers = 524288
 material_override = SubResource("ShaderMaterial_gyc5w")
 mesh = SubResource("PlaneMesh_j84ia")
 
-[node name="Enhancer" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("_3dRoot", "_crystalBall", "_cardListContainer", "_cardSelectionList", "_cardContainer", "_cardRotationContainer", "_cardView", "Button")]
+[node name="Enhancer" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" node_paths=PackedStringArray("_3dRoot", "_crystalBall", "_cardContainer", "_cardRotationContainer", "_cardView", "_cardListContainer", "_cardSelectionList", "_optionsContainer", "_enhancementOptionParent", "Button")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1630,11 +1630,14 @@ mouse_filter = 2
 script = ExtResource("17_1n38g")
 _3dRoot = NodePath("../Shared3D/Container/3D/SubViewport/Root/CrystalBallRoot")
 _crystalBall = NodePath("../Shared3D/Container/3D/SubViewport/Root/CrystalBallRoot/Container/CrystalBall")
-_cardListContainer = NodePath("CardSelectionContainer")
-_cardSelectionList = NodePath("CardSelectionContainer/MarginContainer/CardSelectionList")
 _cardContainer = NodePath("CardAnchor/CardContainer")
 _cardRotationContainer = NodePath("CardAnchor/CardContainer/RotationContainer")
 _cardView = NodePath("CardAnchor/CardContainer/RotationContainer/CardView")
+_cardListContainer = NodePath("CardSelectionAnchor/CardSelectionContainer")
+_cardSelectionList = NodePath("CardSelectionAnchor/CardSelectionContainer/MarginContainer/CardSelectionList")
+_optionsContainer = NodePath("EnhancementOptionsAnchor/EnhancementOptionsContainer")
+_enhancementOptionScene = ExtResource("39_3p1c5")
+_enhancementOptionParent = NodePath("EnhancementOptionsAnchor/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer/Options")
 Button = NodePath("../ActionButtons/VBoxContainer/EnhancerButton")
 
 [node name="CardAnchor" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer"]
@@ -1683,61 +1686,78 @@ offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CardSelectionContainer" type="PanelContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer"]
+[node name="CardSelectionAnchor" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer"]
 material = ExtResource("23_1ehwm")
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = 120.0
 offset_top = 100.0
-offset_right = 745.0
+offset_right = 730.0
 offset_bottom = -180.0
+grow_vertical = 2
+
+[node name="CardSelectionContainer" type="PanelContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/CardSelectionAnchor"]
+material = ExtResource("23_1ehwm")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ikgp2")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/CardSelectionContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/CardSelectionAnchor/CardSelectionContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 120
 theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 35
+theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="CardSelectionList" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/CardSelectionContainer/MarginContainer" instance=ExtResource("18_ikgp2")]
+[node name="CardSelectionList" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/CardSelectionAnchor/CardSelectionContainer/MarginContainer" instance=ExtResource("18_ikgp2")]
 custom_minimum_size = Vector2(470, 760)
 layout_mode = 2
 
-[node name="EnhancementOptionsContainer" type="PanelContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer"]
-material = ExtResource("23_1ehwm")
+[node name="EnhancementOptionsAnchor" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer"]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -490.0
+offset_left = -720.0
 offset_top = 100.0
-offset_right = -200.0
+offset_right = -430.0
 offset_bottom = -180.0
 grow_horizontal = 0
 grow_vertical = 2
+
+[node name="EnhancementOptionsContainer" type="PanelContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsAnchor"]
+material = ExtResource("23_1ehwm")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = ExtResource("19_6k6qu")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsAnchor/EnhancementOptionsContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsAnchor/EnhancementOptionsContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="OptionContainer" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer"]
+[node name="OptionContainer" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsAnchor/EnhancementOptionsContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MaskMargin" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer"]
+[node name="MaskMargin" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsAnchor/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1749,58 +1769,25 @@ theme_override_constants/margin_top = -10
 theme_override_constants/margin_right = -10
 theme_override_constants/margin_bottom = -10
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsAnchor/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 scroll_deadzone = 10
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsAnchor/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Options" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer"]
+[node name="Options" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsAnchor/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 5
 
-[node name="EnhancementOptionToggleButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer/Options" instance=ExtResource("39_3p1c5")]
-layout_mode = 2
-
-[node name="EnhancementOptionToggleButton2" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer/Options" instance=ExtResource("39_3p1c5")]
-layout_mode = 2
-
-[node name="EnhancementOptionToggleButton3" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer/Options" instance=ExtResource("39_3p1c5")]
-layout_mode = 2
-
-[node name="EnhancementOptionToggleButton4" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer/Options" instance=ExtResource("39_3p1c5")]
-layout_mode = 2
-
-[node name="EnhancementOptionToggleButton5" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer/Options" instance=ExtResource("39_3p1c5")]
-layout_mode = 2
-
-[node name="EnhancementOptionToggleButton6" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer/Options" instance=ExtResource("39_3p1c5")]
-layout_mode = 2
-
-[node name="EnhancementOptionToggleButton7" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer/Options" instance=ExtResource("39_3p1c5")]
-layout_mode = 2
-
-[node name="EnhancementOptionToggleButton8" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer/Options" instance=ExtResource("39_3p1c5")]
-layout_mode = 2
-
-[node name="EnhancementOptionToggleButton9" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer/Options" instance=ExtResource("39_3p1c5")]
-layout_mode = 2
-
-[node name="EnhancementOptionToggleButton10" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer/Options" instance=ExtResource("39_3p1c5")]
-layout_mode = 2
-
-[node name="EnhancementOptionToggleButton11" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer/OptionContainer/MaskMargin/ScrollContainer/MarginContainer/Options" instance=ExtResource("39_3p1c5")]
-layout_mode = 2
-
-[node name="PanelButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsContainer/MarginContainer/VBoxContainer" instance=ExtResource("27_hkul8")]
+[node name="PanelButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsAnchor/EnhancementOptionsContainer/MarginContainer/VBoxContainer" instance=ExtResource("27_hkul8")]
 layout_mode = 2
 
 [node name="ActionButtons" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager"]

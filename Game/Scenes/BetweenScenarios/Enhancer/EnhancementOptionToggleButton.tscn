@@ -1,43 +1,24 @@
-[gd_scene load_steps=13 format=3 uid="uid://y2bfrxa1ebd5"]
+[gd_scene load_steps=8 format=3 uid="uid://y2bfrxa1ebd5"]
 
 [ext_resource type="PackedScene" uid="uid://ddtpp0xpoq8tq" path="res://Scenes/UI/ToggleButton.tscn" id="1_8mjpp"]
+[ext_resource type="Script" uid="uid://djgtdh3sw0b2d" path="res://Scripts/BetweenScenarios/Enhancer/EnhancementOptionToggleButton.cs" id="2_6yhfp"]
 [ext_resource type="StyleBox" uid="uid://dd1rndhea8oq5" path="res://Resources/BlurButton.tres" id="2_bgynt"]
-[ext_resource type="Texture2D" uid="uid://c50n0lfjv3r6v" path="res://Art/Icons/ConditionsAndEffects/Wound.svg" id="2_rd1jo"]
-[ext_resource type="Material" uid="uid://bgdcydtsmmrb" path="res://Materials/TintGrayscale.tres" id="3_bgynt"]
-[ext_resource type="Texture2D" uid="uid://6elyxd3p8fml" path="res://Art/Other/ItemCoinNoShadow.png" id="4_6yhfp"]
-[ext_resource type="FontFile" uid="uid://c4k3lpnj0wc06" path="res://Fonts/PirataOne-Gloomhaven.ttf" id="5_dbtcu"]
-[ext_resource type="FontVariation" uid="uid://ciy2q5rti2m6m" path="res://Fonts/MarkaziVariation.tres" id="6_ccjfy"]
+[ext_resource type="PackedScene" uid="uid://c1bfigwknvxg6" path="res://Scenes/UI/EnhancementView.tscn" id="4_dbtcu"]
 [ext_resource type="Texture2D" uid="uid://dupjq43l8w40r" path="res://Art/Icons/Other/Coins.svg" id="7_ik10u"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="8_rd1jo"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_heef0"]
-bg_color = Color(0.105882, 0.105882, 0.12549, 0.478431)
-draw_center = false
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.894118, 0.894118, 0.913725, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-anti_aliasing = false
-
-[sub_resource type="LabelSettings" id="LabelSettings_slmhn"]
-font = ExtResource("5_dbtcu")
-font_size = 63
-outline_size = 1
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 2
-shadow_color = Color(0, 0, 0, 0.52549)
 
 [sub_resource type="LabelSettings" id="LabelSettings_bgynt"]
 font = ExtResource("8_rd1jo")
 font_size = 40
 
-[node name="EnhancementOptionToggleButton" instance=ExtResource("1_8mjpp")]
+[node name="EnhancementOptionToggleButton" node_paths=PackedStringArray("_enhancementView", "_costLabel", "_button", "_container", "_inactiveOverlay") instance=ExtResource("1_8mjpp")]
 custom_minimum_size = Vector2(250, 60)
+script = ExtResource("2_6yhfp")
+_enhancementView = NodePath("Container/BetterButton/EnhancementOption/Image/EnhancementView")
+_costLabel = NodePath("Container/BetterButton/EnhancementOption/Gold/Label")
+_button = NodePath("Container/BetterButton")
+_container = NodePath("Container")
+_inactiveOverlay = NodePath("Container/BetterButton/InactiveOverlay")
 
 [node name="BetterButton" parent="Container" index="0"]
 mouse_filter = 1
@@ -52,18 +33,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("2_bgynt")
 
-[node name="Outline2" type="Panel" parent="Container/BetterButton" index="1"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_heef0")
-
-[node name="EnhancementOption" type="Control" parent="Container/BetterButton" index="2"]
+[node name="EnhancementOption" type="Control" parent="Container/BetterButton" index="1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -89,66 +59,10 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="TextureRect" type="TextureRect" parent="Container/BetterButton/EnhancementOption/Image" index="0"]
+[node name="EnhancementView" parent="Container/BetterButton/EnhancementOption/Image" index="0" instance=ExtResource("4_dbtcu")]
 layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("2_rd1jo")
-expand_mode = 1
 
-[node name="Control" type="Control" parent="Container/BetterButton/EnhancementOption" index="1"]
-visible = false
-layout_mode = 2
-anchors_preset = 0
-offset_left = 90.0
-offset_right = 120.0
-offset_bottom = 80.0
-size_flags_horizontal = 3
-mouse_filter = 2
-
-[node name="Coin" type="TextureRect" parent="Container/BetterButton/EnhancementOption/Control" index="0"]
-material = ExtResource("3_bgynt")
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-offset_right = 100.0
-offset_bottom = 100.0
-scale = Vector2(0.8, 0.8)
-mouse_filter = 2
-texture = ExtResource("4_6yhfp")
-expand_mode = 1
-
-[node name="CostLabel" type="Label" parent="Container/BetterButton/EnhancementOption/Control/Coin" index="0"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -1.0
-offset_top = 2.0
-offset_right = -1.0
-offset_bottom = 2.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "20"
-label_settings = SubResource("LabelSettings_slmhn")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Cost" type="RichTextLabel" parent="Container/BetterButton/EnhancementOption" index="2"]
-visible = false
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-offset_left = 110.0
-offset_right = 230.0
-offset_bottom = 80.0
-mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("6_ccjfy")
-theme_override_font_sizes/normal_font_size = 50
-bbcode_enabled = true
-text = "[img={50}, color=#fff]res://Art/Icons/Other/Coins.svg[/img]200"
-scroll_active = false
-autowrap_mode = 0
-vertical_alignment = 1
-
-[node name="Gold" type="HBoxContainer" parent="Container/BetterButton/EnhancementOption" index="3"]
+[node name="Gold" type="HBoxContainer" parent="Container/BetterButton/EnhancementOption" index="1"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0

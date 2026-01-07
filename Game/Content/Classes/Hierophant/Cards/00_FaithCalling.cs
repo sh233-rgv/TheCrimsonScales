@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class FaithCalling : HierophantCardModel<FaithCalling.CardTop, FaithCalling.CardBottom>
 {
@@ -47,6 +48,11 @@ public class FaithCalling : HierophantCardModel<FaithCalling.CardTop, FaithCalli
 
 	public class CardBottom : HierophantCardSide
 	{
+		protected override List<EnhancementMark> GetEnhancements() =>
+		[
+			new EnhancementMark(EnhancementPips.AttackEnhancementDiamond, new Vector2(0.5f, 0.7f))
+		];
+
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()

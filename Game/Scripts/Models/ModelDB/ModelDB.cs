@@ -141,6 +141,16 @@ public static class ModelDB
 		return GetOrCreate<T>();
 	}
 
+	public static T Enhancement<T>() where T : EnhancementModel
+	{
+		return GetOrCreate<T>();
+	}
+
+	public static T EnhancementPip<T>() where T : EnhancementPipModel
+	{
+		return GetOrCreate<T>();
+	}
+
 	public static IEnumerable<Type> GetSubtypes<T>()
 	{
 		return GetSubtypes(typeof(T));

@@ -5,6 +5,7 @@ using Godot;
 
 public abstract class AbilityCardSide
 {
+	private List<EnhancementMark> _enhancements;
 	private IEnumerable<AbilityCardAbility> _abilities;
 
 	protected virtual IEnumerable<Element> Elements { get; } = [];
@@ -21,6 +22,19 @@ public abstract class AbilityCardSide
 	public bool IsBottom => AbilityCard.Bottom == this;
 	public bool IsBasicBottom => AbilityCard.BasicBottom == this;
 
+	public List<EnhancementMark> Enhancements
+	{
+		get
+		{
+			if(_enhancements == null)
+			{
+				_enhancements = GetEnhancements();
+			}
+
+			return _enhancements;
+		}
+	}
+
 	public IEnumerable<AbilityCardAbility> Abilities
 	{
 		get
@@ -36,6 +50,7 @@ public abstract class AbilityCardSide
 
 	public AbilityCard AbilityCard { get; init; }
 
+	protected virtual List<EnhancementMark> GetEnhancements() => [];
 	protected abstract IEnumerable<AbilityCardAbility> GetAbilities();
 
 	public async GDTask Perform(Figure performer)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using GTweens.Builders;
@@ -13,15 +14,27 @@ public partial class Enhancer : BetweenScenariosAction
 	private Node3D _crystalBall;
 
 	[Export]
-	private Control _cardListContainer;
-	[Export]
-	private CardSelectionList _cardSelectionList;
-	[Export]
 	private Control _cardContainer;
 	[Export]
 	private Control _cardRotationContainer;
 	[Export]
 	private CardView _cardView;
+
+	[Export]
+	private Control _cardListContainer;
+	[Export]
+	private CardSelectionList _cardSelectionList;
+
+	[Export]
+	private Control _optionsContainer;
+	[Export]
+	private PackedScene _enhancementOptionScene;
+	[Export]
+	private Control _enhancementOptionParent;
+
+	private readonly List<EnhancementOptionToggleButton> _enhancementOptionToggleButtons = new List<EnhancementOptionToggleButton>();
+
+	public EnhancementOptionToggleButton _selectedButton;
 
 	protected override bool SelectCharacter => true;
 
@@ -42,19 +55,27 @@ public partial class Enhancer : BetweenScenariosAction
 		_crystalBall.SetVisible(false);
 
 		_crystalBall.SetPosition(new Vector3(0f, 5f, 0f));
-		_cardListContainer.SetPosition(new Vector2(-400f, _cardListContainer.Position.Y));
 		_cardContainer.SetPosition(new Vector2(0f, 800f));
 		_cardRotationContainer.SetRotationDegrees(30f);
 
+		_cardListContainer.SetPosition(new Vector2(-600f, 0f));
+		_optionsContainer.SetPosition(new Vector2(800f, 0f));
+
 		sequenceBuilder
-			.AppendTime(previousActiveAction is ItemShop ? 0.5f : 0.2f)
+			.AppendTime(previousActiveAction is ItemShop ? 0.6f : 0.4f)
 			.AppendCallback((() =>
 			{
 				_crystalBall.SetVisible(true);
 
-				_cardListContainer.TweenPositionX(120f, 0.5f).SetEasing(Easing.OutBack).Play();
 				_cardContainer.TweenPositionY(0f, 0.6f).SetEasing(Easing.OutCubic).Play();
 				_cardRotationContainer.TweenRotationDegrees(0f, 0.6f).SetEasing(Easing.OutCubic).Play();
+
+				_cardListContainer.TweenPositionX(0f, 0.7f).SetEasing(Easing.OutBack).Play();
+
+				GTweenSequenceBuilder.New()
+					.Append(_optionsContainer.TweenPositionX(-40f, 0.45f).SetEasing(Easing.OutQuad))
+					.Append(_optionsContainer.TweenPositionX(0f, 0.25f).SetEasing(Easing.OutQuad))
+					.Build().Play();
 
 				UpdateCardList();
 			}))
@@ -73,9 +94,10 @@ public partial class Enhancer : BetweenScenariosAction
 	{
 		sequenceBuilder
 			.Append(_crystalBall.TweenPositionY(5f, 0.5f))
-			.Join(_cardListContainer.TweenPositionX(-400f, 0.5f).SetEasing(Easing.InBack))
 			.Join(_cardContainer.TweenPositionY(800f, 0.5f).SetEasing(Easing.InQuad))
 			.Join(_cardRotationContainer.TweenRotationDegrees(30f, 0.5f).SetEasing(Easing.OutQuad))
+			.Join(_cardListContainer.TweenPositionX(-600f, 0.5f).SetEasing(Easing.InBack))
+			.Join(_optionsContainer.TweenPositionX(800f, 0.5f).SetEasing(Easing.InQuad))
 			.AppendTime(0.2f);
 
 		base.AnimateOut(sequenceBuilder);
@@ -116,6 +138,50 @@ public partial class Enhancer : BetweenScenariosAction
 
 		cardSelectionCard.SetSelected(true);
 		_cardView.SetCard(cardSelectionCard.SavedAbilityCard);
+
+		OnEnhancementMarkSelected();
+	}
+
+	private void OnEnhancementMarkSelected()
+	{
+		foreach(EnhancementOptionToggleButton enhancementOptionToggleButton in _enhancementOptionToggleButtons)
+		{
+			enhancementOptionToggleButton.QueueFree();
+		}
+
+		_enhancementOptionToggleButtons.Clear();
+
+		EnhancementModel[] enhancementModels =
+		[
+			ModelDB.Enhancement<PoisonEnhancement>(),
+			ModelDB.Enhancement<WoundEnhancement>(),
+			ModelDB.Enhancement<WoundEnhancement>(),
+			ModelDB.Enhancement<WoundEnhancement>(),
+		];
+
+		foreach(EnhancementModel enhancementModel in enhancementModels)
+		{
+			EnhancementOptionToggleButton enhancementOptionToggleButton = _enhancementOptionScene.Instantiate<EnhancementOptionToggleButton>();
+			_enhancementOptionParent.AddChild(enhancementOptionToggleButton);
+			enhancementOptionToggleButton.Init(enhancementModel, enhancementModel.BaseCost);
+			enhancementOptionToggleButton.PressedEvent += OnEnhancementOptionPressed;
+			enhancementOptionToggleButton.SetSelected(false, true, true);
+			_enhancementOptionToggleButtons.Add(enhancementOptionToggleButton);
+		}
+
+		_selectedButton = _enhancementOptionToggleButtons.FirstOrDefault();
+		_selectedButton?.SetSelected(true, true, true);
+	}
+
+	private void OnEnhancementOptionPressed(EnhancementOptionToggleButton button)
+	{
+		foreach(EnhancementOptionToggleButton enhancementOptionToggleButton in _enhancementOptionToggleButtons)
+		{
+			enhancementOptionToggleButton.SetSelected(false, true);
+		}
+
+		_selectedButton = button;
+		_selectedButton?.SetSelected(true, true);
 	}
 
 	private void OnSelectedPortraitChanged(BetweenScenariosCharacterPortrait portrait)
