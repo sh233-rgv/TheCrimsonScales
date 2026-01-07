@@ -1,18 +1,10 @@
 ﻿using Godot;
 using GTweens.Builders;
+using GTweens.Easings;
+using GTweensGodot.Extensions;
 
 public partial class Enhancer : BetweenScenariosAction
 {
-	[Export]
-	private SubViewport _subViewport;
-
-	[Export]
-	private AnimationPlayer _animationPlayer;
-	[Export]
-	private StringName _moveInAnimationName;
-	[Export]
-	private StringName _moveOutAnimationName;
-
 	[Export]
 	private Node3D _3dRoot;
 	[Export]
@@ -20,25 +12,31 @@ public partial class Enhancer : BetweenScenariosAction
 
 	protected override bool SelectCharacter => true;
 
+	public override void _Ready()
+	{
+		base._Ready();
+
+		_3dRoot.SetVisible(false);
+	}
+
 	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder, BetweenScenariosAction previousActiveAction)
 	{
 		base.AnimateIn(sequenceBuilder, previousActiveAction);
 
 		_3dRoot.SetVisible(true);
-
-		_subViewport.SetUpdateMode(SubViewport.UpdateMode.WhenVisible);
 		_crystalBall.SetVisible(false);
 
+		_crystalBall.SetPosition(new Vector3(0f, 5f, 0f));
+
 		sequenceBuilder
-			.AppendTime(0.4f)
+			.AppendTime(0.2f)
 			.AppendCallback((() =>
 			{
-				_animationPlayer.Play(_moveInAnimationName);
-				this.DelayedCall(() =>
-				{
-					_crystalBall.SetVisible(true);
-				});
+				_crystalBall.SetVisible(true);
 			}))
+			.Append(_crystalBall.TweenPositionY(0f, 0.7f).SetEasing(Easing.InQuad))
+			.Append(_crystalBall.TweenPositionY(0.1f, 0.12f))
+			.Append(_crystalBall.TweenPositionY(0f, 0.08f))
 			.AppendTime(1f);
 	}
 
@@ -49,9 +47,9 @@ public partial class Enhancer : BetweenScenariosAction
 
 	protected override void AnimateOut(GTweenSequenceBuilder sequenceBuilder)
 	{
-		sequenceBuilder.AppendTime(1f);
-
-		_animationPlayer.Play(_moveOutAnimationName);
+		sequenceBuilder
+			.Append(_crystalBall.TweenPositionY(5f, 0.5f))
+			.AppendTime(0.8f);
 
 		base.AnimateOut(sequenceBuilder);
 	}
@@ -61,7 +59,5 @@ public partial class Enhancer : BetweenScenariosAction
 		base.AfterAnimateOut();
 
 		_3dRoot.SetVisible(false);
-
-		_subViewport.SetUpdateMode(SubViewport.UpdateMode.Disabled);
 	}
 }
