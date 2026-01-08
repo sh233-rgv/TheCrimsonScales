@@ -10,7 +10,7 @@ public class VolatileTonic : MirefootCardModel<VolatileTonic.CardTop, VolatileTo
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
@@ -39,7 +39,7 @@ public class VolatileTonic : MirefootCardModel<VolatileTonic.CardTop, VolatileTo
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Wound2)

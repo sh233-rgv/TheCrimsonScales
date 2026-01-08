@@ -11,7 +11,7 @@ public class FollowTheChains : ChainguardCardModel<FollowTheChains.CardTop, Foll
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -37,7 +37,7 @@ public class FollowTheChains : ChainguardCardModel<FollowTheChains.CardTop, Foll
 						parameters =>
 							parameters.AbilityState == state &&
 							!RangeHelper.GetFiguresInRange(parameters.Hex, 1, false, false)
-										.Any(figure => state.Performer.EnemiesWith(figure) && figure.HasCondition(Chainguard.Shackle)),
+								.Any(figure => state.Performer.EnemiesWith(figure) && figure.HasCondition(Chainguard.Shackle)),
 						parameters =>
 						{
 							parameters.SetCannotStopAt();
@@ -58,7 +58,7 @@ public class FollowTheChains : ChainguardCardModel<FollowTheChains.CardTop, Foll
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(RetaliateAbility.Builder()
 				.WithRetaliateValue(1)

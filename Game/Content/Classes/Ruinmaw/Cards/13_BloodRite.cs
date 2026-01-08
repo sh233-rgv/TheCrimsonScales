@@ -12,7 +12,7 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
@@ -62,7 +62,7 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

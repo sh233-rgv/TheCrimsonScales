@@ -9,7 +9,7 @@ public class VenomousMayhem : ChieftainCardModel<VenomousMayhem.CardTop, Venomou
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithSummonStats(new SummonStats()
@@ -36,7 +36,7 @@ public class VenomousMayhem : ChieftainCardModel<VenomousMayhem.CardTop, Venomou
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder().WithDamage(3).WithConditions(Conditions.Poison1).Build()),
 		];

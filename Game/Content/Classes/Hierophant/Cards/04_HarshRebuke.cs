@@ -10,7 +10,7 @@ public class HarshRebuke : HierophantCardModel<HarshRebuke.CardTop, HarshRebuke.
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder().WithDamage(3).WithRange(2).Build()),
 
@@ -29,7 +29,7 @@ public class HarshRebuke : HierophantCardModel<HarshRebuke.CardTop, HarshRebuke.
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

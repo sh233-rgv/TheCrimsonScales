@@ -9,7 +9,7 @@ public class ChestThumper : ChieftainCardModel<ChestThumper.CardTop, ChestThumpe
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithSummonStats(new SummonStats()
@@ -38,7 +38,7 @@ public class ChestThumper : ChieftainCardModel<ChestThumper.CardTop, ChestThumpe
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)

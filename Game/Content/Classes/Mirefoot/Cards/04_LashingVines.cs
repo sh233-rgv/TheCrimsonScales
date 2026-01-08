@@ -9,7 +9,7 @@ public class LashingVines : MirefootCardModel<LashingVines.CardTop, LashingVines
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder().WithDamage(0).Build()),
 			new AbilityCardAbility(AttackAbility.Builder().WithDamage(0).Build()),
@@ -19,7 +19,7 @@ public class LashingVines : MirefootCardModel<LashingVines.CardTop, LashingVines
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithSummonStats(new SummonStats()

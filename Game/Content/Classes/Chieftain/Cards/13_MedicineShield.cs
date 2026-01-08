@@ -9,7 +9,7 @@ public class MedicineShield : ChieftainCardModel<MedicineShield.CardTop, Medicin
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
@@ -30,7 +30,7 @@ public class MedicineShield : ChieftainCardModel<MedicineShield.CardTop, Medicin
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(state =>

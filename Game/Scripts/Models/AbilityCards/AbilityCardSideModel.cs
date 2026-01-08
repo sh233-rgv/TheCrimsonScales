@@ -3,9 +3,9 @@ using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
-public abstract class AbilityCardSide
+public abstract class AbilityCardSideModel : AbstractModel
 {
-	private List<EnhancementMark> _enhancements;
+	// private List<EnhancementMark> _enhancements;
 	private IEnumerable<AbilityCardAbility> _abilities;
 
 	protected virtual IEnumerable<Element> Elements { get; } = [];
@@ -17,23 +17,18 @@ public abstract class AbilityCardSide
 	protected virtual bool Unrecoverable => false;
 	protected virtual bool CanDeactivate => true;
 
-	public bool IsTop => AbilityCard.Top == this;
-	public bool IsBasicTop => AbilityCard.BasicTop == this;
-	public bool IsBottom => AbilityCard.Bottom == this;
-	public bool IsBasicBottom => AbilityCard.BasicBottom == this;
-
-	public List<EnhancementMark> Enhancements
-	{
-		get
-		{
-			if(_enhancements == null)
-			{
-				_enhancements = GetEnhancements();
-			}
-
-			return _enhancements;
-		}
-	}
+	// public List<EnhancementMark> Enhancements
+	// {
+	// 	get
+	// 	{
+	// 		if(_enhancements == null)
+	// 		{
+	// 			_enhancements = GetEnhancements();
+	// 		}
+	//
+	// 		return _enhancements;
+	// 	}
+	// }
 
 	public IEnumerable<AbilityCardAbility> Abilities
 	{
@@ -48,12 +43,15 @@ public abstract class AbilityCardSide
 		}
 	}
 
-	public AbilityCard AbilityCard { get; init; }
+	// protected virtual List<EnhancementMark> GetEnhancements() => [];
+	protected abstract List<AbilityCardAbility> GetAbilities();
 
-	protected virtual List<EnhancementMark> GetEnhancements() => [];
-	protected abstract IEnumerable<AbilityCardAbility> GetAbilities();
+	public bool GetIsTop(AbilityCard abilityCard) => abilityCard.Top == this;
+	public bool GetIsBasicTop(AbilityCard abilityCard) => abilityCard.BasicTop == this;
+	public bool GetIsBottom(AbilityCard abilityCard) => abilityCard.Bottom == this;
+	public bool GetIsBasicBottom(AbilityCard abilityCard) => abilityCard.BasicBottom == this;
 
-	public async GDTask Perform(Figure performer)
+	public async GDTask Perform(Figure performer, AbilityCard abilityCard)
 	{
 		ScenarioEvents.AbilityCardSideStarted.Parameters startedParameters =
 			await ScenarioEvents.AbilityCardSideStartedEvent.CreatePrompt(
@@ -63,7 +61,7 @@ public abstract class AbilityCardSide
 
 		if(!startedParameters.ForgoneAction)
 		{
-			ActionState actionState = new ActionState(performer, Abilities.Select(ability => ability.Ability).ToList(), //null, 
+			ActionState actionState = new ActionState(abilityCard, performer, Abilities.Select(ability => ability.Ability).ToList(), //null, 
 				onFirstActivateAbilityActivated: OnFirstActivateAbilityActivated, onDiscardOrLoseRequested: OnDiscardOrLoseRequested);
 			await actionState.Perform();
 
@@ -87,7 +85,7 @@ public abstract class AbilityCardSide
 					Log.Error($"Ability card side {this} is supposed to be both only active for the round, and persistent. This is not allowed.");
 				}
 
-				AbilityCard.SetUnrecoverable(Unrecoverable);
+				abilityCard.SetUnrecoverable(Unrecoverable);
 
 				// If no persistent/round ability has been performed, discard or lose it instead
 				if(actionState.HasPerformedActiveAbility && !actionState.OverrideNoPersistent)
@@ -113,16 +111,16 @@ public abstract class AbilityCardSide
 					}
 				}
 
-				await AbilityCard.SetCardState(resultingState);
+				await abilityCard.SetCardState(resultingState);
 			}
 			else
 			{
-				await AbilityCmd.DiscardCard(AbilityCard);
+				await AbilityCmd.DiscardCard(abilityCard);
 			}
 		}
 		else
 		{
-			await AbilityCmd.DiscardCard(AbilityCard);
+			await AbilityCmd.DiscardCard(abilityCard);
 		}
 
 		await ScenarioEvents.AbilityCardSideEndedEvent.CreatePrompt(
@@ -136,14 +134,14 @@ public abstract class AbilityCardSide
 
 	private async GDTask OnFirstActivateAbilityActivated(ActionState actionState)
 	{
-		AbilityCard.SetActionStateActive(actionState);
+		((AbilityCard)actionState.ActionSource).SetActionStateActive(actionState);
 
 		await GDTask.CompletedTask;
 	}
 
 	private async GDTask OnDiscardOrLoseRequested(ActionState actionState)
 	{
-		await AbilityCmd.DiscardOrLose(AbilityCard);
+		await AbilityCmd.DiscardOrLose(((AbilityCard)actionState.ActionSource));
 	}
 
 	protected virtual async GDTask OnActionPerformed(Figure figure)

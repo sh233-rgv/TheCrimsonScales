@@ -12,7 +12,7 @@ public class Backdraft : FireKnightLevelUpCardModel<Backdraft.CardTop, Backdraft
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -60,7 +60,7 @@ public class Backdraft : FireKnightLevelUpCardModel<Backdraft.CardTop, Backdraft
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

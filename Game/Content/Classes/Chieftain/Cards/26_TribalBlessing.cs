@@ -11,7 +11,7 @@ public class TribalBlessing : ChieftainCardModel<TribalBlessing.CardTop, TribalB
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(5)
@@ -26,14 +26,15 @@ public class TribalBlessing : ChieftainCardModel<TribalBlessing.CardTop, TribalB
 
 							await GDTask.CompletedTask;
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Targets)} within {Icons.Inline(Icons.Range)}3")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"+1{Icons.Inline(Icons.Targets)} within {Icons.Inline(Icons.Range)}3")
 					)
 				)
-				.WithCustomGetTargets((state, figures) => 
+				.WithCustomGetTargets((state, figures) =>
 				{
 					figures.Add(state.Performer);
 					figures.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 3, false)
-							.Where(figure => figure.AlliedWith(state.Performer)));
+						.Where(figure => figure.AlliedWith(state.Performer)));
 				})
 				.Build())
 		];
@@ -43,7 +44,7 @@ public class TribalBlessing : ChieftainCardModel<TribalBlessing.CardTop, TribalB
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build()),
 

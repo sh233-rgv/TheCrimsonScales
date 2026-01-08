@@ -9,7 +9,7 @@ public class ForcefulBolt : BombardCardModel<ForcefulBolt.CardTop, ForcefulBolt.
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -21,7 +21,7 @@ public class ForcefulBolt : BombardCardModel<ForcefulBolt.CardTop, ForcefulBolt.
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(LootAbility.Builder().WithRange(1).Build()),
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(1).Build())

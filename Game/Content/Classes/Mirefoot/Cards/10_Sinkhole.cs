@@ -11,7 +11,7 @@ public class Sinkhole : MirefootCardModel<Sinkhole.CardTop, Sinkhole.CardBottom>
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
@@ -65,7 +65,7 @@ public class Sinkhole : MirefootCardModel<Sinkhole.CardTop, Sinkhole.CardBottom>
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
 

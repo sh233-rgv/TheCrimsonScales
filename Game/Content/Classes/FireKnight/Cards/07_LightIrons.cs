@@ -12,7 +12,7 @@ public class LightIrons : FireKnightCardModel<LightIrons.CardTop, LightIrons.Car
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -86,7 +86,7 @@ public class LightIrons : FireKnightCardModel<LightIrons.CardTop, LightIrons.Car
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
 

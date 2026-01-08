@@ -12,7 +12,7 @@ public class BackupSupport : FireKnightCardModel<BackupSupport.CardTop, BackupSu
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -52,7 +52,7 @@ public class BackupSupport : FireKnightCardModel<BackupSupport.CardTop, BackupSu
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(5).Build()),
 

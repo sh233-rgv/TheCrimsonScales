@@ -1,4 +1,4 @@
-﻿public abstract class HierophantPrayerCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
+﻿public abstract class HierophantPrayerCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : HierophantPrayerCardSide, new()
 	where TBottom : HierophantPrayerCardSide, new()
 {
@@ -10,6 +10,6 @@
 	public override int Initiative => 50;
 }
 
-public abstract class HierophantPrayerCardSide : AbilityCardSide
+public abstract class HierophantPrayerCardSide : AbilityCardSideModel
 {
 }

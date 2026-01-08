@@ -11,7 +11,7 @@ public class SoulWhisperer : ChieftainCardModel<SoulWhisperer.CardTop, SoulWhisp
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantState =>
@@ -56,7 +56,7 @@ public class SoulWhisperer : ChieftainCardModel<SoulWhisperer.CardTop, SoulWhisp
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)

@@ -11,7 +11,7 @@ public class Equinox : StarslingerCardModel<Equinox.CardTop, Equinox.CardBottom>
 
 	public class CardTop : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -57,7 +57,7 @@ public class Equinox : StarslingerCardModel<Equinox.CardTop, Equinox.CardBottom>
 
 	public class CardBottom : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(5)

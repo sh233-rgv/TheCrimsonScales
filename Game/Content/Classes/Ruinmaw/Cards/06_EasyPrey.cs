@@ -11,7 +11,7 @@ public class EasyPrey : RuinmawCardModel<EasyPrey.CardTop, EasyPrey.CardBottom>
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)
@@ -36,7 +36,7 @@ public class EasyPrey : RuinmawCardModel<EasyPrey.CardTop, EasyPrey.CardBottom>
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>

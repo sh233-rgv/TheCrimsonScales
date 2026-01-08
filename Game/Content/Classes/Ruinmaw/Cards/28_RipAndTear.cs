@@ -11,7 +11,7 @@ public class RipAndTear : RuinmawCardModel<RipAndTear.CardTop, RipAndTear.CardBo
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -53,7 +53,7 @@ public class RipAndTear : RuinmawCardModel<RipAndTear.CardTop, RipAndTear.CardBo
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>

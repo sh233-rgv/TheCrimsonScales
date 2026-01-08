@@ -8,7 +8,7 @@ public class Lamentation : HierophantPrayerCardModel<Lamentation.CardTopBottom, 
 
 	public class CardTopBottom : HierophantPrayerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>

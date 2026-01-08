@@ -10,7 +10,7 @@ public class DragThroughDirt : ChainguardCardModel<DragThroughDirt.CardTop, Drag
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherTargetedAbility.Builder()
 				.WithSwing(3)
@@ -32,7 +32,7 @@ public class DragThroughDirt : ChainguardCardModel<DragThroughDirt.CardTop, Drag
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Chainguard.Shackle)

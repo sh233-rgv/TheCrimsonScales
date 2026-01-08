@@ -10,7 +10,7 @@ public class RestoringFaith : HierophantCardModel<RestoringFaith.CardTop, Restor
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
@@ -40,7 +40,7 @@ public class RestoringFaith : HierophantCardModel<RestoringFaith.CardTop, Restor
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
 

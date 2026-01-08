@@ -10,7 +10,7 @@ public class JackOfAllTrades : FireKnightLevelUpCardModel<JackOfAllTrades.CardTo
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GiveFireKnightItemAbility([ModelDB.Item<ScrollOfInvigoration>()],
 				target: Target.SelfOrAllies,
@@ -43,7 +43,7 @@ public class JackOfAllTrades : FireKnightLevelUpCardModel<JackOfAllTrades.CardTo
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build()),
 

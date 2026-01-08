@@ -10,7 +10,7 @@ public class ChampionOfChains : ChainguardLevelUpCardModel<ChampionOfChains.Card
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -61,7 +61,7 @@ public class ChampionOfChains : ChainguardLevelUpCardModel<ChampionOfChains.Card
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SwingAbility.Builder()
 				.WithSwing(6)

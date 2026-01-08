@@ -12,7 +12,7 @@ public class CollectiveCombat : FireKnightCardModel<CollectiveCombat.CardTop, Co
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -79,7 +79,7 @@ public class CollectiveCombat : FireKnightCardModel<CollectiveCombat.CardTop, Co
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>

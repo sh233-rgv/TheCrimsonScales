@@ -10,7 +10,7 @@ public class PotentMixture : MirefootCardModel<PotentMixture.CardTop, PotentMixt
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Disarm)
@@ -50,7 +50,7 @@ public class PotentMixture : MirefootCardModel<PotentMixture.CardTop, PotentMixt
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
 

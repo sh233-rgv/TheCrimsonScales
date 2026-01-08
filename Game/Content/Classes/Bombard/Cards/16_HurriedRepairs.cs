@@ -11,7 +11,7 @@ public class HurriedRepairs : BombardCardModel<HurriedRepairs.CardTop, HurriedRe
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(new DynamicInt<HealAbility.State>(state => 1 + state.Performer.TurnMovedHexes.Count))
@@ -25,7 +25,7 @@ public class HurriedRepairs : BombardCardModel<HurriedRepairs.CardTop, HurriedRe
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

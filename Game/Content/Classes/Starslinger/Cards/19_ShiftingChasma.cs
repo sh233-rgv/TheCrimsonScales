@@ -11,7 +11,7 @@ public class ShiftingChasma : StarslingerCardModel<ShiftingChasma.CardTop, Shift
 
 	public class CardTop : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -53,7 +53,7 @@ public class ShiftingChasma : StarslingerCardModel<ShiftingChasma.CardTop, Shift
 
 	public class CardBottom : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>

@@ -9,7 +9,7 @@ public class SoulStrike : HierophantCardModel<SoulStrike.CardTop, SoulStrike.Car
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -25,7 +25,7 @@ public class SoulStrike : HierophantCardModel<SoulStrike.CardTop, SoulStrike.Car
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
 

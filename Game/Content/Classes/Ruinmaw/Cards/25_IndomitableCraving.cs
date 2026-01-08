@@ -11,7 +11,7 @@ public class IndomitableCraving : RuinmawCardModel<IndomitableCraving.CardTop, I
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Rupture, Conditions.Wound1)
@@ -53,7 +53,7 @@ public class IndomitableCraving : RuinmawCardModel<IndomitableCraving.CardTop, I
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

@@ -7,9 +7,9 @@ using GTweensGodot.Extensions;
 
 public partial class BombardProjectileToken : HexObject
 {
-	public AbilityCardSide AbilityCardSide { get; private set; }
+	public AbilityCardSideModel AbilityCardSide { get; private set; }
 
-	public void SetCardSide(AbilityCardSide abilityCardSide)
+	public void SetCardSide(AbilityCardSideModel abilityCardSide)
 	{
 		AbilityCardSide = abilityCardSide;
 	}
@@ -22,7 +22,8 @@ public partial class BombardProjectileToken : HexObject
 		this.TweenRotationDegrees(360f, 0.3f, RotationMode.TotalDistance).PlayFastForwardable();
 		this.TweenScale(1f, 0.5f).SetEasing(Easing.OutBack).PlayFastForwardable();
 
-		AppController.Instance.AudioController.PlayFastForwardable("res://Content/Classes/Bombard/ProjectileAim.wav", minPitch: 1f, maxPitch: 1f, delay: 0.0f);
+		AppController.Instance.AudioController.PlayFastForwardable("res://Content/Classes/Bombard/ProjectileAim.wav", minPitch: 1f, maxPitch: 1f,
+			delay: 0.0f);
 	}
 
 	public override void AddInfoItemParameters(List<InfoItemParameters> parametersList)

@@ -11,7 +11,7 @@ public class FireWhirl : FireKnightCardModel<FireWhirl.CardTop, FireWhirl.CardBo
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
@@ -74,7 +74,7 @@ public class FireWhirl : FireKnightCardModel<FireWhirl.CardTop, FireWhirl.CardBo
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

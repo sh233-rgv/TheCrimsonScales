@@ -10,7 +10,7 @@ public class EncouragedConviction : HierophantLevelUpCardModel<EncouragedConvict
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantAbilityState =>
@@ -42,7 +42,7 @@ public class EncouragedConviction : HierophantLevelUpCardModel<EncouragedConvict
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -94,7 +94,7 @@ public class EncouragedConviction : HierophantLevelUpCardModel<EncouragedConvict
 						await AbilityCmd.GainXP(state.Performer, 1);
 
 						if(await AbilityCmd.AskConsumeElement(state.Performer, Element.Light,
-								   $"Consume {Icons.Inline(Icons.GetElement(Element.Light))} to give a Prayer card?"))
+							   $"Consume {Icons.Inline(Icons.GetElement(Element.Light))} to give a Prayer card?"))
 						{
 							if(section == AbilityCardSection.Bottom)
 							{

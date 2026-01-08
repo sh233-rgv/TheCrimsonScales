@@ -11,7 +11,7 @@ public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.Ca
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
@@ -74,7 +74,7 @@ public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.Ca
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>

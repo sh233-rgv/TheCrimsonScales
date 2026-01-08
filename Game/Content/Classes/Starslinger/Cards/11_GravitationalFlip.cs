@@ -11,7 +11,7 @@ public class GravitationalFlip : StarslingerCardModel<GravitationalFlip.CardTop,
 
 	public class CardTop : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(LootAbility.Builder()
 				.WithRange(1)
@@ -34,7 +34,7 @@ public class GravitationalFlip : StarslingerCardModel<GravitationalFlip.CardTop,
 
 	public class CardBottom : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantAbilityState =>

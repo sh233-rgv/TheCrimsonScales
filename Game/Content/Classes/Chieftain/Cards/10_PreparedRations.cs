@@ -10,7 +10,7 @@ public class PreparedRations : ChieftainCardModel<PreparedRations.CardTop, Prepa
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithSummonStats(new SummonStats()
@@ -56,7 +56,7 @@ public class PreparedRations : ChieftainCardModel<PreparedRations.CardTop, Prepa
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
 			new AbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()),

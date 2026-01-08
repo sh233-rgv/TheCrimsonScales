@@ -10,7 +10,7 @@ public class ForcibleEntry : FireKnightCardModel<ForcibleEntry.CardTop, Forcible
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(5)
@@ -26,7 +26,7 @@ public class ForcibleEntry : FireKnightCardModel<ForcibleEntry.CardTop, Forcible
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
 

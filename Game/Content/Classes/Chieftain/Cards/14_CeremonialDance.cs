@@ -9,7 +9,7 @@ public class CeremonialDance : ChieftainCardModel<CeremonialDance.CardTop, Cerem
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -23,10 +23,10 @@ public class CeremonialDance : ChieftainCardModel<CeremonialDance.CardTop, Cerem
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(state => 
+				.WithGetAbilities(state =>
 				[
 					MoveAbility.Builder().WithDistance(2).Build()
 				])

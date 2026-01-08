@@ -9,7 +9,7 @@ public class StillRiverAlgae : MirefootCardModel<StillRiverAlgae.CardTop, StillR
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(LootAbility.Builder().WithRange(1).Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
@@ -21,7 +21,7 @@ public class StillRiverAlgae : MirefootCardModel<StillRiverAlgae.CardTop, StillR
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async abilityState =>

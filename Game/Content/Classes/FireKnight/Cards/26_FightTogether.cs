@@ -12,7 +12,7 @@ public class FightTogether : FireKnightLevelUpCardModel<FightTogether.CardTop, F
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantAbilityState =>
@@ -50,7 +50,7 @@ public class FightTogether : FireKnightLevelUpCardModel<FightTogether.CardTop, F
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

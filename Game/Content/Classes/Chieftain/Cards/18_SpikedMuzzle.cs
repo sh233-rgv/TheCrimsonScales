@@ -11,7 +11,7 @@ public class SpikedMuzzle : ChieftainCardModel<SpikedMuzzle.CardTop, SpikedMuzzl
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -58,7 +58,7 @@ public class SpikedMuzzle : ChieftainCardModel<SpikedMuzzle.CardTop, SpikedMuzzl
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
 			new AbilityCardAbility(GrantAbility.Builder()
@@ -73,7 +73,7 @@ public class SpikedMuzzle : ChieftainCardModel<SpikedMuzzle.CardTop, SpikedMuzzl
 							await GDTask.CompletedTask;
 						})
 						.Build()
-				])				
+				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{
 					figures.AddRange(((Character)grantState.Performer).Summons);

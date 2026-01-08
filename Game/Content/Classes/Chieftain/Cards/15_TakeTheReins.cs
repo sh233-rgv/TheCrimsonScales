@@ -11,7 +11,7 @@ public class TakeTheReins : ChieftainCardModel<TakeTheReins.CardTop, TakeTheRein
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantState =>
@@ -38,7 +38,7 @@ public class TakeTheReins : ChieftainCardModel<TakeTheReins.CardTop, TakeTheRein
 							})
 						)
 						.Build()
-				])				
+				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{
 					figures.AddRange(((Character)grantState.Performer).Summons
@@ -53,7 +53,7 @@ public class TakeTheReins : ChieftainCardModel<TakeTheReins.CardTop, TakeTheRein
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build()),
 

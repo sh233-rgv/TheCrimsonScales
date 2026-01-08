@@ -10,7 +10,7 @@ public class AgonizingClamp : ChainguardLevelUpCardModel<AgonizingClamp.CardTop,
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Chainguard.Shackle)
@@ -31,7 +31,7 @@ public class AgonizingClamp : ChainguardLevelUpCardModel<AgonizingClamp.CardTop,
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

@@ -11,7 +11,7 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SwingAbility.Builder()
 				.WithSwing(6)
@@ -109,7 +109,7 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(CreateTrapAbility.Builder()
 				.WithDamage(3)

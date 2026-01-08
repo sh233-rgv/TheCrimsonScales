@@ -11,7 +11,7 @@ public class FirerootSap : MirefootCardModel<FirerootSap.CardTop, FirerootSap.Ca
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -45,7 +45,7 @@ public class FirerootSap : MirefootCardModel<FirerootSap.CardTop, FirerootSap.Ca
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
 

@@ -9,7 +9,7 @@ public class FieldMedic : FireKnightCardModel<FieldMedic.CardTop, FieldMedic.Car
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder().WithHealValue(3)
 				.WithRange(2)
@@ -30,7 +30,7 @@ public class FieldMedic : FireKnightCardModel<FieldMedic.CardTop, FieldMedic.Car
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
 

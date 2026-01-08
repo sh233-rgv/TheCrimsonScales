@@ -9,7 +9,7 @@ public class SkinningKnife : ChieftainCardModel<SkinningKnife.CardTop, SkinningK
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -23,7 +23,7 @@ public class SkinningKnife : ChieftainCardModel<SkinningKnife.CardTop, SkinningK
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(LootAbility.Builder().WithRange(1).Build())
 		];

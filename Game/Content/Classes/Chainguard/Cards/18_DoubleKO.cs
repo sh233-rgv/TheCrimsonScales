@@ -11,7 +11,7 @@ public class DoubleKO : ChainguardLevelUpCardModel<DoubleKO.CardTop, DoubleKO.Ca
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -36,7 +36,7 @@ public class DoubleKO : ChainguardLevelUpCardModel<DoubleKO.CardTop, DoubleKO.Ca
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
 

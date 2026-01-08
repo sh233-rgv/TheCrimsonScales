@@ -9,7 +9,7 @@ public class InnerReflection : HierophantCardModel<InnerReflection.CardTop, Inne
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
@@ -24,7 +24,7 @@ public class InnerReflection : HierophantCardModel<InnerReflection.CardTop, Inne
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(LootAbility.Builder()
 				.WithRange(2)

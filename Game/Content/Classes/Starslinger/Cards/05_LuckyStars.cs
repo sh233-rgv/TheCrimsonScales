@@ -10,7 +10,7 @@ public class LuckyStars : StarslingerCardModel<LuckyStars.CardTop, LuckyStars.Ca
 
 	public class CardTop : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
@@ -25,7 +25,8 @@ public class LuckyStars : StarslingerCardModel<LuckyStars.CardTop, LuckyStars.Ca
 						async parameters =>
 						{
 							parameters.AbilityState.SingleTargetAdjustAttackValue(2);
-							parameters.AbilityState.SetCustomValue(this, "Undamaged", parameters.AbilityState.GetCustomValue<int>(this, "Undamaged") + 1);
+							parameters.AbilityState.SetCustomValue(this, "Undamaged",
+								parameters.AbilityState.GetCustomValue<int>(this, "Undamaged") + 1);
 
 							await GDTask.CompletedTask;
 						}
@@ -41,7 +42,7 @@ public class LuckyStars : StarslingerCardModel<LuckyStars.CardTop, LuckyStars.Ca
 
 	public class CardBottom : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)

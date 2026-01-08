@@ -9,7 +9,7 @@ public class PipeTomahawk : ChieftainCardModel<PipeTomahawk.CardTop, PipeTomahaw
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -23,7 +23,7 @@ public class PipeTomahawk : ChieftainCardModel<PipeTomahawk.CardTop, PipeTomahaw
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build())
 		];

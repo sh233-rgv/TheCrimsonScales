@@ -13,7 +13,7 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -127,7 +127,7 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>

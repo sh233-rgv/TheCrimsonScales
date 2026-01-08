@@ -10,7 +10,7 @@ public class SavageStalker : RuinmawCardModel<SavageStalker.CardTop, SavageStalk
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(5)
@@ -44,7 +44,7 @@ public class SavageStalker : RuinmawCardModel<SavageStalker.CardTop, SavageStalk
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(4)

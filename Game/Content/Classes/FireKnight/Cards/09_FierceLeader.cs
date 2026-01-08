@@ -9,7 +9,7 @@ public class FierceLeader : FireKnightCardModel<FierceLeader.CardTop, FierceLead
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(state => [AttackAbility.Builder().WithDamage(3).Build()])
@@ -26,7 +26,7 @@ public class FierceLeader : FireKnightCardModel<FierceLeader.CardTop, FierceLead
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)

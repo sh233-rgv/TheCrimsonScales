@@ -11,7 +11,7 @@ public class ChainsOfLightning : HierophantLevelUpCardModel<ChainsOfLightning.Ca
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(2)
@@ -29,7 +29,8 @@ public class ChainsOfLightning : HierophantLevelUpCardModel<ChainsOfLightning.Ca
 
 							await GDTask.CompletedTask;
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Add {Icons.Inline(Icons.GetCondition((Conditions.Stun)))} to the next attack")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"Add {Icons.Inline(Icons.GetCondition((Conditions.Stun)))} to the next attack")
 					)
 				)
 				.Build())
@@ -38,7 +39,7 @@ public class ChainsOfLightning : HierophantLevelUpCardModel<ChainsOfLightning.Ca
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

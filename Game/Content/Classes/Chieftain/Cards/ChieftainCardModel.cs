@@ -1,4 +1,4 @@
-﻿public abstract class ChieftainCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
+﻿public abstract class ChieftainCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : ChieftainCardSide, new()
 	where TBottom : ChieftainCardSide, new()
 {
@@ -7,6 +7,6 @@
 	protected override int RowCount => 5;
 }
 
-public abstract class ChieftainCardSide : AbilityCardSide
+public abstract class ChieftainCardSide : AbilityCardSideModel
 {
 }

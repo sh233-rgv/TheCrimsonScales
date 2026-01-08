@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
 
-public class AbilityCard : IReferenced
+public class AbilityCard : IReferenced, IActionSource
 {
 	public SavedAbilityCard SavedAbilityCard { get; }
-
-	public AbilityCardModel Model => SavedAbilityCard.Model;
-
-	public Character OriginalOwner { get; private set; }
-	public Character Owner { get; private set; }
-	public CardState CardState { get; private set; }
-	public bool Unrecoverable { get; private set; }
 
 	public AbilityCardSide Top { get; }
 	public AbilityCardSide Bottom { get; }
 	public AbilityCardSide BasicTop { get; }
 	public AbilityCardSide BasicBottom { get; }
+
+	public Character OriginalOwner { get; }
+
+	public Character Owner { get; private set; }
+	public CardState CardState { get; private set; }
+	public bool Unrecoverable { get; private set; }
+
+	public AbilityCardModel Model => SavedAbilityCard.Model;
 
 	public List<ActionState> ActiveActionStates { get; } = new List<ActionState>();
 
@@ -36,11 +37,6 @@ public class AbilityCard : IReferenced
 		SetOwner(owner);
 
 		CardState = CardState.Hand;
-
-		Top = Model.CreateTopSide(this);
-		Bottom = Model.CreateBottomSide(this);
-		BasicTop = Model.CreateBasicTopSide(this);
-		BasicBottom = Model.CreateBasicBottomSide(this);
 	}
 
 	public async GDTask SetCardState(CardState cardState)

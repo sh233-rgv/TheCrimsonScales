@@ -10,7 +10,7 @@ public class SlowAndSteady : ChieftainCardModel<SlowAndSteady.CardTop, SlowAndSt
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithSummonStats(new SummonStats()
@@ -57,7 +57,7 @@ public class SlowAndSteady : ChieftainCardModel<SlowAndSteady.CardTop, SlowAndSt
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder().WithDamage(2).Build()),
 		];

@@ -10,7 +10,7 @@ public class ParalyticAgent : MirefootCardModel<ParalyticAgent.CardTop, Paralyti
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
@@ -21,7 +21,7 @@ public class ParalyticAgent : MirefootCardModel<ParalyticAgent.CardTop, Paralyti
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build())
 		];

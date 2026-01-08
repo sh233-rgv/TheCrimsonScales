@@ -11,7 +11,7 @@ public class NourishingMeal : RuinmawCardModel<NourishingMeal.CardTop, Nourishin
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(5)
@@ -35,7 +35,7 @@ public class NourishingMeal : RuinmawCardModel<NourishingMeal.CardTop, Nourishin
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

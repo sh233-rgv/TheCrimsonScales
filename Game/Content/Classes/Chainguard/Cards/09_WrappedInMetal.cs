@@ -10,7 +10,7 @@ public class WrappedInMetal : ChainguardCardModel<WrappedInMetal.CardTop, Wrappe
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(1)
@@ -22,7 +22,7 @@ public class WrappedInMetal : ChainguardCardModel<WrappedInMetal.CardTop, Wrappe
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

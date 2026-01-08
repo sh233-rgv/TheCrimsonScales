@@ -11,7 +11,7 @@ public class StripFlesh : RuinmawCardModel<StripFlesh.CardTop, StripFlesh.CardBo
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(LootAbility.Builder()
 				.WithRange(1)
@@ -26,7 +26,7 @@ public class StripFlesh : RuinmawCardModel<StripFlesh.CardTop, StripFlesh.CardBo
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>

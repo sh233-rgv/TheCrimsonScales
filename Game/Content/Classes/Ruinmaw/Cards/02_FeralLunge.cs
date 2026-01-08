@@ -10,7 +10,7 @@ public class FeralLunge : RuinmawCardModel<FeralLunge.CardTop, FeralLunge.CardBo
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)
@@ -29,7 +29,7 @@ public class FeralLunge : RuinmawCardModel<FeralLunge.CardTop, FeralLunge.CardBo
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(4)

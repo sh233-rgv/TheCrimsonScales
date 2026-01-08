@@ -9,7 +9,7 @@ public class Ordination : HierophantPrayerCardModel<Ordination.CardTop, Ordinati
 
 	public class CardTop : HierophantPrayerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -47,7 +47,7 @@ public class Ordination : HierophantPrayerCardModel<Ordination.CardTop, Ordinati
 
 	public class CardBottom : HierophantPrayerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>

@@ -10,7 +10,7 @@ public class HideAndSeek : MirefootCardModel<HideAndSeek.CardTop, HideAndSeek.Ca
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async abilityState =>
@@ -73,7 +73,7 @@ public class HideAndSeek : MirefootCardModel<HideAndSeek.CardTop, HideAndSeek.Ca
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async abilityState =>

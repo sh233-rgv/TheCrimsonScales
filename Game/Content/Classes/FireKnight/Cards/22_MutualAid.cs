@@ -11,7 +11,7 @@ public class MutualAid : FireKnightLevelUpCardModel<MutualAid.CardTop, MutualAid
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantAbilityState =>
@@ -37,14 +37,15 @@ public class MutualAid : FireKnightLevelUpCardModel<MutualAid.CardTop, MutualAid
 					await GDTask.CompletedTask;
 
 					List<ActionState> grantAbilityActionStates = state.ActionState.GetAbilityState<GrantAbility.State>(0).GrantAbilityActionStates;
-					bool canPerform = grantAbilityActionStates.Count > 1 && grantAbilityActionStates[0].GetAbilityState<AttackAbility.State>(0).Performed &&
-						grantAbilityActionStates[1].GetAbilityState<AttackAbility.State>(0).Performed &&
-						grantAbilityActionStates[0].GetAbilityState<AttackAbility.State>(0).Target ==
-						grantAbilityActionStates[1].GetAbilityState<AttackAbility.State>(0).Target;
+					bool canPerform = grantAbilityActionStates.Count > 1 &&
+					                  grantAbilityActionStates[0].GetAbilityState<AttackAbility.State>(0).Performed &&
+					                  grantAbilityActionStates[1].GetAbilityState<AttackAbility.State>(0).Performed &&
+					                  grantAbilityActionStates[0].GetAbilityState<AttackAbility.State>(0).Target ==
+					                  grantAbilityActionStates[1].GetAbilityState<AttackAbility.State>(0).Target;
 					if(canPerform)
-                    {
-                        await AbilityCmd.GainXP(state.Performer, 1);
-                    }
+					{
+						await AbilityCmd.GainXP(state.Performer, 1);
+					}
 
 					return canPerform;
 				}
@@ -54,7 +55,7 @@ public class MutualAid : FireKnightLevelUpCardModel<MutualAid.CardTop, MutualAid
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)
@@ -88,7 +89,8 @@ public class MutualAid : FireKnightLevelUpCardModel<MutualAid.CardTop, MutualAid
 										await GDTask.CompletedTask;
 									},
 									effectButtonParameters: new TextEffectButton.Parameters("Allies"),
-									effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Targets)}all allies, {Icons.Inline(Icons.Range)} 1"),
+									effectInfoViewParameters: new TextEffectInfoView.Parameters(
+										$"{Icons.Inline(Icons.Targets)}all allies, {Icons.Inline(Icons.Range)} 1"),
 									effectType: EffectType.Selectable
 								),
 							], hintText: "Choose the figures to heal");

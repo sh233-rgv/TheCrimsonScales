@@ -12,7 +12,7 @@ public class WishUponAStar : StarslingerCardModel<WishUponAStar.CardTop, WishUpo
 
 	public class CardTop : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
@@ -33,7 +33,7 @@ public class WishUponAStar : StarslingerCardModel<WishUponAStar.CardTop, WishUpo
 
 	public class CardBottom : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
 			new AbilityCardAbility(UseSlotAbility.Builder()

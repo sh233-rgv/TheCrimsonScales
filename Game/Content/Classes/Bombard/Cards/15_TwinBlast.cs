@@ -12,7 +12,7 @@ public class TwinBlast : BombardCardModel<TwinBlast.CardTop, TwinBlast.CardBotto
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ProjectileAbility.Builder().WithGetAbilities(hex =>
 				[
@@ -35,7 +35,7 @@ public class TwinBlast : BombardCardModel<TwinBlast.CardTop, TwinBlast.CardBotto
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder().WithDamage(2).WithRange(3).Build()),
 

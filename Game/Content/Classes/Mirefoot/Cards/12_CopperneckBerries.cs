@@ -9,7 +9,7 @@ public class CopperneckBerries : MirefootCardModel<CopperneckBerries.CardTop, Co
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(4)
@@ -20,7 +20,7 @@ public class CopperneckBerries : MirefootCardModel<CopperneckBerries.CardTop, Co
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()

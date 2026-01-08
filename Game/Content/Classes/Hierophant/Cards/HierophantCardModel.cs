@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
 
-public abstract class HierophantLevelUpCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
+public abstract class HierophantLevelUpCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : HierophantCardSide, new()
 	where TBottom : HierophantCardSide, new()
 {
@@ -11,7 +11,7 @@ public abstract class HierophantLevelUpCardModel<TTop, TBottom> : AtlasAbilityCa
 	protected override int RowCount => 4;
 }
 
-public abstract class HierophantCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
+public abstract class HierophantCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : HierophantCardSide, new()
 	where TBottom : HierophantCardSide, new()
 {
@@ -20,7 +20,7 @@ public abstract class HierophantCardModel<TTop, TBottom> : AtlasAbilityCardModel
 	protected override int RowCount => 4;
 }
 
-public abstract class HierophantCardSide : AbilityCardSide
+public abstract class HierophantCardSide : AbilityCardSideModel
 {
 	protected GiveAbilityCardAbility GivePrayerCardAbility(int targets = 1, int range = 1,
 		Action<GiveAbilityCardAbility.State, List<Figure>> customGetTargets = null,

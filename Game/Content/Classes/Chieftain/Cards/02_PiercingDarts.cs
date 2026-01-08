@@ -10,7 +10,7 @@ public class PiercingDarts : ChieftainCardModel<PiercingDarts.CardTop, PiercingD
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
@@ -34,10 +34,10 @@ public class PiercingDarts : ChieftainCardModel<PiercingDarts.CardTop, PiercingD
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
-				.WithOnActivate(async state => 
+				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
 						parameters => parameters.Performer == state.Performer,
@@ -52,10 +52,10 @@ public class PiercingDarts : ChieftainCardModel<PiercingDarts.CardTop, PiercingD
 							await GDTask.CompletedTask;
 						}
 					);
-					
+
 					await GDTask.CompletedTask;
 				})
-				.WithOnDeactivate(async state => 
+				.WithOnDeactivate(async state =>
 				{
 					ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
 

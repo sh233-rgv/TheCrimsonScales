@@ -7,10 +7,10 @@ public partial class AbilityCardSideCurrentActionView : CurrentActionView<Abilit
 		public override string ScenePath => "res://Scenes/Scenario/UI/CurrentActionViews/AbilityCardSideCurrentActionView.tscn";
 		public override object Source => AbilityCardSide;
 
-		public AbilityCardSide AbilityCardSide { get; }
+		public AbilityCardSideModel AbilityCardSide { get; }
 		public bool ShowTop { get; }
 
-		public Parameters(AbilityCardSide abilityCardSide)
+		public Parameters(AbilityCardSideModel abilityCardSide)
 		{
 			AbilityCardSide = abilityCardSide;
 			ShowTop = abilityCardSide.AbilityCard.Top == abilityCardSide;

@@ -11,7 +11,7 @@ public class DefyingGravity : StarslingerCardModel<DefyingGravity.CardTop, Defyi
 
 	public class CardTop : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -33,17 +33,17 @@ public class DefyingGravity : StarslingerCardModel<DefyingGravity.CardTop, Defyi
 
 	public class CardBottom : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
 				.WithPush(2)
 				.WithAOEPattern(new AOEPattern([
-							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthWest).Add(Direction.NorthEast), AOEHexType.Yellow),
-						]))
+					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
+					new AOEHex(Vector2I.Zero.Add(Direction.NorthWest).Add(Direction.NorthEast), AOEHexType.Yellow),
+				]))
 				.Build()),
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantAbilityState =>

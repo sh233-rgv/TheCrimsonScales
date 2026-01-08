@@ -11,7 +11,7 @@ public class EonicBlast : StarslingerCardModel<EonicBlast.CardTop, EonicBlast.Ca
 
 	public class CardTop : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -57,7 +57,7 @@ public class EonicBlast : StarslingerCardModel<EonicBlast.CardTop, EonicBlast.Ca
 
 	public class CardBottom : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)

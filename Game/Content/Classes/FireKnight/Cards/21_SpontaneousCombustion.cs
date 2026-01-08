@@ -11,7 +11,7 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(8)
@@ -63,7 +63,7 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

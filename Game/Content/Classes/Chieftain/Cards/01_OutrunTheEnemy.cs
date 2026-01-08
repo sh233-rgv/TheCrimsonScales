@@ -10,7 +10,7 @@ public class OutrunTheEnemy : ChieftainCardModel<OutrunTheEnemy.CardTop, OutrunT
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithSummonStats(new SummonStats()
@@ -62,7 +62,7 @@ public class OutrunTheEnemy : ChieftainCardModel<OutrunTheEnemy.CardTop, OutrunT
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantState =>

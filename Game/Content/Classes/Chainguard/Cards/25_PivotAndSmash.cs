@@ -11,7 +11,7 @@ public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, P
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SwingAbility.Builder()
 				.WithSwing(4)
@@ -19,11 +19,12 @@ public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, P
 				.Build()),
 
 			new AbilityCardAbility(OtherTargetedAbility.Builder()
-				.WithCustomGetTargets((state, figures) => 
+				.WithCustomGetTargets((state, figures) =>
 				{
 					SwingAbility.State swingState = state.ActionState.GetAbilityState<SwingAbility.State>(0);
 
-					IEnumerable<Figure> figuresPassedThrough = swingState.SingleTargetState.ForcedMovementHexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>());
+					IEnumerable<Figure> figuresPassedThrough =
+						swingState.SingleTargetState.ForcedMovementHexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>());
 
 					figures.AddRange(figuresPassedThrough.Where(figure => figure.EnemiesWith(state.Performer) && figure != swingState.Target));
 				})
@@ -37,7 +38,7 @@ public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, P
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(5)
-				.WithCustomGetTargets((state, figures) => 
+				.WithCustomGetTargets((state, figures) =>
 				{
 					SwingAbility.State swingState = state.ActionState.GetAbilityState<SwingAbility.State>(0);
 
@@ -51,7 +52,7 @@ public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, P
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).WithMoveType(MoveType.Jump).Build()),
 
@@ -75,9 +76,9 @@ public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, P
 
 					foreach(Figure figure in map.Figures)
 					{
-						if(figure.EnemiesWith(state.Performer) && 
-							figure.HasCondition(Chainguard.Shackle) && 
-							map.HasLineOfSight(figure.Hex, state.Performer.Hex))
+						if(figure.EnemiesWith(state.Performer) &&
+						   figure.HasCondition(Chainguard.Shackle) &&
+						   map.HasLineOfSight(figure.Hex, state.Performer.Hex))
 						{
 							figures.Add(figure);
 						}

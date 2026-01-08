@@ -11,7 +11,7 @@ public class GroundSolvent : MirefootCardModel<GroundSolvent.CardTop, GroundSolv
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Poison1)
@@ -93,7 +93,7 @@ public class GroundSolvent : MirefootCardModel<GroundSolvent.CardTop, GroundSolv
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

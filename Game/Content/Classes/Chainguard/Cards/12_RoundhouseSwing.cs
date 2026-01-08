@@ -10,13 +10,13 @@ public class RoundhouseSwing : ChainguardCardModel<RoundhouseSwing.CardTop, Roun
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(LootAbility.Builder()
 				.WithRange(1)
 				.WithOnAbilityStarted(async state =>
 				{
-					await AbilityCmd.GenericChoice(state.Performer, 
+					await AbilityCmd.GenericChoice(state.Performer,
 					[
 						ScenarioEvents.GenericChoice.Subscription.New(
 							applyFunction: async applyParameters =>
@@ -64,7 +64,7 @@ public class RoundhouseSwing : ChainguardCardModel<RoundhouseSwing.CardTop, Roun
 
 					await GDTask.CompletedTask;
 				})
-				.WithConditionalAbilityCheck(async state => 
+				.WithConditionalAbilityCheck(async state =>
 				{
 					await GDTask.CompletedTask;
 
@@ -76,7 +76,7 @@ public class RoundhouseSwing : ChainguardCardModel<RoundhouseSwing.CardTop, Roun
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)
@@ -86,9 +86,9 @@ public class RoundhouseSwing : ChainguardCardModel<RoundhouseSwing.CardTop, Roun
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
-						canApply: parameters => parameters.Performer == state.Performer && 
-								parameters.AbilityState is TargetedAbilityState && 
-								((TargetedAbilityState)parameters.AbilityState).AbilitySwing > 0,
+						canApply: parameters => parameters.Performer == state.Performer &&
+						                        parameters.AbilityState is TargetedAbilityState &&
+						                        ((TargetedAbilityState)parameters.AbilityState).AbilitySwing > 0,
 						async parameters =>
 						{
 							((TargetedAbilityState)parameters.AbilityState).AbilityAdjustSwing(2);

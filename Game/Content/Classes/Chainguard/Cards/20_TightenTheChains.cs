@@ -11,7 +11,7 @@ public class TightenTheChains : ChainguardLevelUpCardModel<TightenTheChains.Card
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -39,7 +39,7 @@ public class TightenTheChains : ChainguardLevelUpCardModel<TightenTheChains.Card
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -48,7 +48,7 @@ public class TightenTheChains : ChainguardLevelUpCardModel<TightenTheChains.Card
 						canApplyParameters => canApplyParameters.Figure == state.Performer,
 						async applyParameters =>
 						{
-							ActionState actionState = new ActionState(state.Performer, [
+							ActionState actionState = new ActionState(state.ActionState, state.Performer, [
 								PullAbility.Builder()
 									.WithPull(1)
 									.WithCustomGetTargets((state, figures) =>

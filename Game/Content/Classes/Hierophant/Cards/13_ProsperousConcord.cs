@@ -10,7 +10,7 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder().WithDamage(2).WithRange(3).Build()),
 
@@ -72,7 +72,7 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)

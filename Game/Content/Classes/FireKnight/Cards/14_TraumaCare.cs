@@ -10,7 +10,7 @@ public class TraumaCare : FireKnightLevelUpCardModel<TraumaCare.CardTop, TraumaC
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(4)
@@ -42,7 +42,7 @@ public class TraumaCare : FireKnightLevelUpCardModel<TraumaCare.CardTop, TraumaC
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)

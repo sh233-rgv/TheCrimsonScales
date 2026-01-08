@@ -11,7 +11,7 @@ public class ConsistentFiring : BombardCardModel<ConsistentFiring.CardTop, Consi
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ProjectileAbility.Builder()
 				.WithGetAbilities(hex =>
@@ -46,7 +46,7 @@ public class ConsistentFiring : BombardCardModel<ConsistentFiring.CardTop, Consi
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
 

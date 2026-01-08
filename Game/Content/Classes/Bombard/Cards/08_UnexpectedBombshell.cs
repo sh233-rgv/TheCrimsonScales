@@ -9,7 +9,7 @@ public class UnexpectedBombshell : BombardCardModel<UnexpectedBombshell.CardTop,
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ProjectileAbility.Builder()
 				.WithGetAbilities(hex =>
@@ -57,7 +57,7 @@ public class UnexpectedBombshell : BombardCardModel<UnexpectedBombshell.CardTop,
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(PullSelfAbility.Builder()
 				.WithPullSelfValue(4)

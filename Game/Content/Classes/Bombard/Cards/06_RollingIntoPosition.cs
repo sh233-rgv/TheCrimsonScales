@@ -9,7 +9,7 @@ public class RollingIntoPosition : BombardCardModel<RollingIntoPosition.CardTop,
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(1).Build()),
 			new AbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1).Build())
@@ -21,7 +21,7 @@ public class RollingIntoPosition : BombardCardModel<RollingIntoPosition.CardTop,
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()

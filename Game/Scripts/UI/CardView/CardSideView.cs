@@ -17,7 +17,7 @@ public partial class CardSideView : Control
 
 	//private readonly List<CardViewCharacterToken> _tokens = new List<CardViewCharacterToken>();
 
-	public void SetCard(AbilityCardSide abilityCardSide)
+	public void SetCard(AbilityCardSideModel abilityCardSide)
 	{
 		SetCard(abilityCardSide.AbilityCard, abilityCardSide.AbilityCard.Top == abilityCardSide);
 	}

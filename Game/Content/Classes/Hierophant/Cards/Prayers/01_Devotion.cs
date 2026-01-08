@@ -9,7 +9,7 @@ public class Devotion : HierophantPrayerCardModel<Devotion.CardTop, Devotion.Car
 
 	public class CardTop : HierophantPrayerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -67,7 +67,7 @@ public class Devotion : HierophantPrayerCardModel<Devotion.CardTop, Devotion.Car
 
 	public class CardBottom : HierophantPrayerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(1).Build())
 		];

@@ -11,7 +11,7 @@ public class StoneMeteorite : StarslingerCardModel<StoneMeteorite.CardTop, Stone
 
 	public class CardTop : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(6)
@@ -53,7 +53,7 @@ public class StoneMeteorite : StarslingerCardModel<StoneMeteorite.CardTop, Stone
 
 	public class CardBottom : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(5)

@@ -10,7 +10,7 @@ public class SpikedKnuckles : ChainguardCardModel<SpikedKnuckles.CardTop, Spiked
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -32,7 +32,7 @@ public class SpikedKnuckles : ChainguardCardModel<SpikedKnuckles.CardTop, Spiked
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)
@@ -43,7 +43,7 @@ public class SpikedKnuckles : ChainguardCardModel<SpikedKnuckles.CardTop, Spiked
 				{
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
 						parameters => parameters.Performer == state.Performer &&
-							parameters.AbilityState.Target.HasCondition(Chainguard.Shackle),
+						              parameters.AbilityState.Target.HasCondition(Chainguard.Shackle),
 						async parameters =>
 						{
 							parameters.AbilityState.SingleTargetAdjustPierce(1);

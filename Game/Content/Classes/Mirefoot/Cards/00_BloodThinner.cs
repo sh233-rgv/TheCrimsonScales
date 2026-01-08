@@ -9,7 +9,7 @@ public class BloodThinner : MirefootCardModel<BloodThinner.CardTop, BloodThinner
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
@@ -22,7 +22,7 @@ public class BloodThinner : MirefootCardModel<BloodThinner.CardTop, BloodThinner
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Wound1, Conditions.Immobilize)

@@ -12,7 +12,7 @@ public class MercilessBeatdown : ChainguardCardModel<MercilessBeatdown.CardTop, 
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -40,7 +40,7 @@ public class MercilessBeatdown : ChainguardCardModel<MercilessBeatdown.CardTop, 
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ControlAbility.Builder()
 				.WithGetAbilities(state =>

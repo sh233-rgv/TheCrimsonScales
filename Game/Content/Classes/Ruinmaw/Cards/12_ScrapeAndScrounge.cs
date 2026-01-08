@@ -10,7 +10,7 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)
@@ -57,7 +57,7 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(5)

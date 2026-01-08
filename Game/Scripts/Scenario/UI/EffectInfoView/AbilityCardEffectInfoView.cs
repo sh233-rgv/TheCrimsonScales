@@ -9,7 +9,7 @@ public partial class AbilityCardEffectInfoView : EffectInfoView<AbilityCardEffec
 		public AbilityCard AbilityCard { get; }
 		public bool ShowTop { get; }
 
-		public Parameters(AbilityCardSide abilityCardSide)
+		public Parameters(AbilityCardSideModel abilityCardSide)
 		{
 			AbilityCard = abilityCardSide.AbilityCard;
 			ShowTop = abilityCardSide.AbilityCard.Top == abilityCardSide;

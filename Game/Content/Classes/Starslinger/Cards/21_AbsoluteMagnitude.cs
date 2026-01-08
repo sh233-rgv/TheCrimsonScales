@@ -11,7 +11,7 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 
 	public class CardTop : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -43,7 +43,7 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 
 	public class CardBottom : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(PushAbility.Builder()
 				.WithPush(3)

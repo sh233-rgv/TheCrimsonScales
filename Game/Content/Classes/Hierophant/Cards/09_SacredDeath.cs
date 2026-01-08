@@ -11,7 +11,7 @@ public class SacredDeath : HierophantCardModel<SacredDeath.CardTop, SacredDeath.
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder().WithDamage(3).WithRange(3).Build()),
 
@@ -37,7 +37,7 @@ public class SacredDeath : HierophantCardModel<SacredDeath.CardTop, SacredDeath.
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>

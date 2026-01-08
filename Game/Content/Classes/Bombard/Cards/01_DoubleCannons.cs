@@ -10,7 +10,7 @@ public class DoubleCannons : BombardCardModel<DoubleCannons.CardTop, DoubleCanno
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -28,7 +28,7 @@ public class DoubleCannons : BombardCardModel<DoubleCannons.CardTop, DoubleCanno
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ShieldAbility.Builder()
 				.WithShieldValue(2)

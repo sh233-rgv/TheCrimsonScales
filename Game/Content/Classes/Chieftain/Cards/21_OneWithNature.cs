@@ -9,7 +9,7 @@ public class OneWithNature : ChieftainCardModel<OneWithNature.CardTop, OneWithNa
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -31,7 +31,7 @@ public class OneWithNature : ChieftainCardModel<OneWithNature.CardTop, OneWithNa
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(5).Build()),
 		];

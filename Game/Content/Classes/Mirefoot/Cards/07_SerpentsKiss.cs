@@ -10,7 +10,7 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
@@ -23,7 +23,7 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GiveAbilityCardAbility.Builder()
 				.WithGetAbilityCards((state, list) =>

@@ -1,42 +1,11 @@
-﻿using System.Collections.Generic;
-using Godot;
-
-public abstract class AtlasAbilityCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
-	where TTop : AbilityCardSide, new()
-	where TBottom : AbilityCardSide, new()
-{
-	protected abstract string TexturePath { get; }
-	protected abstract int ColumnCount { get; }
-	protected abstract int RowCount { get; }
-	protected abstract int AtlasIndex { get; }
-
-	public override Texture2D GetTexture()
-	{
-		return AtlasTextureHelper.CreateAtlasTexture(
-			AtlasIndex, ColumnCount, RowCount,
-			ResourceLoader.Load<Texture2D>(TexturePath));
-	}
-}
+﻿using Godot;
 
 public abstract class AbilityCardModel<TTop, TBottom> : AbilityCardModel
-	where TTop : AbilityCardSide, new()
-	where TBottom : AbilityCardSide, new()
+	where TTop : AbilityCardSideModel
+	where TBottom : AbilityCardSideModel
 {
-	public override AbilityCardSide CreateTopSide(AbilityCard abilityCard)
-	{
-		return new TTop
-		{
-			AbilityCard = abilityCard
-		};
-	}
-
-	public override AbilityCardSide CreateBottomSide(AbilityCard abilityCard)
-	{
-		return new TBottom
-		{
-			AbilityCard = abilityCard
-		};
-	}
+	public override AbilityCardSideModel Top => ModelDB.AbilityCardSide<TTop>();
+	public override AbilityCardSideModel Bottom => ModelDB.AbilityCardSide<TBottom>();
 }
 
 public abstract class AbilityCardModel : AbstractModel
@@ -45,40 +14,20 @@ public abstract class AbilityCardModel : AbstractModel
 	public abstract int Level { get; }
 	public abstract int Initiative { get; }
 
-	public abstract AbilityCardSide CreateTopSide(AbilityCard abilityCard);
-	public abstract AbilityCardSide CreateBottomSide(AbilityCard abilityCard);
+	protected abstract string TexturePath { get; }
+	protected abstract int ColumnCount { get; }
+	protected abstract int RowCount { get; }
+	protected abstract int AtlasIndex { get; }
 
-	public virtual AbilityCardSide CreateBasicTopSide(AbilityCard abilityCard)
+	public abstract AbilityCardSideModel Top { get; }
+	public abstract AbilityCardSideModel Bottom { get; }
+	public virtual AbilityCardSideModel BasicTop => ModelDB.AbilityCardSide<BasicAbilityCardTop>();
+	public virtual AbilityCardSideModel BasicBottom => ModelDB.AbilityCardSide<BasicAbilityCardBottom>();
+
+	public Texture2D GetTexture()
 	{
-		return new BasicTopSide
-		{
-			AbilityCard = abilityCard
-		};
-	}
-
-	public virtual AbilityCardSide CreateBasicBottomSide(AbilityCard abilityCard)
-	{
-		return new BasicBottomSide
-		{
-			AbilityCard = abilityCard
-		};
-	}
-
-	public abstract Texture2D GetTexture();
-
-	private class BasicTopSide : AbilityCardSide
-	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
-		[
-			new AbilityCardAbility(AttackAbility.Builder().WithDamage(2).Build())
-		];
-	}
-
-	private class BasicBottomSide : AbilityCardSide
-	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
-		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build())
-		];
+		return AtlasTextureHelper.CreateAtlasTexture(
+			AtlasIndex, ColumnCount, RowCount,
+			ResourceLoader.Load<Texture2D>(TexturePath));
 	}
 }

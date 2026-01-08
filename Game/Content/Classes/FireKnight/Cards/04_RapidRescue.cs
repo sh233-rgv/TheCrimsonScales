@@ -11,7 +11,7 @@ public class RapidRescue : FireKnightCardModel<RapidRescue.CardTop, RapidRescue.
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)
@@ -59,7 +59,7 @@ public class RapidRescue : FireKnightCardModel<RapidRescue.CardTop, RapidRescue.
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(state => [MoveAbility.Builder().WithDistance(3).Build()])

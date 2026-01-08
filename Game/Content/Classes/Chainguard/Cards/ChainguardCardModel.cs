@@ -1,4 +1,4 @@
-﻿public abstract class ChainguardLevelUpCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
+﻿public abstract class ChainguardLevelUpCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : ChainguardCardSide, new()
 	where TBottom : ChainguardCardSide, new()
 {
@@ -7,7 +7,7 @@
 	protected override int RowCount => 4;
 }
 
-public abstract class ChainguardCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
+public abstract class ChainguardCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : ChainguardCardSide, new()
 	where TBottom : ChainguardCardSide, new()
 {
@@ -16,6 +16,6 @@ public abstract class ChainguardCardModel<TTop, TBottom> : AtlasAbilityCardModel
 	protected override int RowCount => 4;
 }
 
-public abstract class ChainguardCardSide : AbilityCardSide
+public abstract class ChainguardCardSide : AbilityCardSideModel
 {
 }

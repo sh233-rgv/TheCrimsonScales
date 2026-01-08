@@ -5,7 +5,7 @@ using Fractural.Tasks;
 public class AMDCardValue(
 	bool rolling, AMDCardType cardType, int? value, int? pierce, int? push, int? pull, int? swing,
 	List<CardElementInfusion> elementInfusions, List<ConditionModel> conditionModels, List<Ability> abilities,
-	Func<AttackAbility.State, GDTask> extraEffects)
+	Func<AttackAbility.State, GDTask> extraEffects) : IActionSource
 {
 	public bool Rolling { get; } = rolling;
 
@@ -87,7 +87,7 @@ public class AMDCardValue(
 				{
 					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(attackAbilityState, this);
 
-					ActionState actionState = new ActionState(attackAbilityState.Performer, Abilities);
+					ActionState actionState = new ActionState(this, attackAbilityState.Performer, Abilities);
 					await actionState.Perform();
 				}
 			);

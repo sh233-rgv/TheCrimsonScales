@@ -1,7 +1,7 @@
 ﻿using Fractural.Tasks;
 using Godot;
 
-public abstract class StarslingerCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
+public abstract class StarslingerCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : StarslingerCardSide, new()
 	where TBottom : StarslingerCardSide, new()
 {
@@ -10,7 +10,6 @@ public abstract class StarslingerCardModel<TTop, TBottom> : AtlasAbilityCardMode
 	protected override int RowCount => 5;
 }
 
-public abstract class StarslingerCardSide : AbilityCardSide
+public abstract class StarslingerCardSide : AbilityCardSideModel
 {
-	
 }

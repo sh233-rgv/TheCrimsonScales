@@ -9,7 +9,7 @@ public class RustySpikes : ChainguardCardModel<RustySpikes.CardTop, RustySpikes.
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(CreateTrapAbility.Builder()
 				.WithDamage(3)
@@ -23,7 +23,7 @@ public class RustySpikes : ChainguardCardModel<RustySpikes.CardTop, RustySpikes.
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)

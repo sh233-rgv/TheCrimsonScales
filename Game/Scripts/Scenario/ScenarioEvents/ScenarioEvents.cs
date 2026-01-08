@@ -821,9 +821,10 @@ public partial class ScenarioEvents
 
 	public class AbilityCardSideStarted : ScenarioEvent<AbilityCardSideStarted.Parameters>
 	{
-		public class Parameters(AbilityCardSide abilityCardSide, Figure performer) : ParametersBase
+		public class Parameters(AbilityCard abilityCard, AbilityCardSideModel abilityCardSide, Figure performer) : ParametersBase
 		{
-			public AbilityCardSide AbilityCardSide { get; } = abilityCardSide;
+			public AbilityCard AbilityCard { get; } = abilityCard;
+			public AbilityCardSideModel AbilityCardSide { get; } = abilityCardSide;
 			public Figure Performer { get; } = performer;
 
 			public bool ForgoneAction { get; private set; }
@@ -840,9 +841,9 @@ public partial class ScenarioEvents
 
 	public class AbilityCardSideEnded : ScenarioEvent<AbilityCardSideEnded.Parameters>
 	{
-		public class Parameters(AbilityCardSide abilityCardSide, Figure performer, CardState resultingState) : ParametersBase
+		public class Parameters(AbilityCardSideModel abilityCardSide, Figure performer, CardState resultingState) : ParametersBase
 		{
-			public AbilityCardSide AbilityCardSide { get; } = abilityCardSide;
+			public AbilityCardSideModel AbilityCardSide { get; } = abilityCardSide;
 			public Figure Performer { get; } = performer;
 			public CardState ResultingState { get; } = resultingState;
 		}

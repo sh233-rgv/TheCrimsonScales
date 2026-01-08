@@ -11,7 +11,7 @@ public class DevourWhole : RuinmawCardModel<DevourWhole.CardTop, DevourWhole.Car
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -75,7 +75,7 @@ public class DevourWhole : RuinmawCardModel<DevourWhole.CardTop, DevourWhole.Car
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(6)

@@ -10,7 +10,7 @@ public class ClampingSnare : ChainguardLevelUpCardModel<ClampingSnare.CardTop, C
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(CreateTrapAbility.Builder()
 				.WithDamage(5)
@@ -58,7 +58,7 @@ public class ClampingSnare : ChainguardLevelUpCardModel<ClampingSnare.CardTop, C
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build()),
 			new AbilityCardAbility(ShieldAbility.Builder()

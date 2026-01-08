@@ -9,7 +9,7 @@ public class Neurotoxin : MirefootCardModel<Neurotoxin.CardTop, Neurotoxin.CardB
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
@@ -23,7 +23,7 @@ public class Neurotoxin : MirefootCardModel<Neurotoxin.CardTop, Neurotoxin.CardB
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
 			new AbilityCardAbility(HealAbility.Builder()

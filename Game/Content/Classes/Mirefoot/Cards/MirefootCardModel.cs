@@ -1,7 +1,7 @@
 ﻿using Fractural.Tasks;
 using Godot;
 
-public abstract class MirefootCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
+public abstract class MirefootCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : MirefootCardSide, new()
 	where TBottom : MirefootCardSide, new()
 {
@@ -10,12 +10,14 @@ public abstract class MirefootCardModel<TTop, TBottom> : AtlasAbilityCardModel<T
 	protected override int RowCount => 5;
 }
 
-public abstract class MirefootCardSide : AbilityCardSide
+public abstract class MirefootCardSide : AbilityCardSideModel
 {
 	protected async GDTask CreateDifficultTerrain(Hex hex)
 	{
 		PackedScene scene = ResourceLoader.Load<PackedScene>(
-			GameController.Instance.StateRNG.Randf() > 0.5f ? "res://Content/Classes/Mirefoot/Bog1H.tscn" : "res://Content/Classes/Mirefoot/BrokenLog1H.tscn");
+			GameController.Instance.StateRNG.Randf() > 0.5f
+				? "res://Content/Classes/Mirefoot/Bog1H.tscn"
+				: "res://Content/Classes/Mirefoot/BrokenLog1H.tscn");
 		await AbilityCmd.CreateDifficultTerrain(hex, scene);
 	}
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
 
-public abstract class FireKnightLevelUpCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
+public abstract class FireKnightLevelUpCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : FireKnightCardSide, new()
 	where TBottom : FireKnightCardSide, new()
 {
@@ -11,7 +11,7 @@ public abstract class FireKnightLevelUpCardModel<TTop, TBottom> : AtlasAbilityCa
 	protected override int RowCount => 4;
 }
 
-public abstract class FireKnightCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
+public abstract class FireKnightCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : FireKnightCardSide, new()
 	where TBottom : FireKnightCardSide, new()
 {
@@ -20,7 +20,7 @@ public abstract class FireKnightCardModel<TTop, TBottom> : AtlasAbilityCardModel
 	protected override int RowCount => 3;
 }
 
-public abstract class FireKnightCardSide : AbilityCardSide
+public abstract class FireKnightCardSide : AbilityCardSideModel
 {
 	protected const string LadderIconPath = "res://Content/Classes/FireKnight/LadderIcon.svg";
 

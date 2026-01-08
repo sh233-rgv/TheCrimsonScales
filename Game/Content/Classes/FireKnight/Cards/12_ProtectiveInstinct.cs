@@ -10,7 +10,7 @@ public class ProtectiveInstinct : FireKnightCardModel<ProtectiveInstinct.CardTop
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(LootAbility.Builder().WithRange(1).Build()),
 
@@ -25,7 +25,7 @@ public class ProtectiveInstinct : FireKnightCardModel<ProtectiveInstinct.CardTop
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
 

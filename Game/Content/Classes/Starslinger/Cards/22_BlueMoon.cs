@@ -11,7 +11,7 @@ public class BlueMoon : StarslingerCardModel<BlueMoon.CardTop, BlueMoon.CardBott
 
 	public class CardTop : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -55,7 +55,7 @@ public class BlueMoon : StarslingerCardModel<BlueMoon.CardTop, BlueMoon.CardBott
 
 	public class CardBottom : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(4)

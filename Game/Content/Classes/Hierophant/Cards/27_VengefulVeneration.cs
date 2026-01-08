@@ -11,7 +11,7 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder().WithDamage(4).WithRange(4).Build()),
 
@@ -48,7 +48,7 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

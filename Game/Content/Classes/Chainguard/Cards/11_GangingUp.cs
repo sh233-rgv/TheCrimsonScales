@@ -10,7 +10,7 @@ public class GangingUp : ChainguardCardModel<GangingUp.CardTop, GangingUp.CardBo
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -36,7 +36,7 @@ public class GangingUp : ChainguardCardModel<GangingUp.CardTop, GangingUp.CardBo
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantAbilityState =>
@@ -45,9 +45,10 @@ public class GangingUp : ChainguardCardModel<GangingUp.CardTop, GangingUp.CardBo
 						.WithDamage(3)
 						.WithCustomGetTargets((state, figures) =>
 						{
-							IEnumerable<Figure> adjacentFigures = RangeHelper.GetFiguresInRange(grantAbilityState.Performer.Hex, 1, includeOrigin: false);
-							figures.AddRange(adjacentFigures.Where(figure => figure.EnemiesWith(grantAbilityState.Performer) 
-																			&& figure.HasCondition(Chainguard.Shackle)));
+							IEnumerable<Figure> adjacentFigures =
+								RangeHelper.GetFiguresInRange(grantAbilityState.Performer.Hex, 1, includeOrigin: false);
+							figures.AddRange(adjacentFigures.Where(figure => figure.EnemiesWith(grantAbilityState.Performer)
+							                                                 && figure.HasCondition(Chainguard.Shackle)));
 						})
 						.WithTarget(Target.Enemies)
 						.Build()

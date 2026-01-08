@@ -11,7 +11,7 @@ public class LockingLinks : ChainguardCardModel<LockingLinks.CardTop, LockingLin
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -56,9 +56,9 @@ public class LockingLinks : ChainguardCardModel<LockingLinks.CardTop, LockingLin
 
 					AttackAbility.State attackState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 
-					return attackState.Performed && 
-						!attackState.Target.IsDead && 
-						attackState.Target.HasCondition(Chainguard.Shackle);
+					return attackState.Performed &&
+					       !attackState.Target.IsDead &&
+					       attackState.Target.HasCondition(Chainguard.Shackle);
 				})
 				.Build()
 			)
@@ -69,7 +69,7 @@ public class LockingLinks : ChainguardCardModel<LockingLinks.CardTop, LockingLin
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(CreateTrapAbility.Builder()
 				.WithDamage(2)

@@ -9,7 +9,7 @@ public class RapidFire : BombardCardModel<RapidFire.CardTop, RapidFire.CardBotto
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ProjectileAbility.Builder().WithGetAbilities(hex =>
 				[
@@ -33,7 +33,7 @@ public class RapidFire : BombardCardModel<RapidFire.CardTop, RapidFire.CardBotto
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)

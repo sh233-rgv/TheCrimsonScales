@@ -9,7 +9,7 @@ public class SniffingHound : ChieftainCardModel<SniffingHound.CardTop, SniffingH
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithSummonStats(new SummonStats()
@@ -35,7 +35,7 @@ public class SniffingHound : ChieftainCardModel<SniffingHound.CardTop, SniffingH
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(5).Build()),
 		];

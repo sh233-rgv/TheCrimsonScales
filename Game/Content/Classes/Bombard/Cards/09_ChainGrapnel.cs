@@ -10,7 +10,7 @@ public class ChainGrapnel : BombardCardModel<ChainGrapnel.CardTop, ChainGrapnel.
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			//new AbilityCardAbility(new AttackAbility(2, range: 3, pull: 2, conditions: [Conditions.Immobilize]))
 			new AbilityCardAbility(AttackAbility.Builder()
@@ -26,7 +26,7 @@ public class ChainGrapnel : BombardCardModel<ChainGrapnel.CardTop, ChainGrapnel.
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ProjectileAbility.Builder()
 				.WithGetAbilities(hex =>

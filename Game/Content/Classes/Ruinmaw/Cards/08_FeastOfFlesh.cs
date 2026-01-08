@@ -10,7 +10,7 @@ public class FeastOfFlesh : RuinmawCardModel<FeastOfFlesh.CardTop, FeastOfFlesh.
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(5)
@@ -33,7 +33,7 @@ public class FeastOfFlesh : RuinmawCardModel<FeastOfFlesh.CardTop, FeastOfFlesh.
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)

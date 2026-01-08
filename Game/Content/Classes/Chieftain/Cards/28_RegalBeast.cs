@@ -11,7 +11,7 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithSummonStats(new SummonStats()
@@ -67,7 +67,7 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -84,8 +84,8 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 						await AbilityCmd.ReturnToHand(abilityCard);
 					}
 
-					IEnumerable<AbilityCardSide> abilitySides = selectedAbilityCards
-						.SelectMany<AbilityCard, AbilityCardSide>(abilityCard => [abilityCard.Top, abilityCard.Bottom])
+					IEnumerable<AbilityCardSideModel> abilitySides = selectedAbilityCards
+						.SelectMany<AbilityCard, AbilityCardSideModel>(abilityCard => [abilityCard.Top, abilityCard.Bottom])
 						.Where(abilityCardSide => abilityCardSide.Abilities
 							.Any(cardAbility => cardAbility.Ability is SummonAbility));
 
@@ -100,7 +100,7 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 						}
 					);
 
-					foreach(AbilityCardSide abilitySide in abilitySides)
+					foreach(AbilityCardSideModel abilitySide in abilitySides)
 					{
 						await abilitySide.Perform(state.Performer);
 						await abilitySide.AbilityCard.SetCardState(abilitySide.AbilityCard.Unrecoverable

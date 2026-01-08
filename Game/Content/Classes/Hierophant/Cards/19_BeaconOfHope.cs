@@ -11,7 +11,7 @@ public class BeaconOfHope : HierophantLevelUpCardModel<BeaconOfHope.CardTop, Bea
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
@@ -44,7 +44,7 @@ public class BeaconOfHope : HierophantLevelUpCardModel<BeaconOfHope.CardTop, Bea
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Bless, Conditions.Bless)

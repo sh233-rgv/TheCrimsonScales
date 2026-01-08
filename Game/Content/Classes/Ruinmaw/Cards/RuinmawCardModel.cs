@@ -1,6 +1,6 @@
 ﻿using Fractural.Tasks;
 
-public abstract class RuinmawCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
+public abstract class RuinmawCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : RuinmawCardSide, new()
 	where TBottom : RuinmawCardSide, new()
 {
@@ -9,10 +9,10 @@ public abstract class RuinmawCardModel<TTop, TBottom> : AtlasAbilityCardModel<TT
 	protected override int RowCount => 4;
 }
 
-public abstract class RuinmawCardSide : AbilityCardSide
+public abstract class RuinmawCardSide : AbilityCardSideModel
 {
 	protected virtual bool Sate => false;
-	
+
 	protected override async GDTask OnActionPerformed(Figure figure)
 	{
 		await base.OnActionPerformed(figure);

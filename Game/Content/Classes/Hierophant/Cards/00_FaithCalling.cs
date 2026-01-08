@@ -11,7 +11,7 @@ public class FaithCalling : HierophantCardModel<FaithCalling.CardTop, FaithCalli
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(state =>
@@ -53,7 +53,7 @@ public class FaithCalling : HierophantCardModel<FaithCalling.CardTop, FaithCalli
 			new EnhancementMark(EnhancementPips.AttackEnhancementDiamond, new Vector2(0.5f, 0.7f))
 		];
 
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)

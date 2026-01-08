@@ -11,7 +11,7 @@ public class ImpendingPower : ChainguardLevelUpCardModel<ImpendingPower.CardTop,
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -71,7 +71,7 @@ public class ImpendingPower : ChainguardLevelUpCardModel<ImpendingPower.CardTop,
 
 							await AbilityCmd.GenericChoice(state.Performer,
 								[shieldChosenSubscription, retaliateChosenSubscription],
-								hintText: "Select an effect to gain for the attack:");
+								hintText: "Select an effect to gain for the attack");
 
 							await state.AdvanceUseSlot();
 						}
@@ -85,7 +85,7 @@ public class ImpendingPower : ChainguardLevelUpCardModel<ImpendingPower.CardTop,
 					ScenarioEvents.SufferDamageEvent.Unsubscribe(state, this);
 					ScenarioEvents.RetaliateEvent.Unsubscribe(state, this);
 
-					ActionState actionState = new ActionState(state.Performer,
+					ActionState actionState = new ActionState(state.ActionState, state.Performer,
 					[
 						HealAbility.Builder()
 							.WithHealValue(state.Slots.Count - state.UseSlotIndex)
@@ -112,7 +112,7 @@ public class ImpendingPower : ChainguardLevelUpCardModel<ImpendingPower.CardTop,
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>

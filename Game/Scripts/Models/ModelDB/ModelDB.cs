@@ -81,7 +81,12 @@ public static class ModelDB
 		return ContentById[id];
 	}
 
-	public static T Card<T>() where T : AbilityCardModel
+	public static T AbilityCard<T>() where T : AbilityCardModel
+	{
+		return GetOrCreate<T>();
+	}
+
+	public static T AbilityCardSide<T>() where T : AbilityCardSideModel
 	{
 		return GetOrCreate<T>();
 	}

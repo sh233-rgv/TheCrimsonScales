@@ -9,7 +9,7 @@ public class GrapplingHook : BombardCardModel<GrapplingHook.CardTop, GrapplingHo
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder().WithDamage(2).WithRange(4).Build()),
 			new AbilityCardAbility(PullSelfAbility.Builder()
@@ -25,7 +25,7 @@ public class GrapplingHook : BombardCardModel<GrapplingHook.CardTop, GrapplingHo
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

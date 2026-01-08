@@ -10,7 +10,7 @@ public class MeteorHammer : ChainguardLevelUpCardModel<MeteorHammer.CardTop, Met
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(5)
@@ -31,7 +31,7 @@ public class MeteorHammer : ChainguardLevelUpCardModel<MeteorHammer.CardTop, Met
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
 
@@ -40,7 +40,7 @@ public class MeteorHammer : ChainguardLevelUpCardModel<MeteorHammer.CardTop, Met
 				{
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
 						canApply: canApplyParameters => state.Performer == canApplyParameters.Performer &&
-							canApplyParameters.AbilityState.Target.HasCondition(Chainguard.Shackle),
+						                                canApplyParameters.AbilityState.Target.HasCondition(Chainguard.Shackle),
 						async applyParameters =>
 						{
 							applyParameters.AbilityState.SingleTargetSetIgnoresAllShields();

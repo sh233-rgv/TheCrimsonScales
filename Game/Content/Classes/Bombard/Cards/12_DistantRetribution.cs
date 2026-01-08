@@ -9,7 +9,7 @@ public class DistantRetribution : BombardCardModel<DistantRetribution.CardTop, D
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2).WithRange(3).Build())
 		];
@@ -20,7 +20,7 @@ public class DistantRetribution : BombardCardModel<DistantRetribution.CardTop, D
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(1).Build()),
 

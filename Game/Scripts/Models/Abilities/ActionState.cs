@@ -16,6 +16,7 @@ public sealed partial class ActionState
 
 	private bool _discardOrLoseRequested;
 
+	public IActionSource ActionSource { get; }
 	public Figure Performer { get; }
 	public Figure Authority { get; }
 
@@ -36,15 +37,31 @@ public sealed partial class ActionState
 	public IReadOnlyList<AbilityState> AbilityStates => _abilityStates;
 	public int CurrentAbilityStateIndex => _abilityStates.Count - 1;
 
-	public ActionState(Figure performerAndAuthority, IList<Ability> abilities, ActionState parentActionState = null,
+	public ActionState(Figure performerAndAuthority, IList<Ability> abilities,
 		Func<ActionState, GDTask> onFirstActivateAbilityActivated = null, Func<ActionState, GDTask> onDiscardOrLoseRequested = null)
-		: this(performerAndAuthority, performerAndAuthority, abilities, parentActionState, onFirstActivateAbilityActivated, onDiscardOrLoseRequested)
+		: this(null, performerAndAuthority, performerAndAuthority, abilities, null,
+			onFirstActivateAbilityActivated, onDiscardOrLoseRequested)
 	{
 	}
 
-	public ActionState(Figure performer, Figure authority, IList<Ability> abilities, ActionState parentActionState = null,
+	public ActionState(ActionState parentActionState, Figure performerAndAuthority, IList<Ability> abilities,
+		Func<ActionState, GDTask> onFirstActivateAbilityActivated = null, Func<ActionState, GDTask> onDiscardOrLoseRequested = null)
+		: this(parentActionState.ActionSource, performerAndAuthority, performerAndAuthority, abilities, parentActionState,
+			onFirstActivateAbilityActivated, onDiscardOrLoseRequested)
+	{
+	}
+
+	public ActionState(IActionSource actionSource, Figure performerAndAuthority, IList<Ability> abilities, ActionState parentActionState = null,
+		Func<ActionState, GDTask> onFirstActivateAbilityActivated = null, Func<ActionState, GDTask> onDiscardOrLoseRequested = null)
+		: this(actionSource, performerAndAuthority, performerAndAuthority, abilities, parentActionState,
+			onFirstActivateAbilityActivated, onDiscardOrLoseRequested)
+	{
+	}
+
+	public ActionState(IActionSource actionSource, Figure performer, Figure authority, IList<Ability> abilities, ActionState parentActionState = null,
 		Func<ActionState, GDTask> onFirstActivateAbilityActivated = null, Func<ActionState, GDTask> onDiscardOrLoseRequested = null)
 	{
+		ActionSource = actionSource;
 		Performer = performer;
 		Authority = authority;
 

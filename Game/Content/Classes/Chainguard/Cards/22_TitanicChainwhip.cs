@@ -9,7 +9,7 @@ public class TitanicChainwhip : ChainguardLevelUpCardModel<TitanicChainwhip.Card
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -22,13 +22,13 @@ public class TitanicChainwhip : ChainguardLevelUpCardModel<TitanicChainwhip.Card
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(4)
 				.WithRange(5)
 				.WithConditions(Chainguard.Shackle, Conditions.Wound1)
 				.Build()),
-		];  
+		];
 	}
 }

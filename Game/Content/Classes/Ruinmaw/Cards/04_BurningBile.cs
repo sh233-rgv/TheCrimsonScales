@@ -9,7 +9,7 @@ public class BurningBile : RuinmawCardModel<BurningBile.CardTop, BurningBile.Car
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -22,9 +22,10 @@ public class BurningBile : RuinmawCardModel<BurningBile.CardTop, BurningBile.Car
 						async parameters =>
 						{
 							foreach(Figure figure in RangeHelper.GetFiguresInRange(parameters.AbilityState.Target.Hex, 1))
-                            {
+							{
 								await AbilityCmd.AddCondition(parameters.AbilityState, figure, Conditions.Wound1);
-                            }
+							}
+
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
@@ -37,7 +38,7 @@ public class BurningBile : RuinmawCardModel<BurningBile.CardTop, BurningBile.Car
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

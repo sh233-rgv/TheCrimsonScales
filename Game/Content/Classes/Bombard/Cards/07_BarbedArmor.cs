@@ -10,7 +10,7 @@ public class BarbedArmor : BombardCardModel<BarbedArmor.CardTop, BarbedArmor.Car
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(1).Build()),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
@@ -41,7 +41,7 @@ public class BarbedArmor : BombardCardModel<BarbedArmor.CardTop, BarbedArmor.Car
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ShieldAbility.Builder()
 				.WithShieldValue(2)

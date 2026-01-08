@@ -11,7 +11,7 @@ public class ForgedByFire : FireKnightLevelUpCardModel<ForgedByFire.CardTop, For
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
@@ -44,7 +44,7 @@ public class ForgedByFire : FireKnightLevelUpCardModel<ForgedByFire.CardTop, For
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(5).Build()),
 

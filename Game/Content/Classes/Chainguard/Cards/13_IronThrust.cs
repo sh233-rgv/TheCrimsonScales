@@ -11,7 +11,7 @@ public class IronThrust : ChainguardLevelUpCardModel<IronThrust.CardTop, IronThr
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -56,7 +56,8 @@ public class IronThrust : ChainguardLevelUpCardModel<IronThrust.CardTop, IronThr
 				{
 					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 
-					IEnumerable<Figure> figuresPassedThrough = attackAbilityState.SingleTargetState.ForcedMovementHexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>());
+					IEnumerable<Figure> figuresPassedThrough =
+						attackAbilityState.SingleTargetState.ForcedMovementHexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>());
 
 					figures.AddRange(figuresPassedThrough.Where(figure => figure.AlliedWith(state.Performer) && figure != attackAbilityState.Target));
 				})
@@ -70,7 +71,7 @@ public class IronThrust : ChainguardLevelUpCardModel<IronThrust.CardTop, IronThr
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).WithMoveType(MoveType.Jump).Build()),
 

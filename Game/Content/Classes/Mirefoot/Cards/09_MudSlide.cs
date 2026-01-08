@@ -10,7 +10,7 @@ public class Mudslide : MirefootCardModel<Mudslide.CardTop, Mudslide.CardBottom>
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -33,7 +33,7 @@ public class Mudslide : MirefootCardModel<Mudslide.CardTop, Mudslide.CardBottom>
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async abilityState =>

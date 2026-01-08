@@ -11,7 +11,7 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -56,7 +56,7 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ControlAbility.Builder()
 				.WithGetAbilities(state =>

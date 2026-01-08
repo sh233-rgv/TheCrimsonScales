@@ -10,7 +10,7 @@ public class Heartripper : RuinmawCardModel<Heartripper.CardTop, Heartripper.Car
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(6)
@@ -40,7 +40,7 @@ public class Heartripper : RuinmawCardModel<Heartripper.CardTop, Heartripper.Car
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(5)

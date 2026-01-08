@@ -11,7 +11,7 @@ public class HeavyIrons : FireKnightLevelUpCardModel<HeavyIrons.CardTop, HeavyIr
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -30,7 +30,7 @@ public class HeavyIrons : FireKnightLevelUpCardModel<HeavyIrons.CardTop, HeavyIr
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)

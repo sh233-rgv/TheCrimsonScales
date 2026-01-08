@@ -10,7 +10,7 @@ public class IgnitedLaunch : BombardCardModel<IgnitedLaunch.CardTop, IgnitedLaun
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ProjectileAbility.Builder()
 				.WithGetAbilities(hex =>
@@ -34,7 +34,7 @@ public class IgnitedLaunch : BombardCardModel<IgnitedLaunch.CardTop, IgnitedLaun
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>

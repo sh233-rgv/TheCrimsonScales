@@ -11,7 +11,7 @@ public class SyndicatedAssault : ChainguardLevelUpCardModel<SyndicatedAssault.Ca
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SwingAbility.Builder()
 				.WithSwing(6)
@@ -39,11 +39,11 @@ public class SyndicatedAssault : ChainguardLevelUpCardModel<SyndicatedAssault.Ca
 				.Build()),
 
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantAbilityState => 
+				.WithGetAbilities(grantAbilityState =>
 				[
 					AttackAbility.Builder()
 						.WithDamage(3)
-						.WithCustomGetTargets((attackAbilityState, figures) => 
+						.WithCustomGetTargets((attackAbilityState, figures) =>
 						{
 							figures.AddRange(grantAbilityState.ActionState.GetAbilityState<SwingAbility.State>(0).UniqueTargetedFigures);
 						})
@@ -53,7 +53,8 @@ public class SyndicatedAssault : ChainguardLevelUpCardModel<SyndicatedAssault.Ca
 				{
 					SwingAbility.State swingState = state.ActionState.GetAbilityState<SwingAbility.State>(0);
 
-					IEnumerable<Figure> figuresPassedThrough = swingState.SingleTargetState.ForcedMovementHexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>());
+					IEnumerable<Figure> figuresPassedThrough =
+						swingState.SingleTargetState.ForcedMovementHexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>());
 
 					figures.AddRange(figuresPassedThrough.Where(figure => figure.AlliedWith(state.Performer) && figure != swingState.Target));
 				})
@@ -64,7 +65,7 @@ public class SyndicatedAssault : ChainguardLevelUpCardModel<SyndicatedAssault.Ca
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)
@@ -72,7 +73,7 @@ public class SyndicatedAssault : ChainguardLevelUpCardModel<SyndicatedAssault.Ca
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
-				.WithCustomGetTargets((state, figures) => 
+				.WithCustomGetTargets((state, figures) =>
 				{
 					figures.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, includeOrigin: false)
 						.Where(figure => state.Performer.EnemiesWith(figure)));

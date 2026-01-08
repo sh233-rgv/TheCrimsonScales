@@ -10,7 +10,7 @@ public class SufferingSteel : ChainguardLevelUpCardModel<SufferingSteel.CardTop,
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(4).Build()),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
@@ -46,7 +46,7 @@ public class SufferingSteel : ChainguardLevelUpCardModel<SufferingSteel.CardTop,
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
 			new AbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2).Build()),

@@ -11,7 +11,7 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 
 	public class CardTop : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -20,7 +20,7 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 						parameters => parameters.Figure == state.Performer,
 						async parameters =>
 						{
-							ActionState actionState = new ActionState(state.Performer, [
+							ActionState actionState = new ActionState(state.ActionState, state.Performer, [
 								GrantAbility.Builder()
 									.WithGetAbilities(grantAbilityState => [AttackAbility.Builder().WithDamage(3).WithRange(3).Build()])
 									.WithGetTargetingHintText(grantAbilityState =>
@@ -59,7 +59,7 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 
 	public class CardBottom : BombardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -68,7 +68,8 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 						parameters =>
 							!state.GetCustomValue<bool>(this, "Used") &&
 							state.Performer != parameters.Performer &&
-							(parameters.AbilityCardSide.IsTop || parameters.AbilityCardSide.IsBasicTop) &&
+							(parameters.AbilityCardSide.GetIsTop(parameters.AbilityCard) ||
+							 parameters.AbilityCardSide.GetIsBasicTop(parameters.AbilityCard)) &&
 							state.Performer.AlliedWith(parameters.Performer) &&
 							RangeHelper.Distance(parameters.Performer.Hex, state.Performer.Hex) <= 1 &&
 							!parameters.ForgoneAction,
@@ -78,7 +79,8 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 
 							parameters.ForgoAction();
 
-							ActionState actionState = new ActionState(state.Performer, [AttackAbility.Builder().WithDamage(4).WithRange(3).Build()]);
+							ActionState actionState = new ActionState(state.ActionState, state.Performer,
+								[AttackAbility.Builder().WithDamage(4).WithRange(3).Build()]);
 							await actionState.Perform();
 						},
 						EffectType.Selectable,

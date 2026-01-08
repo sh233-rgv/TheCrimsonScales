@@ -10,7 +10,7 @@ public class WeakenedWill : HierophantLevelUpCardModel<WeakenedWill.CardTop, Wea
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -45,7 +45,7 @@ public class WeakenedWill : HierophantLevelUpCardModel<WeakenedWill.CardTop, Wea
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(1).Build()),
 
