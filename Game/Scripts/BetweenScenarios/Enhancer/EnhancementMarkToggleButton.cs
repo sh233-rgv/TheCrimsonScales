@@ -6,13 +6,6 @@ public partial class EnhancementMarkToggleButton : ToggleButton<EnhancementMarkT
 
 	public EnhancementMark EnhancementMark { get; private set; }
 
-	public override void _Ready()
-	{
-		base._Ready();
-
-		SetProcess(OS.IsDebugBuild());
-	}
-
 	public void Init(EnhancementMark enhancementMark)
 	{
 		base.Init();
@@ -22,46 +15,5 @@ public partial class EnhancementMarkToggleButton : ToggleButton<EnhancementMarkT
 		Control parent = GetParent<Control>();
 		_normalizedPosition = enhancementMark.NormalizedPosition;
 		SetPosition(_normalizedPosition * parent.Size - 0.5f * Size);
-	}
-
-	public override void _Process(double delta)
-	{
-		base._Process(delta);
-
-		Vector2 moveInput = Vector2.Zero;
-		float mult = 1f;
-		if(Input.IsKeyPressed(Key.Shift))
-		{
-			mult = 10f;
-		}
-
-		if(Input.IsKeyPressed(Key.L))
-		{
-			moveInput.X = 1f;
-		}
-
-		if(Input.IsKeyPressed(Key.J))
-		{
-			moveInput.X = -1f;
-		}
-
-		if(Input.IsKeyPressed(Key.I))
-		{
-			moveInput.Y = -1f;
-		}
-
-		if(Input.IsKeyPressed(Key.K))
-		{
-			moveInput.Y = 1f;
-		}
-
-		if(moveInput != Vector2.Zero)
-		{
-			_normalizedPosition += moveInput * mult * 0.0005f;
-			Control parent = GetParent<Control>();
-			SetPosition(_normalizedPosition * parent.Size - 0.5f * Size);
-
-			Log.Write(_normalizedPosition.ToString());
-		}
 	}
 }
