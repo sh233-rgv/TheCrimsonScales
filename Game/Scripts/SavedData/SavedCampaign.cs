@@ -134,6 +134,8 @@ public class SavedCampaign
 		savedCampaign.Characters[0].SavedPersonalQuest.PersonalQuestData.AdjustProgress(
 			30, savedCampaign.Characters[0].ClassModel, savedCampaign.Characters[0].SavedPersonalQuest.Model);
 
+		savedCampaign.Characters[0].AddGold(100);
+
 		// SavedScenarioProgress testScenario = new SavedScenarioProgress();
 		// testScenario.Discover();
 		// savedCampaign.SavedScenarioProgresses.ScenarioProgresses.Add(ModelDB.GetId<Scenario029>().ToString(), testScenario);

@@ -4,9 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://c50n0lfjv3r6v" path="res://Art/Icons/ConditionsAndEffects/Wound.svg" id="2_fcdbu"]
 
 [node name="EnhancementView" type="Control" node_paths=PackedStringArray("_textureRect")]
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 3
 anchors_preset = 0
+offset_right = 50.0
+offset_bottom = 50.0
 mouse_filter = 2
 script = ExtResource("1_dcpx4")
 _textureRect = NodePath("Container/TextureRect")

@@ -5,12 +5,16 @@ public partial class EnhancementMarkToggleButton : ToggleButton<EnhancementMarkT
 	private Vector2 _normalizedPosition;
 
 	public EnhancementMark EnhancementMark { get; private set; }
+	public bool Top { get; private set; }
+	public int Index { get; private set; }
 
-	public void Init(EnhancementMark enhancementMark)
+	public void Init(EnhancementMark enhancementMark, bool top, int index)
 	{
 		base.Init();
 
 		EnhancementMark = enhancementMark;
+		Top = top;
+		Index = index;
 
 		Control parent = GetParent<Control>();
 		_normalizedPosition = enhancementMark.NormalizedPosition;

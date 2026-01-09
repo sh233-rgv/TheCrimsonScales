@@ -132,10 +132,10 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 	{
 		public interface IDamageStep
 		{
-			TBuilder WithDamage(DynamicInt<State> damage, params AttackEnhancementMark[] enhancementMark);
+			TBuilder WithDamage(DynamicInt<State> damage, params AttackEnhancementMark[] enhancementMarks);
 		}
 
-		public TBuilder WithDamage(DynamicInt<State> damage, params AttackEnhancementMark[] enhancementMark)
+		public TBuilder WithDamage(DynamicInt<State> damage, params AttackEnhancementMark[] enhancementMarks)
 		{
 			Obj.Damage = damage;
 			return (TBuilder)this;

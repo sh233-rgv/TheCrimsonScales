@@ -51,6 +51,8 @@ public abstract class AbilityCardSideModel : AbstractModel
 	{
 		AbilityCardModel = abilityCardModel;
 		AbilityCardSideType = abilityCardSideType;
+
+		TryGetAbilities();
 	}
 
 	public void RegisterEnhancementMark(EnhancementMark enhancementMark)

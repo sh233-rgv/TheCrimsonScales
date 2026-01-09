@@ -45,3 +45,6 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("4_dhfk3")
 expand_mode = 1
+
+[node name="InactiveOverlay" parent="Container/BetterButton" index="2"]
+self_modulate = Color(0, 0, 0, 0.196078)

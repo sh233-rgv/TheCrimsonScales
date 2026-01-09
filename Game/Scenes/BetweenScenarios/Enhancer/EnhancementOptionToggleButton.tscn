@@ -90,3 +90,6 @@ stretch_mode = 5
 layout_mode = 2
 text = "200"
 label_settings = SubResource("LabelSettings_bgynt")
+
+[node name="InactiveOverlay" parent="Container/BetterButton" index="2"]
+self_modulate = Color(0, 0, 0, 0.196078)

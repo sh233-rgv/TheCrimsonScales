@@ -54,10 +54,10 @@ public class MoveAbility : Ability<MoveAbility.State>
 	{
 		public interface IDistanceStep
 		{
-			TBuilder WithDistance(int distance);
+			TBuilder WithDistance(int distance, params MoveEnhancementMark[] enhancementMarks);
 		}
 
-		public TBuilder WithDistance(int distance)
+		public TBuilder WithDistance(int distance, params MoveEnhancementMark[] enhancementMarks)
 		{
 			Obj.Distance = distance;
 			return (TBuilder)this;

@@ -106,6 +106,6 @@ public partial class CardNormalizedPositionHelper : Control
 	private void SetNormalizedPosition(Vector2 normalizedPosition)
 	{
 		_normalizedPosition = normalizedPosition;
-		_markerContainer.SetPosition(_normalizedPosition * _cardContainer.Size - _markerContainer.Size / 2);
+		_markerContainer.SetPosition(_normalizedPosition * _cardContainer.Size - 0.5f * _markerContainer.Size);
 	}
 }

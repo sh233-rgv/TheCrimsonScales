@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class VocalSermon : HierophantCardModel<VocalSermon.CardTop, VocalSermon.CardBottom>
 {
@@ -20,7 +21,7 @@ public class VocalSermon : HierophantCardModel<VocalSermon.CardTop, VocalSermon.
 						{
 							if(remainingRecoverCount > 0 && figure is Character character && state.Performer.AlliedWith(figure, true))
 							{
-								IEnumerable<AbilityCard> selectedAbilityCards =
+								List<AbilityCard> selectedAbilityCards =
 									await AbilityCmd.SelectAbilityCards(character, CardState.Discarded, 0, remainingRecoverCount,
 										hintText: $"Select up to {remainingRecoverCount} cards to recover");
 
@@ -48,7 +49,7 @@ public class VocalSermon : HierophantCardModel<VocalSermon.CardTop, VocalSermon.
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.51205003f, 0.72693014f)))
 				.WithMoveType(MoveType.Jump)
 				.WithDuringMovementSubscriptions(
 					[

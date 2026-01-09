@@ -12,10 +12,16 @@ public partial class CardView : Control
 	private Control _bottomContainer;
 
 	[Export]
+	private PackedScene _enhancementScene;
+	[Export]
+	private Control _enhancementParent;
+
+	[Export]
 	private PackedScene _characterTokenScene;
 	[Export]
 	private Control _characterTokenParent;
 
+	private readonly List<CardViewEnhancement> _enhancements = new List<CardViewEnhancement>();
 	private readonly List<CardViewCharacterToken> _tokens = new List<CardViewCharacterToken>();
 
 	public void SetCard(SavedAbilityCard savedAbilityCard, bool enableTop = true, bool enableBottom = true)
@@ -29,6 +35,16 @@ public partial class CardView : Control
 		Color grayedOutColor = new Color(0.25f, 0.25f, 0.25f, 1f);
 		_topContainer.Modulate = enableTop ? Colors.White : grayedOutColor;
 		_bottomContainer.Modulate = enableBottom ? Colors.White : grayedOutColor;
+
+		foreach(CardViewEnhancement enhancement in _enhancements)
+		{
+			enhancement.QueueFree();
+		}
+
+		_enhancements.Clear();
+
+		AddEnhancements(savedAbilityCard.Model.Top.Enhancements, savedAbilityCard.SavedTopEnhancements);
+		AddEnhancements(savedAbilityCard.Model.Bottom.Enhancements, savedAbilityCard.SavedBottomEnhancements);
 
 		foreach(CardViewCharacterToken token in _tokens)
 		{
@@ -60,6 +76,18 @@ public partial class CardView : Control
 					}
 				}
 			}
+		}
+	}
+
+	private void AddEnhancements(List<EnhancementMark> enhancementMarks, Dictionary<int, SavedEnhancement> savedEnhancements)
+	{
+		foreach((int index, SavedEnhancement savedEnhancement) in savedEnhancements)
+		{
+			EnhancementMark enhancementMark = enhancementMarks[index];
+			CardViewEnhancement cardViewEnhancement = _enhancementScene.Instantiate<CardViewEnhancement>();
+			_enhancementParent.AddChild(cardViewEnhancement);
+			cardViewEnhancement.Init(enhancementMark, savedEnhancement.Model);
+			_enhancements.Add(cardViewEnhancement);
 		}
 	}
 }

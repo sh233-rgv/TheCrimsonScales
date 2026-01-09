@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dvex4pgry7e30"]
+[gd_scene load_steps=7 format=3 uid="uid://dvex4pgry7e30"]
 
 [ext_resource type="Texture2D" uid="uid://bhjy7s2mheqbu" path="res://Art/AbilityCardExample.tres" id="1_njows"]
 [ext_resource type="Script" uid="uid://bbf02642hmere" path="res://Scripts/UI/CardView/CardView.cs" id="1_uiprm"]
-[ext_resource type="PackedScene" uid="uid://drs874b0lo5o6" path="res://Scenes/UI/CardViewCharacterToken.tscn" id="2_6wou7"]
+[ext_resource type="PackedScene" uid="uid://drs874b0lo5o6" path="res://Scenes/UI/CardView/CardViewCharacterToken.tscn" id="2_6wou7"]
+[ext_resource type="PackedScene" uid="uid://dstnhtko8aei3" path="res://Scenes/UI/CardView/CardViewEnhancement.tscn" id="2_vrax0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n4oh2"]
 corner_radius_top_left = 16
@@ -14,7 +15,7 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 anti_aliasing = false
 
-[node name="CardView" type="Control" node_paths=PackedStringArray("_textureRects", "_topContainer", "_bottomContainer", "_characterTokenParent")]
+[node name="CardView" type="Control" node_paths=PackedStringArray("_textureRects", "_topContainer", "_bottomContainer", "_enhancementParent", "_characterTokenParent")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 320.0
@@ -24,6 +25,8 @@ script = ExtResource("1_uiprm")
 _textureRects = [NodePath("Top/Mask/TextureRect"), NodePath("Bottom/Mask/TextureRect")]
 _topContainer = NodePath("Top")
 _bottomContainer = NodePath("Bottom")
+_enhancementScene = ExtResource("2_vrax0")
+_enhancementParent = NodePath(".")
 _characterTokenScene = ExtResource("2_6wou7")
 _characterTokenParent = NodePath(".")
 

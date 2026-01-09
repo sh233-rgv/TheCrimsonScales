@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class InnerReflection : HierophantCardModel<InnerReflection.CardTop, InnerReflection.CardBottom>
 {
@@ -12,8 +13,8 @@ public class InnerReflection : HierophantCardModel<InnerReflection.CardTop, Inne
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(1)
-				.WithRange(3)
+				.WithDamage(1, new AttackDiamond(this, new Vector2(0.32887793f, 0.2931021f)))
+				.WithRange(3, new RangeSquare(this, new Vector2(0.55187505f, 0.2931021f)))
 				.WithPierce(3)
 				.WithConditions(Conditions.Wound1)
 				.Build())

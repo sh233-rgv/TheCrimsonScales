@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class StandingGround : HierophantCardModel<StandingGround.CardTop, StandingGround.CardBottom>
 {
@@ -33,7 +34,7 @@ public class StandingGround : HierophantCardModel<StandingGround.CardTop, Standi
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.36594453f, 0.668933f)))
 				.WithRangeType(RangeType.Range)
 				.WithCustomGetTargets((state, list) =>
 					{

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class ImpetuousInquisition : HierophantCardModel<ImpetuousInquisition.CardTop, ImpetuousInquisition.CardBottom>
 {
@@ -14,7 +15,7 @@ public class ImpetuousInquisition : HierophantCardModel<ImpetuousInquisition.Car
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Disarm)
-				.WithRange(3)
+				.WithRange(3, new RangeSquare(this, new Vector2(0.60228586f, 0.24413775f)))
 				.WithAfterTargetConfirmedSubscription(
 					ScenarioEvents.ConditionAfterTargetConfirmed.Subscription.New(
 						canApplyFunction: canApplyParameters =>

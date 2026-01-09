@@ -1,5 +1,4 @@
-﻿public class PlusOneAttackEnhancement : EnhancementModel
+﻿public class PlusOneAttackEnhancement : PlusOneEnhancement
 {
-	protected override string TexturePath => Icons.Damage;
 	public override int BaseCost => 50;
 }

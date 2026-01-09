@@ -283,7 +283,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithRange(int range)
+		public TBuilder WithRange(int range, params RangeSquare[] enhancementMark)
 		{
 			Obj.Range = range;
 			return (TBuilder)this;
