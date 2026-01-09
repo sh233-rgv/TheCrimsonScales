@@ -29,7 +29,7 @@ public partial class CardSideView : Control
 		Texture2D texture = abilityCardSide.AbilityCardModel.GetTexture();
 		foreach(TextureRect textureRect in _textureRects)
 		{
-			textureRect.Texture = texture;
+			textureRect.SetTexture(texture);
 		}
 
 		bool showTop = abilityCardSide.AbilityCardSideType == AbilityCardSideType.Top;

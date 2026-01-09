@@ -35,16 +35,16 @@ public partial class ToggleButton<T> : Control
 		_button.Pressed += OnPressed;
 	}
 
-	public void SetSelected(bool active, bool canPress, bool skipAnimation = false)
+	public void SetSelected(bool selected, bool canPress, bool skipAnimation = false)
 	{
 		_button.SetEnabled(canPress, false);
 
-		if(_selected == active)
+		if(_selected == selected)
 		{
 			return;
 		}
 
-		_selected = active;
+		_selected = selected;
 
 		_scaleTween?.Kill();
 		if(_selected)

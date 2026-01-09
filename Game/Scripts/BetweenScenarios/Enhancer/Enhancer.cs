@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using GTweens.Builders;
@@ -19,6 +18,8 @@ public partial class Enhancer : BetweenScenariosAction
 	private Control _cardRotationContainer;
 	[Export]
 	private CardView _cardView;
+	[Export]
+	private PackedScene _enhancementMarkButtonScene;
 
 	[Export]
 	private Control _cardListContainer;
@@ -32,9 +33,11 @@ public partial class Enhancer : BetweenScenariosAction
 	[Export]
 	private Control _enhancementOptionParent;
 
+	private readonly List<EnhancementMarkToggleButton> _enhancementMarkToggleButtons = new List<EnhancementMarkToggleButton>();
 	private readonly List<EnhancementOptionToggleButton> _enhancementOptionToggleButtons = new List<EnhancementOptionToggleButton>();
 
-	public EnhancementOptionToggleButton _selectedButton;
+	private EnhancementMarkToggleButton _selectedMark;
+	private EnhancementOptionToggleButton _selectedOption;
 
 	protected override bool SelectCharacter => true;
 
@@ -85,11 +88,6 @@ public partial class Enhancer : BetweenScenariosAction
 			.AppendTime(0.2f);
 	}
 
-	protected override void AfterAnimateIn()
-	{
-		base.AfterAnimateIn();
-	}
-
 	protected override void AnimateOut(GTweenSequenceBuilder sequenceBuilder)
 	{
 		sequenceBuilder
@@ -129,6 +127,19 @@ public partial class Enhancer : BetweenScenariosAction
 		}
 	}
 
+	private void CreateEnhancementMarkButtons(AbilityCardSideModel cardSideModel)
+	{
+		foreach(EnhancementMark enhancementMark in cardSideModel.Enhancements)
+		{
+			EnhancementMarkToggleButton enhancementMarkToggleButton = _enhancementMarkButtonScene.Instantiate<EnhancementMarkToggleButton>();
+			_cardView.AddChild(enhancementMarkToggleButton);
+			enhancementMarkToggleButton.Init(enhancementMark);
+			enhancementMarkToggleButton.PressedEvent += OnEnhancementMarkToggleButtonPressed;
+			enhancementMarkToggleButton.SetSelected(false, true, true);
+			_enhancementMarkToggleButtons.Add(enhancementMarkToggleButton);
+		}
+	}
+
 	private void OnCardPressed(CardSelectionCard cardSelectionCard)
 	{
 		foreach(CardSelectionCard card in _cardSelectionList.Cards)
@@ -137,13 +148,35 @@ public partial class Enhancer : BetweenScenariosAction
 		}
 
 		cardSelectionCard.SetSelected(true);
-		_cardView.SetCard(cardSelectionCard.SavedAbilityCard);
+		SavedAbilityCard savedAbilityCard = cardSelectionCard.SavedAbilityCard;
+		_cardView.SetCard(savedAbilityCard);
 
-		OnEnhancementMarkSelected();
+		foreach(EnhancementMarkToggleButton enhancementMarkToggleButton in _enhancementMarkToggleButtons)
+		{
+			enhancementMarkToggleButton.QueueFree();
+		}
+
+		_enhancementMarkToggleButtons.Clear();
+
+		CreateEnhancementMarkButtons(savedAbilityCard.Model.Top);
+		CreateEnhancementMarkButtons(savedAbilityCard.Model.Bottom);
+
+		_selectedMark = _enhancementMarkToggleButtons.FirstOrDefault();
+		_selectedMark?.SetSelected(true, true, true);
+
+		OnEnhancementMarkToggleButtonPressed(_selectedMark);
 	}
 
-	private void OnEnhancementMarkSelected()
+	private void OnEnhancementMarkToggleButtonPressed(EnhancementMarkToggleButton enhancementMarkToggleButton)
 	{
+		foreach(EnhancementMarkToggleButton otherEnhancementMarkToggleButton in _enhancementMarkToggleButtons)
+		{
+			otherEnhancementMarkToggleButton.SetSelected(false, true);
+		}
+
+		_selectedMark = enhancementMarkToggleButton;
+		_selectedMark?.SetSelected(true, true);
+
 		foreach(EnhancementOptionToggleButton enhancementOptionToggleButton in _enhancementOptionToggleButtons)
 		{
 			enhancementOptionToggleButton.QueueFree();
@@ -151,13 +184,7 @@ public partial class Enhancer : BetweenScenariosAction
 
 		_enhancementOptionToggleButtons.Clear();
 
-		EnhancementModel[] enhancementModels =
-		[
-			ModelDB.Enhancement<PoisonEnhancement>(),
-			ModelDB.Enhancement<WoundEnhancement>(),
-			ModelDB.Enhancement<WoundEnhancement>(),
-			ModelDB.Enhancement<WoundEnhancement>(),
-		];
+		EnhancementModel[] enhancementModels = enhancementMarkToggleButton?.EnhancementMark.PossibleEnhancements ?? [];
 
 		foreach(EnhancementModel enhancementModel in enhancementModels)
 		{
@@ -169,8 +196,8 @@ public partial class Enhancer : BetweenScenariosAction
 			_enhancementOptionToggleButtons.Add(enhancementOptionToggleButton);
 		}
 
-		_selectedButton = _enhancementOptionToggleButtons.FirstOrDefault();
-		_selectedButton?.SetSelected(true, true, true);
+		_selectedOption = _enhancementOptionToggleButtons.FirstOrDefault();
+		_selectedOption?.SetSelected(true, true, true);
 	}
 
 	private void OnEnhancementOptionPressed(EnhancementOptionToggleButton button)
@@ -180,8 +207,8 @@ public partial class Enhancer : BetweenScenariosAction
 			enhancementOptionToggleButton.SetSelected(false, true);
 		}
 
-		_selectedButton = button;
-		_selectedButton?.SetSelected(true, true);
+		_selectedOption = button;
+		_selectedOption?.SetSelected(true, true);
 	}
 
 	private void OnSelectedPortraitChanged(BetweenScenariosCharacterPortrait portrait)

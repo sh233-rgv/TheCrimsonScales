@@ -1,4 +1,4 @@
-[gd_scene load_steps=143 format=3 uid="uid://dvuofg15kuckt"]
+[gd_scene load_steps=144 format=3 uid="uid://dvuofg15kuckt"]
 
 [ext_resource type="PackedScene" uid="uid://cmjlk65mr5s6w" path="res://Scenes/BetweenScenarios/ScenarioFlowchart/ScenarioButton.tscn" id="1_5l4i3"]
 [ext_resource type="Script" uid="uid://b7sa3xe4kseh8" path="res://Scripts/BetweenScenarios/BetweenScenariosController.cs" id="1_rtyjh"]
@@ -55,6 +55,7 @@
 [ext_resource type="Texture2D" uid="uid://byfj7yio15h8c" path="res://Art/BetweenScenarios/Events/CityFront.jpg" id="33_2yhfp"]
 [ext_resource type="Texture2D" uid="uid://bbdiabye37ueg" path="res://Art/BetweenScenarios/Events/cs-ce-01-f.png" id="34_rtdf2"]
 [ext_resource type="Script" uid="uid://b0n1q2n5kef18" path="res://Scripts/BetweenScenarios/Events/ShapedEventText.cs" id="35_0rh5w"]
+[ext_resource type="PackedScene" uid="uid://bwn4iiqm7bpjf" path="res://Scenes/BetweenScenarios/Enhancer/EnhancementMarkToggleButton.tscn" id="35_sfc7v"]
 [ext_resource type="FontFile" uid="uid://djm7xa0rh5wqv" path="res://Fonts/HTOWERT.TTF" id="36_bny7g"]
 [ext_resource type="PackedScene" uid="uid://dvex4pgry7e30" path="res://Scenes/UI/CardView.tscn" id="37_6k6qu"]
 [ext_resource type="PackedScene" uid="uid://y2bfrxa1ebd5" path="res://Scenes/BetweenScenarios/Enhancer/EnhancementOptionToggleButton.tscn" id="39_3p1c5"]
@@ -1633,6 +1634,7 @@ _crystalBall = NodePath("../Shared3D/Container/3D/SubViewport/Root/CrystalBallRo
 _cardContainer = NodePath("CardAnchor/CardContainer")
 _cardRotationContainer = NodePath("CardAnchor/CardContainer/RotationContainer")
 _cardView = NodePath("CardAnchor/CardContainer/RotationContainer/CardView")
+_enhancementMarkButtonScene = ExtResource("35_sfc7v")
 _cardListContainer = NodePath("CardSelectionAnchor/CardSelectionContainer")
 _cardSelectionList = NodePath("CardSelectionAnchor/CardSelectionContainer/MarginContainer/CardSelectionList")
 _optionsContainer = NodePath("EnhancementOptionsAnchor/EnhancementOptionsContainer")

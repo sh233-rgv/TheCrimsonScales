@@ -12,8 +12,8 @@ public abstract class AbilityCardSideModel<TCharacter> : AbilityCardSideModel
 
 public abstract class AbilityCardSideModel : AbstractModel
 {
-	// private List<EnhancementMark> _enhancements;
 	private IEnumerable<AbilityCardAbility> _abilities;
+	private readonly List<EnhancementMark> _enhancements = new List<EnhancementMark>();
 
 	public AbilityCardModel AbilityCardModel { get; private set; }
 	public virtual AbilityCardSideType AbilityCardSideType { get; private set; }
@@ -27,29 +27,23 @@ public abstract class AbilityCardSideModel : AbstractModel
 	public virtual bool Unrecoverable => false;
 	public virtual bool CanDeactivate => true;
 
-	// public List<EnhancementMark> Enhancements
-	// {
-	// 	get
-	// 	{
-	// 		if(_enhancements == null)
-	// 		{
-	// 			_enhancements = GetEnhancements();
-	// 		}
-	//
-	// 		return _enhancements;
-	// 	}
-	// }
-
 	public IEnumerable<AbilityCardAbility> Abilities
 	{
 		get
 		{
-			if(_abilities == null)
-			{
-				_abilities = GetAbilities();
-			}
+			TryGetAbilities();
 
 			return _abilities;
+		}
+	}
+
+	public List<EnhancementMark> Enhancements
+	{
+		get
+		{
+			TryGetAbilities();
+
+			return _enhancements;
 		}
 	}
 
@@ -59,8 +53,27 @@ public abstract class AbilityCardSideModel : AbstractModel
 		AbilityCardSideType = abilityCardSideType;
 	}
 
+	public void RegisterEnhancementMark(EnhancementMark enhancementMark)
+	{
+		_enhancements.Add(enhancementMark);
+	}
+
+	public virtual async GDTask OnActionPerformed(Figure figure)
+	{
+		await GDTask.CompletedTask;
+	}
+
 	// protected virtual List<EnhancementMark> GetEnhancements() => [];
 	protected abstract List<AbilityCardAbility> GetAbilities();
+
+	// protected EnhancementMark<TPip> EnhancementMark<TPip>(TPip enhancementPipModel, Vector2 normalizedPosition)
+	// 	where TPip : EnhancementPipModel
+	// {
+	// 	EnhancementMark<TPip> newMark = new EnhancementMark<TPip>(enhancementPipModel, normalizedPosition);
+	// 	_enhancements.Add(newMark);
+	//
+	// 	return newMark;
+	// }
 
 	protected AbilityCardSide GetAbilityCardSide(AbilityState abilityState)
 	{
@@ -77,8 +90,11 @@ public abstract class AbilityCardSideModel : AbstractModel
 		await AbilityCmd.GainXP(abilityState.Performer, 1);
 	}
 
-	public virtual async GDTask OnActionPerformed(Figure figure)
+	private void TryGetAbilities()
 	{
-		await GDTask.CompletedTask;
+		if(_abilities == null)
+		{
+			_abilities = GetAbilities();
+		}
 	}
 }

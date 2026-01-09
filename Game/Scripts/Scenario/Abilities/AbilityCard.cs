@@ -4,6 +4,8 @@ using Fractural.Tasks;
 
 public class AbilityCard : IReferenced
 {
+	public int ReferenceId { get; set; }
+
 	public SavedAbilityCard SavedAbilityCard { get; }
 
 	public AbilityCardSide Top { get; }
@@ -17,11 +19,9 @@ public class AbilityCard : IReferenced
 	public CardState CardState { get; private set; }
 	public bool Unrecoverable { get; private set; }
 
-	public AbilityCardModel Model => SavedAbilityCard.Model;
-
 	public List<ActionState> ActiveActionStates { get; } = new List<ActionState>();
 
-	public int ReferenceId { get; set; }
+	public AbilityCardModel Model => SavedAbilityCard.Model;
 
 	public event Action<AbilityCard> CardStateChangedEvent;
 

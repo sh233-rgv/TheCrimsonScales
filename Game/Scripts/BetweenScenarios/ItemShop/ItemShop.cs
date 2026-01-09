@@ -147,7 +147,7 @@ public partial class ItemShop : BetweenScenariosAction
 				{
 					_bookSubViewportContainer.SetVisible(true);
 					_bookCover.SetVisible(false);
-				}, 0.01f);
+				});
 
 				_frontSubViewport.SetUpdateMode(SubViewport.UpdateMode.Once);
 				_backSubViewport.SetUpdateMode(SubViewport.UpdateMode.Once);
@@ -188,7 +188,7 @@ public partial class ItemShop : BetweenScenariosAction
 				{
 					_leftPageCoverInside.SetVisible(false);
 					_bookSubViewportContainer.SetVisible(true);
-				}, 0.01f);
+				});
 
 				_frontSubViewport.SetUpdateMode(SubViewport.UpdateMode.Once);
 				_backSubViewport.SetUpdateMode(SubViewport.UpdateMode.Once);
