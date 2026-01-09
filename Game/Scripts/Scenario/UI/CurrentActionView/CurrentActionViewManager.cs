@@ -24,7 +24,7 @@ public partial class CurrentActionViewManager : Control, IEventSubscriber
 				}
 				else
 				{
-					CreateActionView(new AbilityCardSideCurrentActionView.Parameters(parameters.AbilityCardSide.Model));
+					CreateActionView(new AbilityCardSideCurrentActionView.Parameters(parameters.AbilityCardSide));
 				}
 
 				await GDTask.CompletedTask;

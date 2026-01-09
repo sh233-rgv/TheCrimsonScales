@@ -19,11 +19,6 @@ public partial class CardSideView : Control
 
 	public void SetCard(AbilityCardSideModel abilityCardSide)
 	{
-		SetCard(abilityCardSide.AbilityCardModel, abilityCardSide.AbilityCardSideType == AbilityCardSideType.Top);
-	}
-
-	public void SetCard(AbilityCardModel abilityCardModel, bool showTop = true)
-	{
 		// foreach(CardViewCharacterToken token in _tokens)
 		// {
 		// 	token.QueueFree();
@@ -31,12 +26,13 @@ public partial class CardSideView : Control
 		//
 		// _tokens.Clear();
 
-		Texture2D texture = abilityCardModel.GetTexture();
+		Texture2D texture = abilityCardSide.AbilityCardModel.GetTexture();
 		foreach(TextureRect textureRect in _textureRects)
 		{
 			textureRect.Texture = texture;
 		}
 
+		bool showTop = abilityCardSide.AbilityCardSideType == AbilityCardSideType.Top;
 		_topContainer.SetVisible(showTop);
 		_bottomContainer.SetVisible(!showTop);
 

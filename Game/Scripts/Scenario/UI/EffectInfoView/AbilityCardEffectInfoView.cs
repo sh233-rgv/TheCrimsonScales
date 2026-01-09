@@ -6,13 +6,11 @@ public partial class AbilityCardEffectInfoView : EffectInfoView<AbilityCardEffec
 	{
 		public override string ScenePath => "res://Scenes/Scenario/UI/EffectInfoViews/AbilityCardEffectInfoView.tscn";
 
-		public AbilityCardModel AbilityCardModel { get; }
-		public bool ShowTop { get; }
+		public AbilityCardSideModel AbilityCardSideModel { get; }
 
 		public Parameters(AbilityCardSideModel abilityCardSideModel)
 		{
-			AbilityCardModel = abilityCardSideModel.AbilityCardModel;
-			ShowTop = abilityCardSideModel.AbilityCardSideType == AbilityCardSideType.Top;
+			AbilityCardSideModel = abilityCardSideModel;
 		}
 	}
 
@@ -23,6 +21,6 @@ public partial class AbilityCardEffectInfoView : EffectInfoView<AbilityCardEffec
 	{
 		base.Init(parameters);
 
-		_cardSideView.SetCard(parameters.AbilityCardModel, parameters.ShowTop);
+		_cardSideView.SetCard(parameters.AbilityCardSideModel);
 	}
 }
