@@ -1,18 +1,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class Scenario011 : ScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario011.tscn";
 	public override int ScenarioNumber => 11;
-	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
+	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SailScenarioChain>();
+	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario012>()];
 
-	protected override ScenarioGoals CreateScenarioGoals() => new CustomScenarioGoals("Kill all enemies to win this scenario.");
+	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals(true);
 
 	public override string BGSPath => null;
 
 	private List<Obstacle> _barrels;
+	private List<Hex> BarrelHexes => _barrels.Select(hex => hex.Hex).ToList();
 
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
@@ -34,14 +37,23 @@ public class Scenario011 : ScenarioModel
 			);
 		}
 
+
+		UpdateScenarioText("""
+		                   At the end of the first round, spawn one normal Inox guard and one elite Inox Archer on each tile occupied by a character.
+
+		                   Something will happen when all the spawned enemies are dead.
+		                   """);
+
 		ScenarioEvents.DuringAttackEvent.Subscribe(this,
 			parameters => parameters.Performer is Character && parameters.AbilityState.SingleTargetRangeType == RangeType.Melee &&
-			              parameters.AbilityState.IsSingleTarget,
+			              parameters.AbilityState.IsSingleTarget &&
+			              RangeHelper.GetHexesInRange(parameters.Performer.Hex, 1).Intersect(BarrelHexes).Any(),
 			async parameters =>
 			{
 				await parameters.AbilityState.SetPerformHex(hexes =>
 				{
-					hexes.AddRange(_barrels.Select(barrel => barrel.Hex));
+					GD.Print(BarrelHexes.Count);
+					hexes.AddRange(BarrelHexes);
 				});
 			}, EffectType.Selectable,
 			effectButtonParameters: new IconEffectButton.Parameters("res://Art/OverlayTiles/Barrel 1h.png"),
@@ -49,7 +61,7 @@ public class Scenario011 : ScenarioModel
 
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
 			parameters => parameters.RoundNumber == 1,
-			async parameters =>
+			async _ =>
 			{
 				foreach(Room room in GameController.Instance.Map.Rooms.Where(room => room.Figures.Any(figure => figure is Character)))
 				{
@@ -57,32 +69,49 @@ public class Scenario011 : ScenarioModel
 					await SpawnMonster(null, ModelDB.Monster<InoxArcher>(), MonsterType.Elite, room.Hexes);
 				}
 
-				ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
-			});
-		
-		ScenarioEvents.FigureKilledEvent.Subscribe(this,
-			parameters => GameController.Instance.Map.Figures.All(figure => figure.Alignment != Alignment.Enemies),
-			async parameters =>
-			{
-				foreach(Room room in GameController.Instance.Map.Rooms.Where(room => room.Figures.Any(figure => figure is Character)))
-				{
-					await SpawnMonster(null, ModelDB.Monster<InoxGuard>(), MonsterType.Elite, room.Hexes);
-					await SpawnMonster(null, ModelDB.Monster<InoxShaman>(), MonsterType.Elite, room.Hexes);
-				}
-				ScenarioEvents.FigureKilledEvent.Unsubscribe(this);
+				UpdateScenarioText("Something will happen when all the spawned enemies are dead.");
 
-				((KillAlLEnemiesScenarioGoals)ScenarioGoals).EnemiesToBeSpawned = false;
-				
+				ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
+
 				ScenarioEvents.FigureKilledEvent.Subscribe(this,
 					_ => GameController.Instance.Map.Figures.All(figure => figure.Alignment != Alignment.Enemies),
 					async _ =>
 					{
 						foreach(Room room in GameController.Instance.Map.Rooms.Where(room => room.Figures.Any(figure => figure is Character)))
 						{
-							await SpawnMonster(null, ModelDB.Monster<FlameDemon>(), MonsterType.Normal, room.Hexes);
-							await SpawnMonster(null, ModelDB.Monster<NightDemon>(), MonsterType.Normal, room.Hexes);
+							await SpawnMonster(null, ModelDB.Monster<InoxGuard>(), MonsterType.Elite, room.Hexes);
+							await SpawnMonster(null, ModelDB.Monster<InoxShaman>(), MonsterType.Elite, room.Hexes);
 						}
+
+						ScenarioEvents.FigureKilledEvent.Unsubscribe(this);
+
+						ScenarioEvents.FigureKilledEvent.Subscribe(this,
+							_ => GameController.Instance.Map.Figures.All(figure => figure.Alignment != Alignment.Enemies),
+							async _ =>
+							{
+								UpdateScenarioText("");
+								foreach(Room room in GameController.Instance.Map.Rooms.Where(room => room.Figures.Any(figure => figure is Character)))
+								{
+									await SpawnMonster(null, ModelDB.Monster<FlameDemon>(), MonsterType.Normal, room.Hexes);
+									await SpawnMonster(null, ModelDB.Monster<NightDemon>(), MonsterType.Normal, room.Hexes);
+								}
+
+								((KillAllEnemiesScenarioGoals)ScenarioGoals).EnemiesToBeSpawned = false;
+								ScenarioEvents.FigureKilledEvent.Unsubscribe(this);
+							});
 					});
 			});
+	}
+
+	protected override void UpdateScenarioText(string text)
+	{
+		string baseText = """
+		                  Character and character summons cannot leave their starting tile and the obstacles on the map cannot be destroyed.
+
+		                  If a character performs a single-target melee attack while adjacent to a barrel, they may perform the attack as if they were occupying a hex with a barrel on a different tile, targeting an enemy on the other tile.
+
+
+		                  """;
+		base.UpdateScenarioText(baseText + text);
 	}
 }

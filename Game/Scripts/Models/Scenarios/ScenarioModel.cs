@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
@@ -57,54 +56,57 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		GameController.Instance.SpecialRulesView.SetText(displayText);
 	}
 
+	protected async GDTask SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, Hex spawnHex,
+		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
+	{
+		await SpawnMonster(authority, monsterModel, monsterType, [spawnHex], monsterLevel, alignment, enemies);
+	}
+
 	protected async GDTask SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, IEnumerable<Hex> spawnHexes,
 		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
 	{
+		spawnHexes = spawnHexes.ToList();
 		authority ??= GameController.Instance.CharacterManager.FirstAlive();
-		List<Hex> hexes = RangeHelper.GetHexesInRange(spawnHexes.First(), 100, requiresLineOfSight: false).ToList();		
+		List<Hex> hexes = RangeHelper.GetHexesInRange(spawnHexes.First(), 100, requiresLineOfSight: false).ToList();
 
 		Hex chosenHex = await AbilityCmd.SelectHex(authority,
 			list =>
-            {
-                int? minDistance = null;
+			{
+				int? minDistance = null;
 				foreach(Hex spawnHex in spawnHexes)
 				{
 					hexes.Shuffle(GameController.Instance.StateRNG);
-					hexes.Sort((otherHexA, otherHexB) => RangeHelper.Distance(spawnHex, otherHexA).CompareTo(RangeHelper.Distance(spawnHex, otherHexB)));
-					Hex firstHex = null;
-					foreach(Hex hex in hexes)
-					{
-						if(hex.IsEmpty())
-						{
-							firstHex = hex;
-							break;
-						}
-					}
+					hexes.Sort((otherHexA,
+						otherHexB) => RangeHelper.Distance(spawnHex,
+							otherHexA)
+						.CompareTo(RangeHelper.Distance(spawnHex,
+							otherHexB)));
+					Hex firstHex = hexes.FirstOrDefault(hex => hex.IsEmpty());
 
 					if(firstHex == null)
 					{
 						return;
 					}
 
-					int distance = RangeHelper.Distance(spawnHex, firstHex);
-					if (minDistance == null || distance <= minDistance)
+					int distance = RangeHelper.Distance(spawnHex,
+						firstHex);
+
+					if(minDistance != null && distance > minDistance)
+						continue;
+					if(minDistance == null || distance < minDistance)
 					{
-						if (minDistance == null || distance < minDistance)
-                        {
-                            list.Clear();
-							minDistance = distance;
-                        }
-						foreach(Hex otherHex in hexes)
-						{
-							int otherDistance = RangeHelper.Distance(spawnHex, otherHex);
-							if(otherHex.IsEmpty() && otherDistance == distance)
-							{
-								list.Add(otherHex);
-							}
-						}
-					}		
+						list.Clear();
+						minDistance = distance;
+					}
+
+					list.AddRange(
+						hexes.Where(h => h.IsEmpty() &&
+						                 RangeHelper.Distance(spawnHex, h) == distance)
+					);
 				}
-            }, true, $"Select where to spawn the {monsterType} {monsterModel.Name}"
+			},
+			true,
+			$"Select where to spawn the {monsterType} {monsterModel.Name}"
 		);
 
 		if(chosenHex == null)

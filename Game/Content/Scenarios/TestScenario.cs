@@ -6,7 +6,7 @@ public class TestScenario : ScenarioModel
 	public override string ScenePath => "res://Content/Scenarios/TestScenario.tscn";
 	public override int ScenarioNumber => 1;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
-	protected override ScenarioGoals CreateScenarioGoals() => new KillAlLEnemiesScenarioGoals();
+	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals();
 
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{

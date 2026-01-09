@@ -6,7 +6,7 @@ public class Scenario050 : ScenarioModel
 	public override int ScenarioNumber => 50;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<EventScenarioChain>();
 
-	protected override ScenarioGoals CreateScenarioGoals() => new KillAlLEnemiesScenarioGoals();
+	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals();
 
 	protected override async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters parameters)
 	{

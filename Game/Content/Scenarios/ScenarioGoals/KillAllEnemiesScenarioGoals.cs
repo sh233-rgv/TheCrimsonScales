@@ -1,4 +1,4 @@
-﻿public class KillAlLEnemiesScenarioGoals(bool enemiesToBeSpawned = false) : ScenarioGoals
+﻿public class KillAllEnemiesScenarioGoals(bool enemiesToBeSpawned = false) : ScenarioGoals
 {
 	public override string Text => "Kill all enemies to win this scenario.";
 	public bool EnemiesToBeSpawned = enemiesToBeSpawned;
@@ -13,28 +13,33 @@
 					return false;
 				}
 
-				foreach(Room room in GameController.Instance.Map.Rooms)
-				{
-					if(!room.Revealed)
-					{
-						return false;
-					}
-				}
-
-				foreach(Figure figure in GameController.Instance.Map.Figures)
-				{
-					if(figure.Alignment == Alignment.Enemies)
-					{
-						return false;
-					}
-				}
-
-				return true;
+				return EnemiesRemaining();
 			},
 			async parameters =>
 			{
 				await Win();
 			}
 		);
+	}
+
+	public static bool EnemiesRemaining()
+	{
+		foreach(Room room in GameController.Instance.Map.Rooms)
+		{
+			if(!room.Revealed)
+			{
+				return false;
+			}
+		}
+
+		foreach(Figure figure in GameController.Instance.Map.Figures)
+		{
+			if(figure.Alignment == Alignment.Enemies)
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

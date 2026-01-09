@@ -9,7 +9,7 @@ public class Scenario043 : ScenarioModel
 	public override int ScenarioNumber => 43;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<EventScenarioChain>();
 
-	protected override ScenarioGoals CreateScenarioGoals() => new KillAlLEnemiesScenarioGoals();
+	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals();
 
 	private Door _door1;
 	private Door _door2;
@@ -20,11 +20,11 @@ public class Scenario043 : ScenarioModel
 	private IEnumerable<PressurePlate> _pressurePlatesC;
 	private IEnumerable<PressurePlate> _pressurePlatesD;
 	private readonly string _baseText = """
-		The obstacles in this scenario cannot be destroyed. Any character may spend one movement point while adjacent to a boulder to push the boulder one hex. Boulders may be pushed into adjacent unoccupied hexes or one unoccupied hex away further from character performing the push. If a boulder would be pushed into a trap or money token, it is crushed and remove the trap or money token from the board.
+	                                    The obstacles in this scenario cannot be destroyed. Any character may spend one movement point while adjacent to a boulder to push the boulder one hex. Boulders may be pushed into adjacent unoccupied hexes or one unoccupied hex away further from character performing the push. If a boulder would be pushed into a trap or money token, it is crushed and remove the trap or money token from the board.
 
-		All doors start locked.
+	                                    All doors start locked.
 
-		""";
+	                                    """;
 
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
@@ -45,69 +45,71 @@ public class Scenario043 : ScenarioModel
 		_door4 = marker4.GetHexObject<Door>();
 
 		UpdateScenarioText();
-		
+
 		_pressurePlateA = GameController.Instance.Map.GetMarker(Marker.Type.a).GetHexObject<PressurePlate>();
 		_pressurePlateB = GameController.Instance.Map.GetMarker(Marker.Type.b).GetHexObject<PressurePlate>();
 		_pressurePlatesC = GameController.Instance.Map.GetMarkers(Marker.Type.c).Select(marker => marker.GetHexObject<PressurePlate>());
 		_pressurePlatesD = GameController.Instance.Map.GetMarkers(Marker.Type.d).Select(marker => marker.GetHexObject<PressurePlate>());
 		IEnumerable<PressurePlate> pressurePlates =
 			new[] { _pressurePlateA, _pressurePlateB }
-			.Concat(_pressurePlatesC)
-			.Concat(_pressurePlatesD);
+				.Concat(_pressurePlatesC)
+				.Concat(_pressurePlatesD);
 
 		ScenarioEvents.OverlayTileMovedOrCreatedEvent.Subscribe(this,
 			parameters => parameters.OverlayTile.Name.ToString().Contains("Boulder1H") &&
-				pressurePlates.Any(pressurePlate => pressurePlate.Hex == parameters.OverlayTile.Hex),
+			              pressurePlates.Any(pressurePlate => pressurePlate.Hex == parameters.OverlayTile.Hex),
 			async parameters =>
-            {
-                if(_door1.Locked && _pressurePlateA.Hex == parameters.OverlayTile.Hex)
-                {
-                    await _door1.Unlock();
-                }
+			{
+				if(_door1.Locked && _pressurePlateA.Hex == parameters.OverlayTile.Hex)
+				{
+					await _door1.Unlock();
+				}
 				else if(_door2.Locked && _pressurePlateB.Hex == parameters.OverlayTile.Hex)
-                {
-                    await _door2.Unlock();
-                }
+				{
+					await _door2.Unlock();
+				}
 				else if(_door3.Locked && _pressurePlatesC.Any(pressurePlate => pressurePlate.Hex == parameters.OverlayTile.Hex))
-                {
-                    await _door3.Unlock();
-                }
+				{
+					await _door3.Unlock();
+				}
 				else if(_door4.Locked && _pressurePlatesD.Any(pressurePlate => pressurePlate.Hex == parameters.OverlayTile.Hex))
-                {
-                    await _door4.Unlock();
-                }
+				{
+					await _door4.Unlock();
+				}
+
 				UpdateScenarioText();
-            });
+			});
 
 		ScenarioEvents.DuringMovementEvent.Subscribe(this,
 			canApplyParameters => canApplyParameters.Performer is Character && canApplyParameters.AbilityState.MoveValue > 0 &&
-				RangeHelper.GetHexesInRange(canApplyParameters.Performer.Hex, 1).Any(hex =>
-				{
-					Obstacle obstacle = hex.GetHexObjectOfType<Obstacle>();
-					return obstacle != null && obstacle.Name.ToString().Contains("Boulder1H");
-				}),
+			                      RangeHelper.GetHexesInRange(canApplyParameters.Performer.Hex, 1).Any(hex =>
+			                      {
+				                      Obstacle obstacle = hex.GetHexObjectOfType<Obstacle>();
+				                      return obstacle != null && obstacle.Name.ToString().Contains("Boulder1H");
+			                      }),
 			async applyParameters =>
 			{
 				applyParameters.AbilityState.AdjustMoveValue(-1);
 
 				Obstacle obstacle = (await AbilityCmd.SelectHex(applyParameters.Performer, list =>
+				{
+					list.AddRange(RangeHelper.GetHexesInRange(applyParameters.Performer.Hex, 1).Where(hex =>
 					{
-						list.AddRange(RangeHelper.GetHexesInRange(applyParameters.Performer.Hex, 1).Where(hex =>
-						{
-							Obstacle obstacle = hex.GetHexObjectOfType<Obstacle>();
-							return obstacle != null && obstacle.Name.ToString().Contains("Boulder1H");
-						}));
-					}, mandatory: true, hintText: "Select an obstacle to move")).GetHexObjectOfType<Obstacle>();
+						Obstacle obstacle = hex.GetHexObjectOfType<Obstacle>();
+						return obstacle != null && obstacle.Name.ToString().Contains("Boulder1H");
+					}));
+				}, mandatory: true, hintText: "Select an obstacle to move")).GetHexObjectOfType<Obstacle>();
 
 				Hex movedToHex = await AbilityCmd.MoveOverlayTile(applyParameters.Performer, obstacle, list =>
 				{
-					list.AddRange(RangeHelper.GetHexesInRange(obstacle.Hex, 1).Where(hex => hex.IsEmpty() || (hex.IsUnoccupied() && hex.GetHexObjectOfType<Trap>() != null)));
+					list.AddRange(RangeHelper.GetHexesInRange(obstacle.Hex, 1)
+						.Where(hex => hex.IsEmpty() || (hex.IsUnoccupied() && hex.GetHexObjectOfType<Trap>() != null)));
 				});
 				movedToHex.GetHexObjectOfType<Trap>()?.Destroy();
 				foreach(CoinStack coin in movedToHex.GetHexObjectsOfType<CoinStack>())
-                {
-                    await coin.Destroy();
-                }
+				{
+					await coin.Destroy();
+				}
 			},
 			EffectType.Selectable,
 			canApplyMultipleTimesInEffectCollection: true,
@@ -124,22 +126,30 @@ public class Scenario043 : ScenarioModel
 	private void UpdateScenarioText()
 	{
 		string text = _baseText;
-		if (_door1.Locked)
-        {
-            text += $"When a boulder occupies pressure plate {Icons.Inline(Icons.GetMarker(Marker.Type.a))}, unlock door {Icons.Inline(Icons.GetMarker(Marker.Type._1))}. \n\n";
-        }
-		if (_door2.Locked)
-        {
-            text += $"When a boulder occupies pressure plate {Icons.Inline(Icons.GetMarker(Marker.Type.b))}, unlock door {Icons.Inline(Icons.GetMarker(Marker.Type._2))}. \n\n";
-        }
-		if (_door3.Locked && (!_door1.Locked || !_door4.Locked))
-        {
-            text += $"When a boulder occupies pressure plate {Icons.Inline(Icons.GetMarker(Marker.Type.c))}, unlock door {Icons.Inline(Icons.GetMarker(Marker.Type._3))}. \n\n";
-        }
-		if (_door4.Locked && (!_door2.Locked || !_door3.Locked))
-        {
-            text += $"When a boulder occupies pressure plate {Icons.Inline(Icons.GetMarker(Marker.Type.d))}, unlock door {Icons.Inline(Icons.GetMarker(Marker.Type._4))}. \n\n";
-        }
+		if(_door1.Locked)
+		{
+			text +=
+				$"When a boulder occupies pressure plate {Icons.Inline(Icons.GetMarker(Marker.Type.a))}, unlock door {Icons.Inline(Icons.GetMarker(Marker.Type._1))}. \n\n";
+		}
+
+		if(_door2.Locked)
+		{
+			text +=
+				$"When a boulder occupies pressure plate {Icons.Inline(Icons.GetMarker(Marker.Type.b))}, unlock door {Icons.Inline(Icons.GetMarker(Marker.Type._2))}. \n\n";
+		}
+
+		if(_door3.Locked && (!_door1.Locked || !_door4.Locked))
+		{
+			text +=
+				$"When a boulder occupies pressure plate {Icons.Inline(Icons.GetMarker(Marker.Type.c))}, unlock door {Icons.Inline(Icons.GetMarker(Marker.Type._3))}. \n\n";
+		}
+
+		if(_door4.Locked && (!_door2.Locked || !_door3.Locked))
+		{
+			text +=
+				$"When a boulder occupies pressure plate {Icons.Inline(Icons.GetMarker(Marker.Type.d))}, unlock door {Icons.Inline(Icons.GetMarker(Marker.Type._4))}. \n\n";
+		}
+
 		text = text.TrimEnd('\n');
 		base.UpdateScenarioText(text);
 	}

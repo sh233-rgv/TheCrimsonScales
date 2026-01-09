@@ -108,9 +108,12 @@ public abstract class TargetedAbilityState : AbilityState
 		AbilityFilterTargets = filterTargets;
 	}
 
-	public async GDTask SetPerformHex(Action<List<Hex>> performHex, bool mandatory = true)
+	public async GDTask SetPerformHex(Action<List<Hex>> getValidHexes, bool mandatory = true)
 	{
-		Hex hex = await AbilityCmd.SelectHex(this, performHex, mandatory, "Select a hex to perform this ability from");
+		List<Hex> hexes = [];
+		getValidHexes(hexes);
+		GD.Print(hexes.Count);
+		Hex hex = await AbilityCmd.SelectHex(this, getValidHexes, mandatory, "Select a hex to perform this ability from");
 		if(hex == null)
 		{
 			return;
