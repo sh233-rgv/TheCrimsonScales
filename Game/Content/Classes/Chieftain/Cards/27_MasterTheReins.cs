@@ -73,7 +73,7 @@ public class MasterTheReins : ChieftainCardModel<MasterTheReins.CardTop, MasterT
 					AbilityCard selectedAbilityCard =
 						await AbilityCmd.SelectAbilityCard((Character)state.Performer, CardState.PersistentLoss,
 							canSelectFunc: abilityCard =>
-								abilityCard.Top.Abilities.Concat(abilityCard.Bottom.Abilities)
+								abilityCard.Top.Model.Abilities.Concat(abilityCard.Bottom.Model.Abilities)
 									.Any(cardAbility => cardAbility.Ability is SummonAbility),
 							hintText: $"Select an active card with summon ability to attach to");
 
@@ -86,7 +86,7 @@ public class MasterTheReins : ChieftainCardModel<MasterTheReins.CardTop, MasterT
 
 					Summon summon = ((SummonAbility.State)selectedAbilityCard.ActiveActionStates
 						.SelectMany(actionState => actionState.AbilityStates)
-						.FirstOrDefault(abilityState => abilityState is SummonAbility.State)).Summon;
+						.First(abilityState => abilityState is SummonAbility.State)).Summon;
 
 					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
 						canApplyParameters => summon == canApplyParameters.Performer,
@@ -135,6 +135,6 @@ public class MasterTheReins : ChieftainCardModel<MasterTheReins.CardTop, MasterT
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

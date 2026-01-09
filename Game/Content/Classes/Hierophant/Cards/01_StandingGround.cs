@@ -24,8 +24,8 @@ public class StandingGround : HierophantCardModel<StandingGround.CardTop, Standi
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Earth];
-		protected override bool Round => true;
+		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override bool Round => true;
 	}
 
 	public class CardBottom : HierophantCardSide

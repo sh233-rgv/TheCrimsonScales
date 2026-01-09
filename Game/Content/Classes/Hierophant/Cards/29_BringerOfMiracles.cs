@@ -69,7 +69,7 @@ public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.Ca
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : HierophantCardSide
@@ -147,8 +147,8 @@ public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.Ca
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Light];
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override IEnumerable<Element> Elements => [Element.Light];
+		public override int XP => 2;
+		public override bool Persistent => true;
 	}
 }

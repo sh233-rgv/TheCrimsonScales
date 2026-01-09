@@ -79,7 +79,7 @@ public class ExpansivePermanence : HierophantLevelUpCardModel<ExpansivePermanenc
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : HierophantCardSide
@@ -109,9 +109,9 @@ public class ExpansivePermanence : HierophantLevelUpCardModel<ExpansivePermanenc
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Earth];
-		protected override int XP => 2;
-		protected override bool Round => true;
+		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override int XP => 2;
+		public override bool Round => true;
 		public override bool Loss => true;
 	}
 }

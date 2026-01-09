@@ -53,7 +53,7 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 
@@ -68,8 +68,7 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 						parameters =>
 							!state.GetCustomValue<bool>(this, "Used") &&
 							state.Performer != parameters.Performer &&
-							(parameters.AbilityCardSide.GetIsTop(parameters.AbilityCard) ||
-							 parameters.AbilityCardSide.GetIsBasicTop(parameters.AbilityCard)) &&
+							parameters.AbilityCardSide.AbilityCardSideType is AbilityCardSideType.Top or AbilityCardSideType.BasicTop &&
 							state.Performer.AlliedWith(parameters.Performer) &&
 							RangeHelper.Distance(parameters.Performer.Hex, state.Performer.Hex) <= 1 &&
 							!parameters.ForgoneAction,
@@ -100,6 +99,6 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

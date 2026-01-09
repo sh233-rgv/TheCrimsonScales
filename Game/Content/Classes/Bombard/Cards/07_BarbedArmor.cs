@@ -36,7 +36,7 @@ public class BarbedArmor : BombardCardModel<BarbedArmor.CardTop, BarbedArmor.Car
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : BombardCardSide
@@ -49,6 +49,6 @@ public class BarbedArmor : BombardCardModel<BarbedArmor.CardTop, BarbedArmor.Car
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

@@ -18,7 +18,7 @@ public class PipeTomahawk : ChieftainCardModel<PipeTomahawk.CardTop, PipeTomahaw
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<Element> Elements => [Element.Fire];
 	}
 
 	public class CardBottom : ChieftainCardSide

@@ -37,7 +37,7 @@ public class EncouragedConviction : HierophantLevelUpCardModel<EncouragedConvict
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : HierophantCardSide
@@ -55,7 +55,7 @@ public class EncouragedConviction : HierophantLevelUpCardModel<EncouragedConvict
 									if(
 										state.Performer.AlliedWith(figure) &&
 										figure is Character character &&
-										character.Cards.Any(card => card.CardState == CardState.Hand && card.Top is HierophantPrayerCardSide))
+										character.Cards.Any(card => card.CardState == CardState.Hand && card.Top.Model is HierophantPrayerCardSide))
 									{
 										list.Add(figure);
 									}
@@ -74,7 +74,7 @@ public class EncouragedConviction : HierophantLevelUpCardModel<EncouragedConvict
 							{
 								foreach(AbilityCard card in character.Cards)
 								{
-									if(card.CardState == CardState.Hand && card.Top is HierophantPrayerCardSide)
+									if(card.CardState == CardState.Hand && card.Top.Model is HierophantPrayerCardSide)
 									{
 										list.Add(card);
 									}

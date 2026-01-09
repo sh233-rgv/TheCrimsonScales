@@ -1,6 +1,6 @@
 ﻿public abstract class BombardCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
-	where TTop : BombardCardSide, new()
-	where TBottom : BombardCardSide, new()
+	where TTop : BombardCardSide
+	where TBottom : BombardCardSide
 {
 	protected override string TexturePath => "res://Content/Classes/Bombard/Cards.jpg";
 	protected override int ColumnCount => 6;

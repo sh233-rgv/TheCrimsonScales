@@ -59,7 +59,7 @@ public class Sinkhole : MirefootCardModel<Sinkhole.CardTop, Sinkhole.CardBottom>
 				.Build())
 		];
 
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 
@@ -95,7 +95,7 @@ public class Sinkhole : MirefootCardModel<Sinkhole.CardTop, Sinkhole.CardBottom>
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Round => true;
+		public override int XP => 2;
+		public override bool Round => true;
 	}
 }

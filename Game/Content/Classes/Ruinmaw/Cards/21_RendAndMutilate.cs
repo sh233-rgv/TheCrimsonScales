@@ -30,7 +30,7 @@ public class RendAndMutilate : RuinmawCardModel<RendAndMutilate.CardTop, RendAnd
 		];
 
 		protected override bool Sate => true;
-		protected override int XP => 1;
+		public override int XP => 1;
 		public override bool Loss => true;
 	}
 
@@ -78,6 +78,6 @@ public class RendAndMutilate : RuinmawCardModel<RendAndMutilate.CardTop, RendAnd
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

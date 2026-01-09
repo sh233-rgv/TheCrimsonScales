@@ -47,7 +47,7 @@ public class StoneMeteorite : StarslingerCardModel<StoneMeteorite.CardTop, Stone
 				.Build()),
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 		public override bool Loss => true;
 	}
 

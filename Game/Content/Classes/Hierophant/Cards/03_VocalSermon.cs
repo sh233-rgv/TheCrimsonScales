@@ -38,8 +38,8 @@ public class VocalSermon : HierophantCardModel<VocalSermon.CardTop, VocalSermon.
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Earth, Element.Light];
-		protected override int XP => 1;
+		public override IEnumerable<Element> Elements => [Element.Earth, Element.Light];
+		public override int XP => 1;
 		public override bool Loss => true;
 	}
 

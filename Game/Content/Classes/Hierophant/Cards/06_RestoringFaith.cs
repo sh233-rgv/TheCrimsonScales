@@ -62,7 +62,7 @@ public class RestoringFaith : HierophantCardModel<RestoringFaith.CardTop, Restor
 					{
 						AbilityCard abilityCard = await AbilityCmd.SelectAbilityCard(character, CardState.Persistent, false, card =>
 						{
-							if(card.Top is not HierophantPrayerCardSide)
+							if(card.Top.Model is not HierophantPrayerCardSide)
 							{
 								return false;
 							}

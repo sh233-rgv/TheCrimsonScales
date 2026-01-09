@@ -14,8 +14,8 @@ public class DistantRetribution : BombardCardModel<DistantRetribution.CardTop, D
 			new AbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2).WithRange(3).Build())
 		];
 
-		protected override int XP => 1;
-		protected override bool Round => true;
+		public override int XP => 1;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : BombardCardSide
@@ -27,6 +27,6 @@ public class DistantRetribution : BombardCardModel<DistantRetribution.CardTop, D
 			new AbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1).Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

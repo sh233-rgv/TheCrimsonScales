@@ -42,7 +42,7 @@ public class Ordination : HierophantPrayerCardModel<Ordination.CardTop, Ordinati
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : HierophantPrayerCardSide
@@ -80,6 +80,6 @@ public class Ordination : HierophantPrayerCardModel<Ordination.CardTop, Ordinati
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

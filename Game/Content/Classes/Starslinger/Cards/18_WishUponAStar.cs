@@ -62,6 +62,6 @@ public class WishUponAStar : StarslingerCardModel<WishUponAStar.CardTop, WishUpo
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

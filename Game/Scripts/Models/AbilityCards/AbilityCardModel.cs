@@ -4,8 +4,27 @@ public abstract class AbilityCardModel<TTop, TBottom> : AbilityCardModel
 	where TTop : AbilityCardSideModel
 	where TBottom : AbilityCardSideModel
 {
-	public override AbilityCardSideModel Top => ModelDB.AbilityCardSide<TTop>();
-	public override AbilityCardSideModel Bottom => ModelDB.AbilityCardSide<TBottom>();
+	public override AbilityCardSideModel Top
+	{
+		get
+		{
+			TTop top = ModelDB.AbilityCardSide<TTop>();
+			top.Init(this, AbilityCardSideType.Top);
+
+			return top;
+		}
+	}
+
+	public override AbilityCardSideModel Bottom
+	{
+		get
+		{
+			TBottom top = ModelDB.AbilityCardSide<TBottom>();
+			top.Init(this, AbilityCardSideType.Bottom);
+
+			return top;
+		}
+	}
 }
 
 public abstract class AbilityCardModel : AbstractModel

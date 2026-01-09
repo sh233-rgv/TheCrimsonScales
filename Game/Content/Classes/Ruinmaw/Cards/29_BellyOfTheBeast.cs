@@ -39,8 +39,8 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 							new CardPlayCardData()
 							{
 								AbilityCard = selectedAbilityCard,
-								CanPlayTop = topsPlayed < 2 && !selectedAbilityCard.Top.Loss,
-								CanPlayBottom = bottomsPlayed < 2 && !selectedAbilityCard.Bottom.Loss,
+								CanPlayTop = topsPlayed < 2 && !selectedAbilityCard.Top.Model.Loss,
+								CanPlayBottom = bottomsPlayed < 2 && !selectedAbilityCard.Bottom.Model.Loss,
 								CanPlayBasicTop = topsPlayed < 2,
 								CanPlayBasicBottom = bottomsPlayed < 2,
 							}
@@ -120,8 +120,8 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Unrecoverable => true;
+		public override int XP => 2;
+		public override bool Unrecoverable => true;
 		public override bool Loss => true;
 	}
 
@@ -167,6 +167,6 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 				.Build()),
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

@@ -28,7 +28,7 @@ public class Mudslide : MirefootCardModel<Mudslide.CardTop, Mudslide.CardBottom>
 				.Build())
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 	}
 
 	public class CardBottom : MirefootCardSide

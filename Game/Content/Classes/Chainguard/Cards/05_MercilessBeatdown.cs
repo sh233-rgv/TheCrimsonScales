@@ -34,7 +34,7 @@ public class MercilessBeatdown : ChainguardCardModel<MercilessBeatdown.CardTop, 
 			),
 		];
 
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 

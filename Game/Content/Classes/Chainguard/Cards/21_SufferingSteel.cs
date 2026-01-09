@@ -39,8 +39,8 @@ public class SufferingSteel : ChainguardLevelUpCardModel<SufferingSteel.CardTop,
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Round => true;
+		public override int XP => 2;
+		public override bool Round => true;
 		public override bool Loss => true;
 	}
 
@@ -52,6 +52,6 @@ public class SufferingSteel : ChainguardLevelUpCardModel<SufferingSteel.CardTop,
 			new AbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2).Build()),
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

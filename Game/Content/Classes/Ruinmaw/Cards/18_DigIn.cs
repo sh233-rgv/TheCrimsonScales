@@ -100,6 +100,6 @@ public class DigIn : RuinmawCardModel<DigIn.CardTop, DigIn.CardBottom>
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

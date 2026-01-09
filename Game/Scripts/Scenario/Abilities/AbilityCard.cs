@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
 
-public class AbilityCard : IReferenced, IActionSource
+public class AbilityCard : IReferenced
 {
 	public SavedAbilityCard SavedAbilityCard { get; }
 
@@ -30,6 +30,11 @@ public class AbilityCard : IReferenced, IActionSource
 		this.InitReference();
 
 		SavedAbilityCard = savedAbilityCard;
+
+		Top = new AbilityCardSide(this, Model.Top);
+		Bottom = new AbilityCardSide(this, Model.Bottom);
+		BasicTop = new AbilityCardSide(this, Model.BasicBottom);
+		BasicBottom = new AbilityCardSide(this, Model.BasicTop);
 
 		GameController.Instance.CardManager.Register(this);
 

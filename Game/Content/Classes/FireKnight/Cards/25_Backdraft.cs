@@ -53,8 +53,8 @@ public class Backdraft : FireKnightLevelUpCardModel<Backdraft.CardTop, Backdraft
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire, Element.Dark];
-		protected override int XP => 1;
+		public override IEnumerable<Element> Elements => [Element.Fire, Element.Dark];
+		public override int XP => 1;
 		public override bool Loss => true;
 	}
 
@@ -94,6 +94,6 @@ public class Backdraft : FireKnightLevelUpCardModel<Backdraft.CardTop, Backdraft
 				.Build()),
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<Element> Elements => [Element.Fire];
 	}
 }

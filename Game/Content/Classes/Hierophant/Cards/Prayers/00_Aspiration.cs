@@ -50,7 +50,7 @@ public class Aspiration : HierophantPrayerCardModel<Aspiration.CardTop, Aspirati
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : HierophantPrayerCardSide
@@ -91,6 +91,6 @@ public class Aspiration : HierophantPrayerCardModel<Aspiration.CardTop, Aspirati
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

@@ -38,7 +38,7 @@ public class Grace : HierophantPrayerCardModel<Grace.CardTop, Grace.CardBottom>
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : HierophantPrayerCardSide
@@ -48,6 +48,6 @@ public class Grace : HierophantPrayerCardModel<Grace.CardTop, Grace.CardBottom>
 			new AbilityCardAbility(HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Light];
+		public override IEnumerable<Element> Elements => [Element.Light];
 	}
 }

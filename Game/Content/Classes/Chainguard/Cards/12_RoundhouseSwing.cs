@@ -108,6 +108,6 @@ public class RoundhouseSwing : ChainguardCardModel<RoundhouseSwing.CardTop, Roun
 			)
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

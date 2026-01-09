@@ -66,7 +66,8 @@ public class RapidRescue : FireKnightCardModel<RapidRescue.CardTop, RapidRescue.
 				.WithRange(3)
 				.Build()),
 
-			new AbilityCardAbility(GiveFireKnightItemAbility([ModelDB.Item<RescueAxe>(), ModelDB.Item<RescueShield>()],
+			new AbilityCardAbility(GiveFireKnightItemAbility(
+				state => [ModelDB.Item<RescueAxe>(), ModelDB.Item<RescueShield>()],
 				onItemGiven: async (state, item) =>
 				{
 					await AbilityCmd.GainXP(state.Performer, 1);

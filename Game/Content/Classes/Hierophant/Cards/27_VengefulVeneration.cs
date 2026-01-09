@@ -43,7 +43,7 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : HierophantCardSide

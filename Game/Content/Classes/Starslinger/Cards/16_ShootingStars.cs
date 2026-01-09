@@ -46,7 +46,7 @@ public class ShootingStars : StarslingerCardModel<ShootingStars.CardTop, Shootin
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Dark];
+		public override IEnumerable<Element> Elements => [Element.Dark];
 	}
 
 	public class CardBottom : StarslingerCardSide

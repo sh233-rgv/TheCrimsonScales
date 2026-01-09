@@ -130,8 +130,8 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 				.Build())
 		];
 
-		protected override bool Persistent => true;
-		protected override bool CanDeactivate => false;
+		public override bool Persistent => true;
+		public override bool CanDeactivate => false;
 	}
 
 	public class CardBottom : StarslingerCardSide
@@ -168,7 +168,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 				.Build())
 		];
 
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 }

@@ -112,6 +112,6 @@ public class CollectiveCombat : FireKnightCardModel<CollectiveCombat.CardTop, Co
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

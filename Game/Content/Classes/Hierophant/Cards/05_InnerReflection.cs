@@ -19,7 +19,7 @@ public class InnerReflection : HierophantCardModel<InnerReflection.CardTop, Inne
 				.Build())
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 	}
 
 	public class CardBottom : HierophantCardSide
@@ -63,7 +63,7 @@ public class InnerReflection : HierophantCardModel<InnerReflection.CardTop, Inne
 				.Build())
 		];
 
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 }

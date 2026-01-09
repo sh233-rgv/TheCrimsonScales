@@ -58,7 +58,7 @@ public class CausticClaws : RuinmawCardModel<CausticClaws.CardTop, CausticClaws.
 		];
 
 		protected override bool Sate => true;
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 }

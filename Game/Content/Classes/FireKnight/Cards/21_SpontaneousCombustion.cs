@@ -56,8 +56,8 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 				.Build()),
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire];
-		protected override int XP => 2;
+		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 
@@ -109,7 +109,7 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 				)
 				.Build()),
 			new AbilityCardAbility(GiveFireKnightItemAbility(
-				[ModelDB.Item<ExplosiveTonic>(), ModelDB.Item<RescueAxe>(), ModelDB.Item<ScrollOfInvigoration>()],
+				state => [ModelDB.Item<ExplosiveTonic>(), ModelDB.Item<RescueAxe>(), ModelDB.Item<ScrollOfInvigoration>()],
 				customGetTargets: (state, list) =>
 				{
 					list.AddRange(GameController.Instance.Map.Figures

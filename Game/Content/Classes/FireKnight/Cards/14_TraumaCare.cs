@@ -88,9 +88,9 @@ public class TraumaCare : FireKnightLevelUpCardModel<TraumaCare.CardTop, TraumaC
 				)
 				.Build()),
 
-			new AbilityCardAbility(GiveFireKnightItemAbility([
-				ModelDB.Item<FireproofHelm>(), ModelDB.Item<RescueShield>(), ModelDB.Item<ScrollOfProtection>()
-			]))
+			new AbilityCardAbility(GiveFireKnightItemAbility(
+				state => [ModelDB.Item<FireproofHelm>(), ModelDB.Item<RescueShield>(), ModelDB.Item<ScrollOfProtection>()]
+			))
 		];
 	}
 }

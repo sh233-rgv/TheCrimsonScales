@@ -122,6 +122,6 @@ public class SacredDeath : HierophantCardModel<SacredDeath.CardTop, SacredDeath.
 		];
 
 		public override bool Loss => true;
-		protected override bool Unrecoverable => true;
+		public override bool Unrecoverable => true;
 	}
 }

@@ -33,7 +33,7 @@ public class BurningBile : RuinmawCardModel<BurningBile.CardTop, BurningBile.Car
 				.Build()),
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<Element> Elements => [Element.Fire];
 	}
 
 	public class CardBottom : RuinmawCardSide

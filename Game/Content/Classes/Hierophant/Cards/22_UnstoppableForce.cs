@@ -50,7 +50,7 @@ public class UnstoppableForce : HierophantLevelUpCardModel<UnstoppableForce.Card
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 

@@ -19,7 +19,7 @@ public class HeavyIrons : FireKnightLevelUpCardModel<HeavyIrons.CardTop, HeavyIr
 				.Build()),
 
 			new AbilityCardAbility(GiveFireKnightItemAbility(
-				[ModelDB.Item<RescueAxe>(), ModelDB.Item<EmberCladding>(), ModelDB.Item<ScrollOfCharisma>()],
+				state => [ModelDB.Item<RescueAxe>(), ModelDB.Item<EmberCladding>(), ModelDB.Item<ScrollOfCharisma>()],
 				onItemGiven: async (state, item) =>
 				{
 					await AbilityCmd.GainXP(state.Performer, 1);
@@ -76,6 +76,6 @@ public class HeavyIrons : FireKnightLevelUpCardModel<HeavyIrons.CardTop, HeavyIr
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

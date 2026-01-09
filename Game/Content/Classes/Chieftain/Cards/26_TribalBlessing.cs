@@ -39,7 +39,7 @@ public class TribalBlessing : ChieftainCardModel<TribalBlessing.CardTop, TribalB
 				.Build())
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 	}
 
 	public class CardBottom : ChieftainCardSide

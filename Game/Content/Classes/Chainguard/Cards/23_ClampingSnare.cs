@@ -52,8 +52,8 @@ public class ClampingSnare : ChainguardLevelUpCardModel<ClampingSnare.CardTop, C
 				.Build())
 		];
 
-		protected override int XP => 1;
-		protected override bool Persistent => true;
+		public override int XP => 1;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : ChainguardCardSide
@@ -69,6 +69,6 @@ public class ClampingSnare : ChainguardLevelUpCardModel<ClampingSnare.CardTop, C
 				.Build()),
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

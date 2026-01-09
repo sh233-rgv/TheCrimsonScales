@@ -19,7 +19,7 @@ public class Earthshine : StarslingerCardModel<Earthshine.CardTop, Earthshine.Ca
 				.Build()),
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<Element> Elements => [Element.Earth];
 	}
 
 	public class CardBottom : StarslingerCardSide

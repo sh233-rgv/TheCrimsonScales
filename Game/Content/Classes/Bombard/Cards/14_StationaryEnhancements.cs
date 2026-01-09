@@ -64,7 +64,7 @@ public class StationaryEnhancements : BombardCardModel<StationaryEnhancements.Ca
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : BombardCardSide
@@ -122,6 +122,6 @@ public class StationaryEnhancements : BombardCardModel<StationaryEnhancements.Ca
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

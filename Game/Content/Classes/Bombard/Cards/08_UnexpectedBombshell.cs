@@ -51,8 +51,8 @@ public class UnexpectedBombshell : BombardCardModel<UnexpectedBombshell.CardTop,
 				.Build())
 		];
 
-		protected override int XP => 1;
-		protected override bool Persistent => true;
+		public override int XP => 1;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : BombardCardSide

@@ -57,7 +57,7 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
@@ -104,7 +104,7 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 
 		private async GDTask OnSated(Ruinmaw ruinmaw)
 		{

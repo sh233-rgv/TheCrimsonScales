@@ -30,7 +30,8 @@ public class PlayingWithFire : FireKnightCardModel<PlayingWithFire.CardTop, Play
 				)
 				.Build()),
 
-			new AbilityCardAbility(GiveFireKnightItemAbility([ModelDB.Item<ExplosiveTonic>(), ModelDB.Item<EmberCladding>()],
+			new AbilityCardAbility(GiveFireKnightItemAbility(
+				state => [ModelDB.Item<ExplosiveTonic>(), ModelDB.Item<EmberCladding>()],
 				conditionalAbilityCheck: async state =>
 				{
 					await GDTask.CompletedTask;
@@ -66,8 +67,8 @@ public class PlayingWithFire : FireKnightCardModel<PlayingWithFire.CardTop, Play
 				.Build()),
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire];
-		protected override int XP => 2;
+		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 }

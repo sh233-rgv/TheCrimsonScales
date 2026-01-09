@@ -31,7 +31,7 @@ public class PierceTheFirmament : StarslingerCardModel<PierceTheFirmament.CardTo
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Dark, Element.Light];
+		public override IEnumerable<Element> Elements => [Element.Dark, Element.Light];
 	}
 
 	public class CardBottom : StarslingerCardSide
@@ -70,6 +70,6 @@ public class PierceTheFirmament : StarslingerCardModel<PierceTheFirmament.CardTo
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

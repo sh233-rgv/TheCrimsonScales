@@ -68,8 +68,9 @@ public class Scenario004 : ScenarioModel
 
 		// Allow using Heal 1 instead of any top action
 		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this,
-			parameters => !parameters.ForgoneAction &&
-			              (parameters.AbilityCardSide.IsTop || parameters.AbilityCardSide.IsBasicTop),
+			parameters =>
+				!parameters.ForgoneAction &&
+				(parameters.AbilityCardSide.AbilityCardSideType is AbilityCardSideType.Top or AbilityCardSideType.BasicTop),
 			async parameters =>
 			{
 				parameters.ForgoAction();

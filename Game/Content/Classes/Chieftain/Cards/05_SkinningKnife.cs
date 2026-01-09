@@ -16,9 +16,9 @@ public class SkinningKnife : ChieftainCardModel<SkinningKnife.CardTop, SkinningK
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<Element> Elements => [Element.Earth];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 	}
 
 	public class CardBottom : ChieftainCardSide

@@ -65,6 +65,6 @@ public class PiercingDarts : ChieftainCardModel<PiercingDarts.CardTop, PiercingD
 			),
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

@@ -20,7 +20,7 @@ public class ProtectiveInstinct : FireKnightCardModel<ProtectiveInstinct.CardTop
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : FireKnightCardSide

@@ -75,7 +75,7 @@ public class DragThroughDirt : ChainguardCardModel<DragThroughDirt.CardTop, Drag
 				.Build())
 		];
 
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 }

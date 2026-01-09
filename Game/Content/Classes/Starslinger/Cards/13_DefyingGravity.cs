@@ -66,6 +66,6 @@ public class DefyingGravity : StarslingerCardModel<DefyingGravity.CardTop, Defyi
 				.Build())
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 	}
 }

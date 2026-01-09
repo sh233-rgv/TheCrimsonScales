@@ -1,8 +1,8 @@
 ﻿using Fractural.Tasks;
 
 public abstract class RuinmawCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
-	where TTop : RuinmawCardSide, new()
-	where TBottom : RuinmawCardSide, new()
+	where TTop : RuinmawCardSide
+	where TBottom : RuinmawCardSide
 {
 	protected override string TexturePath => "res://Content/Classes/Ruinmaw/Cards.jpg";
 	protected override int ColumnCount => 8;
@@ -13,9 +13,10 @@ public abstract class RuinmawCardSide : AbilityCardSideModel
 {
 	protected virtual bool Sate => false;
 
-	protected override async GDTask OnActionPerformed(Figure figure)
+	public override async GDTask OnActionPerformed(Figure figure)
 	{
 		await base.OnActionPerformed(figure);
+
 		if(Sate)
 		{
 			await SateRuinmaw(figure);

@@ -48,7 +48,7 @@ public class ControlledAggression : FireKnightCardModel<ControlledAggression.Car
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : FireKnightCardSide

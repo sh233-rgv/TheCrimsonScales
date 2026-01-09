@@ -52,7 +52,7 @@ public class EonicBlast : StarslingerCardModel<EonicBlast.CardTop, EonicBlast.Ca
 				.Build())
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 	}
 
 	public class CardBottom : StarslingerCardSide

@@ -7,13 +7,13 @@ public partial class BasicAbilityCardSideCurrentActionView : CurrentActionView<B
 		public override string ScenePath => "res://Scenes/Scenario/UI/CurrentActionViews/BasicAbilityCardSideCurrentActionView.tscn";
 		public override object Source => AbilityCardSide;
 
-		public AbilityCardSideModel AbilityCardSide { get; }
+		public AbilityCardSide AbilityCardSide { get; }
 		public bool ShowTop { get; }
 
-		public Parameters(AbilityCardSideModel abilityCardSide)
+		public Parameters(AbilityCardSide abilityCardSide)
 		{
 			AbilityCardSide = abilityCardSide;
-			ShowTop = abilityCardSide.AbilityCard.BasicTop == abilityCardSide;
+			ShowTop = abilityCardSide.AbilityCardSideType == AbilityCardSideType.BasicTop;
 		}
 	}
 

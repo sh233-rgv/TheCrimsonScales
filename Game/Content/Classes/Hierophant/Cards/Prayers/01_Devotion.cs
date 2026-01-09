@@ -62,7 +62,7 @@ public class Devotion : HierophantPrayerCardModel<Devotion.CardTop, Devotion.Car
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : HierophantPrayerCardSide
@@ -72,7 +72,7 @@ public class Devotion : HierophantPrayerCardModel<Devotion.CardTop, Devotion.Car
 			new AbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(1).Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire];
-		protected override bool Round => true;
+		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override bool Round => true;
 	}
 }

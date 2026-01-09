@@ -15,7 +15,8 @@ public class FierceLeader : FireKnightCardModel<FierceLeader.CardTop, FierceLead
 				.WithGetAbilities(state => [AttackAbility.Builder().WithDamage(3).Build()])
 				.Build()),
 
-			new AbilityCardAbility(GiveFireKnightItemAbility([ModelDB.Item<ScrollOfCharisma>(), ModelDB.Item<ScrollOfInvigoration>()],
+			new AbilityCardAbility(GiveFireKnightItemAbility(
+				state => [ModelDB.Item<ScrollOfCharisma>(), ModelDB.Item<ScrollOfInvigoration>()],
 				onItemGiven: async (state, item) =>
 				{
 					await AbilityCmd.GainXP(state.Performer, 1);

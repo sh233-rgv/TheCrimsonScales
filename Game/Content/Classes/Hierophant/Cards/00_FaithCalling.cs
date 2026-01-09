@@ -42,17 +42,12 @@ public class FaithCalling : HierophantCardModel<FaithCalling.CardTop, FaithCalli
 			))
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Earth];
-		protected override bool Round => true;
+		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override bool Round => true;
 	}
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override List<EnhancementMark> GetEnhancements() =>
-		[
-			new EnhancementMark(EnhancementPips.AttackEnhancementDiamond, new Vector2(0.5f, 0.7f))
-		];
-
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()

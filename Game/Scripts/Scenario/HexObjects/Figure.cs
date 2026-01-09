@@ -7,7 +7,7 @@ using GTweens.Easings;
 using GTweens.Tweens;
 using GTweensGodot.Extensions;
 
-public abstract partial class Figure : HexObject
+public abstract partial class Figure : HexObject, IActionSource
 {
 	protected Sprite2D _outline;
 	protected FigureViewComponent _figureViewComponent;

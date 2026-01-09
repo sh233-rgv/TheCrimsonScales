@@ -72,6 +72,6 @@ public class FollowTheChains : ChainguardCardModel<FollowTheChains.CardTop, Foll
 			),
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

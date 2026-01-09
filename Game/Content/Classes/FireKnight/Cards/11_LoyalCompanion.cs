@@ -29,14 +29,14 @@ public class LoyalCompanion : FireKnightCardModel<LoyalCompanion.CardTop, LoyalC
 				.WithPerformAbility(async state =>
 				{
 					SummonAbility.State summonAbilityState = state.ActionState.GetAbilityState<SummonAbility.State>(0);
-					ActionState actionState = new ActionState(summonAbilityState.Summon,
+					ActionState actionState = new ActionState(state.ActionState, summonAbilityState.Summon,
 					[
 						ConditionAbility.Builder()
 							.WithConditions(Conditions.Bless)
 							.WithTarget(Target.Allies | Target.TargetAll)
 							.WithRange(2)
 							.Build()
-					], state.ActionState);
+					]);
 					await actionState.Perform();
 
 					state.SetPerformed();
@@ -45,8 +45,8 @@ public class LoyalCompanion : FireKnightCardModel<LoyalCompanion.CardTop, LoyalC
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 

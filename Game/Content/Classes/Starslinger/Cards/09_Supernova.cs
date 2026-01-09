@@ -78,7 +78,7 @@ public class Supernova : StarslingerCardModel<Supernova.CardTop, Supernova.CardB
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 
 		private async GDTask Light(AbilityState state)

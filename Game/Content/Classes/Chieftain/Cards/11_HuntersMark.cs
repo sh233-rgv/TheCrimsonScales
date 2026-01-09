@@ -90,7 +90,7 @@ public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.C
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : ChieftainCardSide
@@ -114,6 +114,6 @@ public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.C
 			),
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

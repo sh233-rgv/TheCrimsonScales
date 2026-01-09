@@ -67,8 +67,8 @@ public class FireWhirl : FireKnightCardModel<FireWhirl.CardTop, FireWhirl.CardBo
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire, Element.Air];
-		protected override int XP => 1;
+		public override IEnumerable<Element> Elements => [Element.Fire, Element.Air];
+		public override int XP => 1;
 		public override bool Loss => true;
 	}
 

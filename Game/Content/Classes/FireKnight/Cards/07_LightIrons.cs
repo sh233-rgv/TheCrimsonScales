@@ -25,7 +25,7 @@ public class LightIrons : FireKnightCardModel<LightIrons.CardTop, LightIrons.Car
 						await AbilityCmd.GainXP(state.Performer, 1);
 					}
 
-					FireKnight fireKnight = (FireKnight)AbilityCard.OriginalOwner;
+					FireKnight fireKnight = GetOriginalOwner(state);
 					List<ItemModel> remainingItemModels = fireKnight.FireKnightItems.Select(item => item.ImmutableInstance).ToList();
 					remainingItemModels.Shuffle(GameController.Instance.StateRNG);
 					remainingItemModels = remainingItemModels.Take(Mathf.Min(fireKnight.FireKnightItems.Count, itemCount)).ToList();
@@ -80,7 +80,7 @@ public class LightIrons : FireKnightCardModel<LightIrons.CardTop, LightIrons.Car
 				.Build())
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 		public override bool Loss => true;
 	}
 
@@ -90,7 +90,7 @@ public class LightIrons : FireKnightCardModel<LightIrons.CardTop, LightIrons.Car
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
 
-			new AbilityCardAbility(GiveFireKnightItemAbility([ModelDB.Item<PikeHook>(), ModelDB.Item<FireproofHelm>()]))
+			new AbilityCardAbility(GiveFireKnightItemAbility(state => [ModelDB.Item<PikeHook>(), ModelDB.Item<FireproofHelm>()]))
 		];
 	}
 }

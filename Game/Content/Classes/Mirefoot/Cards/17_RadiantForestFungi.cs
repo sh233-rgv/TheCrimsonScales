@@ -102,8 +102,8 @@ public class RadiantForestFungi : MirefootCardModel<RadiantForestFungi.CardTop, 
 				.Build())
 		];
 
-		protected override int XP => 1;
-		protected override bool Round => true;
+		public override int XP => 1;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : MirefootCardSide

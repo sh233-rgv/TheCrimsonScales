@@ -1,6 +1,6 @@
 ﻿public abstract class ChainguardLevelUpCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
-	where TTop : ChainguardCardSide, new()
-	where TBottom : ChainguardCardSide, new()
+	where TTop : ChainguardCardSide
+	where TBottom : ChainguardCardSide
 {
 	protected override string TexturePath => "res://Content/Classes/Chainguard/LevelUpCards.jpg";
 	protected override int ColumnCount => 5;
@@ -8,8 +8,8 @@
 }
 
 public abstract class ChainguardCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
-	where TTop : ChainguardCardSide, new()
-	where TBottom : ChainguardCardSide, new()
+	where TTop : ChainguardCardSide
+	where TBottom : ChainguardCardSide
 {
 	protected override string TexturePath => "res://Content/Classes/Chainguard/Cards.jpg";
 	protected override int ColumnCount => 4;

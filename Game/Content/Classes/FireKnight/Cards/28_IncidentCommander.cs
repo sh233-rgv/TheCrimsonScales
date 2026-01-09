@@ -142,7 +142,7 @@ public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.Ca
 				.Build())
 		];
 
-		protected override int XP => 1;
-		protected override bool Round => true;
+		public override int XP => 1;
+		public override bool Round => true;
 	}
 }

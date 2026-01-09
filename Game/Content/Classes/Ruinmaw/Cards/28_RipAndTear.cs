@@ -88,7 +88,7 @@ public class RipAndTear : RuinmawCardModel<RipAndTear.CardTop, RipAndTear.CardBo
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

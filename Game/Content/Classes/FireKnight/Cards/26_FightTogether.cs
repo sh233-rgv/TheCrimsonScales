@@ -28,7 +28,7 @@ public class FightTogether : FireKnightLevelUpCardModel<FightTogether.CardTop, F
 				.WithTarget(Target.SelfOrAllies | Target.TargetAll)
 				.Build()),
 			new AbilityCardAbility(GiveFireKnightItemAbility(
-				[ModelDB.Item<ScrollOfProtection>()],
+				state => [ModelDB.Item<ScrollOfProtection>()],
 				customGetTargets: (state, list) =>
 				{
 					GrantAbility.State grantAbilityState = state.ActionState.GetAbilityState<GrantAbility.State>(0);
@@ -45,7 +45,7 @@ public class FightTogether : FireKnightLevelUpCardModel<FightTogether.CardTop, F
 			))
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : FireKnightCardSide
@@ -103,6 +103,6 @@ public class FightTogether : FireKnightLevelUpCardModel<FightTogether.CardTop, F
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<Element> Elements => [Element.Fire];
 	}
 }

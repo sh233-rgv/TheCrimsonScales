@@ -87,6 +87,6 @@ public class WeakenedWill : HierophantLevelUpCardModel<WeakenedWill.CardTop, Wea
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

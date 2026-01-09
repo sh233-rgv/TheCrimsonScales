@@ -48,8 +48,8 @@ public class LightPollution : StarslingerCardModel<LightPollution.CardTop, Light
 				.Build())
 		];
 
-		protected override int XP => 1;
-		protected override IEnumerable<Element> Elements => [Element.Light];
+		public override int XP => 1;
+		public override IEnumerable<Element> Elements => [Element.Light];
 	}
 
 	public class CardBottom : StarslingerCardSide

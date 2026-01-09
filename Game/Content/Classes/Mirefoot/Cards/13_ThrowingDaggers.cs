@@ -54,7 +54,7 @@ public class ThrowingDaggers : MirefootCardModel<ThrowingDaggers.CardTop, Throwi
 			new AbilityCardAbility(AttackAbility.Builder().WithDamage(2).Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : MirefootCardSide

@@ -2,15 +2,15 @@
 using Godot;
 
 public abstract class MirefootCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
-	where TTop : MirefootCardSide, new()
-	where TBottom : MirefootCardSide, new()
+	where TTop : MirefootCardSide
+	where TBottom : MirefootCardSide
 {
 	protected override string TexturePath => "res://Content/Classes/Mirefoot/Cards.jpg";
 	protected override int ColumnCount => 6;
 	protected override int RowCount => 5;
 }
 
-public abstract class MirefootCardSide : AbilityCardSideModel
+public abstract class MirefootCardSide : AbilityCardSideModel<Character>
 {
 	protected async GDTask CreateDifficultTerrain(Hex hex)
 	{

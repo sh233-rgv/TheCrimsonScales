@@ -51,6 +51,6 @@ public class SuckerPunch : ChieftainCardModel<SuckerPunch.CardTop, SuckerPunch.C
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

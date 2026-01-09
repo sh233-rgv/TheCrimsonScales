@@ -19,8 +19,8 @@ public class ForcibleEntry : FireKnightCardModel<ForcibleEntry.CardTop, Forcible
 				.Build()),
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire];
-		protected override int XP => 2;
+		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 
@@ -57,6 +57,6 @@ public class ForcibleEntry : FireKnightCardModel<ForcibleEntry.CardTop, Forcible
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

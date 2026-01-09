@@ -53,7 +53,7 @@ public class Salvation : HierophantPrayerCardModel<Salvation.CardTop, Salvation.
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : HierophantPrayerCardSide
@@ -63,7 +63,7 @@ public class Salvation : HierophantPrayerCardModel<Salvation.CardTop, Salvation.
 			new AbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1).Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Earth];
-		protected override bool Round => true;
+		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override bool Round => true;
 	}
 }

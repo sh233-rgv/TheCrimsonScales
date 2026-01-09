@@ -13,7 +13,7 @@ public partial class AbilityCardSideCurrentActionView : CurrentActionView<Abilit
 		public Parameters(AbilityCardSideModel abilityCardSide)
 		{
 			AbilityCardSide = abilityCardSide;
-			ShowTop = abilityCardSide.AbilityCard.Top == abilityCardSide;
+			ShowTop = abilityCardSide.AbilityCardModel.Top == abilityCardSide;
 		}
 	}
 

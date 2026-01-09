@@ -18,7 +18,7 @@ public class CeremonialDance : ChieftainCardModel<CeremonialDance.CardTop, Cerem
 				.Build())
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 	}
 
 	public class CardBottom : ChieftainCardSide

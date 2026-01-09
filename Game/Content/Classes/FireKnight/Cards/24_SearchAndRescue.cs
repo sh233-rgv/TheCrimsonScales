@@ -74,7 +74,7 @@ public class SearchAndRescue : FireKnightLevelUpCardModel<SearchAndRescue.CardTo
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<Element> Elements => [Element.Fire];
 	}
 
 	public class CardBottom : FireKnightCardSide
@@ -97,11 +97,11 @@ public class SearchAndRescue : FireKnightLevelUpCardModel<SearchAndRescue.CardTo
 					)
 				)
 				.Build()),
-			new AbilityCardAbility(GiveFireKnightItemAbility([
-				ModelDB.Item<RescueShield>(), ModelDB.Item<EmberCladding>(), ModelDB.Item<KindledTonic>()
-			])),
 			new AbilityCardAbility(GiveFireKnightItemAbility(
-				((FireKnight)AbilityCard.OriginalOwner).FireKnightItems.Select(item => item.ImmutableInstance).ToList(),
+				state => [ModelDB.Item<RescueShield>(), ModelDB.Item<EmberCladding>(), ModelDB.Item<KindledTonic>()]
+			)),
+			new AbilityCardAbility(GiveFireKnightItemAbility(
+				state => GetOriginalOwner(state).FireKnightItems.Select(item => item.ImmutableInstance).ToList(),
 				onItemGiven: async (state, item) =>
 				{
 					await AbilityCmd.GainXP(state.Performer, 1);

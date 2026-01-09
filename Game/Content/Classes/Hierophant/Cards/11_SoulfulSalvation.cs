@@ -50,8 +50,8 @@ public class SoulfulSalvation : HierophantCardModel<SoulfulSalvation.CardTop, So
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Light];
-		protected override bool Persistent => true;
+		public override IEnumerable<Element> Elements => [Element.Light];
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : HierophantCardSide
@@ -123,9 +123,9 @@ public class SoulfulSalvation : HierophantCardModel<SoulfulSalvation.CardTop, So
 				.Build())
 		];
 
-		protected override int XP => 1;
-		protected override bool Persistent => true;
+		public override int XP => 1;
+		public override bool Persistent => true;
 		public override bool Loss => true;
-		protected override bool Unrecoverable => true;
+		public override bool Unrecoverable => true;
 	}
 }

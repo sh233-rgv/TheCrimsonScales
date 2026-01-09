@@ -71,6 +71,6 @@ public class StrappingBullwhip : ChieftainCardModel<StrappingBullwhip.CardTop, S
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

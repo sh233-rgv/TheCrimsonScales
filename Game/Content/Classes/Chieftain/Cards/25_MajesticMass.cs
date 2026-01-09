@@ -36,10 +36,10 @@ public class MajesticMass : ChieftainCardModel<MajesticMass.CardTop, MajesticMas
 			),
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
-		protected override bool Unrecoverable => true;
+		public override bool Unrecoverable => true;
 	}
 
 	public class CardBottom : ChieftainCardSide

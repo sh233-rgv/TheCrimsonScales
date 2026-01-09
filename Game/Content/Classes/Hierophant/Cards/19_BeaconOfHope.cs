@@ -39,7 +39,7 @@ public class BeaconOfHope : HierophantLevelUpCardModel<BeaconOfHope.CardTop, Bea
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Light];
+		public override IEnumerable<Element> Elements => [Element.Light];
 	}
 
 	public class CardBottom : HierophantCardSide
@@ -101,8 +101,8 @@ public class BeaconOfHope : HierophantLevelUpCardModel<BeaconOfHope.CardTop, Bea
 				.Build())
 		];
 
-		protected override int XP => 1;
-		protected override bool Persistent => true;
+		public override int XP => 1;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

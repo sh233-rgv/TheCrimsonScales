@@ -18,7 +18,7 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 				.Build())
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 	}
 
 	public class CardBottom : MirefootCardSide
@@ -28,7 +28,7 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 			new AbilityCardAbility(GiveAbilityCardAbility.Builder()
 				.WithGetAbilityCards((state, list) =>
 				{
-					list.Add(AbilityCard);
+					list.Add(GetAbilityCard(state));
 				})
 				.WithOnCardGiven(OnCardGiven)
 				.WithOnCardDiscarded(OnCardDiscarded)
@@ -67,13 +67,13 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 
 		private async GDTask OnCardGiven(AbilityState abilityState, AbilityCard abilityCard)
 		{
-			Character originalOwner = AbilityCard.OriginalOwner;
+			Character originalOwner = GetOriginalOwner(abilityState);
 			originalOwner.RemoveCard(abilityCard);
 
 			await GDTask.CompletedTask;
@@ -83,7 +83,7 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 		{
 			abilityCard.Owner.RemoveCard(abilityCard);
 
-			Character originalOwner = AbilityCard.OriginalOwner;
+			Character originalOwner = abilityCard.OriginalOwner;
 			originalOwner.AddCard(abilityCard);
 
 			await GDTask.CompletedTask;
@@ -93,7 +93,7 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 		{
 			abilityCard.Owner.RemoveCard(abilityCard);
 
-			Character originalOwner = AbilityCard.OriginalOwner;
+			Character originalOwner = abilityCard.OriginalOwner;
 			originalOwner.AddCard(abilityCard);
 
 			await GDTask.CompletedTask;

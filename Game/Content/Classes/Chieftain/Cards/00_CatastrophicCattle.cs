@@ -29,8 +29,8 @@ public class CatastrophicCattle : ChieftainCardModel<CatastrophicCattle.CardTop,
 			),
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 
@@ -41,6 +41,6 @@ public class CatastrophicCattle : ChieftainCardModel<CatastrophicCattle.CardTop,
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<Element> Elements => [Element.Earth];
 	}
 }

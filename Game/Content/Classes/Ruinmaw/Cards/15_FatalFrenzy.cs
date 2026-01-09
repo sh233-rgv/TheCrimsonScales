@@ -69,7 +69,7 @@ public class FatalFrenzy : RuinmawCardModel<FatalFrenzy.CardTop, FatalFrenzy.Car
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

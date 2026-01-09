@@ -26,7 +26,7 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 							              CardState.Lost or
 							              CardState.RoundLoss or
 							              CardState.UnrecoverablyLost &&
-						              parameters.AbilityCardSide != this,
+						              parameters.AbilityCardSide.Model != this,
 						async parameters =>
 						{
 							characterTokens++;
@@ -56,7 +56,7 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 
@@ -104,7 +104,7 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

@@ -53,7 +53,7 @@ public class ForgedByFire : FireKnightLevelUpCardModel<ForgedByFire.CardTop, For
 				{
 					int itemCount = 2;
 
-					FireKnight fireKnight = (FireKnight)AbilityCard.OriginalOwner;
+					FireKnight fireKnight = GetOriginalOwner(state);
 					FireKnightModel fireKnightModel = (FireKnightModel)fireKnight.ClassModel;
 					List<ItemModel> remainingItemModels = fireKnightModel.AllItems.ToList();
 
@@ -132,7 +132,7 @@ public class ForgedByFire : FireKnightLevelUpCardModel<ForgedByFire.CardTop, For
 							.Any(figure => state.Performer.AlliedWith(figure)),
 						async parameters =>
 						{
-							FireKnight fireKnight = (FireKnight)AbilityCard.OriginalOwner;
+							FireKnight fireKnight = GetOriginalOwner(state);
 
 							if(await AbilityCmd.AskConsumeElement(state.Performer, Element.Fire,
 								   $"Consume {Icons.Inline(Icons.GetElement(Element.Fire))} to give an adjacent ally a {Icons.Inline(fireKnight.ClassModel.IconPath)} item."))
@@ -179,8 +179,8 @@ public class ForgedByFire : FireKnightLevelUpCardModel<ForgedByFire.CardTop, For
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

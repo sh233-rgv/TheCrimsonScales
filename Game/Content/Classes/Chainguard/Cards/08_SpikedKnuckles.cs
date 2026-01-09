@@ -63,6 +63,6 @@ public class SpikedKnuckles : ChainguardCardModel<SpikedKnuckles.CardTop, Spiked
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

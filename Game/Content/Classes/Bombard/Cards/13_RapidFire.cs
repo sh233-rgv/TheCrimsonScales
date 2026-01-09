@@ -25,9 +25,9 @@ public class RapidFire : BombardCardModel<RapidFire.CardTop, RapidFire.CardBotto
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Air];
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override IEnumerable<Element> Elements => [Element.Air];
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 

@@ -34,7 +34,7 @@ public class FieldMedic : FireKnightCardModel<FieldMedic.CardTop, FieldMedic.Car
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
 
-			new AbilityCardAbility(GiveFireKnightItemAbility([ModelDB.Item<KindledTonic>(), ModelDB.Item<ScrollOfProtection>()]))
+			new AbilityCardAbility(GiveFireKnightItemAbility(state => [ModelDB.Item<KindledTonic>(), ModelDB.Item<ScrollOfProtection>()]))
 		];
 	}
 }

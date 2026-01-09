@@ -65,8 +65,8 @@ public class RootedSubjugation : HierophantLevelUpCardModel<RootedSubjugation.Ca
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Earth];
-		protected override bool Round => true;
+		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override bool Round => true;
 	}
 
 	public class CardBottom : HierophantCardSide
@@ -80,6 +80,6 @@ public class RootedSubjugation : HierophantLevelUpCardModel<RootedSubjugation.Ca
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

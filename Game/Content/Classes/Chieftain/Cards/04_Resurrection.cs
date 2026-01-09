@@ -51,9 +51,9 @@ public class Resurrection : ChieftainCardModel<Resurrection.CardTop, Resurrectio
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<Element> Elements => [Element.Earth];
 
 		public override bool Loss => true;
-		protected override bool Unrecoverable => true;
+		public override bool Unrecoverable => true;
 	}
 }

@@ -12,7 +12,8 @@ public class JackOfAllTrades : FireKnightLevelUpCardModel<JackOfAllTrades.CardTo
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(GiveFireKnightItemAbility([ModelDB.Item<ScrollOfInvigoration>()],
+			new AbilityCardAbility(GiveFireKnightItemAbility(
+				state => [ModelDB.Item<ScrollOfInvigoration>()],
 				target: Target.SelfOrAllies,
 				conditionalAbilityCheck: async state =>
 				{
@@ -47,7 +48,8 @@ public class JackOfAllTrades : FireKnightLevelUpCardModel<JackOfAllTrades.CardTo
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build()),
 
-			new AbilityCardAbility(GiveFireKnightItemAbility([ModelDB.Item<PikeHook>(), ModelDB.Item<KindledTonic>(), ModelDB.Item<ExplosiveTonic>()],
+			new AbilityCardAbility(GiveFireKnightItemAbility(
+				state => [ModelDB.Item<PikeHook>(), ModelDB.Item<KindledTonic>(), ModelDB.Item<ExplosiveTonic>()],
 				target: Target.SelfOrAllies,
 				conditionalAbilityCheck: async state =>
 				{

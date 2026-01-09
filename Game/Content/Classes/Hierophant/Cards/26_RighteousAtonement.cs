@@ -39,7 +39,7 @@ public class RighteousAtonement : HierophantLevelUpCardModel<RighteousAtonement.
 				.Build()),
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 
 		private async GDTask ApplyParameters(Figure figure, AbilityState state)
 		{
@@ -139,9 +139,9 @@ public class RighteousAtonement : HierophantLevelUpCardModel<RighteousAtonement.
 				.Build()),
 		];
 
-		protected override int XP => 2;
-		protected override bool Round => true;
+		public override int XP => 2;
+		public override bool Round => true;
 		public override bool Loss => true;
-		protected override bool Unrecoverable => true;
+		public override bool Unrecoverable => true;
 	}
 }

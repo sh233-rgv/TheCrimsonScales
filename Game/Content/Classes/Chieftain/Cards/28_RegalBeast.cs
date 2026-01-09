@@ -59,10 +59,10 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 			),
 		];
 
-		protected override int XP => 6;
-		protected override bool Persistent => true;
+		public override int XP => 6;
+		public override bool Persistent => true;
 		public override bool Loss => true;
-		protected override bool Unrecoverable => true;
+		public override bool Unrecoverable => true;
 	}
 
 	public class CardBottom : ChieftainCardSide
@@ -74,8 +74,8 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 				{
 					IEnumerable<AbilityCard> selectedAbilityCards =
 						await AbilityCmd.SelectAbilityCards((Character)state.Performer, CardState.Lost, 0, 3,
-							canSelectFunc: abilityCard => abilityCard.Top.Abilities
-								.Concat(abilityCard.Bottom.Abilities)
+							canSelectFunc: abilityCard => abilityCard.Top.Model.Abilities
+								.Concat(abilityCard.Bottom.Model.Abilities)
 								.Any(cardAbility => cardAbility.Ability is SummonAbility),
 							hintText: $"Select up to 3 lost cards with summon abilities to recover");
 
@@ -84,9 +84,9 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 						await AbilityCmd.ReturnToHand(abilityCard);
 					}
 
-					IEnumerable<AbilityCardSideModel> abilitySides = selectedAbilityCards
-						.SelectMany<AbilityCard, AbilityCardSideModel>(abilityCard => [abilityCard.Top, abilityCard.Bottom])
-						.Where(abilityCardSide => abilityCardSide.Abilities
+					IEnumerable<AbilityCardSide> abilitySides = selectedAbilityCards
+						.SelectMany<AbilityCard, AbilityCardSide>(abilityCard => [abilityCard.Top, abilityCard.Bottom])
+						.Where(abilityCardSide => abilityCardSide.Model.Abilities
 							.Any(cardAbility => cardAbility.Ability is SummonAbility));
 
 					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
@@ -100,7 +100,7 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 						}
 					);
 
-					foreach(AbilityCardSideModel abilitySide in abilitySides)
+					foreach(AbilityCardSide abilitySide in abilitySides)
 					{
 						await abilitySide.Perform(state.Performer);
 						await abilitySide.AbilityCard.SetCardState(abilitySide.AbilityCard.Unrecoverable
@@ -115,6 +115,6 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 		];
 
 		public override bool Loss => true;
-		protected override bool Unrecoverable => true;
+		public override bool Unrecoverable => true;
 	}
 }

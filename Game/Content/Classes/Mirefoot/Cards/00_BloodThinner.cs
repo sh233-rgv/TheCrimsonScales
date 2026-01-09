@@ -17,7 +17,7 @@ public class BloodThinner : MirefootCardModel<BloodThinner.CardTop, BloodThinner
 				.Build())
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 	}
 
 	public class CardBottom : MirefootCardSide

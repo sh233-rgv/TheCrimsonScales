@@ -95,6 +95,6 @@ public class IndomitableCraving : RuinmawCardModel<IndomitableCraving.CardTop, I
 				.Build()),
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

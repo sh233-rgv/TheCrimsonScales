@@ -66,8 +66,8 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Light];
-		protected override bool Round => true;
+		public override IEnumerable<Element> Elements => [Element.Light];
+		public override bool Round => true;
 	}
 
 	public class CardBottom : HierophantCardSide

@@ -19,10 +19,10 @@ public partial class CardSideView : Control
 
 	public void SetCard(AbilityCardSideModel abilityCardSide)
 	{
-		SetCard(abilityCardSide.AbilityCard, abilityCardSide.AbilityCard.Top == abilityCardSide);
+		SetCard(abilityCardSide.AbilityCardModel, abilityCardSide.AbilityCardSideType == AbilityCardSideType.Top);
 	}
 
-	public void SetCard(AbilityCard abilityCard, bool showTop = true)
+	public void SetCard(AbilityCardModel abilityCardModel, bool showTop = true)
 	{
 		// foreach(CardViewCharacterToken token in _tokens)
 		// {
@@ -31,7 +31,7 @@ public partial class CardSideView : Control
 		//
 		// _tokens.Clear();
 
-		Texture2D texture = abilityCard.Model.GetTexture();
+		Texture2D texture = abilityCardModel.GetTexture();
 		foreach(TextureRect textureRect in _textureRects)
 		{
 			textureRect.Texture = texture;

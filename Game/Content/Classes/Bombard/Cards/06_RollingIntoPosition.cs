@@ -15,8 +15,8 @@ public class RollingIntoPosition : BombardCardModel<RollingIntoPosition.CardTop,
 			new AbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1).Build())
 		];
 
-		protected override int XP => 1;
-		protected override bool Round => true;
+		public override int XP => 1;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : BombardCardSide

@@ -36,6 +36,6 @@ public class OneWithNature : ChieftainCardModel<OneWithNature.CardTop, OneWithNa
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(5).Build()),
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<Element> Elements => [Element.Earth];
 	}
 }

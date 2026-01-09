@@ -45,7 +45,7 @@ public class Penitence : HierophantPrayerCardModel<Penitence.CardTop, Penitence.
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : HierophantPrayerCardSide
@@ -86,6 +86,6 @@ public class Penitence : HierophantPrayerCardModel<Penitence.CardTop, Penitence.
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

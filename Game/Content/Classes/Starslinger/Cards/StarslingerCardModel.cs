@@ -2,8 +2,8 @@
 using Godot;
 
 public abstract class StarslingerCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
-	where TTop : StarslingerCardSide, new()
-	where TBottom : StarslingerCardSide, new()
+	where TTop : StarslingerCardSide
+	where TBottom : StarslingerCardSide
 {
 	protected override string TexturePath => "res://Content/Classes/Starslinger/Cards.jpg";
 	protected override int ColumnCount => 6;

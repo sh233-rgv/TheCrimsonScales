@@ -52,7 +52,7 @@ public class UntouchableKeeper : ChainguardCardModel<UntouchableKeeper.CardTop, 
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : ChainguardCardSide
@@ -65,6 +65,6 @@ public class UntouchableKeeper : ChainguardCardModel<UntouchableKeeper.CardTop, 
 				.Build()),
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 	}
 }

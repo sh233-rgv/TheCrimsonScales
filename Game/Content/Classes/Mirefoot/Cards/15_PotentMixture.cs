@@ -45,7 +45,7 @@ public class PotentMixture : MirefootCardModel<PotentMixture.CardTop, PotentMixt
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : MirefootCardSide
@@ -99,6 +99,6 @@ public class PotentMixture : MirefootCardModel<PotentMixture.CardTop, PotentMixt
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

@@ -41,7 +41,7 @@ public class DiamondRings : StarslingerCardModel<DiamondRings.CardTop, DiamondRi
 				.Build())
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 	}
 
 	public class CardBottom : StarslingerCardSide
@@ -53,6 +53,6 @@ public class DiamondRings : StarslingerCardModel<DiamondRings.CardTop, DiamondRi
 				.Build()),
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Light];
+		public override IEnumerable<Element> Elements => [Element.Light];
 	}
 }

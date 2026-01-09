@@ -36,6 +36,6 @@ public class DoubleCannons : BombardCardModel<DoubleCannons.CardTop, DoubleCanno
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }
