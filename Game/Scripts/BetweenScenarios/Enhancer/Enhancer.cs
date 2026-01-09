@@ -141,10 +141,15 @@ public partial class Enhancer : BetweenScenariosAction
 		UpdateConfirmButton();
 	}
 
-	private void CreateEnhancementMarkButtons(AbilityCardSideModel cardSideModel, bool top)
+	private void CreateEnhancementMarkButtons(AbilityCardSideModel cardSideModel, Dictionary<int, SavedEnhancement> savedEnhancements, bool top)
 	{
 		for(int i = 0; i < cardSideModel.Enhancements.Count; i++)
 		{
+			if(savedEnhancements.ContainsKey(i))
+			{
+				continue;
+			}
+
 			EnhancementMark enhancementMark = cardSideModel.Enhancements[i];
 			EnhancementMarkToggleButton enhancementMarkToggleButton = _enhancementMarkButtonScene.Instantiate<EnhancementMarkToggleButton>();
 			_cardView.AddChild(enhancementMarkToggleButton);
@@ -167,8 +172,8 @@ public partial class Enhancer : BetweenScenariosAction
 
 		_enhancementMarkToggleButtons.Clear();
 
-		CreateEnhancementMarkButtons(_selectedAbilityCard.Model.Top, true);
-		CreateEnhancementMarkButtons(_selectedAbilityCard.Model.Bottom, false);
+		CreateEnhancementMarkButtons(_selectedAbilityCard.Model.Top, _selectedAbilityCard.SavedTopEnhancements, true);
+		CreateEnhancementMarkButtons(_selectedAbilityCard.Model.Bottom, _selectedAbilityCard.SavedBottomEnhancements, false);
 
 		_selectedMark = _enhancementMarkToggleButtons.FirstOrDefault();
 		_selectedMark?.SetSelected(true, true, true);
