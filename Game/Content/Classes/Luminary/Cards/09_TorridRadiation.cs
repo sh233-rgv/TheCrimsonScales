@@ -60,7 +60,7 @@ public class TorridRadiation : LuminaryCardModel<TorridRadiation.CardTop, Torrid
 
 					for(int i = 0; i < state.DamagedFigures.Count; i++)
 					{
-						await AbilityCmd.InfuseWildElement(state.Authority, state);
+						await AbilityCmd.InfuseWildElement(state);
 					}
 				})
 				.Build()),

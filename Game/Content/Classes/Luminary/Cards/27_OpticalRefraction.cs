@@ -41,7 +41,7 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 					ScenarioEvents.DuringAttack.Subscription.ConsumeWildElement(
 						applyFunction: async parameters =>
 						{
-							await AbilityCmd.InfuseWildElement(parameters.Authority, parameters.AbilityState);
+							await AbilityCmd.InfuseWildElement(parameters.AbilityState);
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetAnyElement())}")
 					)

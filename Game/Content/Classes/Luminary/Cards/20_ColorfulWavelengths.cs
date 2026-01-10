@@ -26,7 +26,7 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 								]
 							));
 
-							await AbilityCmd.InfuseElement(Element.Ice, parameters.AbilityState.Authority, parameters.AbilityState);
+							await AbilityCmd.InfuseElement(parameters.AbilityState, Element.Ice);
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters("Add the shown area of effect")
 					)
@@ -38,7 +38,7 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 						{
 							parameters.AbilityState.AbilityAdjustPierce(2);
 
-							await AbilityCmd.InfuseElement(Element.Fire, parameters.AbilityState.Authority, parameters.AbilityState);
+							await AbilityCmd.InfuseElement(parameters.AbilityState, Element.Fire);
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Pierce)}2")
 					),
@@ -47,7 +47,7 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 						{
 							parameters.AbilityState.AbilityAdjustPush(2);
 
-							await AbilityCmd.InfuseElement(Element.Dark, parameters.AbilityState.Authority, parameters.AbilityState);
+							await AbilityCmd.InfuseElement(parameters.AbilityState, Element.Dark);
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Push)}2")
 					),
@@ -56,7 +56,7 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 						{
 							parameters.AbilityState.AbilityAddCondition(Conditions.Curse);
 
-							await AbilityCmd.InfuseElement(Element.Light, parameters.AbilityState.Authority, parameters.AbilityState);
+							await AbilityCmd.InfuseElement(parameters.AbilityState, Element.Light);
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Curse))}")
 					)

@@ -57,9 +57,9 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
 						parameters =>
 						{
 							return parameters.Target == state.Performer &&
-							       parameters.Condition?.ImmunityCompareBaseConditions != null &&
+							       parameters.ConditionModel.ImmunityCompareBaseConditions != null &&
 							       Conditions.Immobilize.ImmunityCompareBaseConditions != null &&
-							       parameters.Condition.ImmunityCompareBaseConditions
+							       parameters.ConditionModel.ImmunityCompareBaseConditions
 								       .Any(c1 => Conditions.Immobilize.ImmunityCompareBaseConditions.Contains(c1));
 						},
 						async parameters =>
@@ -95,9 +95,9 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
 						async parameters =>
 						{
 							parameters.SetCanInfuse(false);
-							await AbilityCmd.InfuseWildElement(state.Authority, state);
+							await AbilityCmd.InfuseWildElement(state);
 							Element element = state.UseSlotIndex == 0 ? Element.Light : (state.UseSlotIndex == 1) ? Element.Fire : Element.Ice;
-							await AbilityCmd.InfuseElement(element, state.Authority, state);
+							await AbilityCmd.InfuseElement(state, element);
 
 							await state.AdvanceUseSlot();
 						}

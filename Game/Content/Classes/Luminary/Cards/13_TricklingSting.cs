@@ -54,7 +54,7 @@ public class TricklingSting : LuminaryCardModel<TricklingSting.CardTop, Tricklin
 						canApply: canApplyParameters => createTrapState.CreatedTraps.Contains(canApplyParameters.Trap),
 						async applyParameters =>
 						{
-							await AbilityCmd.InfuseWildElement(state.Authority, state);
+							await AbilityCmd.InfuseWildElement(state);
 							await AbilityCmd.GainXP(state.Performer, 1);
 							await state.ActionState.RequestDiscardOrLose();
 						}

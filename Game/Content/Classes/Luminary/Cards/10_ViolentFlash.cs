@@ -27,7 +27,7 @@ public class ViolentFlash : LuminaryCardModel<ViolentFlash.CardTop, ViolentFlash
 				{
 					for(int i = 0; i < state.UniqueTargetedFigures.Count; i++)
 					{
-						await AbilityCmd.InfuseWildElement(state.Authority, state);
+						await AbilityCmd.InfuseWildElement(state);
 					}
 				})
 				.Build()),

@@ -27,9 +27,9 @@ public class ShiningDiversion : LuminaryCardModel<ShiningDiversion.CardTop, Shin
 				[
 					ShieldAbility.Builder()
 						.WithShieldValue(1)
-						.WithOnAbilityEndedPerformed(async state =>
+						.WithOnAbilityEndedPerformed(async shieldState =>
 						{
-							await AbilityCmd.InfuseElement(Element.Ice, state.Authority, state);
+							await AbilityCmd.InfuseElement(shieldState, Element.Ice);
 						})
 						.Build(),
 				])

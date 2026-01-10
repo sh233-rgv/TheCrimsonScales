@@ -28,7 +28,7 @@ public class FlickeringLights : LuminaryCardModel<FlickeringLights.CardTop, Flic
 				{
 					for(int i = 0; i < state.UniqueTargetedFigures.Count; i++)
 					{
-						await AbilityCmd.InfuseWildElement(state.Authority, state);
+						await AbilityCmd.InfuseWildElement(state);
 					}
 				})
 				.Build()),
@@ -53,7 +53,7 @@ public class FlickeringLights : LuminaryCardModel<FlickeringLights.CardTop, Flic
 				{
 					if(state.LootedObjects.Count >= 2)
 					{
-						await AbilityCmd.InfuseWildElement(state.Authority, state);
+						await AbilityCmd.InfuseWildElement(state);
 					}
 				})
 				.Build())

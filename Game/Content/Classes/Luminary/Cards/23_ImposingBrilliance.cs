@@ -61,17 +61,17 @@ public class ImposingBrilliance : LuminaryCardModel<ImposingBrilliance.CardTop, 
 				.WithOnAbilityEndedPerformed(async state =>
                 {
 					if (RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false).Any(figure => figure.EnemiesWith(state.Performer)))
-                    {
-                        await AbilityCmd.InfuseElement(Element.Fire, state.Authority, state);
-                    }
+					{
+						await AbilityCmd.InfuseElement(state, Element.Fire);
+					}
 					if (RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false).Any(figure => figure.AlliedWith(state.Performer)))
-                    {
-                        await AbilityCmd.InfuseElement(Element.Ice, state.Authority, state);
-                    }
+					{
+						await AbilityCmd.InfuseElement(state, Element.Ice);
+					}
 					if (state.Origin == state.Performer.Hex)
-                    {
-                        await AbilityCmd.InfuseElement(Element.Light, state.Authority, state);
-                    }
+					{
+						await AbilityCmd.InfuseElement(state, Element.Light);
+					}
                     await GDTask.CompletedTask;
                 })
 				.Build()),

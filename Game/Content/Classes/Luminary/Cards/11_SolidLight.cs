@@ -31,7 +31,7 @@ public class SolidLight : LuminaryCardModel<SolidLight.CardTop, SolidLight.CardB
 						canApply: parameters => parameters.AbilityState.Target == state.Performer,
 						apply: async parameters =>
                         {
-							await AbilityCmd.InfuseElement(Element.Light, parameters.Authority, state);
+							await AbilityCmd.InfuseElement(state, Element.Light);
 							ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
                         });
 					await GDTask.CompletedTask;

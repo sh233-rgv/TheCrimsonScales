@@ -57,7 +57,7 @@ public class LightTheWay : LuminaryCardModel<LightTheWay.CardTop, LightTheWay.Ca
 						parameters => parameters.Figure == state.Performer && parameters.Figure.TurnMovedHexes.Count >= 4,
 						async parameters =>
 						{
-							await AbilityCmd.InfuseElement([Element.Fire, Element.Light], parameters.Figure, state);
+							await AbilityCmd.InfuseElement(state, [Element.Fire, Element.Light]);
 						}, EffectType.Selectable,
 						effectButtonParameters: new TextEffectButton.Parameters(
 							$"{Icons.Inline(Icons.GetElement(Element.Fire))} or {Icons.Inline(Icons.GetElement(Element.Light))}"),

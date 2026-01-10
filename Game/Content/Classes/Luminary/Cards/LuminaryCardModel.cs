@@ -38,11 +38,11 @@ public abstract class LuminaryCardSide : AbilityCardSide
 			{
 				if(possibleElements.Count == 1)
 				{
-					await AbilityCmd.InfuseElement(possibleElements.First(), state.Authority, state);
+					await AbilityCmd.InfuseElement(state, possibleElements.First());
 				}
 				else
 				{
-					await AbilityCmd.InfuseElement(possibleElements, state.Authority, state);
+					await AbilityCmd.InfuseElement(state, possibleElements);
 				}
 			})
 			.WithOnAbilityStarted(async state =>

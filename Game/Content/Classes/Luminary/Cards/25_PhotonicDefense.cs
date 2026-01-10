@@ -76,16 +76,16 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 							switch(state.UseSlotIndex)
 							{
 								case 0:
-									await AbilityCmd.InfuseElement(Element.Fire, state.Authority);
+									await AbilityCmd.InfuseElement(state, Element.Fire);
 									break;
 								case 1:
-									await AbilityCmd.InfuseElement(Element.Ice, state.Authority);
+									await AbilityCmd.InfuseElement(state, Element.Ice);
 									break;
 								case 2:
-									await AbilityCmd.InfuseElement(Element.Light, state.Authority);
+									await AbilityCmd.InfuseElement(state, Element.Light);
 									break;
 								case 3:
-									await AbilityCmd.InfuseElement(Element.Dark, state.Authority);
+									await AbilityCmd.InfuseElement(state, Element.Dark);
 									break;
 							}
 
