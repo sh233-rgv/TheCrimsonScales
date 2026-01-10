@@ -28,13 +28,13 @@ public class Scenario017 : ScenarioModel
 			foreach(Trap trap in RangeHelper.GetHexesInRange(character.Hex, 1).SelectMany(hex => hex.GetHexObjectsOfType<Trap>())
 				        .Where(trap => trap != null))
 			{
-				await AbilityCmd.DisarmTrap(trap);
+				await AbilityCmd.DisarmTrap(trap, character);
 			}
 		});
 		GameController.Instance.Map.Treasures.First(treasure => treasure.TreasureNumber == 19).SetObtainLootFunction(async character =>
 		{
 			character.SavedCharacter.AddCheckmark();
-			await AbilityCmd.InfuseWildElement(character);
+			await AbilityCmd.InfuseWildElement(null, character);
 		});
 		GameController.Instance.Map.Treasures.First(treasure => treasure.TreasureNumber == 43).SetObtainLootFunction(async character =>
 		{

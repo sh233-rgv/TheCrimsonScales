@@ -42,7 +42,7 @@ public class HalfElementsShieldRetaliateTrait : FigureTrait
 				await GDTask.CompletedTask;
 			});
 		
-		ScenarioEvents.ConsumeElementElement.Subscribe(figure, this,
+		ScenarioEvents.ConsumeElementEvent.Subscribe(figure, this,
 			canApplyParameters => true,
 			async applyParameters =>
 			{
@@ -51,7 +51,14 @@ public class HalfElementsShieldRetaliateTrait : FigureTrait
 				await GDTask.CompletedTask;
 			});
 		
-		//Fire change on Infuse
+		ScenarioEvents.ElementInfusedEvent.Subscribe(figure, this,
+			canApplyParameters => true,
+			async applyParameters =>
+			{
+				ScenarioCheckEvents.ShieldCheckEvent.FireChangedEvent();
+				ScenarioCheckEvents.RetaliateCheckEvent.FireChangedEvent();
+				await GDTask.CompletedTask;
+			});
 	}
 
 	public override async GDTask Deactivate(Figure figure)
@@ -64,7 +71,8 @@ public class HalfElementsShieldRetaliateTrait : FigureTrait
 		ScenarioCheckEvents.RetaliateCheckEvent.Unsubscribe(figure, this);
 		ScenarioEvents.RetaliateEvent.Unsubscribe(figure, this);
 
-		ScenarioEvents.ConsumeElementElement.Unsubscribe(figure, this);
+		ScenarioEvents.ConsumeElementEvent.Unsubscribe(figure, this);
+		ScenarioEvents.ElementInfusedEvent.Unsubscribe(figure, this);
 	}
 
 	private int CalculateElements()
