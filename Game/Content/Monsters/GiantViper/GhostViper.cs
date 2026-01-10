@@ -20,6 +20,4 @@ public class GhostViper : GiantViper
 			.ToArray();
 
 	public override string Name => "Ghost Viper";
-
-	public override int MaxStandeeCount => 10;
 }

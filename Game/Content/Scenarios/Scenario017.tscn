@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cjted7i71tgja"]
+[gd_scene load_steps=22 format=3 uid="uid://cjted7i71tgja"]
 
 [ext_resource type="PackedScene" uid="uid://cifjwk1lx2x1h" path="res://Scenes/Scenario/Scenario.tscn" id="1_yauc0"]
 [ext_resource type="Script" uid="uid://bbtc25ohouat7" path="res://Scripts/Scenario/Room.cs" id="2_40csl"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://drqlbb0yhsf8" path="res://Content/MapTiles/D1a.tscn" id="13_upkwi"]
 [ext_resource type="PackedScene" uid="uid://dqqqci2fcs3wa" path="res://Content/MapTiles/D2a.tscn" id="14_couc6"]
 [ext_resource type="PackedScene" uid="uid://ckgq6ohdrpaun" path="res://Content/OverlayTiles/Corridors/ManMadeStone2H.tscn" id="15_q1lkn"]
+[ext_resource type="PackedScene" uid="uid://gi5tvly6t0i1" path="res://Scenes/Scenario/Marker.tscn" id="15_xsvke"]
 [ext_resource type="PackedScene" uid="uid://j172kayux4qu" path="res://Content/OverlayTiles/Obstacles/Bookcase2H.tscn" id="16_nan5a"]
 [ext_resource type="PackedScene" uid="uid://cv4gvlna7tp3e" path="res://Content/OverlayTiles/HazardousTerrain/HotCoals1H.tscn" id="17_ox6ed"]
 [ext_resource type="PackedScene" uid="uid://eu066aoq41ti" path="res://Content/OverlayTiles/Doors/StoneDoorHorizontal1H.tscn" id="18_vjrsn"]
@@ -97,6 +98,21 @@ MonsterModelId = "MONSTER_MODEL.FLAME_DEMON"
 MonsterType2Characters = 1
 MonsterType3Characters = 1
 MonsterType4Characters = 1
+
+[node name="Marker" parent="Map/Rooms/Room" index="16" instance=ExtResource("15_xsvke")]
+position = Vector2(-218.238, 378)
+
+[node name="Marker2" parent="Map/Rooms/Room" index="17" instance=ExtResource("15_xsvke")]
+position = Vector2(0, 378)
+
+[node name="Marker3" parent="Map/Rooms/Room" index="18" instance=ExtResource("15_xsvke")]
+position = Vector2(218.238, 378)
+
+[node name="Marker4" parent="Map/Rooms/Room" index="19" instance=ExtResource("15_xsvke")]
+position = Vector2(109.119, 567)
+
+[node name="Marker5" parent="Map/Rooms/Room" index="20" instance=ExtResource("15_xsvke")]
+position = Vector2(-109.119, 567)
 
 [node name="Room2" type="Node2D" parent="Map/Rooms" index="1"]
 script = ExtResource("2_40csl")

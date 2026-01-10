@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
@@ -6,16 +7,20 @@ public class Scenario017 : ScenarioModel
 	public override string ScenePath => "res://Content/Scenarios/Scenario017.tscn";
 	public override int ScenarioNumber => 17;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
-	//public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario018>()];
+	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario018>()];
 
 	protected override ScenarioGoals CreateScenarioGoals() =>
-		new CustomScenarioGoals("Loot the Goal treasure tile and return all characters to the starting hexes to win this scenario.");
+		new CustomScenarioGoals(
+			$"Loot the Goal treasure tile and have all characters occupy hexes with {Icons.InlineMarker(Marker.Type.a)} to win this scenario.");
 
 	private bool _treasureLooted;
+	private IEnumerable<Hex> _markerHexes;
 
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
+
+		_markerHexes = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.Hex);
 
 		GameController.Instance.Map.Treasures.First(treasure => treasure.TreasureNumber == 6).SetObtainLootFunction(async character =>
 		{
@@ -68,8 +73,8 @@ public class Scenario017 : ScenarioModel
 		});
 
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
-			parameters => _treasureLooted && GameController.Instance.CharacterManager.Characters.All(character =>
-				GameController.Instance.CharacterManager.CharacterStartHexes.Select(startHex => startHex.Hex).Contains(character.Hex)),
+			parameters => _treasureLooted &&
+			              GameController.Instance.CharacterManager.Characters.All(character => _markerHexes.Contains(character.Hex)),
 			async parameters =>
 			{
 				await ((CustomScenarioGoals)ScenarioGoals).Win();
