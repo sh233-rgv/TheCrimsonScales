@@ -8,8 +8,8 @@ public class ConditionDiamond : ConditionEnhancementMark
 			.Concat(Enhancements.Elements)
 			.ToArray();
 
-	public ConditionDiamond(AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition)
-		: base(abilityCardSideModel, normalizedPosition)
+	public ConditionDiamond(AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition, float priceMultiplier = 1f)
+		: base(abilityCardSideModel, normalizedPosition, priceMultiplier)
 	{
 	}
 }

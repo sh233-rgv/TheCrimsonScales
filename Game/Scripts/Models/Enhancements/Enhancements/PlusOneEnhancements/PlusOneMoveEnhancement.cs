@@ -2,7 +2,7 @@
 {
 	public override int BaseCost => 30;
 
-	protected override void Enhance(MoveAbility.State state)
+	protected override void _Enhance(MoveAbility.State state)
 	{
 		state.AdjustMoveValue(1);
 	}

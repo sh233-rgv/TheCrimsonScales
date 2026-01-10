@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, ProsperousConcord.CardBottom>
 {
@@ -76,7 +77,9 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
-				.WithRange(1)
+				.WithRange(1,
+					new RangeSquare(this, new Vector2(0.54945546f, 0.6825218f)),
+					new RangeSquare(this, new Vector2(0.6705539f, 0.6825218f)))
 				.WithAfterTargetConfirmedSubscriptions(
 					[
 						ScenarioEvents.HealAfterTargetConfirmed.Subscription.New(

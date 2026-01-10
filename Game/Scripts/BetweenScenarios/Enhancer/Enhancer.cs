@@ -193,6 +193,7 @@ public partial class Enhancer : BetweenScenariosAction
 		int cost = model.BaseCost;
 
 		//TODO: Check multi-target
+		// if(mark.Ability is TargetedAbility<> targetedAbility)
 		// if(multitarget)
 		// {
 		// 	cost *= 2;

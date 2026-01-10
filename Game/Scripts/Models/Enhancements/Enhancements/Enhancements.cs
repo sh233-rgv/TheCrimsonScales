@@ -9,8 +9,22 @@
 		ModelDB.Enhancement<CurseEnhancement>()
 	];
 
+	public static EnhancementModel[] PositiveConditions { get; } =
+	[
+		ModelDB.Enhancement<BlessEnhancement>(),
+		ModelDB.Enhancement<RegenerateEnhancement>(),
+		ModelDB.Enhancement<StrengthenEnhancement>(),
+		ModelDB.Enhancement<WardEnhancement>(),
+	];
+
 	public static EnhancementModel[] Elements { get; } =
 	[
-		//TODO
+		ModelDB.Enhancement<FireElementEnhancement>(),
+		ModelDB.Enhancement<IceElementEnhancement>(),
+		ModelDB.Enhancement<AirElementEnhancement>(),
+		ModelDB.Enhancement<EarthElementEnhancement>(),
+		ModelDB.Enhancement<LightElementEnhancement>(),
+		ModelDB.Enhancement<DarkElementEnhancement>(),
+		ModelDB.Enhancement<WildElementEnhancement>(),
 	];
 }

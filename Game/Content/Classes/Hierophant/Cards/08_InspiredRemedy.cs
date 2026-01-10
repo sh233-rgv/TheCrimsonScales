@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class InspiredRemedy : HierophantCardModel<InspiredRemedy.CardTop, InspiredRemedy.CardBottom>
 {
@@ -14,7 +15,7 @@ public class InspiredRemedy : HierophantCardModel<InspiredRemedy.CardTop, Inspir
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
-				.WithRange(2)
+				.WithRange(2, new RangeSquare(this, new Vector2(0.6105665f, 0.16249998f)))
 				.WithDuringHealSubscription(
 					ScenarioEvents.DuringHeal.Subscription.ConsumeElement(Element.Light,
 						applyFunction: async applyParameters =>

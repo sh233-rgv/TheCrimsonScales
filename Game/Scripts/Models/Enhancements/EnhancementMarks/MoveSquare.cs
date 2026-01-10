@@ -8,8 +8,8 @@ public class MoveSquare : MoveEnhancementMark
 		ModelDB.Enhancement<JumpEnhancement>()
 	];
 
-	public MoveSquare(AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition)
-		: base(abilityCardSideModel, normalizedPosition)
+	public MoveSquare(AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition, float priceMultiplier = 1f)
+		: base(abilityCardSideModel, normalizedPosition, priceMultiplier)
 	{
 	}
 }

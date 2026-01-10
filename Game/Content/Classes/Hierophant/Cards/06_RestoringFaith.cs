@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class RestoringFaith : HierophantCardModel<RestoringFaith.CardTop, RestoringFaith.CardBottom>
 {
@@ -13,8 +14,8 @@ public class RestoringFaith : HierophantCardModel<RestoringFaith.CardTop, Restor
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
-				.WithHealValue(1)
-				.WithRange(3)
+				.WithHealValue(1, new HealDiamondPlus(this, new Vector2(0.43512207f, 0.17212221f)))
+				.WithRange(3, new RangeSquare(this, new Vector2(0.65840006f, 0.17251107f)))
 				.Build()),
 
 			new AbilityCardAbility(GrantAbility.Builder()
@@ -42,7 +43,9 @@ public class RestoringFaith : HierophantCardModel<RestoringFaith.CardTop, Restor
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6194556f, 0.6955332f)))
+				.Build()),
 
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>

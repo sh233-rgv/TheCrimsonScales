@@ -61,12 +61,13 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 	{
 		public interface IHealValueStep
 		{
-			TBuilder WithHealValue(DynamicInt<State> healValue);
+			TBuilder WithHealValue(DynamicInt<State> healValue, params HealEnhancementMark[] enhancementMarks);
 		}
 
-		public TBuilder WithHealValue(DynamicInt<State> healValue)
+		public TBuilder WithHealValue(DynamicInt<State> healValue, params HealEnhancementMark[] enhancementMarks)
 		{
 			Obj.HealValue = healValue;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 

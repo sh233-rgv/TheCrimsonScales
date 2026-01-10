@@ -5,10 +5,10 @@ public abstract class EnhancementModel<TState> : EnhancementModel
 {
 	public override void Enhance(AbilityState abilityState)
 	{
-		Enhance((TState)abilityState);
+		_Enhance((TState)abilityState);
 	}
 
-	protected abstract void Enhance(TState state);
+	protected abstract void _Enhance(TState state);
 }
 
 public abstract class EnhancementModel : AbstractModel

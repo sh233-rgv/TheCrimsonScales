@@ -3,7 +3,7 @@
 	protected override string TexturePath => Icons.Jump;
 	public override int BaseCost => 60;
 
-	protected override void Enhance(MoveAbility.State state)
+	protected override void _Enhance(MoveAbility.State state)
 	{
 		state.AddJump();
 	}

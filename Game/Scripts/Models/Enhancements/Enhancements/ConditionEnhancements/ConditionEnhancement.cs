@@ -3,7 +3,7 @@
 {
 	protected override string TexturePath => Icons.GetCondition(ModelDB.Condition<T>());
 
-	protected override void Enhance(TargetedAbilityState state)
+	protected override void _Enhance(TargetedAbilityState state)
 	{
 		state.AbilityAddCondition(ModelDB.Condition<T>());
 	}

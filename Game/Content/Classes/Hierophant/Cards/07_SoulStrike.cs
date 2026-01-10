@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class SoulStrike : HierophantCardModel<SoulStrike.CardTop, SoulStrike.CardBottom>
 {
@@ -12,8 +13,8 @@ public class SoulStrike : HierophantCardModel<SoulStrike.CardTop, SoulStrike.Car
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
-				.WithRange(3)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.3276776f, 0.29315552f)))
+				.WithRange(3, new RangeSquare(this, new Vector2(0.5516777f, 0.29315552f)))
 				.WithPierce(3)
 				.WithConditions(Conditions.Wound1)
 				.Build())
