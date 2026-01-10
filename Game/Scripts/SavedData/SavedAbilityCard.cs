@@ -36,4 +36,9 @@ public class SavedAbilityCard
 			SavedBottomEnhancements.Add(index, savedEnhancement);
 		}
 	}
+
+	public Dictionary<int, SavedEnhancement> GetEnhancements(bool top)
+	{
+		return top ? SavedTopEnhancements : SavedBottomEnhancements;
+	}
 }

@@ -33,8 +33,8 @@ public class AbilityCard : IReferenced
 
 		Top = new AbilityCardSide(this, Model.Top);
 		Bottom = new AbilityCardSide(this, Model.Bottom);
-		BasicTop = new AbilityCardSide(this, Model.BasicBottom);
-		BasicBottom = new AbilityCardSide(this, Model.BasicTop);
+		BasicTop = new AbilityCardSide(this, Model.BasicTop);
+		BasicBottom = new AbilityCardSide(this, Model.BasicBottom);
 
 		GameController.Instance.CardManager.Register(this);
 

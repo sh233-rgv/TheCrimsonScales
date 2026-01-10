@@ -27,7 +27,7 @@ public class TitanicChainwhip : ChainguardLevelUpCardModel<TitanicChainwhip.Card
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(4)
 				.WithRange(5)
-				.WithConditions(Chainguard.Shackle, Conditions.Wound1)
+				.WithConditions([Chainguard.Shackle, Conditions.Wound1])
 				.Build()),
 		];
 	}

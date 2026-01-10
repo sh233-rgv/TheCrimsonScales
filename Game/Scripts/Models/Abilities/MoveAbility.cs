@@ -60,6 +60,7 @@ public class MoveAbility : Ability<MoveAbility.State>
 		public TBuilder WithDistance(int distance, params MoveEnhancementMark[] enhancementMarks)
 		{
 			Obj.Distance = distance;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 

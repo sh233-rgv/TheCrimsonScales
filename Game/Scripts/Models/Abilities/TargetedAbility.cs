@@ -283,9 +283,10 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithRange(int range, params RangeSquare[] enhancementMark)
+		public TBuilder WithRange(int range, params RangeSquare[] enhancementMarks)
 		{
 			Obj.Range = range;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
@@ -351,9 +352,15 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithConditions(params ConditionModel[] conditions)
+		public TBuilder WithConditions(ConditionModel condition, params ConditionEnhancementMark[] enhancementMarks)
+		{
+			return WithConditions([condition], enhancementMarks);
+		}
+
+		public TBuilder WithConditions(ConditionModel[] conditions, params ConditionEnhancementMark[] enhancementMarks)
 		{
 			Obj.Conditions = conditions;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 

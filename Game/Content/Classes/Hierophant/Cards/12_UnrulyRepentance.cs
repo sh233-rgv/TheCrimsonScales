@@ -14,7 +14,7 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
-				.WithConditions(Conditions.Curse, Conditions.Curse)
+				.WithConditions([Conditions.Curse, Conditions.Curse])
 				.WithRange(3)
 				.Build()),
 

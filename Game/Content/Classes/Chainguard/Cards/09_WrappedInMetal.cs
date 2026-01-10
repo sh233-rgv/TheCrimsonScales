@@ -15,7 +15,7 @@ public class WrappedInMetal : ChainguardCardModel<WrappedInMetal.CardTop, Wrappe
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(1)
 				.WithRange(2)
-				.WithConditions(Conditions.Stun, Chainguard.Shackle)
+				.WithConditions([Conditions.Stun, Chainguard.Shackle])
 				.Build())
 		];
 	}

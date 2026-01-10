@@ -138,6 +138,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public TBuilder WithDamage(DynamicInt<State> damage, params AttackEnhancementMark[] enhancementMarks)
 		{
 			Obj.Damage = damage;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 

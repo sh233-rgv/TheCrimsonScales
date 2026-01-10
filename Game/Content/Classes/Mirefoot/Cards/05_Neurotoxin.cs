@@ -16,7 +16,7 @@ public class Neurotoxin : MirefootCardModel<Neurotoxin.CardTop, Neurotoxin.CardB
 				.WithTargets(2)
 				.WithRange(3)
 				.WithRangeType(RangeType.Range)
-				.WithConditions(Conditions.Poison1, Conditions.Muddle)
+				.WithConditions([Conditions.Poison1, Conditions.Muddle])
 				.Build())
 		];
 	}

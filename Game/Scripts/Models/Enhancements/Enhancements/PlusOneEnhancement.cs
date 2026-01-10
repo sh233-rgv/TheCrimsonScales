@@ -1,4 +1,5 @@
-﻿public abstract class PlusOneEnhancement : EnhancementModel
+﻿public abstract class PlusOneEnhancement<TState> : EnhancementModel<TState>
+	where TState : AbilityState
 {
 	protected override string TexturePath => Icons.Damage;
 }

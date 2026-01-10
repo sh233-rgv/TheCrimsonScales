@@ -26,7 +26,8 @@ public class ConditionAbility : TargetedAbility<ConditionAbility.State, SingleTa
 	{
 		public interface IConditionsStep
 		{
-			TBuilder WithConditions(params ConditionModel[] conditions);
+			TBuilder WithConditions(ConditionModel condition, params ConditionEnhancementMark[] enhancementMarks);
+			TBuilder WithConditions(ConditionModel[] conditions, params ConditionEnhancementMark[] enhancementMarks);
 		}
 
 		public TBuilder WithAfterTargetConfirmedSubscription(

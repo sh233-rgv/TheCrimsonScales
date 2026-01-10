@@ -54,7 +54,7 @@ public class EasyPrey : RuinmawCardModel<EasyPrey.CardTop, EasyPrey.CardBottom>
 							[
 								HealAbility.Builder()
 									.WithHealValue(4)
-									.WithConditions(Ruinmaw.Empower, Ruinmaw.Empower)
+									.WithConditions([Ruinmaw.Empower, Ruinmaw.Empower])
 									.WithTarget(Target.Self)
 									.Build()
 							]);

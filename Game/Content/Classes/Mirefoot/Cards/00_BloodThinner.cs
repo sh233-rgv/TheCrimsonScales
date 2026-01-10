@@ -25,7 +25,7 @@ public class BloodThinner : MirefootCardModel<BloodThinner.CardTop, BloodThinner
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
-				.WithConditions(Conditions.Wound1, Conditions.Immobilize)
+				.WithConditions([Conditions.Wound1, Conditions.Immobilize])
 				.WithRange(2)
 				.Build())
 		];

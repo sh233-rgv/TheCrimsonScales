@@ -18,7 +18,7 @@ public class NourishingMeal : RuinmawCardModel<NourishingMeal.CardTop, Nourishin
 				.Build()),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
-				.WithConditions(Ruinmaw.Empower, Ruinmaw.Empower)
+				.WithConditions([Ruinmaw.Empower, Ruinmaw.Empower])
 				.WithTarget(Target.Self)
 				.WithConditionalAbilityCheck(async state =>
 				{
