@@ -101,7 +101,7 @@ public partial class BetweenScenariosCharacterPortraitManager : Control
 		{
 			BetweenScenariosCharacterPortrait portrait = _portraitScene.Instantiate<BetweenScenariosCharacterPortrait>();
 			_portraitParent.AddChild(portrait);
-			portrait.Init(savedCharacter);
+			portrait.Init(BetweenScenariosController.Instance.SavedCampaign, savedCharacter);
 			Portraits.Add(portrait);
 
 			portrait.BetterButton.Pressed += () => OnPressed(portrait);

@@ -59,7 +59,7 @@ public class Starstruck : StarslingerCardModel<Starstruck.CardTop, Starstruck.Ca
 				{
 					if(state.Target.AlliedWith(state.Performer))
 					{
-						await AbilityCmd.InfuseElement(Element.Light);
+						await AbilityCmd.InfuseElement(state, Element.Light);
 					}
 				})
 				.Build())

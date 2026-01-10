@@ -44,6 +44,7 @@ public partial class CoinStack : LootableObject
 
 		foreach(Coin coin in _coins)
 		{
+			await ScenarioEvents.CoinLootedEvent.CreatePrompt(new ScenarioEvents.CoinLooted.Parameters(lootObtainer));
 			lootObtainer.AddCoin();
 		}
 	}

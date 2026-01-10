@@ -53,12 +53,12 @@ public partial class Trap : OverlayTile
 		UpdateVisuals();
 	}
 
-	public async GDTask Trigger(AbilityState state, Figure figure)
+	public async GDTask Trigger(AbilityState potentialAbilityState, Figure figure)
 	{
 		int damage = Damage;
 		if(damage > 0)
 		{
-			await AbilityCmd.SufferDamage(state, figure, damage);
+			await AbilityCmd.SufferDamage(potentialAbilityState, figure, damage);
 		}
 
 		if(ConditionModels != null)

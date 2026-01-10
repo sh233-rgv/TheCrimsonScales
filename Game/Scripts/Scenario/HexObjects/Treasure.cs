@@ -58,7 +58,7 @@ public partial class Treasure : LootableObject
 		GameController.Instance.EndEvent += OnScenarioEnd;
 	}
 
-	private void OnScenarioEnd(bool backToTown, bool won, SavedScenarioProgress savedScenarioProgress)
+	private void OnScenarioEnd(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress)
 	{
 		if(TreasureNumber > 0)
 		{

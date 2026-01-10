@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Reflection;
 using Fractural.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 public class PromptManager
 {
@@ -151,53 +148,5 @@ public class PromptManager
 		PromptEndedEvent?.Invoke(characterDecider);
 
 		return answer;
-	}
-
-	public class PromptContractResolver : DefaultContractResolver
-	{
-		public static readonly PromptContractResolver Instance = new PromptContractResolver();
-
-		protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
-		{
-			JsonProperty property = base.CreateProperty(member, memberSerialization);
-
-			if(property.DeclaringType!.IsAssignableTo(typeof(PromptAnswer)))
-			{
-				property.ShouldSerialize = property.PropertyName switch
-				{
-					nameof(PromptAnswer.Skipped) => instance =>
-					{
-						PromptAnswer promptAnswer = (PromptAnswer)instance;
-						return promptAnswer.Skipped;
-					},
-					nameof(PromptAnswer.ImmediateCompletion) => instance =>
-					{
-						PromptAnswer promptAnswer = (PromptAnswer)instance;
-						return promptAnswer.ImmediateCompletion;
-					},
-					nameof(PromptAnswer.SelectedEffectIndex) => instance =>
-					{
-						PromptAnswer promptAnswer = (PromptAnswer)instance;
-						return promptAnswer.SelectedEffectIndex >= 0;
-					},
-					nameof(PromptAnswer.SyncedAction) => instance =>
-					{
-						PromptAnswer promptAnswer = (PromptAnswer)instance;
-						return promptAnswer.SyncedAction != null;
-					},
-					// nameof(PromptAnswer.AuthorityReferenceId) => instance =>
-					// {
-					// 	return true;
-					// },
-					_ => instance =>
-					{
-						PromptAnswer promptAnswer = (PromptAnswer)instance;
-						return !promptAnswer.Skipped && promptAnswer.SelectedEffectIndex < 0;
-					}
-				};
-			}
-
-			return property;
-		}
 	}
 }
