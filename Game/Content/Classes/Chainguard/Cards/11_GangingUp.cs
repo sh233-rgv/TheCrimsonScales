@@ -39,12 +39,13 @@ public class GangingUp : ChainguardCardModel<GangingUp.CardTop, GangingUp.CardBo
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantAbilityState =>
+				.WithAbilities(
 				[
 					AttackAbility.Builder()
 						.WithDamage(3)
 						.WithCustomGetTargets((state, figures) =>
 						{
+							GrantAbility.State grantAbilityState = state.ActionState.ParentActionState.GetAbilityState<GrantAbility.State>(0);
 							IEnumerable<Figure> adjacentFigures =
 								RangeHelper.GetFiguresInRange(grantAbilityState.Performer.Hex, 1, includeOrigin: false);
 							figures.AddRange(adjacentFigures.Where(figure => figure.EnemiesWith(grantAbilityState.Performer)

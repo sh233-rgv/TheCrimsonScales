@@ -14,7 +14,7 @@ public class DefyingGravity : StarslingerCardModel<DefyingGravity.CardTop, Defyi
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.39174992f, 0.1986234f)))
 				.WithRange(4)
 				.WithPull(2)
 				.Build()),

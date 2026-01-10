@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class Earthshine : StarslingerCardModel<Earthshine.CardTop, Earthshine.CardBottom>
 {
@@ -27,7 +28,7 @@ public class Earthshine : StarslingerCardModel<Earthshine.CardTop, Earthshine.Ca
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62048423f, 0.71161455f)))
 				.WithDuringMovementSubscription(
 					ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Light,
 						applyFunction: async parameters =>

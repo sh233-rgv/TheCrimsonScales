@@ -14,7 +14,7 @@ public class Starstruck : StarslingerCardModel<Starstruck.CardTop, Starstruck.Ca
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.3756383f, 0.15437561f)))
 				.WithPierce(1)
 				.WithAOEPattern(new AOEPattern([
 					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
@@ -53,7 +53,7 @@ public class Starstruck : StarslingerCardModel<Starstruck.CardTop, Starstruck.Ca
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
-				.WithHealValue(3)
+				.WithHealValue(3, new HealDiamondPlus(this, new Vector2(0.49447116f, 0.7226138f)))
 				.WithRange(1)
 				.WithOnAbilityEndedPerformed(async state =>
 				{

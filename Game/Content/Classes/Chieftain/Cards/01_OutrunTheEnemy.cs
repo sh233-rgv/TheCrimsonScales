@@ -65,7 +65,7 @@ public class OutrunTheEnemy : ChieftainCardModel<OutrunTheEnemy.CardTop, OutrunT
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantState =>
+				.WithAbilities(
 				[
 					MoveAbility.Builder()
 						.WithDistance(0)

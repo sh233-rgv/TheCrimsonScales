@@ -6,7 +6,7 @@ public abstract class EnhancementMark
 	public Vector2 NormalizedPosition { get; }
 	public float PriceMultiplier { get; }
 
-	public Ability Ability { get; private set; }
+	// public Ability Ability { get; private set; }
 
 	public abstract EnhancementModel[] PossibleEnhancements { get; }
 
@@ -19,8 +19,8 @@ public abstract class EnhancementMark
 		abilityCardSideModel.RegisterEnhancementMark(this);
 	}
 
-	public void SetAbility(Ability ability)
-	{
-		Ability = ability;
-	}
+	// public void SetAbility(Ability ability)
+	// {
+	// 	Ability = ability;
+	// }
 }

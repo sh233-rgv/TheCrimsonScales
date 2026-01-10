@@ -14,7 +14,7 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.4989511f, 0.20602313f)))
 				.WithAOEPattern(new AOEPattern(
 				[
 					new AOEHex(Vector2I.Zero, AOEHexType.Gray),

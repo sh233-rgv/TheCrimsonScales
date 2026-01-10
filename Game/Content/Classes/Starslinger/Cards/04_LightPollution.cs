@@ -57,7 +57,7 @@ public class LightPollution : StarslingerCardModel<LightPollution.CardTop, Light
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.66811866f, 0.7171973f)))
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(canApplyParameters => true,
 						async parameters =>

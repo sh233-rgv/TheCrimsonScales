@@ -101,6 +101,12 @@ public abstract class Ability<T> : Ability
 			return (TBuilder)this;
 		}
 
+		public TBuilder WithOtherEnhancements(params EnhancementMark[] enhancementMarks)
+		{
+			AddEnhancements(enhancementMarks);
+			return (TBuilder)this;
+		}
+
 		public virtual TAbility Build()
 		{
 			return Obj;
@@ -111,10 +117,14 @@ public abstract class Ability<T> : Ability
 		{
 			foreach(TEnhancementMark enhancementMark in enhancementMarks)
 			{
-				enhancementMark.SetAbility(Obj);
+				AddEnhancement(enhancementMark);
 			}
+		}
 
-			Obj.EnhancementMarks.AddRange(enhancementMarks);
+		private void AddEnhancement(EnhancementMark enhancementMark)
+		{
+			//enhancementMark.SetAbility(Obj);
+			Obj.EnhancementMarks.Add(enhancementMark);
 		}
 	}
 
@@ -157,7 +167,10 @@ public abstract class Ability<T> : Ability
 			foreach(EnhancementMark enhancementMark in EnhancementMarks)
 			{
 				int index = abilityCardSide.Model.Enhancements.IndexOf(enhancementMark);
-				enhancements[index].Model.Enhance(abilityState);
+				if(enhancements.TryGetValue(index, out SavedEnhancement savedEnhancement))
+				{
+					savedEnhancement.Model.Enhance(abilityState);
+				}
 			}
 		}
 	}

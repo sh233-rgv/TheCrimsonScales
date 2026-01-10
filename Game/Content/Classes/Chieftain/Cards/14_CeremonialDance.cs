@@ -26,7 +26,7 @@ public class CeremonialDance : ChieftainCardModel<CeremonialDance.CardTop, Cerem
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(state =>
+				.WithAbilities(
 				[
 					MoveAbility.Builder().WithDistance(2).Build()
 				])

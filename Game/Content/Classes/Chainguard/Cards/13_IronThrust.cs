@@ -37,13 +37,14 @@ public class IronThrust : ChainguardLevelUpCardModel<IronThrust.CardTop, IronThr
 				.Build()),
 
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantAbilityState =>
+				.WithAbilities(
 				[
 					AttackAbility.Builder()
 						.WithDamage(2)
-						.WithCustomGetTargets((attackAbilityState, figures) =>
+						.WithCustomGetTargets((state, figures) =>
 						{
-							figures.AddRange(grantAbilityState.ActionState.GetAbilityState<AttackAbility.State>(0).UniqueTargetedFigures);
+							AttackAbility.State attackAbilityState = state.ActionState.ParentActionState.GetAbilityState<AttackAbility.State>(0);
+							figures.AddRange(attackAbilityState.UniqueTargetedFigures);
 						})
 						.Build(),
 					ConditionAbility.Builder()

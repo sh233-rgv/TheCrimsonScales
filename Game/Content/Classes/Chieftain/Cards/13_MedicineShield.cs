@@ -33,7 +33,7 @@ public class MedicineShield : ChieftainCardModel<MedicineShield.CardTop, Medicin
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(state =>
+				.WithAbilities(
 				[
 					HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build(),
 					ShieldAbility.Builder().WithShieldValue(2).Build()

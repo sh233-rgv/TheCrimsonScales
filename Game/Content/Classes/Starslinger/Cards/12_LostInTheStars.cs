@@ -139,7 +139,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(6)
+				.WithDistance(6, new MoveCircle(this, new Vector2(0.5229555f, 0.61705536f)))
 				.WithMoveType(MoveType.Jump)
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(

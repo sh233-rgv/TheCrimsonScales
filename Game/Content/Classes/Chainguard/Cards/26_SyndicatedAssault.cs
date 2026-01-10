@@ -39,13 +39,14 @@ public class SyndicatedAssault : ChainguardLevelUpCardModel<SyndicatedAssault.Ca
 				.Build()),
 
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantAbilityState =>
+				.WithAbilities(
 				[
 					AttackAbility.Builder()
 						.WithDamage(3)
-						.WithCustomGetTargets((attackAbilityState, figures) =>
+						.WithCustomGetTargets((state, figures) =>
 						{
-							figures.AddRange(grantAbilityState.ActionState.GetAbilityState<SwingAbility.State>(0).UniqueTargetedFigures);
+							AttackAbility.State attackAbilityState = state.ActionState.ParentActionState.GetAbilityState<AttackAbility.State>(0);
+							figures.AddRange(attackAbilityState.UniqueTargetedFigures);
 						})
 						.Build()
 				])

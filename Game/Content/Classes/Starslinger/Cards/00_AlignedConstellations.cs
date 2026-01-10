@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class AlignedConstellations : StarslingerCardModel<AlignedConstellations.CardTop, AlignedConstellations.CardBottom>
 {
@@ -46,12 +47,14 @@ public class AlignedConstellations : StarslingerCardModel<AlignedConstellations.
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6216662f, 0.6884774f)))
 				.Build()),
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantAbilityState =>
+				.WithAbilities(
 				[
-					MoveAbility.Builder().WithDistance(1).Build()
+					MoveAbility.Builder()
+						.WithDistance(1, new MoveCircle(this, new Vector2(0.6216662f, 0.8459244f)))
+						.Build()
 				])
 				.WithRange(3)
 				.Build()

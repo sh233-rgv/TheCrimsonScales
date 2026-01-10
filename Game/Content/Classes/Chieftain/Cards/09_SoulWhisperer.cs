@@ -14,7 +14,7 @@ public class SoulWhisperer : ChieftainCardModel<SoulWhisperer.CardTop, SoulWhisp
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantState =>
+				.WithAbilities(
 				[
 					MoveAbility.Builder()
 						.WithDistance(0)
@@ -29,7 +29,7 @@ public class SoulWhisperer : ChieftainCardModel<SoulWhisperer.CardTop, SoulWhisp
 					AttackAbility.Builder()
 						.WithDamage(0)
 						.WithDuringAttackSubscription(ScenarioEvents.DuringAttack.Subscription.New(
-							parameters => parameters.Performer == grantState.Target,
+							parameters => true,
 							async parameters =>
 							{
 								parameters.AbilityState.AbilityAdjustAttackValue(((Summon)parameters.Performer).Stats.Attack ?? 0);

@@ -98,7 +98,7 @@ public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.C
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(state => [RetaliateAbility.Builder().WithRetaliateValue(1).Build()])
+				.WithAbilities([RetaliateAbility.Builder().WithRetaliateValue(1).Build()])
 				.WithCustomGetTargets((state, figures) =>
 				{
 					Figure mount = Chieftain.GetMount(state.Performer);

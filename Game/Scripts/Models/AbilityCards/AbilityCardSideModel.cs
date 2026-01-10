@@ -12,6 +12,7 @@ public abstract class AbilityCardSideModel<TCharacter> : AbilityCardSideModel
 
 public abstract class AbilityCardSideModel : AbstractModel
 {
+	private bool _gotAbilities;
 	private IEnumerable<AbilityCardAbility> _abilities;
 	private readonly List<EnhancementMark> _enhancements = new List<EnhancementMark>();
 
@@ -31,7 +32,7 @@ public abstract class AbilityCardSideModel : AbstractModel
 	{
 		get
 		{
-			TryGetAbilities();
+			TryGetAbilitiesAndEnhancements();
 
 			return _abilities;
 		}
@@ -41,7 +42,7 @@ public abstract class AbilityCardSideModel : AbstractModel
 	{
 		get
 		{
-			TryGetAbilities();
+			TryGetAbilitiesAndEnhancements();
 
 			return _enhancements;
 		}
@@ -52,12 +53,12 @@ public abstract class AbilityCardSideModel : AbstractModel
 		AbilityCardModel = abilityCardModel;
 		AbilityCardSideType = abilityCardSideType;
 
-		TryGetAbilities();
+		TryGetAbilitiesAndEnhancements();
 	}
 
 	public void RegisterEnhancementMark(EnhancementMark enhancementMark)
 	{
-		_enhancements.Add(enhancementMark);
+		_enhancements.AddIfNew(enhancementMark);
 	}
 
 	public virtual async GDTask OnActionPerformed(Figure figure)
@@ -65,17 +66,11 @@ public abstract class AbilityCardSideModel : AbstractModel
 		await GDTask.CompletedTask;
 	}
 
-	// protected virtual List<EnhancementMark> GetEnhancements() => [];
-	protected abstract List<AbilityCardAbility> GetAbilities();
+	protected virtual void InitExtraEnhancements()
+	{
+	}
 
-	// protected EnhancementMark<TPip> EnhancementMark<TPip>(TPip enhancementPipModel, Vector2 normalizedPosition)
-	// 	where TPip : EnhancementPipModel
-	// {
-	// 	EnhancementMark<TPip> newMark = new EnhancementMark<TPip>(enhancementPipModel, normalizedPosition);
-	// 	_enhancements.Add(newMark);
-	//
-	// 	return newMark;
-	// }
+	protected abstract List<AbilityCardAbility> GetAbilities();
 
 	protected AbilityCardSide GetAbilityCardSide(AbilityState abilityState)
 	{
@@ -92,11 +87,16 @@ public abstract class AbilityCardSideModel : AbstractModel
 		await AbilityCmd.GainXP(abilityState.Performer, 1);
 	}
 
-	private void TryGetAbilities()
+	private void TryGetAbilitiesAndEnhancements()
 	{
-		if(_abilities == null)
+		if(_gotAbilities)
 		{
-			_abilities = GetAbilities();
+			return;
 		}
+
+		_gotAbilities = true;
+
+		InitExtraEnhancements();
+		_abilities = GetAbilities();
 	}
 }

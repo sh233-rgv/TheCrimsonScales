@@ -276,19 +276,6 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(AfterAttackPerformedSubscriptions);
 	}
 
-	// protected override async GDTask InitAbilityState(State abilityState)
-	// {
-	// 	await base.InitAbilityState(abilityState);
-	//
-	// 	abilityState.AbilityAttackValue = Damage.GetValue(abilityState);
-	// 	abilityState.AbilityPierce = Pierce.GetValue(abilityState);
-	// 	abilityState.AbilityHasAdvantage = HasAdvantage;
-	// 	abilityState.AbilityHasDisadvantage = HasDisadvantage;
-	//
-	// 	await ScenarioEvents.AttackAbilityStartEvent.CreatePrompt(
-	// 		new ScenarioEvents.AttackAbilityStart.Parameters(abilityState), abilityState);
-	// }
-
 	protected override void InitAbilityStateForSingleTarget(State abilityState)
 	{
 		base.InitAbilityStateForSingleTarget(abilityState);
