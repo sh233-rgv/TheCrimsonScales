@@ -59,8 +59,8 @@ public class UnstoppableForce : HierophantLevelUpCardModel<UnstoppableForce.Card
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
-				.WithRange(4)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.44777906f, 0.6208354f)))
+				.WithRange(4, new RangeSquare(this, new Vector2(0.67059785f, 0.6208354f)))
 				.WithAfterTargetConfirmedSubscription(
 					ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
 						parameters => RangeHelper.GetFiguresInRange(parameters.AbilityState.Target.Hex, 1)

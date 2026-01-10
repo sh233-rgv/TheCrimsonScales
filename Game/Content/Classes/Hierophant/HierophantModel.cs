@@ -41,7 +41,7 @@ public class HierophantModel : ClassModel
 		ModelDB.AbilityCard<DevoutAssistance>(),
 		ModelDB.AbilityCard<SpiritualGains>(),
 		ModelDB.AbilityCard<UnstoppableForce>(),
-		ModelDB.AbilityCard<ChainsOfLightning>(),
+		ModelDB.AbilityCard<ChainsOfLight>(),
 		ModelDB.AbilityCard<ReveredProtector>(),
 		ModelDB.AbilityCard<SymphonyOfOppression>(),
 		ModelDB.AbilityCard<RighteousAtonement>(),

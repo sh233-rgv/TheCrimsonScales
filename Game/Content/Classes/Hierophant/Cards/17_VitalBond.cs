@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class VitalBond : HierophantLevelUpCardModel<VitalBond.CardTop, VitalBond.CardBottom>
 {
@@ -13,9 +14,9 @@ public class VitalBond : HierophantLevelUpCardModel<VitalBond.CardTop, VitalBond
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.39718983f, 0.180141f)))
 				.WithTargets(2)
-				.WithRange(4)
+				.WithRange(4, new RangeSquare(this, new Vector2(0.72036666f, 0.180141f)))
 				.Build()),
 
 			new AbilityCardAbility(OtherAbility.Builder()

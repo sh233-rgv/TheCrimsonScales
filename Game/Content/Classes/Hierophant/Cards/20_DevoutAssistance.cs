@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.CardTop, DevoutAssistance.CardBottom>
 {
@@ -103,7 +104,7 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.6207892f, 0.70303124f)))
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					if(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false).Any(figure => figure.EnemiesWith(state.Performer)))

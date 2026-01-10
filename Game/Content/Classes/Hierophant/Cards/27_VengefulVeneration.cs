@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.CardTop, VengefulVeneration.CardBottom>
 {
@@ -13,7 +14,10 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(AttackAbility.Builder().WithDamage(4).WithRange(4).Build()),
+			new AbilityCardAbility(AttackAbility.Builder()
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.44721872f, 0.19194041f)))
+				.WithRange(4, new RangeSquare(this, new Vector2(0.6708979f, 0.19194041f)))
+				.Build()),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -51,7 +55,7 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.61960894f, 0.69351536f)))
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>

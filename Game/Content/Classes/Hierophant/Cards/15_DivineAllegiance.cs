@@ -13,7 +13,7 @@ public class DivineAllegiance : HierophantLevelUpCardModel<DivineAllegiance.Card
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.41209206f, 0.1612586f)))
 				.WithRange(3)
 				.WithAOEPattern(new AOEPattern(
 						[
@@ -55,7 +55,9 @@ public class DivineAllegiance : HierophantLevelUpCardModel<DivineAllegiance.Card
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.619769f, 0.72193056f)))
+				.Build()),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Bless)

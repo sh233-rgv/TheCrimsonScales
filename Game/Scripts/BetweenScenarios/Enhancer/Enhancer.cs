@@ -199,6 +199,7 @@ public partial class Enhancer : BetweenScenariosAction
 		// 	cost *= 2;
 		// }
 
+		// Persistent or Loss without persistent
 		if(mark.AbilityCardSideModel.Persistent)
 		{
 			cost *= 3;
@@ -208,11 +209,18 @@ public partial class Enhancer : BetweenScenariosAction
 			cost = Mathf.CeilToInt(cost * 0.5f);
 		}
 
+		// Custom price multiplier
+		cost = Mathf.CeilToInt(cost * mark.PriceMultiplier);
+
+		// Previous enhancements
 		Dictionary<int, SavedEnhancement> savedEnhancements = mark.AbilityCardSideModel.AbilityCardSideType == AbilityCardSideType.Top
 			? savedAbilityCard.SavedTopEnhancements
 			: savedAbilityCard.SavedBottomEnhancements;
 		int currentEnhancementCount = savedEnhancements.Count;
 		cost += currentEnhancementCount * 75;
+
+		// Level
+		cost += (savedAbilityCard.Model.Level - 1) * 25;
 
 		return cost;
 	}

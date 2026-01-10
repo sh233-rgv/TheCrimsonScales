@@ -14,12 +14,12 @@ public class BeaconOfHope : HierophantLevelUpCardModel<BeaconOfHope.CardTop, Bea
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
-				.WithHealValue(3)
-				.WithRange(3)
+				.WithHealValue(3, new HealDiamondPlus(this, new Vector2(0.43511614f, 0.20235652f)))
+				.WithRange(3, new RangeSquare(this, new Vector2(0.66057616f, 0.20235652f)))
 				.Build()),
 
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.28136954f, 0.32378387f)))
 				.WithRangeType(RangeType.Range)
 				.WithCustomGetTargets((state, list) =>
 				{
