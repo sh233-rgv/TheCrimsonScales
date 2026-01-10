@@ -1,14 +1,17 @@
 ﻿using Godot;
 
 public abstract class EnhancementModel<TState> : EnhancementModel
-	where TState : AbilityState
+	where TState : class
 {
-	public override void Enhance(AbilityState abilityState)
+	public override void Enhance(AbilityState abilityState, EnhancementMark enhancementMark)
 	{
-		_Enhance((TState)abilityState);
+		if(abilityState is TState castState)
+		{
+			_Enhance(castState, enhancementMark);
+		}
 	}
 
-	protected abstract void _Enhance(TState state);
+	protected abstract void _Enhance(TState state, EnhancementMark enhancementMark);
 }
 
 public abstract class EnhancementModel : AbstractModel
@@ -21,5 +24,5 @@ public abstract class EnhancementModel : AbstractModel
 		return ResourceLoader.Load<Texture2D>(TexturePath);
 	}
 
-	public abstract void Enhance(AbilityState abilityState);
+	public abstract void Enhance(AbilityState abilityState, EnhancementMark enhancementMark);
 }

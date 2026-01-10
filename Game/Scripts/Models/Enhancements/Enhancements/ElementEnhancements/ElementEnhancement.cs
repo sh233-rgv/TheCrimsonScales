@@ -7,7 +7,7 @@ public abstract class ElementEnhancement : EnhancementModel<AbilityState>
 
 	protected abstract Element Element { get; }
 
-	protected override void _Enhance(AbilityState state)
+	protected override void _Enhance(AbilityState state, EnhancementMark enhancementMark)
 	{
 		ScenarioEvents.AbilityPerformedEvent.Subscribe(state, this,
 			parameters => parameters.AbilityState == state,

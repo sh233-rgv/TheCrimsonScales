@@ -169,7 +169,7 @@ public abstract class Ability<T> : Ability
 				int index = abilityCardSide.Model.Enhancements.IndexOf(enhancementMark);
 				if(enhancements.TryGetValue(index, out SavedEnhancement savedEnhancement))
 				{
-					savedEnhancement.Model.Enhance(abilityState);
+					savedEnhancement.Model.Enhance(abilityState, enhancementMark);
 				}
 			}
 		}

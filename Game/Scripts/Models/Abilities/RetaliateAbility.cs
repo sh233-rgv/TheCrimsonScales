@@ -7,10 +7,12 @@ using Fractural.Tasks;
 /// </summary>
 public class RetaliateAbility : ActiveAbility<RetaliateAbility.State>
 {
-	public class State : ActiveAbilityState
+	public class State : ActiveAbilityState, IConditionsAbilityState
 	{
 		public int RetaliateValue { get; set; }
 		public int Range { get; set; }
+
+		public List<ConditionModel> ConditionModels { get; } = new List<ConditionModel>();
 
 		public void AdjustRetaliateValue(int amount)
 		{
@@ -20,6 +22,11 @@ public class RetaliateAbility : ActiveAbility<RetaliateAbility.State>
 		public void AdjustRange(int amount)
 		{
 			Range += amount;
+		}
+
+		public void AbilityAddCondition(ConditionModel conditionModel)
+		{
+			ConditionModels.Add(conditionModel);
 		}
 	}
 
@@ -44,12 +51,13 @@ public class RetaliateAbility : ActiveAbility<RetaliateAbility.State>
 
 		public interface IRetaliateValueStep
 		{
-			TBuilder WithRetaliateValue(int retaliateValue);
+			TBuilder WithRetaliateValue(int retaliateValue, params ShieldEnhancementMark[] enhancementMarks);
 		}
 
-		public TBuilder WithRetaliateValue(int retaliateValue)
+		public TBuilder WithRetaliateValue(int retaliateValue, params ShieldEnhancementMark[] enhancementMarks)
 		{
 			Obj.RetaliateValue = retaliateValue;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
@@ -151,6 +159,11 @@ public class RetaliateAbility : ActiveAbility<RetaliateAbility.State>
 				await GDTask.CompletedTask;
 			}
 		);
+
+		foreach(ConditionModel conditionModel in abilityState.ConditionModels)
+		{
+			await AbilityCmd.AddCondition(abilityState, abilityState.Performer, conditionModel);
+		}
 	}
 
 	protected override async GDTask Deactivate(State abilityState)

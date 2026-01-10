@@ -33,7 +33,7 @@ public abstract class TargetedAbilityState<TSingleTargetState> : TargetedAbility
 	}
 }
 
-public abstract class TargetedAbilityState : AbilityState
+public abstract class TargetedAbilityState : AbilityState, IConditionsAbilityState
 {
 	public List<Figure> UniqueTargetedFigures { get; } = new List<Figure>();
 	public List<Hex> TargetedHexes { get; } = new List<Hex>();
@@ -168,6 +168,11 @@ public abstract class TargetedAbilityState : AbilityState
 	public void AbilitySetAOEPattern(AOEPattern aoePattern)
 	{
 		AbilityAOEPattern = aoePattern;
+	}
+
+	public void AbilityAddAOEHex(AOEHex aoeHex)
+	{
+		AbilityAOEPattern.Hexes.Add(aoeHex);
 	}
 
 	public void AbilityAdjustPush(int amount)
@@ -322,9 +327,10 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithAOEPattern(AOEPattern aoePattern)
+		public TBuilder WithAOEPattern(AOEPattern aoePattern, params AOEHexMark[] enhancementMarks)
 		{
 			Obj.AOEPattern = aoePattern;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
@@ -334,21 +340,24 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithPush(int push)
+		public TBuilder WithPush(int push, params PushSquare[] enhancementMarks)
 		{
 			Obj.Push = push;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithPull(int pull)
+		public TBuilder WithPull(int pull, params PullSquare[] enhancementMarks)
 		{
 			Obj.Pull = pull;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithSwing(int swing)
+		public TBuilder WithSwing(int swing, params SwingSquare[] enhancementMarks)
 		{
 			Obj.Swing = swing;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 

@@ -5,7 +5,7 @@ public class WildElementEnhancement : EnhancementModel<AbilityState>
 	protected override string TexturePath => Icons.WildElement;
 	public override int BaseCost => 150;
 
-	protected override void _Enhance(AbilityState state)
+	protected override void _Enhance(AbilityState state, EnhancementMark enhancementMark)
 	{
 		ScenarioEvents.AbilityPerformedEvent.Subscribe(state, this,
 			parameters => parameters.AbilityState == state,

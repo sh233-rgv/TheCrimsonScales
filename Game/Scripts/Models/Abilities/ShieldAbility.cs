@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Fractural.Tasks;
 
 /// <summary>
@@ -6,15 +7,22 @@ using Fractural.Tasks;
 /// </summary>
 public class ShieldAbility : ActiveAbility<ShieldAbility.State>
 {
-	public class State : ActiveAbilityState
-    {
-        public int AdditionalShield { get; set; } = 0;
+	public class State : ActiveAbilityState, IConditionsAbilityState
+	{
+		public int AdditionalShield { get; private set; } = 0;
+
+		public List<ConditionModel> ConditionModels { get; } = new List<ConditionModel>();
 
 		public void AdjustAdditionalShield(int value)
-        {
-            AdditionalShield += value;
-        }
-    }
+		{
+			AdditionalShield += value;
+		}
+
+		public void AbilityAddCondition(ConditionModel conditionModel)
+		{
+			ConditionModels.Add(conditionModel);
+		}
+	}
 
 	private Func<ScenarioEvents.SufferDamage.Parameters, bool> _customCanApply;
 	private bool _customCanApplyReplaceFully;
@@ -38,7 +46,14 @@ public class ShieldAbility : ActiveAbility<ShieldAbility.State>
 	{
 		public interface IShieldValueStep
 		{
-			TBuilder WithShieldValue(DynamicInt<State> shieldValue);
+			TBuilder WithShieldValue(DynamicInt<State> shieldValue, params ShieldEnhancementMark[] enhancementMarks);
+		}
+
+		public TBuilder WithShieldValue(DynamicInt<State> shieldValue, params ShieldEnhancementMark[] enhancementMarks)
+		{
+			Obj.ShieldValue = shieldValue;
+			AddEnhancements(enhancementMarks);
+			return (TBuilder)this;
 		}
 
 		public TBuilder WithCustomCanApply(Func<ScenarioEvents.SufferDamage.Parameters, bool> customCanApply)
@@ -50,12 +65,6 @@ public class ShieldAbility : ActiveAbility<ShieldAbility.State>
 		public TBuilder WithCustomCanApplyReplaceFully(bool customCanApplyReplaceFully)
 		{
 			Obj._customCanApplyReplaceFully = customCanApplyReplaceFully;
-			return (TBuilder)this;
-		}
-
-		public TBuilder WithShieldValue(DynamicInt<State> shieldValue)
-		{
-			Obj.ShieldValue = shieldValue;
 			return (TBuilder)this;
 		}
 
@@ -125,7 +134,8 @@ public class ShieldAbility : ActiveAbility<ShieldAbility.State>
 			{
 				bool canApply =
 					parameters.Figure == abilityState.Performer && parameters.FromAttack &&
-					(!RequiredRangeType.HasValue || ((AttackAbility.State)parameters.PotentialAbilityState).SingleTargetRangeType == RequiredRangeType);
+					(!RequiredRangeType.HasValue ||
+					 ((AttackAbility.State)parameters.PotentialAbilityState).SingleTargetRangeType == RequiredRangeType);
 
 				if(_customCanApply != null)
 				{
@@ -157,6 +167,11 @@ public class ShieldAbility : ActiveAbility<ShieldAbility.State>
 		);
 
 		AppController.Instance.AudioController.PlayFastForwardable(SFX.Shield, delay: 0f);
+
+		foreach(ConditionModel conditionModel in abilityState.ConditionModels)
+		{
+			await AbilityCmd.AddCondition(abilityState, abilityState.Performer, conditionModel);
+		}
 	}
 
 	protected override async GDTask Deactivate(State abilityState)

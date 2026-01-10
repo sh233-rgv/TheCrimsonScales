@@ -14,9 +14,9 @@ public class DefyingGravity : StarslingerCardModel<DefyingGravity.CardTop, Defyi
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2, new AttackDiamond(this, new Vector2(0.39174992f, 0.1986234f)))
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.39117384f, 0.1986234f)))
 				.WithRange(4)
-				.WithPull(2)
+				.WithPull(2, new PullSquare(this, new Vector2(0.7262092f, 0.1986234f)))
 				.Build()),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(0)
@@ -43,10 +43,11 @@ public class DefyingGravity : StarslingerCardModel<DefyingGravity.CardTop, Defyi
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthWest).Add(Direction.NorthEast), AOEHexType.Yellow),
-				]))
+				]), new AOEHexMark(Vector2I.Zero.Add(Direction.East), this, new Vector2(0.8659575f, 0.8144255f)))
 				.Build()),
+
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantAbilityState =>
+				.WithAbilities(
 				[
 					MoveAbility.Builder().WithDistance(2).Build()
 				])
