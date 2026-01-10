@@ -6,9 +6,9 @@ public abstract class AtlasAbilityCardModel<TTop, TBottom> : AbilityCardModel<TT
 	where TBottom : AbilityCardSide, new()
 {
 	protected abstract string TexturePath { get; }
-	protected abstract int AtlasIndex { get; }
 	protected abstract int ColumnCount { get; }
 	protected abstract int RowCount { get; }
+	protected abstract int AtlasIndex { get; }
 
 	public override Texture2D GetTexture()
 	{
@@ -39,7 +39,7 @@ public abstract class AbilityCardModel<TTop, TBottom> : AbilityCardModel
 	}
 }
 
-public abstract class AbilityCardModel : AbstractModel<AbilityCardModel>
+public abstract class AbilityCardModel : AbstractModel
 {
 	public abstract string Name { get; }
 	public abstract int Level { get; }

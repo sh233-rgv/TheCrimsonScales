@@ -19,7 +19,7 @@ public class WandOfInfernos : GHDesignsItem
 			{
 				await Use(async user =>
 				{
-					await AbilityCmd.InfuseElement(Element.Fire, character);
+					await AbilityCmd.InfuseElement(null, Element.Fire, Owner);
 				});
 			}
 		);

@@ -19,7 +19,7 @@ public class WandOfFrost : GHDesignsItem
 			{
 				await Use(async user =>
 				{
-					await AbilityCmd.InfuseElement(Element.Ice, character);
+					await AbilityCmd.InfuseElement(null, Element.Ice, Owner);
 				});
 			}
 		);

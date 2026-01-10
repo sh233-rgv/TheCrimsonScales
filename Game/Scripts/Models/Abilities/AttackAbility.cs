@@ -29,6 +29,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public bool SingleTargetHasDisadvantage { get; set; }
 		public bool SingleTargetIgnoresAllShields { get; set; }
 		public bool SingleTargetDrawAMDCard { get; set; }
+		public bool IsSingleTarget => AbilityAOEPattern == null && AbilityTargets <= 1;
 
 		public void AbilityAdjustAttackValue(int amount)
 		{
@@ -393,7 +394,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 
 		if(!retaliateParameters.RetaliateBlocked && retaliateParameters.Retaliate > 0)
 		{
-			await AbilityCmd.SufferDamage(abilityState.Performer, retaliateParameters.Retaliate, authority: retaliateParameters.RetaliatingFigure);
+			await AbilityCmd.SufferDamage(abilityState.Performer, retaliateParameters.Retaliate, damageDealer: retaliateParameters.RetaliatingFigure);
 		}
 
 		await ScenarioEvents.AfterAttackPerformedEvent.CreatePrompt(

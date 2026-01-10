@@ -16,7 +16,7 @@ public class ExplosiveTonic : FireKnightItem
 			{
 				await Use(async user =>
 				{
-					await AbilityCmd.InfuseElement(Element.Fire, Owner);
+					await AbilityCmd.InfuseElement(null, Element.Fire, user);
 
 					ActionState actionState = new ActionState(user,
 						[

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
-using Godot;
 
 public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.CardBottom>
 {
@@ -16,22 +15,8 @@ public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.C
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					// TODO: Place character token
-					Figure chosenFigure = await AbilityCmd.SelectFigure(state, list =>
-					{
-						foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 3))
-						{
-							if(state.Authority.EnemiesWith(figure))
-							{
-								list.Add(figure);
-							}
-						}
-					}, hintText: () => $"Choose an enemy within range {Icons.Inline(Icons.Range)}3 ");
-
-					if(chosenFigure == null)
-					{
-						return;
-					}
+					Figure chosenFigure = state.GetCustomValue<Figure>(this, "Figure");
+					await AbilityCmd.AddCharacterToken(state, chosenFigure, $"This enemy focuses on you before your mounted summon.");
 
 					// If targeted by chosen enemy, reduce own sorting initiative for targeting purposes
 					ScenarioCheckEvents.PotentialTargetCheckEvent.Subscribe(state, this,
@@ -71,12 +56,37 @@ public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.C
 				})
 				.WithOnDeactivate(async state =>
 				{
+					Figure chosenFigure = state.GetCustomValue<Figure>(this, "Figure");
+					await AbilityCmd.RemoveCharacterToken(state, chosenFigure);
+
 					ScenarioCheckEvents.PotentialTargetCheckEvent.Unsubscribe(state, this);
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, this);
 					ScenarioEvents.FigureKilledEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
 				})
+				.WithConditionalAbilityCheck(async state =>
+				{
+					Figure figure = await AbilityCmd.SelectFigure(state, list =>
+					{
+						foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 3))
+						{
+							if(state.Authority.EnemiesWith(figure))
+							{
+								list.Add(figure);
+							}
+						}
+					}, hintText: () => $"Choose an enemy within range {Icons.HintText(Icons.Range)}3");
+
+					if(figure == null)
+					{
+						return false;
+					}
+
+					state.SetCustomValue(this, "Figure", figure);
+					return true;
+				})
+				.WithSkipConfirmation()
 				.Build())
 		];
 

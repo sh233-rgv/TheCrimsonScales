@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
 
-public abstract class AMDCardModel : AbstractModel<AMDCardModel>
+public abstract class AMDCardModel : AbstractModel
 {
 	protected abstract string GetTexturePath(AMDCardOwner owner);
 	protected abstract int AtlasIndex { get; }

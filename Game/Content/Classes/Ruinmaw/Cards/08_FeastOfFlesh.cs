@@ -43,8 +43,8 @@ public class FeastOfFlesh : RuinmawCardModel<FeastOfFlesh.CardTop, FeastOfFlesh.
 						parameters => IsSated(parameters.Performer),
 						async parameters =>
 						{
-							((HealAbility.State)parameters.AbilityState).AbilityAddCondition(Ruinmaw.EmpowerRuinmaw);
-							((HealAbility.State)parameters.AbilityState).AbilityAddCondition(Ruinmaw.EmpowerRuinmaw);
+							((HealAbility.State)parameters.AbilityState).AbilityAddCondition(Ruinmaw.Empower);
+							((HealAbility.State)parameters.AbilityState).AbilityAddCondition(Ruinmaw.Empower);
 							await GDTask.CompletedTask;
 						}
 					)

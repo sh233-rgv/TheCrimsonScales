@@ -15,14 +15,15 @@ public class Aspiration : HierophantPrayerCardModel<Aspiration.CardTop, Aspirati
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.Target == state.Performer && canApplyParameters.Condition.IsNegative,
+						canApplyParameters => canApplyParameters.Target == state.Performer && canApplyParameters.ConditionModel.IsNegative,
 						async applyParameters =>
 						{
 							if(!applyParameters.Prevented)
 							{
 								applyParameters.SetPrevented(true);
 
-								ActionState actionState = new ActionState(state.Performer, [HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()]);
+								ActionState actionState = new ActionState(state.Performer,
+									[HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()]);
 								await actionState.Perform();
 
 								await state.AdvanceUseSlot();
@@ -60,14 +61,15 @@ public class Aspiration : HierophantPrayerCardModel<Aspiration.CardTop, Aspirati
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.Target == state.Performer && canApplyParameters.Condition.IsNegative,
+						canApplyParameters => canApplyParameters.Target == state.Performer && canApplyParameters.ConditionModel.IsNegative,
 						async applyParameters =>
 						{
 							if(!applyParameters.Prevented)
 							{
 								applyParameters.SetPrevented(true);
 
-								ActionState actionState = new ActionState(state.Performer, [HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()]);
+								ActionState actionState = new ActionState(state.Performer,
+									[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()]);
 								await actionState.Perform();
 
 								await state.AdvanceUseSlot();

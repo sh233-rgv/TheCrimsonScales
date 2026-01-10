@@ -20,7 +20,7 @@ public class StormStone : CS4Item
 			{
 				await Use(async user =>
 				{
-					await AbilityCmd.InfuseElement(Element.Air, authority: Owner);
+					await AbilityCmd.InfuseElement(null, Element.Air, Owner);
 				});
 			}
 		);

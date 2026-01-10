@@ -20,7 +20,7 @@ public class DarkStone : CS4Item
 			{
 				await Use(async user =>
 				{
-					await AbilityCmd.InfuseElement(Element.Dark, authority: Owner);
+					await AbilityCmd.InfuseElement(null, Element.Dark, Owner);
 				});
 			}
 		);

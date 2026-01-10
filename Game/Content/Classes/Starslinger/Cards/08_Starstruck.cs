@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Fractural.Tasks;
 using Godot;
 
 public class Starstruck : StarslingerCardModel<Starstruck.CardTop, Starstruck.CardBottom>
@@ -58,7 +59,7 @@ public class Starstruck : StarslingerCardModel<Starstruck.CardTop, Starstruck.Ca
 				{
 					if(state.Target.AlliedWith(state.Performer))
 					{
-						await AbilityCmd.InfuseElement(Element.Light, state.Authority, state);
+						await AbilityCmd.InfuseElement(state, Element.Light);
 					}
 				})
 				.Build())

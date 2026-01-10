@@ -20,7 +20,7 @@ public class TremorStone : CS4Item
 			{
 				await Use(async user =>
 				{
-					await AbilityCmd.InfuseElement(Element.Earth, authority: Owner);
+					await AbilityCmd.InfuseElement(null, Element.Earth, Owner);
 				});
 			}
 		);

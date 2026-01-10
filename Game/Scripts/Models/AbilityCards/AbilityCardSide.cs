@@ -44,6 +44,8 @@ public abstract class AbilityCardSide
 			await ScenarioEvents.AbilityCardSideStartedEvent.CreatePrompt(
 				new ScenarioEvents.AbilityCardSideStarted.Parameters(this, performer));
 
+		CardState resultingState = CardState.Discarded;
+
 		if(!startedParameters.ForgoneAction)
 		{
 			ActionState actionState = new ActionState(performer, Abilities.Select(ability => ability.Ability).ToList(), //null, 
@@ -58,12 +60,10 @@ public abstract class AbilityCardSide
 
 				foreach(Element element in Elements)
 				{
-					await AbilityCmd.InfuseElement(element, actionState.Authority);
+					await AbilityCmd.InfuseElement(null, element, performer);
 				}
 
-				CardState resultingState = CardState.Discarded;
-
-				bool round = !actionState.OverrideNoRound && (actionState.OverrideRound || Round);
+				bool round = Round || actionState.OverrideRound;
 				bool persistent = !actionState.OverrideNoPersistent && (actionState.OverridePersistent || Persistent);
 				bool loss = !actionState.OverrideNoLoss && (actionState.OverrideLoss || Loss);
 
@@ -110,7 +110,8 @@ public abstract class AbilityCardSide
 			await AbilityCmd.DiscardCard(AbilityCard);
 		}
 
-		await ScenarioEvents.AbilityCardSideEndedEvent.CreatePrompt(new ScenarioEvents.AbilityCardSideEnded.Parameters(this, performer));
+		await ScenarioEvents.AbilityCardSideEndedEvent.CreatePrompt(
+			new ScenarioEvents.AbilityCardSideEnded.Parameters(this, performer, resultingState));
 	}
 
 	protected async GDTask GainXP(AbilityState abilityState)
@@ -133,7 +134,7 @@ public abstract class AbilityCardSide
 	{
 		await AbilityCmd.DiscardOrLose(AbilityCard);
 	}
-	
+
 	protected virtual async GDTask OnActionPerformed(Figure figure)
 	{
 		await GDTask.CompletedTask;

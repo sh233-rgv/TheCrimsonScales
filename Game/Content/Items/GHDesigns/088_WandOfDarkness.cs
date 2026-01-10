@@ -19,7 +19,7 @@ public class WandOfDarkness : GHDesignsItem
 			{
 				await Use(async user =>
 				{
-					await AbilityCmd.InfuseElement(Element.Dark, character);
+					await AbilityCmd.InfuseElement(null, Element.Dark, Owner);
 				});
 			}
 		);

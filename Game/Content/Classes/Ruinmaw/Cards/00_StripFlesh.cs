@@ -19,7 +19,7 @@ public class StripFlesh : RuinmawCardModel<StripFlesh.CardTop, StripFlesh.CardBo
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
 				.WithTarget(Target.Self)
-				.WithConditions(Ruinmaw.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.Empower)
 				.Build())
 		];
 	}

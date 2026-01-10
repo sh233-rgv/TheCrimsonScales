@@ -1,6 +1,3 @@
-using System.Linq;
-using Fractural.Tasks;
-
 public class ChainMace : CS1Item
 {
 	public override string Name => "Chain Mace";

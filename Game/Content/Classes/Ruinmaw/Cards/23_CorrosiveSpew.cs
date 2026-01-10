@@ -67,7 +67,7 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 									ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, obj);
 									ActionState actionState = new ActionState(state.Performer,
 									[
-										HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).WithConditions(Ruinmaw.EmpowerRuinmaw).Build(),
+										HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).WithConditions(Ruinmaw.Empower).Build(),
 									]);
 									await actionState.Perform();
 								}

@@ -40,7 +40,7 @@ public class AbsorbingLight : StarslingerCardModel<AbsorbingLight.CardTop, Absor
 						async parameters =>
 						{
 							((MoveAbility.State)parameters.AbilityState).AddJump();
-							await AbilityCmd.InfuseElement(Element.Light, parameters.Performer, parameters.AbilityState);
+							await AbilityCmd.InfuseElement(parameters.AbilityState, Element.Light);
 						}
 					)
 				)

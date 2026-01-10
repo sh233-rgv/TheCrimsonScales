@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public abstract class MonsterModel : AbstractModel<MonsterModel>
+public abstract class MonsterModel : AbstractModel
 {
 	protected static int CharacterCount => GameController.Instance.SavedCampaign.Characters.Count;
 
