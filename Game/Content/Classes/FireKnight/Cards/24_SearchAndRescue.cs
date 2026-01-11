@@ -15,7 +15,7 @@ public class SearchAndRescue : FireKnightLevelUpCardModel<SearchAndRescue.CardTo
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveSquare(this, new Vector2(0.52144676f, 0.1309768f)))
 				.WithMoveType(MoveType.Jump)
 				.WithOnAbilityStarted(async state =>
 				{
@@ -41,7 +41,7 @@ public class SearchAndRescue : FireKnightLevelUpCardModel<SearchAndRescue.CardTo
 				.Build()),
 
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.5020639f, 0.29498523f)))
 				.WithConditions(Conditions.Muddle)
 				.WithDuringAttackSubscription(
 					ScenarioEvents.DuringAttack.Subscription.New(
@@ -82,7 +82,7 @@ public class SearchAndRescue : FireKnightLevelUpCardModel<SearchAndRescue.CardTo
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6176377f, 0.62045234f)))
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(
 						parameters => parameters.Performer.Hex.HasHexObjectOfType<Ladder>(),

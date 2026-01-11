@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class TraumaCare : FireKnightLevelUpCardModel<TraumaCare.CardTop, TraumaCare.CardBottom>
 {
@@ -13,7 +14,7 @@ public class TraumaCare : FireKnightLevelUpCardModel<TraumaCare.CardTop, TraumaC
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
-				.WithHealValue(4)
+				.WithHealValue(4, new HealDiamondPlus(this, new Vector2(0.49874032f, 0.23262218f)))
 				.WithRange(1)
 				.WithDuringHealSubscription(
 					ScenarioEvents.DuringHeal.Subscription.New(
@@ -45,7 +46,7 @@ public class TraumaCare : FireKnightLevelUpCardModel<TraumaCare.CardTop, TraumaC
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6181628f, 0.6569444f)))
 				.WithOnAbilityStarted(async abilityState =>
 				{
 					ScenarioCheckEvents.MoveCheckEvent.Subscribe(abilityState, this,

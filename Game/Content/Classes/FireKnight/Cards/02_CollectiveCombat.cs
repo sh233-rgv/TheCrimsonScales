@@ -15,7 +15,7 @@ public class CollectiveCombat : FireKnightCardModel<CollectiveCombat.CardTop, Co
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackSquare(this, new Vector2(0.42104512f, 0.17010815f)))
 				.WithAOEPattern(new AOEPattern(
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
@@ -23,7 +23,7 @@ public class CollectiveCombat : FireKnightCardModel<CollectiveCombat.CardTop, Co
 						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 					]
-				))
+				), new AOEHexMark(Vector2I.Zero.Add(Direction.West), this, new Vector2(0.6045485f, 0.25425407f)))
 				.WithDuringAttackSubscription(
 					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
 						applyFunction: async parameters =>

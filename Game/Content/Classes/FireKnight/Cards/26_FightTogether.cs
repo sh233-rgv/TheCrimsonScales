@@ -15,10 +15,10 @@ public class FightTogether : FireKnightLevelUpCardModel<FightTogether.CardTop, F
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantAbilityState =>
+				.WithAbilities(
 				[
 					ShieldAbility.Builder()
-						.WithShieldValue(2)
+						.WithShieldValue(2, new ShieldDiamondPlus(this, new Vector2(0.49963737f, 0.24985416f)))
 						.Build(),
 					ConditionAbility.Builder()
 						.WithConditions(Conditions.Bless)
@@ -53,7 +53,7 @@ public class FightTogether : FireKnightLevelUpCardModel<FightTogether.CardTop, F
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62018883f, 0.62458545f)))
 				.WithOnAbilityStarted(async abilityState =>
 				{
 					ScenarioCheckEvents.MoveCheckEvent.Subscribe(abilityState, this,
@@ -95,10 +95,13 @@ public class FightTogether : FireKnightLevelUpCardModel<FightTogether.CardTop, F
 					}
 				)
 				.Build()),
+
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantAbilityState =>
+				.WithAbilities(
 				[
-					AttackAbility.Builder().WithDamage(3).Build()
+					AttackAbility.Builder()
+						.WithDamage(3, new AttackDiamond(this, new Vector2(0.61666214f, 0.8298918f)))
+						.Build()
 				])
 				.Build())
 		];

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class JackOfAllTrades : FireKnightLevelUpCardModel<JackOfAllTrades.CardTop, JackOfAllTrades.CardBottom>
 {
@@ -24,7 +25,7 @@ public class JackOfAllTrades : FireKnightLevelUpCardModel<JackOfAllTrades.CardTo
 			)),
 
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.5020886f, 0.30106834f), EnhancementCostType.MultiTarget))
 				.WithConditions(Conditions.Wound1)
 				.WithDuringAttackSubscription(
 					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
@@ -46,7 +47,10 @@ public class JackOfAllTrades : FireKnightLevelUpCardModel<JackOfAllTrades.CardTo
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build()),
+			new AbilityCardAbility(
+				MoveAbility.Builder()
+					.WithDistance(4, new MoveCircle(this, new Vector2(0.6200135f, 0.6419845f)))
+					.Build()),
 
 			new AbilityCardAbility(GiveFireKnightItemAbility(
 				state => [ModelDB.Item<PikeHook>(), ModelDB.Item<KindledTonic>(), ModelDB.Item<ExplosiveTonic>()],

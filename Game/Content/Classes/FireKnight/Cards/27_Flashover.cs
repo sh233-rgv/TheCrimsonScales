@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover.CardBottom>
 {
@@ -10,6 +11,17 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 
 	public class CardTop : FireKnightCardSide
 	{
+		private SummonMoveSquare _summonMoveEnhancementMark;
+		private SummonRangeSquare _summonRangeEnhancementMark;
+
+		protected override void InitExtraEnhancements()
+		{
+			base.InitExtraEnhancements();
+
+			_summonMoveEnhancementMark = new SummonMoveSquare(this, new Vector2(0.77583003f, 0.18977384f));
+			_summonRangeEnhancementMark = new SummonRangeSquare(this, new Vector2(0.77583003f, 0.26627418f));
+		}
+
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
@@ -72,9 +84,9 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 				.WithName("Reigniting Drakefiend")
 				.WithTexturePath("res://Content/Classes/FireKnight/Drakefiend.jpg")
 				.WithHealth(2)
-				.WithMove(3)
+				.WithMove(3, _summonMoveEnhancementMark)
 				.WithAttack(2)
-				.WithRange(2)
+				.WithRange(2, _summonRangeEnhancementMark)
 				.WithTraits(new FlyingTrait(), new InfuseElementAfterAttackTrait(Element.Fire))
 				.Build();
 		}
@@ -85,7 +97,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.61968875f, 0.6253687f)))
 				.WithOnAbilityStarted(async abilityState =>
 				{
 					ScenarioCheckEvents.MoveCheckEvent.Subscribe(abilityState, this,

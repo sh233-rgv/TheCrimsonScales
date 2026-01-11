@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class HeavyIrons : FireKnightLevelUpCardModel<HeavyIrons.CardTop, HeavyIrons.CardBottom>
 {
@@ -14,7 +15,7 @@ public class HeavyIrons : FireKnightLevelUpCardModel<HeavyIrons.CardTop, HeavyIr
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.5020886f, 0.21237265f)))
 				.WithConditions(Conditions.Immobilize)
 				.Build()),
 
@@ -33,7 +34,7 @@ public class HeavyIrons : FireKnightLevelUpCardModel<HeavyIrons.CardTop, HeavyIr
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.61811316f, 0.63576794f)))
 				.WithDuringMovementSubscription(
 					ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Fire,
 						applyFunction: async applyParameters =>

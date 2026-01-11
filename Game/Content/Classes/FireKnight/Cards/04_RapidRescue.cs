@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class RapidRescue : FireKnightCardModel<RapidRescue.CardTop, RapidRescue.CardBottom>
 {
@@ -14,7 +15,7 @@ public class RapidRescue : FireKnightCardModel<RapidRescue.CardTop, RapidRescue.
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveSquare(this, new Vector2(0.61780804f, 0.14749262f)))
 				.WithOnAbilityStarted(async state =>
 				{
 					ScenarioCheckEvents.MoveCanStopAtCheckEvent.Subscribe(state.Performer, this,
@@ -39,7 +40,7 @@ public class RapidRescue : FireKnightCardModel<RapidRescue.CardTop, RapidRescue.
 				.Build()),
 
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.6215359f, 0.33479995f)))
 				.WithDuringAttackSubscription(
 					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
 						applyFunction: async parameters =>
@@ -62,7 +63,12 @@ public class RapidRescue : FireKnightCardModel<RapidRescue.CardTop, RapidRescue.
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(state => [MoveAbility.Builder().WithDistance(3).Build()])
+				.WithAbilities(
+				[
+					MoveAbility.Builder()
+						.WithDistance(3, new MoveSquare(this, new Vector2(0.6178323f, 0.7326467f)))
+						.Build()
+				])
 				.WithRange(3)
 				.Build()),
 

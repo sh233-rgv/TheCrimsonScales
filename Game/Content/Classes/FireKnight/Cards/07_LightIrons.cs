@@ -88,7 +88,9 @@ public class LightIrons : FireKnightCardModel<LightIrons.CardTop, LightIrons.Car
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.61780804f, 0.7116977f)))
+				.Build()),
 
 			new AbilityCardAbility(GiveFireKnightItemAbility(state => [ModelDB.Item<PikeHook>(), ModelDB.Item<FireproofHelm>()]))
 		];

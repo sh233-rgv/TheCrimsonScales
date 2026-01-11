@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class CoordinatedAttack : FireKnightCardModel<CoordinatedAttack.CardTop, CoordinatedAttack.CardBottom>
 {
@@ -14,7 +15,7 @@ public class CoordinatedAttack : FireKnightCardModel<CoordinatedAttack.CardTop, 
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.6215359f, 0.18770726f)))
 				.WithDuringAttackSubscription(
 					ScenarioEvents.DuringAttack.Subscription.New(
 						parameters => parameters.Performer.Hex.HasHexObjectOfType<Ladder>(),

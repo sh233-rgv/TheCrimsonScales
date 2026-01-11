@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombustion.CardTop, SpontaneousCombustion.CardBottom>
 {
@@ -14,7 +15,7 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(8)
+				.WithDamage(8, new AttackDiamond(this, new Vector2(0.5020886f, 0.14570932f)))
 				.WithConditions(Conditions.Wound1)
 				.WithDuringAttackSubscription(
 					ScenarioEvents.DuringAttack.Subscription.New(
@@ -66,7 +67,7 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6199888f, 0.6535839f)))
 				.WithOnAbilityStarted(async abilityState =>
 				{
 					ScenarioCheckEvents.MoveCheckEvent.Subscribe(abilityState, this,

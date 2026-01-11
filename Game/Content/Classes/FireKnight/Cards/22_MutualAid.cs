@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
 using System.Linq;
+using Godot;
 
 public class MutualAid : FireKnightLevelUpCardModel<MutualAid.CardTop, MutualAid.CardBottom>
 {
@@ -14,9 +15,11 @@ public class MutualAid : FireKnightLevelUpCardModel<MutualAid.CardTop, MutualAid
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantAbilityState =>
+				.WithAbilities(
 				[
-					AttackAbility.Builder().WithDamage(3).Build()
+					AttackAbility.Builder()
+						.WithDamage(3, new AttackDiamond(this, new Vector2(0.6204889f, 0.21533923f)))
+						.Build()
 				])
 				.WithRange(1)
 				.WithTargets(2)
@@ -58,10 +61,10 @@ public class MutualAid : FireKnightLevelUpCardModel<MutualAid.CardTop, MutualAid
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6182132f, 0.65978366f)))
 				.Build()),
 			new AbilityCardAbility(HealAbility.Builder()
-				.WithHealValue(2)
+				.WithHealValue(2, new HealSquare(this, new Vector2(0.36875677f, 0.78111076f)))
 				.WithRange(1)
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(

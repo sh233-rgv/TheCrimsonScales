@@ -14,7 +14,7 @@ public class FireWhirl : FireKnightCardModel<FireWhirl.CardTop, FireWhirl.CardBo
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(1)
+				.WithDamage(1, new AttackSquare(this, new Vector2(0.30321214f, 0.16420844f)))
 				.WithRange(2)
 				.WithAOEPattern(new AOEPattern(
 					[
@@ -77,7 +77,7 @@ public class FireWhirl : FireKnightCardModel<FireWhirl.CardTop, FireWhirl.CardBo
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.61730796f, 0.7109976f)))
 				.WithOnAbilityStarted(async abilityState =>
 				{
 					ScenarioCheckEvents.MoveCheckEvent.Subscribe(abilityState, this,

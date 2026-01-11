@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class LoyalCompanion : FireKnightCardModel<LoyalCompanion.CardTop, LoyalCompanion.CardBottom>
 {
@@ -15,9 +16,9 @@ public class LoyalCompanion : FireKnightCardModel<LoyalCompanion.CardTop, LoyalC
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithName("Spotted Hound")
 				.WithTexturePath("res://Content/Classes/FireKnight/SpottedHound.jpg")
-				.WithHealth(4)
-				.WithMove(2)
-				.WithAttack(1)
+				.WithHealth(4, new SummonHealthSquare(this, new Vector2(0.39352584f, 0.19665682f)))
+				.WithMove(2, new SummonMoveSquare(this, new Vector2(0.59166473f, 0.19665682f)))
+				.WithAttack(1, new SummonAttackSquare(this, new Vector2(0.39352584f, 0.30685148f)))
 				.WithTraits(new AdjacentAlliesGainAdvantageTrait())
 				.Build()
 			),
@@ -52,7 +53,7 @@ public class LoyalCompanion : FireKnightCardModel<LoyalCompanion.CardTop, LoyalC
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.62035996f, 0.719764f)))
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(
 						parameters => parameters.Performer.Hex.HasHexObjectOfType<Ladder>(),

@@ -55,7 +55,9 @@ public class ControlledAggression : FireKnightCardModel<ControlledAggression.Car
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build())
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.6198599f, 0.76992834f)))
+				.Build())
 		];
 	}
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class ForgedByFire : FireKnightLevelUpCardModel<ForgedByFire.CardTop, ForgedByFire.CardBottom>
 {
@@ -14,7 +15,7 @@ public class ForgedByFire : FireKnightLevelUpCardModel<ForgedByFire.CardTop, For
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
-				.WithHealValue(3)
+				.WithHealValue(3, new HealDiamondPlus(this, new Vector2(0.4511919f, 0.19764012f)))
 				.WithTargets(2)
 				.WithRange(2)
 				.WithDuringHealSubscription(
@@ -46,7 +47,9 @@ public class ForgedByFire : FireKnightLevelUpCardModel<ForgedByFire.CardTop, For
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(5).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(5, new MoveCircle(this, new Vector2(0.6200888f, 0.61651915f)))
+				.Build()),
 
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>

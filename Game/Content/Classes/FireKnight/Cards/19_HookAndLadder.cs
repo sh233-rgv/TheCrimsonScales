@@ -15,7 +15,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackSquare(this, new Vector2(0.3507742f, 0.1690416f)))
 				.WithRange(2)
 				.WithAOEPattern(new AOEPattern(
 					[
@@ -23,7 +23,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 						new AOEHex(Vector2I.Zero.Add(Direction.West), AOEHexType.Red),
 						new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
 					]
-				))
+				), new AOEHexMark(Vector2I.Zero.Add(Direction.SouthEast), this, new Vector2(0.74144036f, 0.24602105f)))
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(
 						parameters => parameters.Performer.Hex.HasHexObjectOfType<Ladder>(),

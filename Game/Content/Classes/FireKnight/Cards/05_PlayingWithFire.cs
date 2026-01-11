@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class PlayingWithFire : FireKnightCardModel<PlayingWithFire.CardTop, PlayingWithFire.CardBottom>
 {
@@ -13,7 +14,7 @@ public class PlayingWithFire : FireKnightCardModel<PlayingWithFire.CardTop, Play
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(1)
+				.WithDamage(1, new AttackDiamond(this, new Vector2(0.4441604f, 0.15634218f)))
 				.WithRange(3)
 				.WithConditions(Conditions.Wound1)
 				.WithDuringAttackSubscription(
@@ -47,7 +48,7 @@ public class PlayingWithFire : FireKnightCardModel<PlayingWithFire.CardTop, Play
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(6)
+				.WithDamage(6, new AttackDiamond(this, new Vector2(0.6227846f, 0.6826161f)))
 				.WithDuringAttackSubscription(
 					ScenarioEvents.DuringAttack.Subscription.New(
 						parameters => parameters.Performer.Hex.HasHexObjectOfType<Ladder>(),

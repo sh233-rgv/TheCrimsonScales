@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class LadderAssault : FireKnightLevelUpCardModel<LadderAssault.CardTop, LadderAssault.CardBottom>
 {
@@ -13,7 +14,7 @@ public class LadderAssault : FireKnightLevelUpCardModel<LadderAssault.CardTop, L
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.5020886f, 0.22517207f)))
 				.WithPush(2)
 				.WithOnAbilityStarted(async state =>
 				{
@@ -46,7 +47,7 @@ public class LadderAssault : FireKnightLevelUpCardModel<LadderAssault.CardTop, L
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6176377f, 0.67424977f)))
 				.WithOnAbilityStarted(async abilityState =>
 				{
 					ScenarioCheckEvents.MoveCheckEvent.Subscribe(abilityState, this,

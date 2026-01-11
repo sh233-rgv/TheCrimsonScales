@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class ForcibleEntry : FireKnightCardModel<ForcibleEntry.CardTop, ForcibleEntry.CardBottom>
 {
@@ -13,7 +14,7 @@ public class ForcibleEntry : FireKnightCardModel<ForcibleEntry.CardTop, Forcible
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(5)
+				.WithDamage(5, new AttackDiamond(this, new Vector2(0.4324528f, 0.24680433f)))
 				.WithPierce(2)
 				.WithConditions(Conditions.Wound1)
 				.Build()),
@@ -28,7 +29,9 @@ public class ForcibleEntry : FireKnightCardModel<ForcibleEntry.CardTop, Forcible
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.61780804f, 0.64011794f)))
+				.Build()),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
