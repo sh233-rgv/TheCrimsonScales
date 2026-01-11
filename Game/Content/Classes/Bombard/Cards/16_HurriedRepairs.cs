@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class HurriedRepairs : BombardCardModel<HurriedRepairs.CardTop, HurriedRepairs.CardBottom>
 {
@@ -28,7 +29,7 @@ public class HurriedRepairs : BombardCardModel<HurriedRepairs.CardTop, HurriedRe
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6209843f, 0.6982149f)))
 				.WithOnAbilityStarted(async state =>
 				{
 					ScenarioCheckEvents.CanPassEnemyCheckEvent.Subscribe(state, this,

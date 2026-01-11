@@ -317,9 +317,10 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithTargets(int targets)
+		public TBuilder WithTargets(int targets, params TargetsSquare[] enhancementMarks)
 		{
 			Obj.Targets = targets;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 

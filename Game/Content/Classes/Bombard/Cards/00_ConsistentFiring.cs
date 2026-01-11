@@ -48,7 +48,9 @@ public class ConsistentFiring : BombardCardModel<ConsistentFiring.CardTop, Consi
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62133324f, 0.66456664f)))
+				.Build()),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>

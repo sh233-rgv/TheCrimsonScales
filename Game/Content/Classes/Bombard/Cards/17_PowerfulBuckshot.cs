@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class PowerfulBuckshot : BombardCardModel<PowerfulBuckshot.CardTop, PowerfulBuckshot.CardBottom>
 {
@@ -14,8 +15,8 @@ public class PowerfulBuckshot : BombardCardModel<PowerfulBuckshot.CardTop, Power
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
-				.WithRange(3)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.4493405f, 0.24010459f)))
+				.WithRange(3, new RangeSquare(this, new Vector2(0.6593378f, 0.24010459f)))
 				.WithAfterTargetConfirmedSubscription(
 					ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
 						parameters => parameters.Performer.TurnPerformedActionStates.Any(performedActionState =>
@@ -44,9 +45,9 @@ public class PowerfulBuckshot : BombardCardModel<PowerfulBuckshot.CardTop, Power
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.40590954f, 0.7395128f)))
 				.WithTargets(2)
-				.WithRange(3)
+				.WithRange(3, new RangeSquare(this, new Vector2(0.7083057f, 0.7395128f)))
 				.Build())
 		];
 

@@ -49,7 +49,7 @@ public class ExplodingCannonball : BombardCardModel<ExplodingCannonball.CardTop,
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.620432f, 0.72009766f)))
 				.WithOnAbilityStarted(async abilityState =>
 				{
 					ScenarioCheckEvents.MoveCheckEvent.Subscribe(abilityState, this,

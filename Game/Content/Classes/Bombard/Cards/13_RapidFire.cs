@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class RapidFire : BombardCardModel<RapidFire.CardTop, RapidFire.CardBottom>
 {
@@ -37,8 +38,8 @@ public class RapidFire : BombardCardModel<RapidFire.CardTop, RapidFire.CardBotto
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
-				.WithTargets(3)
-				.WithRange(3)
+				.WithTargets(3, new TargetsSquare(this, new Vector2(0.49925107f, 0.77089477f)))
+				.WithRange(3, new RangeSquare(this, new Vector2(0.7098483f, 0.77089477f)))
 				.Build())
 		];
 	}

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class UnexpectedBombshell : BombardCardModel<UnexpectedBombshell.CardTop, UnexpectedBombshell.CardBottom>
 {
@@ -9,13 +10,22 @@ public class UnexpectedBombshell : BombardCardModel<UnexpectedBombshell.CardTop,
 
 	public class CardTop : BombardCardSide
 	{
+		private AttackEnhancementMark _enhancementMark;
+
+		protected override void InitExtraEnhancements()
+		{
+			base.InitExtraEnhancements();
+
+			_enhancementMark = new AttackDiamond(this, new Vector2(0.509707f, 0.2876189f));
+		}
+
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ProjectileAbility.Builder()
 				.WithGetAbilities(hex =>
 				[
 					AttackAbility.Builder()
-						.WithDamage(2)
+						.WithDamage(2, _enhancementMark)
 						.WithConditions(Conditions.Stun)
 						.WithRangeType(RangeType.Range)
 						.WithTargetHex(hex)

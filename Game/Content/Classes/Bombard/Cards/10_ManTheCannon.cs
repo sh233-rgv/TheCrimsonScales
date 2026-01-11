@@ -59,6 +59,15 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 
 	public class CardBottom : BombardCardSide
 	{
+		private AttackEnhancementMark _enhancementMark;
+
+		protected override void InitExtraEnhancements()
+		{
+			base.InitExtraEnhancements();
+
+			_enhancementMark = new AttackDiamond(this, new Vector2(0.50100255f, 0.8037263f));
+		}
+
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
@@ -79,7 +88,12 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 							parameters.ForgoAction();
 
 							ActionState actionState = new ActionState(state.ActionState, state.Performer,
-								[AttackAbility.Builder().WithDamage(4).WithRange(3).Build()]);
+							[
+								AttackAbility.Builder()
+									.WithDamage(4, _enhancementMark)
+									.WithRange(3)
+									.Build()
+							]);
 							await actionState.Perform();
 						},
 						EffectType.Selectable,

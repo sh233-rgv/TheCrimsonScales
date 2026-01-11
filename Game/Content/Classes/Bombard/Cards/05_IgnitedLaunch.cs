@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class IgnitedLaunch : BombardCardModel<IgnitedLaunch.CardTop, IgnitedLaunch.CardBottom>
 {
@@ -10,13 +11,22 @@ public class IgnitedLaunch : BombardCardModel<IgnitedLaunch.CardTop, IgnitedLaun
 
 	public class CardTop : BombardCardSide
 	{
+		private AttackEnhancementMark _enhancementMark;
+
+		protected override void InitExtraEnhancements()
+		{
+			base.InitExtraEnhancements();
+
+			_enhancementMark = new AttackDiamond(this, new Vector2(0.619184f, 0.29891837f));
+		}
+
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ProjectileAbility.Builder()
 				.WithGetAbilities(hex =>
 				[
 					AttackAbility.Builder()
-						.WithDamage(5)
+						.WithDamage(5, _enhancementMark)
 						.WithRangeType(RangeType.Range)
 						.WithTargetHex(hex)
 						.Build()
