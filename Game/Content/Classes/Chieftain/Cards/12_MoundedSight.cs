@@ -12,20 +12,16 @@ public class MoundedSight : ChieftainCardModel<MoundedSight.CardTop, MoundedSigh
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 5,
-					Move = 2,
-					Attack = 1,
-					Traits =
-					[
-						new IgnoreDifficultTerrainTrait(),
-						new IgnoreHazardousTerrainTrait(),
-						new MountTrait(),
-					]
-				})
 				.WithName("Cavalry Camel")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/cavalry_camel_AI.png")
+				.WithHealth(5)
+				.WithMove(2)
+				.WithAttack(1)
+				.WithTraits(
+					new IgnoreDifficultTerrainTrait(),
+					new IgnoreHazardousTerrainTrait(),
+					new MountTrait()
+				)
 				.Build()
 			),
 		];

@@ -13,44 +13,36 @@ public class OutrunTheEnemy : ChieftainCardModel<OutrunTheEnemy.CardTop, OutrunT
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 4,
-					Move = 3,
-					Attack = 1,
-					Traits =
-					[
-						new MountTrait(
-							async (owner, mount) =>
-							{
-								ScenarioEvents.RoundStartedBeforeInitiativesSortedEvent.Subscribe(owner, this,
-									canApplyParameters => true,
-									async applyParameters =>
-									{
-										ScenarioCheckEvents.InitiativeCheckEvent.Subscribe(owner, this,
-											parameters => parameters.Figure == owner,
-											parameters => parameters.AdjustInitiative(-10)
-										);
-
-										owner.UpdateInitiative();
-										ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(owner, this);
-
-										await GDTask.CompletedTask;
-									});
-
-								await GDTask.CompletedTask;
-							},
-							async (owner, mount) =>
-							{
-								ScenarioEvents.RoundStartedBeforeInitiativesSortedEvent.Unsubscribe(owner, this);
-
-								await GDTask.CompletedTask;
-							}
-						)
-					]
-				})
 				.WithName("Speedy Ostrich")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/speedy_ostrich_AI.png")
+				.WithHealth(4)
+				.WithMove(3)
+				.WithAttack(1)
+				.WithTraits(new MountTrait(async (owner, mount) =>
+					{
+						ScenarioEvents.RoundStartedBeforeInitiativesSortedEvent.Subscribe(owner, this,
+							canApplyParameters => true,
+							async applyParameters =>
+							{
+								ScenarioCheckEvents.InitiativeCheckEvent.Subscribe(owner, this,
+									parameters => parameters.Figure == owner,
+									parameters => parameters.AdjustInitiative(-10)
+								);
+
+								owner.UpdateInitiative();
+								ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(owner, this);
+
+								await GDTask.CompletedTask;
+							});
+
+						await GDTask.CompletedTask;
+					},
+					async (owner, mount) =>
+					{
+						ScenarioEvents.RoundStartedBeforeInitiativesSortedEvent.Unsubscribe(owner, this);
+
+						await GDTask.CompletedTask;
+					}))
 				.Build()
 			),
 		];

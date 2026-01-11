@@ -12,19 +12,12 @@ public class CatastrophicCattle : ChieftainCardModel<CatastrophicCattle.CardTop,
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 4,
-					Move = 2,
-					Attack = 2,
-					Traits =
-					[
-						new MountTrait(),
-						new PushTrait(1),
-					]
-				})
 				.WithName("Fighting Bull")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/fighting_bull_AI.png")
+				.WithHealth(4)
+				.WithMove(2)
+				.WithAttack(2)
+				.WithTraits(new MountTrait(), new PushTrait(1))
 				.Build()
 			),
 		];

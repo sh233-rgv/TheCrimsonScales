@@ -14,20 +14,16 @@ public class AgilePredator : ChieftainCardModel<AgilePredator.CardTop, AgilePred
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 5,
-					Move = 3,
-					Attack = 1,
-					Traits =
-					[
-						new RetaliateTrait(1),
-						new AttackersGainDisadvantageTrait(),
-						new MountTrait(),
-					]
-				})
 				.WithName("Black Panther")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/black_panther_AI.png")
+				.WithHealth(5)
+				.WithMove(3)
+				.WithAttack(1)
+				.WithTraits(
+					new RetaliateTrait(1),
+					new AttackersGainDisadvantageTrait(),
+					new MountTrait()
+				)
 				.Build()
 			),
 		];

@@ -14,47 +14,39 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 8,
-					Move = 3,
-					Attack = 3,
-					Traits =
-					[
-						new AllAttacksGainAdvantageTrait(),
-						new MountTrait(
-							async (owner, mount) =>
-							{
-								ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(owner, this,
-									parameters => parameters.AbilityState.Performer == owner,
-									async parameters =>
-									{
-										parameters.SetCannotGainDisadvantage();
-
-										await GDTask.CompletedTask;
-									}
-								);
-
-								ScenarioCheckEvents.DisadvantageCheckEvent.Subscribe(owner, this,
-									parameters => parameters.Attacker == owner,
-									parameters => parameters.SetDisadvantage(false),
-									order: 100
-								);
-
-								await GDTask.CompletedTask;
-							},
-							async (owner, mount) =>
-							{
-								ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(owner, this);
-								ScenarioCheckEvents.DisadvantageCheckEvent.Unsubscribe(owner, this);
-
-								await GDTask.CompletedTask;
-							}
-						),
-					]
-				})
 				.WithName("Sabretooth Tiger")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/sabretooth_tiger.png")
+				.WithHealth(8)
+				.WithMove(3)
+				.WithAttack(3)
+				.WithTraits(
+					new AllAttacksGainAdvantageTrait(),
+					new MountTrait(
+						async (owner, mount) =>
+						{
+							ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(owner, this,
+								parameters => parameters.AbilityState.Performer == owner,
+								async parameters =>
+								{
+									parameters.SetCannotGainDisadvantage();
+									await GDTask.CompletedTask;
+								}
+							);
+							ScenarioCheckEvents.DisadvantageCheckEvent.Subscribe(owner, this,
+								parameters => parameters.Attacker == owner,
+								parameters => parameters.SetDisadvantage(false),
+								order: 100
+							);
+							await GDTask.CompletedTask;
+						},
+						async (owner, mount) =>
+						{
+							ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(owner, this);
+							ScenarioCheckEvents.DisadvantageCheckEvent.Unsubscribe(owner, this);
+							await GDTask.CompletedTask;
+						}
+					)
+				)
 				.Build()
 			),
 		];

@@ -13,15 +13,12 @@ public class LoyalCompanion : FireKnightCardModel<LoyalCompanion.CardTop, LoyalC
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 4,
-					Move = 2,
-					Attack = 1,
-					Traits = [new AdjacentAlliesGainAdvantageTrait()]
-				})
 				.WithName("Spotted Hound")
 				.WithTexturePath("res://Content/Classes/FireKnight/SpottedHound.jpg")
+				.WithHealth(4)
+				.WithMove(2)
+				.WithAttack(1)
+				.WithTraits(new AdjacentAlliesGainAdvantageTrait())
 				.Build()
 			),
 

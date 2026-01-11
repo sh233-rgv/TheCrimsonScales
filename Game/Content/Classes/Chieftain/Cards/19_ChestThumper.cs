@@ -12,20 +12,16 @@ public class ChestThumper : ChieftainCardModel<ChestThumper.CardTop, ChestThumpe
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 7,
-					Move = 3,
-					Attack = 2,
-					Traits =
-					[
-						new JumpTrait(),
-						new HealOnKillTrait(2),
-						new MountTrait(),
-					]
-				})
 				.WithName("Lowland Gorilla")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/lowland_gorilla_AI.png")
+				.WithHealth(7)
+				.WithMove(3)
+				.WithAttack(2)
+				.WithTraits(
+					new JumpTrait(),
+					new HealOnKillTrait(2),
+					new MountTrait()
+				)
 				.Build()
 			),
 		];

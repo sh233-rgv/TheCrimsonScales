@@ -13,39 +13,35 @@ public class SlowAndSteady : ChieftainCardModel<SlowAndSteady.CardTop, SlowAndSt
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 6,
-					Move = 1,
-					Attack = 1,
-					Traits =
-					[
-						new ShieldTrait(1),
-						new MountTrait(
-							async (owner, mount) =>
-							{
-								ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Subscribe(mount, this,
-									canApply: parameters =>
-										parameters.Figure == owner ||
-										parameters.Figure == mount,
-									parameters =>
-									{
-										parameters.SetImmuneToForcedMovement();
-									}
-								);
-								await GDTask.CompletedTask;
-							},
-							async (owner, mount) =>
-							{
-								ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Unsubscribe(mount, this);
-
-								await GDTask.CompletedTask;
-							}
-						)
-					]
-				})
 				.WithName("Giant Tortoise")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/giant_tortoise_AI.png")
+				.WithHealth(6)
+				.WithMove(1)
+				.WithAttack(1)
+				.WithTraits(
+					new ShieldTrait(1),
+					new MountTrait(
+						async (owner, mount) =>
+						{
+							ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Subscribe(mount, this,
+								canApply: parameters =>
+									parameters.Figure == owner ||
+									parameters.Figure == mount,
+								parameters =>
+								{
+									parameters.SetImmuneToForcedMovement();
+								}
+							);
+							await GDTask.CompletedTask;
+						},
+						async (owner, mount) =>
+						{
+							ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Unsubscribe(mount, this);
+
+							await GDTask.CompletedTask;
+						}
+					)
+				)
 				.Build()
 			),
 		];

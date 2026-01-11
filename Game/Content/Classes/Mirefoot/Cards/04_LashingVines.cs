@@ -22,14 +22,11 @@ public class LashingVines : MirefootCardModel<LashingVines.CardTop, LashingVines
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 1,
-					Attack = 1,
-					Traits = [new TargetsTrait(3)]
-				})
 				.WithName("Flailing Ivies")
 				.WithTexturePath("res://Content/Classes/Mirefoot/FlailingIvies.png")
+				.WithHealth(1)
+				.WithAttack(1)
+				.WithTraits(new TargetsTrait(3))
 				.WithGetValidHexes((abilityState, list) =>
 					{
 						RangeHelper.FindHexesInRange(abilityState.Performer.Hex, 3, true, list);

@@ -13,25 +13,21 @@ public class MajesticMass : ChieftainCardModel<MajesticMass.CardTop, MajesticMas
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 8,
-					Move = 2,
-					Attack = 3,
-					Traits =
-					[
-						new DestroyAdjacentSingleHexObstacleAfterAttackTrait(),
-						new AOEAttackTrait(new AOEPattern(
-						[
-							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-						])),
-						new MountTrait(),
-					],
-				})
 				.WithName("War Elephant")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/war_elephant_AI.png")
+				.WithHealth(8)
+				.WithMove(2)
+				.WithAttack(3)
+				.WithTraits(
+					new DestroyAdjacentSingleHexObstacleAfterAttackTrait(),
+					new AOEAttackTrait(new AOEPattern(
+					[
+						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
+						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+					])),
+					new MountTrait()
+				)
 				.Build()
 			),
 		];

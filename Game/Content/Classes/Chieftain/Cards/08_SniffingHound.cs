@@ -12,18 +12,12 @@ public class SniffingHound : ChieftainCardModel<SniffingHound.CardTop, SniffingH
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 4,
-					Move = 3,
-					Attack = 1,
-					Traits =
-					[
-						new TrapDisarmTrait(1)
-					]
-				})
 				.WithName("Scout Dog")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/scout_dog_AI.png")
+				.WithHealth(4)
+				.WithMove(3)
+				.WithAttack(1)
+				.WithTraits(new TrapDisarmTrait(1))
 				.Build()
 			),
 		];

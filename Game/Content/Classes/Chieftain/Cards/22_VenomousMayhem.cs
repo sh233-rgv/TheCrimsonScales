@@ -12,19 +12,15 @@ public class VenomousMayhem : ChieftainCardModel<VenomousMayhem.CardTop, Venomou
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 5,
-					Move = 4,
-					Attack = 1,
-					Traits =
-					[
-						new ApplyConditionTrait(Conditions.Poison1),
-						new ApplyConditionTrait(Conditions.Immobilize)
-					]
-				})
 				.WithName("Cottonmouth Snake")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/cottonmouth_snake_AI.png")
+				.WithHealth(5)
+				.WithMove(4)
+				.WithAttack(1)
+				.WithTraits(
+					new ApplyConditionTrait(Conditions.Poison1),
+					new ApplyConditionTrait(Conditions.Immobilize)
+				)
 				.Build()
 			),
 		];

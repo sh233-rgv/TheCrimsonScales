@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 using GTweens.Easings;
@@ -11,6 +12,13 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 {
 	public class State : ActiveAbilityState
 	{
+		public string Name { get; set; }
+		public int Health { get; set; }
+		public int? Move { get; set; }
+		public int? Attack { get; set; }
+		public int? Range { get; set; }
+		public List<FigureTrait> Traits { get; set; }
+
 		public Summon Summon { get; private set; }
 
 		public void SetSummon(Summon summon)
@@ -19,11 +27,16 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 		}
 	}
 
-	private SummonStats _summonStats;
-	public string Name { get; private set; }
 	private string _texturePath;
 	private string _mapIconTexturePath;
 	private Action<State, List<Hex>> _getValidHexes;
+
+	public string Name { get; private set; }
+	public int Health { get; private set; }
+	public int? Move { get; private set; }
+	public int? Attack { get; private set; }
+	public int? Range { get; private set; }
+	public FigureTrait[] Traits { get; private set; }
 
 	/// <summary>
 	/// A builder extending <see cref="ActiveAbility{T}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods
@@ -32,17 +45,12 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 	/// <typeparam name="TBuilder"></typeparam> Any builder extending this AbstractBuilder.
 	/// <typeparam name="TAbility"></typeparam> Any ability extending SummonAbility.
 	public new class AbstractBuilder<TBuilder, TAbility> : ActiveAbility<State>.AbstractBuilder<TBuilder, TAbility>,
-		AbstractBuilder<TBuilder, TAbility>.ISummonStatsStep,
 		AbstractBuilder<TBuilder, TAbility>.INameStep,
-		AbstractBuilder<TBuilder, TAbility>.ITexturePathStep
+		AbstractBuilder<TBuilder, TAbility>.ITexturePathStep,
+		AbstractBuilder<TBuilder, TAbility>.IHealthStep
 		where TBuilder : AbstractBuilder<TBuilder, TAbility>
 		where TAbility : SummonAbility, new()
 	{
-		public interface ISummonStatsStep
-		{
-			INameStep WithSummonStats(SummonStats summonStats);
-		}
-
 		public interface INameStep
 		{
 			ITexturePathStep WithName(string name);
@@ -50,13 +58,12 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 
 		public interface ITexturePathStep
 		{
-			TBuilder WithTexturePath(string texturePath);
+			IHealthStep WithTexturePath(string texturePath);
 		}
 
-		public INameStep WithSummonStats(SummonStats summonStats)
+		public interface IHealthStep
 		{
-			Obj._summonStats = summonStats;
-			return (TBuilder)this;
+			TBuilder WithHealth(int health);
 		}
 
 		public ITexturePathStep WithName(string name)
@@ -65,10 +72,40 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithTexturePath(string texturePath)
+		public IHealthStep WithTexturePath(string texturePath)
 		{
 			Obj._texturePath = texturePath;
 			Obj._mapIconTexturePath = $"{texturePath.GetBaseName()}MapIcon.tres";
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithHealth(int health)
+		{
+			Obj.Health = health;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithMove(int move)
+		{
+			Obj.Move = move;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithAttack(int attack)
+		{
+			Obj.Attack = attack;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithRange(int range)
+		{
+			Obj.Range = range;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithTraits(params FigureTrait[] traits)
+		{
+			Obj.Traits = traits;
 			return (TBuilder)this;
 		}
 
@@ -93,12 +130,24 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 	/// A convenience method that returns an instance of SummonBuilder.
 	/// </summary>
 	/// <returns></returns>
-	public static SummonBuilder.ISummonStatsStep Builder()
+	public static SummonBuilder.INameStep Builder()
 	{
 		return new SummonBuilder();
 	}
 
 	public SummonAbility() { }
+
+	protected override void InitializeState(State abilityState)
+	{
+		base.InitializeState(abilityState);
+
+		abilityState.Name = Name;
+		abilityState.Health = Health;
+		abilityState.Move = Move;
+		abilityState.Attack = Attack;
+		abilityState.Range = Range;
+		abilityState.Traits = Traits.ToList();
+	}
 
 	protected override async GDTask Perform(State abilityState)
 	{
@@ -127,19 +176,28 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 
 		if(targetedHex != null)
 		{
+			SummonStats summonStats = new SummonStats
+			{
+				Health = abilityState.Health,
+				Move = abilityState.Move,
+				Attack = abilityState.Attack,
+				Range = abilityState.Range,
+				Traits = abilityState.Traits.ToArray()
+			};
+
 			PackedScene summonScene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Summon.tscn");
 			Summon summon = summonScene.Instantiate<Summon>();
 			GameController.Instance.Map.AddChild(summon);
 			await summon.Init(targetedHex);
-			await summon.Spawn(_summonStats, (Character)abilityState.Performer, Name, _texturePath, _mapIconTexturePath);
+			await summon.Spawn(summonStats, (Character)abilityState.Performer, abilityState.Name, _texturePath, _mapIconTexturePath);
 			abilityState.SetSummon(summon);
 
 			summon.Scale = Vector2.Zero;
 			await summon.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardableAsync();
 
 			ScenarioEvents.FigureKilledEvent.Subscribe(abilityState, this,
-				canApplyParameters => canApplyParameters.Figure == summon,
-				async applyParameters =>
+				parameters => parameters.Figure == summon,
+				async parameters =>
 				{
 					await abilityState.ActionState.RequestDiscardOrLose();
 				});

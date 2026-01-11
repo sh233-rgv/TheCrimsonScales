@@ -13,50 +13,42 @@ public class ImperviousArmor : ChieftainCardModel<ImperviousArmor.CardTop, Imper
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 7,
-					Move = 2,
-					Attack = 2,
-					Traits =
-					[
-						new ShieldTrait(1),
-						new PierceTrait(3),
-						new MountTrait(
-							async (owner, mount) =>
-							{
-								ScenarioCheckEvents.ShieldCheckEvent.Subscribe(owner, this,
-									parameters => parameters.Figure == owner,
-									parameters =>
-									{
-										parameters.AdjustShield(1);
-									}
-								);
-
-								ScenarioEvents.SufferDamageEvent.Subscribe(owner, this,
-									parameters => parameters.Figure == owner && parameters.FromAttack,
-									async parameters =>
-									{
-										parameters.AdjustShield(1);
-
-										await GDTask.CompletedTask;
-									}
-								);
-
-								await GDTask.CompletedTask;
-							},
-							async (owner, mount) =>
-							{
-								ScenarioCheckEvents.ShieldCheckEvent.Unsubscribe(owner, this);
-								ScenarioEvents.SufferDamageEvent.Unsubscribe(owner, this);
-
-								await GDTask.CompletedTask;
-							}
-						),
-					]
-				})
 				.WithName("Battle Rhinoceros")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/battle_rhinoceros_AI.png")
+				.WithHealth(7)
+				.WithMove(2)
+				.WithAttack(2)
+				.WithTraits(
+					new ShieldTrait(1),
+					new PierceTrait(3),
+					new MountTrait(
+						async (owner, mount) =>
+						{
+							ScenarioCheckEvents.ShieldCheckEvent.Subscribe(owner, this,
+								parameters => parameters.Figure == owner,
+								parameters =>
+								{
+									parameters.AdjustShield(1);
+								}
+							);
+							ScenarioEvents.SufferDamageEvent.Subscribe(owner, this,
+								parameters => parameters.Figure == owner && parameters.FromAttack,
+								async parameters =>
+								{
+									parameters.AdjustShield(1);
+									await GDTask.CompletedTask;
+								}
+							);
+							await GDTask.CompletedTask;
+						},
+						async (owner, mount) =>
+						{
+							ScenarioCheckEvents.ShieldCheckEvent.Unsubscribe(owner, this);
+							ScenarioEvents.SufferDamageEvent.Unsubscribe(owner, this);
+							await GDTask.CompletedTask;
+						}
+					)
+				)
 				.Build()
 			),
 		];

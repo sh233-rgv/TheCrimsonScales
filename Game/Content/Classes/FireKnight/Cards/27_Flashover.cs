@@ -69,16 +69,13 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 		private SummonAbility SummonDrakefiend()
 		{
 			return SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 2,
-					Move = 3,
-					Attack = 2,
-					Range = 2,
-					Traits = [new FlyingTrait(), new InfuseElementAfterAttackTrait(Element.Fire)]
-				})
 				.WithName("Reigniting Drakefiend")
 				.WithTexturePath("res://Content/Classes/FireKnight/Drakefiend.jpg")
+				.WithHealth(2)
+				.WithMove(3)
+				.WithAttack(2)
+				.WithRange(2)
+				.WithTraits(new FlyingTrait(), new InfuseElementAfterAttackTrait(Element.Fire))
 				.Build();
 		}
 	}
