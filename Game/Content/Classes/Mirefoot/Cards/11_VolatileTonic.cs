@@ -13,7 +13,7 @@ public class VolatileTonic : MirefootCardModel<VolatileTonic.CardTop, VolatileTo
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(1)
+				.WithDamage(1, new AttackDiamond(this, new Vector2(0.50222707f, 0.21722253f)))
 				.WithRange(2)
 				.WithAfterTargetConfirmedSubscription(
 					ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
@@ -49,7 +49,7 @@ public class VolatileTonic : MirefootCardModel<VolatileTonic.CardTop, VolatileTo
 						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 					]
-				))
+				), new AOEHexMark(Vector2I.Zero.Add(Direction.East).Add(Direction.NorthEast), this, new Vector2(0.7762197f, 0.69813174f)))
 				.Build())
 		];
 

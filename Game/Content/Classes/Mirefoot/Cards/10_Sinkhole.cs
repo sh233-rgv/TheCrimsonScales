@@ -14,7 +14,7 @@ public class Sinkhole : MirefootCardModel<Sinkhole.CardTop, Sinkhole.CardBottom>
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(1)
+				.WithDamage(1, new AttackDiamond(this, new Vector2(0.30006024f, 0.16804159f)))
 				.WithRange(3)
 				.WithConditions(Conditions.Immobilize)
 				.WithAOEPattern(new AOEPattern([
@@ -67,7 +67,9 @@ public class Sinkhole : MirefootCardModel<Sinkhole.CardTop, Sinkhole.CardBottom>
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62056f, 0.6804326f)))
+				.Build()),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(abilityState =>

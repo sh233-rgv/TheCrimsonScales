@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class BloodThinner : MirefootCardModel<BloodThinner.CardTop, BloodThinner.CardBottom>
 {
@@ -12,7 +13,7 @@ public class BloodThinner : MirefootCardModel<BloodThinner.CardTop, BloodThinner
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(1)
+				.WithDamage(1, new AttackDiamond(this, new Vector2(0.49809915f, 0.2793195f)))
 				.WithConditions(Conditions.Wound2)
 				.Build())
 		];
@@ -26,7 +27,7 @@ public class BloodThinner : MirefootCardModel<BloodThinner.CardTop, BloodThinner
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions([Conditions.Wound1, Conditions.Immobilize])
-				.WithRange(2)
+				.WithRange(2, new RangeSquare(this, new Vector2(0.65683514f, 0.7661615f)))
 				.Build())
 		];
 	}

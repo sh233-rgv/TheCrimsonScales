@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class LashingVines : MirefootCardModel<LashingVines.CardTop, LashingVines.CardBottom>
 {
@@ -11,9 +12,17 @@ public class LashingVines : MirefootCardModel<LashingVines.CardTop, LashingVines
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(AttackAbility.Builder().WithDamage(0).Build()),
-			new AbilityCardAbility(AttackAbility.Builder().WithDamage(0).Build()),
-			new AbilityCardAbility(AttackAbility.Builder().WithDamage(0).Build())
+			new AbilityCardAbility(AttackAbility.Builder()
+				.WithDamage(0, new AttackDiamond(this, new Vector2(0.61555624f, 0.1930237f)))
+				.Build()),
+
+			new AbilityCardAbility(AttackAbility.Builder()
+				.WithDamage(0)
+				.Build()),
+
+			new AbilityCardAbility(AttackAbility.Builder()
+				.WithDamage(0, new AttackDiamond(this, new Vector2(0.61555624f, 0.38992193f)))
+				.Build())
 		];
 	}
 

@@ -51,7 +51,9 @@ public class ThrowingDaggers : MirefootCardModel<ThrowingDaggers.CardTop, Throwi
 				)
 				.Build()),
 
-			new AbilityCardAbility(AttackAbility.Builder().WithDamage(2).Build())
+			new AbilityCardAbility(AttackAbility.Builder()
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.618984f, 0.4140626f)))
+				.Build())
 		];
 
 		public override bool Persistent => true;
@@ -61,9 +63,14 @@ public class ThrowingDaggers : MirefootCardModel<ThrowingDaggers.CardTop, Throwi
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215359f, 0.71759737f)))
+				.Build()),
 
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).WithMoveType(MoveType.Jump).Build())
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(2)
+				.WithMoveType(MoveType.Jump)
+				.Build())
 		];
 	}
 }

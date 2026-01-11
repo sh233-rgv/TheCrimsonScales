@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss.CardBottom>
 {
@@ -13,7 +14,7 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(1)
+				.WithDamage(1, new AttackDiamond(this, new Vector2(0.49752307f, 0.27856937f)))
 				.WithConditions(Conditions.Poison2)
 				.Build())
 		];

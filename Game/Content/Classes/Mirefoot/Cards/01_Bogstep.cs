@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class Bogstep : MirefootCardModel<Bogstep.CardTop, Bogstep.CardBottom>
 {
@@ -13,7 +14,7 @@ public class Bogstep : MirefootCardModel<Bogstep.CardTop, Bogstep.CardBottom>
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.5094827f, 0.24582104f)))
 				.WithConditions(Conditions.Immobilize)
 				.WithDuringAttackSubscription(
 					ScenarioEvents.DuringAttack.Subscription.New(
@@ -73,7 +74,9 @@ public class Bogstep : MirefootCardModel<Bogstep.CardTop, Bogstep.CardBottom>
 				)
 				.Build()),
 
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(6).Build())
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(6, new MoveCircle(this, new Vector2(0.6190325f, 0.79547685f)))
+				.Build())
 		];
 
 		public override int XP => 2;

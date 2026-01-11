@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class PotentMixture : MirefootCardModel<PotentMixture.CardTop, PotentMixture.CardBottom>
 {
@@ -52,7 +53,9 @@ public class PotentMixture : MirefootCardModel<PotentMixture.CardTop, PotentMixt
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6215359f, 0.67549807f)))
+				.Build()),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>

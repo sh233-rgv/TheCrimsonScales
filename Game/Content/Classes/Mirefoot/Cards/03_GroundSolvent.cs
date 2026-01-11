@@ -15,13 +15,13 @@ public class GroundSolvent : MirefootCardModel<GroundSolvent.CardTop, GroundSolv
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Poison1)
-				.WithRange(3)
+				.WithRange(3, new RangeSquare(this, new Vector2(0.47981167f, 0.16940814f)))
 				.WithAOEPattern(new AOEPattern(
 						[
 							new AOEHex(Vector2I.Zero, AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red)
+							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red)
 						]
-					)
+					), new AOEHexMark(Vector2I.Zero.Add(Direction.East), this, new Vector2(0.76916414f, 0.20017323f))
 				)
 				.Build()),
 
@@ -96,7 +96,7 @@ public class GroundSolvent : MirefootCardModel<GroundSolvent.CardTop, GroundSolv
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62063575f, 0.68009883f)))
 				.WithOnAbilityStarted(async state =>
 				{
 					ScenarioCheckEvents.MoveCanStopAtCheckEvent.Subscribe(state.Performer, this,
@@ -118,7 +118,9 @@ public class GroundSolvent : MirefootCardModel<GroundSolvent.CardTop, GroundSolv
 				)
 				.Build()),
 
-			new AbilityCardAbility(AttackAbility.Builder().WithDamage(2).Build())
+			new AbilityCardAbility(AttackAbility.Builder()
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.61965984f, 0.8603736f)))
+				.Build())
 		];
 	}
 }

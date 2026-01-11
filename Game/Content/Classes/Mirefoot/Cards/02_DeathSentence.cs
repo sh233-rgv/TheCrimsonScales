@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class DeathSentence : MirefootCardModel<DeathSentence.CardTop, DeathSentence.CardBottom>
 {
@@ -13,7 +14,7 @@ public class DeathSentence : MirefootCardModel<DeathSentence.CardTop, DeathSente
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.4508403f, 0.27815282f)))
 				.WithConditions([Conditions.Poison3, Conditions.Stun])
 				.Build())
 		];
@@ -27,7 +28,7 @@ public class DeathSentence : MirefootCardModel<DeathSentence.CardTop, DeathSente
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(5)
+				.WithDistance(5, new MoveCircle(this, new Vector2(0.62066f, 0.719864f)))
 				.WithOnAbilityStarted(async state =>
 				{
 					ScenarioEvents.FigureEnteredHexEvent.Subscribe(state, this,
