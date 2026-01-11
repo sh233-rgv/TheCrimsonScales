@@ -25,6 +25,26 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 		{
 			Summon = summon;
 		}
+
+		public void AdjustHealth(int amount)
+		{
+			Health += amount;
+		}
+
+		public void AdjustMove(int amount)
+		{
+			Move += amount;
+		}
+
+		public void AdjustAttack(int amount)
+		{
+			Attack += amount;
+		}
+
+		public void AdjustRange(int amount)
+		{
+			Range += amount;
+		}
 	}
 
 	private string _texturePath;
@@ -63,7 +83,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 
 		public interface IHealthStep
 		{
-			TBuilder WithHealth(int health);
+			TBuilder WithHealth(int health, params SummonHealthSquare[] enhancementMarks);
 		}
 
 		public ITexturePathStep WithName(string name)
@@ -79,27 +99,31 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithHealth(int health)
+		public TBuilder WithHealth(int health, params SummonHealthSquare[] enhancementMarks)
 		{
 			Obj.Health = health;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithMove(int move)
+		public TBuilder WithMove(int move, params SummonMoveSquare[] enhancementMarks)
 		{
 			Obj.Move = move;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithAttack(int attack)
+		public TBuilder WithAttack(int attack, params SummonAttackSquare[] enhancementMarks)
 		{
 			Obj.Attack = attack;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithRange(int range)
+		public TBuilder WithRange(int range, params SummonRangeSquare[] enhancementMarks)
 		{
 			Obj.Range = range;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
