@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
-using System.Linq;
-using System.Numerics;
-using System;
+using Godot;
 
 public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop, CelestialManeuver.CardBottom>
 {
@@ -53,13 +51,22 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 
 	public class CardBottom : StarslingerCardSide
 	{
+		private MoveEnhancementMark _enhancementMark;
+
+		protected override void InitExtraEnhancements()
+		{
+			base.InitExtraEnhancements();
+
+			_enhancementMark = new MoveCircle(this, new Vector2(0.6215359f, 0.76461184f));
+		}
+
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantAbilityState =>
+				.WithAbilities(
 				[
 					MoveAbility.Builder()
-						.WithDistance(3)
+						.WithDistance(3, _enhancementMark)
 						.WithDuringMovementSubscription(
 							ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Dark,
 								applyFunction: async parameters =>
@@ -104,10 +111,10 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 				.Build()),
 
 			new AbilityCardAbility(ControlAbility.Builder()
-				.WithGetAbilities(controlAbilityState =>
+				.WithAbilities(
 				[
 					MoveAbility.Builder()
-						.WithDistance(3)
+						.WithDistance(3, _enhancementMark)
 						.WithDuringMovementSubscription(
 							ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Dark,
 								applyFunction: async parameters =>

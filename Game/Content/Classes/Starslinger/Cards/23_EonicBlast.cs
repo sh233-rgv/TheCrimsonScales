@@ -60,8 +60,8 @@ public class EonicBlast : StarslingerCardModel<EonicBlast.CardTop, EonicBlast.Ca
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
-				.WithRange(4)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.45041645f, 0.73932964f)))
+				.WithRange(4, new RangeSquare(this, new Vector2(0.66156316f, 0.73932964f)))
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(
 						parameters => !parameters.Performer.IsDamaged(),

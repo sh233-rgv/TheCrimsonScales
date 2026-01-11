@@ -14,7 +14,7 @@ public class ShiftingChasma : StarslingerCardModel<ShiftingChasma.CardTop, Shift
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.44563636f, 0.17640786f)))
 				.WithAOEPattern(new AOEPattern(
 				[
 					new AOEHex(Vector2I.Zero, AOEHexType.Gray),

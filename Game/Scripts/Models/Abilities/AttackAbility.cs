@@ -142,9 +142,10 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithPierce(DynamicInt<State> pierce)
+		public TBuilder WithPierce(DynamicInt<State> pierce, params PierceSquare[] enhancementMarks)
 		{
 			Obj.Pierce = pierce;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 

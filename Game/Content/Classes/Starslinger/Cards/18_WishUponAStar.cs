@@ -17,7 +17,7 @@ public class WishUponAStar : StarslingerCardModel<WishUponAStar.CardTop, WishUpo
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
 				.WithTargets(2)
-				.WithRange(3)
+				.WithRange(3, new RangeSquare(this, new Vector2(0.65633506f, 0.22123894f)))
 				.Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Bless)
@@ -35,7 +35,10 @@ public class WishUponAStar : StarslingerCardModel<WishUponAStar.CardTop, WishUpo
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(2, new MoveSquare(this, new Vector2(0.62058425f, 0.6637168f)))
+				.Build()),
+
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
