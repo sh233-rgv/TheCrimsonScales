@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class SpikedKnuckles : ChainguardCardModel<SpikedKnuckles.CardTop, SpikedKnuckles.CardBottom>
 {
@@ -13,7 +14,7 @@ public class SpikedKnuckles : ChainguardCardModel<SpikedKnuckles.CardTop, Spiked
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.51325023f, 0.24095783f)))
 				.WithConditions(Conditions.Wound1)
 				.WithAfterTargetConfirmedSubscription(
 					ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
@@ -35,7 +36,7 @@ public class SpikedKnuckles : ChainguardCardModel<SpikedKnuckles.CardTop, Spiked
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62026906f, 0.7068813f)))
 				.Build()),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()

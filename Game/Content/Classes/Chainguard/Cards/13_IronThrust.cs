@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class IronThrust : ChainguardLevelUpCardModel<IronThrust.CardTop, IronThrust.CardBottom>
 {
@@ -14,7 +15,7 @@ public class IronThrust : ChainguardLevelUpCardModel<IronThrust.CardTop, IronThr
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.49266696f, 0.13226007f)))
 				.WithPush(3)
 				.WithOnAbilityStarted(async state =>
 				{
@@ -74,7 +75,10 @@ public class IronThrust : ChainguardLevelUpCardModel<IronThrust.CardTop, IronThr
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).WithMoveType(MoveType.Jump).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.5129702f, 0.743746f)))
+				.WithMoveType(MoveType.Jump)
+				.Build()),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Chainguard.Shackle)

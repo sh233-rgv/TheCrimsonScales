@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class DragThroughDirt : ChainguardCardModel<DragThroughDirt.CardTop, DragThroughDirt.CardBottom>
 {
@@ -25,7 +26,7 @@ public class DragThroughDirt : ChainguardCardModel<DragThroughDirt.CardTop, Drag
 				.Build()
 			),
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.6216293f, 0.37818104f)))
 				.Build())
 		];
 	}

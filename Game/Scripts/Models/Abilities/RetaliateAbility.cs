@@ -51,10 +51,10 @@ public class RetaliateAbility : ActiveAbility<RetaliateAbility.State>
 
 		public interface IRetaliateValueStep
 		{
-			TBuilder WithRetaliateValue(int retaliateValue, params ShieldEnhancementMark[] enhancementMarks);
+			TBuilder WithRetaliateValue(int retaliateValue, params RetaliateEnhancementMark[] enhancementMarks);
 		}
 
-		public TBuilder WithRetaliateValue(int retaliateValue, params ShieldEnhancementMark[] enhancementMarks)
+		public TBuilder WithRetaliateValue(int retaliateValue, params RetaliateEnhancementMark[] enhancementMarks)
 		{
 			Obj.RetaliateValue = retaliateValue;
 			AddEnhancements(enhancementMarks);

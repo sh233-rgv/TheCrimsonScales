@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class RoundhouseSwing : ChainguardCardModel<RoundhouseSwing.CardTop, RoundhouseSwing.CardBottom>
 {
@@ -79,7 +80,7 @@ public class RoundhouseSwing : ChainguardCardModel<RoundhouseSwing.CardTop, Roun
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.61970896f, 0.70699817f)))
 				.Build()),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()

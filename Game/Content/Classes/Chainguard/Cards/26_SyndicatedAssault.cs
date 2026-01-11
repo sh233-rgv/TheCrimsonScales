@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class SyndicatedAssault : ChainguardLevelUpCardModel<SyndicatedAssault.CardTop, SyndicatedAssault.CardBottom>
 {
@@ -69,7 +70,7 @@ public class SyndicatedAssault : ChainguardLevelUpCardModel<SyndicatedAssault.Ca
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.61960894f, 0.7226138f)))
 				.Build()),
 
 			new AbilityCardAbility(AttackAbility.Builder()

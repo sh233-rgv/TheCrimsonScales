@@ -71,7 +71,7 @@ public class Chokehold : ChainguardCardModel<Chokehold.CardTop, Chokehold.CardBo
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.619809f, 0.7069813f)))
 				.Build()),
 
 			new AbilityCardAbility(OtherAbility.Builder()

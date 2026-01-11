@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class LockingLinks : ChainguardCardModel<LockingLinks.CardTop, LockingLinks.CardBottom>
 {
@@ -14,7 +15,7 @@ public class LockingLinks : ChainguardCardModel<LockingLinks.CardTop, LockingLin
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.5131502f, 0.1789577f)))
 				.WithConditions(Chainguard.Shackle)
 				.Build()
 			),

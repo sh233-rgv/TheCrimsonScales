@@ -44,7 +44,7 @@ public class VigorousSway : ChainguardCardModel<VigorousSway.CardTop, VigorousSw
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62082916f, 0.6348184f)))
 				.Build()),
 
 			new AbilityCardAbility(ConditionAbility.Builder()

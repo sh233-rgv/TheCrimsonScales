@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, PivotAndSmash.CardBottom>
 {
@@ -37,7 +38,7 @@ public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, P
 				.Build()),
 
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(5)
+				.WithDamage(5, new AttackDiamond(this, new Vector2(0.3839874f, 0.41022947f)))
 				.WithCustomGetTargets((state, figures) =>
 				{
 					SwingAbility.State swingState = state.ActionState.GetAbilityState<SwingAbility.State>(0);
@@ -54,7 +55,10 @@ public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, P
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).WithMoveType(MoveType.Jump).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.51195f, 0.69133186f)))
+				.WithMoveType(MoveType.Jump)
+				.Build()),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Chainguard.Shackle)

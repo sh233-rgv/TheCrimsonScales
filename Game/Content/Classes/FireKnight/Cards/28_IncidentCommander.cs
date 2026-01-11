@@ -110,7 +110,8 @@ public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.Ca
 									ScenarioEvents.DuringAttackEvent.Unsubscribe(target, this);
 
 									await GDTask.CompletedTask;
-								});
+								}
+							);
 						}
 
 						bool movePerformedYet = target.RoundPerformedActionStates

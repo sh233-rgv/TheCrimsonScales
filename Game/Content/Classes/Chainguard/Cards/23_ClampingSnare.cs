@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class ClampingSnare : ChainguardLevelUpCardModel<ClampingSnare.CardTop, ClampingSnare.CardBottom>
 {
@@ -60,7 +61,10 @@ public class ClampingSnare : ChainguardLevelUpCardModel<ClampingSnare.CardTop, C
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.620109f, 0.66905016f)))
+				.Build()),
+
 			new AbilityCardAbility(ShieldAbility.Builder()
 				.WithShieldValue(3)
 				.WithCustomCanApply(parameters =>

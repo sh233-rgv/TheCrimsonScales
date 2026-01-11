@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class TightenTheChains : ChainguardLevelUpCardModel<TightenTheChains.CardTop, TightenTheChains.CardBottom>
 {
@@ -14,7 +15,7 @@ public class TightenTheChains : ChainguardLevelUpCardModel<TightenTheChains.Card
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.6220894f, 0.13805978f)))
 				.WithAfterTargetConfirmedSubscription(
 					ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
 						parameters => parameters.AbilityState.Target.HasCondition(Chainguard.Shackle),
@@ -29,7 +30,7 @@ public class TightenTheChains : ChainguardLevelUpCardModel<TightenTheChains.Card
 				.Build()),
 
 			new AbilityCardAbility(RetaliateAbility.Builder()
-				.WithRetaliateValue(1)
+				.WithRetaliateValue(1, new RetaliateSquare(this, new Vector2(0.61210763f, 0.34669936f)))
 				.WithCustomCanApply(parameters => parameters.AbilityState.Performer.HasCondition(Chainguard.Shackle))
 				.Build()),
 		];

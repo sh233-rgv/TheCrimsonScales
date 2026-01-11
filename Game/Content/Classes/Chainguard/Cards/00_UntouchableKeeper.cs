@@ -20,18 +20,20 @@ public class UntouchableKeeper : ChainguardCardModel<UntouchableKeeper.CardTop, 
 				.WithOnActivate(async state =>
 					{
 						ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(state, this,
-							canApplyParameters => canApplyParameters.PotentialTarget == state.Performer &&
-							                      canApplyParameters.Performer.EnemiesWith(state.Performer) &&
-							                      canApplyParameters.Performer.HasCondition(Chainguard.Shackle),
+							canApplyParameters =>
+								canApplyParameters.PotentialTarget == state.Performer &&
+								canApplyParameters.Performer.EnemiesWith(state.Performer) &&
+								canApplyParameters.Performer.HasCondition(Chainguard.Shackle),
 							applyParameters =>
 							{
 								applyParameters.SetCannotBeFocused();
 							});
 
 						ScenarioCheckEvents.CanBeTargetedCheckEvent.Subscribe(state, this,
-							canApplyParameters => canApplyParameters.PotentialTarget == state.Performer &&
-							                      canApplyParameters.Performer.EnemiesWith(state.Performer) &&
-							                      canApplyParameters.Performer.HasCondition(Chainguard.Shackle),
+							canApplyParameters =>
+								canApplyParameters.PotentialTarget == state.Performer &&
+								canApplyParameters.Performer.EnemiesWith(state.Performer) &&
+								canApplyParameters.Performer.HasCondition(Chainguard.Shackle),
 							applyParameters =>
 							{
 								applyParameters.SetCannotBeTargeted();

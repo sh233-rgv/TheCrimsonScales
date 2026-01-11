@@ -14,11 +14,11 @@ public class DoubleKO : ChainguardLevelUpCardModel<DoubleKO.CardTop, DoubleKO.Ca
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.6220894f, 0.19567354f)))
 				.Build()),
 
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.6220894f, 0.38967186f)))
 				.WithConditionalAbilityCheck(async state =>
 				{
 					bool killedAnEnemy = state.ActionState.GetAbilityState<AttackAbility.State>(0).KilledTargets.Count > 0;

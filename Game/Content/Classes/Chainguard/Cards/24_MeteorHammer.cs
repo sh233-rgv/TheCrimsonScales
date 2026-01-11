@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class MeteorHammer : ChainguardLevelUpCardModel<MeteorHammer.CardTop, MeteorHammer.CardBottom>
 {
@@ -13,7 +14,7 @@ public class MeteorHammer : ChainguardLevelUpCardModel<MeteorHammer.CardTop, Met
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(5)
+				.WithDamage(5, new AttackDiamond(this, new Vector2(0.6216293f, 0.23962134f)))
 				.WithAfterTargetConfirmedSubscription(
 					ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
 						parameters => parameters.AbilityState.Target.HasCondition(Chainguard.Shackle),
@@ -33,7 +34,9 @@ public class MeteorHammer : ChainguardLevelUpCardModel<MeteorHammer.CardTop, Met
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.620109f, 0.6659502f)))
+				.Build()),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>

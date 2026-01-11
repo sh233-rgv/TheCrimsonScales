@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class SufferingSteel : ChainguardLevelUpCardModel<SufferingSteel.CardTop, SufferingSteel.CardBottom>
 {
@@ -12,7 +13,10 @@ public class SufferingSteel : ChainguardLevelUpCardModel<SufferingSteel.CardTop,
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(4).Build()),
+			new AbilityCardAbility(RetaliateAbility.Builder()
+				.WithRetaliateValue(4, new RetaliateDiamondPlus(this, new Vector2(0.61210763f, 0.20048997f)))
+				.Build()),
+
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -48,8 +52,13 @@ public class SufferingSteel : ChainguardLevelUpCardModel<SufferingSteel.CardTop,
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
-			new AbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62026906f, 0.7225138f)))
+				.Build()),
+
+			new AbilityCardAbility(RetaliateAbility.Builder()
+				.WithRetaliateValue(2, new RetaliateDiamondPlus(this, new Vector2(0.6131678f, 0.83107513f)))
+				.Build()),
 		];
 
 		public override bool Round => true;

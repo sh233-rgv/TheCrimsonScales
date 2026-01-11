@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTop, UnendingTorment.CardBottom>
 {
@@ -56,19 +57,29 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 
 	public class CardBottom : ChainguardCardSide
 	{
+		private MoveEnhancementMark _enhancementMark;
+
+		protected override void InitExtraEnhancements()
+		{
+			base.InitExtraEnhancements();
+
+			_enhancementMark = new MoveCircle(this, new Vector2(0.6215662f, 0.82212216f));
+		}
+
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ControlAbility.Builder()
 				.WithGetAbilities(state =>
 					[
 						MoveAbility.Builder()
-							.WithDistance(3)
+							.WithDistance(3, _enhancementMark)
 							.WithOnAbilityStarted(async moveState =>
 							{
 								ScenarioEvents.CanMoveFurtherCheckEvent.Subscribe(moveState, this,
-									parameters => parameters.Performer == state.Target &&
-									              moveState.Performer == parameters.Performer &&
-									              parameters.Performer.HasCondition(Chainguard.Shackle),
+									parameters =>
+										parameters.Performer == state.Target &&
+										moveState.Performer == parameters.Performer &&
+										parameters.Performer.HasCondition(Chainguard.Shackle),
 									async parameters =>
 									{
 										parameters.SetCannotMoveFurther(false);
@@ -83,8 +94,10 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 							})
 							.WithAbilityStartedSubscription(
 								ScenarioEvents.AbilityStarted.Subscription.New(
-									parameters => parameters.Performer == state.Target && parameters.AbilityState is MoveAbility.State &&
-									              parameters.Performer.HasCondition(Chainguard.Shackle),
+									parameters =>
+										parameters.Performer == state.Target &&
+										parameters.AbilityState is MoveAbility.State &&
+										parameters.Performer.HasCondition(Chainguard.Shackle),
 									parameters =>
 									{
 										parameters.SetIsBlocked(false);
