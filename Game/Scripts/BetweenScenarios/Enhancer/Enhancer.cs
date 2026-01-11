@@ -190,37 +190,65 @@ public partial class Enhancer : BetweenScenariosAction
 
 	private int GetCost(SavedAbilityCard savedAbilityCard, EnhancementMark mark, EnhancementModel model)
 	{
+		Dictionary<int, SavedEnhancement> savedEnhancements =
+			savedAbilityCard.GetEnhancements(mark.AbilityCardSideModel.AbilityCardSideType == AbilityCardSideType.Top);
+
 		int cost = model.BaseCost;
 
-		//TODO: Check multi-target
-		// if(mark.Ability is TargetedAbility<> targetedAbility)
-		// if(multitarget)
-		// {
-		// 	cost *= 2;
-		// }
+		EnhancementCostType enhancementCostType = mark.EnhancementCostType;
 
-		// Persistent or Loss without persistent
-		if(mark.AbilityCardSideModel.Persistent)
+		if(mark.EnhancementCostType.HasFlag(EnhancementCostType.AutoDetect))
+		{
+			if(mark.Abilities.FirstOrDefault(ability => ability is ITargetedAbility) is ITargetedAbility targetedAbility)
+			{
+				if(model == ModelDB.Enhancement<RedHexEnhancement>())
+				{
+					cost /=
+						targetedAbility.AOEPattern.Hexes.Count(hex => hex.Type == AOEHexType.Red) +
+						savedEnhancements.Count(enhancement => enhancement.Value.Model == ModelDB.Enhancement<RedHexEnhancement>());
+				}
+				else
+				{
+					if(targetedAbility.IsMultiTarget)
+					{
+						enhancementCostType |= EnhancementCostType.MultiTarget;
+					}
+				}
+			}
+
+			if(mark.AbilityCardSideModel.Persistent)
+			{
+				if(model.DefaultTripleCostOnPersistent)
+				{
+					enhancementCostType |= EnhancementCostType.Persistent;
+				}
+			}
+			else if(mark.AbilityCardSideModel.Loss)
+			{
+				enhancementCostType |= EnhancementCostType.LossNoPersistent;
+			}
+		}
+
+		if(enhancementCostType.HasFlag(EnhancementCostType.MultiTarget))
+		{
+			cost *= 2;
+		}
+
+		if(enhancementCostType.HasFlag(EnhancementCostType.Persistent))
 		{
 			cost *= 3;
 		}
-		else if(mark.AbilityCardSideModel.Loss)
+
+		if(enhancementCostType.HasFlag(EnhancementCostType.LossNoPersistent))
 		{
 			cost = Mathf.CeilToInt(cost * 0.5f);
 		}
 
-		// Custom price multiplier
-		cost = Mathf.CeilToInt(cost * mark.PriceMultiplier);
-
-		// Previous enhancements
-		Dictionary<int, SavedEnhancement> savedEnhancements = mark.AbilityCardSideModel.AbilityCardSideType == AbilityCardSideType.Top
-			? savedAbilityCard.SavedTopEnhancements
-			: savedAbilityCard.SavedBottomEnhancements;
-		int currentEnhancementCount = savedEnhancements.Count;
-		cost += currentEnhancementCount * 75;
-
 		// Level
 		cost += (savedAbilityCard.Model.Level - 1) * 25;
+
+		// Previous enhancements
+		cost += savedEnhancements.Count * 75;
 
 		return cost;
 	}

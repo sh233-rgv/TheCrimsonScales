@@ -6,8 +6,9 @@ public class AOEHexMark : EnhancementMark
 
 	public override EnhancementModel[] PossibleEnhancements { get; } = [ModelDB.Enhancement<RedHexEnhancement>()];
 
-	public AOEHexMark(Vector2I localCoords, AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition, float priceMultiplier = 1)
-		: base(abilityCardSideModel, normalizedPosition, priceMultiplier)
+	public AOEHexMark(Vector2I localCoords, AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition,
+		EnhancementCostType enhancementCostType = EnhancementCostType.AutoDetect)
+		: base(abilityCardSideModel, normalizedPosition, enhancementCostType)
 	{
 		LocalCoords = localCoords;
 	}

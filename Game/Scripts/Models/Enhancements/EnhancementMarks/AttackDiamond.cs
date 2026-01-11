@@ -9,8 +9,9 @@ public class AttackDiamond : AttackEnhancementMark
 			.Concat(Enhancements.Elements)
 			.ToArray();
 
-	public AttackDiamond(AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition, float priceMultiplier = 1f)
-		: base(abilityCardSideModel, normalizedPosition, priceMultiplier)
+	public AttackDiamond(AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition,
+		EnhancementCostType enhancementCostType = EnhancementCostType.AutoDetect)
+		: base(abilityCardSideModel, normalizedPosition, enhancementCostType)
 	{
 	}
 }

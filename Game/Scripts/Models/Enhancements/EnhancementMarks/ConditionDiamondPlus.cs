@@ -8,8 +8,9 @@ public class ConditionDiamondPlus : ConditionEnhancementMark
 			.Concat(Enhancements.Elements)
 			.ToArray();
 
-	public ConditionDiamondPlus(AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition, float priceMultiplier = 1f)
-		: base(abilityCardSideModel, normalizedPosition, priceMultiplier)
+	public ConditionDiamondPlus(AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition,
+		EnhancementCostType enhancementCostType = EnhancementCostType.AutoDetect)
+		: base(abilityCardSideModel, normalizedPosition, enhancementCostType)
 	{
 	}
 }

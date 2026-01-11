@@ -123,7 +123,7 @@ public abstract class Ability<T> : Ability
 
 		private void AddEnhancement(EnhancementMark enhancementMark)
 		{
-			//enhancementMark.SetAbility(Obj);
+			enhancementMark.SetAbility(Obj);
 			Obj.EnhancementMarks.Add(enhancementMark);
 		}
 	}

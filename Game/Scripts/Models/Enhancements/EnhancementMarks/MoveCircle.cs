@@ -9,8 +9,9 @@ public class MoveCircle : MoveEnhancementMark
 			.Prepend(ModelDB.Enhancement<PlusOneMoveEnhancement>())
 			.ToArray();
 
-	public MoveCircle(AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition, float priceMultiplier = 1f)
-		: base(abilityCardSideModel, normalizedPosition, priceMultiplier)
+	public MoveCircle(AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition,
+		EnhancementCostType enhancementCostType = EnhancementCostType.AutoDetect)
+		: base(abilityCardSideModel, normalizedPosition, enhancementCostType)
 	{
 	}
 }

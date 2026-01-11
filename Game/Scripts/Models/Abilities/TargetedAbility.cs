@@ -242,7 +242,7 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 /// <summary>
 /// An <see cref="Ability{T}"/> that is considered a targeted ability as per the rules; that targets figures with given restrictions.
 /// </summary>
-public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
+public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITargetedAbility
 	where T : TargetedAbilityState<TSingleTargetState>, new()
 	where TSingleTargetState : SingleTargetState, new()
 {
@@ -266,6 +266,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 	public Action<T, List<Figure>> CustomGetTargets { get; private set; }
 	public Func<T, Figure, bool> FilterTargets { get; private set; }
+
+	public bool IsMultiTarget => Targets > 1 || (AOEPattern != null && AOEPattern.Hexes.Count(hex => hex.Type == AOEHexType.Red) > 1);
 
 	/// <summary>
 	/// A builder extending <see cref="Ability{T}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods

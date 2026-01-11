@@ -8,8 +8,9 @@ public class HealCircle : HealEnhancementMark
 			.Prepend(ModelDB.Enhancement<PlusOneHealEnhancement>())
 			.ToArray();
 
-	public HealCircle(AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition, float priceMultiplier = 1f)
-		: base(abilityCardSideModel, normalizedPosition, priceMultiplier)
+	public HealCircle(AbilityCardSideModel abilityCardSideModel, Vector2 normalizedPosition,
+		EnhancementCostType enhancementCostType = EnhancementCostType.AutoDetect)
+		: base(abilityCardSideModel, normalizedPosition, enhancementCostType)
 	{
 	}
 }

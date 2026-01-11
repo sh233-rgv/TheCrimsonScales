@@ -15,7 +15,7 @@ public class Supernova : StarslingerCardModel<Supernova.CardTop, Supernova.CardB
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
-				.WithRange(3, new RangeSquare(this, new Vector2(0.61888397f, 0.2104228f), 2))
+				.WithRange(3, new RangeSquare(this, new Vector2(0.61888397f, 0.2104228f), EnhancementCostType.MultiTarget))
 				.WithDuringAttackSubscription(
 					ScenarioEvents.DuringAttack.Subscription.New(
 						parameters => !parameters.Performer.IsDamaged(),

@@ -2,19 +2,19 @@
 {
 	public static EnhancementModel[] NegativeConditions { get; } =
 	[
+		ModelDB.Enhancement<MuddleEnhancement>(),
 		ModelDB.Enhancement<PoisonEnhancement>(),
 		ModelDB.Enhancement<WoundEnhancement>(),
-		ModelDB.Enhancement<MuddleEnhancement>(),
 		ModelDB.Enhancement<ImmobilizeEnhancement>(),
 		ModelDB.Enhancement<CurseEnhancement>()
 	];
 
 	public static EnhancementModel[] PositiveConditions { get; } =
 	[
-		ModelDB.Enhancement<BlessEnhancement>(),
 		ModelDB.Enhancement<RegenerateEnhancement>(),
-		ModelDB.Enhancement<StrengthenEnhancement>(),
 		ModelDB.Enhancement<WardEnhancement>(),
+		ModelDB.Enhancement<BlessEnhancement>(),
+		ModelDB.Enhancement<StrengthenEnhancement>(),
 	];
 
 	public static EnhancementModel[] Elements { get; } =
