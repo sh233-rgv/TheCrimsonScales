@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class VenomousMayhem : ChieftainCardModel<VenomousMayhem.CardTop, VenomousMayhem.CardBottom>
 {
@@ -14,9 +15,9 @@ public class VenomousMayhem : ChieftainCardModel<VenomousMayhem.CardTop, Venomou
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithName("Cottonmouth Snake")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/cottonmouth_snake_AI.png")
-				.WithHealth(5)
-				.WithMove(4)
-				.WithAttack(1)
+				.WithHealth(5, new SummonHealthSquare(this, new Vector2(0.4466124f, 0.24022135f)))
+				.WithMove(4, new SummonMoveSquare(this, new Vector2(0.6772746f, 0.24022135f)))
+				.WithAttack(1, new SummonAttackSquare(this, new Vector2(0.4466124f, 0.31622052f)))
 				.WithTraits(
 					new ApplyConditionTrait(Conditions.Poison1),
 					new ApplyConditionTrait(Conditions.Immobilize)

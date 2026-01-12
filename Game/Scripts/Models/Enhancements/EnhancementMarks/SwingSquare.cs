@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-public class SwingSquare : EnhancementMark
+public class SwingSquare : SwingEnhancementMark
 {
 	public override EnhancementModel[] PossibleEnhancements { get; } = [ModelDB.Enhancement<PlusOneSwingEnhancement>()];
 

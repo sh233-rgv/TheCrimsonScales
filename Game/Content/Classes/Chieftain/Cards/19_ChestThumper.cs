@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class ChestThumper : ChieftainCardModel<ChestThumper.CardTop, ChestThumper.CardBottom>
 {
@@ -14,9 +15,9 @@ public class ChestThumper : ChieftainCardModel<ChestThumper.CardTop, ChestThumpe
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithName("Lowland Gorilla")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/lowland_gorilla_AI.png")
-				.WithHealth(7)
-				.WithMove(3)
-				.WithAttack(2)
+				.WithHealth(7, new SummonHealthSquare(this, new Vector2(0.4473646f, 0.18335739f)))
+				.WithMove(3, new SummonMoveSquare(this, new Vector2(0.67825043f, 0.18335739f)))
+				.WithAttack(2, new SummonAttackSquare(this, new Vector2(0.4473646f, 0.25967413f)))
 				.WithTraits(
 					new JumpTrait(),
 					new HealOnKillTrait(2),
@@ -39,7 +40,7 @@ public class ChestThumper : ChieftainCardModel<ChestThumper.CardTop, ChestThumpe
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)
 				.WithTarget(Target.Allies | Target.TargetAll)
-				.WithRange(2)
+				.WithRange(2, new RangeSquare(this, new Vector2(0.7236573f, 0.7644118f)))
 				.Build()
 			),
 		];

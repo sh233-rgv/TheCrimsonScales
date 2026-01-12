@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class CeremonialDance : ChieftainCardModel<CeremonialDance.CardTop, CeremonialDance.CardBottom>
 {
@@ -13,7 +14,7 @@ public class CeremonialDance : ChieftainCardModel<CeremonialDance.CardTop, Cerem
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
-				.WithTargets(3)
+				.WithTargets(3, new TargetsSquare(this, new Vector2(0.55794144f, 0.27738613f)))
 				.WithConditions(Conditions.Muddle)
 				.Build())
 		];

@@ -60,9 +60,12 @@ public class SpikedMuzzle : ChieftainCardModel<SpikedMuzzle.CardTop, SpikedMuzzl
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62123585f, 0.695882f)))
+				.Build()),
+
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(grantState =>
+				.WithAbilities(
 				[
 					MoveAbility.Builder()
 						.WithDistance(1)

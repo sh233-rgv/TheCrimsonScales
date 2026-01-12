@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class SkinningKnife : ChieftainCardModel<SkinningKnife.CardTop, SkinningKnife.CardBottom>
 {
@@ -12,7 +13,7 @@ public class SkinningKnife : ChieftainCardModel<SkinningKnife.CardTop, SkinningK
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.619084f, 0.24810435f)))
 				.Build())
 		];
 

@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-public class PushSquare : EnhancementMark
+public class PushSquare : PushEnhancementMark
 {
 	public override EnhancementModel[] PossibleEnhancements { get; } = [ModelDB.Enhancement<PlusOnePushEnhancement>()];
 

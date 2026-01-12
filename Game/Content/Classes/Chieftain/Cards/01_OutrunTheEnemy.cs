@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class OutrunTheEnemy : ChieftainCardModel<OutrunTheEnemy.CardTop, OutrunTheEnemy.CardBottom>
 {
@@ -15,9 +16,9 @@ public class OutrunTheEnemy : ChieftainCardModel<OutrunTheEnemy.CardTop, OutrunT
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithName("Speedy Ostrich")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/speedy_ostrich_AI.png")
-				.WithHealth(4)
-				.WithMove(3)
-				.WithAttack(1)
+				.WithHealth(4, new SummonHealthSquare(this, new Vector2(0.44718847f, 0.19982125f)))
+				.WithMove(3, new SummonMoveSquare(this, new Vector2(0.67835045f, 0.19982125f)))
+				.WithAttack(1, new SummonAttackSquare(this, new Vector2(0.44718847f, 0.27628627f)))
 				.WithTraits(new MountTrait(async (owner, mount) =>
 					{
 						ScenarioEvents.RoundStartedBeforeInitiativesSortedEvent.Subscribe(owner, this,

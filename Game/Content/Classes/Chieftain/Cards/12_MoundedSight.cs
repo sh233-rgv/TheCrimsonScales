@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class MoundedSight : ChieftainCardModel<MoundedSight.CardTop, MoundedSight.CardBottom>
 {
@@ -14,9 +15,9 @@ public class MoundedSight : ChieftainCardModel<MoundedSight.CardTop, MoundedSigh
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithName("Cavalry Camel")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/cavalry_camel_AI.png")
-				.WithHealth(5)
-				.WithMove(2)
-				.WithAttack(1)
+				.WithHealth(5, new SummonHealthSquare(this, new Vector2(0.44601247f, 0.21150608f)))
+				.WithMove(2, new SummonMoveSquare(this, new Vector2(0.67785037f, 0.21150608f)))
+				.WithAttack(1, new SummonAttackSquare(this, new Vector2(0.44601247f, 0.2875057f)))
 				.WithTraits(
 					new IgnoreDifficultTerrainTrait(),
 					new IgnoreHazardousTerrainTrait(),
@@ -35,8 +36,13 @@ public class MoundedSight : ChieftainCardModel<MoundedSight.CardTop, MoundedSigh
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
-			new AbilityCardAbility(PushAbility.Builder().WithPush(2).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62076f, 0.72006404f)))
+				.Build()),
+
+			new AbilityCardAbility(PushAbility.Builder()
+				.WithPush(2, new PushCircle(this, new Vector2(0.51265895f, 0.81719226f)))
+				.Build()),
 		];
 	}
 }

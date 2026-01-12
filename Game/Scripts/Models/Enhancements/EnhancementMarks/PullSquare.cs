@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-public class PullSquare : EnhancementMark
+public class PullSquare : PullEnhancementMark
 {
 	public override EnhancementModel[] PossibleEnhancements { get; } = [ModelDB.Enhancement<PlusOnePullEnhancement>()];
 

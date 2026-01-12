@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.CardBottom>
 {
@@ -16,8 +17,8 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithName("Sabretooth Tiger")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/sabretooth_tiger.png")
-				.WithHealth(8)
-				.WithMove(3)
+				.WithHealth(8, new SummonHealthSquare(this, new Vector2(0.4331527f, 0.18997385f)))
+				.WithMove(3, new SummonMoveSquare(this, new Vector2(0.6306499f, 0.18997385f)))
 				.WithAttack(3)
 				.WithTraits(
 					new AllAttacksGainAdvantageTrait(),

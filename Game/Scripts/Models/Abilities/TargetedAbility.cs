@@ -267,7 +267,10 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 	public Action<T, List<Figure>> CustomGetTargets { get; private set; }
 	public Func<T, Figure, bool> FilterTargets { get; private set; }
 
-	public bool IsMultiTarget => Targets > 1 || (AOEPattern != null && AOEPattern.Hexes.Count(hex => hex.Type == AOEHexType.Red) > 1);
+	public bool IsMultiTarget =>
+		Targets > 1 ||
+		Target.HasFlag(Target.TargetAll) ||
+		(AOEPattern != null && AOEPattern.Hexes.Count(hex => hex.Type == AOEHexType.Red) > 1);
 
 	/// <summary>
 	/// A builder extending <see cref="Ability{T}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods
@@ -343,21 +346,21 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithPush(int push, params PushSquare[] enhancementMarks)
+		public TBuilder WithPush(int push, params PushEnhancementMark[] enhancementMarks)
 		{
 			Obj.Push = push;
 			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithPull(int pull, params PullSquare[] enhancementMarks)
+		public TBuilder WithPull(int pull, params PullEnhancementMark[] enhancementMarks)
 		{
 			Obj.Pull = pull;
 			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithSwing(int swing, params SwingSquare[] enhancementMarks)
+		public TBuilder WithSwing(int swing, params SwingEnhancementMark[] enhancementMarks)
 		{
 			Obj.Swing = swing;
 			AddEnhancements(enhancementMarks);

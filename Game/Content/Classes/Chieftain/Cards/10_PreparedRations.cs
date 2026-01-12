@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class PreparedRations : ChieftainCardModel<PreparedRations.CardTop, PreparedRations.CardBottom>
 {
@@ -15,8 +16,8 @@ public class PreparedRations : ChieftainCardModel<PreparedRations.CardTop, Prepa
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithName("Pack Mule")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/pack_mule_AI.png")
-				.WithHealth(4)
-				.WithMove(3)
+				.WithHealth(4, new SummonHealthSquare(this, new Vector2(0.44591248f, 0.18810727f)))
+				.WithMove(3, new SummonMoveSquare(this, new Vector2(0.6773092f, 0.18810727f)))
 				.WithTraits(
 					new RetaliateTrait(1),
 					new MountTrait(
@@ -53,8 +54,14 @@ public class PreparedRations : ChieftainCardModel<PreparedRations.CardTop, Prepa
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
-			new AbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6211601f, 0.7209304f)))
+				.Build()),
+
+			new AbilityCardAbility(HealAbility.Builder()
+				.WithHealValue(2, new HealCircle(this, new Vector2(0.49397123f, 0.81769234f)))
+				.WithTarget(Target.Self)
+				.Build()),
 		];
 	}
 }

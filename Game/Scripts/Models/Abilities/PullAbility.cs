@@ -21,7 +21,7 @@ public class PullAbility : TargetedAbility<PullAbility.State, SingleTargetState>
 	{
 		public interface IPullStep
 		{
-			TBuilder WithPull(int pull, params PullSquare[] enhancementMarks);
+			TBuilder WithPull(int pull, params PullEnhancementMark[] enhancementMarks);
 		}
 	}
 

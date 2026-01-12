@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class SuckerPunch : ChieftainCardModel<SuckerPunch.CardTop, SuckerPunch.CardBottom>
 {
@@ -14,7 +15,7 @@ public class SuckerPunch : ChieftainCardModel<SuckerPunch.CardTop, SuckerPunch.C
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.5089311f, 0.2920354f)))
 				.WithConditions(Conditions.Immobilize)
 				.Build())
 		];

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class TakeTheReins : ChieftainCardModel<TakeTheReins.CardTop, TakeTheReins.CardBottom>
 {
@@ -55,7 +56,9 @@ public class TakeTheReins : ChieftainCardModel<TakeTheReins.CardTop, TakeTheRein
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build()),
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.61780804f, 0.7005646f)))
+				.Build()),
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)

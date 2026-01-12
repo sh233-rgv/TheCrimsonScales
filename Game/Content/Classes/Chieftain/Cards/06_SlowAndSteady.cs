@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class SlowAndSteady : ChieftainCardModel<SlowAndSteady.CardTop, SlowAndSteady.CardBottom>
 {
@@ -15,9 +16,9 @@ public class SlowAndSteady : ChieftainCardModel<SlowAndSteady.CardTop, SlowAndSt
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithName("Giant Tortoise")
 				.WithTexturePath("res://Content/Classes/Chieftain/Summons/giant_tortoise_AI.png")
-				.WithHealth(6)
-				.WithMove(1)
-				.WithAttack(1)
+				.WithHealth(6, new SummonHealthSquare(this, new Vector2(0.44711232f, 0.1984234f)))
+				.WithMove(1, new SummonMoveSquare(this, new Vector2(0.67825043f, 0.1984234f)))
+				.WithAttack(1, new SummonAttackSquare(this, new Vector2(0.44711232f, 0.27472314f)))
 				.WithTraits(
 					new ShieldTrait(1),
 					new MountTrait(
@@ -55,7 +56,9 @@ public class SlowAndSteady : ChieftainCardModel<SlowAndSteady.CardTop, SlowAndSt
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(AttackAbility.Builder().WithDamage(2).Build()),
+			new AbilityCardAbility(AttackAbility.Builder()
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.6201599f, 0.7623622f)))
+				.Build()),
 		];
 	}
 }
