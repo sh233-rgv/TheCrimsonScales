@@ -15,7 +15,7 @@ public partial class AbilityCardEffectInfoView : EffectInfoView<AbilityCardEffec
 	}
 
 	[Export]
-	private CardSideView _cardSideView;
+	private AbilityCardSideView _cardSideView;
 
 	public override void Init(Parameters parameters)
 	{

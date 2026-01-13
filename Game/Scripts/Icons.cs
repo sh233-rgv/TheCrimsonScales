@@ -34,6 +34,7 @@ public static class Icons
 	public const string WildElement = "res://Art/Icons/Elements/Wild.svg";
 	public const string RedAOEHex = "res://Art/Icons/Other/RedAOEHex.svg";
 	public const string PlusOneEnhancement = "res://Art/Icons/Other/PlusOneEnhancement.svg";
+	public const string JumpEnhancement = "res://Art/Icons/Other/JumpEnhancement.svg";
 
 	public static string GetElement(Element element)
 	{

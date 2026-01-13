@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-public partial class CardViewCharacterToken : Control
+public partial class AbilityCardViewCharacterToken : Control
 {
 	[Export]
 	private TextureRect _textureRect;
@@ -28,10 +28,10 @@ public partial class CardViewCharacterToken : Control
 
 		Vector2 moveInput = Vector2.Zero;
 		float mult = 1f;
-		if (Input.IsKeyPressed(Key.Shift))
-        {
-            mult = 10f;
-        }
+		if(Input.IsKeyPressed(Key.Shift))
+		{
+			mult = 10f;
+		}
 
 		if(Input.IsKeyPressed(Key.L))
 		{

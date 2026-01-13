@@ -18,7 +18,7 @@ public partial class Enhancer : BetweenScenariosAction
 	[Export]
 	private Control _cardRotationContainer;
 	[Export]
-	private CardView _cardView;
+	private AbilityCardView _cardView;
 	[Export]
 	private PackedScene _enhancementMarkButtonScene;
 

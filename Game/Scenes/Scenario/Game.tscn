@@ -41,7 +41,6 @@
 [ext_resource type="Texture2D" uid="uid://mqfp1jeh80g1" path="res://Art/AMDs/CardBack.tres" id="34_dfaft"]
 [ext_resource type="Script" uid="uid://be6tgcsu3kssh" path="res://Scripts/Scenario/UI/ElementsView/ElementsView.cs" id="36_6nwhb"]
 [ext_resource type="PackedScene" uid="uid://mp8cee00fmg5" path="res://Scenes/Scenario/UI/Element.tscn" id="36_juek3"]
-[ext_resource type="PackedScene" uid="uid://dvex4pgry7e30" path="res://Scenes/UI/CardView/CardView.tscn" id="37_rj4pm"]
 [ext_resource type="Texture2D" uid="uid://cpv5w6250wmii" path="res://Art/Icons/Elements/FireEmpty.svg" id="38_bytl6"]
 [ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="38_grpwx"]
 [ext_resource type="Texture2D" uid="uid://7j5gn7adtbco" path="res://Art/Icons/Elements/Fire.svg" id="39_gpo0a"]
@@ -57,6 +56,7 @@
 [ext_resource type="Texture2D" uid="uid://d0g5payh74ftk" path="res://Art/Icons/Elements/Earth.svg" id="43_d62nx"]
 [ext_resource type="Script" uid="uid://ih8y81syt61c" path="res://Scripts/Scenario/UI/ShortRestView.cs" id="43_hvu7s"]
 [ext_resource type="Script" uid="uid://cefpesj2xqroj" path="res://Scripts/Scenario/UI/ScenarioLostView.cs" id="43_vn1gt"]
+[ext_resource type="PackedScene" uid="uid://dweuor8iwy2lm" path="res://Scenes/UI/AbilityCardView/AbilityCardView.tscn" id="44_3mf4c"]
 [ext_resource type="Script" uid="uid://bxa761yuhmqnl" path="res://Scripts/Scenario/UI/ScenarioWonView.cs" id="44_7vhok"]
 [ext_resource type="Script" uid="uid://vywttw4n4suv" path="res://Scripts/Scenario/UI/AMDDrawView/AMDDrawView.cs" id="44_j1euc"]
 [ext_resource type="Texture2D" uid="uid://b2i43ibv0m6ow" path="res://Art/Icons/Elements/LightEmpty.svg" id="44_krl23"]
@@ -664,7 +664,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("43_hvu7s")
-_cardView = NodePath("CardPreview/CardView")
+_cardView = NodePath("CardPreview/AbilityCardView")
 _redrawButton = NodePath("Redraw")
 _confirmButton = NodePath("Continue")
 
@@ -705,8 +705,10 @@ grow_vertical = 2
 pivot_offset = Vector2(160, 224)
 mouse_filter = 2
 
-[node name="CardView" parent="CanvasLayer/UI/ShortRestView/CardPreview" instance=ExtResource("37_rj4pm")]
+[node name="AbilityCardView" parent="CanvasLayer/UI/ShortRestView/CardPreview" instance=ExtResource("44_3mf4c")]
 layout_mode = 1
+offset_right = 0.0
+offset_bottom = 0.0
 
 [node name="TreasureItemRewardView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_itemView")]
 layout_mode = 1

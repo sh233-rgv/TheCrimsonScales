@@ -18,12 +18,12 @@ public partial class AbilityCardSideCurrentActionView : CurrentActionView<Abilit
 	}
 
 	[Export]
-	private CardSideView _cardSideView;
+	private AbilityCardSideView _cardSideView;
 
 	public override void Init(Parameters parameters)
 	{
 		base.Init(parameters);
 
-		_cardSideView.SetCard(parameters.AbilityCardSide.Model);
+		_cardSideView.SetCard(parameters.AbilityCardSide);
 	}
 }

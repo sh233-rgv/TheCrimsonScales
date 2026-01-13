@@ -4,7 +4,7 @@ using Godot;
 public partial class CardPlayCard : Control
 {
 	[Export]
-	private TextureRect[] _textureRects;
+	private AbilityCardView[] _abilityCardViews;
 
 	[Export]
 	private BetterButton _topButton;
@@ -15,8 +15,6 @@ public partial class CardPlayCard : Control
 	private ChoiceButton _basicTopButton;
 	[Export]
 	private ChoiceButton _basicBottomButton;
-
-	private Texture2D _texture;
 
 	public AbilityCard AbilityCard { get; private set; }
 
@@ -46,10 +44,9 @@ public partial class CardPlayCard : Control
 		{
 			AbilityCard = cardData.AbilityCard;
 
-			_texture = AbilityCard.Model.GetTexture();
-			foreach(TextureRect textureRect in _textureRects)
+			foreach(AbilityCardView cardView in _abilityCardViews)
 			{
-				textureRect.SetTexture(_texture);
+				cardView.SetCard(AbilityCard.SavedAbilityCard);
 			}
 
 			_topButton.SetEnabled(cardData.CanPlayTop);

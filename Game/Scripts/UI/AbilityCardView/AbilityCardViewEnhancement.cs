@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-public partial class CardViewEnhancement : Control
+public partial class AbilityCardViewEnhancement : Control
 {
 	[Export]
 	private EnhancementView _enhancementView;

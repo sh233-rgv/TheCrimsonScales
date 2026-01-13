@@ -1,6 +1,6 @@
 ﻿public class JumpEnhancement : EnhancementModel<MoveAbility.State>
 {
-	protected override string TexturePath => Icons.Jump;
+	protected override string TexturePath => Icons.JumpEnhancement;
 	public override int BaseCost => 60;
 
 	protected override void _Enhance(MoveAbility.State state, EnhancementMark enhancementMark)
