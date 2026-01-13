@@ -209,7 +209,7 @@ public partial class Enhancer : BetweenScenariosAction
 				}
 				else
 				{
-					if(targetedAbility.IsMultiTarget)
+					if(targetedAbility.IsMultiTarget && model.DefaultDoubleCostOnDoubleTarget)
 					{
 						enhancementCostType |= EnhancementCostType.MultiTarget;
 					}

@@ -2,4 +2,6 @@
 	where TState : AbilityState
 {
 	protected override string TexturePath => Icons.PlusOneEnhancement;
+
+	public override bool DefaultDoubleCostOnDoubleTarget => true;
 }

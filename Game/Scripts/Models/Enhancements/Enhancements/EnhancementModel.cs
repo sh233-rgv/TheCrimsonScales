@@ -19,6 +19,7 @@ public abstract class EnhancementModel : AbstractModel
 	protected abstract string TexturePath { get; }
 	public abstract int BaseCost { get; }
 
+	public virtual bool DefaultDoubleCostOnDoubleTarget => false;
 	public virtual bool DefaultTripleCostOnPersistent => false;
 
 	public Texture2D GetTexture()
