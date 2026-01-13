@@ -108,14 +108,17 @@ public class ProjectileAbility : ActiveAbility<ProjectileAbility.State>
 
 			if(targetedHex != null)
 			{
-				BombardProjectileToken token = ResourceLoader.Load<PackedScene>("res://Content/Classes/Bombard/BombardProjectile.tscn")
-					.Instantiate<BombardProjectileToken>();
-				GameController.Instance.Map.AddChild(token);
-				token.SetCardSide(AbilityCardSide);
+				if(abilityState.ActionState.ActionSource is AbilityCardSide abilityCardSide)
+				{
+					BombardProjectileToken token = ResourceLoader.Load<PackedScene>("res://Content/Classes/Bombard/BombardProjectile.tscn")
+						.Instantiate<BombardProjectileToken>();
+					GameController.Instance.Map.AddChild(token);
+					token.SetCardSide(abilityCardSide);
 
-				await token.Init(targetedHex);
+					await token.Init(targetedHex);
 
-				abilityState.AddToken(token);
+					abilityState.AddToken(token);
+				}
 			}
 		}
 

@@ -98,7 +98,7 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 						},
 						EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.Attack),
-						effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(this)
+						effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(GetAbilityCardSide(state))
 					);
 
 					await GDTask.CompletedTask;

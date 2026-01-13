@@ -86,7 +86,7 @@ public class SoulfulSalvation : HierophantCardModel<SoulfulSalvation.CardTop, So
 									},
 									effectType: EffectType.SelectableMandatory,
 									effectButtonParameters: new IconEffectButton.Parameters(Icons.RecoverCard),
-									effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(this)
+									effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(GetAbilityCardSide(state))
 								);
 
 							ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription healSubscription =
@@ -100,7 +100,7 @@ public class SoulfulSalvation : HierophantCardModel<SoulfulSalvation.CardTop, So
 									},
 									effectType: EffectType.SelectableMandatory,
 									effectButtonParameters: new IconEffectButton.Parameters(Icons.Heal),
-									effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(this)
+									effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(GetAbilityCardSide(state))
 								);
 
 							await AbilityCmd.GenericChoice(state.Performer,

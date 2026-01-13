@@ -30,7 +30,7 @@ public class PillarsOfSmoke : BombardCardModel<PillarsOfSmoke.CardTop, PillarsOf
 						},
 						EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Invisible)),
-						effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(this)
+						effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(GetAbilityCardSide(state))
 					);
 
 					await GDTask.CompletedTask;

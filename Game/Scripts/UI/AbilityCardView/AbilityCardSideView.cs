@@ -10,11 +10,11 @@ public partial class AbilityCardSideView : Control
 	[Export]
 	private Control _bottomContainer;
 
-	public void SetCard(AbilityCardSideModel abilityCardSide)
+	public void SetCard(AbilityCardSide abilityCardSide)
 	{
 		foreach(AbilityCardView abilityCardView in _abilityCardViews)
 		{
-			abilityCardView.SetCard(abilityCardSide.AbilityCardModel);
+			abilityCardView.SetCard(abilityCardSide.AbilityCard.SavedAbilityCard);
 		}
 
 		bool showTop = abilityCardSide.AbilityCardSideType == AbilityCardSideType.Top;

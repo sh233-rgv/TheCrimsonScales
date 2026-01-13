@@ -42,7 +42,7 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 							await GDTask.CompletedTask;
 						}, EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.LoseCard),
-						effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(this));
+						effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(GetAbilityCardSide(state)));
 
 					await GDTask.CompletedTask;
 				})

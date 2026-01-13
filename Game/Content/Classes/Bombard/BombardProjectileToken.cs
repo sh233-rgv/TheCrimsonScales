@@ -7,9 +7,9 @@ using GTweensGodot.Extensions;
 
 public partial class BombardProjectileToken : HexObject
 {
-	public AbilityCardSideModel AbilityCardSide { get; private set; }
+	public AbilityCardSide AbilityCardSide { get; private set; }
 
-	public void SetCardSide(AbilityCardSideModel abilityCardSide)
+	public void SetCardSide(AbilityCardSide abilityCardSide)
 	{
 		AbilityCardSide = abilityCardSide;
 	}

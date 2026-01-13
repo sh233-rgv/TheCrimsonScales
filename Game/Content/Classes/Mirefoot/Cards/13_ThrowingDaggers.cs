@@ -30,7 +30,7 @@ public class ThrowingDaggers : MirefootCardModel<ThrowingDaggers.CardTop, Throwi
 						EffectType.SelectableMandatory,
 						canApplyMultipleTimesDuringSubscription: true,
 						effectButtonParameters: new TextEffectButton.Parameters($"+2{Icons.Inline(Icons.Range)}"),
-						effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(this)
+						effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(GetAbilityCardSide(state))
 					);
 
 					await GDTask.CompletedTask;
