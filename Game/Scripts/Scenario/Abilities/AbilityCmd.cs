@@ -413,9 +413,10 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask<Monster> SummonMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex, int? monsterLevel = null)
+	public static async GDTask<Monster> SummonMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex, int? monsterLevel = null,
+		Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
 	{
-		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, true, monsterLevel);
+		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, true, monsterLevel, alignment, enemies);
 	}
 
 	public static async GDTask<Monster> SpawnMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex, int? monsterLevel = null,
@@ -450,9 +451,10 @@ public static class AbilityCmd
 
 	public static async GDTask<Hex> MoveOverlayTile(Figure performer, OverlayTile overlayTile, Action<List<Hex>> moveToHexes)
 	{
-		Hex movedToHex = await SelectHex(performer, moveToHexes, mandatory: true, hintText: $"Select a hex to move the {overlayTile.GetType().ToString().ToLower()} to");
+		Hex movedToHex = await SelectHex(performer, moveToHexes, mandatory: true,
+			hintText: $"Select a hex to move the {overlayTile.GetType().ToString().ToLower()} to");
 
-		if (movedToHex == null)
+		if(movedToHex == null)
 		{
 			return null;
 		}
@@ -689,10 +691,11 @@ public static class AbilityCmd
 		ScenarioCheckEvents.CanEnterMapTileCheck.Parameters canEnterMapTile2 =
 			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Fire(
 				new ScenarioCheckEvents.CanEnterMapTileCheck.Parameters(figureB, figureA.Hex));
-		if (!canEnterMapTile.CanEnter || !canEnterMapTile2.CanEnter)
-        {
-            return false;
-        }
+		if(!canEnterMapTile.CanEnter || !canEnterMapTile2.CanEnter)
+		{
+			return false;
+		}
+
 		return true;
 	}
 
@@ -784,7 +787,7 @@ public static class AbilityCmd
 
 		if(immediately)
 		{
-			GameController.Instance.ElementManager.InfuseImmediately(element);
+			await GameController.Instance.ElementManager.InfuseImmediately(element);
 		}
 		else
 		{

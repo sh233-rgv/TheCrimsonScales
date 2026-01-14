@@ -20,7 +20,7 @@ public class HalfElementsShieldRetaliateTrait : FigureTrait
 				applyParameters.AdjustShield(CalculateElements());
 				await GDTask.CompletedTask;
 			});
-		
+
 		ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(figure, this,
 			canApplyParameters =>
 				canApplyParameters.Figure == figure,
@@ -41,7 +41,7 @@ public class HalfElementsShieldRetaliateTrait : FigureTrait
 				applyParameters.AdjustRetaliate(CalculateElements());
 				await GDTask.CompletedTask;
 			});
-		
+
 		ScenarioEvents.ConsumeElementEvent.Subscribe(figure, this,
 			canApplyParameters => true,
 			async applyParameters =>
@@ -49,15 +49,24 @@ public class HalfElementsShieldRetaliateTrait : FigureTrait
 				ScenarioCheckEvents.ShieldCheckEvent.FireChangedEvent();
 				ScenarioCheckEvents.RetaliateCheckEvent.FireChangedEvent();
 				await GDTask.CompletedTask;
-			});
-		
-		ScenarioEvents.ElementInfusedEvent.Subscribe(figure, this,
+			}, EffectType.Visuals);
+
+		ScenarioEvents.FinishElementInfusedEvent.Subscribe(figure, this,
 			canApplyParameters => true,
 			async applyParameters =>
 			{
 				ScenarioCheckEvents.ShieldCheckEvent.FireChangedEvent();
 				ScenarioCheckEvents.RetaliateCheckEvent.FireChangedEvent();
+
 				await GDTask.CompletedTask;
+			}, EffectType.Visuals);
+
+		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(figure, this,
+			canApplyParameters => canApplyParameters.Figure == figure,
+			applyParameters =>
+			{
+				applyParameters.Add(new InfoTextExtraEffect.Parameters(
+					$"Gains {Icons.Inline(Icons.Shield)}X and {Icons.Inline(Icons.Retaliate)}X, where X is half the number of strong and waning elements, rounded up."));
 			});
 	}
 
@@ -86,6 +95,6 @@ public class HalfElementsShieldRetaliateTrait : FigureTrait
 			}
 		}
 
-		return (count + 1)/2;
+		return (count + 1) / 2;
 	}
 }

@@ -7,40 +7,51 @@ public class Scenario019 : ScenarioModel
 	public override string ScenePath => "res://Content/Scenarios/Scenario019.tscn";
 	public override int ScenarioNumber => 19;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<WondrousScenarioChain>();
-	//public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario023>(), new ScenarioConnection<Scenario024>(), new ScenarioConnection<Scenario025>()];
 
-	protected override ScenarioGoals CreateScenarioGoals() =>
-		new CustomScenarioGoals(
-			$"Kill all enemies and have all characters occupy hexes {Icons.InlineMarker(Marker.Type.a)} or exhaust on a hex {Icons.InlineMarker(Marker.Type.a)} to win this scenario.");
+	public override IEnumerable<ScenarioConnection> Connections =>
+	[
+		new ScenarioConnection<Scenario023>(), new ScenarioConnection<Scenario024>(), /*new ScenarioConnection<Scenario025>()*/
+	];
 
-	private IEnumerable<Hex> _markerHexes;
+	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals();
+
+	private IEnumerable<PressurePlate> _pressurePlates;
 
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
 
-		//Scenario Effect
+		_pressurePlates = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.GetHexObject<PressurePlate>());
 
-		UpdateScenarioText($"If any character is exhausted while not occupying a hex {Icons.InlineMarker(Marker.Type.a)}, the scenario is lost");
+		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<InfraredGoggles>());
+		GameController.Instance.Map.Treasures[1].SetObtainLootFunction(async character =>
+		{
+			await new ActionState(character, [HealAbility.Builder().WithHealValue(6).WithTarget(Target.Self).Build()]).Perform();
+			await AbilityCmd.AddCondition(null, character, Conditions.Poison1);
+		});
 
-		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<BootsOfPerpetuity>());
-
-		_markerHexes = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.Hex);
-
-		ScenarioEvents.RoundEndedEvent.Subscribe(this,
-			parameters => GameController.Instance.Map.Figures.Where(figure => figure is Character)
-				.All(character => _markerHexes.Contains(character.Hex)),
+		ScenarioEvents.FigureTurnEndedEvent.Subscribe(this,
+			parameters => parameters.Figure is Character &&
+			              _pressurePlates.Select(pressurePlate => pressurePlate.Hex).Contains(parameters.Figure.Hex),
 			async parameters =>
 			{
-				await ((CustomScenarioGoals)ScenarioGoals).Win();
+				for(int i = 0;
+				    i < parameters.Figure.Hex.Room.Figures.Count(figure => figure is Monster monster && monster.MonsterModel is VermlingExperiment);
+				    i++)
+				{
+					if(await AbilityCmd.AskConsumeWildElement(parameters.Figure) == null)
+					{
+						break;
+					}
+				}
 			});
 
-		ScenarioEvents.FigureKilledEvent.Subscribe(this,
-			parameters => parameters.Figure is Character && !_markerHexes.Contains(parameters.Figure.Hex),
-			async parameters =>
-			{
-				await ((CustomScenarioGoals)ScenarioGoals).Lose();
-			}
-		);
+		//TODO: Change to any element symbol
+		UpdateScenarioText($"""
+		                    The Vermling Scouts represent Vermling Experiments, and gain benefits based on the number of strong or waning elements.
+		                    Vermling Experiments gain {Icons.Inline(Icons.Shield)}X and {Icons.Inline(Icons.Retaliate)}X, where X is the number of strong and waning elements divided by two (rounded up).
+
+		                    If any character ends their turn on a pressure plate, they may consume any element X times, where X is the number of Vermling Experiments in the room.
+		                    """);
 	}
 }

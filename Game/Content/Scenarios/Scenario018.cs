@@ -7,7 +7,7 @@ public class Scenario018 : ScenarioModel
 	public override string ScenePath => "res://Content/Scenarios/Scenario018.tscn";
 	public override int ScenarioNumber => 18;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
-	//public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario020>(), new ScenarioConnection<Scenario021>()];
+	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario020>(), new ScenarioConnection<Scenario021>()];
 
 	protected override ScenarioGoals CreateScenarioGoals() =>
 		new CustomScenarioGoals(

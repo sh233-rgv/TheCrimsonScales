@@ -116,4 +116,27 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 		await AbilityCmd.SpawnMonster(monsterModel, monsterType, chosenHex, monsterLevel, alignment, enemies);
 	}
+
+	protected async GDTask SummonMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, Hex summonHex,
+		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
+	{
+		authority ??= GameController.Instance.CharacterManager.FirstAlive();
+		List<Hex> hexes = RangeHelper.GetHexesInRange(summonHex, 1, requiresLineOfSight: false).ToList();
+
+		Hex chosenHex = await AbilityCmd.SelectHex(authority,
+			list =>
+			{
+				list.AddRange(RangeHelper.GetHexesInRange(summonHex, 1).Where(hex => hex.IsEmpty()));
+			},
+			true,
+			$"Select where to summon the {monsterType} {monsterModel.Name}"
+		);
+
+		if(chosenHex == null)
+		{
+			return;
+		}
+
+		await AbilityCmd.SummonMonster(monsterModel, monsterType, chosenHex, monsterLevel, alignment, enemies);
+	}
 }

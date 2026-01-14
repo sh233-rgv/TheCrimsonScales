@@ -1,4 +1,3 @@
-
 using System.Linq;
 
 public class GhostViper : GiantViper

@@ -115,7 +115,7 @@ public partial class Room : Node2D
 		// Initialize each door that hasn't been initialized yet; the first time it's revealed
 		foreach((Door otherDoor, Hex hex) in _doors)
 		{
-			if(!hex.Revealed)
+			if(!otherDoor.Revealed)
 			{
 				hex.Reveal();
 				int rotationIndex = (Mathf.RoundToInt(otherDoor.GlobalRotationDegrees / 60f) + 6) % 6;

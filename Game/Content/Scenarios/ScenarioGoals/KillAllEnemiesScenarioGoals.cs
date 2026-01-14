@@ -6,15 +6,7 @@
 	public override void Start()
 	{
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
-			parameters =>
-			{
-				if(EnemiesToBeSpawned)
-				{
-					return false;
-				}
-
-				return EnemiesRemaining();
-			},
+			parameters => !EnemiesToBeSpawned && EnemiesRemaining(),
 			async parameters =>
 			{
 				await Win();

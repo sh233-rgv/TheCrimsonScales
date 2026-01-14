@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using Fractural.Tasks;
 using Godot;
@@ -136,8 +134,8 @@ public class Scenario026 : ScenarioModel
 
 		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this,
 			parameters => !parameters.ForgoneAction && RangeHelper.GetFiguresInRange(parameters.Performer.Hex, 2)
-				.Where(figure => figure.HasCondition(Conditions.Chill) &&
-				                 ((figure is Summon summon && summon.Owner == parameters.Performer) || parameters.Performer == figure)).Any(),
+				.Any(figure => figure.HasCondition(Conditions.Chill) &&
+				               ((figure is Summon summon && summon.Owner == parameters.Performer) || parameters.Performer == figure)),
 			async parameters =>
 			{
 				parameters.ForgoAction();
@@ -173,6 +171,8 @@ public class Scenario026 : ScenarioModel
 
 	protected override async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters parameters)
 	{
+		await base.OnRoomRevealed(parameters);
+
 		if(parameters.Room == GameController.Instance.Map.Rooms[1])
 		{
 			int thermalStoneHealth = GameController.Instance.SavedCampaign.Characters.Count + 3;
@@ -193,8 +193,6 @@ public class Scenario026 : ScenarioModel
 			         """;
 			UpdateScenarioText(_text);
 		}
-
-		await base.OnRoomRevealed(parameters);
 	}
 
 	protected override void UpdateScenarioText(string text)

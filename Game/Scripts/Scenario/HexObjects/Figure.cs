@@ -244,7 +244,7 @@ public abstract partial class Figure : HexObject
 		TakingTurn = false;
 		CanTakeTurn = false;
 
-		GameController.Instance.ElementManager.FinishInfusing();
+		await GameController.Instance.ElementManager.FinishInfusing();
 
 		_figureViewComponent.ActivePS.TweenModulateAlpha(0f, 0.2f).OnComplete(_figureViewComponent.ActivePS.Hide).PlayFastForwardable();
 	}

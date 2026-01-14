@@ -52,7 +52,7 @@ public partial class MonsterSpawner : Node2D
 			MarkDirty();
 		}
 	}
-	
+
 	[Export]
 	public int AdjustMonsterLevel = 0;
 	[Export]
@@ -62,6 +62,11 @@ public partial class MonsterSpawner : Node2D
 
 	public async GDTask SpawnMonster()
 	{
+		if(ModelDB.GetById<MonsterModel>(new ModelId(_monsterModelId)) is LivingCorpse)
+		{
+			GD.Print("Spawning");
+		}
+
 		QueueFree();
 
 		MonsterType monsterType;
@@ -83,7 +88,8 @@ public partial class MonsterSpawner : Node2D
 
 		MonsterModel monsterModel = ModelDB.GetById<MonsterModel>(new ModelId(_monsterModelId));
 
-		await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, Map.GlobalPositionToCoords(GlobalPosition), false, GameController.Instance.SavedScenario.ScenarioLevel + AdjustMonsterLevel, Alignment, Enemies);
+		await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, Map.GlobalPositionToCoords(GlobalPosition), false,
+			GameController.Instance.SavedScenario.ScenarioLevel + AdjustMonsterLevel, Alignment, Enemies);
 	}
 
 	private void MarkDirty()

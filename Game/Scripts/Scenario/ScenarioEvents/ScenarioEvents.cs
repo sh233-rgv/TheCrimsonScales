@@ -659,6 +659,16 @@ public partial class ScenarioEvents
 	private readonly ElementInfused _elementInfused = new ElementInfused();
 	public static ElementInfused ElementInfusedEvent => GameController.Instance.ScenarioEvents._elementInfused;
 
+	public class FinishElementInfused : ScenarioEvent<FinishElementInfused.Parameters>
+	{
+		public class Parameters : ParametersBase
+		{
+		}
+	}
+
+	private readonly FinishElementInfused _finishElementInfused = new FinishElementInfused();
+	public static FinishElementInfused FinishElementInfusedEvent => GameController.Instance.ScenarioEvents._finishElementInfused;
+
 	public class ConsumeElement : ScenarioEvent<ConsumeElement.Parameters>
 	{
 		public class Parameters(IEnumerable<Element> elements)
