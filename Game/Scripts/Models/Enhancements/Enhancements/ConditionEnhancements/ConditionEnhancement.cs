@@ -1,7 +1,7 @@
 ﻿public abstract class ConditionEnhancement<T> : EnhancementModel<IConditionsAbilityState>
 	where T : ConditionModel
 {
-	protected override string TexturePath => Icons.GetCondition(ModelDB.Condition<T>());
+	public override string TexturePath => Icons.GetCondition(ModelDB.Condition<T>());
 
 	public override bool DefaultDoubleCostOnDoubleTarget => true;
 

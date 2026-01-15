@@ -90,11 +90,11 @@ public partial class ItemShop : BetweenScenariosAction
 	public int GetBuyPrice(SavedCharacter buyer, ItemModel itemModel)
 	{
 		int price = itemModel.Cost;
-		price += BetweenScenariosController.Instance.SavedCampaign.GetItemPriceChange();
+		price += BetweenScenariosController.Instance.SavedCampaign.GetReputationItemPriceChange();
 
-		BetweenScenariosEvents.CalculateBuyPrice.Parameters parameters =
-			BetweenScenariosEvents.CalculateBuyPriceEvent.Fire(
-				new BetweenScenariosEvents.CalculateBuyPrice.Parameters(buyer, itemModel, price));
+		BetweenScenariosEvents.CalculateItemBuyPrice.Parameters parameters =
+			BetweenScenariosEvents.CalculateItemBuyPriceEvent.Fire(
+				new BetweenScenariosEvents.CalculateItemBuyPrice.Parameters(buyer, itemModel, price));
 
 		return parameters.Price;
 	}

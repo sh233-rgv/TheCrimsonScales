@@ -710,6 +710,13 @@ public static class AbilityCmd
 	public static async GDTask<Element?> InfuseElement(AbilityState potentialAbilityState, IReadOnlyCollection<Element> possibleElements,
 		Figure potentialInfuser = null)
 	{
+		if(possibleElements.Count == 1)
+		{
+			Element onlyElement = possibleElements.First();
+			await InfuseElement(potentialAbilityState, possibleElements.First(), potentialInfuser);
+			return onlyElement;
+		}
+
 		potentialInfuser ??= potentialAbilityState?.Performer;
 
 		Element? element = null;

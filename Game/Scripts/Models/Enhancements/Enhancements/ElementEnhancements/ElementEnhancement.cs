@@ -2,7 +2,7 @@
 
 public abstract class ElementEnhancement : EnhancementModel<AbilityState>
 {
-	protected override string TexturePath => Icons.GetElement(Element);
+	public override string TexturePath => Icons.GetElement(Element);
 	public override int BaseCost => 100;
 
 	protected abstract Element Element { get; }

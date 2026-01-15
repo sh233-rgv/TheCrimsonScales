@@ -2,7 +2,7 @@
 
 public class WildElementEnhancement : EnhancementModel<AbilityState>
 {
-	protected override string TexturePath => Icons.WildElement;
+	public override string TexturePath => Icons.WildElement;
 	public override int BaseCost => 150;
 
 	protected override void _Enhance(AbilityState state, EnhancementMark enhancementMark)

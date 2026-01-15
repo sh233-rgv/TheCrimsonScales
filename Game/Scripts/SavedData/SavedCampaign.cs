@@ -278,7 +278,7 @@ public class SavedCampaign
 		return ReputationPriceCostThresholds.Length;
 	}
 
-	public int GetItemPriceChange()
+	public int GetReputationItemPriceChange()
 	{
 		int thresholdIndex = GetReputationThresholdIndex();
 		return 5 - thresholdIndex;

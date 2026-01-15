@@ -16,7 +16,7 @@ public abstract class EnhancementModel<TState> : EnhancementModel
 
 public abstract class EnhancementModel : AbstractModel
 {
-	protected abstract string TexturePath { get; }
+	public abstract string TexturePath { get; }
 	public abstract int BaseCost { get; }
 
 	public virtual bool DefaultDoubleCostOnDoubleTarget => false;

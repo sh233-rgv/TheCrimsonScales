@@ -1,6 +1,6 @@
 ﻿public class RedHexEnhancement : EnhancementModel<TargetedAbilityState>
 {
-	protected override string TexturePath => Icons.RedAOEHex;
+	public override string TexturePath => Icons.RedAOEHex;
 	public override int BaseCost => 200;
 
 	protected override void _Enhance(TargetedAbilityState state, EnhancementMark enhancementMark)

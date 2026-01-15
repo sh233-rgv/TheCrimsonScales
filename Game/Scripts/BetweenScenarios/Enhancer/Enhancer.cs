@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using GTweens.Builders;
@@ -49,7 +48,8 @@ public partial class Enhancer : BetweenScenariosAction
 
 	private bool CanConfirm =>
 		_selectedCharacter != null && _selectedAbilityCard != null && _selectedMark != null && _selectedOption != null &&
-		_selectedCharacter.CanAfford(GetCost(_selectedAbilityCard, _selectedMark.EnhancementMark, _selectedOption.EnhancementModel));
+		_selectedCharacter.CanAfford(GetCost(_selectedCharacter, _selectedAbilityCard, _selectedMark.EnhancementMark,
+			_selectedOption.EnhancementModel));
 
 	public override void _Ready()
 	{
@@ -188,7 +188,7 @@ public partial class Enhancer : BetweenScenariosAction
 		_confirmButton.SetEnabled(CanConfirm, true);
 	}
 
-	private int GetCost(SavedAbilityCard savedAbilityCard, EnhancementMark mark, EnhancementModel model)
+	private static int GetCost(SavedCharacter savedCharacter, SavedAbilityCard savedAbilityCard, EnhancementMark mark, EnhancementModel model)
 	{
 		Dictionary<int, SavedEnhancement> savedEnhancements =
 			savedAbilityCard.GetEnhancements(mark.AbilityCardSideModel.AbilityCardSideType == AbilityCardSideType.Top);
@@ -250,7 +250,11 @@ public partial class Enhancer : BetweenScenariosAction
 		// Previous enhancements
 		cost += savedEnhancements.Count * 75;
 
-		return cost;
+		BetweenScenariosEvents.CalculateEnhancementCost.Parameters parameters =
+			BetweenScenariosEvents.CalculateEnhancementCostEvent.Fire(
+				new BetweenScenariosEvents.CalculateEnhancementCost.Parameters(savedCharacter, savedAbilityCard, mark, model, cost));
+
+		return parameters.Cost;
 	}
 
 	private void OnCardPressed(CardSelectionCard cardSelectionCard)
@@ -286,7 +290,7 @@ public partial class Enhancer : BetweenScenariosAction
 
 		foreach(EnhancementModel enhancementModel in enhancementModels)
 		{
-			int cost = GetCost(_selectedAbilityCard, _selectedMark!.EnhancementMark, enhancementModel);
+			int cost = GetCost(_selectedCharacter, _selectedAbilityCard, _selectedMark!.EnhancementMark, enhancementModel);
 
 			EnhancementOptionToggleButton enhancementOptionToggleButton = _enhancementOptionScene.Instantiate<EnhancementOptionToggleButton>();
 			_enhancementOptionParent.AddChild(enhancementOptionToggleButton);
@@ -322,11 +326,34 @@ public partial class Enhancer : BetweenScenariosAction
 			return;
 		}
 
-		_selectedCharacter.RemoveGold(GetCost(_selectedAbilityCard, _selectedMark.EnhancementMark, _selectedOption.EnhancementModel));
-		_selectedAbilityCard.AddSavedEnhancement(_selectedMark.Top, _selectedMark.Index, new SavedEnhancement(_selectedOption.EnhancementModel));
+		int cost = GetCost(_selectedCharacter, _selectedAbilityCard, _selectedMark.EnhancementMark, _selectedOption.EnhancementModel);
 
-		UpdateSelectedCard(_selectedAbilityCard);
-		UpdateConfirmButton();
+		AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request("Buy Enhancement",
+			$"Would you like to spend {Icons.Inline(Icons.Coins)}{cost} to buy this {Icons.Inline(_selectedOption.EnhancementModel.TexturePath)} enhancement?",
+			new TextButton.Parameters("Cancel",
+				() =>
+				{
+				}
+			),
+			new TextButton.Parameters("Confirm",
+				() =>
+				{
+					_selectedCharacter.RemoveGold(cost);
+					_selectedAbilityCard.AddSavedEnhancement(_selectedMark.Top, _selectedMark.Index,
+						new SavedEnhancement(_selectedOption.EnhancementModel));
+
+					AppController.Instance.SaveFile.Save();
+
+					BetweenScenariosEvents.EnhancementBoughtEvent.Fire(
+						new BetweenScenariosEvents.EnhancementBought.Parameters(_selectedCharacter, _selectedAbilityCard,
+							_selectedMark.EnhancementMark, _selectedOption.EnhancementModel, cost));
+
+					UpdateSelectedCard(_selectedAbilityCard);
+					UpdateConfirmButton();
+				},
+				TextButton.ColorType.Green
+			)
+		));
 	}
 
 	private void OnSelectedPortraitChanged(BetweenScenariosCharacterPortrait portrait)
