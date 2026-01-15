@@ -8,7 +8,7 @@ public class Scenario011 : ScenarioModel
 	public override string ScenePath => "res://Content/Scenarios/Scenario011.tscn";
 	public override int ScenarioNumber => 11;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SailScenarioChain>();
-	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario012>()];
+	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario012>(true)];
 
 	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals(true);
 

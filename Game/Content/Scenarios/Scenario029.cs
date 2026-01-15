@@ -6,7 +6,7 @@ public class Scenario029 : ScenarioModel
 	public override string ScenePath => "res://Content/Scenarios/Scenario029.tscn";
 	public override int ScenarioNumber => 29;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<TaintedScenarioChain>();
-	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario030>()];
+	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario030>(true)];
 
 	protected override ScenarioGoals CreateScenarioGoals() =>
 		new KillSpecificEnemiesTypeGoals(ModelDB.Monster<BoneArcher>(), "Kill all Bone Archers to win this scenario");
