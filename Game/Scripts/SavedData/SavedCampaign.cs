@@ -118,7 +118,7 @@ public class SavedCampaign
 
 		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), null, "Moerasvoet");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), null, "Beschieter");
-		savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), ModelDB.PersonalQuest<WeaponsSpecialist>(), "Opperpriester");
+		savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), ModelDB.PersonalQuest<SpiritualGainsPersonalQuest>(), "Opperpriester");
 		//savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), null, "Vuur Knecht");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), null, "Ketting Garde");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), null, "Dierenzitter");
@@ -134,7 +134,7 @@ public class SavedCampaign
 		// savedCampaign.Characters[0].SavedPersonalQuest.PersonalQuestData.AdjustProgress(
 		// 	30, savedCampaign.Characters[0].ClassModel, savedCampaign.Characters[0].SavedPersonalQuest.Model);
 
-		savedCampaign.Characters[0].AddGold(100);
+		savedCampaign.Characters[0].AddGold(1000);
 
 		// SavedScenarioProgress testScenario = new SavedScenarioProgress();
 		// testScenario.Discover();
@@ -364,5 +364,8 @@ public class SavedCampaign
 
 		// Return temporary AMD cards
 		SanctuaryOfTheGreatOak.ReturnCards(savedCharacter);
+
+		// Unsubscribe personal quest events
+		savedCharacter.SavedPersonalQuest?.Model.OnBetweenScenariosEnded(savedCharacter);
 	}
 }

@@ -8,10 +8,15 @@ public class PersonalQuestData
 
 	public void AdjustProgress(int value, Character character)
 	{
-		AdjustProgress(value, character.SavedCharacter.ClassModel, character.SavedCharacter.SavedPersonalQuest.Model);
+		AdjustProgress(value, character.SavedCharacter);
 	}
 
-	public void AdjustProgress(int value, ClassModel classModel, PersonalQuestModel personalQuestModel)
+	public void AdjustProgress(int value, SavedCharacter savedCharacter)
+	{
+		AdjustProgress(value, savedCharacter.ClassModel, savedCharacter.SavedPersonalQuest.Model);
+	}
+
+	private void AdjustProgress(int value, ClassModel classModel, PersonalQuestModel personalQuestModel)
 	{
 		Progress += value;
 

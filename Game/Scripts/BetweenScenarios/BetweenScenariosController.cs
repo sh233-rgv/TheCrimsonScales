@@ -70,12 +70,20 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 
 	public override void _ExitTree()
 	{
-		base._ExitTree();
-
 		for(int i = _duringDowntimeEventRewards.Count - 1; i >= 0; i--)
 		{
 			UnsubscribeDuringDowntime(_duringDowntimeEventRewards[i]);
 		}
+
+		if(SavedCampaign != null)
+		{
+			foreach(SavedCharacter savedCharacter in SavedCampaign.Characters)
+			{
+				savedCharacter.SavedPersonalQuest.Model.OnBetweenScenariosEnded(savedCharacter);
+			}
+		}
+
+		base._ExitTree();
 	}
 
 	public override void _Input(InputEvent @event)
