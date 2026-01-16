@@ -1,10 +1,10 @@
 ﻿using Fractural.Tasks;
 using Godot;
 
-public class GainXPEventReward(int xp) : EventReward
+public class GainGoldEachEventReward(int goldAmount) : EventReward
 {
 	public override EventRewardType Type => EventRewardType.Immediate;
-	public override string GetLabelText(Color textColor) => $"Gain {Icons.Inline(Icons.XP, color: textColor)}{xp} each.";
+	public override string GetLabelText(Color textColor) => $"Gain {Icons.Inline(Icons.Coins, color: textColor)}{goldAmount} each.";
 
 	public override async GDTask ImmediateResolve()
 	{
@@ -12,7 +12,7 @@ public class GainXPEventReward(int xp) : EventReward
 
 		foreach(SavedCharacter savedCharacter in BetweenScenariosController.Instance.SavedCampaign.Characters)
 		{
-			savedCharacter.AddXP(xp);
+			savedCharacter.AddGold(goldAmount);
 		}
 	}
 }
