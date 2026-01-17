@@ -28,7 +28,7 @@ public class FightTogether : FireKnightLevelUpCardModel<FightTogether.CardTop, F
 				.WithTarget(Target.SelfOrAllies | Target.TargetAll)
 				.Build()),
 			new AbilityCardAbility(GiveFireKnightItemAbility(
-				state => [ModelDB.Item<ScrollOfProtection>()],
+				state => [ModelDB.Item<FireKnightScrollOfProtection>()],
 				customGetTargets: (state, list) =>
 				{
 					GrantAbility.State grantAbilityState = state.ActionState.GetAbilityState<GrantAbility.State>(0);

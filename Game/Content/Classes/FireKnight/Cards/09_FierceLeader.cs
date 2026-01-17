@@ -22,7 +22,7 @@ public class FierceLeader : FireKnightCardModel<FierceLeader.CardTop, FierceLead
 				.Build()),
 
 			new AbilityCardAbility(GiveFireKnightItemAbility(
-				state => [ModelDB.Item<ScrollOfCharisma>(), ModelDB.Item<ScrollOfInvigoration>()],
+				state => [ModelDB.Item<FireKnightScrollOfCharisma>(), ModelDB.Item<FireKnightScrollOfInvigoration>()],
 				onItemGiven: async (state, item) =>
 				{
 					await AbilityCmd.GainXP(state.Performer, 1);

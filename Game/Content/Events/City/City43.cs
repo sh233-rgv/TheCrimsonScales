@@ -45,7 +45,7 @@ public class City43 : CityEventModel<City43.ChoiceA, City43.ChoiceB>
 	{
 		private const string ConditionsMetKey = "ConditionsMet";
 
-		public override string ChoiceText => "Pursue the void-corrupt Savvas";
+		public override string ChoiceText => "Pursue the void-corrupt Savvas.";
 
 		public override void InitState(SavedEventState state, SavedCampaign savedCampaign)
 		{

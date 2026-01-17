@@ -51,15 +51,15 @@ public class FireKnightModel : ClassModel
 
 	public IList<ItemModel> AllItems { get; } =
 	[
-		ModelDB.Item<EmberCladding>(),
-		ModelDB.Item<RescueShield>(),
-		ModelDB.Item<RescueAxe>(),
-		ModelDB.Item<PikeHook>(),
-		ModelDB.Item<FireproofHelm>(),
-		ModelDB.Item<KindledTonic>(),
-		ModelDB.Item<ExplosiveTonic>(),
-		ModelDB.Item<ScrollOfCharisma>(),
-		ModelDB.Item<ScrollOfProtection>(),
-		ModelDB.Item<ScrollOfInvigoration>(),
+		ModelDB.Item<FireKnightEmberCladding>(),
+		ModelDB.Item<FireKnightRescueShield>(),
+		ModelDB.Item<FireKnightRescueAxe>(),
+		ModelDB.Item<FireKnightPikeHook>(),
+		ModelDB.Item<FireKnightFireproofHelm>(),
+		ModelDB.Item<FireKnightKindledTonic>(),
+		ModelDB.Item<FireKnightExplosiveTonic>(),
+		ModelDB.Item<FireKnightScrollOfCharisma>(),
+		ModelDB.Item<FireKnightScrollOfProtection>(),
+		ModelDB.Item<FireKnightScrollOfInvigoration>(),
 	];
 }

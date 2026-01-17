@@ -110,7 +110,10 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 				)
 				.Build()),
 			new AbilityCardAbility(GiveFireKnightItemAbility(
-				state => [ModelDB.Item<ExplosiveTonic>(), ModelDB.Item<RescueAxe>(), ModelDB.Item<ScrollOfInvigoration>()],
+				state =>
+				[
+					ModelDB.Item<FireKnightExplosiveTonic>(), ModelDB.Item<FireKnightRescueAxe>(), ModelDB.Item<FireKnightScrollOfInvigoration>()
+				],
 				customGetTargets: (state, list) =>
 				{
 					list.AddRange(GameController.Instance.Map.Figures

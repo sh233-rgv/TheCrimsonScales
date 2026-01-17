@@ -1,4 +1,4 @@
-﻿public class ScrollOfInvigoration : FireKnightItem
+﻿public class FireKnightScrollOfInvigoration : FireKnightItem
 {
 	public override string Name => "Scroll of Invigoration";
 	public override int ItemNumber => 10;

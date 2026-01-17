@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Fractural.Tasks;
 
 public class AMDCardValue(
-	bool rolling, AMDCardType cardType, int? value, int? pierce, int? push, int? pull, int? swing,
+	bool rolling, AMDCardType cardType, int? value, int? pierce, int? push, int? pull, int? swing, int? addedTargets,
 	List<CardElementInfusion> elementInfusions, List<ConditionModel> conditionModels, List<Ability> abilities,
 	Func<AttackAbility.State, GDTask> extraEffects) : IActionSource
 {
@@ -16,6 +16,7 @@ public class AMDCardValue(
 	public int? Push { get; } = push;
 	public int? Pull { get; } = pull;
 	public int? Swing { get; } = swing;
+	public int? AddedTargets { get; } = addedTargets;
 	public List<CardElementInfusion> ElementInfusions { get; } = elementInfusions;
 	public List<ConditionModel> ConditionModels { get; } = conditionModels;
 	public List<Ability> Abilities { get; } = abilities;
@@ -48,6 +49,11 @@ public class AMDCardValue(
 		if(Swing.HasValue)
 		{
 			attackAbilityState.SingleTargetAdjustSwing(Swing.Value);
+		}
+
+		if(AddedTargets.HasValue)
+		{
+			attackAbilityState.AdjustTargets(AddedTargets.Value);
 		}
 
 		foreach(CardElementInfusion elementInfusion in ElementInfusions)

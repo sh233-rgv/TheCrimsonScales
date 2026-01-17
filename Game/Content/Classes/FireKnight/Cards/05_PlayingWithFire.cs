@@ -32,7 +32,7 @@ public class PlayingWithFire : FireKnightCardModel<PlayingWithFire.CardTop, Play
 				.Build()),
 
 			new AbilityCardAbility(GiveFireKnightItemAbility(
-				state => [ModelDB.Item<ExplosiveTonic>(), ModelDB.Item<EmberCladding>()],
+				state => [ModelDB.Item<FireKnightExplosiveTonic>(), ModelDB.Item<FireKnightEmberCladding>()],
 				conditionalAbilityCheck: async state =>
 				{
 					await GDTask.CompletedTask;

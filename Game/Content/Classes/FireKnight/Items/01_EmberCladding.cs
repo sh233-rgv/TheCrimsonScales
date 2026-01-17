@@ -1,6 +1,6 @@
 ﻿using Fractural.Tasks;
 
-public class EmberCladding : FireKnightItem
+public class FireKnightEmberCladding : FireKnightItem
 {
 	public override string Name => "Ember Cladding";
 	public override int ItemNumber => 1;

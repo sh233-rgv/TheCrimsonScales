@@ -92,7 +92,7 @@ public class LightIrons : FireKnightCardModel<LightIrons.CardTop, LightIrons.Car
 				.WithDistance(2, new MoveCircle(this, new Vector2(0.61780804f, 0.7116977f)))
 				.Build()),
 
-			new AbilityCardAbility(GiveFireKnightItemAbility(state => [ModelDB.Item<PikeHook>(), ModelDB.Item<FireproofHelm>()]))
+			new AbilityCardAbility(GiveFireKnightItemAbility(state => [ModelDB.Item<FireKnightPikeHook>(), ModelDB.Item<FireKnightFireproofHelm>()]))
 		];
 	}
 }

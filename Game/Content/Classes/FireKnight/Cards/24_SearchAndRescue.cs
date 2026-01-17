@@ -98,7 +98,7 @@ public class SearchAndRescue : FireKnightLevelUpCardModel<SearchAndRescue.CardTo
 				)
 				.Build()),
 			new AbilityCardAbility(GiveFireKnightItemAbility(
-				state => [ModelDB.Item<RescueShield>(), ModelDB.Item<EmberCladding>(), ModelDB.Item<KindledTonic>()]
+				state => [ModelDB.Item<FireKnightRescueShield>(), ModelDB.Item<FireKnightEmberCladding>(), ModelDB.Item<FireKnightKindledTonic>()]
 			)),
 			new AbilityCardAbility(GiveFireKnightItemAbility(
 				state => GetOriginalOwner(state).FireKnightItems.Select(item => item.ImmutableInstance).ToList(),

@@ -26,7 +26,7 @@ public class MutualAid : FireKnightLevelUpCardModel<MutualAid.CardTop, MutualAid
 				.WithTarget(Target.SelfOrAllies | Target.SelfCountsForTargets)
 				.Build()),
 			new AbilityCardAbility(GiveFireKnightItemAbility(
-				state => [ModelDB.Item<FireproofHelm>(), ModelDB.Item<ScrollOfCharisma>(), ModelDB.Item<PikeHook>()],
+				state => [ModelDB.Item<FireKnightFireproofHelm>(), ModelDB.Item<FireKnightScrollOfCharisma>(), ModelDB.Item<FireKnightPikeHook>()],
 				customGetTargets: (state, list) =>
 				{
 					List<ActionState> grantAbilityActionStates = state.ActionState.GetAbilityState<GrantAbility.State>(0).GrantAbilityActionStates;

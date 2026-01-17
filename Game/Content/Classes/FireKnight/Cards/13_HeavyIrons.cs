@@ -20,7 +20,7 @@ public class HeavyIrons : FireKnightLevelUpCardModel<HeavyIrons.CardTop, HeavyIr
 				.Build()),
 
 			new AbilityCardAbility(GiveFireKnightItemAbility(
-				state => [ModelDB.Item<RescueAxe>(), ModelDB.Item<EmberCladding>(), ModelDB.Item<ScrollOfCharisma>()],
+				state => [ModelDB.Item<FireKnightRescueAxe>(), ModelDB.Item<FireKnightEmberCladding>(), ModelDB.Item<FireKnightScrollOfCharisma>()],
 				onItemGiven: async (state, item) =>
 				{
 					await AbilityCmd.GainXP(state.Performer, 1);
