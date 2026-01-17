@@ -8,4 +8,9 @@ public class BattleAxe : Prosperity2Item
 	public override ItemUseType ItemUseType => ItemUseType.Consume;
 
 	protected override int AtlasIndex => 6;
+
+	protected override void Subscribe()
+	{
+		base.Subscribe();
+	}
 }

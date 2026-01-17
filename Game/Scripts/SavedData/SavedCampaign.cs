@@ -304,23 +304,23 @@ public class SavedCampaign
 			],
 			StartingGroup.Explorers =>
 			[
-				//ModelDB.Class<BrightsparkModel>(),
+				ModelDB.Class<BrightsparkModel>(),
 				ModelDB.Class<ChainguardModel>(),
-				//ModelDB.Class<HollowpactModel>(),
+				ModelDB.Class<HollowpactModel>(),
 				ModelDB.Class<StarslingerModel>()
 			],
 			StartingGroup.Trailblazers =>
 			[
 				ModelDB.Class<BombardModel>(),
-				//ModelDB.Class<BrightsparkModel>(),
-				//ModelDB.Class<LuminaryModel>(),
+				ModelDB.Class<BrightsparkModel>(),
+				ModelDB.Class<LuminaryModel>(),
 				ModelDB.Class<StarslingerModel>()
 			],
 			StartingGroup.Naturalists =>
 			[
 				ModelDB.Class<ChieftainModel>(),
-				//ModelDB.Class<HollowpactModel>(),
-				//ModelDB.Class<LuminaryModel>(),
+				ModelDB.Class<HollowpactModel>(),
+				ModelDB.Class<LuminaryModel>(),
 				ModelDB.Class<MirefootModel>()
 			],
 			_ => throw new ArgumentOutOfRangeException(nameof(startingGroup), startingGroup, null)
