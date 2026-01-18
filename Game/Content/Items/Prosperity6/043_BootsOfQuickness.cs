@@ -1,12 +1,12 @@
 using Fractural.Tasks;
 using Godot;
 
-public class BootsOfSpeed : Prosperity2Item
+public class BootsOfQuickness : Prosperity6Item
 {
-	public override string Name => "Boots of Speed";
-	public override int ItemNumber => 15;
+	public override string Name => "Boots of Quickness";
+	public override int ItemNumber => 43;
 	public override int ShopCount => 2;
-	public override int Cost => 30;
+	public override int Cost => 50;
 	public override ItemType ItemType => ItemType.Feet;
 	public override ItemUseType ItemUseType => ItemUseType.Spend;
 
@@ -32,7 +32,7 @@ public class BootsOfSpeed : Prosperity2Item
 				await Use(async user =>
 				{
 					await AbilityCmd.GenericChoice(user,
-						[GetSubscription(-10), GetSubscription(10)], hintText: "Decrease or increase your initiative?");
+						[GetSubscription(-20), GetSubscription(20)], hintText: "Decrease or increase your initiative?");
 				});
 			}
 		);
