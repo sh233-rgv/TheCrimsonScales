@@ -5,7 +5,7 @@ using Fractural.Tasks;
 public class CompoundToxin : MirefootCardModel<CompoundToxin.CardTop, CompoundToxin.CardBottom>
 {
 	public override string Name => "Compound Toxin";
-	public override int Level => 5;
+	public override int Level => 1;
 	public override int Initiative => 61;
 	protected override int AtlasIndex => 20;
 

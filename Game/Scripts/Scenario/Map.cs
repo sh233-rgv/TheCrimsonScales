@@ -236,14 +236,24 @@ public partial class Map : Node2D
 		MonsterGroup group = MonsterGroups.FirstOrDefault(group => group.MonsterModel == monsterModel);
 		if(group == null)
 		{
-			MonsterAbilityCardDeck deckIsAlreadyInUseByAGroup = MonsterGroups
-				.Where(monsterGroup => monsterGroup.MonsterModel.Deck == monsterModel.Deck)
-				.Select(group => group.MonsterAbilityCardDeck)
-				.FirstOrDefault();
-			group = new MonsterGroup(monsterModel, MonsterGroups.Count, deckIsAlreadyInUseByAGroup);
-			MonsterGroups.Add(group);
+			AddMonsterGroup(monsterModel);
 		}
 
 		return group;
+	}
+
+	public void AddMonsterGroup(MonsterModel monsterModel)
+	{
+		if(MonsterGroups.Any(group => group.MonsterModel == monsterModel))
+		{
+			return;
+		}
+		
+		MonsterAbilityCardDeck deckIsAlreadyInUseByAGroup = MonsterGroups
+			.Where(monsterGroup => monsterGroup.MonsterModel.Deck == monsterModel.Deck)
+			.Select(group => group.MonsterAbilityCardDeck)
+			.FirstOrDefault();
+		MonsterGroup group = new MonsterGroup(monsterModel, MonsterGroups.Count, deckIsAlreadyInUseByAGroup);
+		MonsterGroups.Add(group);
 	}
 }

@@ -138,6 +138,7 @@ public partial class Room : Node2D
 		foreach(MonsterSpawner monsterSpawner in monsterSpawners)
 		{
 			await monsterSpawner.SpawnMonster();
+			//GameController.Instance.Map.AddMonsterGroup(ModelDB.GetById<MonsterModel>(new ModelId(monsterSpawner.MonsterModelId)));
 		}
 
 		map.UpdateWallLines();
