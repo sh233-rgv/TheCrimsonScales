@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using Godot;
 
-public class AOEPrompt(AbilityState abilityState, AOEPattern pattern, Hex forcedOriginHex, EffectCollection effectCollection, Func<string> getHintText, int range = 1)
+public class AOEPrompt(
+	Figure performer, AOEPattern pattern, Hex forcedOriginHex, EffectCollection effectCollection, Func<string> getHintText, int range)
 	: Prompt<AOEPrompt.Answer>(effectCollection, getHintText)
 {
 	public class Answer : PromptAnswer
 	{
 		public List<Vector2I> HexCoords { get; init; }
 		public List<AOEHexType> HexTypes { get; init; }
+		public List<string> HexCustomMarks { get; init; }
 	}
 
 	protected override void Enable()
@@ -16,11 +18,7 @@ public class AOEPrompt(AbilityState abilityState, AOEPattern pattern, Hex forced
 		base.Enable();
 
 		GameController.Instance.AOEView.AOEChangedEvent += OnAOEChanged;
-		if (abilityState is TargetedAbilityState targetedAbilityState)
-        {
-            range = targetedAbilityState.AbilityRange;
-        }
-		GameController.Instance.AOEView.Open(pattern, forcedOriginHex, abilityState.Performer, range);
+		GameController.Instance.AOEView.Open(pattern, forcedOriginHex, performer, range);
 	}
 
 	protected override void Disable()
@@ -35,17 +33,20 @@ public class AOEPrompt(AbilityState abilityState, AOEPattern pattern, Hex forced
 	{
 		List<Vector2I> hexCoords = new List<Vector2I>();
 		List<AOEHexType> hexTypes = new List<AOEHexType>();
+		List<string> hexCustomMarks = new List<string>();
 
 		foreach(AOEHexView hexView in GameController.Instance.AOEView.Hexes)
 		{
 			hexCoords.Add(hexView.GlobalCoords);
 			hexTypes.Add(hexView.Type);
+			hexCustomMarks.Add(hexView.CustomMark);
 		}
 
 		return new Answer()
 		{
 			HexCoords = hexCoords,
-			HexTypes = hexTypes
+			HexTypes = hexTypes,
+			HexCustomMarks = hexCustomMarks
 		};
 	}
 

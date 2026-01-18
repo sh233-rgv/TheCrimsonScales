@@ -12,15 +12,14 @@ public abstract class LuminaryCardModel<TTop, TBottom> : AtlasAbilityCardModel<T
 	protected override int RowCount => 4;
 }
 
-
 public abstract class LuminaryCardSide : AbilityCardSide
 {
 	public class GlowAbilityModel(List<Element> elements, Func<List<Element>, Ability> ability, string hintText, string hintIcon)
 	{
-		public List<Element> Elements = elements;
-		public Func<List<Element>, Ability> Ability = ability;
-		public string HintText = hintText;
-		public string HintIcon = hintIcon;
+		public List<Element> Elements { get; } = elements;
+		public Func<List<Element>, Ability> Ability { get; } = ability;
+		public string HintText { get; } = hintText;
+		public string HintIcon { get; } = hintIcon;
 	}
 
 	protected AbilityCardAbility Scuttle(int distance, IReadOnlyCollection<Element> possibleElements)
@@ -69,23 +68,18 @@ public abstract class LuminaryCardSide : AbilityCardSide
 			.Build());
 	}
 
-	protected AbilityCardAbility PerformGlow()
+	protected AbilityCardAbility PerformFreeGlow()
 	{
 		return new AbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
 			{
-				foreach(AbilityCard abilityCard in ((Character)state.Performer).Cards)
+				GlowActiveAbility.State abilityState = (GlowActiveAbility.State)((Character)state.Performer).Cards
+					.SelectMany(card => card.ActiveActionStates.SelectMany(actionState => actionState.AbilityStates))
+					.FirstOrDefault(abilityState => abilityState is GlowActiveAbility.State);
+				if(abilityState != null)
 				{
-					AbilityState glowState =
-						abilityCard.ActiveActionStates
-							.SelectMany(a => a.AbilityStates)
-							.FirstOrDefault(s => s.GetCustomValue<bool>(state.Performer, "Active Glow"));
-					if(glowState != null)
-					{
-						await GlowAbility(state.Performer, glowState.GetCustomValue<GlowAbilityModel[]>(state.Performer, "Glow Perform"), false);
-						state.SetPerformed();
-						break;
-					}
+					await GlowAbility(state.Performer, abilityState.GlowAbilityModels, false);
+					state.SetPerformed();
 				}
 
 				await GDTask.CompletedTask;
@@ -93,52 +87,7 @@ public abstract class LuminaryCardSide : AbilityCardSide
 			.Build());
 	}
 
-	protected AbilityCardAbility Glow(params GlowAbilityModel[] glowAbilities)
-	{
-		return new AbilityCardAbility(OtherActiveAbility.Builder()
-			.WithOnActivate(async state =>
-			{
-				foreach(AbilityCard abilityCard in ((Character)state.Performer).Cards)
-				{
-					foreach(ActionState actionState in abilityCard.ActiveActionStates)
-					{
-						if(actionState.AbilityStates.Any(abilityState => abilityState.GetCustomValue<bool>(state.Performer, "Active Glow")))
-						{
-							await actionState.RequestDiscardOrLose();
-							break;
-						}
-					}
-				}
-
-				AbilityCmd.SubscribeDuringCharacterTurn(ScenarioEvents.GetSubscriberPair(state, this), EffectType.Selectable,
-					character => character == state.Performer &&
-					             glowAbilities.Any(glowAbility =>
-						             glowAbility.Elements.All(e =>
-							             GameController.Instance.ElementManager.GetState(e) > ElementState.Inert)),
-					async character =>
-					{
-						await GlowAbility(character, glowAbilities);
-						await GDTask.CompletedTask;
-					},
-					effectButtonParameters: new IconEffectButton.Parameters("res://Content/Classes/Luminary/Glow.svg"),
-					effectInfoViewParameters: new TextEffectInfoView.Parameters(
-						$"Perform {Icons.Inline("res://Content/Classes/Luminary/Glow.svg")}"));
-
-				state.SetCustomValue(state.Performer, "Active Glow", true);
-				state.SetCustomValue(state.Performer, "Glow Perform", glowAbilities);
-				await GDTask.CompletedTask;
-			})
-			.WithOnDeactivate(async state =>
-			{
-				ScenarioEvents.FigureTurnStartedEvent.Unsubscribe(state, this);
-				ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
-
-				await GDTask.CompletedTask;
-			})
-			.Build());
-	}
-
-	private async GDTask GlowAbility(Figure performer, GlowAbilityModel[] glowAbilities, bool consumeElements = true)
+	private static async GDTask GlowAbility(Figure performer, GlowAbilityModel[] glowAbilities, bool consumeElements = true)
 	{
 		List<ScenarioEvents.GenericChoice.Subscription> subscriptions = [];
 		foreach(GlowAbilityModel glowAbility in glowAbilities)
@@ -148,7 +97,7 @@ public abstract class LuminaryCardSide : AbilityCardSide
 				subscriptions.Add(ScenarioEvents.GenericChoice.Subscription.ConsumeElements(glowAbility.Elements,
 					applyFunction: async parameters =>
 					{
-						ActionState actionState = new(performer, [glowAbility.Ability(glowAbility.Elements)]);
+						ActionState actionState = new ActionState(performer, [glowAbility.Ability(glowAbility.Elements)]);
 						await actionState.Perform();
 					},
 					effectInfoViewParameters: new TextEffectInfoView.Parameters(glowAbility.HintText)
@@ -170,5 +119,85 @@ public abstract class LuminaryCardSide : AbilityCardSide
 		}
 
 		await AbilityCmd.GenericChoice(performer, subscriptions, hintText: "Select a glow ability to perform");
+	}
+
+	protected class GlowActiveAbility : ActiveAbility<GlowActiveAbility.State>
+	{
+		public class State : ActiveAbilityState
+		{
+			public GlowAbilityModel[] GlowAbilityModels { get; set; }
+		}
+
+		public GlowAbilityModel[] GlowAbilities;
+
+		public new class AbstractBuilder<TBuilder, TAbility> : ActiveAbility<State>.AbstractBuilder<TBuilder, TAbility>,
+			AbstractBuilder<TBuilder, TAbility>.IGlowAbilityStep
+			where TBuilder : AbstractBuilder<TBuilder, TAbility>
+			where TAbility : GlowActiveAbility, new()
+		{
+			public interface IGlowAbilityStep
+			{
+				TBuilder WithGlowAbility(params GlowAbilityModel[] glowAbilities);
+			}
+
+			public TBuilder WithGlowAbility(params GlowAbilityModel[] glowAbilities)
+			{
+				Obj.GlowAbilities = glowAbilities;
+				return (TBuilder)this;
+			}
+		}
+
+		public class GlowBuilder : AbstractBuilder<GlowBuilder, GlowActiveAbility>
+		{
+			internal GlowBuilder() { }
+		}
+
+		public static GlowBuilder Builder()
+		{
+			return new GlowBuilder();
+		}
+
+
+		protected override async GDTask Perform(State abilityState)
+		{
+			await AskConfirmAndActivate(abilityState);
+		}
+
+		protected override async GDTask Activate(State abilityState)
+		{
+			await base.Activate(abilityState);
+			ActionState actionState = ((Character)abilityState.Performer).Cards
+				.SelectMany(card => card.ActiveActionStates)
+				.FirstOrDefault(actionState => actionState.AbilityStates.Any(state => state is State));
+
+			if(actionState != null)
+			{
+				await actionState.RequestDiscardOrLose();
+			}
+
+			AbilityCmd.SubscribeDuringCharacterTurn(ScenarioEvents.GetSubscriberPair(abilityState, this), EffectType.Selectable,
+				character => character == abilityState.Performer &&
+				             GlowAbilities.Any(glowAbility =>
+					             glowAbility.Elements.All(e =>
+						             GameController.Instance.ElementManager.GetState(e) > ElementState.Inert)),
+				async character =>
+				{
+					await GlowAbility(character, GlowAbilities);
+					await GDTask.CompletedTask;
+				},
+				effectButtonParameters: new IconEffectButton.Parameters("res://Content/Classes/Luminary/Glow.svg"),
+				effectInfoViewParameters: new TextEffectInfoView.Parameters(
+					$"Perform {Icons.Inline("res://Content/Classes/Luminary/Glow.svg")}"));
+
+			abilityState.GlowAbilityModels = GlowAbilities;
+			await GDTask.CompletedTask;
+		}
+
+		protected override async GDTask Deactivate(State abilityState)
+		{
+			await base.Deactivate(abilityState);
+
+			AbilityCmd.UnsubscribeDuringTurn(ScenarioEvents.GetSubscriberPair(abilityState, this));
+		}
 	}
 }

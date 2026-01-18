@@ -43,7 +43,7 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 						{
 							await AbilityCmd.InfuseWildElement(parameters.AbilityState);
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetAnyElement())}")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.AnyElement)}")
 					)
 				])
 				.Build()),
@@ -65,19 +65,17 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 						async applyParameters =>
 						{
 							glowDiscarded = true;
-							foreach(AbilityCard abilityCard in ((Character)state.Performer).Cards)
+							ActionState glowActionState = ((Character)state.Performer).Cards
+								.SelectMany(card => card.ActiveActionStates)
+								.FirstOrDefault(actionState =>
+									actionState.AbilityStates.Any(activeAbilityState => activeAbilityState is GlowActiveAbility.State));
+
+							if(glowActionState != null)
 							{
-								foreach(ActionState actionState in abilityCard.ActiveActionStates)
-								{
-									if(actionState.AbilityStates.Any(abilityState =>
-										   abilityState.GetCustomValue<bool>(state.Performer, "Active Glow")))
-									{
-										await actionState.RequestDiscardOrLose();
-										break;
-									}
-								}
+								await glowActionState.RequestDiscardOrLose();
 							}
 
+							//TODO: Change to work with the damage glow
 							if(applyParameters.AbilityState is TargetedAbilityState targetedAbilityState &&
 							   targetedAbilityState.GetRedAOEHexes().Any())
 							{

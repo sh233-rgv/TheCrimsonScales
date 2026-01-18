@@ -118,6 +118,7 @@ public abstract class AbilityCardSide
 	{
 		await AbilityCmd.GainXP(abilityState.Performer, 1);
 	}
+
 	protected async GDTask Gain2XP(AbilityState abilityState)
 	{
 		await AbilityCmd.GainXP(abilityState.Performer, 2);

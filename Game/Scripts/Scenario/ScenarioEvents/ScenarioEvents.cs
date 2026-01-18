@@ -28,42 +28,6 @@ public partial class ScenarioEvents
 		return newEventSubscriberPair;
 	}
 
-	public static EventSubscriberPair FindSubscriber(object subscriberA)
-	{
-		if(subscriberA == null)
-		{
-			throw new Exception("The given subscriber is null.");
-		}
-
-		foreach(EventSubscriberPair eventSubscriberPair in EventSubscriberPairs)
-		{
-			if(eventSubscriberPair.SubscriberA == subscriberA)
-			{
-				return eventSubscriberPair;
-			}
-		}
-
-		return null;
-	}
-
-	public static EventSubscriberPair FindSubscriberPair(object subscriberA, object subscriberB)
-	{
-		if(subscriberA == null || subscriberB == null)
-		{
-			throw new Exception("One of the given subscribers is null.");
-		}
-
-		foreach(EventSubscriberPair eventSubscriberPair in EventSubscriberPairs)
-		{
-			if(eventSubscriberPair.SubscriberA == subscriberA && eventSubscriberPair.SubscriberB == subscriberB)
-			{
-				return eventSubscriberPair;
-			}
-		}
-
-		return null;
-	}
-
 	public class GenericChoice : ScenarioEvent<GenericChoice.Parameters>
 	{
 		public class Parameters() : ParametersBase
@@ -712,10 +676,11 @@ public partial class ScenarioEvents
 			public Element Element { get; } = element;
 			public AbilityState AbilityState { get; } = state;
 			public bool CanInfuse { get; private set; } = true;
+
 			public void SetCanInfuse(bool canInfuse)
-            {
-                CanInfuse = canInfuse;
-            }
+			{
+				CanInfuse = canInfuse;
+			}
 		}
 	}
 

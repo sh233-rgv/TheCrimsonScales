@@ -14,8 +14,10 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow(new GlowAbilityModel([Element.Fire], GlowAbility,
-				$"Perform {Icons.Inline(Icons.Damage)}2 ability", Icons.Damage))
+			new AbilityCardAbility(GlowActiveAbility.Builder()
+				.WithGlowAbility(new GlowAbilityModel([Element.Fire], GlowAbility,
+					$"Perform {Icons.Inline(Icons.Damage)}2 ability", Icons.Damage))
+				.Build())
 		];
 
 		protected override int XP => 1;
@@ -29,14 +31,14 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 					Dictionary<Vector2I, AOEHexType> aoeHexes = new Dictionary<Vector2I, AOEHexType>();
 
 					AOEPrompt.Answer aoeAnswer =
-						await PromptManager.Prompt(new AOEPrompt(state, new AOEPattern(
+						await PromptManager.Prompt(new AOEPrompt(state.Performer, new AOEPattern(
 								[
 									new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 									new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
 									new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 									new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 								]
-							), state.Performer.Hex, null, () => "Select the hexes for the area of effect"),
+							), state.Performer.Hex, null, () => "Select the hexes for the area of effect", 1),
 							state.Authority);
 
 					if(aoeAnswer.Skipped)

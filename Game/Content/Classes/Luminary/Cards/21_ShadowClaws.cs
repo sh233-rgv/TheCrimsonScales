@@ -14,8 +14,10 @@ public class ShadowClaws : LuminaryCardModel<ShadowClaws.CardTop, ShadowClaws.Ca
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow(new GlowAbilityModel([Element.Dark], GlowAbility,
-				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Muddle))} ability", Icons.GetCondition(Conditions.Muddle)))
+			new AbilityCardAbility(GlowActiveAbility.Builder()
+				.WithGlowAbility(new GlowAbilityModel([Element.Dark], GlowAbility,
+					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Muddle))} ability", Icons.GetCondition(Conditions.Muddle)))
+				.Build())
 		];
 
 		protected override int XP => 1;
@@ -43,29 +45,28 @@ public class ShadowClaws : LuminaryCardModel<ShadowClaws.CardTop, ShadowClaws.Ca
 				})
 				.WithOnAbilityEnded(async state =>
 				{
-					if(ScenarioEvents.FindSubscriberPair(state.Performer, this) == null)
-					{
-						ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state.Performer, this,
-							parameters => parameters.AbilityState.Target.HasCondition(Conditions.Muddle),
-							async parameters =>
-							{
-								parameters.AbilityState.SingleTargetSetHasAdvantage();
+					ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state.Performer, this);
+					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state.Performer, this);
+					ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state.Performer, this,
+						parameters => parameters.AbilityState.Target.HasCondition(Conditions.Muddle),
+						async parameters =>
+						{
+							parameters.AbilityState.SingleTargetSetHasAdvantage();
 
-								await GDTask.CompletedTask;
-							}
-						);
+							await GDTask.CompletedTask;
+						}
+					);
 
-						ScenarioEvents.FigureTurnEndedEvent.Subscribe(state.Performer, this,
-							parameters => true,
-							async parameters =>
-							{
-								ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state.Performer, this);
-								ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state.Performer, this);
+					ScenarioEvents.FigureTurnEndedEvent.Subscribe(state.Performer, this,
+						parameters => true,
+						async parameters =>
+						{
+							ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state.Performer, this);
+							ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state.Performer, this);
 
-								await GDTask.CompletedTask;
-							}
-						);
-					}
+							await GDTask.CompletedTask;
+						}
+					);
 
 					await GDTask.CompletedTask;
 				})
@@ -100,9 +101,9 @@ public class ShadowClaws : LuminaryCardModel<ShadowClaws.CardTop, ShadowClaws.Ca
 								.Except(parameters.AbilityState.GetCustomValue<List<Element>>(state.Performer, "Consumed Elements"))
 								.ToList());
 						},
-						effectButtonParameters: new IconEffectButton.Parameters(Icons.GetAnyElement()),
+						effectButtonParameters: new IconEffectButton.Parameters(Icons.AnyElement),
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(
-							$"Infuse {Icons.Inline(Icons.GetAnyElement())} other than any of the consumed elements"),
+							$"Infuse {Icons.Inline(Icons.AnyElement)} other than any of the consumed elements"),
 						effectType: EffectType.Selectable
 					);
 					await GDTask.CompletedTask;

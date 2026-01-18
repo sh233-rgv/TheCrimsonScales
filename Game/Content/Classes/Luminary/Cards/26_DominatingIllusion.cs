@@ -13,10 +13,12 @@ public class DominatingIllusion : LuminaryCardModel<DominatingIllusion.CardTop, 
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow(new GlowAbilityModel([Element.Fire], GlowAbility1,
-					$"Add +1{Icons.Inline(Icons.Attack)} to all your attacks this turn", Icons.Attack),
-				new GlowAbilityModel([Element.Light], GlowAbility2,
-					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Bless))}, self", Icons.GetCondition(Conditions.Bless)))
+			new AbilityCardAbility(GlowActiveAbility.Builder()
+				.WithGlowAbility(new GlowAbilityModel([Element.Fire], GlowAbility1,
+						$"Add +1{Icons.Inline(Icons.Attack)} to all your attacks this turn", Icons.Attack),
+					new GlowAbilityModel([Element.Light], GlowAbility2,
+						$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Bless))}, self", Icons.GetCondition(Conditions.Bless)))
+				.Build())
 		];
 
 		protected override int XP => 1;

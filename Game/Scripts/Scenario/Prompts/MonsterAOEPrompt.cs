@@ -11,6 +11,7 @@ public class MonsterAOEPrompt(
 	{
 		public List<Vector2I> HexCoords { get; init; }
 		public List<AOEHexType> HexTypes { get; init; }
+		public List<string> HexCustomMarks { get; init; }
 	}
 
 	private static readonly HashSet<Figure> AttackableFiguresCache = new HashSet<Figure>();
@@ -204,6 +205,7 @@ public class MonsterAOEPrompt(
 	{
 		List<Vector2I> hexCoords = new List<Vector2I>();
 		List<AOEHexType> hexTypes = new List<AOEHexType>();
+		List<string> hexCustomMarks = new List<string>();
 
 		foreach(AOEHex aoeHex in pattern.Hexes)
 		{
@@ -223,7 +225,8 @@ public class MonsterAOEPrompt(
 		return new Answer()
 		{
 			HexCoords = hexCoords,
-			HexTypes = hexTypes
+			HexTypes = hexTypes,
+			HexCustomMarks = hexCustomMarks
 		};
 	}
 

@@ -13,16 +13,18 @@ public class ShiningDiversion : LuminaryCardModel<ShiningDiversion.CardTop, Shin
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow(new GlowAbilityModel([Element.Light], GlowAbility,
-				$"Perform granted {Icons.Inline(Icons.Shield)} ability", Icons.Shield))
+			new AbilityCardAbility(GlowActiveAbility.Builder()
+				.WithGlowAbility(new GlowAbilityModel([Element.Light], GlowAbility,
+					$"Perform granted {Icons.Inline(Icons.Shield)} ability", Icons.Shield))
+				.Build())
 		];
-		
+
 		protected override int XP => 1;
 		protected override bool Persistent => true;
 
 		private Ability GlowAbility(List<Element> elements)
-        {
-            return GrantAbility.Builder()
+		{
+			return GrantAbility.Builder()
 				.WithGetAbilities(state =>
 				[
 					ShieldAbility.Builder()
@@ -37,9 +39,9 @@ public class ShiningDiversion : LuminaryCardModel<ShiningDiversion.CardTop, Shin
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 						new AOEHex(Vector2I.Zero.Add(Direction.West), AOEHexType.Red),
-						new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red | AOEHexType.Marked),
-						new AOEHex(Vector2I.Zero.Add(Direction.NorthWest).Add(Direction.NorthEast), AOEHexType.Red | AOEHexType.Marked),
-						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red | AOEHexType.Marked),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red, "Loot", Icons.Loot),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthWest).Add(Direction.NorthEast), AOEHexType.Red, "Loot", Icons.Loot),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red, "Loot", Icons.Loot),
 						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 					]
 				))
@@ -51,12 +53,12 @@ public class ShiningDiversion : LuminaryCardModel<ShiningDiversion.CardTop, Shin
 					await GDTask.CompletedTask;
 				})
 				.WithOnAbilityEnded(async state =>
-                {
-                    foreach(Hex hex in state.ActionState.GetAbilityState<GrantAbility.State>(0).GetMarkedAOEHexes())
+				{
+					foreach(Hex hex in state.ActionState.GetAbilityState<GrantAbility.State>(0).GetCustomMarkedHexes("Loot"))
 					{
 						await AbilityCmd.LootHex(state.Performer, hex);
 					}
-                })
+				})
 				.Build();
 		}
 	}
@@ -65,7 +67,6 @@ public class ShiningDiversion : LuminaryCardModel<ShiningDiversion.CardTop, Shin
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)
 				.Build()),

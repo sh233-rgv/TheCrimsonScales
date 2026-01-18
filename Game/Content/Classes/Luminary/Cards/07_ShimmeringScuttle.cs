@@ -29,7 +29,7 @@ public class ShimmeringScuttle : LuminaryCardModel<ShimmeringScuttle.CardTop, Sh
 					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Light,
 						applyFunction: async parameters =>
 						{
-							parameters.AbilityState.AbilityAddCondition(Conditions.Stun);
+							parameters.AbilityState.AbilityAdjustAttackValue(1);
 
 							await GDTask.CompletedTask;
 						},
@@ -53,14 +53,15 @@ public class ShimmeringScuttle : LuminaryCardModel<ShimmeringScuttle.CardTop, Sh
 				{
 					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
 						canApply: parameters => parameters.AbilityState.Performer == state.Performer &&
-							parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability") &&
-							parameters.AbilityState is TargetedAbilityState targetedAbilityState && targetedAbilityState.AbilityTarget.HasFlag(Target.Enemies),
+						                        parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability") &&
+						                        parameters.AbilityState is TargetedAbilityState targetedAbilityState &&
+						                        targetedAbilityState.AbilityTarget.HasFlag(Target.Enemies),
 						apply: async parameters =>
-                        {
+						{
 							((TargetedAbilityState)parameters.AbilityState).AbilityAddCondition(Conditions.Muddle);
 
 							await GDTask.CompletedTask;
-                        });
+						});
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>

@@ -6,11 +6,14 @@ public partial class AOEHexView : Node2D
 {
 	[Export]
 	private WorldButton _worldButton;
+	[Export]
+	public TextureRect TextureRect;
 
 	public event Action<AOEHexView, Vector2I> DraggedEvent;
 	public event Action<AOEHexView> PressedEvent;
 
 	public AOEHexType Type { get; private set; }
+	public string CustomMark { get; private set; }
 
 	public bool Pressed { get; private set; }
 	public bool Dragging { get; private set; }
@@ -19,8 +22,14 @@ public partial class AOEHexView : Node2D
 	public void Init(AOEHex hex)
 	{
 		Type = hex.Type;
+		CustomMark = hex.CustomMark;
 
 		Position = Map.CoordsToGlobalPosition(hex.LocalCoords);
+		if(hex.IconPath != null)
+		{
+			TextureRect.Show();
+			TextureRect.SetTexture(ResourceLoader.Load<Texture2D>(hex.IconPath));
+		}
 
 		Scale = Vector2.Zero;
 		this.TweenScale(1f, 0.15f).SetEasing(Easing.OutBack).PlayFastForwardable();

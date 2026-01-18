@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using Fractural.Tasks;
 using Godot;
@@ -681,8 +680,7 @@ public static class AbilityCmd
 			ScenarioEvents.GenericChoice.ApplyFunction oldApplyFunction = subscription.ApplyFunction;
 			ScenarioEvents.GenericChoice.ApplyFunction newApplyFunction = async parameters =>
 			{
-				ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
-
+				//TODO: Fix issue with nested generic choices
 				if(oldApplyFunction != null)
 				{
 					await oldApplyFunction.Invoke(parameters);
@@ -701,6 +699,7 @@ public static class AbilityCmd
 		}
 
 		await ScenarioEvents.GenericChoiceEvent.CreatePrompt(new ScenarioEvents.GenericChoice.Parameters(), authority, hintText);
+		ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
 	}
 
 	public static GDTask InfuseWildElement(AbilityState potentialAbilityState, Figure potentialInfuser = null)
@@ -741,7 +740,6 @@ public static class AbilityCmd
 	{
 		potentialInfuser ??= potentialAbilityState?.Performer;
 
-		await GDTask.CompletedTask;
 		if(immediately)
 		{
 			GameController.Instance.ElementManager.InfuseImmediately(element);

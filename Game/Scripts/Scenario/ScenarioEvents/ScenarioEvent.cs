@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
 using Fractural.Tasks;
 using Godot;
 
@@ -72,7 +71,8 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 				effectInfoViewParameters ?? new TextEffectInfoView.Parameters("TODO"));
 		}
 
-		public static Subscription ConsumeWildElement(CanApplyFunction canApplyFunction = null, ApplyFunction applyFunction = null, EffectType effectType = EffectType.Selectable,
+		public static Subscription ConsumeWildElement(CanApplyFunction canApplyFunction = null, ApplyFunction applyFunction = null,
+			EffectType effectType = EffectType.Selectable,
 			int order = 0, bool canApplyMultipleTimesDuringSubscription = false, bool canApplyMultipleTimesInEffectCollection = false,
 			EffectButtonParameters effectButtonParameters = null, EffectInfoViewParameters effectInfoViewParameters = null)
 		{
@@ -81,24 +81,26 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 				{
 					bool elementAvailable = false;
 					for(int i = 0; i < 6; i++)
+					{
 						if(GameController.Instance.ElementManager.GetState((Element)i) > ElementState.Inert)
 						{
 							elementAvailable = true;
 							break;
 						}
+					}
 
 					return elementAvailable && (canApplyFunction == null || canApplyFunction.Invoke(parameters));
 				},
 				async parameters =>
 				{
 					Element? wildConsume = await AbilityCmd.AskConsumeWildElement(new Character(), true);
-					if (wildConsume.HasValue)
-                    {
+					if(wildConsume.HasValue)
+					{
 						if(applyFunction != null)
 						{
 							await applyFunction.Invoke(parameters);
 						}
-                    }
+					}
 				}, effectType, order, canApplyMultipleTimesDuringSubscription, canApplyMultipleTimesInEffectCollection,
 				effectButtonParameters ?? new ConsumeElementEffectButton.Parameters(),
 				effectInfoViewParameters ?? new TextEffectInfoView.Parameters("TODO"));
@@ -432,16 +434,6 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 				FireSubscriptionRemovedEvent(subscription);
 			}
 		}
-	}
-
-	public void Unsubscribe(AbilityState subscriberA)
-	{
-		EventSubscriberPair subscriberPair = ScenarioEvents.FindSubscriber(subscriberA);
-		if (subscriberPair == null)
-        {
-            return;
-        }
-		Unsubscribe(subscriberPair);
 	}
 
 	public void Unsubscribe(List<Subscription> subscriptions)

@@ -21,9 +21,9 @@ public partial class ConsumeElementEffectButton : EffectButton<ConsumeElementEff
 		}
 
 		public Parameters()
-        {
-            WildElement = true;
-        }
+		{
+			WildElement = true;
+		}
 	}
 
 	[Export]
@@ -42,13 +42,13 @@ public partial class ConsumeElementEffectButton : EffectButton<ConsumeElementEff
 	{
 		base.Init(parameters);
 
-		if (parameters.WildElement)
-        {
-            _singleElementContainer.SetVisible(true);
+		if(parameters.WildElement)
+		{
+			_singleElementContainer.SetVisible(true);
 			_multipleElementsContainer.SetVisible(false);
 
-			_singleElementTextureRect.SetTexture(ResourceLoader.Load<Texture2D>(Icons.GetAnyElement()));
-        }
+			_singleElementTextureRect.SetTexture(ResourceLoader.Load<Texture2D>(Icons.AnyElement));
+		}
 		else if(parameters.Elements.Count == 0)
 		{
 			Log.Error("Trying to instantiate a consume element effect button without elements to consume.");

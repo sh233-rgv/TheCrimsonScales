@@ -66,6 +66,7 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 						                        parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
 						apply: async parameters =>
 						{
+							//TODO: Change to work with the damage glow
 							if(parameters.AbilityState is TargetedAbilityState targetedAbilityState && targetedAbilityState.GetRedAOEHexes().Any())
 							{
 								ActionState actionState = new ActionState(state.Performer, [

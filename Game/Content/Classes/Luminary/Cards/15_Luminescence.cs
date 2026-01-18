@@ -13,16 +13,18 @@ public class Luminescence : LuminaryCardModel<Luminescence.CardTop, Luminescence
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow(new GlowAbilityModel([Element.Ice], GlowAbility,
-				$"Perform {Icons.Inline(Icons.Heal)}2 ability", Icons.Heal))
+			new AbilityCardAbility(GlowActiveAbility.Builder()
+				.WithGlowAbility(new GlowAbilityModel([Element.Ice], GlowAbility,
+					$"Perform {Icons.Inline(Icons.Heal)}2 ability", Icons.Heal))
+				.Build())
 		];
-		
+
 		protected override int XP => 1;
 		protected override bool Persistent => true;
 
 		private Ability GlowAbility(List<Element> elements)
-        {
-            return HealAbility.Builder()
+		{
+			return HealAbility.Builder()
 				.WithHealValue(2)
 				.WithAOEPattern(new AOEPattern(
 					[
@@ -41,7 +43,7 @@ public class Luminescence : LuminaryCardModel<Luminescence.CardTop, Luminescence
 					await GDTask.CompletedTask;
 				})
 				.Build();
-        }
+		}
 	}
 
 	public class CardBottom : LuminaryCardSide
@@ -59,16 +61,17 @@ public class Luminescence : LuminaryCardModel<Luminescence.CardTop, Luminescence
 
 							await GDTask.CompletedTask;
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Move)}, {Icons.Inline(Icons.Heal)}3, self")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"+1{Icons.Inline(Icons.Move)}, {Icons.Inline(Icons.Heal)}3, self")
 					)
 				)
 				.WithOnAbilityEndedPerformed(async state =>
-                {
-                    if (state.GetCustomValue<bool>(this, "IceConsumed"))
-                    {
-                        await AbilityCmd.GainXP(state.Performer, 1);
-                    }
-                })
+				{
+					if(state.GetCustomValue<bool>(this, "IceConsumed"))
+					{
+						await AbilityCmd.GainXP(state.Performer, 1);
+					}
+				})
 				.Build()),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)

@@ -13,8 +13,10 @@ public class SoftGlow : LuminaryCardModel<SoftGlow.CardTop, SoftGlow.CardBottom>
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow(new GlowAbilityModel([Element.Ice], GlowAbility,
-				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Strengthen))} ability", Icons.GetCondition(Conditions.Strengthen)))
+			new AbilityCardAbility(GlowActiveAbility.Builder()
+				.WithGlowAbility(new GlowAbilityModel([Element.Ice], GlowAbility,
+					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Strengthen))} ability", Icons.GetCondition(Conditions.Strengthen)))
+				.Build())
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Dark];
@@ -22,8 +24,8 @@ public class SoftGlow : LuminaryCardModel<SoftGlow.CardTop, SoftGlow.CardBottom>
 		protected override bool Persistent => true;
 
 		private Ability GlowAbility(List<Element> elements)
-        {
-            return ConditionAbility.Builder()
+		{
+			return ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)
 				.WithAOEPattern(new AOEPattern(
 					[
@@ -42,7 +44,7 @@ public class SoftGlow : LuminaryCardModel<SoftGlow.CardTop, SoftGlow.CardBottom>
 					await GDTask.CompletedTask;
 				})
 				.Build();
-        }
+		}
 	}
 
 	public class CardBottom : LuminaryCardSide

@@ -13,8 +13,10 @@ public class RadiantGlare : LuminaryCardModel<RadiantGlare.CardTop, RadiantGlare
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow(new GlowAbilityModel([Element.Light], GlowAbility,
-				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Immobilize))} ability", Icons.GetCondition(Conditions.Immobilize)))
+			new AbilityCardAbility(GlowActiveAbility.Builder()
+				.WithGlowAbility(new GlowAbilityModel([Element.Light], GlowAbility,
+					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Immobilize))} ability", Icons.GetCondition(Conditions.Immobilize)))
+				.Build())
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Fire];
@@ -22,8 +24,8 @@ public class RadiantGlare : LuminaryCardModel<RadiantGlare.CardTop, RadiantGlare
 		protected override bool Persistent => true;
 
 		private Ability GlowAbility(List<Element> elements)
-        {
-            return ConditionAbility.Builder()
+		{
+			return ConditionAbility.Builder()
 				.WithConditions(Conditions.Immobilize)
 				.WithAOEPattern(new AOEPattern(
 					[
@@ -41,7 +43,7 @@ public class RadiantGlare : LuminaryCardModel<RadiantGlare.CardTop, RadiantGlare
 					await GDTask.CompletedTask;
 				})
 				.Build();
-        }
+		}
 	}
 
 	public class CardBottom : LuminaryCardSide

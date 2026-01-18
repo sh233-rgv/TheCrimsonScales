@@ -80,7 +80,7 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 					]
 				))
 				.Build()),
-			PerformGlow()
+			PerformFreeGlow()
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Fire, Element.Ice, Element.Light, Element.Dark];

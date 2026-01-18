@@ -20,16 +20,18 @@ public class BlazingPincers : LuminaryCardModel<BlazingPincers.CardTop, BlazingP
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red | AOEHexType.Marked),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red, "Wound",
+							Icons.GetCondition(Conditions.Wound1)),
 						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Empty),
 						new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Empty),
 						new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
-						new AOEHex(Vector2I.Zero.Add(Direction.SouthEast).Add(Direction.East), AOEHexType.Red | AOEHexType.Marked),
+						new AOEHex(Vector2I.Zero.Add(Direction.SouthEast).Add(Direction.East), AOEHexType.Red, "Wound",
+							Icons.GetCondition(Conditions.Wound1)),
 					]
 				))
 				.WithAfterTargetConfirmedSubscription(
 					ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
-						parameters => parameters.AbilityState.GetMarkedAOEHexes().Contains(parameters.AbilityState.Target.Hex),
+						parameters => parameters.AbilityState.GetCustomMarkedHexes("Wound").Contains(parameters.AbilityState.Target.Hex),
 						async parameters =>
 						{
 							parameters.AbilityState.SingleTargetAddCondition(Conditions.Wound1);

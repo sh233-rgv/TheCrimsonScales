@@ -37,7 +37,7 @@ public abstract class TargetedAbilityState : AbilityState
 {
 	public List<Figure> UniqueTargetedFigures { get; } = new List<Figure>();
 	public List<Hex> TargetedHexes { get; } = new List<Hex>();
-	public Dictionary<Vector2I, AOEHexType> AOEHexes { get; set; }
+	public Dictionary<Vector2I, (AOEHexType, string)> AOEHexes { get; set; }
 
 	public Target AbilityTarget { get; set; }
 	public int AbilityTargets { get; set; }
@@ -68,7 +68,7 @@ public abstract class TargetedAbilityState : AbilityState
 			yield break;
 		}
 
-		foreach((Vector2I coords, AOEHexType type) in AOEHexes)
+		foreach((Vector2I coords, (AOEHexType type, string _)) in AOEHexes)
 		{
 			Hex hex = GameController.Instance.Map.GetHex(coords);
 
@@ -86,47 +86,11 @@ public abstract class TargetedAbilityState : AbilityState
 			yield break;
 		}
 
-		foreach((Vector2I coords, AOEHexType type) in AOEHexes)
+		foreach((Vector2I coords, (AOEHexType type, string _)) in AOEHexes)
 		{
 			Hex hex = GameController.Instance.Map.GetHex(coords);
 
 			if(hex != null && type.HasFlag(AOEHexType.Red))
-			{
-				yield return hex;
-			}
-		}
-	}
-
-	public IEnumerable<Hex> GetMarkedAOEHexes()
-	{
-		if(AOEHexes == null)
-		{
-			yield break;
-		}
-
-		foreach((Vector2I coords, AOEHexType type) in AOEHexes)
-		{
-			Hex hex = GameController.Instance.Map.GetHex(coords);
-
-			if(hex != null && type.HasFlag(AOEHexType.Marked))
-			{
-				yield return hex;
-			}
-		}
-	}
-
-	public IEnumerable<Hex> GetMarked2AOEHexes()
-	{
-		if(AOEHexes == null)
-		{
-			yield break;
-		}
-
-		foreach((Vector2I coords, AOEHexType type) in AOEHexes)
-		{
-			Hex hex = GameController.Instance.Map.GetHex(coords);
-
-			if(hex != null && type.HasFlag(AOEHexType.Marked2))
 			{
 				yield return hex;
 			}
@@ -140,11 +104,29 @@ public abstract class TargetedAbilityState : AbilityState
 			yield break;
 		}
 
-		foreach((Vector2I coords, AOEHexType type) in AOEHexes)
+		foreach((Vector2I coords, (AOEHexType type, string _)) in AOEHexes)
 		{
 			Hex hex = GameController.Instance.Map.GetHex(coords);
 
 			if(hex != null && type == AOEHexType.Yellow)
+			{
+				yield return hex;
+			}
+		}
+	}
+
+	public IEnumerable<Hex> GetCustomMarkedHexes(string customMark)
+	{
+		if(AOEHexes == null)
+		{
+			yield break;
+		}
+
+		foreach((Vector2I coords, (AOEHexType _, string mark)) in AOEHexes)
+		{
+			Hex hex = GameController.Instance.Map.GetHex(coords);
+
+			if(hex != null && mark == customMark)
 			{
 				yield return hex;
 			}
@@ -472,14 +454,15 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 		if(abilityState.AbilityAOEPattern != null)
 		{
-			Dictionary<Vector2I, AOEHexType> aoeHexes = new Dictionary<Vector2I, AOEHexType>();
+			Dictionary<Vector2I, (AOEHexType, string)> aoeHexes = new Dictionary<Vector2I, (AOEHexType, string)>();
 
 			//TODO: Add `during ability` scenario events to the aoe prompts so the range can be increased 
 			if(abilityState.Authority is Character)
 			{
 				AOEPrompt.Answer aoeAnswer =
 					await PromptManager.Prompt(
-						new AOEPrompt(abilityState, abilityState.AbilityAOEPattern, TargetHex, null, () => "Select where to target"),
+						new AOEPrompt(abilityState.Performer, abilityState.AbilityAOEPattern, TargetHex, null, () => "Select where to target",
+							abilityState.AbilityRange),
 						abilityState.Authority);
 
 				if(aoeAnswer.Skipped)
@@ -489,7 +472,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 				for(int i = 0; i < aoeAnswer.HexCoords.Count; i++)
 				{
-					aoeHexes.Add(aoeAnswer.HexCoords[i], aoeAnswer.HexTypes[i]);
+					aoeHexes.Add(aoeAnswer.HexCoords[i], (aoeAnswer.HexTypes[i], aoeAnswer.HexCustomMarks[i]));
 				}
 			}
 			else
@@ -509,7 +492,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 				for(int i = 0; i < aoeAnswer.HexCoords.Count; i++)
 				{
-					aoeHexes.Add(aoeAnswer.HexCoords[i], aoeAnswer.HexTypes[i]);
+					aoeHexes.Add(aoeAnswer.HexCoords[i], (aoeAnswer.HexTypes[i], aoeAnswer.HexCustomMarks[i]));
 				}
 			}
 

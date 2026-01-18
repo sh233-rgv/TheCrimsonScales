@@ -4,7 +4,7 @@ using Godot;
 
 public class BurningSparks : LuminaryCardModel<BurningSparks.CardTop, BurningSparks.CardBottom>
 {
-	public override string Name => "Faith Calling";
+	public override string Name => "Burning Sparks";
 	public override int Level => 1;
 	public override int Initiative => 33;
 	protected override int AtlasIndex => 0;
@@ -47,6 +47,7 @@ public class BurningSparks : LuminaryCardModel<BurningSparks.CardTop, BurningSpa
 				])
 				.Build()),
 		];
+
 		protected override int XP => 1;
 	}
 

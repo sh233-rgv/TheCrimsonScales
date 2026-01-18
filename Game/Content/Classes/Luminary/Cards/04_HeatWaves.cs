@@ -13,8 +13,10 @@ public class HeatWaves : LuminaryCardModel<HeatWaves.CardTop, HeatWaves.CardBott
 	{
 		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
 		[
-			Glow(new GlowAbilityModel([Element.Fire], GlowAbility,
-				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Wound1))} ability", Icons.GetCondition(Conditions.Wound1)))
+			new AbilityCardAbility(GlowActiveAbility.Builder()
+				.WithGlowAbility(new GlowAbilityModel([Element.Fire], GlowAbility,
+					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Wound1))} ability", Icons.GetCondition(Conditions.Wound1)))
+				.Build())
 		];
 
 		protected override IEnumerable<Element> Elements => [Element.Light];
@@ -22,8 +24,8 @@ public class HeatWaves : LuminaryCardModel<HeatWaves.CardTop, HeatWaves.CardBott
 		protected override bool Persistent => true;
 
 		private Ability GlowAbility(List<Element> elements)
-        {
-            return ConditionAbility.Builder()
+		{
+			return ConditionAbility.Builder()
 				.WithConditions(Conditions.Wound1)
 				.WithAOEPattern(new AOEPattern(
 					[
@@ -41,7 +43,7 @@ public class HeatWaves : LuminaryCardModel<HeatWaves.CardTop, HeatWaves.CardBott
 					await GDTask.CompletedTask;
 				})
 				.Build();
-        }
+		}
 	}
 
 	public class CardBottom : LuminaryCardSide

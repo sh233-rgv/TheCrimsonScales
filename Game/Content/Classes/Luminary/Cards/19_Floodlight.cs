@@ -54,14 +54,8 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
-						parameters =>
-						{
-							return parameters.Target == state.Performer &&
-							       parameters.ConditionModel.ImmunityCompareBaseConditions != null &&
-							       Conditions.Immobilize.ImmunityCompareBaseConditions != null &&
-							       parameters.ConditionModel.ImmunityCompareBaseConditions
-								       .Any(c1 => Conditions.Immobilize.ImmunityCompareBaseConditions.Contains(c1));
-						},
+						parameters => parameters.Target == state.Performer &&
+						              AbilityCmd.CheckImmunity(parameters.ConditionModel, Conditions.Immobilize),
 						async parameters =>
 						{
 							parameters.SetPrevented(true);

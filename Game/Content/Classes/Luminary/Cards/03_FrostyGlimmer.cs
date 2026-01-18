@@ -97,7 +97,7 @@ public class FrostyGlimmer : LuminaryCardModel<FrostyGlimmer.CardTop, FrostyGlim
 
 							await GDTask.CompletedTask;
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters("Ignore traps, destroy one move through")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters("Ignore traps, destroy one moved through")
 					),
 					ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Dark,
 						applyFunction: async parameters =>

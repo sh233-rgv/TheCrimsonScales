@@ -67,7 +67,7 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
 					await GDTask.CompletedTask;
 				})
 				.Build()),
-			PerformGlow()
+			PerformFreeGlow()
 		];
 
 		protected override int XP => 2;

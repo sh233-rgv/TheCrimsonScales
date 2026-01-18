@@ -54,8 +54,12 @@ public class TricklingSting : LuminaryCardModel<TricklingSting.CardTop, Tricklin
 						canApply: canApplyParameters => createTrapState.CreatedTraps.Contains(canApplyParameters.Trap),
 						async applyParameters =>
 						{
-							await AbilityCmd.InfuseWildElement(state);
-							await AbilityCmd.GainXP(state.Performer, 1);
+							if(applyParameters.Figure.EnemiesWith(state.Performer))
+							{
+								await AbilityCmd.InfuseWildElement(state);
+								await AbilityCmd.GainXP(state.Performer, 1);
+							}
+
 							await state.ActionState.RequestDiscardOrLose();
 						}
 					);
@@ -67,6 +71,7 @@ public class TricklingSting : LuminaryCardModel<TricklingSting.CardTop, Tricklin
 
 					await GDTask.CompletedTask;
 				})
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 1))
 				.Build())
 		];
 
