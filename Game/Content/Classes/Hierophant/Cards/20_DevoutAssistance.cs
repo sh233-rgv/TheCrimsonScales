@@ -39,7 +39,7 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 															await GDTask.CompletedTask;
 														},
 														effectInfoViewParameters: new TextEffectInfoView.Parameters(
-															$"Perform {Icons.Inline(Icons.Shield)}1 ability"),
+															$"Perform {Icons.Inline(Icons.Shield)}1"),
 														effectType: EffectType.SelectableMandatory
 													),
 													ScenarioEvents.GenericChoice.Subscription.ConsumeElement(Element.Light,
@@ -49,7 +49,7 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 															await GDTask.CompletedTask;
 														},
 														effectInfoViewParameters: new TextEffectInfoView.Parameters(
-															$"Perform {Icons.Inline(Icons.Heal)}3, self ability"),
+															$"Perform {Icons.Inline(Icons.Heal)}3, self"),
 														effectType: EffectType.SelectableMandatory
 													)
 												], hintText: "Select an ability to perform:");
@@ -108,12 +108,12 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 				{
 					if(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false).Any(figure => figure.EnemiesWith(state.Performer)))
 					{
-						await AbilityCmd.InfuseElement(Element.Earth);
+						await AbilityCmd.InfuseElement(state, Element.Earth);
 					}
 
 					if(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false).Any(figure => figure.AlliedWith(state.Performer)))
 					{
-						await AbilityCmd.InfuseElement(Element.Light);
+						await AbilityCmd.InfuseElement(state, Element.Light);
 					}
 				})
 				.Build()),

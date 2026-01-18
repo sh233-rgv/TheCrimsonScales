@@ -295,8 +295,8 @@ public abstract partial class Figure : HexObject
 		ConditionsChangedEvent?.Invoke(this);
 
 		Condition condition = new Condition(conditionModel, this, potentialCauser);
-		await condition.OnAdded();
 		Conditions.Add(condition);
+		await condition.OnAdded();
 
 		ReorderEffects();
 

@@ -19,6 +19,8 @@ public partial class Monster : Figure
 	public int StandeeNumber { get; private set; }
 	public int MonsterLevel { get; private set; }
 	public MonsterStats Stats { get; private set; }
+	public bool IsSummon { get; private set; }
+
 	public Color TypeColor { get; private set; }
 
 	public override string DisplayName => $"{(MonsterType == MonsterType.Elite ? $"{MonsterType} " : string.Empty)}{MonsterGroup.MonsterModel.Name}";
@@ -105,7 +107,9 @@ public partial class Monster : Figure
 			}
 		}
 
-		if(summon)
+		IsSummon = summon;
+
+		if(IsSummon)
 		{
 			CanTakeTurn = false;
 		}

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 [Serializable, JsonObject(MemberSerialization.OptIn)]
 public class SavedEvents
 {
-	private static EventModel[] StartingCityEventDeck =
+	private static readonly EventModel[] StartingCityEventDeck =
 	[
 		ModelDB.Event<City01>(),
 		ModelDB.Event<City02>(),
@@ -41,7 +41,7 @@ public class SavedEvents
 		ModelDB.Event<City30>(),
 	];
 
-	private static EventModel[] StartingRoadEventDeck =
+	private static readonly EventModel[] StartingRoadEventDeck =
 	[
 		// ModelDB.Event<Road01>(),
 		ModelDB.Event<Road02>(),

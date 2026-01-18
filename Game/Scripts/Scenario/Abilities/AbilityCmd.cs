@@ -89,14 +89,15 @@ public static class AbilityCmd
 	}
 
 	public static async GDTask<int> SufferDamage(AbilityState potentialAbilityState, Figure target, int damage,
-		Figure authority = null, bool fromAttack = false)
+		Figure potentialDamageDealer = null, bool fromAttack = false)
 	{
-		authority ??= potentialAbilityState?.Authority ?? target;
+		potentialDamageDealer ??= potentialAbilityState?.Authority;
+
 		ScenarioEvents.SufferDamage.Parameters sufferDamageParameters =
-			new ScenarioEvents.SufferDamage.Parameters(potentialAbilityState, target, damage, fromAttack);
+			new ScenarioEvents.SufferDamage.Parameters(potentialAbilityState, target, potentialDamageDealer, damage, fromAttack);
 		EffectCollection sufferDamageCollection = ScenarioEvents.SufferDamageEvent.CreateEffectCollection(sufferDamageParameters);
 		await PromptManager.Prompt(new SufferDamagePrompt(sufferDamageParameters, sufferDamageCollection,
-			() => $"Suffer {Icons.HintText(Icons.Damage)}{sufferDamageParameters.CalculatedCurrentDamage}?"), authority);
+			() => $"Suffer {Icons.HintText(Icons.Damage)}{sufferDamageParameters.CalculatedCurrentDamage}?"), target);
 
 		if(sufferDamageParameters.DamagePrevented)
 		{
@@ -107,8 +108,7 @@ public static class AbilityCmd
 
 		ScenarioEvents.JustBeforeSufferDamage.Parameters justBeforeSufferDamageParameters =
 			await ScenarioEvents.JustBeforeSufferDamageEvent.CreatePrompt(
-				new ScenarioEvents.JustBeforeSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters),
-				authority);
+				new ScenarioEvents.JustBeforeSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters), target);
 
 		if(justBeforeSufferDamageParameters.Prevented)
 		{
@@ -125,7 +125,7 @@ public static class AbilityCmd
 		{
 			if(potentialAbilityState == null)
 			{
-				await KillOrExhaust(authority, target);
+				await KillOrExhaust(target, potentialDamageDealer);
 			}
 			else
 			{
@@ -136,19 +136,18 @@ public static class AbilityCmd
 		if(finalDamage > 0)
 		{
 			await ScenarioEvents.AfterSufferDamageEvent.CreatePrompt(
-				new ScenarioEvents.AfterSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters),
-				authority);
+				new ScenarioEvents.AfterSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters), target);
 		}
 
 		return finalDamage;
 	}
 
-	public static async GDTask<int> SufferDamage(Figure target, int damage, Figure authority, bool fromAttack = false)
+	public static async GDTask<int> SufferDamage(Figure target, int damage, Figure damageDealer, bool fromAttack = false)
 	{
-		return await SufferDamage(null, target, damage, authority, fromAttack);
+		return await SufferDamage(null, target, damage, damageDealer, fromAttack);
 	}
 
-	public static async GDTask KillOrExhaust(Figure authority, Figure target)
+	public static async GDTask KillOrExhaust(AbilityState potentialAbilityState, Figure target, Figure potentialKiller)
 	{
 		await KillOrExhaust(authority, null, target);
 	}
@@ -179,8 +178,11 @@ public static class AbilityCmd
 		return AddConditions(potentialAbilityState, target, [conditionModel]);
 	}
 
-	public static async GDTask AddConditions(AbilityState potentialAbilityState, Figure target, List<ConditionModel> conditionModels)
+	public static async GDTask AddConditions(AbilityState potentialAbilityState, Figure target, List<ConditionModel> conditionModels,
+		Figure potentialConditionGiver = null)
 	{
+		potentialConditionGiver ??= potentialAbilityState?.Authority;
+
 		ScenarioEvents.InflictConditions.Parameters inflictConditionsParameters =
 			await ScenarioEvents.InflictConditionsEvent.CreatePrompt(
 				new ScenarioEvents.InflictConditions.Parameters(potentialAbilityState, target, conditionModels), target);
@@ -189,15 +191,13 @@ public static class AbilityCmd
 		{
 			ScenarioEvents.InflictCondition.Parameters inflictConditionParameters =
 				await ScenarioEvents.InflictConditionEvent.CreatePrompt(
-					new ScenarioEvents.InflictCondition.Parameters(potentialAbilityState, target, conditionModel),
-					potentialAbilityState?.Authority ?? target);
+					new ScenarioEvents.InflictCondition.Parameters(potentialAbilityState, target, potentialConditionGiver, conditionModel), target);
 
 			if(!inflictConditionParameters.Prevented)
 			{
 				ScenarioEvents.InflictConditionDuplicatesCheck.Parameters inflictConditionDuplicatesCheckParameters =
 					await ScenarioEvents.InflictConditionDuplicatesCheckEvent.CreatePrompt(
-						new ScenarioEvents.InflictConditionDuplicatesCheck.Parameters(potentialAbilityState, target, conditionModel),
-						potentialAbilityState?.Authority ?? target);
+						new ScenarioEvents.InflictConditionDuplicatesCheck.Parameters(potentialAbilityState, target, conditionModel), target);
 
 				if(!inflictConditionDuplicatesCheckParameters.Prevented)
 				{
@@ -358,11 +358,14 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask DisarmTrap(Trap trap)
+	public static async GDTask DisarmTrap(Trap trap, Figure potentialDisarmer)
 	{
 		if(!trap.CannotBeDestroyed)
 		{
 			await trap.Disarm();
+
+			await ScenarioEvents.TrapDisarmedEvent.CreatePrompt(
+				new ScenarioEvents.TrapDisarmed.Parameters(trap, potentialDisarmer));
 		}
 	}
 
@@ -695,13 +698,16 @@ public static class AbilityCmd
 		ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
 	}
 
-	public static GDTask InfuseWildElement(Figure authority)
+	public static GDTask InfuseWildElement(AbilityState potentialAbilityState, Figure potentialInfuser = null)
 	{
-		return InfuseElement(authority, Elements.All);
+		return InfuseElement(potentialAbilityState, Elements.All, potentialInfuser);
 	}
 
-	public static async GDTask<Element?> InfuseElement(Figure authority, IReadOnlyCollection<Element> possibleElements)
+	public static async GDTask<Element?> InfuseElement(AbilityState potentialAbilityState, IReadOnlyCollection<Element> possibleElements,
+		Figure potentialInfuser = null)
 	{
+		potentialInfuser ??= potentialAbilityState?.Performer;
+
 		Element? element = null;
 
 		List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
@@ -712,7 +718,7 @@ public static class AbilityCmd
 				applyFunction: async parameters =>
 				{
 					element = possibleElement;
-					await InfuseElement(possibleElement);
+					await InfuseElement(potentialAbilityState, possibleElement, potentialInfuser);
 				},
 				effectType: EffectType.SelectableMandatory,
 				effectButtonParameters: new IconEffectButton.Parameters(Icons.GetElement(possibleElement)),
@@ -720,13 +726,16 @@ public static class AbilityCmd
 			));
 		}
 
-		await GenericChoice(authority, subscriptions);
+		await GenericChoice(potentialInfuser, subscriptions);
 
 		return element;
 	}
 
-	public static async GDTask InfuseElement(Element element, bool immediately = false)
+	public static async GDTask InfuseElement(AbilityState potentialAbilityState, Element element, Figure potentialInfuser = null,
+		bool immediately = false)
 	{
+		potentialInfuser ??= potentialAbilityState?.Performer;
+
 		if(immediately)
 		{
 			GameController.Instance.ElementManager.InfuseImmediately(element);
@@ -736,7 +745,8 @@ public static class AbilityCmd
 			GameController.Instance.ElementManager.StartInfuse(element);
 		}
 
-		await GDTask.CompletedTask;
+		await ScenarioEvents.ElementInfusedEvent.CreatePrompt(
+			new ScenarioEvents.ElementInfused.Parameters(potentialAbilityState, element, potentialInfuser));
 	}
 
 	public static GDTask<Element?> AskConsumeWildElement(Figure authority, bool mandatory = false)
@@ -751,7 +761,7 @@ public static class AbilityCmd
 		foreach(Element element in possibleElements)
 		{
 			Element possibleElement = element;
-			ScenarioEvents.ConsumeElementElement.Subscribe(authority, subscriber,
+			ScenarioEvents.ConsumeElementEvent.Subscribe(authority, subscriber,
 				canApplyParameters =>
 					!canApplyParameters.Consumed && canApplyParameters.Elements.Contains(possibleElement) &&
 					GameController.Instance.ElementManager.GetState(possibleElement) > ElementState.Inert,
@@ -766,10 +776,11 @@ public static class AbilityCmd
 		}
 
 		ScenarioEvents.ConsumeElement.Parameters consumeEventParameters =
-			await ScenarioEvents.ConsumeElementElement.CreatePrompt(new ScenarioEvents.ConsumeElement.Parameters(possibleElements), authority,
+			await ScenarioEvents.ConsumeElementEvent.CreatePrompt(
+				new ScenarioEvents.ConsumeElement.Parameters(possibleElements), authority,
 				"Select element to consume");
 
-		ScenarioEvents.ConsumeElementElement.Unsubscribe(authority, subscriber);
+		ScenarioEvents.ConsumeElementEvent.Unsubscribe(authority, subscriber);
 
 		return consumeEventParameters.Consumed ? consumeEventParameters.ConsumedElement : null;
 	}
@@ -777,9 +788,10 @@ public static class AbilityCmd
 	public static async GDTask<bool> AskConsumeElement(Figure authority, Element element, string effectInfoText = null, string hintText = null)
 	{
 		object subscriber = new object();
-		ScenarioEvents.ConsumeElementElement.Subscribe(authority, subscriber,
-			canApplyParameters => canApplyParameters.Elements.Contains(element) &&
-			                      GameController.Instance.ElementManager.GetState(element) > ElementState.Inert,
+		ScenarioEvents.ConsumeElementEvent.Subscribe(authority, subscriber,
+			canApplyParameters =>
+				canApplyParameters.Elements.Contains(element) &&
+				GameController.Instance.ElementManager.GetState(element) > ElementState.Inert,
 			async applyParameters =>
 			{
 				applyParameters.SetConsumed(element);
@@ -789,11 +801,11 @@ public static class AbilityCmd
 			new TextEffectInfoView.Parameters(effectInfoText ?? $"Consume {Icons.Inline(Icons.GetElement(element))}"));
 
 		ScenarioEvents.ConsumeElement.Parameters consumeEventParameters =
-			await ScenarioEvents.ConsumeElementElement.CreatePrompt(
+			await ScenarioEvents.ConsumeElementEvent.CreatePrompt(
 				new ScenarioEvents.ConsumeElement.Parameters([element]), authority,
 				hintText ?? $"Consume {Icons.HintText(Icons.GetElement(element))}?");
 
-		ScenarioEvents.ConsumeElementElement.Unsubscribe(authority, subscriber);
+		ScenarioEvents.ConsumeElementEvent.Unsubscribe(authority, subscriber);
 
 		return consumeEventParameters.Consumed;
 	}
@@ -947,7 +959,7 @@ public static class AbilityCmd
 
 		await PromptManager.Prompt(new TreasureItemRewardPrompt(character, itemModel, null), character);
 
-		void OnScenarioEnd(bool backToTown, bool won, SavedScenarioProgress savedScenarioProgress)
+		void OnScenarioEnd(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress)
 		{
 			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(itemModel);
 			savedItem.AddUnlocked(1);
@@ -1004,18 +1016,22 @@ public static class AbilityCmd
 		return availableItems.Count == 0 ? null : availableItems.PickRandom(GameController.Instance.StateRNG);
 	}
 
-	public static GDTask Lose()
+	public static async GDTask Lose()
 	{
+		await ScenarioEvents.ScenarioEndedEvent.CreatePrompt(new ScenarioEvents.ScenarioEnded.Parameters(false));
+
 		GameController.Instance.MarkScenarioEnded();
 		GameController.Instance.ScenarioLostView.Open();
-		return GDTask.Never(GameController.CancellationToken);
+		await GDTask.Never(GameController.CancellationToken);
 	}
 
-	public static GDTask Win()
+	public static async GDTask Win()
 	{
+		await ScenarioEvents.ScenarioEndedEvent.CreatePrompt(new ScenarioEvents.ScenarioEnded.Parameters(true));
+
 		GameController.Instance.MarkScenarioEnded();
 		GameController.Instance.ScenarioWonView.Open();
-		return GDTask.Never(GameController.CancellationToken);
+		await GDTask.Never(GameController.CancellationToken);
 	}
 
 	public static void SubscribeDuringCharacterTurn(IEventSubscriber eventSubscriber, EffectType effectType, Func<Character, bool> canApply,

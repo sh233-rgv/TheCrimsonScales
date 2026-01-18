@@ -30,9 +30,9 @@ public class Scenario005 : ScenarioModel
 			await AbilityCmd.AddCondition(null, character, Conditions.Infect);
 		}
 
-		GameController.Instance.EndEvent += (backToTown, won, savedScenarioProgress) =>
+		GameController.Instance.EndEvent += (scenarioResult, savedScenarioProgress) =>
 		{
-			if(won)
+			if(scenarioResult == ScenarioResult.Win)
 			{
 				GameController.Instance.SavedCampaign.AddPartyAchievement(PartyAchievement.OozeDestroyed);
 			}

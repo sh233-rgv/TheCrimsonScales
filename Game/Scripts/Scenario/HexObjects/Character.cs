@@ -589,6 +589,12 @@ public partial class Character : Figure
 			effectButtonParameters: new IconEffectButton.Parameters(Icons.LoseDiscardedCards),
 			effectInfoViewParameters: new TextEffectInfoView.Parameters("Lose two cards from your discard pile to negate the damage"));
 
+		// Initialize subscriptions for this character's personal quest
+		if(SavedCharacter.SavedPersonalQuest != null)
+		{
+			await SavedCharacter.SavedPersonalQuest.Model.OnScenarioSetupPhaseCompleted(this);
+		}
+
 		await GDTask.CompletedTask;
 	}
 

@@ -136,6 +136,11 @@ public static class ModelDB
 		return GetOrCreate<T>();
 	}
 
+	public static T PersonalQuest<T>() where T : PersonalQuestModel
+	{
+		return GetOrCreate<T>();
+	}
+
 	public static IEnumerable<Type> GetSubtypes<T>()
 	{
 		return GetSubtypes(typeof(T));

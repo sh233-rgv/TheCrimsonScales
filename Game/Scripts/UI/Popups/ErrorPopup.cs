@@ -61,7 +61,7 @@ public partial class ErrorPopup : Popup<ErrorPopup.Request>
 
 	private void OnReturnToTownPressed()
 	{
-		GameController.Instance.EndScenario(true, false);
+		GameController.Instance.EndScenario(ScenarioResult.Loss);
 		Log.ResetHasLoggedError();
 	}
 
