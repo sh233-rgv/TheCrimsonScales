@@ -616,6 +616,27 @@ public partial class ScenarioEvents
 	private readonly HazardousTerrainTriggered _hazardousTerrainTriggered = new HazardousTerrainTriggered();
 	public static HazardousTerrainTriggered HazardousTerrainTriggeredEvent => GameController.Instance.ScenarioEvents._hazardousTerrainTriggered;
 
+	public class DifficultTerrainTriggered : ScenarioEvent<DifficultTerrainTriggered.Parameters>
+	{
+		public class Parameters(AbilityState potentialAbilityState, Figure figure, Hex hex, DifficultTerrain difficultTerrain)
+			: ParametersBase
+		{
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
+			public Figure Figure { get; } = figure;
+			public Hex Hex { get; } = hex;
+			public DifficultTerrain DifficultTerrain { get; } = difficultTerrain;
+			public bool AffectedByDifficultTerrain { get; private set; } = true;
+
+			public void SetAffectedByDifficultTerrain(bool affectedByDifficultTerrain)
+			{
+				AffectedByDifficultTerrain = affectedByDifficultTerrain;
+			}
+		}
+	}
+
+	private readonly DifficultTerrainTriggered _difficultTerrainTriggered = new DifficultTerrainTriggered();
+	public static DifficultTerrainTriggered DifficultTerrainTriggeredEvent => GameController.Instance.ScenarioEvents._difficultTerrainTriggered;
+
 	public class TrapTriggered : ScenarioEvent<TrapTriggered.Parameters>
 	{
 		public class Parameters(AbilityState potentialAbilityState, Hex hex, Trap trap, Figure figure, bool triggersTrap)

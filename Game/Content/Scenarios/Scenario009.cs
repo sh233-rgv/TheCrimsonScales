@@ -20,6 +20,8 @@ public class Scenario009 : ScenarioModel
 	{
 		await base.StartAfterFirstRoomRevealed();
 
+		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<Granurso>());
+
 		UpdateScenarioText("The doors are locked.\nSomething will happen once all enemies in this room are killed.");
 
 		GameController.Instance.Map.Treasures[0].SetObtainLootFunction(OnTreasureLooted);

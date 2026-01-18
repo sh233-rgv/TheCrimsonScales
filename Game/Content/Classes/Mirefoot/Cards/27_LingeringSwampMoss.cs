@@ -27,12 +27,11 @@ public class LingeringSwampMoss : MirefootCardModel<LingeringSwampMoss.CardTop, 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					ScenarioEvents.FigureEnteredHexEvent.Subscribe(state, this,
-						parameters => parameters.Figure.EnemiesWith(state.Performer) && parameters.Hex.HasHexObjectOfType<DifficultTerrain>(),
+					ScenarioEvents.DifficultTerrainTriggeredEvent.Subscribe(state, this,
+						parameters => parameters.Figure.EnemiesWith(state.Performer),
 						async parameters =>
 						{
-							await AbilityCmd.AddCondition(state, parameters.Figure, Conditions.Immobilize);
-							//TODO: Check if actually affected by difficult terrain
+							await AbilityCmd.AddCondition(state, parameters.Figure, Conditions.Poison2);
 						});
 					ScenarioEvents.OverlayTileCreatedEvent.Subscribe(state, this,
 						parameters => parameters.OverlayTile is DifficultTerrain,
@@ -56,7 +55,7 @@ public class LingeringSwampMoss : MirefootCardModel<LingeringSwampMoss.CardTop, 
 				})
 				.WithOnDeactivate(async state =>
 				{
-					ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(state, this);
+					ScenarioEvents.DifficultTerrainTriggeredEvent.Unsubscribe(state, this);
 					ScenarioEvents.OverlayTileCreatedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})

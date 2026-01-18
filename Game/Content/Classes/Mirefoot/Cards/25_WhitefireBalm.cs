@@ -6,7 +6,7 @@ using Godot;
 public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireBalm.CardBottom>
 {
 	public override string Name => "Whitefire Balm";
-	public override int Level => 1;
+	public override int Level => 8;
 	public override int Initiative => 20;
 	protected override int AtlasIndex => 25;
 

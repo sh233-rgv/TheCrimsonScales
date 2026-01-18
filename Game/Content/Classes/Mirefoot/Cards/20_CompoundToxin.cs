@@ -5,7 +5,7 @@ using Fractural.Tasks;
 public class CompoundToxin : MirefootCardModel<CompoundToxin.CardTop, CompoundToxin.CardBottom>
 {
 	public override string Name => "Compound Toxin";
-	public override int Level => 1;
+	public override int Level => 5;
 	public override int Initiative => 61;
 	protected override int AtlasIndex => 20;
 
@@ -35,12 +35,11 @@ public class CompoundToxin : MirefootCardModel<CompoundToxin.CardTop, CompoundTo
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					ScenarioEvents.FigureEnteredHexEvent.Subscribe(state, this,
-						parameters => parameters.Figure.EnemiesWith(state.Performer) && parameters.Hex.HasHexObjectOfType<DifficultTerrain>(),
+					ScenarioEvents.DifficultTerrainTriggeredEvent.Subscribe(state, this,
+						parameters => parameters.Figure.EnemiesWith(state.Performer),
 						async parameters =>
 						{
 							await AbilityCmd.AddCondition(state, parameters.Figure, Conditions.Poison2);
-							//TODO: Check if actually affected by difficult terrain
 						});
 					ScenarioEvents.OverlayTileCreatedEvent.Subscribe(state, this,
 						parameters => parameters.OverlayTile is DifficultTerrain,
@@ -55,6 +54,7 @@ public class CompoundToxin : MirefootCardModel<CompoundToxin.CardTop, CompoundTo
 								{
 									return;
 								}
+
 								await AbilityCmd.AddCondition(state, figure, Conditions.Poison2);
 							}
 						});
@@ -63,7 +63,7 @@ public class CompoundToxin : MirefootCardModel<CompoundToxin.CardTop, CompoundTo
 				})
 				.WithOnDeactivate(async state =>
 				{
-					ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(state, this);
+					ScenarioEvents.DifficultTerrainTriggeredEvent.Unsubscribe(state, this);
 					ScenarioEvents.OverlayTileCreatedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})

@@ -4,7 +4,7 @@ using Fractural.Tasks;
 public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, PersonalPoison.CardBottom>
 {
 	public override string Name => "Personal Poison";
-	public override int Level => 5;
+	public override int Level => 1;
 	public override int Initiative => 86;
 	protected override int AtlasIndex => 19;
 

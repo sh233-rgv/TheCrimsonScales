@@ -1,6 +1,7 @@
 using System.Linq;
 using Fractural.Tasks;
 using System.Collections.Generic;
+using Godot;
 
 public class Scenario004 : ScenarioModel
 {
@@ -22,6 +23,9 @@ public class Scenario004 : ScenarioModel
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
+
+		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<CityArcher>());
+		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<CityGuard>());
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<BonecladShawl>());
 

@@ -21,6 +21,11 @@ public class Scenario007 : ScenarioModel
 	{
 		await base.StartAfterFirstRoomRevealed();
 
+		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<CaveBear>());
+		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<ForestImp>());
+		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<RendingDrake>());
+		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<SpittingDrake>());
+
 		UpdateScenarioText(
 			$"Once per round, when a character ends their turn on a water tile marked {Icons.InlineMarker(Marker.Type.a)}, " +
 			"the water tile is removed and various things might happen, such as monsters spawning and conditions being applied to the character." +

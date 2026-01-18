@@ -61,6 +61,12 @@ public partial class Room : Node2D
 			}
 		}
 
+		List<MonsterSpawner> monsterSpawners = this.GetChildrenOfType<MonsterSpawner>();
+		foreach(MonsterSpawner monsterSpawner in monsterSpawners)
+		{
+			GameController.Instance.Map.AddMonsterGroup(ModelDB.GetById<MonsterModel>(new ModelId(monsterSpawner.MonsterModelId)));
+		}
+
 		Visible = false;
 	}
 
@@ -138,7 +144,6 @@ public partial class Room : Node2D
 		foreach(MonsterSpawner monsterSpawner in monsterSpawners)
 		{
 			await monsterSpawner.SpawnMonster();
-			//GameController.Instance.Map.AddMonsterGroup(ModelDB.GetById<MonsterModel>(new ModelId(monsterSpawner.MonsterModelId)));
 		}
 
 		map.UpdateWallLines();

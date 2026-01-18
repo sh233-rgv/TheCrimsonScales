@@ -149,23 +149,23 @@ public static class AbilityCmd
 
 	public static async GDTask KillOrExhaust(AbilityState potentialAbilityState, Figure target, Figure potentialKiller)
 	{
-		await KillOrExhaust(authority, null, target);
+		await ScenarioEvents.BeforeFigureKilledEvent.CreatePrompt(
+			new ScenarioEvents.BeforeFigureKilled.Parameters(potentialAbilityState, target), potentialKiller);
+		await target.Destroy();
+
+		ScenarioEvents.FigureKilled.Parameters parameters =
+			await ScenarioEvents.FigureKilledEvent.CreatePrompt(
+				new ScenarioEvents.FigureKilled.Parameters(potentialAbilityState, target, potentialKiller), target);
+	}
+
+	public static async GDTask KillOrExhaust(Figure target, Figure potentialKiller)
+	{
+		await KillOrExhaust(null, target, potentialKiller);
 	}
 
 	public static async GDTask KillOrExhaust(AbilityState state, Figure target)
 	{
-		await KillOrExhaust(state.Authority, state, target);
-	}
-
-	private static async GDTask KillOrExhaust(Figure authority, AbilityState state, Figure target)
-	{
-		await ScenarioEvents.BeforeFigureKilledEvent.CreatePrompt(
-			new ScenarioEvents.BeforeFigureKilled.Parameters(state, target), authority);
-
-		await target.Destroy();
-
-		await ScenarioEvents.FigureKilledEvent.CreatePrompt(
-			new ScenarioEvents.FigureKilled.Parameters(state, target), authority);
+		await KillOrExhaust(state, target, state.Authority);
 	}
 
 	public static bool CheckImmunity(ConditionModel conditionModel, ConditionModel immunityConditionModel)
@@ -593,6 +593,19 @@ public static class AbilityCmd
 				{
 					await trap.Trigger(potentialAbilityState, figure);
 				}
+			}
+		}
+
+		DifficultTerrain difficultTerrain = hex.GetHexObjectOfType<DifficultTerrain>();
+		if(difficultTerrain != null && triggerHexEffects)
+		{
+			ScenarioCheckEvents.FlyingCheck.Parameters flyingCheckParameters =
+				ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figure));
+
+			if(!flyingCheckParameters.HasFlying)
+			{
+				await ScenarioEvents.DifficultTerrainTriggeredEvent.CreatePrompt(
+					new ScenarioEvents.DifficultTerrainTriggered.Parameters(potentialAbilityState, figure, hex, difficultTerrain), authority);
 			}
 		}
 	}

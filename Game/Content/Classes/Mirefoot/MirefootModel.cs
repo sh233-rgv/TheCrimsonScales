@@ -5,7 +5,7 @@ public class MirefootModel : ClassModel
 {
 	public override string Name => "Mirefoot";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.Low;
-	public override int HandSize => 10;
+	public override int HandSize => 14;
 	public override Ancestry Ancestry => Ancestry.Quatryl;
 
 	public override string AssetPath => "res://Content/Classes/Mirefoot";

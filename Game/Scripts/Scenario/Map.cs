@@ -114,7 +114,7 @@ public partial class Map : Node2D
 	public async GDTask<Monster> CreateMonster(MonsterModel monsterModel, MonsterType monsterType, Vector2I coords, bool summon,
 		int? monsterLevel = null)
 	{
-		MonsterGroup monsterGroup = GetMonsterGroup(monsterModel);
+		MonsterGroup monsterGroup = MonsterGroups.First(group => group.MonsterModel == monsterModel);
 
 		if(monsterType != MonsterType.None && monsterGroup.TryGetAvailableStandeeNumber(out int standeeNumber))
 		{
@@ -231,24 +231,13 @@ public partial class Map : Node2D
 		return new Vector2I(coords.X, coords.Y);
 	}
 
-	private MonsterGroup GetMonsterGroup(MonsterModel monsterModel)
-	{
-		MonsterGroup group = MonsterGroups.FirstOrDefault(group => group.MonsterModel == monsterModel);
-		if(group == null)
-		{
-			AddMonsterGroup(monsterModel);
-		}
-
-		return group;
-	}
-
 	public void AddMonsterGroup(MonsterModel monsterModel)
 	{
 		if(MonsterGroups.Any(group => group.MonsterModel == monsterModel))
 		{
 			return;
 		}
-		
+
 		MonsterAbilityCardDeck deckIsAlreadyInUseByAGroup = MonsterGroups
 			.Where(monsterGroup => monsterGroup.MonsterModel.Deck == monsterModel.Deck)
 			.Select(group => group.MonsterAbilityCardDeck)
