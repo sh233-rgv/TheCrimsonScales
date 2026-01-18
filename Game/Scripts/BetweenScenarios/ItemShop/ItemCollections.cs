@@ -35,7 +35,7 @@
 			ModelDB.Item<StuddedLeather>(),
 			ModelDB.Item<BootsOfStriding>(),
 			ModelDB.Item<JaggedSword>(),
-			// ModelDB.Item<BattleAxe>(),
+			ModelDB.Item<BattleAxe>(),
 			ModelDB.Item<ThrowingHammer>(),
 			ModelDB.Item<MinorStaminaPotion>(),
 			ModelDB.Item<StunPowder>(),
@@ -44,13 +44,13 @@
 		[ // 4
 			ModelDB.Item<EagleEyeGoggles>(),
 			// ModelDB.Item<SacrificialRobes>(),
-			// ModelDB.Item<ComfortableShoes>(),
+			ModelDB.Item<ComfortableShoes>(),
 			// ModelDB.Item<BlackKnife>(),
-			// ModelDB.Item<TowerShield>(),
+			ModelDB.Item<TowerShield>(),
 			ModelDB.Item<PiercingBow>(),
 			// ModelDB.Item<ReapingScythe>(),
-			// ModelDB.Item<MoonEarring>(),
-			// ModelDB.Item<MajorHealingPotion>(),
+			ModelDB.Item<MoonEarring>(),
+			ModelDB.Item<MajorHealingPotion>(),
 			// ModelDB.Item<FalconFigurine>(),
 		],
 		[ // 5
@@ -123,7 +123,7 @@
 
 	public static readonly ItemModel[] Random =
 	[
-		// ModelDB.Item<HeavyBasinet>(),
+		ModelDB.Item<HeavyBasinet>(),
 		// ModelDB.Item<ChainHood>(),
 		ModelDB.Item<NecklaceOfTeeth>(),
 		// ModelDB.Item<DrakescaleHelm>(),
