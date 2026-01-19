@@ -124,41 +124,7 @@ public class RetaliateAbility : ActiveAbility<RetaliateAbility.State>
 	{
 		await base.Activate(abilityState);
 
-		ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(abilityState, this,
-			canApplyParameters =>
-				canApplyParameters.Figure == abilityState.Performer,
-			applyParameters =>
-			{
-				applyParameters.AddRetaliate(abilityState.RetaliateValue, abilityState.Range);
-			}
-		);
-
-		ScenarioEvents.RetaliateEvent.Subscribe(abilityState, this,
-			canApplyParameters =>
-			{
-				bool canApply =
-					canApplyParameters.RetaliatingFigure == abilityState.Performer &&
-					RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, abilityState.Performer.Hex) <= abilityState.Range;
-
-				if(_customCanApply != null)
-				{
-					if(_customCanApplyReplaceFully)
-					{
-						return _customCanApply(canApplyParameters);
-					}
-
-					canApply = canApply && _customCanApply(canApplyParameters);
-				}
-
-				return canApply;
-			},
-			async applyParameters =>
-			{
-				applyParameters.AdjustRetaliate(abilityState.RetaliateValue);
-
-				await GDTask.CompletedTask;
-			}
-		);
+		await AbilityCmd.AddRetaliate(abilityState.Performer, this, RetaliateValue, Range, _customCanApply, _customCanApplyReplaceFully);
 
 		foreach(ConditionModel conditionModel in abilityState.ConditionModels)
 		{
@@ -170,8 +136,7 @@ public class RetaliateAbility : ActiveAbility<RetaliateAbility.State>
 	{
 		await base.Deactivate(abilityState);
 
-		ScenarioCheckEvents.RetaliateCheckEvent.Unsubscribe(abilityState, this);
-		ScenarioEvents.RetaliateEvent.Unsubscribe(abilityState, this);
+		AbilityCmd.RemoveRetaliate(abilityState.Performer, this);
 	}
 
 	protected override string DefaultHintText(State abilityState)

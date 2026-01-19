@@ -1,11 +1,11 @@
 using System.Linq;
 
-public class RingOfHaste : Prosperity5Item
+public class RingOfBrutality : Prosperity7Item
 {
-	public override string Name => "Ring of Haste";
-	public override int ItemNumber => 42;
+	public override string Name => "Ring of Brutality";
+	public override int ItemNumber => 56;
 	public override int ShopCount => 2;
-	public override int Cost => 40;
+	public override int Cost => 50;
 	public override ItemType ItemType => ItemType.Small;
 	public override ItemUseType ItemUseType => ItemUseType.Consume;
 
@@ -24,14 +24,14 @@ public class RingOfHaste : Prosperity5Item
 				await Use(async user =>
 				{
 					AbilityCard card = await AbilityCmd.SelectAbilityCard(user, CardState.Hand, true,
-						hintText: "Select a card to play for its bottom");
+						hintText: "Select a card to play for its top");
 
 					if(card == null)
 					{
 						return;
 					}
 
-					await card.Bottom.Perform(user);
+					await card.Top.Perform(user);
 				});
 			}
 		);

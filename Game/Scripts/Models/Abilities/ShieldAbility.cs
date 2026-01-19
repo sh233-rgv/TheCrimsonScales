@@ -110,63 +110,9 @@ public class ShieldAbility : ActiveAbility<ShieldAbility.State>
 	{
 		await base.Activate(abilityState);
 
-		ScenarioCheckEvents.ShieldCheckEvent.Subscribe(abilityState, this,
-			parameters =>
-				parameters.Figure == abilityState.Performer,
-			parameters =>
-			{
-				if(ConditionalValue)
-				{
-					parameters.SetExtraValue();
-				}
-				else
-				{
-					int shieldValue = ShieldValue.GetValue(abilityState);
-					parameters.AdjustShield(shieldValue + abilityState.AdditionalShield);
-				}
-			}
-		);
-
-		//abilityState.Performer.UpdateShield();
-
-		ScenarioEvents.SufferDamageEvent.Subscribe(abilityState, this,
-			parameters =>
-			{
-				bool canApply =
-					parameters.Figure == abilityState.Performer && parameters.FromAttack &&
-					(!RequiredRangeType.HasValue ||
-					 ((AttackAbility.State)parameters.PotentialAbilityState).SingleTargetRangeType == RequiredRangeType);
-
-				if(_customCanApply != null)
-				{
-					if(_customCanApplyReplaceFully)
-					{
-						return _customCanApply(parameters);
-					}
-
-					canApply = canApply && _customCanApply(parameters);
-				}
-
-				return canApply;
-			},
-			async parameters =>
-			{
-				int shieldValue = ShieldValue.GetValue(abilityState);
-
-				if(Pierceable)
-				{
-					parameters.AdjustShield(shieldValue + abilityState.AdditionalShield);
-				}
-				else
-				{
-					parameters.AdjustUnpierceableShield(shieldValue + abilityState.AdditionalShield);
-				}
-
-				await GDTask.CompletedTask;
-			}
-		);
-
-		AppController.Instance.AudioController.PlayFastForwardable(SFX.Shield, delay: 0f);
+		int shieldValue = ShieldValue.GetValue(abilityState);
+		await AbilityCmd.AddShield(abilityState.Performer, this, shieldValue + abilityState.AdditionalShield, ConditionalValue, Pierceable,
+			RequiredRangeType, _customCanApply, _customCanApplyReplaceFully);
 
 		foreach(ConditionModel conditionModel in abilityState.ConditionModels)
 		{
@@ -178,11 +124,7 @@ public class ShieldAbility : ActiveAbility<ShieldAbility.State>
 	{
 		await base.Deactivate(abilityState);
 
-		ScenarioCheckEvents.ShieldCheckEvent.Unsubscribe(abilityState, this);
-
-		//abilityState.Performer.UpdateShield();
-
-		ScenarioEvents.SufferDamageEvent.Unsubscribe(abilityState, this);
+		AbilityCmd.RemoveShield(abilityState.Performer, this);
 	}
 
 	protected override string DefaultHintText(State abilityState)

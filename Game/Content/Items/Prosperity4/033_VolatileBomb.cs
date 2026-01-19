@@ -1,14 +1,14 @@
 using Fractural.Tasks;
 using Godot;
 
-public class LongSpear : Prosperity3Item
+public class VolatileBomb : Prosperity3Item
 {
-	public override string Name => "Long Spear";
-	public override int ItemNumber => 26;
+	public override string Name => "Volatile Bomb";
+	public override int ItemNumber => 33;
 	public override int ShopCount => 2;
-	public override int Cost => 40;
+	public override int Cost => 50;
 	public override ItemType ItemType => ItemType.TwoHands;
-	public override ItemUseType ItemUseType => ItemUseType.Spend;
+	public override ItemUseType ItemUseType => ItemUseType.Consume;
 
 	protected override int AtlasIndex => 8;
 
@@ -20,16 +20,16 @@ public class LongSpear : Prosperity3Item
 			canApply: state =>
 				state.Performer == Owner &&
 				state.IsSingleTarget &&
-				state.AbilityRangeType == RangeType.Melee,
+				state.AbilityRangeType == RangeType.Range,
 			apply: async state =>
 			{
 				await Use(async user =>
 				{
 					state.AbilitySetAOEPattern(new AOEPattern(
 						[
-							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+							new AOEHex(Vector2I.Zero, AOEHexType.Red),
 							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 						]
 					));
 

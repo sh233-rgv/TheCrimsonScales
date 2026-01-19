@@ -1,13 +1,13 @@
-public class SunEarring : Prosperity5Item
+public class SuperHealingPotion : Prosperity7Item
 {
-	public override string Name => "Sun Earring";
-	public override int ItemNumber => 49;
+	public override string Name => "Super Healing Potion";
+	public override int ItemNumber => 55;
 	public override int ShopCount => 2;
-	public override int Cost => 35;
+	public override int Cost => 50;
 	public override ItemType ItemType => ItemType.Small;
 	public override ItemUseType ItemUseType => ItemUseType.Consume;
 
-	protected override int AtlasIndex => 14;
+	protected override int AtlasIndex => 10;
 
 	protected override void Subscribe()
 	{
@@ -19,18 +19,10 @@ public class SunEarring : Prosperity5Item
 			{
 				await Use(async user =>
 				{
-					foreach(ItemModel item in user.Items)
-					{
-						if(item.ItemState == ItemState.Spent)
-						{
-							await AbilityCmd.RefreshItem(item);
-						}
-					}
-
 					ActionState actionState = new ActionState(user,
 					[
 						HealAbility.Builder()
-							.WithHealValue(3)
+							.WithHealValue(7)
 							.WithTarget(Target.Self).Build()
 					]);
 					await actionState.Perform();

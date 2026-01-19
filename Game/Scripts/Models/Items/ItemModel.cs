@@ -136,6 +136,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 
 	protected virtual void Unsubscribe()
 	{
+		ScenarioEvents.AbilityStartedEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.DuringAttackEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.AMDCardDrawnEvent.Unsubscribe(this, _subscriber);
@@ -253,6 +254,28 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 				if(apply != null)
 				{
 					await apply(applyParameters.Character);
+				}
+			},
+			GetSubscriptionEffectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: _effectButtonParameters,
+			effectInfoViewParameters: _effectInfoViewParameters);
+	}
+
+	protected void SubscribeAbilityStarted<T>(Func<T, bool> canApply = null, Func<T, GDTask> apply = null,
+		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
+		where T : AbilityState
+	{
+		ScenarioEvents.AbilityStartedEvent.Subscribe(this, _subscriber,
+			parameters =>
+				parameters.AbilityState is T castState &&
+				(canApply == null || canApply(castState)),
+			async parameters =>
+			{
+				if(apply != null)
+				{
+					await apply((T)parameters.AbilityState);
 				}
 			},
 			GetSubscriptionEffectType,

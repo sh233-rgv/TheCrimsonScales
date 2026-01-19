@@ -1103,6 +1103,120 @@ public static class AbilityCmd
 		ScenarioEvents.LongRestCardSelectionEvent.Unsubscribe(eventSubscriber);
 	}
 
+	public static async GDTask AddShield(Figure figure, object subscriber, int shieldValue, bool conditionalValue = false, bool pierceable = true,
+		RangeType? requiredRangeType = null, Func<ScenarioEvents.SufferDamage.Parameters, bool> customCanApply = null,
+		bool customCanApplyReplaceFully = false)
+	{
+		ScenarioCheckEvents.ShieldCheckEvent.Subscribe(figure, subscriber,
+			parameters =>
+				parameters.Figure == figure,
+			parameters =>
+			{
+				if(conditionalValue)
+				{
+					parameters.SetExtraValue();
+				}
+				else
+				{
+					parameters.AdjustShield(shieldValue);
+				}
+			}
+		);
+
+		ScenarioEvents.SufferDamageEvent.Subscribe(figure, subscriber,
+			parameters =>
+			{
+				bool canApply =
+					parameters.Figure == figure && parameters.FromAttack &&
+					(!requiredRangeType.HasValue ||
+					 ((AttackAbility.State)parameters.PotentialAbilityState).SingleTargetRangeType == requiredRangeType);
+
+				if(customCanApply != null)
+				{
+					if(customCanApplyReplaceFully)
+					{
+						return customCanApply(parameters);
+					}
+
+					canApply = canApply && customCanApply(parameters);
+				}
+
+				return canApply;
+			},
+			async parameters =>
+			{
+				if(pierceable)
+				{
+					parameters.AdjustShield(shieldValue);
+				}
+				else
+				{
+					parameters.AdjustUnpierceableShield(shieldValue);
+				}
+
+				await GDTask.CompletedTask;
+			}
+		);
+
+		AppController.Instance.AudioController.PlayFastForwardable(SFX.Shield, delay: 0f);
+
+		await GDTask.CompletedTask;
+	}
+
+	public static void RemoveShield(Figure figure, object subscriber)
+	{
+		ScenarioCheckEvents.ShieldCheckEvent.Unsubscribe(figure, subscriber);
+		ScenarioEvents.SufferDamageEvent.Unsubscribe(figure, subscriber);
+	}
+
+	public static async GDTask AddRetaliate(Figure figure, object subscriber, int retaliateValue, int range,
+		Func<ScenarioEvents.Retaliate.Parameters, bool> customCanApply = null, bool customCanApplyReplaceFully = false)
+	{
+		ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(figure, subscriber,
+			canApplyParameters =>
+				canApplyParameters.Figure == figure,
+			applyParameters =>
+			{
+				applyParameters.AddRetaliate(retaliateValue, range);
+			}
+		);
+
+		ScenarioEvents.RetaliateEvent.Subscribe(figure, subscriber,
+			canApplyParameters =>
+			{
+				bool canApply =
+					canApplyParameters.RetaliatingFigure == figure &&
+					RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, figure.Hex) <= range;
+
+				if(customCanApply != null)
+				{
+					if(customCanApplyReplaceFully)
+					{
+						return customCanApply(canApplyParameters);
+					}
+
+					canApply = canApply && customCanApply(canApplyParameters);
+				}
+
+				return canApply;
+			},
+			async applyParameters =>
+			{
+				applyParameters.AdjustRetaliate(retaliateValue);
+
+				await GDTask.CompletedTask;
+			}
+		);
+
+		await GDTask.CompletedTask;
+	}
+
+	public static void RemoveRetaliate(Figure figure, object subscriber)
+	{
+		ScenarioCheckEvents.RetaliateCheckEvent.Unsubscribe(figure, subscriber);
+		ScenarioEvents.RetaliateEvent.Unsubscribe(figure, subscriber);
+	}
+
 	public static async GDTask<bool> CurseMonsters()
 	{
 		await GDTask.CompletedTask;
