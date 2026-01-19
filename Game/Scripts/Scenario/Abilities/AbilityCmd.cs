@@ -142,9 +142,9 @@ public static class AbilityCmd
 		return finalDamage;
 	}
 
-	public static async GDTask<int> SufferDamage(Figure target, int damage, Figure damageDealer, bool fromAttack = false)
+	public static async GDTask<int> SufferDamage(Figure target, int damage, Figure potentialDamageDealer, bool fromAttack = false)
 	{
-		return await SufferDamage(null, target, damage, damageDealer, fromAttack);
+		return await SufferDamage(null, target, damage, potentialDamageDealer, fromAttack);
 	}
 
 	public static async GDTask KillOrExhaust(AbilityState potentialAbilityState, Figure target, Figure potentialKiller)
@@ -1215,6 +1215,49 @@ public static class AbilityCmd
 	{
 		ScenarioCheckEvents.RetaliateCheckEvent.Unsubscribe(figure, subscriber);
 		ScenarioEvents.RetaliateEvent.Unsubscribe(figure, subscriber);
+	}
+
+	public static MoveAbility.MoveBuilder SummonMovePlusX(int plusMove)
+	{
+		return MoveAbility.Builder()
+			.WithDistance(plusMove)
+			.WithOnAbilityStarted(async moveState =>
+			{
+				moveState.AdjustMoveValue(((Summon)moveState.Performer).Stats.Move ?? 0);
+
+				await GDTask.CompletedTask;
+			});
+	}
+
+	public static AttackAbility.AttackBuilder SummonAttackPlusX(int plusAttack)
+	{
+		return AttackAbility.Builder()
+			.WithDamage(plusAttack)
+			.WithOnAbilityStarted(async state =>
+			{
+				Summon summon = ((Summon)state.Performer);
+
+				state.AbilityAdjustAttackValue(summon.Stats.Attack ?? 0);
+
+				int range = summon.Stats.Range ?? 1;
+				state.AbilityAdjustRange(range - 1);
+				state.AbilitySetRangeType(range == 1 ? RangeType.Melee : RangeType.Range);
+
+				await GDTask.CompletedTask;
+			});
+		// .WithDuringAttackSubscription(ScenarioEvents.DuringAttack.Subscription.New(
+		// 	parameters => true,
+		// 	async parameters =>
+		// 	{
+		// 		parameters.AbilityState.AbilityAdjustAttackValue(((Summon)parameters.Performer).Stats.Attack ?? 0);
+		//
+		// 		int range = ((Summon)parameters.Performer).Stats.Range ?? 1;
+		// 		parameters.AbilityState.AbilityAdjustRange(range - 1);
+		// 		parameters.AbilityState.AbilitySetRangeType(range == 1 ? RangeType.Melee : RangeType.Range);
+		//
+		// 		await GDTask.CompletedTask;
+		// 	}
+		// ));
 	}
 
 	public static async GDTask<bool> CurseMonsters()

@@ -1,16 +1,15 @@
-using System.Linq;
 using Fractural.Tasks;
 
-public class StaffOfEminence : Prosperity7Item
+public class SacrificialRobes : GHRewardsItem
 {
-	public override string Name => "Staff of Eminence";
-	public override int ItemNumber => 54;
-	public override int ShopCount => 2;
-	public override int Cost => 60;
-	public override ItemType ItemType => ItemType.TwoHands;
+	public override string Name => "Sacrificial Robes";
+	public override int ItemNumber => 102;
+	public override int ShopCount => 1;
+	public override int Cost => 50;
+	public override ItemType ItemType => ItemType.Body;
 	public override ItemUseType ItemUseType => ItemUseType.Spend;
 
-	protected override int AtlasIndex => 8;
+	protected override int AtlasIndex => 7;
 
 	protected override void Subscribe()
 	{
@@ -19,13 +18,12 @@ public class StaffOfEminence : Prosperity7Item
 		SubscribeDuringAttack(
 			canApply: state =>
 				state.Performer == Owner &&
-				state.AbilityRangeType == RangeType.Range &&
-				Elements.All.Any(element => GameController.Instance.ElementManager.GetState(element) > ElementState.Inert),
+				state.AbilityRangeType == RangeType.Range,
 			apply: async state =>
 			{
 				await Use(async user =>
 				{
-					await AbilityCmd.AskConsumeWildElement(user, true);
+					await AbilityCmd.SufferDamage(user, 3, user);
 
 					state.AbilityAdjustAttackValue(1);
 

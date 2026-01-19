@@ -16,32 +16,8 @@ public class SoulWhisperer : ChieftainCardModel<SoulWhisperer.CardTop, SoulWhisp
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithAbilities(
 				[
-					MoveAbility.Builder()
-						.WithDistance(0)
-						.WithOnAbilityStarted(async moveState =>
-						{
-							moveState.AdjustMoveValue(((Summon)moveState.Performer).Stats.Move ?? 0);
-
-							await GDTask.CompletedTask;
-						})
-						.Build(),
-
-					AttackAbility.Builder()
-						.WithDamage(0)
-						.WithDuringAttackSubscription(ScenarioEvents.DuringAttack.Subscription.New(
-							parameters => true,
-							async parameters =>
-							{
-								parameters.AbilityState.AbilityAdjustAttackValue(((Summon)parameters.Performer).Stats.Attack ?? 0);
-
-								int range = ((Summon)parameters.Performer).Stats.Range ?? 1;
-								parameters.AbilityState.AbilityAdjustRange(range - 1);
-								parameters.AbilityState.AbilitySetRangeType(range == 1 ? RangeType.Melee : RangeType.Range);
-
-								await GDTask.CompletedTask;
-							}
-						))
-						.Build()
+					AbilityCmd.SummonMovePlusX(0).Build(),
+					AbilityCmd.SummonAttackPlusX(0).Build()
 				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{

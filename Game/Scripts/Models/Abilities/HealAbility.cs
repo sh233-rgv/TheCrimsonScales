@@ -79,7 +79,7 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 
 		public TBuilder WithDuringHealSubscriptions(List<ScenarioEvents.DuringHeal.Subscription> duringHealSubscriptions)
 		{
-			Obj.DuringHealSubscriptions = duringHealSubscriptions;
+			Obj.DuringHealSubscriptions.AddRange(duringHealSubscriptions);
 			return (TBuilder)this;
 		}
 
@@ -93,7 +93,7 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 		public TBuilder WithAfterTargetConfirmedSubscriptions(
 			List<ScenarioEvents.HealAfterTargetConfirmed.Subscription> afterTargetConfirmedSubscriptions)
 		{
-			Obj.AfterTargetConfirmedSubscriptions = afterTargetConfirmedSubscriptions;
+			Obj.AfterTargetConfirmedSubscriptions.AddRange(afterTargetConfirmedSubscriptions);
 			return (TBuilder)this;
 		}
 
@@ -105,9 +105,9 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 		}
 
 		public TBuilder WithAfterHealPerformedSubscriptions(
-			List<ScenarioEvents.AfterHealPerformed.Subscription> afterHealPerformedSubscriptionss)
+			List<ScenarioEvents.AfterHealPerformed.Subscription> afterHealPerformedSubscriptions)
 		{
-			Obj.AfterHealPerformedSubscriptions = afterHealPerformedSubscriptionss;
+			Obj.AfterHealPerformedSubscriptions.AddRange(afterHealPerformedSubscriptions);
 			return (TBuilder)this;
 		}
 

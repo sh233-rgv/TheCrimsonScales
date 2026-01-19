@@ -79,7 +79,7 @@ public class MoveAbility : Ability<MoveAbility.State>
 		public TBuilder WithDuringMovementSubscriptions(
 			List<ScenarioEvents.DuringMovement.Subscription> movementSubscriptions)
 		{
-			Obj.DuringMovementSubscriptions = movementSubscriptions;
+			Obj.DuringMovementSubscriptions.AddRange(movementSubscriptions);
 			return (TBuilder)this;
 		}
 	}

@@ -194,7 +194,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public TBuilder WithDuringAttackSubscriptions(
 			List<ScenarioEvents.DuringAttack.Subscription> duringAttackSubscriptions)
 		{
-			Obj.DuringAttackSubscriptions = duringAttackSubscriptions;
+			Obj.DuringAttackSubscriptions.AddRange(duringAttackSubscriptions);
 			return (TBuilder)this;
 		}
 
@@ -208,7 +208,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public TBuilder WithAfterTargetConfirmedSubscriptions(
 			List<ScenarioEvents.AttackAfterTargetConfirmed.Subscription> afterTargetConfirmedSubscriptions)
 		{
-			Obj.AfterTargetConfirmedSubscriptions = afterTargetConfirmedSubscriptions;
+			Obj.AfterTargetConfirmedSubscriptions.AddRange(afterTargetConfirmedSubscriptions);
 			return (TBuilder)this;
 		}
 
@@ -222,7 +222,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public TBuilder WithAfterAttackPerformedSubscriptions(
 			List<ScenarioEvents.AfterAttackPerformed.Subscription> afterAttackPerformedSubscriptions)
 		{
-			Obj.AfterAttackPerformedSubscriptions = afterAttackPerformedSubscriptions;
+			Obj.AfterAttackPerformedSubscriptions.AddRange(afterAttackPerformedSubscriptions);
 			return (TBuilder)this;
 		}
 	}
@@ -383,7 +383,8 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 
 		if(!retaliateParameters.RetaliateBlocked && retaliateParameters.Retaliate > 0)
 		{
-			await AbilityCmd.SufferDamage(abilityState.Performer, retaliateParameters.Retaliate, damageDealer: retaliateParameters.RetaliatingFigure);
+			await AbilityCmd.SufferDamage(abilityState.Performer, retaliateParameters.Retaliate,
+				potentialDamageDealer: retaliateParameters.RetaliatingFigure);
 		}
 
 		await ScenarioEvents.AfterAttackPerformedEvent.CreatePrompt(

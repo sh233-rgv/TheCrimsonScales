@@ -58,23 +58,16 @@ public class OutrunTheEnemy : ChieftainCardModel<OutrunTheEnemy.CardTop, OutrunT
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithAbilities(
+				.WithGetAbilities(grantState =>
 				[
-					MoveAbility.Builder()
-						.WithDistance(0)
-						.WithOnAbilityStarted(async moveState =>
-						{
-							moveState.AdjustMoveValue(((Summon)moveState.Performer).Stats.Move ?? 0);
-
-							await GDTask.CompletedTask;
-						})
+					AbilityCmd.SummonMovePlusX(0)
 						.WithDuringMovementSubscription(
 							ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Earth,
 								applyFunction: async applyParameters =>
 								{
 									applyParameters.AbilityState.AdjustMoveValue(2);
 
-									await AbilityCmd.GainXP(applyParameters.Performer, 1);
+									await AbilityCmd.GainXP(grantState.Performer, 1);
 								},
 								effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Move)}")
 							)

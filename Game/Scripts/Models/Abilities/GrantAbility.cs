@@ -54,7 +54,7 @@ public class GrantAbility : TargetedAbility<GrantAbility.State, SingleTargetStat
 
 		public TBuilder WithDuringGrantSubscriptions(List<ScenarioEvents.DuringGrant.Subscription> duringGrantSubscriptions)
 		{
-			Obj.DuringGrantSubscriptions = duringGrantSubscriptions;
+			Obj.DuringGrantSubscriptions.AddRange(duringGrantSubscriptions);
 			return (TBuilder)this;
 		}
 

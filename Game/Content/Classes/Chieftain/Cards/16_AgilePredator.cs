@@ -41,15 +41,7 @@ public class AgilePredator : ChieftainCardModel<AgilePredator.CardTop, AgilePred
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantState =>
 				[
-					MoveAbility.Builder()
-						.WithDistance(1)
-						.WithOnAbilityStarted(async moveState =>
-						{
-							moveState.AdjustMoveValue(((Summon)moveState.Performer).Stats.Move ?? 0);
-
-							await GDTask.CompletedTask;
-						})
-						.Build()
+					AbilityCmd.SummonMovePlusX(1).Build()
 				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{

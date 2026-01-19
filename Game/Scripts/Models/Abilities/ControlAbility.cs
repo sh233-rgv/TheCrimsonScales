@@ -53,7 +53,7 @@ public class ControlAbility : TargetedAbility<ControlAbility.State, SingleTarget
 
 		public TBuilder WithDuringControlSubscriptions(List<ScenarioEvents.DuringControl.Subscription> duringControlSubscriptions)
 		{
-			Obj.DuringControlSubscriptions = duringControlSubscriptions;
+			Obj.DuringControlSubscriptions.AddRange(duringControlSubscriptions);
 			return (TBuilder)this;
 		}
 

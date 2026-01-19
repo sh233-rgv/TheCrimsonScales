@@ -43,7 +43,7 @@
 		],
 		[ // 4
 			ModelDB.Item<EagleEyeGoggles>(),
-			// ModelDB.Item<SacrificialRobes>(),
+			ModelDB.Item<SacrificialRobes>(),
 			ModelDB.Item<ComfortableShoes>(),
 			ModelDB.Item<BlackKnife>(),
 			ModelDB.Item<TowerShield>(),

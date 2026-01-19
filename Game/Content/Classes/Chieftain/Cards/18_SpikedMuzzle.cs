@@ -67,15 +67,7 @@ public class SpikedMuzzle : ChieftainCardModel<SpikedMuzzle.CardTop, SpikedMuzzl
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithAbilities(
 				[
-					MoveAbility.Builder()
-						.WithDistance(1)
-						.WithOnAbilityStarted(async moveState =>
-						{
-							moveState.AdjustMoveValue(((Summon)moveState.Performer).Stats.Move ?? 0);
-
-							await GDTask.CompletedTask;
-						})
-						.Build()
+					AbilityCmd.SummonMovePlusX(1).Build()
 				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{

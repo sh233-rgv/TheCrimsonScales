@@ -16,42 +16,9 @@ public class MasterTheReins : ChieftainCardModel<MasterTheReins.CardTop, MasterT
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantState =>
 				[
-					MoveAbility.Builder()
-						.WithDistance(1)
-						.WithOnAbilityStarted(async moveState =>
-						{
-							moveState.AdjustMoveValue(((Summon)moveState.Performer).Stats.Move ?? 0);
-
-							await GDTask.CompletedTask;
-						})
-						.Build(),
-
-					AttackAbility.Builder()
-						.WithDamage(1)
-						.WithDuringAttackSubscription(ScenarioEvents.DuringAttack.Subscription.New(
-							parameters => parameters.Performer == grantState.Target,
-							async parameters =>
-							{
-								parameters.AbilityState.AbilityAdjustAttackValue(((Summon)parameters.Performer).Stats.Attack ?? 0);
-
-								int range = ((Summon)parameters.Performer).Stats.Range ?? 1;
-								parameters.AbilityState.AbilityAdjustRange(range - 1);
-								parameters.AbilityState.AbilitySetRangeType(range == 1 ? RangeType.Melee : RangeType.Range);
-
-								await GDTask.CompletedTask;
-							}
-						))
-						.Build(),
-
-					MoveAbility.Builder()
-						.WithDistance(1)
-						.WithOnAbilityStarted(async moveState =>
-						{
-							moveState.AdjustMoveValue(((Summon)moveState.Performer).Stats.Move ?? 0);
-
-							await GDTask.CompletedTask;
-						})
-						.Build(),
+					AbilityCmd.SummonMovePlusX(1).Build(),
+					AbilityCmd.SummonAttackPlusX(1).Build(),
+					AbilityCmd.SummonMovePlusX(1).Build(),
 				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{
