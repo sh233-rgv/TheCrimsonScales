@@ -13,6 +13,5 @@ public class KingCobra : GiantViper
 			.ToArray();
 	
 	public override string Name => "King Cobra";
-
-	public override int MaxStandeeCount => 1;
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<GiantViper>();
 }

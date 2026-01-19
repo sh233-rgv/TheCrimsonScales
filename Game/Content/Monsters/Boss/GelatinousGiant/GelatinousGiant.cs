@@ -17,8 +17,7 @@ public class GelatinousGiant : Ooze, IBossMonsterModel
 			.ToArray();
 
 	public override string Name => "Gelatinous Giant";
-
-	public override int MaxStandeeCount => 1;
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<Ooze>();
 
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 

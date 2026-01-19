@@ -14,6 +14,5 @@ public class SlyWolf : Hound
 			.ToArray();
 
 	public override string Name => "Sly Wolf";
-
-	public override int MaxStandeeCount => 1;
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<Hound>();
 }

@@ -11,6 +11,5 @@ public class TwinCorpse : LivingCorpse
 			.ToArray();
 
 	public override string Name => "Twin Corpse";
-
-	public override int MaxStandeeCount => 2;
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<LivingCorpse>();
 }

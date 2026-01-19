@@ -20,8 +20,7 @@ public class Icebound : SavvasIceStorm, IBossMonsterModel
 			.ToArray();
 
 	public override string Name => "Icebound";
-
-	public override int MaxStandeeCount => 1;
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<SavvasIceStorm>();
 
 	private bool _summonElite;
 

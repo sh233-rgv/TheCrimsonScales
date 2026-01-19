@@ -16,6 +16,5 @@ public class Lavalite : SavvasLavaflow
 			.ToArray();
 
 	public override string Name => "Lavalite";
-
-	public override int MaxStandeeCount => 1;
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<SavvasLavaflow>();
 }

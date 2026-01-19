@@ -18,8 +18,7 @@ public class DrakePorter : VermlingShaman, IBossMonsterModel
 			.ToArray();
 
 	public override string Name => "Drake Porter";
-
-	public override int MaxStandeeCount => 1;
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<VermlingShaman>();
 
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 

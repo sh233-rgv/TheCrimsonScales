@@ -14,6 +14,5 @@ public class GoringGrizzly : CaveBear
 			.ToArray();
 
 	public override string Name => "Goring Grizzly";
-
-	public override int MaxStandeeCount => 1;
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<CaveBear>();
 }

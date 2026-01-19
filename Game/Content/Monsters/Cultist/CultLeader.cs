@@ -18,6 +18,5 @@ public class CultLeader : Cultist
 			.ToArray();
 
 	public override string Name => "Cult Leader";
-
-	public override int MaxStandeeCount => 1;
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<Cultist>();
 }

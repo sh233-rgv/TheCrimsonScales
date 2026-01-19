@@ -17,6 +17,5 @@ public class ShadowDemon : NightDemon
 			.ToArray();
 
 	public override string Name => "Shadow Demon";
-
-	public override int MaxStandeeCount => 1;
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<NightDemon>();
 }

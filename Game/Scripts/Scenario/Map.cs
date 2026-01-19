@@ -110,11 +110,11 @@ public partial class Map : Node2D
 		Hex hex = Hexes.GetValueOrDefault(coords);
 		return (hex != null && (!checkRevealed || hex.Revealed)) ? hex : null;
 	}
-
+	
 	public async GDTask<Monster> CreateMonster(MonsterModel monsterModel, MonsterType monsterType, Vector2I coords, bool summon,
 		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
 	{
-		MonsterGroup monsterGroup = GetMonsterGroup(monsterModel);
+		MonsterGroup monsterGroup = MonsterGroups.First(group => group.MonsterModel == monsterModel);
 
 		if(monsterType != MonsterType.None && monsterGroup.TryGetAvailableStandeeNumber(out int standeeNumber))
 		{
@@ -236,19 +236,24 @@ public partial class Map : Node2D
 		return new Vector2I(coords.X, coords.Y);
 	}
 
-	private MonsterGroup GetMonsterGroup(MonsterModel monsterModel)
+	public void AddMonsterGroup(MonsterModel monsterModel)
 	{
-		MonsterGroup group = MonsterGroups.FirstOrDefault(group => group.MonsterModel == monsterModel);
-		if(group == null)
+		if(MonsterGroups.Any(group => group.MonsterModel == monsterModel))
 		{
-			MonsterAbilityCardDeck deckIsAlreadyInUseByAGroup = MonsterGroups
-				.Where(monsterGroup => monsterGroup.MonsterModel.Deck == monsterModel.Deck)
-				.Select(group => group.MonsterAbilityCardDeck)
-				.FirstOrDefault();
-			group = new MonsterGroup(monsterModel, MonsterGroups.Count, deckIsAlreadyInUseByAGroup);
-			MonsterGroups.Add(group);
+			return;
 		}
 
-		return group;
+		if(monsterModel.ParentMonsterModel != null)
+		{
+			AddMonsterGroup(monsterModel.ParentMonsterModel);
+		}
+
+		MonsterAbilityCardDeck deckIsAlreadyInUseByAGroup = MonsterGroups
+			.Where(monsterGroup => monsterGroup.MonsterModel.Deck == monsterModel.Deck)
+			.Select(group => group.MonsterAbilityCardDeck)
+			.FirstOrDefault();
+		MonsterGroup parentMonsterGroup = MonsterGroups.FirstOrDefault(monsterGroup => monsterGroup.MonsterModel == monsterModel.ParentMonsterModel);
+		MonsterGroup group = new MonsterGroup(monsterModel, parentMonsterGroup?.GroupIndex ?? MonsterGroups.Count, deckIsAlreadyInUseByAGroup, parentMonsterGroup);
+		MonsterGroups.Add(group);
 	}
 }

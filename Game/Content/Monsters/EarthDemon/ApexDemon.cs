@@ -18,6 +18,5 @@ public class ApexDemon : EarthDemon
 			.ToArray();
 
 	public override string Name => "Apex Demon";
-
-	public override int MaxStandeeCount => 1;
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<ApexDemon>();
 }

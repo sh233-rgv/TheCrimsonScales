@@ -23,4 +23,5 @@ public class VermlingExperiment : VermlingScout
 			.ToArray();
 
 	public override string Name => "Vermling Experiment";
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<VermlingScout>();
 }

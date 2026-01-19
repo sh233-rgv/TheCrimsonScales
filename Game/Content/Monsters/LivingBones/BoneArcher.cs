@@ -25,4 +25,5 @@ public class BoneArcher : LivingBones
 			.ToArray();
 
 	public override string Name => "Bone Archer";
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<LivingBones>();
 }

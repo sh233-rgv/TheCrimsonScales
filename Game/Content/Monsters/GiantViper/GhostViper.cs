@@ -19,4 +19,5 @@ public class GhostViper : GiantViper
 			.ToArray();
 
 	public override string Name => "Ghost Viper";
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<GiantViper>();
 }

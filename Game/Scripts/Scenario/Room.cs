@@ -60,6 +60,12 @@ public partial class Room : Node2D
 				}
 			}
 		}
+		
+		List<MonsterSpawner> monsterSpawners = this.GetChildrenOfType<MonsterSpawner>();
+		foreach(MonsterSpawner monsterSpawner in monsterSpawners)
+		{
+			GameController.Instance.Map.AddMonsterGroup(ModelDB.GetById<MonsterModel>(new ModelId(monsterSpawner.MonsterModelId)));
+		}
 
 		Visible = false;
 	}

@@ -19,8 +19,7 @@ public class LandLeviathan : DeepTerror, IBossMonsterModel
 			.ToArray();
 
 	public override string Name => "Land Leviathan";
-
-	public override int MaxStandeeCount => 1;
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<DeepTerror>();
 
 	private bool _summonBlackImp = true;
 
