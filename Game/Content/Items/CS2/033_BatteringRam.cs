@@ -1,15 +1,15 @@
 using Fractural.Tasks;
 
-public class MajorPowerPotion : Prosperity5Item
+public class BatteringRam : CS2Item
 {
-	public override string Name => "Major Power Potion";
-	public override int ItemNumber => 41;
-	public override int ShopCount => 2;
-	public override int Cost => 40;
-	public override ItemType ItemType => ItemType.Small;
-	public override ItemUseType ItemUseType => ItemUseType.Consume;
+	public override string Name => "Battering Ram";
+	public override int ItemNumber => 33;
+	public override int ShopCount => 1;
+	public override int Cost => 30;
+	public override ItemType ItemType => ItemType.TwoHands;
+	public override ItemUseType ItemUseType => ItemUseType.Spend;
 
-	protected override int AtlasIndex => 10;
+	protected override int AtlasIndex => 5;
 
 	protected override void Subscribe()
 	{
@@ -21,7 +21,8 @@ public class MajorPowerPotion : Prosperity5Item
 			{
 				await Use(async user =>
 				{
-					state.AbilityAdjustAttackValue(2);
+					state.AbilityAddCondition(Conditions.Muddle);
+					state.AbilityAdjustPush(2);
 
 					object subscriber = new object();
 
@@ -33,7 +34,8 @@ public class MajorPowerPotion : Prosperity5Item
 						async parameters =>
 						{
 							AttackAbility.State attackAbilityState = ((AttackAbility.State)parameters.AbilityState);
-							attackAbilityState.AbilityAdjustAttackValue(2);
+							attackAbilityState.AbilityAddCondition(Conditions.Muddle);
+							attackAbilityState.AbilityAdjustPush(2);
 
 							await GDTask.CompletedTask;
 						}

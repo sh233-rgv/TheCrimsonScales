@@ -1,27 +1,27 @@
 using Fractural.Tasks;
 
-public class MajorPowerPotion : Prosperity5Item
+public class ResplendentMitre : CS2Item
 {
-	public override string Name => "Major Power Potion";
-	public override int ItemNumber => 41;
-	public override int ShopCount => 2;
+	public override string Name => "Resplendent Mitre";
+	public override int ItemNumber => 43;
+	public override int ShopCount => 1;
 	public override int Cost => 40;
-	public override ItemType ItemType => ItemType.Small;
-	public override ItemUseType ItemUseType => ItemUseType.Consume;
+	public override ItemType ItemType => ItemType.Head;
+	public override ItemUseType ItemUseType => ItemUseType.Spend;
 
-	protected override int AtlasIndex => 10;
+	protected override int AtlasIndex => 16;
 
 	protected override void Subscribe()
 	{
 		base.Subscribe();
 
-		SubscribeDuringAttack(
+		SubscribeDuringHeal(
 			canApply: state => state.Performer == Owner,
 			apply: async state =>
 			{
 				await Use(async user =>
 				{
-					state.AbilityAdjustAttackValue(2);
+					state.AbilityAdjustHealValue(2);
 
 					object subscriber = new object();
 
@@ -29,11 +29,11 @@ public class MajorPowerPotion : Prosperity5Item
 					ScenarioEvents.AbilityStartedEvent.Subscribe(this, subscriber,
 						parameters =>
 							parameters.AbilityState.ActionState == state.ActionState &&
-							parameters.AbilityState is AttackAbility.State,
+							parameters.AbilityState is HealAbility.State,
 						async parameters =>
 						{
-							AttackAbility.State attackAbilityState = ((AttackAbility.State)parameters.AbilityState);
-							attackAbilityState.AbilityAdjustAttackValue(2);
+							HealAbility.State attackAbilityState = ((HealAbility.State)parameters.AbilityState);
+							attackAbilityState.AbilityAdjustHealValue(2);
 
 							await GDTask.CompletedTask;
 						}
