@@ -37,7 +37,7 @@ public abstract class TargetedAbilityState : AbilityState
 {
 	public List<Figure> UniqueTargetedFigures { get; } = new List<Figure>();
 	public List<Hex> TargetedHexes { get; } = new List<Hex>();
-	public Dictionary<Vector2I, (AOEHexType, string)> AOEHexes { get; set; }
+	public List<AOEHex> AOEHexes { get; set; }
 
 	public Target AbilityTarget { get; set; }
 	public int AbilityTargets { get; set; }
@@ -68,11 +68,11 @@ public abstract class TargetedAbilityState : AbilityState
 			yield break;
 		}
 
-		foreach((Vector2I coords, (AOEHexType type, string _)) in AOEHexes)
+		foreach(AOEHex aoeHex in AOEHexes)
 		{
-			Hex hex = GameController.Instance.Map.GetHex(coords);
+			Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
 
-			if(hex != null && type.HasFlag(AOEHexType.Empty))
+			if(hex != null && aoeHex.Type.HasFlag(AOEHexType.Empty))
 			{
 				yield return hex;
 			}
@@ -86,11 +86,11 @@ public abstract class TargetedAbilityState : AbilityState
 			yield break;
 		}
 
-		foreach((Vector2I coords, (AOEHexType type, string _)) in AOEHexes)
+		foreach(AOEHex aoeHex in AOEHexes)
 		{
-			Hex hex = GameController.Instance.Map.GetHex(coords);
+			Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
 
-			if(hex != null && type.HasFlag(AOEHexType.Red))
+			if(hex != null && aoeHex.Type.HasFlag(AOEHexType.Red))
 			{
 				yield return hex;
 			}
@@ -104,11 +104,11 @@ public abstract class TargetedAbilityState : AbilityState
 			yield break;
 		}
 
-		foreach((Vector2I coords, (AOEHexType type, string _)) in AOEHexes)
+		foreach(AOEHex aoeHex in AOEHexes)
 		{
-			Hex hex = GameController.Instance.Map.GetHex(coords);
+			Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
 
-			if(hex != null && type == AOEHexType.Yellow)
+			if(hex != null && aoeHex.Type.HasFlag(AOEHexType.Yellow))
 			{
 				yield return hex;
 			}
@@ -122,11 +122,11 @@ public abstract class TargetedAbilityState : AbilityState
 			yield break;
 		}
 
-		foreach((Vector2I coords, (AOEHexType _, string mark)) in AOEHexes)
+		foreach(AOEHex aoeHex in AOEHexes)
 		{
-			Hex hex = GameController.Instance.Map.GetHex(coords);
+			Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
 
-			if(hex != null && mark == customMark)
+			if(hex != null && aoeHex.CustomMark == customMark)
 			{
 				yield return hex;
 			}
@@ -454,7 +454,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 		if(abilityState.AbilityAOEPattern != null)
 		{
-			Dictionary<Vector2I, (AOEHexType, string)> aoeHexes = new Dictionary<Vector2I, (AOEHexType, string)>();
+			List<AOEHex> aoeHexes = [];
 
 			//TODO: Add `during ability` scenario events to the aoe prompts so the range can be increased 
 			if(abilityState.Authority is Character)
@@ -470,10 +470,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 					return;
 				}
 
-				for(int i = 0; i < aoeAnswer.HexCoords.Count; i++)
-				{
-					aoeHexes.Add(aoeAnswer.HexCoords[i], (aoeAnswer.HexTypes[i], aoeAnswer.HexCustomMarks[i]));
-				}
+				aoeHexes = aoeAnswer.AOEHexes;
 			}
 			else
 			{
@@ -490,10 +487,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 					return;
 				}
 
-				for(int i = 0; i < aoeAnswer.HexCoords.Count; i++)
-				{
-					aoeHexes.Add(aoeAnswer.HexCoords[i], (aoeAnswer.HexTypes[i], aoeAnswer.HexCustomMarks[i]));
-				}
+				aoeHexes = aoeAnswer.AOEHexes;
 			}
 
 			abilityState.AOEHexes = aoeHexes;

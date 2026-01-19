@@ -9,9 +9,7 @@ public class MonsterAOEPrompt(
 {
 	public class Answer : PromptAnswer
 	{
-		public List<Vector2I> HexCoords { get; init; }
-		public List<AOEHexType> HexTypes { get; init; }
-		public List<string> HexCustomMarks { get; init; }
+		public List<AOEHex> AOEHexes { get; init; }
 	}
 
 	private static readonly HashSet<Figure> AttackableFiguresCache = new HashSet<Figure>();
@@ -203,9 +201,7 @@ public class MonsterAOEPrompt(
 
 	protected override Answer CreateAnswer()
 	{
-		List<Vector2I> hexCoords = new List<Vector2I>();
-		List<AOEHexType> hexTypes = new List<AOEHexType>();
-		List<string> hexCustomMarks = new List<string>();
+		List<AOEHex> aoeHexes = [];
 
 		foreach(AOEHex aoeHex in pattern.Hexes)
 		{
@@ -218,15 +214,12 @@ public class MonsterAOEPrompt(
 				continue;
 			}
 
-			hexCoords.Add(potentialTargetHex.Coords);
-			hexTypes.Add(aoeHex.Type);
+			aoeHexes.Add(aoeHex);
 		}
 
 		return new Answer()
 		{
-			HexCoords = hexCoords,
-			HexTypes = hexTypes,
-			HexCustomMarks = hexCustomMarks
+			AOEHexes = aoeHexes
 		};
 	}
 

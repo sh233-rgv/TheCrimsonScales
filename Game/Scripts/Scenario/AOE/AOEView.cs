@@ -268,7 +268,6 @@ public partial class AOEView : Node2D
 		foreach(AOEHexView otherHexView in Hexes)
 		{
 			otherHexView.SetRotationDegrees(-_rotationIndex * 60f);
-			otherHexView.TextureRect.SetPosition(otherHexView.GlobalCoords + new Vector2I(64, -64));
 		}
 
 		if(!_hasGrayHex)

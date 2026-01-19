@@ -8,9 +8,7 @@ public class AOEPrompt(
 {
 	public class Answer : PromptAnswer
 	{
-		public List<Vector2I> HexCoords { get; init; }
-		public List<AOEHexType> HexTypes { get; init; }
-		public List<string> HexCustomMarks { get; init; }
+		public List<AOEHex> AOEHexes { get; init; }
 	}
 
 	protected override void Enable()
@@ -31,22 +29,16 @@ public class AOEPrompt(
 
 	protected override Answer CreateAnswer()
 	{
-		List<Vector2I> hexCoords = new List<Vector2I>();
-		List<AOEHexType> hexTypes = new List<AOEHexType>();
-		List<string> hexCustomMarks = new List<string>();
+		List<AOEHex> aoeHexes = [];
 
 		foreach(AOEHexView hexView in GameController.Instance.AOEView.Hexes)
 		{
-			hexCoords.Add(hexView.GlobalCoords);
-			hexTypes.Add(hexView.Type);
-			hexCustomMarks.Add(hexView.CustomMark);
+			aoeHexes.Add(new AOEHex(hexView.GlobalCoords, hexView.Type, hexView.CustomMark));
 		}
 
 		return new Answer()
 		{
-			HexCoords = hexCoords,
-			HexTypes = hexTypes,
-			HexCustomMarks = hexCustomMarks
+			AOEHexes = aoeHexes
 		};
 	}
 

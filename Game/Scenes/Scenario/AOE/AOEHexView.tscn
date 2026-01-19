@@ -6,11 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://ca72vsmwgu28w" path="res://Art/Icons/Abilities/LoseCard.svg" id="5_4iuvy"]
 [ext_resource type="PackedScene" uid="uid://ug7oy7x62yfw" path="res://Scenes/Scenario/WorldButton.tscn" id="5_x6jk0"]
 
-[node name="AOEHexView" type="Node2D" node_paths=PackedStringArray("_worldButton", "TextureRect")]
+[node name="AOEHexView" type="Node2D" node_paths=PackedStringArray("_worldButton", "IconTextureRect")]
 z_index = 100
 script = ExtResource("1_igk30")
 _worldButton = NodePath("WorldButton")
-TextureRect = NodePath("TextureRect")
+IconTextureRect = NodePath("TextureRect")
 
 [node name="Fill" type="Sprite2D" parent="."]
 self_modulate = Color(0.486275, 0.486275, 0.486275, 0.443137)

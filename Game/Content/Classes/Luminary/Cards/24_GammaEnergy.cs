@@ -28,8 +28,6 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 			return OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					Dictionary<Vector2I, AOEHexType> aoeHexes = new Dictionary<Vector2I, AOEHexType>();
-
 					AOEPrompt.Answer aoeAnswer =
 						await PromptManager.Prompt(new AOEPrompt(state.Performer, new AOEPattern(
 								[
@@ -46,16 +44,11 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 						return;
 					}
 
-					for(int i = 0; i < aoeAnswer.HexCoords.Count; i++)
+					foreach(AOEHex aoeHex in aoeAnswer.AOEHexes)
 					{
-						aoeHexes.Add(aoeAnswer.HexCoords[i], aoeAnswer.HexTypes[i]);
-					}
+						Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
 
-					foreach((Vector2I coords, AOEHexType type) in aoeHexes)
-					{
-						Hex hex = GameController.Instance.Map.GetHex(coords);
-
-						if(hex != null && type.HasFlag(AOEHexType.Red))
+						if(hex != null && aoeHex.Type.HasFlag(AOEHexType.Red))
 						{
 							foreach(Figure figure in hex.GetHexObjectsOfType<Figure>().Where(figure => figure.EnemiesWith(state.Performer)))
 							{
