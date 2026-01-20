@@ -265,10 +265,6 @@ public partial class AOEView : Node2D
 		float targetDegrees = _rotationIndex * 60f;
 		_rotateTween?.Kill();
 		_rotateTween = _hexParent.TweenRotationDegrees(targetDegrees, 0.08f).Play();
-		foreach(AOEHexView otherHexView in Hexes)
-		{
-			otherHexView.SetRotationDegrees(-_rotationIndex * 60f);
-		}
 
 		if(!_hasGrayHex)
 		{
