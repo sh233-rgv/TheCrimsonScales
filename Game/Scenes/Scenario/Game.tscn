@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=3 uid="uid://dc3oqbu0m8jid"]
+[gd_scene load_steps=94 format=3 uid="uid://dc3oqbu0m8jid"]
 
 [ext_resource type="Script" uid="uid://bq2pwm6f32li" path="res://Scripts/Scenario/GameController.cs" id="1_arwlr"]
 [ext_resource type="Script" uid="uid://d1n1uymvup76h" path="res://Scripts/Scenario/TeleportPath/TeleportPath.cs" id="6_b23n0"]

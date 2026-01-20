@@ -122,8 +122,9 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6214329f, 0.63088423f)))
 				.Build()),
+
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{

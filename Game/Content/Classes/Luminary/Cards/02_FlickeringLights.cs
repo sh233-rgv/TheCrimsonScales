@@ -13,7 +13,7 @@ public class FlickeringLights : LuminaryCardModel<FlickeringLights.CardTop, Flic
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.4579801f, 0.14994247f)))
 				.WithAOEPattern(new AOEPattern(
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Gray),

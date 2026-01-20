@@ -14,7 +14,7 @@ public class TorridRadiation : LuminaryCardModel<TorridRadiation.CardTop, Torrid
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.32640356f, 0.14524278f)))
 				.WithPierce(1)
 				.WithAOEPattern(new AOEPattern(
 					[
@@ -46,7 +46,7 @@ public class TorridRadiation : LuminaryCardModel<TorridRadiation.CardTop, Torrid
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6213844f, 0.6537314f)))
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>

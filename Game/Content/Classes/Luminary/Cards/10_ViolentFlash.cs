@@ -13,7 +13,7 @@ public class ViolentFlash : LuminaryCardModel<ViolentFlash.CardTop, ViolentFlash
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.44441268f, 0.22417206f)))
 				.WithAOEPattern(new AOEPattern(
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
@@ -42,7 +42,7 @@ public class ViolentFlash : LuminaryCardModel<ViolentFlash.CardTop, ViolentFlash
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128437f, 0.7193808f)))
 				.Build()),
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)

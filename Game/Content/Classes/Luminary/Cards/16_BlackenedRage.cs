@@ -15,7 +15,7 @@ public class BlackenedRage : LuminaryCardModel<BlackenedRage.CardTop, BlackenedR
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.44796452f, 0.14355949f)))
 				.WithAOEPattern(new AOEPattern(
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
@@ -48,7 +48,7 @@ public class BlackenedRage : LuminaryCardModel<BlackenedRage.CardTop, BlackenedR
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.5242182f, 0.705998f)))
 				.WithMoveType(MoveType.Jump)
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()

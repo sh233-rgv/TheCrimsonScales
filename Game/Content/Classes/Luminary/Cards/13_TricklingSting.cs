@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class TricklingSting : LuminaryCardModel<TricklingSting.CardTop, TricklingSting.CardBottom>
 {
@@ -14,7 +15,7 @@ public class TricklingSting : LuminaryCardModel<TricklingSting.CardTop, Tricklin
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.6654667f, 0.22265568f)))
 				.WithOnAbilityStarted(async state =>
 				{
 					int count = 0;
@@ -40,11 +41,13 @@ public class TricklingSting : LuminaryCardModel<TricklingSting.CardTop, Tricklin
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6210601f, 0.6248515f)))
 				.Build()),
+
 			new AbilityCardAbility(CreateTrapAbility.Builder()
 				.WithDamage(4)
 				.Build()),
+
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{

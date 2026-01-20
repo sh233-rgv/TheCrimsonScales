@@ -13,7 +13,7 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(5)
+				.WithDamage(5, new AttackDiamond(this, new Vector2(0.6192083f, 0.13470992f)))
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(Element.Fire,
 						applyFunction: async parameters =>

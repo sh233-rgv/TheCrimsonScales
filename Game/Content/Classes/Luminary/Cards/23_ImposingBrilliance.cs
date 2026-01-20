@@ -15,7 +15,7 @@ public class ImposingBrilliance : LuminaryCardModel<ImposingBrilliance.CardTop, 
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.46372387f, 0.13845979f)))
 				.WithAOEPattern(new AOEPattern(
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
@@ -58,7 +58,7 @@ public class ImposingBrilliance : LuminaryCardModel<ImposingBrilliance.CardTop, 
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6214329f, 0.65278393f)))
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					if(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false).Any(figure => figure.EnemiesWith(state.Performer)))

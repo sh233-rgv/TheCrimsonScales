@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class FrostyGlimmer : LuminaryCardModel<FrostyGlimmer.CardTop, FrostyGlimmer.CardBottom>
 {
@@ -15,7 +16,7 @@ public class FrostyGlimmer : LuminaryCardModel<FrostyGlimmer.CardTop, FrostyGlim
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
-				.WithRange(3)
+				.WithRange(3, new RangeSquare(this, new Vector2(0.6074004f, 0.19765684f)))
 				.WithDuringHealSubscriptions(
 				[
 					ScenarioEvents.DuringHeal.Subscription.ConsumeElement(Element.Ice,
@@ -49,7 +50,7 @@ public class FrostyGlimmer : LuminaryCardModel<FrostyGlimmer.CardTop, FrostyGlim
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215844f, 0.6384345f)))
 				.WithDuringMovementSubscriptions(
 				[
 					ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Fire,

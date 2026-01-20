@@ -71,7 +71,7 @@ public class EncompassingAura : LuminaryCardModel<EncompassingAura.CardTop, Enco
 				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Light))
 				.Build()),
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6213844f, 0.7282153f)))
 				.Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Wound1)

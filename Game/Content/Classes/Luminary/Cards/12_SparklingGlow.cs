@@ -15,7 +15,7 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.4578724f, 0.19449025f)))
 				.WithAOEPattern(new AOEPattern(
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
@@ -56,8 +56,9 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6210601f, 0.6518512f)))
 				.Build()),
+
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{

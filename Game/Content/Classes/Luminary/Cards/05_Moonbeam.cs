@@ -50,7 +50,7 @@ public class Moonbeam : LuminaryCardModel<Moonbeam.CardTop, Moonbeam.CardBottom>
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128437f, 0.72183055f)))
 				.Build())
 		];
 

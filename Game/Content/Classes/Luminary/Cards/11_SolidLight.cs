@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class SolidLight : LuminaryCardModel<SolidLight.CardTop, SolidLight.CardBottom>
 {
@@ -13,8 +14,9 @@ public class SolidLight : LuminaryCardModel<SolidLight.CardTop, SolidLight.CardB
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ShieldAbility.Builder()
-				.WithShieldValue(1)
+				.WithShieldValue(1, new ShieldDiamondPlus(this, new Vector2(0.6196841f, 0.16519174f)))
 				.Build()),
+
 			new AbilityCardAbility(RetaliateAbility.Builder()
 				.WithRetaliateValue(1)
 				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Ice))
@@ -52,7 +54,7 @@ public class SolidLight : LuminaryCardModel<SolidLight.CardTop, SolidLight.CardB
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62128437f, 0.6504817f)))
 				.WithDuringMovementSubscription(
 					ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Light,
 						applyFunction: async parameters =>
@@ -66,6 +68,7 @@ public class SolidLight : LuminaryCardModel<SolidLight.CardTop, SolidLight.CardB
 					)
 				)
 				.Build()),
+
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithRange(2)

@@ -84,9 +84,11 @@ public class ShadowClaws : LuminaryCardModel<ShadowClaws.CardTop, ShadowClaws.Ca
 					await AbilityCmd.RemoveOneNegativeCondition(state.Performer);
 				})
 				.Build()),
+
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6213844f, 0.674216f)))
 				.Build()),
+
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{

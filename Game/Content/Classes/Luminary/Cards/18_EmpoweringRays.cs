@@ -18,7 +18,7 @@ public class EmpoweringRays : LuminaryCardModel<EmpoweringRays.CardTop, Empoweri
 				.WithTarget(Target.Self)
 				.Build()),
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.45917222f, 0.24375446f)))
 				.WithAOEPattern(new AOEPattern(
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
@@ -67,8 +67,9 @@ public class EmpoweringRays : LuminaryCardModel<EmpoweringRays.CardTop, Empoweri
 					await GDTask.CompletedTask;
 				})
 				.Build()),
+
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215359f, 0.8255312f)))
 				.Build()),
 		];
 

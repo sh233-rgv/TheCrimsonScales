@@ -68,15 +68,17 @@ public class ShiningDiversion : LuminaryCardModel<ShiningDiversion.CardTop, Shin
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215359f, 0.66763306f)))
 				.Build()),
+
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Muddle)
 				.WithTarget(Target.Enemies | Target.TargetAll)
 				.WithRange(1)
 				.Build()),
+
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6215359f, 0.8736304f)))
 				.Build()),
 		];
 	}

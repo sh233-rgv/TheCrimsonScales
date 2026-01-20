@@ -46,7 +46,7 @@ public class ShimmeringScuttle : LuminaryCardModel<ShimmeringScuttle.CardTop, Sh
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128437f, 0.7070308f)))
 				.Build()),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
