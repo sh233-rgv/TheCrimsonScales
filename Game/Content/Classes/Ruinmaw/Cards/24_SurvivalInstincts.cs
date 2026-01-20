@@ -12,7 +12,7 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(RetaliateAbility.Builder()
 				.WithRetaliateValue(3)
@@ -56,12 +56,12 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(4)

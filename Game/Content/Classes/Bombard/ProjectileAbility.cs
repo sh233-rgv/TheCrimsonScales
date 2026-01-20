@@ -19,7 +19,7 @@ public class ProjectileAbility : ActiveAbility<ProjectileAbility.State>
 	}
 
 	private Func<Hex, List<Ability>> _getAbilities;
-	public AbilityCardSide AbilityCardSide { get; private set; }
+	public AbilityCardSideModel AbilityCardSide { get; private set; }
 
 	public int Range { get; private set; }
 	public int Targets { get; private set; } = 1;
@@ -44,7 +44,7 @@ public class ProjectileAbility : ActiveAbility<ProjectileAbility.State>
 
 		public interface IAbilityCardSideStep
 		{
-			IRangeStep WithAbilityCardSide(AbilityCardSide abilityCardSide);
+			IRangeStep WithAbilityCardSide(AbilityCardSideModel abilityCardSide);
 		}
 
 		public interface IRangeStep
@@ -58,7 +58,7 @@ public class ProjectileAbility : ActiveAbility<ProjectileAbility.State>
 			return (TBuilder)this;
 		}
 
-		public IRangeStep WithAbilityCardSide(AbilityCardSide abilityCardSide)
+		public IRangeStep WithAbilityCardSide(AbilityCardSideModel abilityCardSide)
 		{
 			Obj.AbilityCardSide = abilityCardSide;
 			return (TBuilder)this;
@@ -108,14 +108,17 @@ public class ProjectileAbility : ActiveAbility<ProjectileAbility.State>
 
 			if(targetedHex != null)
 			{
-				BombardProjectileToken token = ResourceLoader.Load<PackedScene>("res://Content/Classes/Bombard/BombardProjectile.tscn")
-					.Instantiate<BombardProjectileToken>();
-				GameController.Instance.Map.AddChild(token);
-				token.SetCardSide(AbilityCardSide);
+				if(abilityState.ActionState.ActionSource is AbilityCardSide abilityCardSide)
+				{
+					BombardProjectileToken token = ResourceLoader.Load<PackedScene>("res://Content/Classes/Bombard/BombardProjectile.tscn")
+						.Instantiate<BombardProjectileToken>();
+					GameController.Instance.Map.AddChild(token);
+					token.SetCardSide(abilityCardSide);
 
-				await token.Init(targetedHex);
+					await token.Init(targetedHex);
 
-				abilityState.AddToken(token);
+					abilityState.AddToken(token);
+				}
 			}
 		}
 
@@ -142,7 +145,7 @@ public class ProjectileAbility : ActiveAbility<ProjectileAbility.State>
 						if(targetFound)
 						{
 							// Perform the actual abilities
-							ActionState actionState = new ActionState(abilityState.Performer, _getAbilities(token.Hex), abilityState.ActionState);
+							ActionState actionState = new ActionState(abilityState.ActionState, abilityState.Performer, _getAbilities(token.Hex));
 							await actionState.Perform();
 						}
 					}

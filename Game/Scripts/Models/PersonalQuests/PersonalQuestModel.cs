@@ -15,10 +15,22 @@ public abstract class PersonalQuestModel<T> : PersonalQuestModel
 		return GetCanRetire(savedCampaign, (T)personalQuestData);
 	}
 
+	protected override void SubscribeDuringDowntime(SavedCharacter savedCharacter)
+	{
+		T personalQuestData = GetData(savedCharacter);
+		SubscribeDuringDowntime(savedCharacter, personalQuestData);
+	}
+
+	protected override void UnsubscribeDuringDowntime(SavedCharacter savedCharacter)
+	{
+		T personalQuestData = GetData(savedCharacter);
+		UnsubscribeDuringDowntime(savedCharacter, personalQuestData);
+	}
+
 	public sealed override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 	{
 		// Clone the quest data to overwrite the original later, after the scenario is finished
-		T personalQuestData = (T)character.SavedCharacter.SavedPersonalQuest.PersonalQuestData;
+		T personalQuestData = GetData(character.SavedCharacter);
 		string serializedData = JsonConvert.SerializeObject(personalQuestData, SaveFile.JsonSerializerSettings);
 		T clonedQuestData = JsonConvert.DeserializeObject<T>(serializedData);
 
@@ -40,9 +52,22 @@ public abstract class PersonalQuestModel<T> : PersonalQuestModel
 			: savedCampaign.SavedScenarioProgresses.GetScenarioProgress(RequiredCompletedScenario).Completed;
 	}
 
+	protected virtual void SubscribeDuringDowntime(SavedCharacter savedCharacter, T personalQuestData)
+	{
+	}
+
+	protected virtual void UnsubscribeDuringDowntime(SavedCharacter savedCharacter, T personalQuestData)
+	{
+	}
+
 	protected virtual async GDTask OnScenarioSetupPhaseCompleted(Character character, T personalQuestData)
 	{
 		await GDTask.CompletedTask;
+	}
+
+	private T GetData(SavedCharacter savedCharacter)
+	{
+		return (T)savedCharacter.SavedPersonalQuest.PersonalQuestData;
 	}
 }
 
@@ -77,8 +102,19 @@ public abstract class PersonalQuestModel : AbstractModel
 			BetweenScenariosController.Instance.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(UnlockedScenarioModel).Discover();
 		}
 
+		SubscribeDuringDowntime(savedCharacter);
+
 		await GDTask.CompletedTask;
 	}
+
+	protected abstract void SubscribeDuringDowntime(SavedCharacter savedCharacter);
+
+	public virtual void OnBetweenScenariosEnded(SavedCharacter savedCharacter)
+	{
+		UnsubscribeDuringDowntime(savedCharacter);
+	}
+
+	protected abstract void UnsubscribeDuringDowntime(SavedCharacter savedCharacter);
 
 	public abstract GDTask OnScenarioSetupPhaseCompleted(Character character);
 }

@@ -2,7 +2,7 @@
 	where TChoiceA : EventChoiceModel
 	where TChoiceB : EventChoiceModel
 {
-	public override EventChoiceModel[] EventChoiceModels => [ModelDB.EventChoice<TChoiceA>(), ModelDB.EventChoice<TChoiceB>()];
+	public override EventChoiceModel[] EventChoiceModels { get; } = [ModelDB.EventChoice<TChoiceA>(), ModelDB.EventChoice<TChoiceB>()];
 }
 
 public abstract class EventModel : AbstractModel

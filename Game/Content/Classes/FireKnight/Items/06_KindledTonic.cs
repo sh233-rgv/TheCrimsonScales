@@ -1,4 +1,4 @@
-﻿public class KindledTonic : FireKnightItem
+﻿public class FireKnightKindledTonic : FireKnightItem
 {
 	public override string Name => "Kindled Tonic";
 	public override int ItemNumber => 6;

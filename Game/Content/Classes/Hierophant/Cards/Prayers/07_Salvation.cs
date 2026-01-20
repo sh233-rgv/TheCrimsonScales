@@ -9,7 +9,7 @@ public class Salvation : HierophantPrayerCardModel<Salvation.CardTop, Salvation.
 
 	public class CardTop : HierophantPrayerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -53,17 +53,17 @@ public class Salvation : HierophantPrayerCardModel<Salvation.CardTop, Salvation.
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : HierophantPrayerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1).Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Earth];
-		protected override bool Round => true;
+		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override bool Round => true;
 	}
 }

@@ -143,9 +143,9 @@ public static class AbilityCmd
 		return finalDamage;
 	}
 
-	public static async GDTask<int> SufferDamage(Figure target, int damage, Figure damageDealer, bool fromAttack = false)
+	public static async GDTask<int> SufferDamage(Figure target, int damage, Figure potentialDamageDealer, bool fromAttack = false)
 	{
-		return await SufferDamage(null, target, damage, damageDealer, fromAttack);
+		return await SufferDamage(null, target, damage, potentialDamageDealer, fromAttack);
 	}
 
 	public static async GDTask KillOrExhaust(AbilityState potentialAbilityState, Figure target, Figure potentialKiller)
@@ -726,6 +726,7 @@ public static class AbilityCmd
 			ScenarioEvents.GenericChoice.ApplyFunction oldApplyFunction = subscription.ApplyFunction;
 			ScenarioEvents.GenericChoice.ApplyFunction newApplyFunction = async parameters =>
 			{
+				//TODO: Fix issue with nested generic choices
 				if(oldApplyFunction != null)
 				{
 					await oldApplyFunction.Invoke(parameters);
@@ -744,7 +745,6 @@ public static class AbilityCmd
 		}
 
 		await ScenarioEvents.GenericChoiceEvent.CreatePrompt(new ScenarioEvents.GenericChoice.Parameters(), authority, hintText);
-
 		ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
 	}
 
@@ -756,6 +756,13 @@ public static class AbilityCmd
 	public static async GDTask<Element?> InfuseElement(AbilityState potentialAbilityState, IReadOnlyCollection<Element> possibleElements,
 		Figure potentialInfuser = null)
 	{
+		if(possibleElements.Count == 1)
+		{
+			Element onlyElement = possibleElements.First();
+			await InfuseElement(potentialAbilityState, possibleElements.First(), potentialInfuser);
+			return onlyElement;
+		}
+
 		potentialInfuser ??= potentialAbilityState?.Performer;
 
 		Element? element = null;
@@ -1144,6 +1151,163 @@ public static class AbilityCmd
 		ScenarioEvents.CardSideSelectionEvent.Unsubscribe(eventSubscriber);
 		ScenarioEvents.AfterCardsPlayedEvent.Unsubscribe(eventSubscriber);
 		ScenarioEvents.LongRestCardSelectionEvent.Unsubscribe(eventSubscriber);
+	}
+
+	public static async GDTask AddShield(Figure figure, object subscriber, int shieldValue, bool conditionalValue = false, bool pierceable = true,
+		RangeType? requiredRangeType = null, Func<ScenarioEvents.SufferDamage.Parameters, bool> customCanApply = null,
+		bool customCanApplyReplaceFully = false)
+	{
+		ScenarioCheckEvents.ShieldCheckEvent.Subscribe(figure, subscriber,
+			parameters =>
+				parameters.Figure == figure,
+			parameters =>
+			{
+				if(conditionalValue)
+				{
+					parameters.SetExtraValue();
+				}
+				else
+				{
+					parameters.AdjustShield(shieldValue);
+				}
+			}
+		);
+
+		ScenarioEvents.SufferDamageEvent.Subscribe(figure, subscriber,
+			parameters =>
+			{
+				bool canApply =
+					parameters.Figure == figure && parameters.FromAttack &&
+					(!requiredRangeType.HasValue ||
+					 ((AttackAbility.State)parameters.PotentialAbilityState).SingleTargetRangeType == requiredRangeType);
+
+				if(customCanApply != null)
+				{
+					if(customCanApplyReplaceFully)
+					{
+						return customCanApply(parameters);
+					}
+
+					canApply = canApply && customCanApply(parameters);
+				}
+
+				return canApply;
+			},
+			async parameters =>
+			{
+				if(pierceable)
+				{
+					parameters.AdjustShield(shieldValue);
+				}
+				else
+				{
+					parameters.AdjustUnpierceableShield(shieldValue);
+				}
+
+				await GDTask.CompletedTask;
+			}
+		);
+
+		AppController.Instance.AudioController.PlayFastForwardable(SFX.Shield, delay: 0f);
+
+		await GDTask.CompletedTask;
+	}
+
+	public static void RemoveShield(Figure figure, object subscriber)
+	{
+		ScenarioCheckEvents.ShieldCheckEvent.Unsubscribe(figure, subscriber);
+		ScenarioEvents.SufferDamageEvent.Unsubscribe(figure, subscriber);
+	}
+
+	public static async GDTask AddRetaliate(Figure figure, object subscriber, int retaliateValue, int range,
+		Func<ScenarioEvents.Retaliate.Parameters, bool> customCanApply = null, bool customCanApplyReplaceFully = false)
+	{
+		ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(figure, subscriber,
+			canApplyParameters =>
+				canApplyParameters.Figure == figure,
+			applyParameters =>
+			{
+				applyParameters.AddRetaliate(retaliateValue, range);
+			}
+		);
+
+		ScenarioEvents.RetaliateEvent.Subscribe(figure, subscriber,
+			canApplyParameters =>
+			{
+				bool canApply =
+					canApplyParameters.RetaliatingFigure == figure &&
+					RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, figure.Hex) <= range;
+
+				if(customCanApply != null)
+				{
+					if(customCanApplyReplaceFully)
+					{
+						return customCanApply(canApplyParameters);
+					}
+
+					canApply = canApply && customCanApply(canApplyParameters);
+				}
+
+				return canApply;
+			},
+			async applyParameters =>
+			{
+				applyParameters.AdjustRetaliate(retaliateValue);
+
+				await GDTask.CompletedTask;
+			}
+		);
+
+		await GDTask.CompletedTask;
+	}
+
+	public static void RemoveRetaliate(Figure figure, object subscriber)
+	{
+		ScenarioCheckEvents.RetaliateCheckEvent.Unsubscribe(figure, subscriber);
+		ScenarioEvents.RetaliateEvent.Unsubscribe(figure, subscriber);
+	}
+
+	public static MoveAbility.MoveBuilder SummonMovePlusX(int plusMove)
+	{
+		return MoveAbility.Builder()
+			.WithDistance(plusMove)
+			.WithOnAbilityStarted(async moveState =>
+			{
+				moveState.AdjustMoveValue(((Summon)moveState.Performer).Stats.Move ?? 0);
+
+				await GDTask.CompletedTask;
+			});
+	}
+
+	public static AttackAbility.AttackBuilder SummonAttackPlusX(int plusAttack)
+	{
+		return AttackAbility.Builder()
+			.WithDamage(plusAttack)
+			.WithOnAbilityStarted(async state =>
+			{
+				Summon summon = ((Summon)state.Performer);
+
+				state.AbilityAdjustAttackValue(summon.Stats.Attack ?? 0);
+
+				int range = summon.Stats.Range ?? 1;
+				state.AbilityAdjustRange(range - 1);
+				state.AbilitySetRangeType(range == 1 ? RangeType.Melee : RangeType.Range);
+
+				await GDTask.CompletedTask;
+			});
+		// .WithDuringAttackSubscription(ScenarioEvents.DuringAttack.Subscription.New(
+		// 	parameters => true,
+		// 	async parameters =>
+		// 	{
+		// 		parameters.AbilityState.AbilityAdjustAttackValue(((Summon)parameters.Performer).Stats.Attack ?? 0);
+		//
+		// 		int range = ((Summon)parameters.Performer).Stats.Range ?? 1;
+		// 		parameters.AbilityState.AbilityAdjustRange(range - 1);
+		// 		parameters.AbilityState.AbilitySetRangeType(range == 1 ? RangeType.Melee : RangeType.Range);
+		//
+		// 		await GDTask.CompletedTask;
+		// 	}
+		// ));
 	}
 
 	public static async GDTask<bool> CurseMonsters()

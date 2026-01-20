@@ -13,7 +13,7 @@ public class LightPollution : StarslingerCardModel<LightPollution.CardTop, Light
 
 	public class CardTop : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Poison1)
@@ -48,16 +48,16 @@ public class LightPollution : StarslingerCardModel<LightPollution.CardTop, Light
 				.Build())
 		];
 
-		protected override int XP => 1;
-		protected override IEnumerable<Element> Elements => [Element.Light];
+		public override int XP => 1;
+		public override IEnumerable<Element> Elements => [Element.Light];
 	}
 
 	public class CardBottom : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.66811866f, 0.7171973f)))
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(canApplyParameters => true,
 						async parameters =>

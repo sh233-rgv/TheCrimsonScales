@@ -23,6 +23,7 @@ public abstract class AMDCardModel : AbstractModel
 	public virtual int? Push => null;
 	public virtual int? Pull => null;
 	public virtual int? Swing => null;
+	public virtual int? AddedTargets => null;
 
 	public virtual List<CardElementInfusion> ElementInfusions => [];
 	public virtual List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) => [];

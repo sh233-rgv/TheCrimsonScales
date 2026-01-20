@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover.CardBottom>
 {
@@ -10,7 +11,18 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		private SummonMoveSquare _summonMoveEnhancementMark;
+		private SummonRangeSquare _summonRangeEnhancementMark;
+
+		protected override void InitExtraEnhancements()
+		{
+			base.InitExtraEnhancements();
+
+			_summonMoveEnhancementMark = new SummonMoveSquare(this, new Vector2(0.77583003f, 0.18977384f));
+			_summonRangeEnhancementMark = new SummonRangeSquare(this, new Vector2(0.77583003f, 0.26627418f));
+		}
+
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -62,33 +74,30 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 
 		private SummonAbility SummonDrakefiend()
 		{
 			return SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 2,
-					Move = 3,
-					Attack = 2,
-					Range = 2,
-					Traits = [new FlyingTrait(), new InfuseElementAfterAttackTrait(Element.Fire)]
-				})
 				.WithName("Reigniting Drakefiend")
 				.WithTexturePath("res://Content/Classes/FireKnight/Drakefiend.jpg")
+				.WithHealth(2)
+				.WithMove(3, _summonMoveEnhancementMark)
+				.WithAttack(2)
+				.WithRange(2, _summonRangeEnhancementMark)
+				.WithTraits(new FlyingTrait(), new InfuseElementAfterAttackTrait(Element.Fire))
 				.Build();
 		}
 	}
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.61968875f, 0.6253687f)))
 				.WithOnAbilityStarted(async abilityState =>
 				{
 					ScenarioCheckEvents.MoveCheckEvent.Subscribe(abilityState, this,

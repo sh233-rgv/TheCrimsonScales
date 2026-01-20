@@ -29,10 +29,6 @@ public class ConditionImmunityTrait : FigureTrait
 			parameters =>
 				parameters.Target == figure &&
 				AbilityCmd.CheckImmunity(parameters.ConditionModel, _conditionModel),
-			// parameters.ConditionModel?.ImmunityCompareBaseConditions != null &&
-			// _conditionModel?.ImmunityCompareBaseConditions != null &&
-			// parameters.ConditionModel.ImmunityCompareBaseConditions
-			// 	.Any(condition => _conditionModel.ImmunityCompareBaseConditions.Contains(condition)),
 			async parameters =>
 			{
 				parameters.SetPrevented(true);

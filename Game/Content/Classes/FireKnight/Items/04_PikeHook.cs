@@ -1,6 +1,6 @@
 ﻿using Fractural.Tasks;
 
-public class PikeHook : FireKnightItem
+public class FireKnightPikeHook : FireKnightItem
 {
 	public override string Name => "Pike Hook";
 	public override int ItemNumber => 4;

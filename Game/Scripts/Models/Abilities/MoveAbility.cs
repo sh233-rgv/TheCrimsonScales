@@ -55,12 +55,13 @@ public class MoveAbility : Ability<MoveAbility.State>
 	{
 		public interface IDistanceStep
 		{
-			TBuilder WithDistance(int distance);
+			TBuilder WithDistance(int distance, params MoveEnhancementMark[] enhancementMarks);
 		}
 
-		public TBuilder WithDistance(int distance)
+		public TBuilder WithDistance(int distance, params MoveEnhancementMark[] enhancementMarks)
 		{
 			Obj.Distance = distance;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
@@ -79,7 +80,7 @@ public class MoveAbility : Ability<MoveAbility.State>
 		public TBuilder WithDuringMovementSubscriptions(
 			List<ScenarioEvents.DuringMovement.Subscription> movementSubscriptions)
 		{
-			Obj.DuringMovementSubscriptions = movementSubscriptions;
+			Obj.DuringMovementSubscriptions.AddRange(movementSubscriptions);
 			return (TBuilder)this;
 		}
 	}

@@ -11,7 +11,7 @@ public class CorneredAnimal : RuinmawCardModel<CorneredAnimal.CardTop, CorneredA
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
@@ -62,12 +62,12 @@ public class CorneredAnimal : RuinmawCardModel<CorneredAnimal.CardTop, CorneredA
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
@@ -87,6 +87,6 @@ public class CorneredAnimal : RuinmawCardModel<CorneredAnimal.CardTop, CorneredA
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

@@ -61,12 +61,13 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 	{
 		public interface IHealValueStep
 		{
-			TBuilder WithHealValue(DynamicInt<State> healValue);
+			TBuilder WithHealValue(DynamicInt<State> healValue, params HealEnhancementMark[] enhancementMarks);
 		}
 
-		public TBuilder WithHealValue(DynamicInt<State> healValue)
+		public TBuilder WithHealValue(DynamicInt<State> healValue, params HealEnhancementMark[] enhancementMarks)
 		{
 			Obj.HealValue = healValue;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
@@ -78,7 +79,7 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 
 		public TBuilder WithDuringHealSubscriptions(List<ScenarioEvents.DuringHeal.Subscription> duringHealSubscriptions)
 		{
-			Obj.DuringHealSubscriptions = duringHealSubscriptions;
+			Obj.DuringHealSubscriptions.AddRange(duringHealSubscriptions);
 			return (TBuilder)this;
 		}
 
@@ -92,7 +93,7 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 		public TBuilder WithAfterTargetConfirmedSubscriptions(
 			List<ScenarioEvents.HealAfterTargetConfirmed.Subscription> afterTargetConfirmedSubscriptions)
 		{
-			Obj.AfterTargetConfirmedSubscriptions = afterTargetConfirmedSubscriptions;
+			Obj.AfterTargetConfirmedSubscriptions.AddRange(afterTargetConfirmedSubscriptions);
 			return (TBuilder)this;
 		}
 
@@ -104,9 +105,9 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 		}
 
 		public TBuilder WithAfterHealPerformedSubscriptions(
-			List<ScenarioEvents.AfterHealPerformed.Subscription> afterHealPerformedSubscriptionss)
+			List<ScenarioEvents.AfterHealPerformed.Subscription> afterHealPerformedSubscriptions)
 		{
-			Obj.AfterHealPerformedSubscriptions = afterHealPerformedSubscriptionss;
+			Obj.AfterHealPerformedSubscriptions.AddRange(afterHealPerformedSubscriptions);
 			return (TBuilder)this;
 		}
 
@@ -236,9 +237,9 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 			new ScenarioEvents.AfterHealPerformed.Parameters(abilityState, blockedAbilityStateParameters.IsBlocked), abilityState);
 	}
 
-	protected override void GetValidTargets(State abilityState, List<Figure> figures)
+	protected override void GetValidTargets(State abilityState, List<Figure> figures, int targetsOutOfAOE)
 	{
-		base.GetValidTargets(abilityState, figures);
+		base.GetValidTargets(abilityState, figures, targetsOutOfAOE);
 
 		if(abilityState.Authority is not Character)
 		{

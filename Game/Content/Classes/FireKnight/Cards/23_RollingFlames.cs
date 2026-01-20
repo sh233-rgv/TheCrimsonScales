@@ -12,20 +12,24 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackSquare(this, new Vector2(0.4223046f, 0.18387413f)))
 				.WithAOEPattern(new AOEPattern(
-					[
-						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
-						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
-						new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
-					]
-				))
+						[
+							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
+						]
+					),
+					new AOEHexMark(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast).Add(Direction.East), this,
+						new Vector2(0.81984866f, 0.1615586f)),
+					new AOEHexMark(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East).Add(Direction.East), this,
+						new Vector2(0.8716455f, 0.22535533f)))
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					foreach(Figure target in state.UniqueTargetedFigures.Where(target => target.HasWound()))
@@ -56,7 +60,7 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Wound1)

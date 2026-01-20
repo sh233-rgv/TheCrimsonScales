@@ -690,6 +690,26 @@ public partial class ScenarioEvents
 	private readonly ConsumeElement _consumeElement = new ConsumeElement();
 	public static ConsumeElement ConsumeElementEvent => GameController.Instance.ScenarioEvents._consumeElement;
 
+	public class InfuseElement : ScenarioEvent<InfuseElement.Parameters>
+	{
+		public class Parameters(Element element, AbilityState state, Figure authority)
+			: ParametersBase
+		{
+			public Figure Authority { get; private set; } = authority;
+			public Element Element { get; } = element;
+			public AbilityState AbilityState { get; } = state;
+			public bool CanInfuse { get; private set; } = true;
+
+			public void SetCanInfuse(bool canInfuse)
+			{
+				CanInfuse = canInfuse;
+			}
+		}
+	}
+
+	private readonly InfuseElement _infuseElement = new InfuseElement();
+	public static InfuseElement InfuseElementEvent => GameController.Instance.ScenarioEvents._infuseElement;
+
 	public class AbilityStarted : ScenarioEvent<AbilityStarted.Parameters>
 	{
 		public class Parameters(AbilityState abilityState)

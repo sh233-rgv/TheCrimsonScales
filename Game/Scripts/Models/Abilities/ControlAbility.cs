@@ -12,6 +12,7 @@ public class ControlAbility : TargetedAbility<ControlAbility.State, SingleTarget
         public List<ActionState> ControlAbilityActionStates { get; } = new List<ActionState>();
     }
 
+	private List<Ability> _abilities;
 	private Func<State, List<Ability>> _getAbilities;
 
 	public List<ScenarioEvents.DuringControl.Subscription> DuringControlSubscriptions { get; private set; } = [];
@@ -29,7 +30,14 @@ public class ControlAbility : TargetedAbility<ControlAbility.State, SingleTarget
 	{
 		public interface IGetAbilitiesStep
 		{
+			TBuilder WithAbilities(List<Ability> abilities);
 			TBuilder WithGetAbilities(Func<State, List<Ability>> getAbilities);
+		}
+
+		public TBuilder WithAbilities(List<Ability> abilities)
+		{
+			Obj._abilities = abilities;
+			return (TBuilder)this;
 		}
 
 		public TBuilder WithGetAbilities(Func<State, List<Ability>> getAbilities)
@@ -46,7 +54,7 @@ public class ControlAbility : TargetedAbility<ControlAbility.State, SingleTarget
 
 		public TBuilder WithDuringControlSubscriptions(List<ScenarioEvents.DuringControl.Subscription> duringControlSubscriptions)
 		{
-			Obj.DuringControlSubscriptions = duringControlSubscriptions;
+			Obj.DuringControlSubscriptions.AddRange(duringControlSubscriptions);
 			return (TBuilder)this;
 		}
 
@@ -113,7 +121,8 @@ public class ControlAbility : TargetedAbility<ControlAbility.State, SingleTarget
 		}
 
 		// Perform the actual abilities
-		ActionState actionState = new ActionState(target, target is Character ? target : abilityState.Performer, _getAbilities(abilityState),
+		ActionState actionState = new ActionState(abilityState.ActionState.ActionSource, target,
+			target is Character ? target : abilityState.Performer, _abilities ?? _getAbilities(abilityState),
 			abilityState.ActionState);
 		abilityState.ControlAbilityActionStates.Add(actionState);
 		await actionState.Perform();

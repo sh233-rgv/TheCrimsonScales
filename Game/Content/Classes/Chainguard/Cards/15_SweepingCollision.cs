@@ -11,7 +11,7 @@ public class SweepingCollision : ChainguardLevelUpCardModel<SweepingCollision.Ca
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SwingAbility.Builder()
 				.WithSwing(4)
@@ -51,7 +51,7 @@ public class SweepingCollision : ChainguardLevelUpCardModel<SweepingCollision.Ca
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -98,8 +98,8 @@ public class SweepingCollision : ChainguardLevelUpCardModel<SweepingCollision.Ca
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

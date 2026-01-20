@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.CardTop, DevoutAssistance.CardBottom>
 {
@@ -11,7 +12,7 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -68,17 +69,17 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.6207892f, 0.70303124f)))
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					if(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false).Any(figure => figure.EnemiesWith(state.Performer)))

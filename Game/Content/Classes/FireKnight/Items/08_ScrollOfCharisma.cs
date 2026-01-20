@@ -3,7 +3,7 @@ using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
-public class ScrollOfCharisma : FireKnightItem
+public class FireKnightScrollOfCharisma : FireKnightItem
 {
 	public override string Name => "Scroll of Charisma";
 	public override int ItemNumber => 8;

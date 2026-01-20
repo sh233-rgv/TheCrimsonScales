@@ -12,7 +12,7 @@ public class SlakeThirst : RuinmawCardModel<SlakeThirst.CardTop, SlakeThirst.Car
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -34,7 +34,7 @@ public class SlakeThirst : RuinmawCardModel<SlakeThirst.CardTop, SlakeThirst.Car
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -77,7 +77,7 @@ public class SlakeThirst : RuinmawCardModel<SlakeThirst.CardTop, SlakeThirst.Car
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

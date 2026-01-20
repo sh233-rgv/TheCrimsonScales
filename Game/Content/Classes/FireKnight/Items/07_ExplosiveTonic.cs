@@ -1,6 +1,6 @@
 ﻿using Fractural.Tasks;
 
-public class ExplosiveTonic : FireKnightItem
+public class FireKnightExplosiveTonic : FireKnightItem
 {
 	public override string Name => "Explosive Tonic";
 	public override int ItemNumber => 7;

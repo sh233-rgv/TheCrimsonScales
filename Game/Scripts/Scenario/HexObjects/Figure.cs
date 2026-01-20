@@ -7,7 +7,7 @@ using GTweens.Easings;
 using GTweens.Tweens;
 using GTweensGodot.Extensions;
 
-public abstract partial class Figure : HexObject
+public abstract partial class Figure : HexObject, IActionSource
 {
 	protected Sprite2D _outline;
 	protected FigureViewComponent _figureViewComponent;
@@ -295,8 +295,8 @@ public abstract partial class Figure : HexObject
 		ConditionsChangedEvent?.Invoke(this);
 
 		Condition condition = new Condition(conditionModel, this, potentialCauser);
-		await condition.OnAdded();
 		Conditions.Add(condition);
+		await condition.OnAdded();
 
 		ReorderEffects();
 
