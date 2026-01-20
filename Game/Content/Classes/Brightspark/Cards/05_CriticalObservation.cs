@@ -12,7 +12,7 @@ public class CriticalObservation : BrightsparkCardModel<CriticalObservation.Card
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -23,8 +23,7 @@ public class CriticalObservation : BrightsparkCardModel<CriticalObservation.Card
 						async parameters =>
 						{
 							parameters.AbilityState.SingleTargetAdjustAttackValue(1);
-							//TODO: Add state/authority
-							await AbilityCmd.InfuseElement(Element.Light);
+							await AbilityCmd.InfuseElement(parameters.AbilityState, Element.Light);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						})
 				)
@@ -34,7 +33,7 @@ public class CriticalObservation : BrightsparkCardModel<CriticalObservation.Card
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -68,6 +67,6 @@ public class CriticalObservation : BrightsparkCardModel<CriticalObservation.Card
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

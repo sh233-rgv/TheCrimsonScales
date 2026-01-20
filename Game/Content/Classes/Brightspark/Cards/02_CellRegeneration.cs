@@ -11,7 +11,7 @@ public class CellRegeneration : BrightsparkCardModel<CellRegeneration.CardTop, C
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
@@ -32,7 +32,7 @@ public class CellRegeneration : BrightsparkCardModel<CellRegeneration.CardTop, C
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -65,7 +65,7 @@ public class CellRegeneration : BrightsparkCardModel<CellRegeneration.CardTop, C
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 
 		private async GDTask FinalSlotAbility(AbilityState abilityState)
 		{

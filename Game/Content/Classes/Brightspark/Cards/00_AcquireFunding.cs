@@ -11,7 +11,7 @@ public class AcquireFunding : BrightsparkCardModel<AcquireFunding.CardTop, Acqui
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -55,7 +55,7 @@ public class AcquireFunding : BrightsparkCardModel<AcquireFunding.CardTop, Acqui
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -88,7 +88,7 @@ public class AcquireFunding : BrightsparkCardModel<AcquireFunding.CardTop, Acqui
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

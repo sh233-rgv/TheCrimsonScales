@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -71,30 +72,39 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 				effectInfoViewParameters ?? new TextEffectInfoView.Parameters("TODO"));
 		}
 
-		public static Subscription ConsumeWildElement(CanApplyFunction canApplyFunction = null, ApplyFunction applyFunction = null,
+		public static Subscription ConsumeWildElements(CanApplyFunction canApplyFunction = null, ApplyFunction applyFunction = null,
 			EffectType effectType = EffectType.Selectable,
 			int order = 0, bool canApplyMultipleTimesDuringSubscription = false, bool canApplyMultipleTimesInEffectCollection = false,
-			EffectButtonParameters effectButtonParameters = null, EffectInfoViewParameters effectInfoViewParameters = null)
+			EffectButtonParameters effectButtonParameters = null, EffectInfoViewParameters effectInfoViewParameters = null, int elementsToConsume = 1)
 		{
 			//TODO: Make sure this works for items that make you skip an element consumption (perhaps after clicking, a new prompt opens up to select what to use)
 			return new Subscription(parameters =>
 				{
-					bool elementAvailable = false;
+					int elementsAvailable = 0;
 					for(int i = 0; i < 6; i++)
 					{
 						if(GameController.Instance.ElementManager.GetState((Element)i) > ElementState.Inert)
 						{
-							elementAvailable = true;
+							elementsAvailable++;
 							break;
 						}
 					}
 
-					return elementAvailable && (canApplyFunction == null || canApplyFunction.Invoke(parameters));
+					return elementsAvailable >= elementsToConsume && (canApplyFunction == null || canApplyFunction.Invoke(parameters));
 				},
 				async parameters =>
 				{
-					Element? wildConsume = await AbilityCmd.AskConsumeWildElement(new Character(), true);
-					if(wildConsume.HasValue)
+					List<Element?> consumedElements = [];
+					for(int i = 0; i < elementsToConsume; i++)
+					{
+						Element? wildConsume = await AbilityCmd.AskConsumeWildElement(new Character(), true);
+						if(wildConsume != null)
+						{
+							consumedElements.Add(wildConsume);
+						}
+					}
+
+					if(consumedElements.All(element => element.HasValue))
 					{
 						if(applyFunction != null)
 						{

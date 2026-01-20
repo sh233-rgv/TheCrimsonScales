@@ -12,7 +12,7 @@ public class WeatherForecast : BrightsparkCardModel<WeatherForecast.CardTop, Wea
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -20,12 +20,12 @@ public class WeatherForecast : BrightsparkCardModel<WeatherForecast.CardTop, Wea
 				.Build())
 		];
 
-		//TODO: protected override IEnumerable<Element> Elements => AnyElement;
+		//TODO: public override IEnumerable<Element> Elements => AnyElement;
 	}
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -41,8 +41,7 @@ public class WeatherForecast : BrightsparkCardModel<WeatherForecast.CardTop, Wea
 								2 => Element.Air,
 								_ => throw new ArgumentOutOfRangeException()
 							};
-							//TODO: Add state to infuse
-							await AbilityCmd.InfuseElement(element);
+							await AbilityCmd.InfuseElement(state, element);
 							await state.AdvanceUseSlot();
 						});
 					await GDTask.CompletedTask;
@@ -62,6 +61,6 @@ public class WeatherForecast : BrightsparkCardModel<WeatherForecast.CardTop, Wea
 				.Build()),
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

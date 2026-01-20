@@ -10,7 +10,7 @@ public class PreliminaryResearch : BrightsparkCardModel<PreliminaryResearch.Card
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -22,7 +22,7 @@ public class PreliminaryResearch : BrightsparkCardModel<PreliminaryResearch.Card
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -64,10 +64,9 @@ public class PreliminaryResearch : BrightsparkCardModel<PreliminaryResearch.Card
 				.Build())
 		];
 
-		//TODO: Add any element
-		//protected override IEnumerable<Element> Elements => WildElement;
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		//TODO: public override IEnumerable<Element> Elements => WildElement;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

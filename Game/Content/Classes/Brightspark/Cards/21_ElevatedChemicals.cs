@@ -11,7 +11,7 @@ public class ElevatedChemicals : BrightsparkCardModel<ElevatedChemicals.CardTop,
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			//TODO
 		];
@@ -19,7 +19,7 @@ public class ElevatedChemicals : BrightsparkCardModel<ElevatedChemicals.CardTop,
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			//TODO
 		];

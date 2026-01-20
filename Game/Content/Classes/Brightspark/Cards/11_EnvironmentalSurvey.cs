@@ -11,7 +11,7 @@ public class EnvironmentalSurvey : BrightsparkCardModel<EnvironmentalSurvey.Card
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -48,13 +48,13 @@ public class EnvironmentalSurvey : BrightsparkCardModel<EnvironmentalSurvey.Card
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Earth];
-		protected override int XP => 1;
+		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override int XP => 1;
 	}
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -100,8 +100,8 @@ public class EnvironmentalSurvey : BrightsparkCardModel<EnvironmentalSurvey.Card
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

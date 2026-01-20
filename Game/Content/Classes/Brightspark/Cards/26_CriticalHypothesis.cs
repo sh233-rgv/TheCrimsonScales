@@ -12,7 +12,7 @@ public class CriticalHypothesis : BrightsparkCardModel<CriticalHypothesis.CardTo
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -24,7 +24,7 @@ public class CriticalHypothesis : BrightsparkCardModel<CriticalHypothesis.CardTo
 						{
 							parameters.AbilityState.SingleTargetAddCondition(Conditions.Stun);
 							//TODO: Add state
-							await AbilityCmd.InfuseWildElement(parameters.Authority);
+							await AbilityCmd.InfuseWildElement(parameters.AbilityState);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						})
 				)
@@ -34,7 +34,7 @@ public class CriticalHypothesis : BrightsparkCardModel<CriticalHypothesis.CardTo
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -69,6 +69,6 @@ public class CriticalHypothesis : BrightsparkCardModel<CriticalHypothesis.CardTo
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

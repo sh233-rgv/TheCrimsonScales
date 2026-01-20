@@ -11,7 +11,7 @@ public class FrozenExplosion : BrightsparkCardModel<FrozenExplosion.CardTop, Fro
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -40,13 +40,13 @@ public class FrozenExplosion : BrightsparkCardModel<FrozenExplosion.CardTop, Fro
 				.Build()),
 		];
 
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -77,6 +77,6 @@ public class FrozenExplosion : BrightsparkCardModel<FrozenExplosion.CardTop, Fro
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

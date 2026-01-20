@@ -10,7 +10,7 @@ public class MagneticField : BrightsparkCardModel<MagneticField.CardTop, Magneti
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(PushAbility.Builder()
 				.WithPush(2)
@@ -55,12 +55,12 @@ public class MagneticField : BrightsparkCardModel<MagneticField.CardTop, Magneti
 				.Build()),
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Air];
+		public override IEnumerable<Element> Elements => [Element.Air];
 	}
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)

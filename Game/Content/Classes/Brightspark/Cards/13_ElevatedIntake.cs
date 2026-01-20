@@ -10,7 +10,7 @@ public class ElevatedIntake : BrightsparkCardModel<ElevatedIntake.CardTop, Eleva
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(5)
@@ -39,13 +39,13 @@ public class ElevatedIntake : BrightsparkCardModel<ElevatedIntake.CardTop, Eleva
 				.Build())
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)
@@ -58,8 +58,7 @@ public class ElevatedIntake : BrightsparkCardModel<ElevatedIntake.CardTop, Eleva
 							canApplyParameters.Item.Owner == state.Performer && canApplyParameters.Item.IsConsumed(),
 						async applyParameters =>
 						{
-							//TODO: Add state to infuse
-							await AbilityCmd.InfuseWildElement(state.Performer);
+							await AbilityCmd.InfuseWildElement(state);
 							await state.ActionState.RequestDiscardOrLose();
 						});
 					await GDTask.CompletedTask;
@@ -72,6 +71,6 @@ public class ElevatedIntake : BrightsparkCardModel<ElevatedIntake.CardTop, Eleva
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

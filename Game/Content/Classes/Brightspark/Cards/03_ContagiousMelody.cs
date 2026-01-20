@@ -11,7 +11,7 @@ public class ContagiousMelody : BrightsparkCardModel<ContagiousMelody.CardTop, C
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -38,7 +38,7 @@ public class ContagiousMelody : BrightsparkCardModel<ContagiousMelody.CardTop, C
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)
@@ -48,17 +48,18 @@ public class ContagiousMelody : BrightsparkCardModel<ContagiousMelody.CardTop, C
 				{
 					ConditionModel conditionGiven = null;
 					List<ScenarioEvents.GenericChoice.Subscription> subscriptions = [];
-					foreach(ConditionModel conditionModel in state.Performer.Conditions.Where(conditionModel => conditionModel.IsNegative))
+					foreach(Condition condition in state.Performer.Conditions.Where(condition => condition.ConditionModel.IsNegative))
 					{
 						subscriptions.Add(ScenarioEvents.GenericChoice.Subscription.New(
 							applyFunction: async applyParameters =>
 							{
-								conditionGiven = conditionModel;
+								conditionGiven = condition.ConditionModel;
 								await GDTask.CompletedTask;
 							},
 							effectType: EffectType.Selectable,
-							effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(conditionModel)),
-							effectInfoViewParameters: new TextEffectInfoView.Parameters($"Give {Icons.Inline(Icons.GetCondition(conditionModel))}")
+							effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(condition.ConditionModel)),
+							effectInfoViewParameters: new TextEffectInfoView.Parameters(
+								$"Give {Icons.Inline(Icons.GetCondition(condition.ConditionModel))}")
 						));
 					}
 

@@ -10,33 +10,27 @@ public class Electromagnetism : BrightsparkCardModel<Electromagnetism.CardTop, E
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 6,
-					Move = 1,
-					Traits =
-					[
-						new PerformAtEndOfTurnTrait(LootAbility.Builder().WithRange(1)
-							.WithCustomGetLootObtainer(state => ((Summon)state.Performer).CharacterOwner).Build())
-					]
-				})
 				.WithName("Metal Detector")
 				.WithTexturePath("res://Content/Classes/Brightspark/MetalDetector.png")
+				.WithHealth(6)
+				.WithMove(1)
+				.WithTraits(new PerformAtEndOfTurnTrait(LootAbility.Builder().WithRange(1)
+					.WithCustomGetLootObtainer(state => ((Summon)state.Performer).CharacterOwner).Build()))
 				.Build()
 			),
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(2)

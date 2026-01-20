@@ -10,15 +10,14 @@ public class ExothermicCocktail : BrightsparkCardModel<ExothermicCocktail.CardTo
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
 				.WithAOEPattern(new AOEPattern(
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-						//TODO: Add once luminary is in
-						//new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Blank or Empty)
+						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Empty),
 						new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.NorthEast), AOEHexType.Red),
 						new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
 						new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.SouthEast), AOEHexType.Red),
@@ -27,13 +26,13 @@ public class ExothermicCocktail : BrightsparkCardModel<ExothermicCocktail.CardTo
 				.Build()),
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire];
-		protected override int XP => 1;
+		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override int XP => 1;
 	}
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(4)

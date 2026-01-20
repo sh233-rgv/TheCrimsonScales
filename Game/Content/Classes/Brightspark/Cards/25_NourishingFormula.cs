@@ -13,7 +13,7 @@ public class NourishingFormula : BrightsparkCardModel<NourishingFormula.CardTop,
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
@@ -29,8 +29,7 @@ public class NourishingFormula : BrightsparkCardModel<NourishingFormula.CardTop,
 						.WithDamage(3)
 						.WithOnAbilityEndedPerformed(async attackAbilityState =>
 						{
-							//TODO: Add state
-							await AbilityCmd.InfuseWildElement(attackAbilityState.Authority /*, state*/);
+							await AbilityCmd.InfuseWildElement(attackAbilityState);
 							await AbilityCmd.GainXP(attackAbilityState.Authority, 1);
 						}).Build()
 				])
@@ -46,7 +45,7 @@ public class NourishingFormula : BrightsparkCardModel<NourishingFormula.CardTop,
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)
@@ -103,6 +102,6 @@ public class NourishingFormula : BrightsparkCardModel<NourishingFormula.CardTop,
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

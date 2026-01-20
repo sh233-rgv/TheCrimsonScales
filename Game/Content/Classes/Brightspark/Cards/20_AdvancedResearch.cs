@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, AdvancedResearch.CardBottom>
 {
@@ -11,17 +11,76 @@ public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, A
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					//TODO: Waiting for luminary
-					await GDTask.CompletedTask;
+					List<Figure> figures =
+					[
+						await AbilityCmd.SelectFigure(state,
+							list => list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 3)
+								.Where(figure => figure is Character && figure.AlliedWith(state.Performer, true))),
+							hintText: () => "Choose an ally or self to target")
+					];
+					if(state.GetCustomValue<bool>(this, "ExtraTarget"))
+					{
+						figures.Add(await AbilityCmd.SelectFigure(state,
+							list => list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 3)
+								.Where(figure => figure is Character && figure.AlliedWith(state.Performer) && !figures.Contains(figure))),
+							hintText: () => "Choose another ally to target"));
+					}
+
+					int selectionCount = 1 + state.GetCustomValue<int>(this, "ExtraCard");
+					bool recoverItem = state.GetCustomValue<bool>(this, "RecoverItem");
+
+					foreach(Figure figure in figures.Where(figure => figure != null))
+					{
+						List<AbilityCard> selectedAbilityCards =
+							await AbilityCmd.SelectAbilityCards(figure as Character, CardState.Discarded, 0, selectionCount,
+								hintText: $"Select up to {selectionCount} discarded cards to recover");
+						foreach(AbilityCard abilityCard in selectedAbilityCards)
+						{
+							await AbilityCmd.ReturnToHand(abilityCard);
+							state.SetPerformed();
+						}
+						if(recoverItem)
+						{
+							ItemModel item = await AbilityCmd.SelectItem(figure as Character, ItemState.Spent, hintText: "Select an item to recover");
+							if(item != null)
+							{
+								await AbilityCmd.RefreshItem(item);
+								state.SetPerformed();
+							}
+						}
+					}
 				})
 				.WithAbilityStartedSubscriptions(
 				[
-					//TODO: Need Consume Any from Luminary
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeWildElements(
+						applyFunction: async applyParameters =>
+						{
+							applyParameters.AbilityState.SetCustomValue(this, "ExtraTarget", true);
+							await GDTask.CompletedTask;
+						},
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"Affect one additional ally within {Icons.Inline(Icons.Range)}3")),
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeWildElements(
+						applyFunction: async applyParameters =>
+						{
+							applyParameters.AbilityState.SetCustomValue(this, "RecoverItem", true);
+							await GDTask.CompletedTask;
+						},
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"They may also {Icons.Inline(Icons.RecoverCard)} one spent item")),
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeWildElements(
+						applyFunction: async applyParameters =>
+						{
+							applyParameters.AbilityState.SetCustomValue(this, "ExtraCard", 1);
+							await GDTask.CompletedTask;
+						},
+						effectInfoViewParameters: new TextEffectInfoView.Parameters("Two cards from their discard pile instead"),
+						elementsToConsume: 2)
 				])
 				.Build())
 		];
@@ -29,7 +88,7 @@ public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, A
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -53,8 +112,10 @@ public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, A
 						parameters => parameters.Character == state.Performer,
 						async parameters =>
 						{
-							//TODO: Hierophant L9
+							await AbilityCmd.InfuseWildElement(state);
+							
 						});
+					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
 				{
@@ -63,8 +124,8 @@ public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, A
 		];
 
 		//TODO: 2 Any Elements
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

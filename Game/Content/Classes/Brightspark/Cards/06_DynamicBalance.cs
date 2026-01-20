@@ -10,7 +10,7 @@ public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, Dynam
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -74,7 +74,7 @@ public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, Dynam
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -114,7 +114,7 @@ public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, Dynam
 				.Build())
 		];
 
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 }

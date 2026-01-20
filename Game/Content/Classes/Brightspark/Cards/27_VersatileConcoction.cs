@@ -11,7 +11,7 @@ public class VersatileConcoction : BrightsparkCardModel<VersatileConcoction.Card
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -45,7 +45,7 @@ public class VersatileConcoction : BrightsparkCardModel<VersatileConcoction.Card
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -55,7 +55,7 @@ public class VersatileConcoction : BrightsparkCardModel<VersatileConcoction.Card
 						async parameters =>
 						{
 							//TODO: Add state to infuse
-							await AbilityCmd.InfuseWildElement(state.Authority);
+							await AbilityCmd.InfuseWildElement(state);
 							await state.AdvanceUseSlot();
 						});
 					await GDTask.CompletedTask;
@@ -69,20 +69,19 @@ public class VersatileConcoction : BrightsparkCardModel<VersatileConcoction.Card
 				[
 					//TODO: Use Slot Positioning
 					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP),
-					//TODO: Add state to all infuses
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f), async state => await AbilityCmd.InfuseElement(Element.Fire)),
+					new UseSlot(new Vector2(0.16650043f, 0.3549993f), async state => await AbilityCmd.InfuseElement(state, Element.Fire)),
 					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f), async state => await AbilityCmd.InfuseWildElement(state.Authority)),
+					new UseSlot(new Vector2(0.57749975f, 0.3549993f), async state => await AbilityCmd.InfuseWildElement(state)),
 					new UseSlot(new Vector2(0.78700954f, 0.3549993f), async state =>
 					{
-						await AbilityCmd.InfuseWildElement(state.Authority);
-						await AbilityCmd.InfuseWildElement(state.Authority);
+						await AbilityCmd.InfuseWildElement(state);
+						await AbilityCmd.InfuseWildElement(state);
 					})
 				])
 				.Build()),
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

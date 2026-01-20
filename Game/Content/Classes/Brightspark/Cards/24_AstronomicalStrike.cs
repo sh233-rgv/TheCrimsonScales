@@ -12,7 +12,7 @@ public class AstronomicalStrike : BrightsparkCardModel<AstronomicalStrike.CardTo
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -44,37 +44,30 @@ public class AstronomicalStrike : BrightsparkCardModel<AstronomicalStrike.CardTo
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 6,
-					//TODO: Pull ability
-					Range = 4,
-					Traits =
-					[
-						new PerformAtEndOfTurnTrait(OtherAbility.Builder().WithPerformAbility(async state =>
-						{
-							foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1)
-								        .Where(figure => figure.EnemiesWith(state.Performer)))
-							{
-								await AbilityCmd.SufferDamage(state, figure, 1);
-								state.SetPerformed();
-							}
-						}).Build()),
-						//TODO: Scenarios added: new PermanentConditionTrait(Conditions.Invisible),
-						//TODO: Cannot be moved
-					]
-				})
 				.WithName("Black Hole")
 				.WithTexturePath("res://Content/Classes/Brightspark/BlackHole.png")
-				.Build()
-			),
+				.WithHealth(6)
+				.WithRange(4)
+				.WithTraits(new PerformAtEndOfTurnTrait(OtherAbility.Builder().WithPerformAbility(async state =>
+					{
+						foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1)
+							        .Where(figure => figure.EnemiesWith(state.Performer)))
+						{
+							await AbilityCmd.SufferDamage(state, figure, 1);
+							state.SetPerformed();
+						}
+					}).Build())
+					//TODO: Scenarios added: new PermanentConditionTrait(Conditions.Invisible),
+					//TODO: Cannot be moved)
+				)
+				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

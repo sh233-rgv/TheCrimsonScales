@@ -11,7 +11,7 @@ public class StrengthElixir : BrightsparkCardModel<StrengthElixir.CardTop, Stren
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(state =>
@@ -29,12 +29,12 @@ public class StrengthElixir : BrightsparkCardModel<StrengthElixir.CardTop, Stren
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -53,14 +53,14 @@ public class StrengthElixir : BrightsparkCardModel<StrengthElixir.CardTop, Stren
 									await GDTask.CompletedTask;
 								}
 							);
-							
+
 							ScenarioEvents.ActionEndedEvent.Subscribe(state, this,
 								canApplyParameters => canApplyParameters.ActionState == parameters.AbilityState.ActionState,
 								async applyParameters =>
 								{
 									ScenarioEvents.SufferDamageEvent.Unsubscribe(state, this);
 									ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
-									
+
 									await GDTask.CompletedTask;
 								});
 
@@ -84,6 +84,6 @@ public class StrengthElixir : BrightsparkCardModel<StrengthElixir.CardTop, Stren
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

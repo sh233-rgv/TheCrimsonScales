@@ -12,7 +12,7 @@ public class BefuddlingSerum : BrightsparkCardModel<BefuddlingSerum.CardTop, Bef
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -22,12 +22,12 @@ public class BefuddlingSerum : BrightsparkCardModel<BefuddlingSerum.CardTop, Bef
 				.Build())
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 	}
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -73,7 +73,7 @@ public class BefuddlingSerum : BrightsparkCardModel<BefuddlingSerum.CardTop, Bef
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

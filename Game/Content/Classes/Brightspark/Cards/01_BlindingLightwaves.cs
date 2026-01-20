@@ -10,7 +10,7 @@ public class BlindingLightwaves : BrightsparkCardModel<BlindingLightwaves.CardTo
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Stun)
@@ -19,14 +19,14 @@ public class BlindingLightwaves : BrightsparkCardModel<BlindingLightwaves.CardTo
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Light];
-		protected override int XP => 2;
+		public override IEnumerable<Element> Elements => [Element.Light];
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>

@@ -11,7 +11,7 @@ public class CorrosiveCombustion : BrightsparkCardModel<CorrosiveCombustion.Card
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -46,13 +46,13 @@ public class CorrosiveCombustion : BrightsparkCardModel<CorrosiveCombustion.Card
 				.Build()),
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -82,12 +82,12 @@ public class CorrosiveCombustion : BrightsparkCardModel<CorrosiveCombustion.Card
 				.WithUseSlots(
 				[
 					new UseSlot(new Vector2(0.29100034f, 0.76699734f)),
-					new UseSlot(new Vector2(0.4990001f, 0.76699734f), state => AbilityCmd.InfuseElement(Element.Fire)),
+					new UseSlot(new Vector2(0.4990001f, 0.76699734f), state => AbilityCmd.InfuseElement(state, Element.Fire)),
 					new UseSlot(new Vector2(0.7075f, 0.76699734f), GainXP)
 				])
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

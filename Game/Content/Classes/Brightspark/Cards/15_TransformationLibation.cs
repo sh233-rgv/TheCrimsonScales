@@ -11,7 +11,7 @@ public class TransformationLibation : BrightsparkCardModel<TransformationLibatio
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -57,14 +57,14 @@ public class TransformationLibation : BrightsparkCardModel<TransformationLibatio
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Air];
-		protected override bool Persistent => true;
+		public override IEnumerable<Element> Elements => [Element.Air];
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ControlAbility.Builder()
 				.WithGetAbilities(state =>

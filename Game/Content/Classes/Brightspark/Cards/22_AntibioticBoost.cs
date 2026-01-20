@@ -12,7 +12,7 @@ public class AntibioticBoost : BrightsparkCardModel<AntibioticBoost.CardTop, Ant
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Bless)
@@ -32,12 +32,12 @@ public class AntibioticBoost : BrightsparkCardModel<AntibioticBoost.CardTop, Ant
 				.Build())
 		];
 
-		protected override int XP => 1;
+		public override int XP => 1;
 	}
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -77,7 +77,7 @@ public class AntibioticBoost : BrightsparkCardModel<AntibioticBoost.CardTop, Ant
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 
 		private async GDTask FirstSlotAbility(AbilityState abilityState)
 		{

@@ -11,14 +11,14 @@ public class NutrientOverdose : BrightsparkCardModel<NutrientOverdose.CardTop, N
 
 	public class CardTop : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
 				.WithDuringAttackSubscription(
 					ScenarioEvents.DuringAttack.Subscription.New(
 						parameters => parameters.Performer is Character character && character.RoundCardData.Any(roundCardData =>
-							roundCardData.AbilityCard != AbilityCard && roundCardData.CanPlayBasicBottom || roundCardData.CanPlayBottom),
+							roundCardData.AbilityCard.Model != AbilityCardModel && roundCardData.CanPlayBasicBottom || roundCardData.CanPlayBottom),
 						async parameters =>
 						{
 							foreach(CardPlayCardData cardData in ((Character)parameters.Performer).RoundCardData)
@@ -40,14 +40,14 @@ public class NutrientOverdose : BrightsparkCardModel<NutrientOverdose.CardTop, N
 
 	public class CardBottom : BrightsparkCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)
 				.WithDuringMovementSubscription(
 					ScenarioEvents.DuringMovement.Subscription.New(
 						parameters => parameters.Performer is Character character && character.RoundCardData.Any(roundCardData =>
-							roundCardData.AbilityCard != AbilityCard && roundCardData.CanPlayBasicTop || roundCardData.CanPlayTop),
+							roundCardData.AbilityCard.Model != AbilityCardModel && roundCardData.CanPlayBasicTop || roundCardData.CanPlayTop),
 						async parameters =>
 						{
 							foreach(CardPlayCardData cardData in ((Character)parameters.Performer).RoundCardData)

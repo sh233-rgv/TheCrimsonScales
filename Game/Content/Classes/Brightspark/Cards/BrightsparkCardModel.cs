@@ -1,4 +1,4 @@
-﻿public abstract class BrightsparkCardModel<TTop, TBottom> : AtlasAbilityCardModel<TTop, TBottom>
+﻿public abstract class BrightsparkCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : BrightsparkCardSide, new()
 	where TBottom : BrightsparkCardSide, new()
 {
@@ -7,7 +7,6 @@
 	protected override int RowCount => 4;
 }
 
-public abstract class BrightsparkCardSide : AbilityCardSide
+public abstract class BrightsparkCardSide : AbilityCardSideModel
 {
-	
 }
