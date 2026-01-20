@@ -48,18 +48,7 @@ public class AirborneSpores : MirefootCardModel<AirborneSpores.CardTop, Airborne
 				.WithCustomGetTargets((state, figures) =>
 				{
 					ConditionAbility.State conditionAbilityState = state.ActionState.GetAbilityState<ConditionAbility.State>(0);
-
-					foreach((Vector2I coords, AOEHexType hexType) in conditionAbilityState.AOEHexes)
-					{
-						if(hexType == AOEHexType.Red)
-						{
-							Hex hex = GameController.Instance.Map.GetHex(coords);
-							if(hex != null)
-							{
-								figures.AddRange(hex.GetHexObjectsOfType<Figure>().Where(figure => figure.AlliedWith(state.Performer)));
-							}
-						}
-					}
+					figures.AddRange(conditionAbilityState.GetRedAOEHexes().SelectMany(hex => hex.GetHexObjectsOfType<Figure>()));
 				})
 				.WithTarget(Target.Allies | Target.TargetAll)
 				.WithMandatory(true)

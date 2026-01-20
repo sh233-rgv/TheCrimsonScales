@@ -29,6 +29,7 @@ public sealed partial class ActionState
 	public List<ActionState> ChildActionStates { get; } = new List<ActionState>();
 
 	public bool OverrideRound { get; private set; }
+	public bool OverrideNoRound { get; private set; }
 	public bool OverridePersistent { get; private set; }
 	public bool OverrideNoPersistent { get; private set; }
 	public bool OverrideLoss { get; private set; }
@@ -148,6 +149,8 @@ public sealed partial class ActionState
 		}
 
 		_discardOrLoseRequested = true;
+		SetOverrideNoPersistent();
+		SetOverrideNoRound();
 
 		if(_onDiscardOrLoseRequested != null)
 		{
@@ -173,6 +176,13 @@ public sealed partial class ActionState
 		OverrideRound = true;
 
 		ParentActionState?.SetOverrideRound();
+	}
+	
+	public void SetOverrideNoRound()
+	{
+		OverrideNoRound = true;
+
+		ParentActionState?.SetOverrideNoRound();
 	}
 
 	public void SetOverridePersistent()

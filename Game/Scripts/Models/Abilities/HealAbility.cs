@@ -237,9 +237,9 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 			new ScenarioEvents.AfterHealPerformed.Parameters(abilityState, blockedAbilityStateParameters.IsBlocked), abilityState);
 	}
 
-	protected override void GetValidTargets(State abilityState, List<Figure> figures)
+	protected override void GetValidTargets(State abilityState, List<Figure> figures, int targetsOutOfAOE)
 	{
-		base.GetValidTargets(abilityState, figures);
+		base.GetValidTargets(abilityState, figures, targetsOutOfAOE);
 
 		if(abilityState.Authority is not Character)
 		{

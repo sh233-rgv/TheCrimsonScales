@@ -73,21 +73,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);
-
-					foreach((Vector2I coords, AOEHexType hexType) in attackAbilityState.AOEHexes)
-					{
-						if(hexType == AOEHexType.Red)
-						{
-							Hex hex = GameController.Instance.Map.GetHex(coords);
-							if(hex != null)
-							{
-								foreach(Figure figure in hex.GetHexObjectsOfType<Figure>())
-								{
-									list.Add(figure);
-								}
-							}
-						}
-					}
+					list.AddRange(attackAbilityState.GetRedAOEHexes().SelectMany(hex => hex.GetHexObjectsOfType<Figure>()));
 				})
 				.WithConditionalAbilityCheck(async state =>
 					{

@@ -33,7 +33,7 @@ public class RetaliateAbility : ActiveAbility<RetaliateAbility.State>
 	private Func<ScenarioEvents.Retaliate.Parameters, bool> _customCanApply;
 	private bool _customCanApplyReplaceFully;
 
-	public int RetaliateValue { get; private set; }
+	public DynamicInt<State> RetaliateValue { get; private set; }
 	public int Range { get; private set; }
 
 	/// <summary>
@@ -51,10 +51,10 @@ public class RetaliateAbility : ActiveAbility<RetaliateAbility.State>
 
 		public interface IRetaliateValueStep
 		{
-			TBuilder WithRetaliateValue(int retaliateValue, params RetaliateEnhancementMark[] enhancementMarks);
+			TBuilder WithRetaliateValue(DynamicInt<State> retaliateValue, params RetaliateEnhancementMark[] enhancementMarks);
 		}
 
-		public TBuilder WithRetaliateValue(int retaliateValue, params RetaliateEnhancementMark[] enhancementMarks)
+		public TBuilder WithRetaliateValue(DynamicInt<State> retaliateValue, params RetaliateEnhancementMark[] enhancementMarks)
 		{
 			Obj.RetaliateValue = retaliateValue;
 			AddEnhancements(enhancementMarks);
@@ -111,7 +111,7 @@ public class RetaliateAbility : ActiveAbility<RetaliateAbility.State>
 	{
 		base.InitializeState(abilityState);
 
-		abilityState.RetaliateValue = RetaliateValue;
+		abilityState.RetaliateValue = RetaliateValue.GetValue(abilityState);
 		abilityState.Range = Range;
 	}
 
@@ -124,7 +124,7 @@ public class RetaliateAbility : ActiveAbility<RetaliateAbility.State>
 	{
 		await base.Activate(abilityState);
 
-		await AbilityCmd.AddRetaliate(abilityState.Performer, this, RetaliateValue, Range, _customCanApply, _customCanApplyReplaceFully);
+		await AbilityCmd.AddRetaliate(abilityState.Performer, this, abilityState.RetaliateValue, Range, _customCanApply, _customCanApplyReplaceFully);
 
 		foreach(ConditionModel conditionModel in abilityState.ConditionModels)
 		{

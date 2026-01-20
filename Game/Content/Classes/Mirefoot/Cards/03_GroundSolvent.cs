@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -32,18 +33,10 @@ public class GroundSolvent : MirefootCardModel<GroundSolvent.CardTop, GroundSolv
 
 					if(conditionAbilityState.Performed)
 					{
-						List<Hex> hexes = new List<Hex>();
-						foreach((Vector2I coords, AOEHexType hexType) in conditionAbilityState.AOEHexes)
-						{
-							Hex hex = GameController.Instance.Map.GetHex(coords);
-							if(hex != null && hex.IsFeatureless())
-							{
-								hexes.Add(hex);
-							}
-						}
+						IEnumerable<Hex> hexes = conditionAbilityState.GetRedAOEHexes().Where(hex => hex.IsFeatureless());
 
 						List<Hex> selectedHexes =
-							await AbilityCmd.SelectHexes(abilityState, list => list.AddRange(hexes), 0, hexes.Count, true,
+							await AbilityCmd.SelectHexes(abilityState, list => list.AddRange(hexes), 0, hexes.Count(), true,
 								"Select hexes to place difficult terrain in");
 
 						foreach(Hex selectedHex in selectedHexes)
@@ -68,21 +61,7 @@ public class GroundSolvent : MirefootCardModel<GroundSolvent.CardTop, GroundSolv
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					ConditionAbility.State conditionAbilityState = abilityState.ActionState.GetAbilityState<ConditionAbility.State>(0);
-
-					if(conditionAbilityState.Performed)
-					{
-						foreach((Vector2I coords, AOEHexType hexType) in conditionAbilityState.AOEHexes)
-						{
-							Hex hex = GameController.Instance.Map.GetHex(coords);
-							if(hex != null)
-							{
-								foreach(Figure figure in hex.GetHexObjectsOfType<Figure>())
-								{
-									list.Add(figure);
-								}
-							}
-						}
-					}
+					list.AddRange(conditionAbilityState.GetRedAOEHexes().SelectMany(hex => hex.GetHexObjectsOfType<Figure>()));
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.Build())

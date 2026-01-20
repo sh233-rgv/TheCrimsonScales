@@ -52,7 +52,7 @@ public class AbilityCardSide : IActionSource
 				AbilityCard.SetUnrecoverable(Model.Unrecoverable);
 
 				// If no persistent/round ability has been performed, discard or lose it instead
-				if(actionState.HasPerformedActiveAbility && !actionState.OverrideNoPersistent)
+				if(actionState.HasPerformedActiveAbility && !actionState.OverrideNoPersistent && !actionState.OverrideNoRound)
 				{
 					if(round)
 					{
