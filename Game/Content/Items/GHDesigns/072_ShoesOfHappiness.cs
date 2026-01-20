@@ -30,7 +30,7 @@ public class ShoesOfHappiness : GHDesignsItem
 				{
 					await Use(async user =>
 					{
-						await AbilityCmd.GainXP(Owner, 1);
+						await AbilityCmd.GainXP(user, 1);
 					});
 				}
 			}

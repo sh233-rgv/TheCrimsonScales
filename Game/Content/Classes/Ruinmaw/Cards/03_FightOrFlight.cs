@@ -12,7 +12,7 @@ public class FightOrFlight : RuinmawCardModel<FightOrFlight.CardTop, FightOrFlig
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -29,7 +29,7 @@ public class FightOrFlight : RuinmawCardModel<FightOrFlight.CardTop, FightOrFlig
 				)
 				.WithOnAbilityEndedPerformed(async state =>
 					{
-						if (IsSated(state.Performer))
+						if(IsSated(state.Performer))
 						{
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
@@ -41,7 +41,7 @@ public class FightOrFlight : RuinmawCardModel<FightOrFlight.CardTop, FightOrFlig
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(PushAbility.Builder()
 				.WithPush(2)

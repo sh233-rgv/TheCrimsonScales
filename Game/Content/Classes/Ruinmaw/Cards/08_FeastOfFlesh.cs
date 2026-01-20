@@ -10,7 +10,7 @@ public class FeastOfFlesh : RuinmawCardModel<FeastOfFlesh.CardTop, FeastOfFlesh.
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(5)
@@ -27,13 +27,13 @@ public class FeastOfFlesh : RuinmawCardModel<FeastOfFlesh.CardTop, FeastOfFlesh.
 		];
 
 		protected override bool Sate => true;
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
@@ -43,8 +43,8 @@ public class FeastOfFlesh : RuinmawCardModel<FeastOfFlesh.CardTop, FeastOfFlesh.
 						parameters => IsSated(parameters.Performer),
 						async parameters =>
 						{
-							((HealAbility.State)parameters.AbilityState).AbilityAddCondition(Ruinmaw.EmpowerRuinmaw);
-							((HealAbility.State)parameters.AbilityState).AbilityAddCondition(Ruinmaw.EmpowerRuinmaw);
+							((HealAbility.State)parameters.AbilityState).AbilityAddCondition(Ruinmaw.Empower);
+							((HealAbility.State)parameters.AbilityState).AbilityAddCondition(Ruinmaw.Empower);
 							await GDTask.CompletedTask;
 						}
 					)

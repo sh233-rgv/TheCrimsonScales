@@ -11,10 +11,10 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
-				.WithConditions(Conditions.Curse, Conditions.Curse)
+				.WithConditions([Conditions.Curse, Conditions.Curse])
 				.WithRange(3)
 				.Build()),
 
@@ -54,14 +54,14 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherTargetedAbility.Builder()
 				.WithOnAfterConditionsApplied(async (state, target) =>

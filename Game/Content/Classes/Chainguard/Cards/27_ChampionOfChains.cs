@@ -10,30 +10,39 @@ public class ChampionOfChains : ChainguardLevelUpCardModel<ChampionOfChains.Card
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
-						canApply: parameters => parameters.Condition is Shackle &&
-						                        parameters.PotentialAbilityState != null &&
-						                        parameters.PotentialAbilityState.Performer == state.Performer,
+						canApply: parameters =>
+							parameters.ConditionModel is Shackle &&
+							parameters.PotentialAbilityState != null &&
+							parameters.PotentialAbilityState.Performer == state.Performer,
 						async parameters =>
 						{
-							await AbilityCmd.AddCondition(null, parameters.Target, Conditions.Wound1);
+							await AbilityCmd.AddCondition(state, parameters.Target, Conditions.Wound1);
 						}
 					);
 
-					Chainguard chainguard = (Chainguard)AbilityCard.OriginalOwner;
-					await chainguard.SetMaximumShackles(3);
+					ScenarioCheckEvents.MaxShackleCountCheckEvent.Subscribe(state, this,
+						parameters => parameters.Shackler == state.Performer,
+						parameters =>
+						{
+							parameters.AdjustMaxShackleCount(2);
+						}
+					);
+
+					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
 				{
 					ScenarioEvents.InflictConditionEvent.Unsubscribe(state, this);
+					ScenarioCheckEvents.MaxShackleCountCheckEvent.Unsubscribe(state, this);
 
-					Chainguard chainguard = (Chainguard)AbilityCard.OriginalOwner;
-					await chainguard.SetMaximumShackles(1);
+					int maxShackleCount = Chainguard.GetMaxShackleCount(state.Performer);
+					await Chainguard.RemoveAllExtraShackles(state.Performer, maxShackleCount);
 				})
 				.Build()),
 
@@ -45,14 +54,14 @@ public class ChampionOfChains : ChainguardLevelUpCardModel<ChampionOfChains.Card
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SwingAbility.Builder()
 				.WithSwing(6)

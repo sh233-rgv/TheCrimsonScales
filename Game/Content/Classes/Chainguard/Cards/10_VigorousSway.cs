@@ -11,7 +11,7 @@ public class VigorousSway : ChainguardCardModel<VigorousSway.CardTop, VigorousSw
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SwingAbility.Builder()
 				.WithSwing(3)
@@ -41,10 +41,10 @@ public class VigorousSway : ChainguardCardModel<VigorousSway.CardTop, VigorousSw
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62082916f, 0.6348184f)))
 				.Build()),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
@@ -59,7 +59,7 @@ public class VigorousSway : ChainguardCardModel<VigorousSway.CardTop, VigorousSw
 				.Build())
 		];
 
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 }

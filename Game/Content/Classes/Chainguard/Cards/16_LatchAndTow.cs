@@ -10,17 +10,17 @@ public class LatchAndTow : ChainguardLevelUpCardModel<LatchAndTow.CardTop, Latch
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(3)
 				.WithRange(4)
 				.WithConditions(Chainguard.Shackle)
-				.WithOnAbilityStarted(async state => 
+				.WithOnAbilityStarted(async state =>
 				{
 					ScenarioEvents.TrapTriggeredEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.PotentialAbilityState?.Authority == state.Performer 
-											&& canApplyParameters.Figure == state.Target,
+						canApplyParameters => canApplyParameters.PotentialAbilityState?.Authority == state.Performer
+						                      && canApplyParameters.Figure == state.Target,
 						async applyParameters =>
 						{
 							await AbilityCmd.SufferDamage(state, state.Target, 3);
@@ -34,7 +34,7 @@ public class LatchAndTow : ChainguardLevelUpCardModel<LatchAndTow.CardTop, Latch
 					);
 					await GDTask.CompletedTask;
 				})
-				.WithOnAbilityEnded(async state => 
+				.WithOnAbilityEnded(async state =>
 				{
 					ScenarioEvents.TrapTriggeredEvent.Unsubscribe(state, this);
 
@@ -46,12 +46,12 @@ public class LatchAndTow : ChainguardLevelUpCardModel<LatchAndTow.CardTop, Latch
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(PullSelfAbility.Builder()
 				.WithPullSelfValue(4)
 				.WithRange(5)
-				.WithOnAbilityEnded(async state => 
+				.WithOnAbilityEnded(async state =>
 				{
 					if(RangeHelper.Distance(state.Performer.Hex, state.Target.Hex) == 1)
 					{

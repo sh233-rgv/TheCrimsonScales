@@ -31,6 +31,10 @@ public static class Icons
 	public const string Checkmark = "res://Art/Icons/Other/CheckMark.svg";
 	public const string Obstacle = "res://Art/Icons/Other/Cross.svg";
 	public const string StartHexMove = "res://Art/Icons/Other/StartHexMoveIcon.svg";
+	public const string WildElement = "res://Art/Icons/Elements/Wild.svg";
+	public const string RedAOEHex = "res://Art/Icons/Other/RedAOEHex.svg";
+	public const string PlusOneEnhancement = "res://Art/Icons/Other/PlusOneEnhancement.svg";
+	public const string JumpEnhancement = "res://Art/Icons/Other/JumpEnhancement.svg";
 
 	public static string GetElement(Element element)
 	{

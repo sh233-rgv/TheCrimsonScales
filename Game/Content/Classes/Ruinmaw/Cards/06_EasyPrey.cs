@@ -11,7 +11,7 @@ public class EasyPrey : RuinmawCardModel<EasyPrey.CardTop, EasyPrey.CardBottom>
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)
@@ -36,7 +36,7 @@ public class EasyPrey : RuinmawCardModel<EasyPrey.CardTop, EasyPrey.CardBottom>
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -54,7 +54,7 @@ public class EasyPrey : RuinmawCardModel<EasyPrey.CardTop, EasyPrey.CardBottom>
 							[
 								HealAbility.Builder()
 									.WithHealValue(4)
-									.WithConditions(Ruinmaw.EmpowerRuinmaw, Ruinmaw.EmpowerRuinmaw)
+									.WithConditions([Ruinmaw.Empower, Ruinmaw.Empower])
 									.WithTarget(Target.Self)
 									.Build()
 							]);
@@ -77,8 +77,8 @@ public class EasyPrey : RuinmawCardModel<EasyPrey.CardTop, EasyPrey.CardBottom>
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

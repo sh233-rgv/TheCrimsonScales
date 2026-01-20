@@ -11,7 +11,7 @@ public class CausticClaws : RuinmawCardModel<CausticClaws.CardTop, CausticClaws.
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -40,7 +40,7 @@ public class CausticClaws : RuinmawCardModel<CausticClaws.CardTop, CausticClaws.
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(5)
@@ -58,7 +58,7 @@ public class CausticClaws : RuinmawCardModel<CausticClaws.CardTop, CausticClaws.
 		];
 
 		protected override bool Sate => true;
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 }

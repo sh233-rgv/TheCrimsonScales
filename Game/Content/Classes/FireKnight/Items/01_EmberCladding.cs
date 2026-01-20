@@ -1,6 +1,6 @@
 ﻿using Fractural.Tasks;
 
-public class EmberCladding : FireKnightItem
+public class FireKnightEmberCladding : FireKnightItem
 {
 	public override string Name => "Ember Cladding";
 	public override int ItemNumber => 1;
@@ -29,7 +29,7 @@ public class EmberCladding : FireKnightItem
 				{
 					await AbilityCmd.SufferDamage(parameters.PotentialAbilityState, parameters.Figure, 2);
 
-					await AbilityCmd.InfuseElement(Element.Fire);
+					await AbilityCmd.InfuseElement(null, Element.Fire, user);
 				});
 
 				await GDTask.CompletedTask;

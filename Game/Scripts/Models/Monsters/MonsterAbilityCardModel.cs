@@ -5,7 +5,7 @@ using Fractural.Tasks;
 using Godot;
 
 [Serializable]
-public abstract class MonsterAbilityCardModel : AbstractModel<MonsterAbilityCardModel> //, IDeckCard
+public abstract class MonsterAbilityCardModel : AbstractModel //, IDeckCard
 {
 	public abstract string CardsAtlasPath { get; }
 
@@ -53,7 +53,7 @@ public abstract class MonsterAbilityCardModel : AbstractModel<MonsterAbilityCard
 		int finalRange = range ?? ((monster.Stats.Range ?? 1) + extraRange);
 		RangeType finalRangeType =
 			rangeType ??
-			(aoePattern != null && aoePattern.Hexes.Any(hex => hex.Type == AOEHexType.Gray)
+			(aoePattern != null && aoePattern.Hexes.Any(hex => hex.Type.HasFlag(AOEHexType.Gray))
 				? RangeType.Melee
 				: (finalRange > 1 ? RangeType.Range : monster.Stats.RangeType));
 

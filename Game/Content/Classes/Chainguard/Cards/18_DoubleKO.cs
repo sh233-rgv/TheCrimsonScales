@@ -11,14 +11,14 @@ public class DoubleKO : ChainguardLevelUpCardModel<DoubleKO.CardTop, DoubleKO.Ca
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.6220894f, 0.19567354f)))
 				.Build()),
 
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.6220894f, 0.38967186f)))
 				.WithConditionalAbilityCheck(async state =>
 				{
 					bool killedAnEnemy = state.ActionState.GetAbilityState<AttackAbility.State>(0).KilledTargets.Count > 0;
@@ -36,7 +36,7 @@ public class DoubleKO : ChainguardLevelUpCardModel<DoubleKO.CardTop, DoubleKO.Ca
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
 
@@ -66,7 +66,7 @@ public class DoubleKO : ChainguardLevelUpCardModel<DoubleKO.CardTop, DoubleKO.Ca
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

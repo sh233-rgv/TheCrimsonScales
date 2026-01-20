@@ -146,7 +146,7 @@ public partial class Summon : Figure
 			authority = CharacterOwner;
 		}
 
-		_turnActionState = new ActionState(this, authority, _abilities);
+		_turnActionState = new ActionState(this, this, authority, _abilities);
 		await _turnActionState.Perform();
 	}
 

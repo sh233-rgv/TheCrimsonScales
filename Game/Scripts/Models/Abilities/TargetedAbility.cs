@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Fractural.Tasks;
 using Godot;
 using GTweensGodot.Extensions;
@@ -34,14 +33,16 @@ public abstract class TargetedAbilityState<TSingleTargetState> : TargetedAbility
 	}
 }
 
-public abstract class TargetedAbilityState : AbilityState
+public abstract class TargetedAbilityState : AbilityState, IConditionsAbilityState
 {
 	public List<Figure> UniqueTargetedFigures { get; } = new List<Figure>();
 	public List<Hex> TargetedHexes { get; } = new List<Hex>();
-	public Dictionary<Vector2I, AOEHexType> AOEHexes { get; set; }
+	public List<AOEHex> AOEHexes { get; set; }
 
 	public Target AbilityTarget { get; set; }
 	public int AbilityTargets { get; set; }
+	public Action<TargetedAbilityState, List<Figure>> AbilityCustomGetTargets { get; set; }
+	public Func<TargetedAbilityState, Figure, bool> AbilityFilterTargets { get; set; }
 	public AOEPattern AbilityAOEPattern { get; set; }
 
 	public RangeType AbilityRangeType { get; set; }
@@ -60,6 +61,24 @@ public abstract class TargetedAbilityState : AbilityState
 
 	public abstract Figure Target { get; }
 
+	public IEnumerable<Hex> GetEmptyAOEHexes()
+	{
+		if(AOEHexes == null)
+		{
+			yield break;
+		}
+
+		foreach(AOEHex aoeHex in AOEHexes)
+		{
+			Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
+
+			if(hex != null && aoeHex.Type.HasFlag(AOEHexType.Empty))
+			{
+				yield return hex;
+			}
+		}
+	}
+
 	public IEnumerable<Hex> GetRedAOEHexes()
 	{
 		if(AOEHexes == null)
@@ -67,11 +86,11 @@ public abstract class TargetedAbilityState : AbilityState
 			yield break;
 		}
 
-		foreach((Vector2I coords, AOEHexType type) in AOEHexes)
+		foreach(AOEHex aoeHex in AOEHexes)
 		{
-			Hex hex = GameController.Instance.Map.GetHex(coords);
+			Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
 
-			if(hex != null && type == AOEHexType.Red)
+			if(hex != null && aoeHex.Type.HasFlag(AOEHexType.Red))
 			{
 				yield return hex;
 			}
@@ -85,15 +104,43 @@ public abstract class TargetedAbilityState : AbilityState
 			yield break;
 		}
 
-		foreach((Vector2I coords, AOEHexType type) in AOEHexes)
+		foreach(AOEHex aoeHex in AOEHexes)
 		{
-			Hex hex = GameController.Instance.Map.GetHex(coords);
+			Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
 
-			if(hex != null && type == AOEHexType.Yellow)
+			if(hex != null && aoeHex.Type.HasFlag(AOEHexType.Yellow))
 			{
 				yield return hex;
 			}
 		}
+	}
+
+	public IEnumerable<Hex> GetCustomMarkedHexes(string customMark)
+	{
+		if(AOEHexes == null)
+		{
+			yield break;
+		}
+
+		foreach(AOEHex aoeHex in AOEHexes)
+		{
+			Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
+
+			if(hex != null && aoeHex.CustomMark == customMark)
+			{
+				yield return hex;
+			}
+		}
+	}
+
+	public void SetAbilityCustomTargets(Action<TargetedAbilityState, List<Figure>> customTargets)
+	{
+		AbilityCustomGetTargets = customTargets;
+	}
+
+	public void SetAbilityFilterTargets(Func<TargetedAbilityState, Figure, bool> filterTargets)
+	{
+		AbilityFilterTargets = filterTargets;
 	}
 
 	public void SetTarget(Target target)
@@ -135,7 +182,7 @@ public abstract class TargetedAbilityState : AbilityState
 
 	public void AbilityAddCondition(ConditionModel conditionModel)
 	{
-		if(conditionModel.CanStack)
+		if(conditionModel.CanBeAppliedMultipleTimesOnSingleTarget)
 		{
 			AbilityConditionModels.Add(conditionModel);
 			SingleTargetConditionModels?.Add(conditionModel);
@@ -157,6 +204,11 @@ public abstract class TargetedAbilityState : AbilityState
 	public void AbilitySetAOEPattern(AOEPattern aoePattern)
 	{
 		AbilityAOEPattern = aoePattern;
+	}
+
+	public void AbilityAddAOEHex(AOEHex aoeHex)
+	{
+		AbilityAOEPattern.Hexes.Add(aoeHex);
 	}
 
 	public void AbilityAdjustPush(int amount)
@@ -192,7 +244,7 @@ public abstract class TargetedAbilityState : AbilityState
 
 	public void SingleTargetAddCondition(ConditionModel conditionModel)
 	{
-		if(conditionModel.CanStack)
+		if(conditionModel.CanBeAppliedMultipleTimesOnSingleTarget)
 		{
 			SingleTargetConditionModels.Add(conditionModel);
 		}
@@ -226,7 +278,7 @@ public abstract class TargetedAbilityState : AbilityState
 /// <summary>
 /// An <see cref="Ability{T}"/> that is considered a targeted ability as per the rules; that targets figures with given restrictions.
 /// </summary>
-public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
+public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITargetedAbility
 	where T : TargetedAbilityState<TSingleTargetState>, new()
 	where TSingleTargetState : SingleTargetState, new()
 {
@@ -249,6 +301,12 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 	public ConditionModel[] Conditions { get; private set; } = [];
 
 	public Action<T, List<Figure>> CustomGetTargets { get; private set; }
+	public Func<T, Figure, bool> FilterTargets { get; private set; }
+
+	public bool IsMultiTarget =>
+		Targets > 1 ||
+		Target.HasFlag(Target.TargetAll) ||
+		(AOEPattern != null && AOEPattern.Hexes.Count(hex => hex.Type == AOEHexType.Red) > 1);
 
 	/// <summary>
 	/// A builder extending <see cref="Ability{T}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods
@@ -271,9 +329,10 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithRange(int range)
+		public TBuilder WithRange(int range, params RangeSquare[] enhancementMarks)
 		{
 			Obj.Range = range;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
@@ -297,9 +356,10 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithTargets(int targets)
+		public TBuilder WithTargets(int targets, params TargetsSquare[] enhancementMarks)
 		{
 			Obj.Targets = targets;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
@@ -309,9 +369,10 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithAOEPattern(AOEPattern aoePattern)
+		public TBuilder WithAOEPattern(AOEPattern aoePattern, params AOEHexMark[] enhancementMarks)
 		{
 			Obj.AOEPattern = aoePattern;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
@@ -321,33 +382,48 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithPush(int push)
+		public TBuilder WithPush(int push, params PushEnhancementMark[] enhancementMarks)
 		{
 			Obj.Push = push;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithPull(int pull)
+		public TBuilder WithPull(int pull, params PullEnhancementMark[] enhancementMarks)
 		{
 			Obj.Pull = pull;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithSwing(int swing)
+		public TBuilder WithSwing(int swing, params SwingEnhancementMark[] enhancementMarks)
 		{
 			Obj.Swing = swing;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithConditions(params ConditionModel[] conditions)
+		public TBuilder WithConditions(ConditionModel condition, params ConditionEnhancementMark[] enhancementMarks)
+		{
+			return WithConditions([condition], enhancementMarks);
+		}
+
+		public TBuilder WithConditions(ConditionModel[] conditions, params ConditionEnhancementMark[] enhancementMarks)
 		{
 			Obj.Conditions = conditions;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
 		public TBuilder WithCustomGetTargets(Action<T, List<Figure>> getTargets)
 		{
 			Obj.CustomGetTargets = getTargets;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithFilterTargets(Func<T, Figure, bool> filterTargets)
+		{
+			Obj.FilterTargets = filterTargets;
 			return (TBuilder)this;
 		}
 
@@ -384,6 +460,12 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 		abilityState.AbilityPush = Push;
 		abilityState.AbilityPull = Pull;
 		abilityState.AbilitySwing = Swing;
+		abilityState.AbilityCustomGetTargets = CustomGetTargets != null
+			? (state, figures) => CustomGetTargets((T)state, figures)
+			: null;
+		abilityState.AbilityFilterTargets = FilterTargets != null
+			? (state, figures) => FilterTargets((T)state, figures)
+			: null;
 	}
 
 	protected override async GDTask Perform(T abilityState)
@@ -394,14 +476,15 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 		if(abilityState.AbilityAOEPattern != null)
 		{
-			Dictionary<Vector2I, AOEHexType> aoeHexes = new Dictionary<Vector2I, AOEHexType>();
+			List<AOEHex> aoeHexes = [];
 
 			//TODO: Add `during ability` scenario events to the aoe prompts so the range can be increased 
 			if(abilityState.Authority is Character)
 			{
 				AOEPrompt.Answer aoeAnswer =
 					await PromptManager.Prompt(
-						new AOEPrompt(abilityState, abilityState.AbilityAOEPattern, TargetHex, null, () => "Select where to target"),
+						new AOEPrompt(abilityState.Performer, abilityState.AbilityAOEPattern, TargetHex, null, () => "Select where to target",
+							abilityState.AbilityRange),
 						abilityState.Authority);
 
 				if(aoeAnswer.Skipped)
@@ -409,10 +492,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 					return;
 				}
 
-				for(int i = 0; i < aoeAnswer.HexCoords.Count; i++)
-				{
-					aoeHexes.Add(aoeAnswer.HexCoords[i], aoeAnswer.HexTypes[i]);
-				}
+				aoeHexes = aoeAnswer.AOEHexes;
 			}
 			else
 			{
@@ -429,16 +509,15 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 					return;
 				}
 
-				for(int i = 0; i < aoeAnswer.HexCoords.Count; i++)
-				{
-					aoeHexes.Add(aoeAnswer.HexCoords[i], aoeAnswer.HexTypes[i]);
-				}
+				aoeHexes = aoeAnswer.AOEHexes;
 			}
 
 			abilityState.AOEHexes = aoeHexes;
 		}
 
-		Action<List<Figure>> getValidTargets = figures => GetValidTargets(abilityState, figures);
+		int targetsOutOfAOE = 0;
+		//TODO: Check this out
+		Action<List<Figure>> getValidTargets = figures => GetValidTargets(abilityState, figures, targetsOutOfAOE);
 
 		while(true)
 		{
@@ -482,6 +561,10 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			abilityState.AddSingleTargetState(target);
 			abilityState.UniqueTargetedFigures.AddIfNew(target);
 			abilityState.TargetedHexes.AddIfNew(target.Hex);
+			if(!abilityState.GetRedAOEHexes().Contains(target.Hex))
+			{
+				targetsOutOfAOE++;
+			}
 
 			abilityState.SetPerformed();
 
@@ -521,7 +604,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 
 			if(abilityState.AbilityAOEPattern != null)
 			{
-				if(abilityState.TargetedHexes.Count == abilityState.AbilityAOEPattern.Hexes.Count)
+				if(abilityState.TargetedHexes.Count == abilityState.AbilityAOEPattern.Hexes.Count &&
+				   targetsOutOfAOE == abilityState.AbilityTargets - 1)
 				{
 					break;
 				}
@@ -653,7 +737,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 		}
 	}
 
-	protected virtual void GetValidTargets(T abilityState, List<Figure> figures)
+	protected virtual void GetValidTargets(T abilityState, List<Figure> figures, int targetsOutOfAOE)
 	{
 		Figure performer = abilityState.Performer;
 
@@ -661,7 +745,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 		{
 			figures.Add(performer);
 		}
-		else if(CustomGetTargets != null)
+		else if(abilityState.AbilityCustomGetTargets != null)
 		{
 			CustomGetTargets(abilityState, figures);
 		}
@@ -670,6 +754,17 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			foreach(Hex redAOEHex in abilityState.GetRedAOEHexes())
 			{
 				figures.AddRange(redAOEHex.GetHexObjectsOfType<Figure>());
+			}
+
+			if(targetsOutOfAOE < abilityState.AbilityTargets - 1)
+			{
+				HexCache.Clear();
+				RangeHelper.FindHexesInRange(performer.Hex, abilityState.SingleTargetRange, true, HexCache);
+
+				foreach(Hex hex in HexCache)
+				{
+					figures.AddRange(hex.GetHexObjectsOfType<Figure>());
+				}
 			}
 		}
 		else if(TargetHex != null)
@@ -686,6 +781,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 				figures.AddRange(hex.GetHexObjectsOfType<Figure>());
 			}
 		}
+
+		bool shouldFilterTargets = abilityState.AbilityFilterTargets != null;
 
 		for(int i = figures.Count - 1; i >= 0; i--)
 		{
@@ -757,6 +854,11 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>
 			}
 
 			if(figure.IsDead)
+			{
+				remove = true;
+			}
+
+			if(shouldFilterTargets && !abilityState.AbilityFilterTargets(abilityState, figure))
 			{
 				remove = true;
 			}

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTop, UnendingTorment.CardBottom>
 {
@@ -11,7 +12,7 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 
 	public class CardTop : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -28,7 +29,7 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 					);
 
 					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
-						canApply: parameters => parameters.Condition is Shackle &&
+						canApply: parameters => parameters.ConditionModel is Shackle &&
 						                        parameters.PotentialAbilityState != null &&
 						                        parameters.PotentialAbilityState.Performer == state.Performer,
 						async parameters =>
@@ -49,26 +50,36 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : ChainguardCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		private MoveEnhancementMark _enhancementMark;
+
+		protected override void InitExtraEnhancements()
+		{
+			base.InitExtraEnhancements();
+
+			_enhancementMark = new MoveCircle(this, new Vector2(0.6215662f, 0.82212216f));
+		}
+
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ControlAbility.Builder()
 				.WithGetAbilities(state =>
 					[
 						MoveAbility.Builder()
-							.WithDistance(3)
+							.WithDistance(3, _enhancementMark)
 							.WithOnAbilityStarted(async moveState =>
 							{
 								ScenarioEvents.CanMoveFurtherCheckEvent.Subscribe(moveState, this,
-									parameters => parameters.Performer == state.Target &&
-									              moveState.Performer == parameters.Performer &&
-									              parameters.Performer.HasCondition(Chainguard.Shackle),
+									parameters =>
+										parameters.Performer == state.Target &&
+										moveState.Performer == parameters.Performer &&
+										parameters.Performer.HasCondition(Chainguard.Shackle),
 									async parameters =>
 									{
 										parameters.SetCannotMoveFurther(false);
@@ -83,8 +94,10 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 							})
 							.WithAbilityStartedSubscription(
 								ScenarioEvents.AbilityStarted.Subscription.New(
-									parameters => parameters.Performer == state.Target && parameters.AbilityState is MoveAbility.State &&
-									              parameters.Performer.HasCondition(Chainguard.Shackle),
+									parameters =>
+										parameters.Performer == state.Target &&
+										parameters.AbilityState is MoveAbility.State &&
+										parameters.Performer.HasCondition(Chainguard.Shackle),
 									parameters =>
 									{
 										parameters.SetIsBlocked(false);
@@ -135,6 +148,6 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

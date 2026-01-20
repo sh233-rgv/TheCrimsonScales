@@ -45,8 +45,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 	public ItemState ItemState { get; private set; }
 	public int UseSlotIndex { get; private set; }
 
-	public int
-		CurrentUseCountWithMaxUseCount
+	public int CurrentUseCountWithMaxUseCount
 	{
 		get;
 		private set;
@@ -55,7 +54,6 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 	public bool HasUseSlots => UseSlots != null && UseSlots.Count > 0;
 	public bool HasMaxUseCount => MaxUseCount > 1;
 
-	//private bool _usable;
 	private object _subscriber;
 	protected ItemEffectButton.Parameters _effectButtonParameters;
 	protected ItemEffectInfoView.Parameters _effectInfoViewParameters;
@@ -82,8 +80,6 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 		SetOwner(owner);
 
 		ItemState = ItemState.Available;
-
-		//Subscribe();
 	}
 
 	public void SetOwner(Character character)
@@ -140,6 +136,7 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 
 	protected virtual void Unsubscribe()
 	{
+		ScenarioEvents.AbilityStartedEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.DuringAttackEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(this, _subscriber);
 		ScenarioEvents.AMDCardDrawnEvent.Unsubscribe(this, _subscriber);
@@ -259,6 +256,28 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 				if(apply != null)
 				{
 					await apply(applyParameters.Character);
+				}
+			},
+			GetSubscriptionEffectType,
+			order: order,
+			canApplyMultipleTimesInEffectCollection: canApplyMultipleTimesDuringAbility,
+			effectButtonParameters: _effectButtonParameters,
+			effectInfoViewParameters: _effectInfoViewParameters);
+	}
+
+	protected void SubscribeAbilityStarted<T>(Func<T, bool> canApply = null, Func<T, GDTask> apply = null,
+		int order = 0, bool canApplyMultipleTimesDuringAbility = false)
+		where T : AbilityState
+	{
+		ScenarioEvents.AbilityStartedEvent.Subscribe(this, _subscriber,
+			parameters =>
+				parameters.AbilityState is T castState &&
+				(canApply == null || canApply(castState)),
+			async parameters =>
+			{
+				if(apply != null)
+				{
+					await apply((T)parameters.AbilityState);
 				}
 			},
 			GetSubscriptionEffectType,
@@ -447,9 +466,9 @@ public abstract class ItemModel : AbstractModel<ItemModel> //, IEventSubscriber
 			parameters =>
 			{
 				return parameters.Target == Owner &&
-				       parameters.Condition?.ImmunityCompareBaseConditions != null &&
+				       parameters.ConditionModel?.ImmunityCompareBaseConditions != null &&
 				       conditionModel.ImmunityCompareBaseConditions != null &&
-				       parameters.Condition.ImmunityCompareBaseConditions
+				       parameters.ConditionModel.ImmunityCompareBaseConditions
 					       .Any(c1 => conditionModel.ImmunityCompareBaseConditions.Contains(c1));
 			},
 			async parameters =>

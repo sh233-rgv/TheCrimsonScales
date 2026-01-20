@@ -133,7 +133,7 @@ public partial class GameController : SceneController<GameController>
 
 	public AMDCardDeck MonsterAMDCardDeck { get; private set; }
 
-	public static bool FastForward { get; private set; } // = true;
+	public static bool FastForward { get; private set; }
 
 	public SavedScenarioProgress SavedScenarioProgress { get; private set; }
 
@@ -153,7 +153,7 @@ public partial class GameController : SceneController<GameController>
 	public event Action StartEvent;
 	public static event Action<bool> FastForwardChangedEvent;
 
-	public delegate void EndEventHandler(bool backToTown, bool won, SavedScenarioProgress savedScenarioProgress);
+	public delegate void EndEventHandler(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress);
 
 	public event EndEventHandler EndEvent;
 
@@ -349,7 +349,7 @@ public partial class GameController : SceneController<GameController>
 		CheatWinRequested = true;
 	}
 
-	public void EndScenario(bool backToTown, bool won)
+	public void EndScenario(ScenarioResult scenarioResult)
 	{
 		string scenarioModelId = SavedCampaign.SavedScenario.ScenarioModelId;
 
@@ -358,23 +358,17 @@ public partial class GameController : SceneController<GameController>
 		foreach(Character character in CharacterManager.Characters)
 		{
 			character.SavedCharacter.AddGold(character.ObtainedCoins * goldConversion);
-			character.SavedCharacter.AddXP(character.ObtainedXP + (won ? bonusExperience : 0));
+			character.SavedCharacter.AddXP(character.ObtainedXP + (scenarioResult == ScenarioResult.Win ? bonusExperience : 0));
 
 			SavedCampaign.SanctuaryOfTheGreatOak.ReturnCards(character.SavedCharacter);
 		}
 
-		//SavedScenarioProgress.Unlocked = true;
-
-		if(won)
+		if(scenarioResult == ScenarioResult.Win)
 		{
 			SavedScenarioProgress.Complete();
 		}
 
-		if(backToTown)
-		{
-			SavedCampaign.SetSavedScenario(null);
-		}
-		else
+		if(scenarioResult == ScenarioResult.Retry)
 		{
 			SavedCampaign.SetSavedScenario(new SavedScenario
 			{
@@ -386,31 +380,31 @@ public partial class GameController : SceneController<GameController>
 				IsOnline = SavedCampaign.SavedScenario.IsOnline
 			});
 		}
+		else
+		{
+			SavedCampaign.SetSavedScenario(null);
+		}
 
-		EndEvent?.Invoke(backToTown, won, SavedScenarioProgress);
+		EndEvent?.Invoke(scenarioResult, SavedScenarioProgress);
 
 		// Clear any event rewards and allow a new city event card to be drawn
 		SavedCampaign.SavedEvents.OnScenarioEnded();
 
 		AppController.Instance.SaveFile.Save();
 
-		if(backToTown)
+		if(scenarioResult == ScenarioResult.Retry)
 		{
-			AppController.Instance.SceneLoader.RequestSceneChange(new BetweenScenariosSceneRequest(SavedCampaign, scenarioModelId));
+			AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(SavedCampaign));
 		}
 		else
 		{
-			AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(SavedCampaign));
+			AppController.Instance.SceneLoader.RequestSceneChange(new BetweenScenariosSceneRequest(SavedCampaign, scenarioModelId));
 		}
 	}
 
 	private void EditorPrintSaveGame()
 	{
-		// Formatting oldFormatting = SaveFile.JsonSerializerSettings.Formatting;
-		// SaveFile.JsonSerializerSettings.Formatting = Formatting.Indented;
 		string json = JsonConvert.SerializeObject(SavedCampaign, SaveFile.JsonSerializerSettings);
-		//SaveFile.JsonSerializerSettings.Formatting = oldFormatting;
-		//GD.Print(json);
 		DisplayServer.ClipboardSet(json);
 	}
 
@@ -430,13 +424,11 @@ public partial class GameController : SceneController<GameController>
 		if(fastForward)
 		{
 			_fastForwardStopwatch.Start();
-			//GD.Print($"Started stopwatch at {DateTime.Now}");
 		}
 		else
 		{
 			_fastForwardStopwatch.Stop();
 			Log.Write($"Fast forwarding took {_fastForwardStopwatch.ElapsedMilliseconds} milliseconds");
-			//GD.Print($"Stopped stopwatch at {DateTime.Now}");
 		}
 	}
 

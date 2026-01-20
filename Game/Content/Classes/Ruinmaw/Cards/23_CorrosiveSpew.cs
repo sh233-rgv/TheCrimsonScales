@@ -11,7 +11,7 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -49,7 +49,7 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -67,7 +67,7 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 									ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, obj);
 									ActionState actionState = new ActionState(state.Performer,
 									[
-										HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).WithConditions(Ruinmaw.EmpowerRuinmaw).Build(),
+										HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).WithConditions(Ruinmaw.Empower).Build(),
 									]);
 									await actionState.Perform();
 								}
@@ -114,7 +114,7 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

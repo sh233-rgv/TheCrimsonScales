@@ -11,7 +11,7 @@ public class FatalFrenzy : RuinmawCardModel<FatalFrenzy.CardTop, FatalFrenzy.Car
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -34,7 +34,7 @@ public class FatalFrenzy : RuinmawCardModel<FatalFrenzy.CardTop, FatalFrenzy.Car
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -69,7 +69,7 @@ public class FatalFrenzy : RuinmawCardModel<FatalFrenzy.CardTop, FatalFrenzy.Car
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

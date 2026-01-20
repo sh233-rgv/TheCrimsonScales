@@ -12,7 +12,7 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(RetaliateAbility.Builder()
 				.WithRetaliateValue(3)
@@ -31,7 +31,7 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 									ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
 									ActionState actionState = new ActionState(state.Performer,
 									[
-										HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).WithConditions(Ruinmaw.EmpowerRuinmaw).Build(),
+										HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).WithConditions(Ruinmaw.Empower).Build(),
 									]);
 									await actionState.Perform();
 									await state.AdvanceUseSlot();
@@ -56,12 +56,12 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(4)

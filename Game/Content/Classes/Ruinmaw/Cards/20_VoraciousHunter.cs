@@ -11,7 +11,7 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -71,13 +71,13 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 				.Build()),
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(4)
@@ -85,14 +85,14 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
 				.WithTarget(Target.Self)
-				.WithConditions(Ruinmaw.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.Empower)
 				.WithDuringHealSubscription(
 					ScenarioEvents.DuringHeal.Subscription.New(
 						parameters => IsSated(parameters.Performer),
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustHealValue(2);
-							parameters.AbilityState.AbilityAddCondition(Ruinmaw.EmpowerRuinmaw);
+							parameters.AbilityState.AbilityAddCondition(Ruinmaw.Empower);
 							await GDTask.CompletedTask;
 						}
 					)

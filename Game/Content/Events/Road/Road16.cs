@@ -40,7 +40,7 @@ public class Road16 : RoadEventModel<Road16.ChoiceA, Road16.ChoiceB>
 							parameters =>
 								parameters.Performer == figure &&
 								parameters.AbilityState.SingleTargetRangeType == RangeType.Melee &&
-								parameters.AbilityState.AbilityTargets == 1,
+								parameters.AbilityState.IsSingleTarget,
 							async parameters =>
 							{
 								parameters.AbilityState.SingleTargetAdjustAttackValue(1);

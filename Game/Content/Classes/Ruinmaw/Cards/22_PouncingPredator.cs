@@ -10,7 +10,7 @@ public class PouncingPredator : RuinmawCardModel<PouncingPredator.CardTop, Pounc
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -31,7 +31,7 @@ public class PouncingPredator : RuinmawCardModel<PouncingPredator.CardTop, Pounc
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(6)
@@ -57,7 +57,7 @@ public class PouncingPredator : RuinmawCardModel<PouncingPredator.CardTop, Pounc
 		];
 
 		protected override bool Sate => true;
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 }

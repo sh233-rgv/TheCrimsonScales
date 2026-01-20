@@ -11,10 +11,10 @@ public class SearingBlaze : FireKnightLevelUpCardModel<SearingBlaze.CardTop, Sea
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.31723598f, 0.20528966f)))
 				.WithRange(2)
 				.WithConditions(Conditions.Wound1)
 				.WithAOEPattern(new AOEPattern(
@@ -23,7 +23,7 @@ public class SearingBlaze : FireKnightLevelUpCardModel<SearingBlaze.CardTop, Sea
 						new AOEHex(Vector2I.Zero.Add(Direction.West), AOEHexType.Red),
 						new AOEHex(Vector2I.Zero.Add(Direction.SouthWest), AOEHexType.Red),
 					]
-				))
+				), new AOEHexMark(Vector2I.Zero.Add(Direction.SouthEast), this, new Vector2(0.8530628f, 0.23747149f)))
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(
 						parameters => parameters.Performer.Hex.HasHexObjectOfType<Ladder>(),
@@ -69,12 +69,12 @@ public class SearingBlaze : FireKnightLevelUpCardModel<SearingBlaze.CardTop, Sea
 				.Build()),
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<Element> Elements => [Element.Fire];
 	}
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -142,8 +142,8 @@ public class SearingBlaze : FireKnightLevelUpCardModel<SearingBlaze.CardTop, Sea
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

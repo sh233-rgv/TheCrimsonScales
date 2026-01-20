@@ -10,7 +10,7 @@ public class RendAndMutilate : RuinmawCardModel<RendAndMutilate.CardTop, RendAnd
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(8)
@@ -30,13 +30,13 @@ public class RendAndMutilate : RuinmawCardModel<RendAndMutilate.CardTop, RendAnd
 		];
 
 		protected override bool Sate => true;
-		protected override int XP => 1;
+		public override int XP => 1;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)
@@ -78,6 +78,6 @@ public class RendAndMutilate : RuinmawCardModel<RendAndMutilate.CardTop, RendAnd
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

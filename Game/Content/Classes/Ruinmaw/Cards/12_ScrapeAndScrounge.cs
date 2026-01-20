@@ -10,7 +10,7 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)
@@ -18,7 +18,7 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithTarget(Target.Self)
-				.WithConditions(Ruinmaw.EmpowerRuinmaw)
+				.WithConditions(Ruinmaw.Empower)
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -57,7 +57,7 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(5)
@@ -77,7 +77,7 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 		];
 
 		protected override bool Sate => true;
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 }

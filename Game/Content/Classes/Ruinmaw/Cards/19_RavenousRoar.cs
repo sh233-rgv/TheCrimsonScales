@@ -11,7 +11,7 @@ public class RavenousRoar : RuinmawCardModel<RavenousRoar.CardTop, RavenousRoar.
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Rupture)
@@ -50,7 +50,7 @@ public class RavenousRoar : RuinmawCardModel<RavenousRoar.CardTop, RavenousRoar.
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(LootAbility.Builder()
 				.WithRange(1)
