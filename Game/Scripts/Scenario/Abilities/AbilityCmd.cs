@@ -403,9 +403,6 @@ public static class AbilityCmd
 		await GDTask.DelayFastForwardable(0.03f);
 		overlayTile.SetOriginHexAndRotation(movedToHex);
 
-		//await ScenarioEvents.OverlayTileMovedOrCreatedEvent.CreatePrompt(
-		//	new ScenarioEvents.OverlayTileMovedOrCreated.Parameters(overlayTile));
-
 		return overlayTile.Hex;
 	}
 

@@ -16,15 +16,6 @@ public class AcquireFunding : BrightsparkCardModel<AcquireFunding.CardTop, Acqui
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
 				.WithRange(3)
-				.WithAfterAttackPerformedSubscription(
-					ScenarioEvents.AfterAttackPerformed.Subscription.New(
-						parameters => parameters.AbilityState.Target.IsDead,
-						async parameters =>
-						{
-							//TODO: Loot Coin
-							await GDTask.CompletedTask;
-						})
-				)
 				.WithOnAbilityStarted(async abilityState =>
 				{
 					bool lootCoin = false;

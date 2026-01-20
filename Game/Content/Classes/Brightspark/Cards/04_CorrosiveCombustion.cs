@@ -82,7 +82,6 @@ public class CorrosiveCombustion : BrightsparkCardModel<CorrosiveCombustion.Card
 				.WithUseSlots(
 				[
 					new UseSlot(new Vector2(0.29100034f, 0.76699734f)),
-					//TODO: Add State to infuse
 					new UseSlot(new Vector2(0.4990001f, 0.76699734f), state => AbilityCmd.InfuseElement(Element.Fire)),
 					new UseSlot(new Vector2(0.7075f, 0.76699734f), GainXP)
 				])
