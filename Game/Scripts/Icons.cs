@@ -31,6 +31,7 @@ public static class Icons
 	public const string Checkmark = "res://Art/Icons/Other/CheckMark.svg";
 	public const string Obstacle = "res://Art/Icons/Other/Cross.svg";
 	public const string StartHexMove = "res://Art/Icons/Other/StartHexMoveIcon.svg";
+	public const string AnyElement = "res://Art/Icons/Elements/Any.svg";
 
 	public static string GetElement(Element element)
 	{

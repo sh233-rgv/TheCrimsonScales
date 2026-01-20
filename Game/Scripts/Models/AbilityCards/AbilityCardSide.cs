@@ -75,7 +75,7 @@ public abstract class AbilityCardSide
 				AbilityCard.SetUnrecoverable(Unrecoverable);
 
 				// If no persistent/round ability has been performed, discard or lose it instead
-				if(actionState.HasPerformedActiveAbility && !actionState.OverrideNoPersistent)
+				if(actionState.HasPerformedActiveAbility && !actionState.OverrideNoPersistent && !actionState.OverrideNoRound)
 				{
 					if(round)
 					{
@@ -117,6 +117,11 @@ public abstract class AbilityCardSide
 	protected async GDTask GainXP(AbilityState abilityState)
 	{
 		await AbilityCmd.GainXP(abilityState.Performer, 1);
+	}
+
+	protected async GDTask Gain2XP(AbilityState abilityState)
+	{
+		await AbilityCmd.GainXP(abilityState.Performer, 2);
 	}
 
 	private async GDTask OnFirstActivateAbilityActivated(ActionState actionState)

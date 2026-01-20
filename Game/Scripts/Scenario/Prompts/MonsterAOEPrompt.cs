@@ -9,8 +9,7 @@ public class MonsterAOEPrompt(
 {
 	public class Answer : PromptAnswer
 	{
-		public List<Vector2I> HexCoords { get; init; }
-		public List<AOEHexType> HexTypes { get; init; }
+		public List<AOEHex> AOEHexes { get; init; }
 	}
 
 	private static readonly HashSet<Figure> AttackableFiguresCache = new HashSet<Figure>();
@@ -35,7 +34,7 @@ public class MonsterAOEPrompt(
 
 		foreach(AOEHex pivotAOEHex in pattern.Hexes)
 		{
-			if(pivotAOEHex.Type == AOEHexType.Gray)
+			if(pivotAOEHex.Type.HasFlag(AOEHexType.Gray))
 			{
 				hasGrayHex = true;
 			}
@@ -91,7 +90,7 @@ public class MonsterAOEPrompt(
 			{
 				foreach(AOEHex pivotAOEHex in pattern.Hexes)
 				{
-					if(hasGrayHex && pivotAOEHex.Type != AOEHexType.Gray)
+					if(hasGrayHex && !pivotAOEHex.Type.HasFlag(AOEHexType.Gray))
 					{
 						continue;
 					}
@@ -103,7 +102,7 @@ public class MonsterAOEPrompt(
 					Vector2I pivotOffset = -pivotAOEHex.LocalCoords;
 					foreach(AOEHex aoeHex in pattern.Hexes)
 					{
-						if(aoeHex.Type != AOEHexType.Red)
+						if(!aoeHex.Type.HasFlag(AOEHexType.Red))
 						{
 							continue;
 						}
@@ -202,8 +201,7 @@ public class MonsterAOEPrompt(
 
 	protected override Answer CreateAnswer()
 	{
-		List<Vector2I> hexCoords = new List<Vector2I>();
-		List<AOEHexType> hexTypes = new List<AOEHexType>();
+		List<AOEHex> aoeHexes = [];
 
 		foreach(AOEHex aoeHex in pattern.Hexes)
 		{
@@ -216,14 +214,12 @@ public class MonsterAOEPrompt(
 				continue;
 			}
 
-			hexCoords.Add(potentialTargetHex.Coords);
-			hexTypes.Add(aoeHex.Type);
+			aoeHexes.Add(aoeHex);
 		}
 
 		return new Answer()
 		{
-			HexCoords = hexCoords,
-			HexTypes = hexTypes
+			AOEHexes = aoeHexes
 		};
 	}
 

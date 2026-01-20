@@ -680,6 +680,7 @@ public static class AbilityCmd
 			ScenarioEvents.GenericChoice.ApplyFunction oldApplyFunction = subscription.ApplyFunction;
 			ScenarioEvents.GenericChoice.ApplyFunction newApplyFunction = async parameters =>
 			{
+				//TODO: Fix issue with nested generic choices
 				if(oldApplyFunction != null)
 				{
 					await oldApplyFunction.Invoke(parameters);
@@ -698,7 +699,6 @@ public static class AbilityCmd
 		}
 
 		await ScenarioEvents.GenericChoiceEvent.CreatePrompt(new ScenarioEvents.GenericChoice.Parameters(), authority, hintText);
-
 		ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
 	}
 

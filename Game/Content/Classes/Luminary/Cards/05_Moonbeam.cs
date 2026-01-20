@@ -1,0 +1,59 @@
+using System.Collections.Generic;
+using Fractural.Tasks;
+using Godot;
+
+public class Moonbeam : LuminaryCardModel<Moonbeam.CardTop, Moonbeam.CardBottom>
+{
+	public override string Name => "Moonbeam";
+	public override int Level => 1;
+	public override int Initiative => 85;
+	protected override int AtlasIndex => 5;
+
+	public class CardTop : LuminaryCardSide
+	{
+		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		[
+			new AbilityCardAbility(GlowActiveAbility.Builder()
+				.WithGlowAbility(new GlowAbilityModel([Element.Dark], GlowAbility,
+					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Curse))} ability", Icons.GetCondition(Conditions.Curse)))
+				.Build())
+		];
+
+		protected override IEnumerable<Element> Elements => [Element.Ice];
+		protected override int XP => 1;
+		protected override bool Persistent => true;
+
+		private Ability GlowAbility(List<Element> elements)
+		{
+			return ConditionAbility.Builder()
+				.WithConditions(Conditions.Curse)
+				.WithAOEPattern(new AOEPattern(
+					[
+						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
+						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+					]
+				))
+				.WithOnAbilityStarted(async state =>
+				{
+					state.SetCustomValue(state.Performer, "Glow Ability", true);
+					state.SetCustomValue(state.Performer, "Consumed Elements", elements);
+
+					await GDTask.CompletedTask;
+				})
+				.Build();
+		}
+	}
+
+	public class CardBottom : LuminaryCardSide
+	{
+		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		[
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(2)
+				.Build())
+		];
+
+		protected override IEnumerable<Element> Elements => [Element.Fire];
+	}
+}

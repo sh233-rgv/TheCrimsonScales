@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -48,20 +49,9 @@ public class FireWhirl : FireKnightCardModel<FireWhirl.CardTop, FireWhirl.CardBo
 				{
 					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 
-					foreach((Vector2I coords, AOEHexType hexType) in attackAbilityState.AOEHexes)
-					{
-						if(hexType == AOEHexType.Red)
-						{
-							Hex hex = GameController.Instance.Map.GetHex(coords);
-							if(hex != null)
-							{
-								foreach(Figure figure in hex.GetHexObjectsOfType<Figure>())
-								{
-									list.Add(figure);
-								}
-							}
-						}
-					}
+					list.AddRange(attackAbilityState
+						.GetRedAOEHexes()
+						.SelectMany(hex => hex.GetHexObjectsOfType<Figure>()));
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.Build())
