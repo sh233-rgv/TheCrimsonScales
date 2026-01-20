@@ -1,6 +1,6 @@
 using System.Linq;
 
-public class GhostViper : GiantViper
+public class GhostViperScenario047 : GiantViper
 {
 	public override MonsterStats[] NormalLevelStats =>
 		base.NormalLevelStats

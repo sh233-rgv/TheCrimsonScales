@@ -141,6 +141,11 @@ public class ScenarioCheckEvent<T> : ScenarioCheckEvent
 		Unsubscribe(ScenarioEvents.GetSubscriberPair(subscriberA, subscriberB));
 	}
 
+	public void Unsubscribe(ScenarioModel subscriberA, object subscriberB)
+	{
+		Unsubscribe(ScenarioEvents.GetSubscriberPair(subscriberA, subscriberB));
+	}
+
 	public void Unsubscribe(IEventSubscriber subscriber)
 	{
 		for(int i = _subscriptions.Count - 1; i >= 0; i--)

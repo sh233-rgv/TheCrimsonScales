@@ -17,12 +17,12 @@ public class Scenario047 : ScenarioModel
 
 		GameController.Instance.Map.Treasures[0].SetObtainLootFunction(async lootingCharacter =>
 		{
-            lootingCharacter.SavedCharacter.AddGold(15);
+			lootingCharacter.SavedCharacter.AddGold(15);
 			await GDTask.CompletedTask;
-        });
+		});
 
 		_remainingGhostViperKills = GameController.Instance.SavedCampaign.Characters.Count + 4;
-		UpdateScenarioText(); 
+		UpdateScenarioText();
 
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
 			parameters => _remainingGhostViperKills == 0,
@@ -31,10 +31,11 @@ public class Scenario047 : ScenarioModel
 				await ((CustomScenarioGoals)ScenarioGoals).Win();
 			}
 		);
-		
+
 
 		ScenarioEvents.FigureKilledEvent.Subscribe(this,
-			parameters => parameters.Figure is Monster monster && monster.MonsterModel == ModelDB.Monster<GhostViper>() && _remainingGhostViperKills > 0,
+			parameters => parameters.Figure is Monster monster && monster.MonsterModel == ModelDB.Monster<GhostViperScenario047>() &&
+			              _remainingGhostViperKills > 0,
 			async parameters =>
 			{
 				_remainingGhostViperKills--;
@@ -45,7 +46,7 @@ public class Scenario047 : ScenarioModel
 	}
 
 	private void UpdateScenarioText()
-    {
-        GameController.Instance.SpecialRulesView.SetText($"Kill {_remainingGhostViperKills} more Ghost Vipers to win this scenario.");
-    }
+	{
+		GameController.Instance.SpecialRulesView.SetText($"Kill {_remainingGhostViperKills} more Ghost Vipers to win this scenario.");
+	}
 }

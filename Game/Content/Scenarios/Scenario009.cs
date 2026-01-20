@@ -39,7 +39,7 @@ public class Scenario009 : ScenarioModel
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
 			parameters =>
 			{
-				return _lootedTreasure && KillAllEnemiesScenarioGoals.EnemiesRemaining();
+				return _lootedTreasure && KillAllEnemiesScenarioGoals.NoEnemiesRemaining();
 			},
 			async parameters =>
 			{

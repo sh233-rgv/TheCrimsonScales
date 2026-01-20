@@ -1,12 +1,12 @@
-﻿public class KillAllEnemiesScenarioGoals(bool enemiesToBeSpawned = false) : ScenarioGoals
+﻿public class KillAllEnemiesScenarioGoals(bool enemiesToBeSpawned = false, string customText = null) : ScenarioGoals
 {
-	public override string Text => "Kill all enemies to win this scenario.";
+	public override string Text => customText ?? "Kill all enemies to win this scenario.";
 	public bool EnemiesToBeSpawned = enemiesToBeSpawned;
 
 	public override void Start()
 	{
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
-			parameters => !EnemiesToBeSpawned && EnemiesRemaining(),
+			parameters => !EnemiesToBeSpawned && NoEnemiesRemaining(),
 			async parameters =>
 			{
 				await Win();
@@ -14,7 +14,7 @@
 		);
 	}
 
-	public static bool EnemiesRemaining()
+	public static bool NoEnemiesRemaining()
 	{
 		foreach(Room room in GameController.Instance.Map.Rooms)
 		{

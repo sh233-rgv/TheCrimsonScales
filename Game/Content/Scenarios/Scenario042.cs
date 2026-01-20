@@ -104,9 +104,9 @@ public class Scenario042 : ScenarioModel
 					}
 				});
 
-			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Subscribe(this, _door1,
+			ScenarioCheckEvents.CanEnterCheckEvent.Subscribe(this, _door1,
 				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel is Hound &&
-				                      !GameController.Instance.Map.Rooms[1].MapTiles.Contains(canApplyParameters.MapTile),
+				                      !GameController.Instance.Map.Rooms[1].MapTiles.Contains(canApplyParameters.Hex.MapTile),
 				applyParameters =>
 				{
 					applyParameters.SetCanEnter(false);
@@ -158,9 +158,9 @@ public class Scenario042 : ScenarioModel
 					}
 				});
 
-			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Subscribe(this, _door2,
+			ScenarioCheckEvents.CanEnterCheckEvent.Subscribe(this, _door2,
 				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel is CaveBear &&
-				                      !GameController.Instance.Map.Rooms[2].MapTiles.Contains(canApplyParameters.MapTile),
+				                      !GameController.Instance.Map.Rooms[2].MapTiles.Contains(canApplyParameters.Hex.MapTile),
 				applyParameters =>
 				{
 					applyParameters.SetCanEnter(false);
@@ -201,9 +201,9 @@ public class Scenario042 : ScenarioModel
 					await GDTask.CompletedTask;
 				});
 
-			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Subscribe(this, _door3,
+			ScenarioCheckEvents.CanEnterCheckEvent.Subscribe(this, _door3,
 				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel is GiantViper &&
-				                      !GameController.Instance.Map.Rooms[3].MapTiles.Contains(canApplyParameters.MapTile),
+				                      !GameController.Instance.Map.Rooms[3].MapTiles.Contains(canApplyParameters.Hex.MapTile),
 				applyParameters =>
 				{
 					applyParameters.SetCanEnter(false);

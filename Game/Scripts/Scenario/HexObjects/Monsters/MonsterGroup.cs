@@ -48,7 +48,7 @@ public class MonsterGroup
 		// {
 		// 	monsterAbilityCard.Init(MonsterModel);
 		// }
-		
+
 		if(existingDeckToUse == null)
 		{
 			IEnumerable<MonsterAbilityCard> abilityCards = monsterModel.Deck.Select(model => new MonsterAbilityCard(model));
@@ -105,13 +105,9 @@ public class MonsterGroup
 
 	public void TryDrawCard()
 	{
-		if(Monsters.Count > 0 && MonsterAbilityCardDeck.ActiveMonsterAbilityCard == null)
+		if(Monsters.Count > 0)
 		{
-			SetInitiativeandActiveCard(MonsterAbilityCardDeck.DrawCard());
-		}
-		else
-		{
-			SetInitiativeandActiveCard(MonsterAbilityCardDeck.ActiveMonsterAbilityCard);
+			SetInitiativeandActiveCard(MonsterAbilityCardDeck.ActiveMonsterAbilityCard ?? MonsterAbilityCardDeck.DrawCard());
 		}
 	}
 

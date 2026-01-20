@@ -96,13 +96,12 @@ public partial class ScenarioCheckEvents
 	private readonly CanEnterObstacleCheck _canEnterObstacleCheck = new CanEnterObstacleCheck();
 	public static CanEnterObstacleCheck CanEnterObstacleCheckEvent => GameController.Instance.ScenarioCheckEvents._canEnterObstacleCheck;
 
-	public class CanEnterMapTileCheck : ScenarioCheckEvent<CanEnterMapTileCheck.Parameters>
+	public class CanEnterCheck : ScenarioCheckEvent<CanEnterCheck.Parameters>
 	{
 		public class Parameters(Figure figure, Hex hex) : ParametersBase
 		{
 			public Figure Figure { get; } = figure;
 			public Hex Hex { get; } = hex;
-			public MapTile MapTile => Hex.MapTile;
 
 			public bool CanEnter { get; private set; } = true;
 
@@ -113,8 +112,8 @@ public partial class ScenarioCheckEvents
 		}
 	}
 
-	private readonly CanEnterMapTileCheck _canEnterMapTile = new CanEnterMapTileCheck();
-	public static CanEnterMapTileCheck CanEnterMapTileCheckEvent => GameController.Instance.ScenarioCheckEvents._canEnterMapTile;
+	private readonly CanEnterCheck _canEnter = new CanEnterCheck();
+	public static CanEnterCheck CanEnterCheckEvent => GameController.Instance.ScenarioCheckEvents._canEnter;
 
 	public class CanStopMoveAtHexWithFigureCheck : ScenarioCheckEvent<CanStopMoveAtHexWithFigureCheck.Parameters>
 	{
@@ -304,6 +303,25 @@ public partial class ScenarioCheckEvents
 
 	private readonly TargetsCheck _targetsCheck = new TargetsCheck();
 	public static TargetsCheck TargetsCheckEvent => GameController.Instance.ScenarioCheckEvents._targetsCheck;
+
+	public class CanConsumeElementCheck : ScenarioCheckEvent<CanConsumeElementCheck.Parameters>
+	{
+		public class Parameters(Figure figure, Element element)
+			: ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+			public Element Element { get; } = element;
+			public bool CanConsume { get; private set; } = true;
+
+			public void SetCanConsume(bool canConsume)
+			{
+				CanConsume = canConsume;
+			}
+		}
+	}
+
+	private readonly CanConsumeElementCheck _canConsumeElementCheck = new CanConsumeElementCheck();
+	public static CanConsumeElementCheck CanConsumeElementCheckEvent => GameController.Instance.ScenarioCheckEvents._canConsumeElementCheck;
 
 	public class ImmunitiesVisualCheck : ScenarioCheckEvent<ImmunitiesVisualCheck.Parameters>
 	{

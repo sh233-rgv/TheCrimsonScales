@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ckxgryfyh1e5s"]
+[gd_scene load_steps=13 format=3 uid="uid://ckxgryfyh1e5s"]
 
 [ext_resource type="PackedScene" uid="uid://cifjwk1lx2x1h" path="res://Scenes/Scenario/Scenario.tscn" id="1_0uaiq"]
 [ext_resource type="Script" uid="uid://bbtc25ohouat7" path="res://Scripts/Scenario/Room.cs" id="2_3qfbo"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dlqet8t2xgyh" path="res://Scenes/Scenario/CharacterStartHex.tscn" id="9_lppjs"]
 [ext_resource type="PackedScene" uid="uid://bhgpdjkchjvd5" path="res://Content/MapTiles/A3a.tscn" id="10_o1xtf"]
 [ext_resource type="PackedScene" uid="uid://dsngfvtg84jtq" path="res://Content/OverlayTiles/Doors/DarkFog1H.tscn" id="11_jqv4j"]
+[ext_resource type="Texture2D" uid="uid://cjeoph6gn3tck" path="res://Art/Markers/2.png" id="12_27uer"]
 [ext_resource type="PackedScene" uid="uid://d2lfw1iih6tw5" path="res://Content/OverlayTiles/Obstacles/RockColumn1H.tscn" id="12_522t7"]
 
 [node name="Scenario" instance=ExtResource("1_0uaiq")]
@@ -157,3 +158,11 @@ _startsLocked = true
 
 [node name="Marker" parent="Map/Doors/DarkFog1H2" index="7" instance=ExtResource("7_ebkjt")]
 MarkerType = 26
+
+[node name="Visual" parent="Map/Doors/DarkFog1H2/Marker" index="1"]
+position = Vector2(-60, -36)
+
+[node name="Sprite2D" parent="Map/Doors/DarkFog1H2/Marker/Visual" index="0"]
+texture = ExtResource("12_27uer")
+
+[editable path="Map/Doors/DarkFog1H2/Marker"]

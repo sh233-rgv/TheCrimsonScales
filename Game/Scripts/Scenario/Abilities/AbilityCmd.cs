@@ -152,9 +152,8 @@ public static class AbilityCmd
 	{
 		await target.Destroy();
 
-		ScenarioEvents.FigureKilled.Parameters parameters =
-			await ScenarioEvents.FigureKilledEvent.CreatePrompt(
-				new ScenarioEvents.FigureKilled.Parameters(potentialAbilityState, target, potentialKiller), target);
+		await ScenarioEvents.FigureKilledEvent.CreatePrompt(
+			new ScenarioEvents.FigureKilled.Parameters(potentialAbilityState, target, potentialKiller), target);
 	}
 
 	public static async GDTask KillOrExhaust(Figure target, Figure potentialKiller)
@@ -685,13 +684,15 @@ public static class AbilityCmd
 			return false;
 		}
 
-		ScenarioCheckEvents.CanEnterMapTileCheck.Parameters canEnterMapTile =
-			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Fire(
-				new ScenarioCheckEvents.CanEnterMapTileCheck.Parameters(figureA, figureB.Hex));
-		ScenarioCheckEvents.CanEnterMapTileCheck.Parameters canEnterMapTile2 =
-			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Fire(
-				new ScenarioCheckEvents.CanEnterMapTileCheck.Parameters(figureB, figureA.Hex));
-		if(!canEnterMapTile.CanEnter || !canEnterMapTile2.CanEnter)
+		ScenarioCheckEvents.CanEnterCheck.Parameters canEnter =
+			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
+				new ScenarioCheckEvents.CanEnterCheck.Parameters(figureA, figureB.Hex));
+
+		ScenarioCheckEvents.CanEnterCheck.Parameters canEnter2 =
+			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
+				new ScenarioCheckEvents.CanEnterCheck.Parameters(figureB, figureA.Hex));
+
+		if(!canEnter.CanEnter || !canEnter.CanEnter)
 		{
 			return false;
 		}
@@ -813,7 +814,9 @@ public static class AbilityCmd
 			ScenarioEvents.ConsumeElementEvent.Subscribe(authority, subscriber,
 				canApplyParameters =>
 					!canApplyParameters.Consumed && canApplyParameters.Elements.Contains(possibleElement) &&
-					GameController.Instance.ElementManager.GetState(possibleElement) > ElementState.Inert,
+					GameController.Instance.ElementManager.GetState(possibleElement) > ElementState.Inert &&
+					ScenarioCheckEvents.CanConsumeElementCheckEvent
+						.Fire(new ScenarioCheckEvents.CanConsumeElementCheck.Parameters(authority, possibleElement)).CanConsume,
 				async applyParameters =>
 				{
 					applyParameters.SetConsumed(possibleElement);
@@ -840,7 +843,9 @@ public static class AbilityCmd
 		ScenarioEvents.ConsumeElementEvent.Subscribe(authority, subscriber,
 			canApplyParameters =>
 				canApplyParameters.Elements.Contains(element) &&
-				GameController.Instance.ElementManager.GetState(element) > ElementState.Inert,
+				GameController.Instance.ElementManager.GetState(element) > ElementState.Inert &&
+				ScenarioCheckEvents.CanConsumeElementCheckEvent
+					.Fire(new ScenarioCheckEvents.CanConsumeElementCheck.Parameters(authority, element)).CanConsume,
 			async applyParameters =>
 			{
 				applyParameters.SetConsumed(element);

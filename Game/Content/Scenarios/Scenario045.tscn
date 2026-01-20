@@ -180,7 +180,7 @@ position = Vector2(1636.79, 1323)
 
 [node name="MonsterSpawner" parent="Map/Rooms/Room2" index="13" instance=ExtResource("7_vfe2g")]
 position = Vector2(1964.15, 1134)
-MonsterModelId = "MONSTER_MODEL.LAND_LEVIATHAN"
+MonsterModelId = "DEEP_TERROR.LAND_LEVIATHAN"
 MonsterType2Characters = 2
 MonsterType3Characters = 2
 MonsterType4Characters = 2

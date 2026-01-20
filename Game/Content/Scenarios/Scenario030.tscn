@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bstedfkdj6bo2"]
+[gd_scene load_steps=15 format=3 uid="uid://bstedfkdj6bo2"]
 
 [ext_resource type="PackedScene" uid="uid://cifjwk1lx2x1h" path="res://Scenes/Scenario/Scenario.tscn" id="1_0uaiq"]
 [ext_resource type="Script" uid="uid://bbtc25ohouat7" path="res://Scripts/Scenario/Room.cs" id="2_3qfbo"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://cjpnbtuih20q5" path="res://Scenes/Scenario/CoinStack.tscn" id="11_ne86b"]
 [ext_resource type="PackedScene" uid="uid://eu066aoq41ti" path="res://Content/OverlayTiles/Doors/StoneDoorHorizontal1H.tscn" id="11_u2r7n"]
 [ext_resource type="PackedScene" uid="uid://gi5tvly6t0i1" path="res://Scenes/Scenario/Marker.tscn" id="13_tl5id"]
+[ext_resource type="Texture2D" uid="uid://cjeoph6gn3tck" path="res://Art/Markers/2.png" id="14_3psji"]
 
 [node name="Scenario" instance=ExtResource("1_0uaiq")]
 
@@ -166,3 +167,11 @@ _startsLocked = true
 [node name="Marker" parent="Map/Doors/StoneDoorHorizontal1H2" index="7" instance=ExtResource("13_tl5id")]
 rotation = -1.0472
 MarkerType = 26
+
+[node name="Visual" parent="Map/Doors/StoneDoorHorizontal1H2/Marker" index="1"]
+position = Vector2(-60, -36)
+
+[node name="Sprite2D" parent="Map/Doors/StoneDoorHorizontal1H2/Marker/Visual" index="0"]
+texture = ExtResource("14_3psji")
+
+[editable path="Map/Doors/StoneDoorHorizontal1H2/Marker"]

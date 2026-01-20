@@ -365,7 +365,7 @@ public static class MoveHelper
 				return false;
 			}
 
-			if (performer is not Character)
+			if(performer is not Character)
 			{
 				ScenarioCheckEvents.CanOpenDoorsCheck.Parameters canOpenDoorsCheckParameters =
 					ScenarioCheckEvents.CanOpenDoorsCheckEvent.Fire(
@@ -404,14 +404,14 @@ public static class MoveHelper
 			}
 		}
 
-		ScenarioCheckEvents.CanEnterMapTileCheck.Parameters canEnterMapTile =
-			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Fire(
-				new ScenarioCheckEvents.CanEnterMapTileCheck.Parameters(performer, hex));
+		ScenarioCheckEvents.CanEnterCheck.Parameters canEnter =
+			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
+				new ScenarioCheckEvents.CanEnterCheck.Parameters(performer, hex));
 
-		if (!canEnterMapTile.CanEnter)
-        {
-            return false;
-        }
+		if(!canEnter.CanEnter)
+		{
+			return false;
+		}
 
 		return true;
 	}
@@ -462,14 +462,14 @@ public static class MoveHelper
 			}
 		}
 
-		ScenarioCheckEvents.CanEnterMapTileCheck.Parameters canEnterMapTile =
-			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Fire(
-				new ScenarioCheckEvents.CanEnterMapTileCheck.Parameters(performer, hex));
-		
-		if (!canEnterMapTile.CanEnter)
-        {
-            return false;
-        }
+		ScenarioCheckEvents.CanEnterCheck.Parameters canEnter =
+			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
+				new ScenarioCheckEvents.CanEnterCheck.Parameters(performer, hex));
+
+		if(!canEnter.CanEnter)
+		{
+			return false;
+		}
 
 		return true;
 	}

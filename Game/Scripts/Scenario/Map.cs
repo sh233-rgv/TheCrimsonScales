@@ -110,7 +110,7 @@ public partial class Map : Node2D
 		Hex hex = Hexes.GetValueOrDefault(coords);
 		return (hex != null && (!checkRevealed || hex.Revealed)) ? hex : null;
 	}
-	
+
 	public async GDTask<Monster> CreateMonster(MonsterModel monsterModel, MonsterType monsterType, Vector2I coords, bool summon,
 		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
 	{
@@ -170,9 +170,9 @@ public partial class Map : Node2D
 		return null;
 	}
 
-	public IEnumerable<Marker> GetMarkers(Marker.Type markerType)
+	public List<Marker> GetMarkers(Marker.Type markerType)
 	{
-		return Markers.Where(marker => marker.MarkerType == markerType);
+		return Markers.Where(marker => marker.MarkerType == markerType).ToList();
 	}
 
 	public static Vector2I GetNeighbourCoords(Vector2I coords, int direction)
@@ -253,7 +253,8 @@ public partial class Map : Node2D
 			.Select(group => group.MonsterAbilityCardDeck)
 			.FirstOrDefault();
 		MonsterGroup parentMonsterGroup = MonsterGroups.FirstOrDefault(monsterGroup => monsterGroup.MonsterModel == monsterModel.ParentMonsterModel);
-		MonsterGroup group = new MonsterGroup(monsterModel, parentMonsterGroup?.GroupIndex ?? MonsterGroups.Count, deckIsAlreadyInUseByAGroup, parentMonsterGroup);
+		MonsterGroup group = new MonsterGroup(monsterModel, parentMonsterGroup?.GroupIndex ?? MonsterGroups.Count, deckIsAlreadyInUseByAGroup,
+			parentMonsterGroup);
 		MonsterGroups.Add(group);
 	}
 }

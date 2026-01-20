@@ -48,7 +48,16 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 			//TODO: Make sure this works for items that make you skip an element consumption (perhaps after clicking, a new prompt opens up to select what to use)
 			return new Subscription(parameters =>
 				{
-					if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert)
+					if(parameters is not ParametersBaseWithAbilityState abilityStateParameters)
+					{
+						Log.Error("Tried consuming an element without an Ability State");
+						return false;
+					}
+
+					AbilityState abilityState = abilityStateParameters.BaseAbilityState;
+					if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert ||
+					   !ScenarioCheckEvents.CanConsumeElementCheckEvent
+						   .Fire(new ScenarioCheckEvents.CanConsumeElementCheck.Parameters(abilityState.Authority, element)).CanConsume)
 					{
 						return false;
 					}
@@ -79,9 +88,19 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 			//TODO: Make sure this works for items that make you skip an element consumption (perhaps after clicking, a new prompt opens up to select what to use)
 			return new Subscription(parameters =>
 				{
+					if(parameters is not ParametersBaseWithAbilityState abilityStateParameters)
+					{
+						Log.Error("Tried consuming an element without an Ability State");
+						return false;
+					}
+
+					AbilityState abilityState = abilityStateParameters.BaseAbilityState;
 					foreach(Element element in elements)
 					{
-						if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert)
+						if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert ||
+						   !ScenarioCheckEvents.CanConsumeElementCheckEvent
+							   .Fire(new ScenarioCheckEvents.CanConsumeElementCheck.Parameters(abilityState.Authority, element))
+							   .CanConsume)
 						{
 							return false;
 						}

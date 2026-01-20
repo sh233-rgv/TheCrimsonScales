@@ -22,7 +22,7 @@ public class Scenario012 : ScenarioModel
 		GameController.Instance.Map.Treasures[0].SetObtainLootFunction(OnTreasureLooted);
 
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
-			parameters => _lootedTreasure && KillAllEnemiesScenarioGoals.EnemiesRemaining(),
+			parameters => _lootedTreasure && KillAllEnemiesScenarioGoals.NoEnemiesRemaining(),
 			async parameters =>
 			{
 				await ((CustomScenarioGoals)ScenarioGoals).Win();

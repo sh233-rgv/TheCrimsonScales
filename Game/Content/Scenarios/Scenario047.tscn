@@ -72,20 +72,20 @@ position = Vector2(-218.238, 378)
 
 [node name="MonsterSpawner" parent="Map/Rooms/Room" index="15" instance=ExtResource("7_vfe2g")]
 position = Vector2(218.238, -1134)
-MonsterModelId = "MONSTER_MODEL.GHOST_VIPER"
+MonsterModelId = "GIANT_VIPER.GHOST_VIPER_SCENARIO047"
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner2" parent="Map/Rooms/Room" index="16" instance=ExtResource("7_vfe2g")]
 position = Vector2(327.358, -945)
-MonsterModelId = "MONSTER_MODEL.GHOST_VIPER"
+MonsterModelId = "GIANT_VIPER.GHOST_VIPER_SCENARIO047"
 MonsterType2Characters = 1
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner3" parent="Map/Rooms/Room" index="17" instance=ExtResource("7_vfe2g")]
 position = Vector2(-545.596, -945)
-MonsterModelId = "MONSTER_MODEL.GHOST_VIPER"
+MonsterModelId = "GIANT_VIPER.GHOST_VIPER_SCENARIO047"
 MonsterType2Characters = 1
 MonsterType3Characters = 1
 MonsterType4Characters = 1
@@ -135,14 +135,14 @@ position = Vector2(545.596, -1701)
 
 [node name="MonsterSpawner8" parent="Map/Rooms/Room2" index="4" instance=ExtResource("7_vfe2g")]
 position = Vector2(982.073, -1701)
-MonsterModelId = "MONSTER_MODEL.GHOST_VIPER"
+MonsterModelId = "GIANT_VIPER.GHOST_VIPER_SCENARIO047"
 MonsterType2Characters = 1
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner9" parent="Map/Rooms/Room2" index="5" instance=ExtResource("7_vfe2g")]
 position = Vector2(872.954, -1134)
-MonsterModelId = "MONSTER_MODEL.GHOST_VIPER"
+MonsterModelId = "GIANT_VIPER.GHOST_VIPER_SCENARIO047"
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner10" parent="Map/Rooms/Room2" index="6" instance=ExtResource("7_vfe2g")]
@@ -205,21 +205,21 @@ position = Vector2(-1527.67, 0)
 
 [node name="MonsterSpawner" parent="Map/Rooms/Room3" index="11" instance=ExtResource("7_vfe2g")]
 position = Vector2(-1309.43, -1134)
-MonsterModelId = "MONSTER_MODEL.GHOST_VIPER"
+MonsterModelId = "GIANT_VIPER.GHOST_VIPER_SCENARIO047"
 MonsterType2Characters = 1
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner2" parent="Map/Rooms/Room3" index="12" instance=ExtResource("7_vfe2g")]
 position = Vector2(-1964.15, -378)
-MonsterModelId = "MONSTER_MODEL.GHOST_VIPER"
+MonsterModelId = "GIANT_VIPER.GHOST_VIPER_SCENARIO047"
 MonsterType2Characters = 1
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 
 [node name="MonsterSpawner3" parent="Map/Rooms/Room3" index="13" instance=ExtResource("7_vfe2g")]
 position = Vector2(-1091.19, 0)
-MonsterModelId = "MONSTER_MODEL.GHOST_VIPER"
+MonsterModelId = "GIANT_VIPER.GHOST_VIPER_SCENARIO047"
 MonsterType2Characters = 1
 MonsterType3Characters = 1
 MonsterType4Characters = 1

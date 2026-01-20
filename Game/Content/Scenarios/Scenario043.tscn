@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bu4ihrcotx3lj"]
+[gd_scene load_steps=23 format=3 uid="uid://bu4ihrcotx3lj"]
 
 [ext_resource type="PackedScene" uid="uid://cifjwk1lx2x1h" path="res://Scenes/Scenario/Scenario.tscn" id="1_2or2l"]
 [ext_resource type="Script" uid="uid://bbtc25ohouat7" path="res://Scripts/Scenario/Room.cs" id="2_5r85s"]
@@ -16,8 +16,12 @@
 [ext_resource type="PackedScene" uid="uid://bacgegl1xxid" path="res://Content/MapTiles/A3b.tscn" id="13_i8nmf"]
 [ext_resource type="PackedScene" uid="uid://ckgq6ohdrpaun" path="res://Content/OverlayTiles/Corridors/ManMadeStone2H.tscn" id="14_jvco6"]
 [ext_resource type="PackedScene" uid="uid://cjf1bomn68jn1" path="res://Content/OverlayTiles/Obstacles/Shelf2H.tscn" id="15_p7lpc"]
-[ext_resource type="PackedScene" path="res://Content/OverlayTiles/Doors/StoneDoorHorizontal1H.tscn" id="17_ofkye"]
+[ext_resource type="PackedScene" uid="uid://eu066aoq41ti" path="res://Content/OverlayTiles/Doors/StoneDoorHorizontal1H.tscn" id="17_ofkye"]
+[ext_resource type="Texture2D" uid="uid://cy8m2m242yydo" path="res://Art/Markers/1.png" id="18_b8kge"]
 [ext_resource type="PackedScene" uid="uid://bjbv81gbsrmne" path="res://Content/OverlayTiles/Doors/StoneDoorVertical1H.tscn" id="18_fex56"]
+[ext_resource type="Texture2D" uid="uid://cjeoph6gn3tck" path="res://Art/Markers/2.png" id="20_seni1"]
+[ext_resource type="Texture2D" uid="uid://7gdvkqakpe" path="res://Art/Markers/3.png" id="21_joebt"]
+[ext_resource type="Texture2D" uid="uid://bnw4pgj2md0" path="res://Art/Markers/4.png" id="22_i8nmf"]
 
 [node name="Scenario" instance=ExtResource("1_2or2l")]
 
@@ -301,6 +305,12 @@ _startsLocked = true
 [node name="Marker" parent="Map/Doors/StoneDoorHorizontal1H" index="6" instance=ExtResource("11_suf4y")]
 MarkerType = 25
 
+[node name="Visual" parent="Map/Doors/StoneDoorHorizontal1H/Marker" index="1"]
+position = Vector2(-60, -36)
+
+[node name="Sprite2D" parent="Map/Doors/StoneDoorHorizontal1H/Marker/Visual" index="0"]
+texture = ExtResource("18_b8kge")
+
 [node name="StoneDoorVertical1H" parent="Map/Doors" index="1" instance=ExtResource("18_fex56")]
 position = Vector2(654.715, 0)
 rotation = -3.14159
@@ -309,6 +319,12 @@ _startsLocked = true
 [node name="Marker2" parent="Map/Doors/StoneDoorVertical1H" index="6" instance=ExtResource("11_suf4y")]
 rotation = 3.14159
 MarkerType = 26
+
+[node name="Visual" parent="Map/Doors/StoneDoorVertical1H/Marker2" index="1"]
+position = Vector2(-60, -36)
+
+[node name="Sprite2D" parent="Map/Doors/StoneDoorVertical1H/Marker2/Visual" index="0"]
+texture = ExtResource("20_seni1")
 
 [node name="StoneDoorVertical1H2" parent="Map/Doors" index="2" instance=ExtResource("18_fex56")]
 position = Vector2(654.715, -1134)
@@ -319,9 +335,26 @@ _startsLocked = true
 rotation = 3.14159
 MarkerType = 27
 
+[node name="Visual" parent="Map/Doors/StoneDoorVertical1H2/Marker2" index="1"]
+position = Vector2(-60, -36)
+
+[node name="Sprite2D" parent="Map/Doors/StoneDoorVertical1H2/Marker2/Visual" index="0"]
+texture = ExtResource("21_joebt")
+
 [node name="StoneDoorHorizontal1H2" parent="Map/Doors" index="3" instance=ExtResource("17_ofkye")]
 position = Vector2(1091.19, -378)
 _startsLocked = true
 
 [node name="Marker" parent="Map/Doors/StoneDoorHorizontal1H2" index="6" instance=ExtResource("11_suf4y")]
 MarkerType = 28
+
+[node name="Visual" parent="Map/Doors/StoneDoorHorizontal1H2/Marker" index="1"]
+position = Vector2(-60, -36)
+
+[node name="Sprite2D" parent="Map/Doors/StoneDoorHorizontal1H2/Marker/Visual" index="0"]
+texture = ExtResource("22_i8nmf")
+
+[editable path="Map/Doors/StoneDoorHorizontal1H/Marker"]
+[editable path="Map/Doors/StoneDoorVertical1H/Marker2"]
+[editable path="Map/Doors/StoneDoorVertical1H2/Marker2"]
+[editable path="Map/Doors/StoneDoorHorizontal1H2/Marker"]

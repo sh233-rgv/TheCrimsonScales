@@ -27,9 +27,9 @@ public class Scenario011 : ScenarioModel
 
 		foreach(Room room in GameController.Instance.Map.Rooms)
 		{
-			ScenarioCheckEvents.CanEnterMapTileCheckEvent.Subscribe(this, room,
+			ScenarioCheckEvents.CanEnterCheckEvent.Subscribe(this, room,
 				canApplyParameters => canApplyParameters.Figure is Character or Summon &&
-				                      canApplyParameters.MapTile != canApplyParameters.Figure.Hex.MapTile,
+				                      canApplyParameters.Hex.MapTile != canApplyParameters.Figure.Hex.MapTile,
 				applyParameters =>
 				{
 					applyParameters.SetCanEnter(false);

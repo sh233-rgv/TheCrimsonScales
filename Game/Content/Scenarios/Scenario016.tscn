@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://do6aw83k04kmk"]
+[gd_scene load_steps=21 format=3 uid="uid://do6aw83k04kmk"]
 
 [ext_resource type="PackedScene" uid="uid://cifjwk1lx2x1h" path="res://Scenes/Scenario/Scenario.tscn" id="1_yauc0"]
 [ext_resource type="Script" uid="uid://bbtc25ohouat7" path="res://Scripts/Scenario/Room.cs" id="2_40csl"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://bltkl32a4va15" path="res://Content/MapTiles/B3b.tscn" id="15_5apbb"]
 [ext_resource type="PackedScene" uid="uid://gi5tvly6t0i1" path="res://Scenes/Scenario/Marker.tscn" id="15_xsvke"]
 [ext_resource type="PackedScene" uid="uid://0pbco1c20kwb" path="res://Content/OverlayTiles/Doors/WoodDoorHorizontal1H.tscn" id="16_nvrb3"]
+[ext_resource type="Texture2D" uid="uid://cy8m2m242yydo" path="res://Art/Markers/1.png" id="18_4cl7a"]
 [ext_resource type="PackedScene" uid="uid://bfuecjbrotkyw" path="res://Content/OverlayTiles/Doors/WoodDoorVertical1H.tscn" id="18_5oilc"]
 
 [sub_resource type="Resource" id="Resource_65rt5"]
@@ -216,8 +217,16 @@ _startsLocked = true
 [node name="Marker" parent="Map/Doors/WoodDoorHorizontal1H" index="7" instance=ExtResource("15_xsvke")]
 MarkerType = 25
 
+[node name="Visual" parent="Map/Doors/WoodDoorHorizontal1H/Marker" index="1"]
+position = Vector2(-60, -36)
+
+[node name="Sprite2D" parent="Map/Doors/WoodDoorHorizontal1H/Marker/Visual" index="0"]
+texture = ExtResource("18_4cl7a")
+
 [node name="WoodDoorVertical1H" parent="Map/Doors" index="1" instance=ExtResource("18_5oilc")]
 position = Vector2(-327.358, 567)
 
 [node name="WoodDoorVertical1H2" parent="Map/Doors" index="2" instance=ExtResource("18_5oilc")]
 position = Vector2(-327.358, -567)
+
+[editable path="Map/Doors/WoodDoorHorizontal1H/Marker"]
