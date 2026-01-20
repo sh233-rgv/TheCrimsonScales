@@ -24,7 +24,8 @@ public class SummonersWhistle : CS2Item
 						GrantAbility.Builder()
 							.WithAbilities(
 							[
-								AbilityCmd.SummonMovePlusX(0).Build()
+								AbilityCmd.SummonMovePlusX(0).Build(),
+								AbilityCmd.SummonAttackPlusX(0).Build()
 							])
 							.WithCustomGetTargets((grantState, figures) =>
 							{

@@ -36,7 +36,7 @@ public class ConsistentFiring : BombardCardModel<ConsistentFiring.CardTop, Consi
 					]
 				)
 				.WithAbilityCardSide(this)
-				.WithRange(3)
+				.WithRange(3, new ProjectileRangeSquare(this, new Vector2(0.33784395f, 0.16527776f)))
 				.Build())
 		];
 

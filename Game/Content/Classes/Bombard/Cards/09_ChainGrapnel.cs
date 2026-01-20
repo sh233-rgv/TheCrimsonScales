@@ -43,7 +43,7 @@ public class ChainGrapnel : BombardCardModel<ChainGrapnel.CardTop, ChainGrapnel.
 						.Build()
 				])
 				.WithAbilityCardSide(this)
-				.WithRange(4)
+				.WithRange(4, new ProjectileRangeSquare(this, new Vector2(0.3408154f, 0.6195522f), EnhancementCostType.MultiTarget))
 				.Build())
 		];
 

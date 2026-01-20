@@ -18,7 +18,7 @@ public class TwinBlast : BombardCardModel<TwinBlast.CardTop, TwinBlast.CardBotto
 		{
 			base.InitExtraEnhancements();
 
-			_enhancementMark = new PierceSquare(this, new Vector2(0.62058425f, 0.33113363f));
+			_enhancementMark = new PierceSquare(this, new Vector2(0.62058425f, 0.33113363f), EnhancementCostType.MultiTarget);
 		}
 
 		protected override List<AbilityCardAbility> GetAbilities() =>
@@ -34,7 +34,7 @@ public class TwinBlast : BombardCardModel<TwinBlast.CardTop, TwinBlast.CardBotto
 						.Build()
 				])
 				.WithAbilityCardSide(this)
-				.WithRange(4)
+				.WithRange(4, new ProjectileRangeSquare(this, new Vector2(0.38324332f, 0.16257776f), EnhancementCostType.MultiTarget))
 				.WithTargets(2)
 				.Build())
 		];
