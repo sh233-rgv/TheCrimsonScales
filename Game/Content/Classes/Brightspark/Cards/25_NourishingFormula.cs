@@ -20,7 +20,28 @@ public class NourishingFormula : BrightsparkCardModel<NourishingFormula.CardTop,
 				.WithTarget(Target.SelfOrAllies | Target.SelfCountsForTargets)
 				.WithTargets(2)
 				.WithRange(3)
-				//TODO: With any element consumptions
+				.WithDuringHealSubscriptions(
+					[
+						ScenarioEvents.DuringHeal.Subscription.ConsumeWildElements(
+							applyFunction: async parameters =>
+							{
+								parameters.AbilityState.AbilityAdjustHealValue(1);
+
+								await GDTask.CompletedTask;
+							},
+							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Heal)}")
+						),
+						ScenarioEvents.DuringHeal.Subscription.ConsumeWildElements(
+							applyFunction: async parameters =>
+							{
+								parameters.AbilityState.AbilityAdjustHealValue(1);
+
+								await GDTask.CompletedTask;
+							},
+							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Heal)}")
+						)
+					]
+				)
 				.Build()),
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(state =>

@@ -44,6 +44,7 @@ public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, A
 							await AbilityCmd.ReturnToHand(abilityCard);
 							state.SetPerformed();
 						}
+
 						if(recoverItem)
 						{
 							ItemModel item = await AbilityCmd.SelectItem(figure as Character, ItemState.Spent, hintText: "Select an item to recover");
@@ -108,17 +109,30 @@ public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, A
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					ScenarioEvents.LongRestCardSelectionEvent.Subscribe(state, this,
+					ScenarioEvents.LongRestStartedEvent.Subscribe(state, this,
 						parameters => parameters.Character == state.Performer,
 						async parameters =>
 						{
 							await AbilityCmd.InfuseWildElement(state);
-							
+							AbilityCard card = await AbilityCmd.SelectAbilityCard(parameters.Character, CardState.Discarded,
+								hintText: $"Select a card to lose to {Icons.Inline(Icons.RecoverCard)} a lost card");
+							if(card != null)
+							{
+								await card.SetCardState(CardState.Lost);
+								AbilityCard recoveredCard = await AbilityCmd.SelectAbilityCard(parameters.Character, CardState.Lost, true,
+									hintText: $"{Icons.Inline(Icons.RecoverCard)} a card from your lost pile");
+								if(recoveredCard != null)
+								{
+									await AbilityCmd.ReturnToHand(card);
+								}
+							}
 						});
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
 				{
+					ScenarioEvents.LongRestStartedEvent.Unsubscribe(state, this);
+					await GDTask.CompletedTask;
 				})
 				.Build())
 		];

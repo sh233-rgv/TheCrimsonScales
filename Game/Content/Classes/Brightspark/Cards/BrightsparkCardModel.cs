@@ -7,6 +7,6 @@
 	protected override int RowCount => 4;
 }
 
-public abstract class BrightsparkCardSide : AbilityCardSideModel
+public abstract class BrightsparkCardSide : AbilityCardSideModel<Character>
 {
 }

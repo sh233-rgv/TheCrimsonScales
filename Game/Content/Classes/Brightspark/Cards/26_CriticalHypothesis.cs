@@ -23,7 +23,6 @@ public class CriticalHypothesis : BrightsparkCardModel<CriticalHypothesis.CardTo
 						async parameters =>
 						{
 							parameters.AbilityState.SingleTargetAddCondition(Conditions.Stun);
-							//TODO: Add state
 							await AbilityCmd.InfuseWildElement(parameters.AbilityState);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						})

@@ -54,7 +54,6 @@ public class VersatileConcoction : BrightsparkCardModel<VersatileConcoction.Card
 						parameters => parameters.Figure == state.Performer,
 						async parameters =>
 						{
-							//TODO: Add state to infuse
 							await AbilityCmd.InfuseWildElement(state);
 							await state.AdvanceUseSlot();
 						});
