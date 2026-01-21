@@ -28,7 +28,7 @@ public class Road42 : RoadEventModel<Road42.ChoiceA, Road42.ChoiceB>
 				{
 					await AbilityCmd.InfuseElement(null, Element.Light, immediately: true);
 				},
-				color => $"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Light))}."
+				color => $"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Light), color: color)}."
 			),
 			new OnScenarioStartedEventReward(
 				async () =>
@@ -81,7 +81,7 @@ public class Road42 : RoadEventModel<Road42.ChoiceA, Road42.ChoiceB>
 				{
 					await AbilityCmd.InfuseElement(null, Element.Dark, immediately: true);
 				},
-				color => $"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Dark))}."
+				color => $"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Dark), color: color)}."
 			),
 			new OnScenarioStartedEventReward(
 				async () =>
