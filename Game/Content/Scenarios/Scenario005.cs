@@ -183,7 +183,7 @@ public class Scenario005 : ScenarioModel
 		Hex bossHex = _gelatinousGiant.Hex;
 
 		ScenarioCheckEvents.SpawnCoinCheckEvent.Subscribe(this,
-			parameters => parameters.Figure == _gelatinousGiant,
+			parameters => parameters.Dropper == _gelatinousGiant,
 			parameters => parameters.SetSpawnCoin(false));
 
 		await _gelatinousGiant.Destroy(immediately: true);
