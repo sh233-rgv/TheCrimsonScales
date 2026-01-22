@@ -34,6 +34,8 @@ public class City60 : CityEventModel<City60.ChoiceA, City60.ChoiceB>
 				return
 					"""
 					You insist that the coin goes to the bartender and the tavern erupts in applause. The bartender hands you a free glass of ale to thank you, and as you take it from his hands, he whispers something in your ear.
+
+					You hear the word "Shaindy" whispered into your ear. You’re not sure what to make of it, but you take note to visit Shiela in the morning to ask her if she knows what it means.
 					""";
 			}
 			else
@@ -87,6 +89,8 @@ public class City60 : CityEventModel<City60.ChoiceA, City60.ChoiceB>
 				return
 					"""
 					The Quatryl pats you on the back and thanks you for your contribution. Before you have the opportunity to say anything else, he leans over and whispers something in your ear before quickly scurrying out of the tavern.
+
+					You hear the word "Shaindy" whispered into your ear. You’re not sure what to make of it, but you take note to visit Shiela in the morning to ask her if she knows what it means.
 					""";
 			}
 			else

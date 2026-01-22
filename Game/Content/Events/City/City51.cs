@@ -87,7 +87,7 @@ public class City51 : CityEventModel<City51.ChoiceA, City51.ChoiceB>
 		{
 			base.InitState(state, savedCampaign);
 
-			bool conditionsMet = savedCampaign.Characters.Sum(character => character.Gold) >= 30;
+			bool conditionsMet = savedCampaign.Characters.Any(character => ClassModels.Contains(character.ClassModel));
 			state.SetCustomValue(ConditionsMetKey, conditionsMet);
 		}
 

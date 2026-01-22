@@ -41,7 +41,10 @@ public class Road41 : RoadEventModel<Road41.ChoiceA, Road41.ChoiceB>
 									await AbilityCmd.SelectAbilityCard(character, CardState.Discarded, mandatory: true,
 										hintText: $"Select a discarded card to recover");
 
-								await AbilityCmd.ReturnToHand(selectedAbilityCard);
+								if(selectedAbilityCard != null)
+								{
+									await AbilityCmd.ReturnToHand(selectedAbilityCard);
+								}
 							}
 						}
 					);
