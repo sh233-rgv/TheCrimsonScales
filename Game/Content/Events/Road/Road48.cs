@@ -31,13 +31,13 @@ public class Road48 : RoadEventModel<Road48.ChoiceA, Road48.ChoiceB>
 						mandatory: true,
 						hintText: () => $"Select a character to gain {Icons.HintText(Icons.GetCondition(Conditions.Muddle))}");
 
-					AbilityCmd.AddCondition(null, selectedCharacter, Conditions.Muddle);
+					await AbilityCmd.AddCondition(null, selectedCharacter, Conditions.Muddle);
 
 					foreach(Character character in GameController.Instance.CharacterManager.Characters)
 					{
 						if(character != selectedCharacter)
 						{
-							AbilityCmd.AddCondition(null, character, Conditions.Strengthen);
+							await AbilityCmd.AddCondition(null, character, Conditions.Strengthen);
 						}
 					}
 				},
@@ -66,13 +66,13 @@ public class Road48 : RoadEventModel<Road48.ChoiceA, Road48.ChoiceB>
 						mandatory: true,
 						hintText: () => $"Select a character to gain {Icons.HintText(Icons.GetCondition(Conditions.Stun))}");
 
-					AbilityCmd.AddCondition(null, selectedCharacter, Conditions.Stun);
+					await AbilityCmd.AddCondition(null, selectedCharacter, Conditions.Stun);
 
 					foreach(Character character in GameController.Instance.CharacterManager.Characters)
 					{
 						if(character != selectedCharacter)
 						{
-							AbilityCmd.AddCondition(null, character, Conditions.Invisible);
+							await AbilityCmd.AddCondition(null, character, Conditions.Invisible);
 						}
 					}
 				},
