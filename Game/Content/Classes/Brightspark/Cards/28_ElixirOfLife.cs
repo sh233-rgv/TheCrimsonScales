@@ -4,7 +4,7 @@ using Godot;
 
 public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfLife.CardBottom>
 {
-	public override string Name => "Elixir Of Life";
+	public override string Name => "Elixir of Life";
 	public override int Level => 9;
 	public override int Initiative => 38;
 	protected override int AtlasIndex => 28;
@@ -29,32 +29,21 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 				{
 					Figure target = state.ActionState.GetAbilityState<GiveAbilityCardAbility.State>(0).UniqueTargetedFigures[0];
 
-					ScenarioEvents.InflictConditionEvent.Subscribe(state, this,
-						parameters =>
-							parameters.Target == target &&
-							AbilityCmd.CheckImmunity(parameters.ConditionModel, Conditions.Poison1),
-						async parameters =>
-						{
-							parameters.SetPrevented(true);
+					//TODO: Before Killed Event (needs mirefoot L9)
 
-							ActionState actionState =
-								new ActionState(target, [HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()]);
-							await actionState.Perform();
-						}
-					);
 
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
 				{
-					ScenarioEvents.InflictConditionEvent.Unsubscribe(state, this);
+					//TODO: ScenarioEvents.BeforeKilledEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.Build())
 		];
-		
+
 		public override bool Persistent => true;
 		public override bool Unrecoverable => true;
 		public override bool Loss => true;
@@ -92,6 +81,15 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
+			new AbilityCardAbility(HealAbility.Builder()
+				.WithHealValue(3)
+				.WithRange(3)
+				.WithOnAbilityEndedPerformed(async state =>
+				{
+					await AbilityCmd.GainXP(state.Performer, 1);
+				})
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Light))
+				.Build()),
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -99,7 +97,15 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 						parameters => parameters.Figure == state.Performer,
 						async parameters =>
 						{
-							await AbilityCmd.InfuseWildElement(state);
+							int healValue = (state.UseSlotIndex + 3) / 2;
+							int moveValue = 2 - state.UseSlotIndex % 2;
+							ActionState actionState = new ActionState(parameters.Figure,
+							[
+								MoveAbility.Builder().WithDistance(healValue).Build(),
+								HealAbility.Builder().WithHealValue(moveValue).WithTarget(Target.Self).Build()
+							]);
+							await actionState.Perform();
+
 							await state.AdvanceUseSlot();
 						});
 					await GDTask.CompletedTask;
@@ -112,20 +118,13 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 				.WithUseSlots(
 				[
 					//TODO: Use Slot Positioning
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f), async state => await AbilityCmd.InfuseElement(state, Element.Fire)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f), async state => await AbilityCmd.InfuseWildElement(state)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), async state =>
-					{
-						await AbilityCmd.InfuseWildElement(state);
-						await AbilityCmd.InfuseWildElement(state);
-					})
+					new UseSlot(new Vector2(0.78700954f, 0.3549993f)),
+					new UseSlot(new Vector2(0.78700954f, 0.3549993f)),
+					new UseSlot(new Vector2(0.78700954f, 0.3549993f)),
 				])
 				.Build()),
 		];
 
 		public override bool Persistent => true;
-		public override bool Loss => true;
 	}
 }
