@@ -96,7 +96,7 @@ public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, A
 				{
 					List<AbilityCard> selectedAbilityCards =
 						await AbilityCmd.SelectAbilityCards(state.Performer as Character, CardState.Discarded, 0, 2,
-							hintText: $"Select up to two discarded cards to recover");
+							hintText: "Select up to two discarded cards to recover");
 
 					foreach(AbilityCard selectedAbilityCard in selectedAbilityCards)
 					{
