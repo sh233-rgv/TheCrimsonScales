@@ -381,24 +381,20 @@ public static class AbilityCmd
 		ScenarioCheckEvents.SpawnCoinCheck.Parameters spawnCoinCheckEventParameters =
 			ScenarioCheckEvents.SpawnCoinCheckEvent.Fire(new ScenarioCheckEvents.SpawnCoinCheck.Parameters(dropper));
 
-		if(!spawnCoinCheckEventParameters.SpawnCoin)
+		for(int i = spawnCoinCheckEventParameters.CoinsToSpawn; i > 0; i++)
 		{
-			return;
+			if(!hex.TryGetHexObjectOfType(out CoinStack coinStack))
+			{
+				PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/CoinStack.tscn");
+				coinStack = scene.Instantiate<CoinStack>();
+				GameController.Instance.Map.AddChild(coinStack);
+				await coinStack.Init(hex);
+			}
+			else
+			{
+				coinStack.AddCoin();
+			}
 		}
-
-		if(!hex.TryGetHexObjectOfType(out CoinStack coinStack))
-		{
-			PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/CoinStack.tscn");
-			coinStack = scene.Instantiate<CoinStack>();
-			GameController.Instance.Map.AddChild(coinStack);
-			await coinStack.Init(hex);
-		}
-		else
-		{
-			coinStack.AddCoin();
-		}
-
-		await GDTask.CompletedTask;
 	}
 
 	public static async GDTask LootHex(Figure figure, Hex hex)
@@ -442,8 +438,8 @@ public static class AbilityCmd
 
 		await GDTask.CompletedTask;
 
-		await ScenarioEvents.OverlayTileMovedOrCreatedEvent.CreatePrompt(
-			new ScenarioEvents.OverlayTileMovedOrCreated.Parameters(overlayTile));
+		await ScenarioEvents.OverlayTileCreatedEvent.CreatePrompt(
+			new ScenarioEvents.OverlayTileCreated.Parameters(overlayTile));
 
 		return (T)overlayTile;
 	}
@@ -463,8 +459,8 @@ public static class AbilityCmd
 		await GDTask.DelayFastForwardable(0.03f);
 		overlayTile.SetOriginHexAndRotation(movedToHex);
 
-		await ScenarioEvents.OverlayTileMovedOrCreatedEvent.CreatePrompt(
-			new ScenarioEvents.OverlayTileMovedOrCreated.Parameters(overlayTile));
+		await ScenarioEvents.OverlayTileMovedEvent.CreatePrompt(
+			new ScenarioEvents.OverlayTileMoved.Parameters(overlayTile));
 
 		return overlayTile.Hex;
 	}
@@ -482,8 +478,8 @@ public static class AbilityCmd
 
 		await GDTask.CompletedTask;
 
-		await ScenarioEvents.OverlayTileMovedOrCreatedEvent.CreatePrompt(
-			new ScenarioEvents.OverlayTileMovedOrCreated.Parameters(trap));
+		await ScenarioEvents.OverlayTileCreatedEvent.CreatePrompt(
+			new ScenarioEvents.OverlayTileCreated.Parameters(trap));
 
 		return trap;
 	}
@@ -1018,7 +1014,7 @@ public static class AbilityCmd
 		item.Init(character);
 		character.AddItem(item);
 
-		await PromptManager.Prompt(new TreasureItemRewardPrompt(character, itemModel, null), character);
+		await PromptManager.Prompt(new TreasureItemRewardPrompt(character, itemModel, null, false), character);
 
 		void OnScenarioEnd(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress)
 		{
@@ -1029,12 +1025,12 @@ public static class AbilityCmd
 
 		GameController.Instance.EndEvent += OnScenarioEnd;
 	}
-	
+
 	public static async GDTask GainItemDesign(Character character, ItemModel itemModel)
 	{
 		ItemModel item = itemModel.ToMutable();
 
-		await PromptManager.Prompt(new TreasureItemRewardPrompt(character, itemModel, null), character);
+		await PromptManager.Prompt(new TreasureItemRewardPrompt(character, itemModel, null, true), character);
 
 		void OnScenarioEnd(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress)
 		{

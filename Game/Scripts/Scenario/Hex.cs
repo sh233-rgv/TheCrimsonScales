@@ -143,6 +143,11 @@ public partial class Hex : Node2D
 		return true;
 	}
 
+	public bool IsOccupied()
+	{
+		return !IsUnoccupied();
+	}
+
 	private void SortHexObjects()
 	{
 		HexObjects.Sort((a, b) => b.DefaultZIndex.CompareTo(a.DefaultZIndex));

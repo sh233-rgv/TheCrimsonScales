@@ -15,7 +15,7 @@ public class Scenario048 : ScenarioModel
 	{
 		await base.StartAfterFirstRoomRevealed();
 
-		if (GameController.Instance.SavedCampaign.Characters.Count >= 3)
+		if(GameController.Instance.SavedCampaign.Characters.Count >= 3)
 		{
 			foreach(Marker marker in GameController.Instance.Map.GetMarkers(Marker.Type.a))
 			{
@@ -26,17 +26,21 @@ public class Scenario048 : ScenarioModel
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
 			parameters => !GameController.Instance.Map.Rooms.SelectMany(room => room.GetChildrenOfType<DifficultTerrain>()).Any(),
 			async parameters =>
-            {
-                await ((CustomScenarioGoals)ScenarioGoals).Win();
-            });
+			{
+				await ((CustomScenarioGoals)ScenarioGoals).Win();
+			});
 
 		ScenarioEvents.FigureTurnEndedEvent.Subscribe(this,
-			parameters => parameters.Figure is Character && (parameters.Figure.Hex.GetHexObjectOfType<DifficultTerrain>()?.Name.ToString().Contains("HotCoalsDifficultTerrain1H") ?? false),
+			parameters => parameters.Figure is Character &&
+			              (parameters.Figure.Hex.GetHexObjectOfType<DifficultTerrain>()?.Name.ToString().Contains("HotCoalsDifficultTerrain1H") ??
+			               false),
 			async parameters =>
-            {
-                await parameters.Figure.Hex.GetHexObjectOfType<DifficultTerrain>().Destroy();
-            }, EffectType.Selectable,
+			{
+				await parameters.Figure.Hex.GetHexObjectOfType<DifficultTerrain>().Destroy();
+			}, EffectType.Selectable,
 			effectButtonParameters: new IconEffectButton.Parameters("res://Art/OverlayTiles/Hot Coals 1h.png"),
 			effectInfoViewParameters: new TextEffectInfoView.Parameters("Extinguish fire (Remove hot coals from the board)"));
+
+		//TODO: Either use normal hotcoals and have characters treat them differently, or use difficult terrain ones and have monster treat them differently.
 	}
 }

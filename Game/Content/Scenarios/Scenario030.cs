@@ -37,7 +37,7 @@ public class Scenario030 : ScenarioModel
 			await _door2.Unlock();
 
 			UpdateScenarioText($"""
-			                    The Living Corpses are the Twin Corpses. The Twin Corpses has Hx(C-1) hit points, where H is an elite Living Corpse’s regular hit point value.
+			                    The Living Corpses are the Twin Corpses.
 			                    Whenever a Twin Corpse is killed, summon {GameController.Instance.SavedCampaign.Characters.Count + 2} normal Living Corpses in unoccupied hexes nearest to the hex in which it was killed.
 			                    """);
 
@@ -52,7 +52,7 @@ public class Scenario030 : ScenarioModel
 		if(parameters.Room == GameController.Instance.Map.Rooms[2])
 		{
 			UpdateScenarioText(
-				$"The elite Night Demon is the Shadow Demon. The Shadow Demon has HxC hit points, where H is an elite Night Demon’s regular hit point value, and is immune to {Icons.Inline(Icons.GetCondition(Conditions.Stun))}, {Icons.Inline(Icons.GetCondition(Conditions.Disarm))}, {Icons.Inline(Icons.GetCondition(Conditions.Immobilize))}, and {Icons.Inline(Icons.GetCondition(Conditions.Curse))}.");
+				$"The elite Night Demon is the Shadow Demon.");
 		}
 	}
 }

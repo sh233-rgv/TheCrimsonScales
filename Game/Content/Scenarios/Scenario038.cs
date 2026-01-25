@@ -97,6 +97,7 @@ public class Scenario038 : ScenarioModel
 				async figureKilledParameters =>
 				{
 					UpdateScenarioText();
+					await GDTask.CompletedTask;
 				});
 		}
 		else if(parameters.Room == GameController.Instance.Map.Rooms[3])
@@ -113,6 +114,7 @@ public class Scenario038 : ScenarioModel
 				async figureKilledParameters =>
 				{
 					UpdateScenarioText();
+					await GDTask.CompletedTask;
 				});
 		}
 	}

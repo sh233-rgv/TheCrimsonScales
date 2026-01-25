@@ -56,14 +56,14 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		GameController.Instance.SpecialRulesView.SetText(displayText);
 	}
 
-	protected async GDTask SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, Hex spawnHex,
-		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
+	protected async GDTask<Monster> SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, Hex spawnHex,
+		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters, bool canHaveFeatures = false)
 	{
-		await SpawnMonster(authority, monsterModel, monsterType, [spawnHex], monsterLevel, alignment, enemies);
+		return await SpawnMonster(authority, monsterModel, monsterType, [spawnHex], monsterLevel, alignment, enemies, canHaveFeatures);
 	}
 
-	protected async GDTask SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, IEnumerable<Hex> spawnHexes,
-		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
+	protected async GDTask<Monster> SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, IEnumerable<Hex> spawnHexes,
+		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters, bool canHaveFeatures = false)
 	{
 		spawnHexes = spawnHexes.ToList();
 		authority ??= GameController.Instance.CharacterManager.FirstAlive();
@@ -81,7 +81,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 							otherHexA)
 						.CompareTo(RangeHelper.Distance(spawnHex,
 							otherHexB)));
-					Hex firstHex = hexes.FirstOrDefault(hex => hex.IsEmpty());
+					Hex firstHex = hexes.FirstOrDefault(hex => hex.IsEmpty() || (canHaveFeatures && hex.IsFeatureless()));
 
 					if(firstHex == null)
 					{
@@ -100,8 +100,8 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 					}
 
 					list.AddRange(
-						hexes.Where(h => h.IsEmpty() &&
-						                 RangeHelper.Distance(spawnHex, h) == distance)
+						hexes.Where(hex => (hex.IsEmpty() || canHaveFeatures && hex.IsFeatureless()) &&
+						                   RangeHelper.Distance(spawnHex, hex) == distance)
 					);
 				}
 			},
@@ -111,17 +111,16 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 		if(chosenHex == null)
 		{
-			return;
+			return null;
 		}
 
-		await AbilityCmd.SpawnMonster(monsterModel, monsterType, chosenHex, monsterLevel, alignment, enemies);
+		return await AbilityCmd.SpawnMonster(monsterModel, monsterType, chosenHex, monsterLevel, alignment, enemies);
 	}
 
 	protected async GDTask SummonMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, Hex summonHex,
 		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
 	{
 		authority ??= GameController.Instance.CharacterManager.FirstAlive();
-		List<Hex> hexes = RangeHelper.GetHexesInRange(summonHex, 1, requiresLineOfSight: false).ToList();
 
 		Hex chosenHex = await AbilityCmd.SelectHex(authority,
 			list =>

@@ -650,11 +650,11 @@ public partial class ScenarioCheckEvents
 			: ParametersBase
 		{
 			public Figure Dropper { get; } = dropper;
-			public bool SpawnCoin { get; private set; } = true;
+			public int CoinsToSpawn { get; private set; } = 1;
 
-			public void SetSpawnCoin(bool spawnCoin)
+			public void SetCoinsToSpawn(int coinsToSpawn)
 			{
-				SpawnCoin = spawnCoin;
+				CoinsToSpawn = coinsToSpawn;
 			}
 		}
 	}

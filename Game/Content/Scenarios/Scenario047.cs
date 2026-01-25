@@ -34,7 +34,7 @@ public class Scenario047 : ScenarioModel
 
 
 		ScenarioEvents.FigureKilledEvent.Subscribe(this,
-			parameters => parameters.Figure is Monster monster && monster.MonsterModel == ModelDB.Monster<GhostViperScenario047>() &&
+			parameters => parameters.Figure is Monster monster && monster.MonsterModel is GhostViperScenario047 &&
 			              _remainingGhostViperKills > 0,
 			async parameters =>
 			{
