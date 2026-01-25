@@ -15,7 +15,7 @@ public class Scenario029 : ScenarioModel
 	{
 		await base.StartAfterFirstRoomRevealed();
 
-		//TOOD: Scenario Effect
+		//TODO: Scenario Effect
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<ChainMace>());
 

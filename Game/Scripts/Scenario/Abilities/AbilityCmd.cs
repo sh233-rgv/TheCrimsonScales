@@ -1040,6 +1040,7 @@ public static class AbilityCmd
 		{
 			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(itemModel);
 			savedItem.AddUnlocked(item.ShopCount);
+			savedItem.AddStock(item.ShopCount);
 		}
 
 		GameController.Instance.EndEvent += OnScenarioEnd;

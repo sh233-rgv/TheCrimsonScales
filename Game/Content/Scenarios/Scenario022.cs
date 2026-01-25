@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public class Scenario022 : ScenarioModel
 {
@@ -11,13 +9,15 @@ public class Scenario022 : ScenarioModel
 
 	protected override ScenarioGoals CreateScenarioGoals() => new CustomScenarioGoals("");
 
-	private int _remainingImpKills = GameController.Instance.SavedCampaign.Characters.Count * 4;
+	private int _remainingImpKills;
 
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
 
 		//Scenario Effect
+
+		_remainingImpKills = GameController.Instance.SavedCampaign.Characters.Count * 4;
 
 		GameController.Instance.Map.Treasures.First(treasure => treasure.TreasureNumber == 15).SetItemLoot(ModelDB.Item<ShiftingCompass>());
 		GameController.Instance.Map.Treasures.First(treasure => treasure.TreasureNumber == 32).SetItemLoot(ModelDB.Item<CuriousPendant>());
@@ -32,7 +32,7 @@ public class Scenario022 : ScenarioModel
 			});
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
 			parameters => _remainingImpKills == 0,
-			async paramteters =>
+			async parameters =>
 			{
 				await ((CustomScenarioGoals)ScenarioGoals).Win();
 			});

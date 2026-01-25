@@ -18,7 +18,7 @@ public class Scenario030 : ScenarioModel
 	{
 		await base.StartAfterFirstRoomRevealed();
 
-		//TOOD: Scenario Effect
+		//TODO: Scenario Effect
 
 		_door2 = GameController.Instance.Map.GetMarker(Marker.Type._2).GetHexObject<Door>();
 
