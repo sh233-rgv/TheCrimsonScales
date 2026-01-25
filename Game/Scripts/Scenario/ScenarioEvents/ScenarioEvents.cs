@@ -1138,4 +1138,17 @@ public partial class ScenarioEvents
 
 	private readonly CoinLooted _coinLooted = new CoinLooted();
 	public static CoinLooted CoinLootedEvent => GameController.Instance.ScenarioEvents._coinLooted;
+
+	public class LootableObjectLooted : ScenarioEvent<LootableObjectLooted.Parameters>
+	{
+		public class Parameters(Figure lootObtainer, LootableObject lootableObject)
+			: ParametersBase
+		{
+			public Figure LootObtainer { get; } = lootObtainer;
+			public LootableObject LootableObject { get; } = lootableObject;
+		}
+	}
+
+	private readonly LootableObjectLooted _lootableObjectLooted = new LootableObjectLooted();
+	public static LootableObjectLooted LootableObjectLootedEvent => GameController.Instance.ScenarioEvents._lootableObjectLooted;
 }

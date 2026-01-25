@@ -646,10 +646,10 @@ public partial class ScenarioCheckEvents
 
 	public class SpawnCoinCheck : ScenarioCheckEvent<SpawnCoinCheck.Parameters>
 	{
-		public class Parameters(Figure figure)
+		public class Parameters(Figure dropper)
 			: ParametersBase
 		{
-			public Figure Figure { get; } = figure;
+			public Figure Dropper { get; } = dropper;
 			public bool SpawnCoin { get; private set; } = true;
 
 			public void SetSpawnCoin(bool spawnCoin)

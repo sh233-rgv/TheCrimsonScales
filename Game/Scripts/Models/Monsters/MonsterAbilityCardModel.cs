@@ -73,10 +73,10 @@ public abstract class MonsterAbilityCardModel : AbstractModel //, IDeckCard
 			.WithConditions(conditions ?? [])
 			.WithCustomGetTargets(customGetTargets)
 			.WithConditionalAbilityCheck(conditionalAbilityCheck)
-			.WithAbilityStartedSubscriptions(abilityStartedSubscriptions)
-			.WithDuringAttackSubscriptions(duringAttackSubscriptions)
-			.WithAfterTargetConfirmedSubscriptions(afterTargetConfirmedSubscriptions)
-			.WithAfterAttackPerformedSubscriptions(afterAttackPerformedSubscriptions)
+			.WithAbilityStartedSubscriptions(abilityStartedSubscriptions ?? [])
+			.WithDuringAttackSubscriptions(duringAttackSubscriptions ?? [])
+			.WithAfterTargetConfirmedSubscriptions(afterTargetConfirmedSubscriptions ?? [])
+			.WithAfterAttackPerformedSubscriptions(afterAttackPerformedSubscriptions ?? [])
 			.Build();
 	}
 

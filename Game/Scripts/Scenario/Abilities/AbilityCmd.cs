@@ -376,10 +376,10 @@ public static class AbilityCmd
 		return await CreateOverlayTile<DifficultTerrain>(hex, scene);
 	}
 
-	public static async GDTask SpawnCoin(Hex hex, Figure figure = null)
+	public static async GDTask SpawnCoin(Hex hex, Figure dropper = null)
 	{
 		ScenarioCheckEvents.SpawnCoinCheck.Parameters spawnCoinCheckEventParameters =
-			ScenarioCheckEvents.SpawnCoinCheckEvent.Fire(new ScenarioCheckEvents.SpawnCoinCheck.Parameters(figure));
+			ScenarioCheckEvents.SpawnCoinCheckEvent.Fire(new ScenarioCheckEvents.SpawnCoinCheck.Parameters(dropper));
 
 		if(!spawnCoinCheckEventParameters.SpawnCoin)
 		{
