@@ -1029,6 +1029,21 @@ public static class AbilityCmd
 
 		GameController.Instance.EndEvent += OnScenarioEnd;
 	}
+	
+	public static async GDTask GainItemDesign(Character character, ItemModel itemModel)
+	{
+		ItemModel item = itemModel.ToMutable();
+
+		await PromptManager.Prompt(new TreasureItemRewardPrompt(character, itemModel, null), character);
+
+		void OnScenarioEnd(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress)
+		{
+			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(itemModel);
+			savedItem.AddUnlocked(item.ShopCount);
+		}
+
+		GameController.Instance.EndEvent += OnScenarioEnd;
+	}
 
 	public static ItemModel GetRandomAvailableOrb()
 	{

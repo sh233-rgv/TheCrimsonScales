@@ -14,7 +14,7 @@
 		);
 	}
 
-	public static bool NoEnemiesRemaining()
+	public static bool NoEnemiesRemaining(bool countObjectives = true)
 	{
 		foreach(Room room in GameController.Instance.Map.Rooms)
 		{
@@ -26,7 +26,7 @@
 
 		foreach(Figure figure in GameController.Instance.Map.Figures)
 		{
-			if(figure.Alignment == Alignment.Enemies)
+			if(figure.Alignment == Alignment.Enemies && (figure is not Objective || countObjectives))
 			{
 				return false;
 			}

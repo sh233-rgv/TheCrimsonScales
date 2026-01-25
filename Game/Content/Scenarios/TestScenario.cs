@@ -11,8 +11,8 @@ public class TestScenario : ScenarioModel
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
-
-		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<DizzyingTincture>());
+		
+		GameController.Instance.Map.Treasures[0].SetItemDesignLoot(ModelDB.Item<VipertoothDagger>());
 
 		List<Objective> objectives = GameController.Instance.Map.GetChildrenOfType<Objective>();
 		int objectiveHealth = 1;

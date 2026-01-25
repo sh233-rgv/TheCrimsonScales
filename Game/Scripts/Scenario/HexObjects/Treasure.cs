@@ -38,6 +38,15 @@ public partial class Treasure : LootableObject
 			}
 		);
 	}
+	
+	public void SetItemDesignLoot(ItemModel itemModel)
+	{
+		SetObtainLootFunction(async character =>
+			{
+				await AbilityCmd.GainItemDesign(character, itemModel);
+			}
+		);
+	}
 
 	public override bool CanLoot(Figure lootObtainer)
 	{
