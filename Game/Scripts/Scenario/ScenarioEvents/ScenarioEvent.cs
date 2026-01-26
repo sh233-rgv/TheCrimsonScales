@@ -508,7 +508,7 @@ public abstract class ScenarioEvent
 		public T AbilityState { get; }
 
 		public override AbilityState BaseAbilityState => AbilityState;
-		public Figure Authority => AbilityState.Performer;
+		public Figure Authority { get; private set; }
 		public Figure Performer => AbilityState.Performer;
 
 		public ParametersBase(T abilityState)
@@ -520,6 +520,12 @@ public abstract class ScenarioEvent
 			}
 
 			AbilityState = abilityState;
+			Authority = AbilityState.Authority;
+		}
+
+		public void SetAuthority(Figure figure)
+		{
+			Authority = figure;
 		}
 	}
 

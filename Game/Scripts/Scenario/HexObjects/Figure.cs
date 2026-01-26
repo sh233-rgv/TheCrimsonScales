@@ -43,7 +43,7 @@ public abstract partial class Figure : HexObject, IActionSource
 
 	public abstract string DisplayName { get; }
 	public abstract string DebugName { get; }
-	public abstract AMDCardDeck AMDCardDeck { get; }
+	public virtual AMDCardDeck AMDCardDeck { get; set; }
 	public abstract Texture2D MapIconTexture { get; }
 	public abstract Node2D Visual { get; }
 

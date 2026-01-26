@@ -8,6 +8,8 @@ using Godot;
 public abstract class MonsterAbilityCardModel : AbstractModel //, IDeckCard
 {
 	public abstract string CardsAtlasPath { get; }
+	public virtual int ColumnCount => 3;
+	public virtual int RowCount => 3;
 
 	public virtual bool Reshuffles => false;
 	public virtual IEnumerable<CardElementInfusion> ElementInfusions { get; } = [];
@@ -182,7 +184,7 @@ public abstract class MonsterAbilityCardModel : AbstractModel //, IDeckCard
 	public Texture2D GetTexture()
 	{
 		return AtlasTextureHelper.CreateAtlasTexture(
-			CardIndex, 3, 3,
+			CardIndex, ColumnCount, RowCount,
 			ResourceLoader.Load<Texture2D>(CardsAtlasPath));
 	}
 }

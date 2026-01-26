@@ -16,6 +16,7 @@ public class Scenario052 : ScenarioModel
 	private List<PressurePlate> _pressurePlatesA;
 	private List<PressurePlate> _pressurePlatesB;
 	private Hex _markerCHex;
+	private string _text;
 
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
@@ -65,6 +66,29 @@ public class Scenario052 : ScenarioModel
 					await PressurePlatesADestroyed();
 				}
 			});
+		_text = $"""
+		         Dark Pit overlay tiles cannot be moved or destroyed in any way and cannot be entered or moved through by characters or character summons. Character and character summons cannot occupy the E1A tile until both pressure plates marked E1A tile until both pressure plates marked {Icons.InlineMarker(Marker.Type.a)} have been removed.
+		         At the end of every even round, spawn a Spitting Drake at {Icons.InlineMarker(Marker.Type.c)}. {(GameController.Instance.SavedCampaign.Characters.Count == 2 ? "All spawns are normal" : GameController.Instance.SavedCampaign.Characters.Count == 3 ? "Every other spawn is elite" : "All spawns are elite")}.
+		         Oozes drop two money tokens instead of one.
+		         """;
+		UpdateScenarioText(_text);
+	}
+
+
+	protected override async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters parameters)
+	{
+		await base.OnRoomRevealed(parameters);
+
+		if(GameController.Instance.Map.Rooms.All(room => room.Revealed))
+		{
+			return;
+		}
+
+		_text += $"""
+		          Whenever a pressure plate marked {Icons.InlineMarker(Marker.Type.a)} is occupied at the end of a turn, remove it from the board.
+		          Something will happen when both pressure plates {Icons.InlineMarker(Marker.Type.a)} have been removed.
+		          """;
+		UpdateScenarioText(_text);
 	}
 
 	private MonsterType CalculateMonsterType(int roundNumber)
@@ -113,5 +137,9 @@ public class Scenario052 : ScenarioModel
 			{
 				await ((CustomScenarioGoals)ScenarioGoals).Win();
 			});
+
+		_text += $"""
+		          Characters adjacent to or occupying a water hex that would suffer {Icons.Inline(Icons.Damage)} from an attack may return one money token from their possession to the supply (tossing it in the wishing well) to negate the {Icons.Inline(Icons.Damage)}.
+		          """;
 	}
 }

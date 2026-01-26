@@ -312,6 +312,18 @@ public static class AbilityCmd
 		await GDTask.CompletedTask;
 	}
 
+	public static async GDTask AddCharacterToken(Character character, Figure target, string effectText)
+	{
+		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(character, target,
+			parameters => parameters.Figure == target,
+			parameters => parameters.Add(new InfoTextExtraEffect.Parameters(effectText))
+		);
+
+		target.AddEffectView<CharacterTokenHexObjectEffectView>(new CharacterTokenHexObjectEffectView.Parameters(character, target));
+
+		await GDTask.CompletedTask;
+	}
+
 	public static async GDTask RemoveCharacterToken(AbilityState abilityState, Figure target)
 	{
 		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(abilityState, target);
