@@ -9,33 +9,44 @@ public class AmberAegisModel : ClassModel
 	public override Ancestry Ancestry => Ancestry.Harrower;
 
 	public override string AssetPath => "res://Content/Classes/AmberAegis";
-	public override Color PrimaryColor => Color.FromHtml("ef6b26");
-	public override Color SecondaryColor => Color.FromHtml("4b732e");
+	public override Color PrimaryColor => Color.FromHtml("fdaf17");
+	public override Color SecondaryColor => Color.FromHtml("69440d");
 
 	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/AmberAegis.tscn");
 
 	public override IList<AbilityCardModel> AbilityCards { get; } =
 	[
-		ModelDB.AbilityCard<BloodThinner>(),
-		ModelDB.AbilityCard<Bogstep>(),
-		ModelDB.AbilityCard<DeathSentence>(),
-		ModelDB.AbilityCard<GroundSolvent>(),
-		ModelDB.AbilityCard<LashingVines>(),
-		ModelDB.AbilityCard<Mudslide>(),
-		ModelDB.AbilityCard<Neurotoxin>(),
-		ModelDB.AbilityCard<ParalyticAgent>(),
-		ModelDB.AbilityCard<SerpentsKiss>(),
-		ModelDB.AbilityCard<StillRiverAlgae>(),
-
-		ModelDB.AbilityCard<Sinkhole>(),
-		ModelDB.AbilityCard<VolatileTonic>(),
-		ModelDB.AbilityCard<CopperneckBerries>(),
-
-		ModelDB.AbilityCard<ThrowingDaggers>(),
-		ModelDB.AbilityCard<AirborneSpores>(),
-		ModelDB.AbilityCard<PotentMixture>(),
-		ModelDB.AbilityCard<HideAndSeek>(),
-		ModelDB.AbilityCard<RadiantForestFungi>(),
-		ModelDB.AbilityCard<FirerootSap>(),
+		ModelDB.AbilityCard<EncasingWebs>(),
+		ModelDB.AbilityCard<HornedCarapace>(),
+		ModelDB.AbilityCard<RetributionOfTheHive>(),
+		ModelDB.AbilityCard<SentrySwarm>(),
+		ModelDB.AbilityCard<CorrosiveSpittle>(),
+		ModelDB.AbilityCard<BurningStingers>(),
+		ModelDB.AbilityCard<AntiVenom>(),
+		ModelDB.AbilityCard<NurtureTheWeak>(),
+		ModelDB.AbilityCard<ShelterTheNest>(),
+		ModelDB.AbilityCard<SeekNourishment>(),
+		ModelDB.AbilityCard<RepelIntruders>(),
+		
+		ModelDB.AbilityCard<OverwhelmingSwarm>(),
+		ModelDB.AbilityCard<MarchOfMultitudes>(),
+		ModelDB.AbilityCard<PrimalPheromones>(),
+		
+		ModelDB.AbilityCard<CladInSpikes>(),
+		ModelDB.AbilityCard<SteelsilkWeaver>(),
+		ModelDB.AbilityCard<MaddeningChatter>(),
+		ModelDB.AbilityCard<ViolentOutlash>(),
+		ModelDB.AbilityCard<FerociousProliferation>(),
+		ModelDB.AbilityCard<AlateDispersion>(),
+		ModelDB.AbilityCard<BirthingChambers>(),
+		ModelDB.AbilityCard<BurrowUnder>(),
+		ModelDB.AbilityCard<AssimilateAdversaries>(),
+		ModelDB.AbilityCard<FranticMigration>(),
+		ModelDB.AbilityCard<StalkThePrey>(),
+		ModelDB.AbilityCard<LaceratingHorde>(),
+		ModelDB.AbilityCard<CoordinatedInfestation>(),
+		ModelDB.AbilityCard<EruptingMandibles>(),
+		ModelDB.AbilityCard<DivideAndConquer>(),
+		ModelDB.AbilityCard<SupremeAuthority>()
 	];
 }

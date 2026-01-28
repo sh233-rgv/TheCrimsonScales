@@ -18,12 +18,13 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 		public int? Attack { get; set; }
 		public int? Range { get; set; }
 		public List<FigureTrait> Traits { get; set; }
+		public int Count { get; set; }
 
-		public Summon Summon { get; private set; }
+		public List<Summon> Summons { get; private set; }
 
-		public void SetSummon(Summon summon)
+		public void AddSummon(Summon summon)
 		{
-			Summon = summon;
+			Summons.Add(summon);
 		}
 
 		public void AdjustHealth(int amount)
@@ -57,6 +58,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 	public int? Attack { get; private set; }
 	public int? Range { get; private set; }
 	public FigureTrait[] Traits { get; private set; }
+	public int Count { get; private set; } = 1;
 
 	/// <summary>
 	/// A builder extending <see cref="ActiveAbility{T}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods
@@ -139,6 +141,12 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 			Obj._getValidHexes = getValidHexes;
 			return (TBuilder)this;
 		}
+
+		public TBuilder WithCount(int count)
+		{
+			Obj.Count = count;
+			return (TBuilder)this;
+		}
 	}
 
 	/// <summary>
@@ -171,12 +179,13 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 		abilityState.Attack = Attack;
 		abilityState.Range = Range;
 		abilityState.Traits = Traits.ToList();
+		abilityState.Count = Count;
 	}
 
 	protected override async GDTask Perform(State abilityState)
 	{
 		// Target a hex within range
-		Hex targetedHex = await AbilityCmd.SelectHex(abilityState, list =>
+		List<Hex> targetedHexes = await AbilityCmd.SelectHexes(abilityState, list =>
 			{
 				if(_getValidHexes == null)
 				{
@@ -196,9 +205,9 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 				{
 					_getValidHexes(abilityState, list);
 				}
-			}, hintText: $"Select a hex to summon {Name}");
+			}, 0, Count, false, hintText: $"Select a hex to summon {Name}");
 
-		if(targetedHex != null)
+		foreach(Hex targetedHex in targetedHexes)
 		{
 			SummonStats summonStats = new SummonStats
 			{
@@ -214,20 +223,20 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 			GameController.Instance.Map.AddChild(summon);
 			await summon.Init(targetedHex);
 			await summon.Spawn(summonStats, (Character)abilityState.Performer, abilityState.Name, _texturePath, _mapIconTexturePath);
-			abilityState.SetSummon(summon);
+			abilityState.AddSummon(summon);
 
 			summon.Scale = Vector2.Zero;
 			await summon.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardableAsync();
-
-			ScenarioEvents.FigureKilledEvent.Subscribe(abilityState, this,
-				parameters => parameters.Figure == summon,
-				async parameters =>
-				{
-					await abilityState.ActionState.RequestDiscardOrLose();
-				});
-
-			await Activate(abilityState);
 		}
+
+		ScenarioEvents.FigureKilledEvent.Subscribe(abilityState, this,
+			parameters => abilityState.Summons.All(summon => summon.IsDead),
+			async parameters =>
+			{
+				await abilityState.ActionState.RequestDiscardOrLose();
+			});
+
+		await Activate(abilityState);
 	}
 
 	protected override async GDTask Activate(State abilityState)
@@ -241,9 +250,12 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 
 		ScenarioEvents.FigureKilledEvent.Unsubscribe(abilityState, this);
 
-		if(abilityState.Summon != null && !abilityState.Summon.IsDead)
+		foreach(Summon summon in abilityState.Summons)
 		{
-			await abilityState.Summon.Destroy();
+			if(!summon.IsDead)
+			{
+				await summon.Destroy();
+			}
 		}
 	}
 }
