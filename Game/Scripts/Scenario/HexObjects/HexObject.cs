@@ -99,7 +99,10 @@ public partial class HexObject : Node2D, IReferenced
 			DestroyAnimation();
 		}
 
-		DestroyEvent?.Invoke(this);
+		if(DestroyEvent != null)
+		{
+			await DestroyEvent.Invoke(this);
+		}
 
 		ScenarioEvents.HexObjectDestroyed.Parameters parameters =
 			await ScenarioEvents.HexObjectDestroyedEvent.CreatePrompt(
