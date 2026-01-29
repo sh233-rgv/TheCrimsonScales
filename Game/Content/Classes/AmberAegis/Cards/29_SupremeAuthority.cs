@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class SupremeAuthority : AmberAegisCardModel<SupremeAuthority.CardTop, SupremeAuthority.CardBottom>
 {
@@ -76,7 +77,7 @@ public class SupremeAuthority : AmberAegisCardModel<SupremeAuthority.CardTop, Su
 				})
 				.Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
-				.WithConditions(Conditions.Ward)
+				.WithConditions(Conditions.Ward, new ConditionDiamondPlus(this, new Vector2(0.25831854f, 0.8322751f)))
 				.WithTarget(Target.TargetAll | Target.SelfOrAllies)
 				.WithCustomGetTargets((state, figures) =>
 				{
