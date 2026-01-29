@@ -42,7 +42,7 @@ public abstract class AmberAegisCardSide : AbilityCardSideModel<Character>
 			.Build();
 	}
 
-	protected async GDTask<ColonyToken> PlaceColonyToken<T>(AbilityState state, Action<List<Hex>> getValidHexes)
+	private async GDTask<ColonyToken> PlaceColonyToken<T>(AbilityState state, Action<List<Hex>> getValidHexes)
 		where T : ColonyToken, IColonyToken
 	{
 		await AtColonyTokenLimit<T>(state);
@@ -53,9 +53,11 @@ public abstract class AmberAegisCardSide : AbilityCardSideModel<Character>
 			return null;
 		}
 
+		GD.Print(T.ScenePath);
 		PackedScene scene = ResourceLoader.Load<PackedScene>(T.ScenePath);
+		GD.Print(scene);
 
-		ColonyToken colonyToken = scene.Instantiate<ColonyToken>();
+		T colonyToken = scene.Instantiate<T>();
 		GameController.Instance.Map.AddChild(colonyToken);
 		await colonyToken.Init(hex);
 

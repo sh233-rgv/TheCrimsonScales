@@ -25,11 +25,22 @@ public class SentrySwarm : AmberAegisCardModel<SentrySwarm.CardTop, SentrySwarm.
 							parameters.AdjustRetaliate(2);
 							await state.AdvanceUseSlot();
 						});
+					
+					ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(state, this,
+						canApplyParameters =>
+							canApplyParameters.Figure == state.Performer,
+						applyParameters =>
+						{
+							applyParameters.AddRetaliate(2, 4);
+						}
+					);
+					
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
 				{
 					ScenarioEvents.RetaliateEvent.Unsubscribe(state, this);
+					ScenarioCheckEvents.RetaliateCheckEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})
 				.WithUseSlots(

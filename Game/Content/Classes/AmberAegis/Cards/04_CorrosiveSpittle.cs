@@ -85,6 +85,7 @@ public class CorrosiveSpittle : AmberAegisCardModel<CorrosiveSpittle.CardTop, Co
 					figures.AddRange(state.ActionState.GetAbilityState<ConditionAbility.State>(0).GetRedAOEHexes()
 						.SelectMany(hex => hex.GetHexObjectsOfType<Figure>()));
 				})
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.WithMandatory(true)
 				.Build()),
 		];
