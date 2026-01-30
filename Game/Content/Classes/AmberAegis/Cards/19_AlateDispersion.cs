@@ -58,7 +58,7 @@ public class AlateDispersion : AmberAegisCardModel<AlateDispersion.CardTop, Alat
 				.WithOnAbilityStarted(async state =>
 				{
 					Hex hex = await AbilityCmd.SelectHex(state,
-						list => list.AddRange(GameController.Instance.Map.GetChildrenOfType<ColonyToken>().Select(colonyToken => colonyToken.Hex)),
+						list => list.AddRange(GameController.Instance.Map.Hexes.Values.Where(hex => hex.HasHexObjectOfType<ColonyToken>())),
 						true,
 						$"Designate a {Icons.HintText(ColonyToken.AnyColony)}");
 					//TODO: Change to selecting overlay tile
@@ -87,5 +87,7 @@ public class AlateDispersion : AmberAegisCardModel<AlateDispersion.CardTop, Alat
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.Build())
 		];
+
+		public override int XP => 1;
 	}
 }

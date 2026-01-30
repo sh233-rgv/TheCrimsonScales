@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Fractural.Tasks;
 using Godot;
 
 public class ViolentOutlash : AmberAegisCardModel<ViolentOutlash.CardTop, ViolentOutlash.CardBottom>
@@ -16,7 +15,7 @@ public class ViolentOutlash : AmberAegisCardModel<ViolentOutlash.CardTop, Violen
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
 				.WithAOEPattern(new AOEPattern([
-					new AOEHex(Vector2I.Zero, AOEHexType.Red),
+					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 				]))
@@ -26,12 +25,12 @@ public class ViolentOutlash : AmberAegisCardModel<ViolentOutlash.CardTop, Violen
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
-						}))
+						}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")))
 				.Build()),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
 				.WithAOEPattern(new AOEPattern([
-					new AOEHex(Vector2I.Zero, AOEHexType.Red),
+					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 					new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
 				]))
@@ -41,7 +40,7 @@ public class ViolentOutlash : AmberAegisCardModel<ViolentOutlash.CardTop, Violen
 						{
 							parameters.AbilityState.AbilityAdjustPierce(2);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
-						}))
+						}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Pierce)}2")))
 				.Build())
 		];
 

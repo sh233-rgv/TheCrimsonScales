@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public class AssimilateAdversaries : AmberAegisCardModel<AssimilateAdversaries.CardTop, AssimilateAdversaries.CardBottom>
 {
@@ -19,7 +18,7 @@ public class AssimilateAdversaries : AmberAegisCardModel<AssimilateAdversaries.C
 				.WithOnAbilityStarted(async state =>
 				{
 					List<Hex> hexes = await AbilityCmd.SelectHexes(state,
-						list => list.AddRange(GameController.Instance.Map.GetChildrenOfType<ColonyToken>().Select(colonyToken => colonyToken.Hex)), 0,
+						list => list.AddRange(GameController.Instance.Map.Hexes.Values.Where(hex => hex.HasHexObjectOfType<ColonyToken>())), 0,
 						2, false, hintText: $"Select two {Icons.HintText(ColonyToken.AnyColony)} to destroy");
 					//TODO: Change to selecting the overlay tiles themselves
 					List<ColonyToken> colonyTokens = hexes.Select(hex => hex.GetHexObjectOfType<ColonyToken>()).ToList();

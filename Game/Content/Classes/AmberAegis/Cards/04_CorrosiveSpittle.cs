@@ -17,6 +17,7 @@ public class CorrosiveSpittle : AmberAegisCardModel<CorrosiveSpittle.CardTop, Co
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.46376285f, 0.18548882f)))
 				.WithTargets(2)
+				.WithConditions(Conditions.Wound1)
 				.WithDuringAttackSubscriptions(
 				[
 					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,

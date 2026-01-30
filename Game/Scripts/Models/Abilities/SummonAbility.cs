@@ -20,7 +20,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 		public List<FigureTrait> Traits { get; set; }
 		public int Count { get; set; }
 
-		public List<Summon> Summons { get; private set; }
+		public List<Summon> Summons { get; } = [];
 
 		public void AddSummon(Summon summon)
 		{
@@ -185,27 +185,28 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 	protected override async GDTask Perform(State abilityState)
 	{
 		// Target a hex within range
+		string hintText = abilityState.Count > 1 ? $"Select hexes to summon {abilityState.Count} {Name}s" : $"Select a hex to summon {Name}";
 		List<Hex> targetedHexes = await AbilityCmd.SelectHexes(abilityState, list =>
+		{
+			if(_getValidHexes == null)
 			{
-				if(_getValidHexes == null)
+				RangeHelper.FindHexesInRange(abilityState.Performer.Hex, 1, true, list);
+
+				for(int i = list.Count - 1; i >= 0; i--)
 				{
-					RangeHelper.FindHexesInRange(abilityState.Performer.Hex, 1, true, list);
+					Hex hex = list[i];
 
-					for(int i = list.Count - 1; i >= 0; i--)
+					if(!hex.IsEmpty())
 					{
-						Hex hex = list[i];
-
-						if(!hex.IsEmpty())
-						{
-							list.RemoveAt(i);
-						}
+						list.RemoveAt(i);
 					}
 				}
-				else
-				{
-					_getValidHexes(abilityState, list);
-				}
-			}, 0, Count, false, hintText: $"Select a hex to summon {Name}");
+			}
+			else
+			{
+				_getValidHexes(abilityState, list);
+			}
+		}, 0, abilityState.Count, false, hintText: hintText);
 
 		foreach(Hex targetedHex in targetedHexes)
 		{

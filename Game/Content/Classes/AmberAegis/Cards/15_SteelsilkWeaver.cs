@@ -17,6 +17,13 @@ public class SteelsilkWeaver : AmberAegisCardModel<SteelsilkWeaver.CardTop, Stee
 				.WithConditions(Conditions.Immobilize)
 				.WithTargets(3, new TargetsSquare(this, new Vector2(0.4849852f, 0.26382118f)))
 				.WithRange(2, new RangeSquare(this, new Vector2(0.697037f, 0.26382118f)))
+				.WithOnAbilityEndedPerformed(async state =>
+				{
+					foreach(Figure figure in state.UniqueTargetedFigures)
+					{
+						await AbilityCmd.SufferDamage(state, figure, 1);
+					}
+				})
 				.Build())
 		];
 
@@ -35,7 +42,7 @@ public class SteelsilkWeaver : AmberAegisCardModel<SteelsilkWeaver.CardTop, Stee
 				.Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Immobilize)
-				.WithTarget(Target.TargetAll)
+				.WithTarget(Target.Allies | Target.TargetAll)
 				.WithCustomGetTargets((state, figures) =>
 				{
 					figures.AddRange(state.ActionState.GetAbilityState<HealAbility.State>(0).UniqueTargetedFigures);

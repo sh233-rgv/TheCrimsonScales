@@ -40,12 +40,13 @@ public class SupremeAuthority : AmberAegisCardModel<SupremeAuthority.CardTop, Su
 						{
 							Figure figure = await AbilityCmd.SelectFigure(state.Performer,
 								list => list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 3)
-									.Where(figure => figure.EnemiesWith(state.Performer))));
+									.Where(figure => figure.EnemiesWith(state.Performer))),
+								hintText: () =>
+									$"Select an enemy to gain {Icons.HintText(Icons.GetCondition(Conditions.Wound1))}, {Icons.HintText(Icons.GetCondition(Conditions.Poison1))}, and {Icons.HintText(Icons.GetCondition(Conditions.Muddle))}");
 							if(figure == null)
 							{
 								return;
 							}
-
 							await AbilityCmd.AddConditions(state, figure, [Conditions.Wound1, Conditions.Poison1, Conditions.Muddle]);
 						});
 					await GDTask.CompletedTask;
@@ -81,7 +82,8 @@ public class SupremeAuthority : AmberAegisCardModel<SupremeAuthority.CardTop, Su
 				.WithTarget(Target.TargetAll | Target.SelfOrAllies)
 				.WithCustomGetTargets((state, figures) =>
 				{
-					figures.AddRange(RangeHelper.GetFiguresInRange(state.GetCustomValue<ColonyToken>(this, "ColonyToken").Hex, 3));
+					figures.AddRange(RangeHelper.GetFiguresInRange(
+						state.ActionState.GetAbilityState<OtherAbility.State>(0).GetCustomValue<ColonyToken>(this, "ColonyToken").Hex, 3));
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.Build())

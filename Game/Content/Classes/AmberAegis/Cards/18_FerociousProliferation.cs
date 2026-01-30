@@ -53,5 +53,7 @@ public class FerociousProliferation : AmberAegisCardModel<FerociousProliferation
 				.Build())
 			//TODO: Add Perform Hex (requires scenarios)
 		];
+
+		public override int XP => 1;
 	}
 }

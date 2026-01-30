@@ -421,21 +421,18 @@ public partial class ScenarioEvents
 	{
 		public class Parameters(Figure figure, int damage, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
 		{
-			public Figure Figure { get; private set; } = figure;
+			public Figure Figure { get; } = figure;
 			public int Damage { get; } = damage;
 			public AbilityState PotentialAbilityState { get; } = abilityState;
 			public SufferDamage.Parameters SufferDamageParameters { get; } = sufferDamageParameters;
+
+			public bool WouldSufferDamage => Damage > 0 && !Prevented;
 
 			public bool Prevented { get; private set; }
 
 			public void SetPrevented()
 			{
 				Prevented = true;
-			}
-
-			public void SetFigure(Figure figure)
-			{
-				Figure = figure;
 			}
 		}
 	}

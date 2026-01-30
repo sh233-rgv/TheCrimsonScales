@@ -84,7 +84,8 @@ public class RepelIntruders : AmberAegisCardModel<RepelIntruders.CardTop, RepelI
 							//TODO: Change to selecting the overlay tile itself
 							Hex hex = await AbilityCmd.SelectHex(parameters.AbilityState,
 								list => list.AddRange(RangeHelper.GetHexesInRange(parameters.Performer.Hex, 3)
-									.Where(hex => hex.HasHexObjectOfType<ColonyToken>())));
+									.Where(hex => hex.HasHexObjectOfType<ColonyToken>())),
+								hintText: $"Select a {Icons.HintText(ColonyToken.AnyColony)} to destroy");
 							if(hex == null)
 							{
 								return;

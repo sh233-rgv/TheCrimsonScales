@@ -60,12 +60,15 @@ public class StalkThePrey : AmberAegisCardModel<StalkThePrey.CardTop, StalkThePr
 					List<Summon> summons = state.ActionState.GetAbilityState<SummonAbility.State>(0).Summons;
 
 					ScenarioEvents.JustBeforeSufferDamageEvent.Subscribe(state, this,
-						parameters => parameters.Figure is Summon summon && summons.Contains(summon),
+						parameters => parameters.Figure is Summon summon && summons.Contains(summon) && parameters.WouldSufferDamage,
 						async parameters =>
 						{
-							parameters.SetFigure(state.Performer);
-							await GDTask.CompletedTask;
-						});
+							parameters.SetPrevented();
+							await AbilityCmd.SufferDamage(parameters.PotentialAbilityState, state.Performer, parameters.Damage);
+						}, EffectType.Selectable,
+						effectButtonParameters: new IconEffectButton.Parameters("res://Content/Classes/AmberAegis/venator_tarantula.png"),
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"Have {state.Performer.DebugName} suffer the {Icons.Inline(Icons.Damage)} instead"));
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>

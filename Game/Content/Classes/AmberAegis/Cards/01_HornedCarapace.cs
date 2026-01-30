@@ -39,7 +39,7 @@ public class HornedCarapace : AmberAegisCardModel<HornedCarapace.CardTop, Horned
 						{
 							((RetaliateAbility.State)parameters.AbilityState).AdjustRetaliateValue(1);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
-						}))
+						}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Retaliate)}")))
 				.Build())
 		];
 

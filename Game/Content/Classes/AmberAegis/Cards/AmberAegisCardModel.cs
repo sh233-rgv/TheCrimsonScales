@@ -4,6 +4,7 @@ using Godot;
 using System.Linq;
 using Fractural.Tasks;
 using GTweens.Easings;
+using GTweensGodot.Extensions;
 
 public abstract class AmberAegisCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : AmberAegisCardSide
@@ -30,7 +31,7 @@ public abstract class AmberAegisCardSide : AbilityCardSideModel<Character>
 					parameters => elements != null,
 					async parameters =>
 					{
-						if(elements.Count == 1)
+						if(elements?.Count == 1)
 						{
 							await AbilityCmd.InfuseElement(parameters.AbilityState, elements[0]);
 						}
@@ -38,7 +39,10 @@ public abstract class AmberAegisCardSide : AbilityCardSideModel<Character>
 						{
 							await AbilityCmd.InfuseElement(parameters.AbilityState, elements);
 						}
-					}))
+					}, effectInfoViewParameters: new TextEffectInfoView.Parameters(elements == null
+						? ""
+						: $"{Icons.Inline(Icons.GetElement(elements[0]))}" +
+						  (elements.Count > 1 ? $" or {Icons.Inline(Icons.GetElement(elements[1]))}" : ""))))
 			.Build();
 	}
 
@@ -53,10 +57,7 @@ public abstract class AmberAegisCardSide : AbilityCardSideModel<Character>
 			return null;
 		}
 
-		GD.Print(T.ScenePath);
 		PackedScene scene = ResourceLoader.Load<PackedScene>(T.ScenePath);
-		GD.Print(scene);
-
 		T colonyToken = scene.Instantiate<T>();
 		GameController.Instance.Map.AddChild(colonyToken);
 		await colonyToken.Init(hex);
@@ -121,7 +122,7 @@ public abstract class AmberAegisCardSide : AbilityCardSideModel<Character>
 				$"Place a {Icons.Inline(DeathshroudSpiderColony.IconPath)}")
 		));
 
-		await AbilityCmd.GenericChoice(state.Performer, subscriptions, hintText: $"Choose a {Icons.Inline(ColonyToken.AnyColony)} to place");
+		await AbilityCmd.GenericChoice(state.Performer, subscriptions, hintText: $"Choose a {Icons.HintText(ColonyToken.AnyColony)} to place");
 
 		return colonyToken;
 	}
@@ -129,13 +130,13 @@ public abstract class AmberAegisCardSide : AbilityCardSideModel<Character>
 	private async GDTask AtColonyTokenLimit<T>(AbilityState state)
 		where T : ColonyToken, IColonyToken
 	{
-		if(GameController.Instance.Map.GetChildrenOfType<T>().Count < T.MaxCount)
+		if(GameController.Instance.Map.Hexes.Values.Count(hex => hex.HasHexObjectOfType<T>()) < T.MaxCount)
 		{
 			return;
 		}
 
 		Hex hex = await AbilityCmd.SelectHex(state,
-			list => list.AddRange(GameController.Instance.Map.GetChildrenOfType<T>().Select(colonyToken => colonyToken.Hex)), true,
+			list => list.AddRange(GameController.Instance.Map.Hexes.Values.Where(hex => hex.HasHexObjectOfType<T>())), true,
 			$"Select a {Icons.HintText(T.IconPath)} to remove");
 		//TODO: Change to select overlaytile
 		hex.GetHexObjectOfType<T>().RemoveFromMap();
@@ -150,23 +151,17 @@ public abstract class AmberAegisCardSide : AbilityCardSideModel<Character>
 	protected bool IsAdjacentToColonyToken<T>(Hex hex)
 		where T : ColonyToken
 	{
-		List<T> tokens = GameController.Instance.Map.GetChildrenOfType<T>();
-		foreach(T token in tokens)
-		{
-			if(RangeHelper.Distance(hex, token.Hex) <= 1)
-			{
-				return true;
-			}
-		}
-
-		return false;
+		return GameController.Instance.Map.Hexes.Values
+			.Where(mapHex => mapHex.HasHexObjectOfType<T>())
+			.Any(tokenHex => RangeHelper.Distance(hex, tokenHex) <= 1);
 	}
 
 	protected async GDTask MoveColonyToken(AbilityState state, int hexes, Func<Hex, ActionState, GDTask> onColonyMoved = null)
 	{
 		Hex hex = await AbilityCmd.SelectHex(state,
-			list => list.AddRange(GameController.Instance.Map.GetChildrenOfType<ColonyToken>().Select(colonyToken => colonyToken.Hex)),
+			list => list.AddRange(GameController.Instance.Map.Hexes.Values.Where(hex => hex.HasHexObjectOfType<ColonyToken>())),
 			hintText: $"Select a {Icons.HintText(ColonyToken.AnyColony)} to move");
+		//TODO: Change to selecting the colony token
 		if(hex == null)
 		{
 			return;
@@ -185,9 +180,15 @@ public abstract class AmberAegisCardSide : AbilityCardSideModel<Character>
 				break;
 			}
 
+			await colonyToken.TweenGlobalPosition(moveToHex.GlobalPosition, 0.3f).SetEasing(Easing.OutSine)
+				.PlayFastForwardableAsync();
+			await GDTask.DelayFastForwardable(0.03f);
 			colonyToken.SetOriginHexAndRotation(moveToHex);
 			state.SetPerformed();
-			onColonyMoved?.Invoke(moveToHex, state.ActionState);
+			if(onColonyMoved != null)
+			{
+				await onColonyMoved.Invoke(moveToHex, state.ActionState);
+			}
 		}
 	}
 }

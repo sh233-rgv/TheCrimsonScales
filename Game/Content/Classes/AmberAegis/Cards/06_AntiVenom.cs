@@ -33,7 +33,8 @@ public class AntiVenom : AmberAegisCardModel<AntiVenom.CardTop, AntiVenom.CardBo
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithTarget(Target.Self)
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Earth))
+				.WithConditionalAbilityCheck(state =>
+					AbilityCmd.AskConsumeElement(state.Performer, Element.Earth, effectInfoText: $"{Icons.Inline(Icons.Heal)}2, Self"))
 				.Build())
 		];
 	}

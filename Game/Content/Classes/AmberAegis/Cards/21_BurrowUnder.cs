@@ -31,7 +31,9 @@ public class BurrowUnder : AmberAegisCardModel<BurrowUnder.CardTop, BurrowUnder.
 							parameters.AbilityState.AbilityAdjustAttackValue(1);
 							parameters.AbilityState.AbilityAddCondition(Conditions.Muddle);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
-						}))
+						},
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"+1{Icons.Inline(Icons.Attack)}, {Icons.Inline(Icons.GetCondition(Conditions.Muddle))}")))
 				.Build())
 		];
 	}
@@ -44,6 +46,7 @@ public class BurrowUnder : AmberAegisCardModel<BurrowUnder.CardTop, BurrowUnder.
 				.WithConditions(Conditions.Immobilize)
 				.WithTarget(Target.Allies | Target.Enemies)
 				.WithTargets(2)
+				.WithRange(3)
 				.WithFilterTargets((state, figure) =>
 				{
 					if(state.UniqueTargetedFigures.Any(target => target.EnemiesWith(state.Performer)) && figure.EnemiesWith(state.Performer))

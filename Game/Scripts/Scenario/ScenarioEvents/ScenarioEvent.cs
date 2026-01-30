@@ -41,6 +41,7 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 				effectInfoViewParameters ?? new TextEffectInfoView.Parameters("TODO"));
 		}
 
+		//TODO: Some issues when undoing (consumelement button an disappear)
 		public static Subscription ConsumeElement(Element element,
 			CanApplyFunction canApplyFunction = null, ApplyFunction applyFunction = null, EffectType effectType = EffectType.Selectable,
 			int order = 0, bool canApplyMultipleTimesDuringSubscription = false, bool canApplyMultipleTimesInEffectCollection = false,
@@ -170,10 +171,6 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 					}
 
 					AbilityState abilityState = abilityStateParameters.BaseAbilityState;
-					foreach(Element element in elements)
-					{
-						await AbilityCmd.TryConsumeElement(element);
-					}
 
 					await AbilityCmd.AskConsumeElement(abilityState.Authority, elements, true);
 
@@ -191,6 +188,7 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 				canApplyMultipleTimesDuringSubscription,
 				canApplyMultipleTimesInEffectCollection,
 				effectButtonParameters ?? new ConsumeElementEffectButton.Parameters(elements),
+				//TODO: Add visual indicator that it is a choice
 				effectInfoViewParameters ?? new TextEffectInfoView.Parameters("TODO"));
 		}
 

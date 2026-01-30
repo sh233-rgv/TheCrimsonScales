@@ -31,7 +31,7 @@ public class CoordinatedInfestation : AmberAegisCardModel<CoordinatedInfestation
 						{
 							parameters.AbilityState.AbilityAddCondition(Conditions.Wound1);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
-						}))
+						}, effectInfoViewParameters: new TextEffectInfoView.Parameters(Icons.Inline(Icons.GetCondition(Conditions.Wound1)))))
 				.Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Wound1)
@@ -57,7 +57,8 @@ public class CoordinatedInfestation : AmberAegisCardModel<CoordinatedInfestation
 				.Build()),
 			new AbilityCardAbility(ShieldAbility.Builder()
 				.WithShieldValue(2)
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Earth))
+				.WithConditionalAbilityCheck(state =>
+					AbilityCmd.AskConsumeElement(state.Performer, Element.Earth, effectInfoText: $"{Icons.Inline(Icons.Shield)}2"))
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					state.ActionState.SetOverrideRound();

@@ -18,7 +18,7 @@ public class BurningStingers : AmberAegisCardModel<BurningStingers.CardTop, Burn
 				.WithTargets(3, new TargetsSquare(this, new Vector2(0.59447414f, 0.236237f)))
 				.WithRange(3)
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.New(
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
 						applyFunction: async applyParameters =>
 						{
 							ScenarioEvents.AfterAttackPerformedEvent.Subscribe(applyParameters.AbilityState, this,
@@ -30,6 +30,11 @@ public class BurningStingers : AmberAegisCardModel<BurningStingers.CardTop, Burn
 							);
 							await GDTask.CompletedTask;
 						}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"All targets suffer {Icons.Inline(Icons.Damage)}1")))
+				.WithOnAbilityEnded(async state =>
+				{
+					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this);
+					await GDTask.CompletedTask;
+				})
 				.Build())
 		];
 	}

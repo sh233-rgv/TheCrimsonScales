@@ -6,6 +6,7 @@ public class Bane : ConditionModel
 	public override string Name => "Bane";
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Bane.svg";
 	public override ConditionPolarity ConditionPolarity => ConditionPolarity.Negative;
+	public override bool RemovedAtEndOfTurn => true;
 	public override bool RemovedByHeal => true;
 
 	public override Func<Condition, GDTask> OnRemovedAtEndOfTurn =>

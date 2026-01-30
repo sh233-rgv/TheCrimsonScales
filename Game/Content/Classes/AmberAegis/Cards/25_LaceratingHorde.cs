@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Fractural.Tasks;
 using Godot;
 
 public class LaceratingHorde : AmberAegisCardModel<LaceratingHorde.CardTop, LaceratingHorde.CardBottom>
@@ -58,13 +57,13 @@ public class LaceratingHorde : AmberAegisCardModel<LaceratingHorde.CardTop, Lace
 						{
 							((RetaliateAbility.State)parameters.AbilityState).AdjustRetaliateValue(1);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
-						}),
+						}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Retaliate)}")),
 					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(Element.Earth,
 						applyFunction: async parameters =>
 						{
 							((RetaliateAbility.State)parameters.AbilityState).AdjustRange(2);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
-						})
+						}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Range)}")),
 				])
 				.Build())
 		];

@@ -37,7 +37,8 @@ public class EncasingWebs : AmberAegisCardModel<EncasingWebs.CardTop, EncasingWe
 				{
 					figures.Add(state.ActionState.GetAbilityState<HealAbility.State>(0).Target);
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire,
+					effectInfoText: $"Grant the target of the heal ability {Icons.Inline(Icons.Retaliate)}1"))
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					state.ActionState.SetOverrideRound();

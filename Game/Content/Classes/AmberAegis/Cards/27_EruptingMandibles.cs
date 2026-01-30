@@ -22,7 +22,7 @@ public class EruptingMandibles : AmberAegisCardModel<EruptingMandibles.CardTop, 
 				.WithPerformAbility(async state =>
 				{
 					int damage = ((Character)state.Performer).Cards.Count(card =>
-						card.CardState is CardState.Persistent && card.Top.Model.CustomTag == "Cultivate");
+						card.CardState is CardState.Persistent && card.Top.Model.CustomTag == "Cultivate") + 1;
 					foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1)
 						        .Where(figure => figure.EnemiesWith(state.Performer) || figure.AlliedWith(state.Performer)))
 					{
@@ -32,7 +32,9 @@ public class EruptingMandibles : AmberAegisCardModel<EruptingMandibles.CardTop, 
 
 					await AbilityCmd.GainXP(state.Performer, 1);
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Earth))
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Earth,
+					effectInfoText:
+					$"All adjacent allies and enemies suffer {Icons.Inline(Icons.Damage)}X+1, where X is the number of active CULTIVATES"))
 				.Build())
 		];
 
@@ -48,7 +50,8 @@ public class EruptingMandibles : AmberAegisCardModel<EruptingMandibles.CardTop, 
 				.Build()),
 			new AbilityCardAbility(RetaliateAbility.Builder()
 				.WithRetaliateValue(2)
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))
+				.WithConditionalAbilityCheck(state =>
+					AbilityCmd.AskConsumeElement(state.Performer, Element.Fire, effectInfoText: $"{Icons.Inline(Icons.Retaliate)}2"))
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					state.ActionState.SetOverrideRound();

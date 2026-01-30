@@ -31,6 +31,7 @@ public class BirthingChambers : AmberAegisCardModel<BirthingChambers.CardTop, Bi
 											.WithTarget(Target.Self)
 											.Build()
 									])
+									.WithTarget(Target.SelfOrAllies)
 									.WithCustomGetTargets((_, figures) =>
 									{
 										figures.Add(parameters.Figure);

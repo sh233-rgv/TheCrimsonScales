@@ -32,6 +32,7 @@ public class SeekNourishment : AmberAegisCardModel<SeekNourishment.CardTop, Seek
 											.WithTarget(Target.Self)
 											.Build()
 									])
+									.WithTarget(Target.SelfOrAllies)
 									.WithCustomGetTargets((_, figures) =>
 									{
 										figures.Add(parameters.Figure);

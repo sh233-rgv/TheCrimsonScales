@@ -30,7 +30,7 @@ public class DivideAndConquer : AmberAegisCardModel<DivideAndConquer.CardTop, Di
 				//TODO: Turn End trait (requires brightspark)
 				.WithOnAbilityStarted(async state =>
 				{
-					state.AdjustHealth(state.ActionState.GetAbilityState<SummonAbility.State>(0)
+					state.AdjustHealth(state.ActionState.GetAbilityState<OtherAbility.State>(0)
 						.GetCustomValue<int>(this, "DamagedSuffered"));
 					await GDTask.CompletedTask;
 				})
@@ -61,7 +61,8 @@ public class DivideAndConquer : AmberAegisCardModel<DivideAndConquer.CardTop, Di
 				.WithTargets(2)
 				.WithCustomGetTargets((state, figures) =>
 				{
-					figures.AddRange(RangeHelper.GetFiguresInRange(state.GetCustomValue<ColonyToken>(this, "ColonyToken").Hex, 1));
+					figures.AddRange(RangeHelper.GetFiguresInRange(
+						state.ActionState.GetAbilityState<OtherAbility.State>(0).GetCustomValue<ColonyToken>(this, "ColonyToken").Hex, 1));
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.Build())

@@ -30,6 +30,7 @@ public class OverwhelmingSwarm : AmberAegisCardModel<OverwhelmingSwarm.CardTop, 
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
+				.WithTarget(Target.SelfOrAllies | Target.TargetAll)
 				.WithCustomGetTargets((state, figures) =>
 				{
 					figures.AddRange(GameController.Instance.Map.Figures.Where(figure =>

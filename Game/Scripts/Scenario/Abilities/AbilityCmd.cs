@@ -110,8 +110,6 @@ public static class AbilityCmd
 			await ScenarioEvents.JustBeforeSufferDamageEvent.CreatePrompt(
 				new ScenarioEvents.JustBeforeSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters), target);
 
-		target = justBeforeSufferDamageParameters.Figure;
-
 		if(justBeforeSufferDamageParameters.Prevented)
 		{
 			return 0;

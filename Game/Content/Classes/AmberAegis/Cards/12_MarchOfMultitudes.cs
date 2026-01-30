@@ -37,7 +37,7 @@ public class MarchOfMultitudes : AmberAegisCardModel<MarchOfMultitudes.CardTop, 
 						.WithOnAbilityStarted(async state =>
 						{
 							ScenarioCheckEvents.MoveCanStopAtCheckEvent.Subscribe(state.Performer, this,
-								parameters => parameters.AbilityState == state && IsAdjacentToColonyToken<ColonyToken>(parameters.Hex),
+								parameters => parameters.AbilityState == state && !IsAdjacentToColonyToken<ColonyToken>(parameters.Hex),
 								parameters =>
 								{
 									parameters.SetCannotStopAt();
