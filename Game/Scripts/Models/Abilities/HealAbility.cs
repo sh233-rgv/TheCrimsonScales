@@ -152,6 +152,9 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 	{
 		await base.StartPerform(abilityState);
 
+		AdjustSubscriptions(DuringHealSubscriptions, abilityState);
+		AdjustSubscriptions(AfterTargetConfirmedSubscriptions, abilityState);
+		AdjustSubscriptions(AfterHealPerformedSubscriptions, abilityState);
 		ScenarioEvents.DuringHealEvent.Subscribe(abilityState, this, DuringHealSubscriptions);
 		ScenarioEvents.HealAfterTargetConfirmedEvent.Subscribe(abilityState, this, AfterTargetConfirmedSubscriptions);
 		ScenarioEvents.AfterHealPerformedEvent.Subscribe(abilityState, this, AfterHealPerformedSubscriptions);

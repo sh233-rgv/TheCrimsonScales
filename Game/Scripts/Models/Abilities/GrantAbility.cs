@@ -92,6 +92,7 @@ public class GrantAbility : TargetedAbility<GrantAbility.State, SingleTargetStat
 	{
 		await base.StartPerform(abilityState);
 
+		AdjustSubscriptions(DuringGrantSubscriptions, abilityState);
 		ScenarioEvents.DuringGrantEvent.Subscribe(abilityState, this, DuringGrantSubscriptions);
 	}
 

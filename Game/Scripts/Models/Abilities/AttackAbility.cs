@@ -262,7 +262,10 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 	protected override async GDTask StartPerform(State abilityState)
 	{
 		await base.StartPerform(abilityState);
-
+		
+		AdjustSubscriptions(DuringAttackSubscriptions, abilityState);
+		AdjustSubscriptions(AfterTargetConfirmedSubscriptions, abilityState);
+		AdjustSubscriptions(AfterAttackPerformedSubscriptions, abilityState);
 		ScenarioEvents.DuringAttackEvent.Subscribe(abilityState, this, DuringAttackSubscriptions);
 		ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(abilityState, this, AfterTargetConfirmedSubscriptions);
 		ScenarioEvents.AfterAttackPerformedEvent.Subscribe(abilityState, this, AfterAttackPerformedSubscriptions);

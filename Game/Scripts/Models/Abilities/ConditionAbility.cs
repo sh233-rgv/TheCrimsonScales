@@ -79,6 +79,7 @@ public class ConditionAbility : TargetedAbility<ConditionAbility.State, SingleTa
 	{
 		await base.StartPerform(abilityState);
 
+		AdjustSubscriptions(AfterTargetConfirmedSubscriptions, abilityState);
 		ScenarioEvents.ConditionAfterTargetConfirmedEvent.Subscribe(abilityState, this, AfterTargetConfirmedSubscriptions);
 	}
 

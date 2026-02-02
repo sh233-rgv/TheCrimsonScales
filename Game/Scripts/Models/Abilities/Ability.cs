@@ -242,4 +242,15 @@ public abstract class Ability
 	// }
 
 	public abstract GDTask Perform(ActionState actionState);
+
+	protected void AdjustSubscriptions<T>(List<ScenarioEvent<T>.Subscription> subscriptions, AbilityState state)
+		where T : ScenarioEvent.ParametersBaseWithAbilityState
+	{
+		foreach (ScenarioEvent<T>.Subscription subscription in subscriptions)
+		{
+			ScenarioEvent<T>.CanApplyFunction previous = subscription.CanApplyFunction;
+
+			subscription.CanApplyFunction = parameters => previous.Invoke(parameters) && parameters.BaseAbilityState == state;
+		}
+	}
 }

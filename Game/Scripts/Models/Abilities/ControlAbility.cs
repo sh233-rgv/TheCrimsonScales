@@ -91,6 +91,7 @@ public class ControlAbility : TargetedAbility<ControlAbility.State, SingleTarget
 	{
 		await base.StartPerform(abilityState);
 
+		AdjustSubscriptions(DuringControlSubscriptions, abilityState);
 		ScenarioEvents.DuringControlEvent.Subscribe(abilityState, this, DuringControlSubscriptions);
 	}
 

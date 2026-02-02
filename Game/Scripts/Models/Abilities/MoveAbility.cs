@@ -126,6 +126,7 @@ public class MoveAbility : Ability<MoveAbility.State>
 
 	protected override async GDTask Perform(State abilityState)
 	{
+		AdjustSubscriptions(DuringMovementSubscriptions, abilityState);
 		Figure performer = abilityState.Performer;
 
 		async GDTask MovePath(List<Vector2I> path)
