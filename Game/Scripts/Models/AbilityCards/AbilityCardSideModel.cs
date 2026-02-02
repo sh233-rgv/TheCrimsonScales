@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Fractural.Tasks;
 
 public abstract class AbilityCardSideModel<TCharacter> : AbilityCardSideModel
@@ -18,6 +19,8 @@ public abstract class AbilityCardSideModel : AbstractModel
 
 	public AbilityCardModel AbilityCardModel { get; private set; }
 	public virtual AbilityCardSideType AbilityCardSideType { get; private set; }
+
+	public virtual Func<Figure, bool> OnCardSideStarted => null;
 
 	public virtual IEnumerable<Element> Elements { get; } = [];
 	public virtual int XP => 0;
