@@ -248,9 +248,7 @@ public abstract class Ability
 	{
 		foreach (ScenarioEvent<T>.Subscription subscription in subscriptions)
 		{
-			ScenarioEvent<T>.CanApplyFunction previous = subscription.CanApplyFunction;
-
-			subscription.CanApplyFunction = parameters => previous.Invoke(parameters) && parameters.BaseAbilityState == state;
+			subscription.AddExtraCanApplyFunction(parameters => parameters.BaseAbilityState == state);
 		}
 	}
 }

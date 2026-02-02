@@ -11,7 +11,7 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 		private readonly List<CanApplyFunction> _extraCanApplyFunctions = new List<CanApplyFunction>();
 		private bool _hasBeenAppliedDuringSubscription;
 
-		public CanApplyFunction CanApplyFunction { get; set; }
+		public CanApplyFunction CanApplyFunction { get; }
 
 		public ApplyFunction ApplyFunction { get; }
 
