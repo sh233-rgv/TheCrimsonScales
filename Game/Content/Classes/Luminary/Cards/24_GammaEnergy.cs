@@ -46,7 +46,7 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 
 					foreach(AOEHex aoeHex in aoeAnswer.AOEHexes)
 					{
-						Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
+						Hex hex = GameController.Instance.Map.GetHex(aoeHex.Coords);
 
 						if(hex != null && aoeHex.Type.HasFlag(AOEHexType.Red))
 						{

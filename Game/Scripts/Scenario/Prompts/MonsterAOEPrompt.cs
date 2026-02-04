@@ -32,7 +32,7 @@ public class MonsterAOEPrompt(
 
 		bool hasGrayHex = false;
 
-		foreach(AOEHex pivotAOEHex in pattern.Hexes)
+		foreach(AOEHex pivotAOEHex in pattern.LocalHexes)
 		{
 			if(pivotAOEHex.Type.HasFlag(AOEHexType.Gray))
 			{
@@ -45,7 +45,7 @@ public class MonsterAOEPrompt(
 		_bestAIAttackNodes.Clear();
 
 		List<Hex> rangeCache = new List<Hex>();
-		RangeHelper.FindHexesInRange(abilityState.Performer.Hex, range, false, rangeCache);
+		RangeHelper.FindHexesInRange(abilityState.Performer.Hex, hasGrayHex ? 0 : range, false, rangeCache);
 
 		void CompareAttackNode(AIAttackNode newAIAttackNode)
 		{
@@ -88,7 +88,7 @@ public class MonsterAOEPrompt(
 
 			for(int i = 0; i < 6; i++)
 			{
-				foreach(AOEHex pivotAOEHex in pattern.Hexes)
+				foreach(AOEHex pivotAOEHex in pattern.LocalHexes)
 				{
 					if(hasGrayHex && !pivotAOEHex.Type.HasFlag(AOEHexType.Gray))
 					{
@@ -99,15 +99,15 @@ public class MonsterAOEPrompt(
 					int disadvantageCount = 0;
 					AttackableFiguresCache.Clear();
 
-					Vector2I pivotOffset = -pivotAOEHex.LocalCoords;
-					foreach(AOEHex aoeHex in pattern.Hexes)
+					Vector2I pivotOffset = -pivotAOEHex.Coords;
+					foreach(AOEHex aoeHex in pattern.LocalHexes)
 					{
 						if(!aoeHex.Type.HasFlag(AOEHexType.Red))
 						{
 							continue;
 						}
 
-						Vector2I globalCoords = hexInRange.Coords + Map.RotateCoordsClockwise(pivotOffset + aoeHex.LocalCoords, i);
+						Vector2I globalCoords = hexInRange.Coords + Map.RotateCoordsClockwise(pivotOffset + aoeHex.Coords, i);
 						Hex potentialTargetHex = map.GetHex(globalCoords);
 
 						if(potentialTargetHex == null || !GameController.Instance.Map.HasLineOfSight(abilityState.Performer.Hex, potentialTargetHex))
@@ -203,10 +203,11 @@ public class MonsterAOEPrompt(
 	{
 		List<AOEHex> aoeHexes = [];
 
-		foreach(AOEHex aoeHex in pattern.Hexes)
+		foreach(AOEHex aoeHex in pattern.LocalHexes)
 		{
-			Vector2I globalCoords = _selectedNode.HexInRange.Coords +
-			                        Map.RotateCoordsClockwise(_selectedNode.PivotOffset + aoeHex.LocalCoords, _selectedNode.RotationIndex);
+			Vector2I globalCoords =
+				_selectedNode.HexInRange.Coords +
+				Map.RotateCoordsClockwise(_selectedNode.PivotOffset + aoeHex.Coords, _selectedNode.RotationIndex);
 			Hex potentialTargetHex = GameController.Instance.Map.GetHex(globalCoords);
 
 			if(potentialTargetHex == null)
@@ -214,7 +215,7 @@ public class MonsterAOEPrompt(
 				continue;
 			}
 
-			aoeHexes.Add(aoeHex);
+			aoeHexes.Add(new AOEHex(globalCoords, aoeHex.Type, aoeHex.CustomMark, aoeHex.IconPath));
 		}
 
 		return new Answer()
