@@ -8,7 +8,7 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 {
 	public new class Subscription : ScenarioEvent.Subscription
 	{
-		private readonly List<CanApplyFunction> _extraCanApplyFunctions = new List<CanApplyFunction>();
+		private CanApplyFunction _extraCanApplyFunction = null;
 		private bool _hasBeenAppliedDuringSubscription;
 
 		public CanApplyFunction CanApplyFunction { get; }
@@ -157,12 +157,10 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 			}
 
 			T castParameters = (T)parameters;
-			foreach(CanApplyFunction extraCanApplyFunction in _extraCanApplyFunctions)
+
+			if(_extraCanApplyFunction != null && !_extraCanApplyFunction(castParameters))
 			{
-				if(!extraCanApplyFunction(castParameters))
-				{
-					return false;
-				}
+				return false;
 			}
 
 			return CanApplyFunction == null || CanApplyFunction.Invoke(castParameters);
@@ -178,15 +176,15 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 			}
 		}
 
-		public void AddExtraCanApplyFunction(CanApplyFunction canApplyFunction)
+		public void SetExtraCanApplyFunction(CanApplyFunction canApplyFunction)
 		{
-			_extraCanApplyFunctions.Add(canApplyFunction);
+			_extraCanApplyFunction = canApplyFunction;
 		}
 
 		public void ClearSubscriptionAppliedAndExtraCanApplyFunctions()
 		{
 			_hasBeenAppliedDuringSubscription = false;
-			_extraCanApplyFunctions.Clear();
+			_extraCanApplyFunction = null;
 		}
 	}
 
@@ -314,8 +312,9 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 		{
 			foreach(Subscription subscription in subscriptions)
 			{
-				//CanApplyFunction oldCanApplyFunction = subscription.CanApplyFunction;
-				subscription.AddExtraCanApplyFunction(parameters =>
+				subscription.ClearSubscriptionAppliedAndExtraCanApplyFunctions();
+
+				subscription.SetExtraCanApplyFunction(parameters =>
 				{
 					if(parameters is not ParametersBaseWithAbilityState parametersBaseWithAbilityState)
 					{
@@ -323,35 +322,18 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 						return false;
 					}
 
+					if(parametersBaseWithAbilityState.BaseAbilityState != abilityState)
+					{
+						return false;
+					}
+
 					return true;
 				});
-				// subscription.CanApplyFunction = parameters =>
-				// {
-				// 	if(parameters is not ParametersBaseWithAbilityState parametersBaseWithAbilityState)
-				// 	{
-				// 		Log.Error("Trying to subscribe a list for a specific ability state, but the event does not support an ability state");
-				// 		return false;
-				// 	}
-				//
-				// 	return
-				// 		(abilityState == null || parametersBaseWithAbilityState.BaseAbilityState == abilityState) &&
-				// 		(oldCanApplyFunction == null || oldCanApplyFunction.Invoke(parameters));
-				// };
 
 				Subscribe(ScenarioEvents.GetSubscriberPair(abilityState, subscriberB), subscription, false);
 			}
 		}
 	}
-
-	// public void Subscribe(IEventSubscriber subscriber, IEnumerable<Subscription> subscriptions)
-	// {
-	//
-	// 	foreach(var subscription in subscriptions)
-	// 	{
-	// 		
-	// 	}
-	// 	Subscribe(ScenarioEvents.GetSubscriberPair(abilityState, subscriberB), subscription, false);
-	// }
 
 	public void Subscribe(IEventSubscriber subscriber, Subscription subscription, bool checkDuplicates = true)
 	{
