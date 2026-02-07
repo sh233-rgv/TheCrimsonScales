@@ -15,5 +15,36 @@ public class ArtificerModel : ClassModel
 
 	public override IList<AbilityCardModel> AbilityCards { get; } =
 	[
+		ModelDB.AbilityCard<JuryRiggedMachine>(),
+		ModelDB.AbilityCard<ImprovisedMortar>(),
+		ModelDB.AbilityCard<FragmentationMine>(),
+		ModelDB.AbilityCard<RecycleParts>(),
+		ModelDB.AbilityCard<RepurposeLeftovers>(),
+		ModelDB.AbilityCard<SalvageGrappler>(),
+		ModelDB.AbilityCard<PhaseFieldEmitter>(),
+		ModelDB.AbilityCard<GravityInverterModule>(),
+		ModelDB.AbilityCard<ParticleRayBeam>(),
+		ModelDB.AbilityCard<AdaptiveEngineering>(),
+
+		ModelDB.AbilityCard<SignalCaster>(),
+		ModelDB.AbilityCard<ImprovisedExosuit>(),
+		ModelDB.AbilityCard<ElementalCondenser>(),
+
+		ModelDB.AbilityCard<PowerModulation>(),
+		ModelDB.AbilityCard<RetrofitWeapons>(),
+		ModelDB.AbilityCard<TrajectoryDiverter>(),
+		ModelDB.AbilityCard<TrudgingBulwark>(),
+		ModelDB.AbilityCard<EnergyTransmission>(),
+		ModelDB.AbilityCard<RansackClutter>(),
+		ModelDB.AbilityCard<LaunchSkywards>(),
+		ModelDB.AbilityCard<OscillatingProjector>(),
+		ModelDB.AbilityCard<GalvanicCoil>(),
+		ModelDB.AbilityCard<MarchOfMachines>(),
+		ModelDB.AbilityCard<SeekerMissiles>(),
+		ModelDB.AbilityCard<ReinforceArmor>(),
+		ModelDB.AbilityCard<InstantRelocationMatrix>(),
+		ModelDB.AbilityCard<DoubleBarrelRailcaster>(),
+		ModelDB.AbilityCard<AnnihilatingContraption>(),
+		ModelDB.AbilityCard<PerfectedExosuit>()
 	];
 }

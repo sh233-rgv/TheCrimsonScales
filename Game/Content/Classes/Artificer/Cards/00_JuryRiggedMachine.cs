@@ -36,7 +36,7 @@ public class JuryRiggedMachine : ArtificerCardModel<JuryRiggedMachine.CardTop, J
 			])
 		];
 
-		public override Func<Figure, bool> OnCardSideStarted => figure => TryLoseScrapTokens(figure, 2);
+		public override Func<Figure, GDTask<bool>> OnCardSideStarted => async figure => await TryLoseScrapTokens(figure, 2);
 		public override bool Persistent => true;
 	}
 

@@ -2,6 +2,8 @@ using Godot;
 
 public partial class Artificer : Character
 {
+	public const string ScrapToken = "res://Content/Classes/Artificer/ScrapToken.svg";
+
 	[Export]
 	private ScrapTokenIndicator _scrapTokenIndicator;
 
@@ -11,6 +13,8 @@ public partial class Artificer : Character
 	{
 		base.Spawn(savedCharacter, index);
 		_scrapTokenIndicator.Hide();
+		GainScrapToken();
+		GainScrapToken();
 	}
 
 	public void GainScrapToken()

@@ -20,7 +20,7 @@ public abstract class AbilityCardSideModel : AbstractModel
 	public AbilityCardModel AbilityCardModel { get; private set; }
 	public virtual AbilityCardSideType AbilityCardSideType { get; private set; }
 
-	public virtual Func<Figure, bool> OnCardSideStarted => null;
+	public virtual Func<Figure, GDTask<bool>> OnCardSideStarted => null;
 
 	public virtual IEnumerable<Element> Elements { get; } = [];
 	public virtual int XP => 0;

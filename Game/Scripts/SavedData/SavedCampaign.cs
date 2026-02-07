@@ -118,7 +118,7 @@ public class SavedCampaign
 
 		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), null, "Moerasvoet");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), null, "Beschieter");
-		savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), ModelDB.PersonalQuest<SpiritualGainsPersonalQuest>(), "Opperpriester");
+		savedCampaign.AddCharacter(ModelDB.Class<ArtificerModel>(), ModelDB.PersonalQuest<SpiritualGainsPersonalQuest>(), "Opperpriester");
 		//savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), null, "Vuur Knecht");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), null, "Ketting Garde");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), null, "Dierenzitter");
@@ -127,9 +127,10 @@ public class SavedCampaign
 
 		//savedCampaign.Characters[0].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<TranslocationDevice>());
+		savedCampaign.Characters[1].SetEquippedSmallSlotItem(0, ModelDB.Item<MajorManaPotion>());
 		//savedCampaign.Characters[1].SetEquippedSmallSlotItem(0, ModelDB.Item<ScrollOfCharisma>());
 		//savedCampaign.Characters[1].AddItem(ModelDB.Item<MinorManaPotion>());
-		savedCampaign.Characters[0].AddItem(ModelDB.Item<PoisonDagger>());
+		savedCampaign.Characters[0].SetEquippedBaseSlotItem(ItemType.OneHand, ModelDB.Item<PoisonDagger>());
 		savedCampaign.Characters[0].AddItem(ModelDB.Item<Chainmail>());
 		// savedCampaign.Characters[0].SavedPersonalQuest.PersonalQuestData.AdjustProgress(
 		// 	30, savedCampaign.Characters[0].ClassModel, savedCampaign.Characters[0].SavedPersonalQuest.Model);
