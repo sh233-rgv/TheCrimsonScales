@@ -1095,10 +1095,11 @@ public partial class ScenarioEvents
 
 	public class CoinLooted : ScenarioEvent<CoinLooted.Parameters>
 	{
-		public class Parameters(Figure lootObtainer)
+		public class Parameters(Figure lootObtainer, Coin coin)
 			: ParametersBase
 		{
 			public Figure LootObtainer { get; } = lootObtainer;
+			public Coin Coin { get; } = coin;
 		}
 	}
 

@@ -382,19 +382,10 @@ public static class AbilityCmd
 			return;
 		}
 
-		if(!hex.TryGetHexObjectOfType(out CoinStack coinStack))
-		{
-			PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/CoinStack.tscn");
-			coinStack = scene.Instantiate<CoinStack>();
-			GameController.Instance.Map.AddChild(coinStack);
-			await coinStack.Init(hex);
-		}
-		else
-		{
-			coinStack.AddCoin();
-		}
-
-		await GDTask.CompletedTask;
+		PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Coin.tscn");
+		Coin coin = scene.Instantiate<Coin>();
+		GameController.Instance.Map.AddChild(coin);
+		await coin.Init(hex);
 	}
 
 	public static async GDTask LootHex(Figure figure, Hex hex)
