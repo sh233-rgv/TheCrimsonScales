@@ -24,7 +24,7 @@ public partial class AOEHexView : Node2D
 		Type = hex.Type;
 		CustomMark = hex.CustomMark;
 
-		Position = Map.CoordsToGlobalPosition(hex.LocalCoords);
+		Position = Map.CoordsToGlobalPosition(hex.Coords);
 
 		IconTextureRect.SetVisible(hex.IconPath != null);
 		IconTextureRect.SetTexture(hex.IconPath != null ? ResourceLoader.Load<Texture2D>(hex.IconPath) : null);
