@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bacyus0vgcdxx"]
+[gd_scene load_steps=16 format=3 uid="uid://bacyus0vgcdxx"]
 
 [ext_resource type="PackedScene" uid="uid://cifjwk1lx2x1h" path="res://Scenes/Scenario/Scenario.tscn" id="1_ewhex"]
 [ext_resource type="Script" uid="uid://bbtc25ohouat7" path="res://Scripts/Scenario/Room.cs" id="2_5kdg0"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://8b2r2gdyvbxc" path="res://Content/OverlayTiles/Objectives/BarrelObjective1H.tscn" id="12_x5m5f"]
 [ext_resource type="PackedScene" uid="uid://bgvdkj4pbdasj" path="res://Content/OverlayTiles/Objectives/TreeObjective3H.tscn" id="13_x5m5f"]
 [ext_resource type="PackedScene" uid="uid://drwupkt4x7cbj" path="res://Scenes/Scenario/Coin.tscn" id="14_5d2e6"]
+[ext_resource type="PackedScene" uid="uid://cjpnbtuih20q5" path="res://Scenes/Scenario/CoinStack - Deprecated.tscn" id="15_vqxvv"]
 
 [node name="Scenario" instance=ExtResource("1_ewhex")]
 
@@ -102,3 +103,6 @@ position = Vector2(327.358, 189)
 
 [node name="Coin6" parent="Map/Rooms/Room" index="23" instance=ExtResource("14_5d2e6")]
 position = Vector2(327.358, 189)
+
+[node name="CoinStack" parent="Map/Rooms/Room" index="24" instance=ExtResource("15_vqxvv")]
+position = Vector2(436.477, 378)
