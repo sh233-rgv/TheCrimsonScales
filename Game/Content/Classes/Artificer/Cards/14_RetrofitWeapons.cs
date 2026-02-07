@@ -84,7 +84,7 @@ public class RetrofitWeapons : ArtificerCardModel<RetrofitWeapons.CardTop, Retro
 			])
 		];
 
-		public override Func<Figure, GDTask<bool>> OnCardSideStarted => async figure => await TryLoseScrapTokens(figure, 2);
+		public override Func<Figure, GDTask<bool>> OnCardSideStarted => async figure => await TryLoseScrapTokens(figure, 1);
 		public override int XP => 1;
 		public override bool Persistent => true;
 	}

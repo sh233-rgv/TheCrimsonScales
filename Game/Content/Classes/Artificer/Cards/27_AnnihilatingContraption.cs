@@ -56,7 +56,6 @@ public class AnnihilatingContraption : ArtificerCardModel<AnnihilatingContraptio
 						async _ =>
 						{
 							await GainScrapToken(state);
-							await state.ActionState.RequestDiscardOrLose();
 						}
 					);
 					ScenarioEvents.HexObjectDestroyedEvent.Subscribe(state, this,

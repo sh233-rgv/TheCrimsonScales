@@ -46,7 +46,7 @@ public class SeekerMissiles : ArtificerCardModel<SeekerMissiles.CardTop, SeekerM
 				.WithHealth(1)
 				.WithMove(6)
 				.WithAttack(5)
-				.WithTraits(new FlyingTrait(), new TargetAllTrait(), new IgnoreRetaliateTrait())
+				.WithTraits(new FlyingTrait(), new TargetAllAdjacentTrait(), new IgnoreRetaliateTrait())
 				.Build()),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>

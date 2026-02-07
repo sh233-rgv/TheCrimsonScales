@@ -53,10 +53,13 @@ public class PowerModulation : ArtificerCardModel<PowerModulation.CardTop, Power
 				{
 					await GDTask.CompletedTask;
 
-					return !state.ActionState.GetAbilityState<LootAbility.State>(0).GetCustomValue<bool>(this, "ChoseLoot");
+					return !state.ActionState.GetAbilityState<AttackAbility.State>(0).GetCustomValue<bool>(this, "ChoseSingleTarget");
 				})
 				.Build())
 		];
+
+		public override int XP => 2;
+		public override bool Loss => true;
 	}
 
 	public class CardBottom : ArtificerCardSide

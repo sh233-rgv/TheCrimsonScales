@@ -23,7 +23,8 @@ public class GalvanicCoil : ArtificerCardModel<GalvanicCoil.CardTop, GalvanicCoi
 							LoseScrapTokens(parameters.Figure);
 							Hex hex = await AbilityCmd.SelectHex(state,
 								hexes => hexes.AddRange(GameController.Instance.Map.Hexes.Values.Where(hex => hex.HasHexObjectOfType<Trap>())),
-								hintText: $"Select a trap to increase its {Icons.HintText(Icons.Damage)} value by 2");
+								hintText:
+								$"Select a trap to perform the attack ability from");
 							if(hex == null)
 							{
 								return;
@@ -32,7 +33,9 @@ public class GalvanicCoil : ArtificerCardModel<GalvanicCoil.CardTop, GalvanicCoi
 							//TODO: Set PerformHex (requires something else)
 							await new ActionState(parameters.Figure,
 								[AttackAbility.Builder().WithDamage(3).WithRange(3).WithRangeType(RangeType.Melee).WithPierce(3).Build()]).Perform();
-						});
+						}, EffectType.Selectable,
+						effectButtonParameters: new TextEffectButton.Parameters($"1{Icons.HintText(Artificer.ScrapToken)}"),
+						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Perform {Icons.Inline(Icons.Attack)}3, {Icons.Inline(Icons.Targets)}1 enemy within 3 hexes, {Icons.Inline(Icons.Pierce)}3 from any trap"));
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
@@ -64,7 +67,7 @@ public class GalvanicCoil : ArtificerCardModel<GalvanicCoil.CardTop, GalvanicCoi
 								state.SetCustomValue(this, "ChoseMove", true);
 								await GDTask.CompletedTask;
 							},
-							effectButtonParameters: new TextEffectButton.Parameters($"{Icons.Inline(Icons.Move)}"),
+							effectButtonParameters: new TextEffectButton.Parameters($"{Icons.HintText(Icons.Move)}"),
 							effectInfoViewParameters: new TextEffectInfoView.Parameters(
 								$"Perform {Icons.Inline(Icons.Move)}4"),
 							effectType: EffectType.SelectableMandatory
@@ -75,7 +78,7 @@ public class GalvanicCoil : ArtificerCardModel<GalvanicCoil.CardTop, GalvanicCoi
 								state.SetBlocked();
 								await GDTask.CompletedTask;
 							},
-							effectButtonParameters: new TextEffectButton.Parameters($"{Icons.Inline(Icons.Damage)}"),
+							effectButtonParameters: new TextEffectButton.Parameters($"{Icons.HintText(Icons.Damage)}"),
 							effectInfoViewParameters: new TextEffectInfoView.Parameters(
 								$"Create one {Icons.Inline(Icons.Damage)}4 trap in an adjacent empty hex"),
 							effectType: EffectType.SelectableMandatory
@@ -89,7 +92,7 @@ public class GalvanicCoil : ArtificerCardModel<GalvanicCoil.CardTop, GalvanicCoi
 				{
 					await GDTask.CompletedTask;
 
-					return !state.ActionState.GetAbilityState<LootAbility.State>(0).GetCustomValue<bool>(this, "ChoseLoot");
+					return !state.ActionState.GetAbilityState<MoveAbility.State>(0).GetCustomValue<bool>(this, "ChoseMove");
 				})
 				.Build())
 		];

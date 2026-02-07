@@ -35,6 +35,7 @@ public class DoubleBarrelRailcaster : ArtificerCardModel<DoubleBarrelRailcaster.
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Disarm)
 				.WithTarget(Target.Self)
+				.WithMandatory(true)
 				.Build())
 		];
 	}

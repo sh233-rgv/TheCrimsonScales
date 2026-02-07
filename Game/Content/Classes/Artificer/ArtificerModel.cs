@@ -5,7 +5,7 @@ public class ArtificerModel : ClassModel
 {
 	public override string Name => "Artificer";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.Medium;
-	public override int HandSize => 10;
+	public override int HandSize => 15;
 	public override Ancestry Ancestry => Ancestry.Quatryl;
 	public override string AssetPath => "res://Content/Classes/Artificer";
 	public override Color PrimaryColor => Color.FromHtml("94dbe8");

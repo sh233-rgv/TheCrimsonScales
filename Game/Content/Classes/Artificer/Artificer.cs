@@ -15,6 +15,8 @@ public partial class Artificer : Character
 		_scrapTokenIndicator.Hide();
 		GainScrapToken();
 		GainScrapToken();
+		GainScrapToken();
+		GainScrapToken();
 	}
 
 	public void GainScrapToken()

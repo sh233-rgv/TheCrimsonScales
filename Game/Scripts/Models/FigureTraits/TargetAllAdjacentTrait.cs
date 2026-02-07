@@ -1,6 +1,6 @@
 ﻿using Fractural.Tasks;
 
-public class TargetAllTrait : FigureTrait
+public class TargetAllAdjacentTrait : FigureTrait
 {
 	public override async GDTask Activate(Figure figure)
 	{
@@ -8,11 +8,11 @@ public class TargetAllTrait : FigureTrait
 
 		ScenarioEvents.AbilityStartedEvent.Subscribe(figure, this,
 			parameters =>
-				parameters.AbilityState is AttackAbility.State &&
-				parameters.AbilityState.Performer == figure, // && parameters.AbilityState.Targets < targets,
+				parameters.AbilityState is AttackAbility.State attackState &&
+				parameters.AbilityState.Performer == figure && attackState.AbilityRangeType is RangeType.Melee,
 			async parameters =>
 			{
-				AttackAbility.State attackAbilityState = ((AttackAbility.State)parameters.AbilityState);
+				AttackAbility.State attackAbilityState = (AttackAbility.State)parameters.AbilityState;
 				attackAbilityState.AdjustTarget(Target.TargetAll);
 
 				await GDTask.CompletedTask;
@@ -20,7 +20,7 @@ public class TargetAllTrait : FigureTrait
 		);
 
 		ScenarioCheckEvents.AIMoveParametersCheckEvent.Subscribe(figure, this,
-			parameters => parameters.Performer == figure,
+			parameters => parameters.Performer == figure && parameters.AIMoveParameters.RangeType is RangeType.Melee,
 			parameters =>
 			{
 				parameters.AIMoveParameters.TargetAll = true;

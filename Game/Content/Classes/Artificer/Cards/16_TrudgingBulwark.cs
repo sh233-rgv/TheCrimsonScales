@@ -82,22 +82,24 @@ public class TrudgingBulwark : ArtificerCardModel<TrudgingBulwark.CardTop, Trudg
 					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this);
 				})
 				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.8730158f)))
-				.WithOnAbilityStarted(async state =>
+				.WithConditionalAbilityCheck(async state =>
 				{
 					Figure figure = await AbilityCmd.SelectFigure(state,
 						figures => figures.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 3)
 							.Where(figure => state.Performer.AlliedWith(figure))), hintText: () => "Select an ally to place a character token on");
 					if(figure == null)
 					{
-						state.SetBlocked();
-						return;
+						return false;
 					}
 
 					state.SetCustomValue(this, "Figure", figure);
 
 					await AbilityCmd.AddCharacterToken(state, figure,
 						$"On the next source of {Icons.Inline(Icons.Damage)} from an attack, gain {Icons.Inline(Icons.Shield)}3. If no {Icons.Inline(Icons.Damage)} is suffered, Artificer gains 1{Icons.Inline(Artificer.ScrapToken)}.");
+					return true;
 				})
+				//With mandatory so forced to activate if placing a character token
+				.WithMandatory(true)
 				.Build())
 		];
 

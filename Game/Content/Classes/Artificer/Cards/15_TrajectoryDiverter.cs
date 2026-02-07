@@ -29,7 +29,6 @@ public class TrajectoryDiverter : ArtificerCardModel<TrajectoryDiverter.CardTop,
 						{
 							await GainScrapToken(state);
 							await AbilityCmd.GainXP(state.Performer, 1);
-							await state.ActionState.RequestDiscardOrLose();
 						}
 					);
 					ScenarioEvents.HexObjectDestroyedEvent.Subscribe(state, this,

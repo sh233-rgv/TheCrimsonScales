@@ -29,11 +29,10 @@ public class ReinforceArmor : ArtificerCardModel<ReinforceArmor.CardTop, Reinfor
 
 					ScenarioCheckEvents.ShieldCheckEvent.Subscribe(state, this,
 						parameters =>
-							state.Performer.AlliedWith(parameters.Figure, true) &&
-							parameters.Figure.Hex.HasHexObjectOfType<DifficultTerrain>(),
+							state.Performer.AlliedWith(parameters.Figure, true) && RangeHelper.Distance(state.Performer.Hex, parameters.Figure.Hex) <= 1,
 						applyParameters =>
 						{
-							applyParameters.AdjustShield(2);
+							applyParameters.AdjustShield(1);
 						}
 					);
 
@@ -112,7 +111,7 @@ public class ReinforceArmor : ArtificerCardModel<ReinforceArmor.CardTop, Reinfor
 				.WithConditionalAbilityCheck(async state =>
 				{
 					await GDTask.CompletedTask;
-					HealAbility.State healAbilityState = state.ActionState.GetAbilityState<HealAbility.State>(0);
+					HealAbility.State healAbilityState = state.ActionState.GetAbilityState<HealAbility.State>(1);
 					return healAbilityState.SingleTargetStates.Any(singleTargetState => singleTargetState.RemovedConditions.Count >= 1) ||
 					       healAbilityState.GetCustomValue<bool>(this, "IncreasedHealth");
 				})
