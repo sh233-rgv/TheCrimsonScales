@@ -15,6 +15,7 @@ public partial class Room : Node2D
 
 	public List<MapTile> MapTiles { get; private set; }
 	public List<Hex> Hexes { get; private set; }
+
 	public List<Figure> Figures => Hexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>()).ToList();
 
 	public void Init()
@@ -60,7 +61,7 @@ public partial class Room : Node2D
 				}
 			}
 		}
-		
+
 		List<MonsterSpawner> monsterSpawners = this.GetChildrenOfType<MonsterSpawner>();
 		foreach(MonsterSpawner monsterSpawner in monsterSpawners)
 		{

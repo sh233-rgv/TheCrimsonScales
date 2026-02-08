@@ -62,11 +62,6 @@ public partial class MonsterSpawner : Node2D
 
 	public async GDTask SpawnMonster()
 	{
-		if(ModelDB.GetById<MonsterModel>(new ModelId(_monsterModelId)) is LivingCorpse)
-		{
-			GD.Print("Spawning");
-		}
-
 		QueueFree();
 
 		MonsterType monsterType;

@@ -794,6 +794,9 @@ public partial class ScenarioEvents
 		}
 	}
 
+	private readonly ItemStateChanged _itemStateChanged = new ItemStateChanged();
+	public static ItemStateChanged ItemStateChangedEvent => GameController.Instance.ScenarioEvents._itemStateChanged;
+
 	public class OverlayTileCreated : ScenarioEvent<OverlayTileCreated.Parameters>
 	{
 		public class Parameters(OverlayTile overlayTile) : ParametersBase
@@ -815,9 +818,6 @@ public partial class ScenarioEvents
 
 	private readonly OverlayTileMoved _overlayTileMoved = new OverlayTileMoved();
 	public static OverlayTileMoved OverlayTileMovedEvent => GameController.Instance.ScenarioEvents._overlayTileMoved;
-
-	private readonly ItemStateChanged _itemStateChanged = new ItemStateChanged();
-	public static ItemStateChanged ItemStateChangedEvent => GameController.Instance.ScenarioEvents._itemStateChanged;
 
 	public class ShortRestStarted : ScenarioEvent<ShortRestStarted.Parameters>
 	{

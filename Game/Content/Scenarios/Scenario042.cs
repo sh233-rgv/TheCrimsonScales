@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
@@ -132,6 +133,7 @@ public class Scenario042 : ScenarioModel
 		else if(parameters.OpenedDoor == _door2)
 		{
 			int caveBearsToSpawn = 0;
+			int shieldValue = 0;
 			ScenarioEvents.FigureKilledEvent.Subscribe(this, _door2,
 				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel.Name == "Cave Bear" &&
 				                      GameController.Instance.Map.Figures.Any(figure =>
@@ -141,9 +143,30 @@ public class Scenario042 : ScenarioModel
 					Monster goringGrizzly =
 						(Monster)GameController.Instance.Map.Figures.First(figure =>
 							figure is Monster monster && monster.MonsterModel is GoringGrizzly);
-					((ShieldTrait)goringGrizzly.Stats.Traits.First(trait => trait is ShieldTrait)).ChangeShieldValue(goringGrizzly, -1);
+					if(shieldValue > 0)
+					{
+						shieldValue--;
+						ScenarioCheckEvents.ShieldCheckEvent.FireChangedEvent();
+					}
+
 					caveBearsToSpawn++;
 
+					await GDTask.CompletedTask;
+				});
+
+			ScenarioCheckEvents.ShieldCheckEvent.Subscribe(this, _door2,
+				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel is GoringGrizzly,
+				applyParameters =>
+				{
+					applyParameters.AdjustShield(shieldValue);
+				});
+
+			ScenarioEvents.SufferDamageEvent.Subscribe(this, _door2,
+				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel is GoringGrizzly &&
+				                      canApplyParameters.FromAttack,
+				async applyParameters =>
+				{
+					applyParameters.AdjustShield(shieldValue);
 					await GDTask.CompletedTask;
 				});
 
@@ -189,11 +212,6 @@ public class Scenario042 : ScenarioModel
 					                      figure is Monster monster && monster.MonsterModel is KingCobra),
 				async applyParameters =>
 				{
-					Monster goringGrizzly =
-						(Monster)GameController.Instance.Map.Figures.First(figure =>
-							figure is Monster monster && monster.MonsterModel is GoringGrizzly);
-					((ShieldTrait)goringGrizzly.Stats.Traits.First(trait => trait is ShieldTrait)).ChangeShieldValue(goringGrizzly, -1);
-
 					Figure kingCobra =
 						GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is KingCobra);
 					await AbilityCmd.SufferDamage(kingCobra, applyParameters.Damage, kingCobra);

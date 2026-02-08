@@ -7,9 +7,8 @@ public class GoringGrizzly : CaveBear
 			.Select(stats => stats with
 			{
 				Traits = (stats.Traits ?? [])
-					.Append(new ShieldTrait(CharacterCount))
-					.Append(ConditionImmunityTrait.PoisonImmunityTrait())
-					.ToArray()
+				.Append(ConditionImmunityTrait.PoisonImmunityTrait())
+				.ToArray()
 			})
 			.ToArray();
 

@@ -16,7 +16,6 @@ public partial class Door : OverlayTile, IEventSubscriber
 
 	public bool Locked { get; private set; }
 	public bool Opened { get; private set; }
-	public bool Revealed { get; private set; }
 
 	public override void _Ready()
 	{
@@ -34,7 +33,6 @@ public partial class Door : OverlayTile, IEventSubscriber
 	public override async GDTask Init(Hex originHex, int rotationIndex = 0, bool hexCanBeNull = false)
 	{
 		Show();
-		Revealed = true;
 
 		await base.Init(originHex, rotationIndex, hexCanBeNull);
 

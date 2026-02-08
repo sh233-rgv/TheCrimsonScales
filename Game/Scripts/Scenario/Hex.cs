@@ -7,7 +7,6 @@ public partial class Hex : Node2D
 {
 	public Vector2I Coords { get; private set; }
 	public MapTile MapTile { get; private set; }
-	public Room Room => GameController.Instance.Map.Rooms.FirstOrDefault(room => room.MapTiles.Contains(MapTile));
 
 	public bool Revealed { get; private set; }
 
@@ -151,5 +150,10 @@ public partial class Hex : Node2D
 	private void SortHexObjects()
 	{
 		HexObjects.Sort((a, b) => b.DefaultZIndex.CompareTo(a.DefaultZIndex));
+	}
+
+	public Room GetRoom()
+	{
+		return GameController.Instance.Map.Rooms.FirstOrDefault(room => room.MapTiles.Contains(MapTile));
 	}
 }

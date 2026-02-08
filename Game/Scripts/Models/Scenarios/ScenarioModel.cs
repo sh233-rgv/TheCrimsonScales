@@ -76,11 +76,8 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 				foreach(Hex spawnHex in spawnHexes)
 				{
 					hexes.Shuffle(GameController.Instance.StateRNG);
-					hexes.Sort((otherHexA,
-						otherHexB) => RangeHelper.Distance(spawnHex,
-							otherHexA)
-						.CompareTo(RangeHelper.Distance(spawnHex,
-							otherHexB)));
+					hexes.Sort((otherHexA, otherHexB) =>
+						RangeHelper.Distance(spawnHex, otherHexA).CompareTo(RangeHelper.Distance(spawnHex, otherHexB)));
 					Hex firstHex = hexes.FirstOrDefault(hex => hex.IsEmpty() || (canHaveFeatures && hex.IsFeatureless()));
 
 					if(firstHex == null)
@@ -88,25 +85,26 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 						return;
 					}
 
-					int distance = RangeHelper.Distance(spawnHex,
-						firstHex);
+					int distance = RangeHelper.Distance(spawnHex, firstHex);
 
 					if(minDistance != null && distance > minDistance)
+					{
 						continue;
+					}
+
 					if(minDistance == null || distance < minDistance)
 					{
 						list.Clear();
 						minDistance = distance;
 					}
 
-					list.AddRange(
-						hexes.Where(hex => (hex.IsEmpty() || canHaveFeatures && hex.IsFeatureless()) &&
-						                   RangeHelper.Distance(spawnHex, hex) == distance)
+					list.AddRange(hexes.Where(hex =>
+						(hex.IsEmpty() || canHaveFeatures && hex.IsFeatureless()) && RangeHelper.Distance(spawnHex, hex) == distance)
 					);
 				}
 			},
 			true,
-			$"Select where to spawn the {monsterType} {monsterModel.Name}"
+			$"Select a hex to spawn the {monsterType} {monsterModel.Name}"
 		);
 
 		if(chosenHex == null)
@@ -128,7 +126,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 				list.AddRange(RangeHelper.GetHexesInRange(summonHex, 1).Where(hex => hex.IsEmpty()));
 			},
 			true,
-			$"Select where to summon the {monsterType} {monsterModel.Name}"
+			$"Select a hex to summon the {monsterType} {monsterModel.Name}"
 		);
 
 		if(chosenHex == null)

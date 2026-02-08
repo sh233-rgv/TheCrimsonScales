@@ -26,8 +26,7 @@ public class CardElementInfusion
 		return new CardElementInfusion(consumableElements, [infusedElement]);
 	}
 
-	public static CardElementInfusion
-		ConsumeWild(Element infusedElement)
+	public static CardElementInfusion ConsumeWild(Element infusedElement)
 	{
 		return Consume(Elements.All, infusedElement);
 	}

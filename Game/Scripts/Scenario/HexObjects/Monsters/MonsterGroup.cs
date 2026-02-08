@@ -107,11 +107,11 @@ public class MonsterGroup
 	{
 		if(Monsters.Count > 0)
 		{
-			SetInitiativeandActiveCard(MonsterAbilityCardDeck.ActiveMonsterAbilityCard ?? MonsterAbilityCardDeck.DrawCard());
+			SetInitiativeAndActiveCard(MonsterAbilityCardDeck.ActiveMonsterAbilityCard ?? MonsterAbilityCardDeck.DrawCard());
 		}
 	}
 
-	public void SetInitiativeandActiveCard(MonsterAbilityCard monsterAbilityCard)
+	private void SetInitiativeAndActiveCard(MonsterAbilityCard monsterAbilityCard)
 	{
 		ActiveMonsterAbilityCard = monsterAbilityCard;
 		MonsterAbilityCardDeck.ActiveMonsterAbilityCard = monsterAbilityCard;

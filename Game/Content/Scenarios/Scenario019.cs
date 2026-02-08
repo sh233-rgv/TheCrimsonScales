@@ -36,7 +36,8 @@ public class Scenario019 : ScenarioModel
 			async parameters =>
 			{
 				for(int i = 0;
-				    i < parameters.Figure.Hex.Room.Figures.Count(figure => figure is Monster monster && monster.MonsterModel is VermlingExperiment);
+				    i < parameters.Figure.Hex.GetRoom().Figures
+					    .Count(figure => figure is Monster monster && monster.MonsterModel is VermlingExperiment);
 				    i++)
 				{
 					if(await AbilityCmd.AskConsumeWildElement(parameters.Figure) == null)

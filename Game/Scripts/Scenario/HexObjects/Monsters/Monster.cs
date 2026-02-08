@@ -68,13 +68,13 @@ public partial class Monster : Figure
 				TypeColor = EliteColor;
 				levelStats = MonsterModel.EliteLevelStats;
 				break;
-			case MonsterType.Named:
-				TypeColor = BossColor;
-				levelStats = MonsterModel.NamedLevelStats;
-				break;
 			case MonsterType.Boss:
 				TypeColor = BossColor;
 				levelStats = MonsterModel.BossLevelStats;
+				break;
+			case MonsterType.Named:
+				TypeColor = BossColor;
+				levelStats = MonsterModel.NamedLevelStats;
 				break;
 			default:
 				throw new ArgumentOutOfRangeException(nameof(monsterType), monsterType, null);

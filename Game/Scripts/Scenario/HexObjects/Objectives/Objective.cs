@@ -50,12 +50,12 @@ public partial class Objective : Figure
 			}
 		);
 
-		ScenarioCheckEvents.CanBeCommandedCheckEvent.Subscribe(this, this,
+		ScenarioCheckEvents.CanBeTargetedCheckEvent.Subscribe(this, this,
 			parameters =>
-				parameters.PotentialTarget == this,
+				parameters.PotentialTarget == this && parameters.PotentialAbilityState is ControlAbility.State or GrantAbility.State,
 			parameters =>
 			{
-				parameters.SetCannotBeCommanded();
+				parameters.SetCannotBeTargeted();
 			}
 		);
 
