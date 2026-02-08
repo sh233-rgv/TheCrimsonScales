@@ -13,10 +13,6 @@ public partial class Artificer : Character
 	{
 		base.Spawn(savedCharacter, index);
 		_scrapTokenIndicator.Hide();
-		GainScrapToken();
-		GainScrapToken();
-		GainScrapToken();
-		GainScrapToken();
 	}
 
 	public void GainScrapToken()
