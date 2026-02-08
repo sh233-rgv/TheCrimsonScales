@@ -54,7 +54,7 @@ public static class Icons
 
 	public static string GetAMDValue(string amdValue)
 	{
-		return $"res://Art/Icons/AMDs/{amdValue}.svg";
+		return $"res://Art/Icons/AMDs/{amdValue}.png";
 	}
 
 	public static string InlineMarker(Marker.Type markerType, int size = 30)

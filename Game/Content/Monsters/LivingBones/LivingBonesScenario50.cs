@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-public class LivingBonesScenario50 : LivingBones
+public class LivingBonesScenario55 : LivingBones
 {
 	public override MonsterStats[] NormalLevelStats =>
 		base.NormalLevelStats
@@ -20,7 +20,7 @@ public class LivingBonesScenario50 : LivingBones
 	{
 		public override int Initiative => 50;
 		public override int CardIndex => 0;
-		public override string CardsAtlasPath => "res://Content/Monsters/LivingBones/Scenario50Card.jpg";
+		public override string CardsAtlasPath => "res://Content/Monsters/LivingBones/Scenario55Card.jpg";
 		public override int ColumnCount => 1;
 		public override int RowCount => 1;
 

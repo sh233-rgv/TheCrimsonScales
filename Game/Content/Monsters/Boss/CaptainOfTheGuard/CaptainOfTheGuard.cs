@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
-using Godot;
 
 public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 {
@@ -11,64 +10,88 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 			Health = 7 * CharacterCount,
 			Move = 2,
 			Attack = 3,
-			Traits = [new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()]
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 9 * CharacterCount,
 			Move = 2,
 			Attack = 3,
-			Traits = [new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()]
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 11 * CharacterCount,
 			Move = 2,
 			Attack = 4,
-			Traits = [new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()]
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 14 * CharacterCount,
 			Move = 3,
 			Attack = 4,
-			Traits = [new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()]
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 16 * CharacterCount,
 			Move = 3,
 			Attack = 5,
-			Traits = [new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()]
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 20 * CharacterCount,
 			Move = 3,
 			Attack = 5,
-			Traits = [new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()]
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 21 * CharacterCount,
 			Move = 4,
 			Attack = 6,
-			Traits = [new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()]
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
+			]
 		},
 		new MonsterStats()
 		{
 			Health = 25 * CharacterCount,
 			Move = 4,
 			Attack = 6,
-			Traits = [new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
-				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()]
+			Traits =
+			[
+				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
+			]
 		},
 	];
 
@@ -88,7 +111,6 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial2Abilities(Monster monster) =>
 	[
-		
 		new MonsterAbilityCardAbility(OtherActiveAbility.Builder()
 			.WithOnActivate(async state =>
 			{

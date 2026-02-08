@@ -58,7 +58,7 @@ public class Scenario055 : ScenarioModel
 			{
 				SarcophagusObstacle sarcophagusObstacle = RangeHelper.GetHexesInRange(parameters.Figure.Hex, 1)
 					.First(hex => hex.HasHexObjectOfType<SarcophagusObstacle>()).GetHexObjectOfType<SarcophagusObstacle>();
-				Monster monster = await SpawnMonster(parameters.Figure, ModelDB.Monster<LivingBonesScenario50>(), MonsterType.Normal,
+				Monster monster = await SpawnMonster(parameters.Figure, ModelDB.Monster<LivingBonesScenario55>(), MonsterType.Normal,
 					sarcophagusObstacle.Hexes,
 					alignment: Alignment.Characters, enemies: Alignment.Enemies);
 				monster.AMDCardDeck = parameters.Figure.AMDCardDeck;

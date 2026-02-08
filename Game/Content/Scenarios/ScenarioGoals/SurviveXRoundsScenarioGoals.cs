@@ -11,6 +11,7 @@
 				await Win();
 			}
 		);
+		
 		if(allSurvive)
 		{
 			ScenarioEvents.FigureKilledEvent.Subscribe(this,
