@@ -1093,6 +1093,19 @@ public partial class ScenarioEvents
 	private readonly ScenarioEnded _scenarioEnded = new ScenarioEnded();
 	public static ScenarioEnded ScenarioEndedEvent => GameController.Instance.ScenarioEvents._scenarioEnded;
 
+	public class CoinSpawned : ScenarioEvent<CoinSpawned.Parameters>
+	{
+		public class Parameters(Figure potentialDropper, Coin coin)
+			: ParametersBase
+		{
+			public Figure PotentialDropper { get; } = potentialDropper;
+			public Coin Coin { get; } = coin;
+		}
+	}
+
+	private readonly CoinSpawned _coinSpawned = new CoinSpawned();
+	public static CoinSpawned CoinSpawnedEvent => GameController.Instance.ScenarioEvents._coinSpawned;
+
 	public class CoinLooted : ScenarioEvent<CoinLooted.Parameters>
 	{
 		public class Parameters(Figure lootObtainer, Coin coin)

@@ -386,6 +386,9 @@ public static class AbilityCmd
 		Coin coin = scene.Instantiate<Coin>();
 		GameController.Instance.Map.AddChild(coin);
 		await coin.Init(hex);
+
+		await ScenarioEvents.CoinSpawnedEvent.CreatePrompt(new ScenarioEvents.CoinSpawned.Parameters(dropper, coin));
+
 		return coin;
 	}
 
