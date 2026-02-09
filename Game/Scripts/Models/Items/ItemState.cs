@@ -4,4 +4,5 @@
 	Spent = 1,
 	Consumed = 2,
 	UnrecoverablyConsumed = 3,
+	Active = 4,
 }

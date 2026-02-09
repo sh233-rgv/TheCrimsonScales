@@ -904,12 +904,43 @@ public static class AbilityCmd
 
 	public static async GDTask RefreshItem(ItemModel item)
 	{
+		await item.RemoveFromActive();
+
 		await item.Refresh();
 	}
 
 	public static async GDTask SpendItem(ItemModel item)
 	{
+		await item.RemoveFromActive();
+
 		await item.SetItemState(ItemState.Spent);
+	}
+
+	public static async GDTask ConsumeItem(ItemModel item)
+	{
+		await item.RemoveFromActive();
+
+		if(item.Unrecoverable)
+		{
+			await item.SetItemState(ItemState.UnrecoverablyConsumed);
+		}
+		else
+		{
+			await item.SetItemState(ItemState.Consumed);
+		}
+	}
+
+	public static async GDTask SpendOrConsume(ItemModel item)
+	{
+		if(item.ItemUseType == ItemUseType.Spend)
+		{
+			await SpendItem(item);
+		}
+
+		if(item.ItemUseType == ItemUseType.Consume)
+		{
+			await ConsumeItem(item);
+		}
 	}
 
 	public static async GDTask<AbilityCardSection> PerformAbilityCardTopOrBottom(Figure performer, AbilityCard abilityCard)
