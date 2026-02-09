@@ -1,11 +1,11 @@
 using Fractural.Tasks;
 
-public class ComfortableShoes : Prosperity4Item
+public class SereneSandals : Prosperity8Item
 {
-	public override string Name => "Comfortable Shoes";
-	public override int ItemNumber => 29;
+	public override string Name => "Serene Sandals";
+	public override int ItemNumber => 57;
 	public override int ShopCount => 2;
-	public override int Cost => 30;
+	public override int Cost => 75;
 	public override ItemType ItemType => ItemType.Feet;
 	public override ItemUseType ItemUseType => ItemUseType.Always;
 
@@ -35,7 +35,7 @@ public class ComfortableShoes : Prosperity4Item
 				await Use(async user =>
 				{
 					MoveAbility.State moveAbilityState = ((MoveAbility.State)parameters.AbilityState);
-					moveAbilityState.AdjustMoveValue(1);
+					moveAbilityState.AdjustMoveValue(2);
 
 					await GDTask.CompletedTask;
 				});

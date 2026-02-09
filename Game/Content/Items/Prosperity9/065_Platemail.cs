@@ -2,23 +2,25 @@ using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
 
-public class Chainmail : Prosperity3Item
+public class Platemail : Prosperity9Item
 {
-	public override string Name => "Chainmail";
-	public override int ItemNumber => 22;
+	public override string Name => "Platemail";
+	public override int ItemNumber => 65;
 	public override int ShopCount => 2;
-	public override int Cost => 20;
+	public override int Cost => 50;
 	public override ItemType ItemType => ItemType.Body;
 	public override ItemUseType ItemUseType => ItemUseType.Spend;
-	public override int MinusOneCount => 3;
+	public override int MinusOneCount => 5;
 
 	protected override int AtlasIndex => 2;
 
 	protected override List<ItemUseSlot> GetUseSlots() =>
 	[
-		new ItemUseSlot(new Vector2(0.19300139f, 0.79351115f)),
-		new ItemUseSlot(new Vector2(0.49099755f, 0.79351115f)),
-		new ItemUseSlot(new Vector2(0.80001146f, 0.79751134f)),
+		new ItemUseSlot(new Vector2(0.19814864f, 0.7518518f)),
+		new ItemUseSlot(new Vector2(0.48400244f, 0.7518518f)),
+		new ItemUseSlot(new Vector2(0.7690441f, 0.7518518f)),
+		new ItemUseSlot(new Vector2(0.34188762f, 0.82962954f)),
+		new ItemUseSlot(new Vector2(0.6269293f, 0.82804227f))
 	];
 
 	protected override void Subscribe()
