@@ -30,8 +30,10 @@ public partial class ScenarioEvents
 
 	public class GenericChoice : ScenarioEvent<GenericChoice.Parameters>
 	{
-		public class Parameters() : ParametersBase
+		public class Parameters(object source) : ParametersBase
 		{
+			public object Source { get; } = source;
+
 			public bool ChoiceMade { get; private set; }
 
 			public void SetChoiceMade()
