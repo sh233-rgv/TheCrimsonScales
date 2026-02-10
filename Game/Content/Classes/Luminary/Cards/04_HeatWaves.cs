@@ -19,7 +19,7 @@ public class HeatWaves : LuminaryCardModel<HeatWaves.CardTop, HeatWaves.CardBott
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Light];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];
 		public override int XP => 1;
 		public override bool Persistent => true;
 
@@ -55,6 +55,6 @@ public class HeatWaves : LuminaryCardModel<HeatWaves.CardTop, HeatWaves.CardBott
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Ice];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Ice)];
 	}
 }

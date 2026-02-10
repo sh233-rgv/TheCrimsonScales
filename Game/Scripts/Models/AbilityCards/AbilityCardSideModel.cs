@@ -19,7 +19,7 @@ public abstract class AbilityCardSideModel : AbstractModel
 	public AbilityCardModel AbilityCardModel { get; private set; }
 	public virtual AbilityCardSideType AbilityCardSideType { get; private set; }
 
-	public virtual IEnumerable<Element> Elements { get; } = [];
+	public virtual IEnumerable<CardElementInfusion> Elements { get; } = [];
 	public virtual int XP => 0;
 
 	public virtual bool Round => false;

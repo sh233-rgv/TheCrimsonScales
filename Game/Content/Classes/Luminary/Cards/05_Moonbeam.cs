@@ -19,7 +19,7 @@ public class Moonbeam : LuminaryCardModel<Moonbeam.CardTop, Moonbeam.CardBottom>
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Ice];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Ice)];
 		public override int XP => 1;
 		public override bool Persistent => true;
 
@@ -54,6 +54,6 @@ public class Moonbeam : LuminaryCardModel<Moonbeam.CardTop, Moonbeam.CardBottom>
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
 	}
 }

@@ -152,7 +152,7 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 				.Build()),
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Dark];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Dark)];
 		public override bool Round => true;
 	}
 }

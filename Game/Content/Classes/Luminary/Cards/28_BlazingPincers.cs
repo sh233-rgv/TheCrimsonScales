@@ -57,6 +57,6 @@ public class BlazingPincers : LuminaryCardModel<BlazingPincers.CardTop, BlazingP
 				.Build())
 		];
 
-		//TODO: public override IEnumerable<Element> Elements => [Wild Element];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.InfuseWild()];
 	}
 }

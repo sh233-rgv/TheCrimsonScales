@@ -36,7 +36,7 @@ public class AlignedConstellations : StarslingerCardModel<AlignedConstellations.
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Dark];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Dark)];
 		public override int XP => 2;
 		public override bool Persistent => true;
 		public override bool Loss => true;

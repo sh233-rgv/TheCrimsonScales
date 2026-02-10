@@ -42,7 +42,7 @@ public class FaithCalling : HierophantCardModel<FaithCalling.CardTop, FaithCalli
 			))
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];
 		public override bool Round => true;
 	}
 
