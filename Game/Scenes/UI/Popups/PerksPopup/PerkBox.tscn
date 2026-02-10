@@ -1,11 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cl8d3myp4d0w6"]
+[gd_scene load_steps=4 format=3 uid="uid://c8iqgols66v5l"]
 
-[ext_resource type="PackedScene" uid="uid://d1al6mehqtk0y" path="res://Scenes/UI/Popups/OptionsPopup/_OptionView.tscn" id="1_278m4"]
-[ext_resource type="Texture2D" uid="uid://bj03vc6rpjr3f" path="res://Art/Icons/Other/CheckMark.svg" id="2_dib36"]
-[ext_resource type="Script" uid="uid://djb675pq5ds3d" path="res://Scripts/UI/Popups/OptionsPopup/CheckmarkOptionView.cs" id="2_in0hj"]
-[ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="3_loeln"]
+[ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="1_mnmgq"]
+[ext_resource type="Texture2D" uid="uid://bj03vc6rpjr3f" path="res://Art/Icons/Other/CheckMark.svg" id="2_5674b"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_278m4"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lxurl"]
 draw_center = false
 border_width_left = 2
 border_width_top = 2
@@ -17,12 +15,13 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="CheckmarkOptionView" node_paths=PackedStringArray("_checkmark", "_button") instance=ExtResource("1_278m4")]
-script = ExtResource("2_in0hj")
-_checkmark = NodePath("ValueContainer/BetterButton/Box/Checkmark")
-_button = NodePath("ValueContainer/BetterButton")
+[node name="PerkBox" type="Control"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 3
+anchors_preset = 0
+size_flags_vertical = 4
 
-[node name="BetterButton" type="BaseButton" parent="ValueContainer" index="0"]
+[node name="BetterButton" type="BaseButton" parent="."]
 _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
@@ -48,10 +47,24 @@ texture_repeat = 0
 material = null
 use_parent_material = false
 clip_contents = false
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(0, 0)
 layout_direction = 0
-layout_mode = 2
-size_flags_horizontal = 8
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
 size_flags_vertical = 1
 size_flags_stretch_ratio = 1.0
 localize_numeral_system = true
@@ -79,18 +92,19 @@ button_group = null
 shortcut = null
 shortcut_feedback = true
 shortcut_in_tooltip = true
-script = ExtResource("3_loeln")
+script = ExtResource("1_mnmgq")
 metadata/_custom_type_script = "uid://dir5vjdxjac3n"
 
-[node name="Box" type="Panel" parent="ValueContainer/BetterButton" index="0"]
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-offset_right = 60.0
-offset_bottom = 60.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_278m4")
+[node name="Outline" type="Panel" parent="BetterButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lxurl")
 
-[node name="Checkmark" type="TextureRect" parent="ValueContainer/BetterButton/Box" index="0"]
+[node name="Checkmark" type="TextureRect" parent="BetterButton/Outline"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -104,5 +118,5 @@ offset_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("2_dib36")
+texture = ExtResource("2_5674b")
 expand_mode = 1

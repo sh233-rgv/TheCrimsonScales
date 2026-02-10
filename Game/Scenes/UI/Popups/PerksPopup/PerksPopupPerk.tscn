@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://1hpjcock1fcm"]
+
+[ext_resource type="FontVariation" uid="uid://ciy2q5rti2m6m" path="res://Fonts/MarkaziVariation.tres" id="1_50y7x"]
+[ext_resource type="Script" uid="uid://bp85k02lk4k5w" path="res://Scripts/UI/Popups/PerksPopup/PerksPopupPerk.cs" id="1_ns48j"]
+
+[node name="PerksPopupPerk" type="MarginContainer"]
+script = ExtResource("1_ns48j")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="PerkBoxes" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Description" type="RichTextLabel" parent="HBoxContainer"]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_50y7x")
+theme_override_font_sizes/normal_font_size = 36
+text = "Replace one -1 card with one +1 card"
+fit_content = true
+vertical_alignment = 1

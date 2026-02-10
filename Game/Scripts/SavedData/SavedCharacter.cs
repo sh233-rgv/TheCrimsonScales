@@ -41,6 +41,9 @@ public class SavedCharacter
 	public List<string> EquippedSmallItems { get; private set; }
 
 	[JsonProperty]
+	public List<SavedPerk> SavedPerks { get; private set; } = new List<SavedPerk>();
+
+	[JsonProperty]
 	public string[] DonationAMDCardIds { get; private set; }
 
 	[JsonProperty]
@@ -69,8 +72,10 @@ public class SavedCharacter
 	{
 		ClassModelId = classModel.Id.ToString();
 		Level = 1;
-		AvailableAbilityCards = classModel.AbilityCards.Where(abilityCardModel => abilityCardModel.Level == 1)
-			.Select(abilityCardModel => new SavedAbilityCard(abilityCardModel)).ToList();
+		AvailableAbilityCards = classModel.AbilityCards
+			.Where(abilityCardModel => abilityCardModel.Level == 1)
+			.Select(abilityCardModel => new SavedAbilityCard(abilityCardModel))
+			.ToList();
 
 		HandAbilityCardIndices = new List<int>();
 		for(int i = 0; i < classModel.HandSize; i++)
