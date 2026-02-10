@@ -1,5 +1,4 @@
-﻿using System;
-using Godot;
+﻿using Godot;
 using GTweens.Builders;
 using GTweens.Easings;
 using GTweens.Tweens;
@@ -32,11 +31,15 @@ public partial class BetweenScenariosCharacterPortrait : Control
 	private Label _goldLabel;
 
 	[Export]
+	private Control _buttonContainer;
+	[Export]
 	private BetterButton _infoButton;
 	[Export]
 	private BetterButton _equipmentButton;
 	[Export]
 	private BetterButton _cardsButton;
+	[Export]
+	private BetterButton _perksButton;
 
 	[Export]
 	private Texture2D _normalInfoTexture;
@@ -84,6 +87,7 @@ public partial class BetweenScenariosCharacterPortrait : Control
 		}
 
 		UpdateVisuals();
+		UpdateScaling();
 
 		BetterButton.SetEnabled(false, false);
 
@@ -102,6 +106,8 @@ public partial class BetweenScenariosCharacterPortrait : Control
 		_equipmentButton.Pressed += OnEquipmentPressed;
 		_cardsButton.Pressed += OnCardsPressed;
 		_levelUpButton.Pressed += OnLevelUpPressed;
+
+		GetViewport().SizeChanged += OnViewportSizeChanged;
 	}
 
 	public override void _ExitTree()
@@ -120,6 +126,12 @@ public partial class BetweenScenariosCharacterPortrait : Control
 		if(_personalQuestData != null)
 		{
 			_personalQuestData.ProgressChangedEvent -= OnPersonalQuestProgressChanged;
+		}
+
+		Viewport viewport = GetViewport();
+		if(viewport != null)
+		{
+			viewport.SizeChanged -= OnViewportSizeChanged;
 		}
 	}
 
@@ -179,6 +191,17 @@ public partial class BetweenScenariosCharacterPortrait : Control
 		{
 			_levelUpButton.SetEnabled(false, false);
 		}
+
+		UpdateScaling();
+	}
+
+	private void UpdateScaling()
+	{
+		this.DelayedCall(() =>
+		{
+			float buttonsScale = Mathf.Min(1f, Size.Y / _buttonContainer.Size.Y);
+			_buttonContainer.SetScale(buttonsScale * Vector2.One);
+		});
 	}
 
 	private void OnGoldChanged(SavedCharacter savedCharacter)
@@ -247,5 +270,10 @@ public partial class BetweenScenariosCharacterPortrait : Control
 				SavedCharacter = SavedCharacter
 			});
 		}
+	}
+
+	private void OnViewportSizeChanged()
+	{
+		UpdateScaling();
 	}
 }
