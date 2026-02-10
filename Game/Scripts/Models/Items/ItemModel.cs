@@ -202,26 +202,35 @@ public abstract class ItemModel : AbstractModel<ItemModel>, IActionSource
 			}
 		}
 
-		if(fullyUsed)
-		{
-			switch(ItemUseType)
-			{
-				case ItemUseType.Spend:
-					await SetItemState(ItemState.Spent);
-					break;
-				case ItemUseType.Consume:
-					await SetItemState(Unrecoverable ? ItemState.UnrecoverablyConsumed : ItemState.Consumed);
-					break;
-				case ItemUseType.Always:
-					break;
-				case ItemUseType.Flip:
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-		}
+		await SetItemState(ItemState.Using);
 
 		await apply(user);
+
+		if(fullyUsed)
+		{
+			if(_activeActionStates.Count > 0)
+			{
+				await SetItemState(ItemState.Active);
+			}
+			else
+			{
+				switch(ItemUseType)
+				{
+					case ItemUseType.Spend:
+						await SetItemState(ItemState.Spent);
+						break;
+					case ItemUseType.Consume:
+						await SetItemState(Unrecoverable ? ItemState.UnrecoverablyConsumed : ItemState.Consumed);
+						break;
+					case ItemUseType.Always:
+						break;
+					// case ItemUseType.Flip:
+					// 	break;
+					default:
+						throw new ArgumentOutOfRangeException();
+				}
+			}
+		}
 
 		await ScenarioEvents.ItemUseEndedEvent.CreatePrompt(new ScenarioEvents.ItemUseEnded.Parameters(this, Owner));
 	}

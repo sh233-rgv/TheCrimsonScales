@@ -35,6 +35,11 @@ public partial class PartyInfoCharacterItem : Control
 				case ItemState.UnrecoverablyConsumed:
 					modulateColor = UIHelper.LostColor;
 					break;
+				case ItemState.Active:
+				case ItemState.Using:
+					modulateColor = UIHelper.ActiveColor;
+					break;
+
 				default:
 					throw new ArgumentOutOfRangeException();
 			}

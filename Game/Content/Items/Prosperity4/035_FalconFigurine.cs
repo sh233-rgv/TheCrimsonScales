@@ -1,6 +1,3 @@
-using System.Linq;
-using Fractural.Tasks;
-
 public class FalconFigurine : Prosperity4Item
 {
 	public override string Name => "Falcon Figurine";
@@ -19,28 +16,21 @@ public class FalconFigurine : Prosperity4Item
 
 		SubscribeDuringTurn(
 			canApply: character =>
-				character == Owner &&
-				character.Cards.Count(card => card.CardState == CardState.Discarded) > 0,
+				character == Owner,
 			apply: async character =>
 			{
 				await Use(async user =>
 				{
-					ActionState actionState = new ActionState(this, user,
-						[
-							SummonAbility.Builder()
-								.WithName("Jade Falcon")
-								.WithTexturePath("res://Content/Items/Prosperity4/JadeFalcon.tres")
-								.WithHealth(2)
-								.WithMove(3)
-								.WithAttack(2)
-								.Build()
-						],
-						onDiscardOrLoseRequested: async state =>
-						{
-							await GDTask.CompletedTask;
-						}
-					);
-					await actionState.Perform();
+					await GetActionState(user,
+					[
+						SummonAbility.Builder()
+							.WithName("Jade Falcon")
+							.WithTexturePath("res://Content/Items/Prosperity4/JadeFalcon.tres")
+							.WithHealth(2)
+							.WithMove(3)
+							.WithAttack(2)
+							.Build()
+					]).Perform();
 				});
 			}
 		);

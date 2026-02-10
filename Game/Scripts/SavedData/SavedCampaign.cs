@@ -126,7 +126,7 @@ public class SavedCampaign
 		//savedCampaign.AddCharacter(ModelDB.Class<RuinmawModel>(), null, "Ruineerkaak");
 
 		//savedCampaign.Characters[0].AddItem(ModelDB.Item<MinorManaPotion>());
-		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<TranslocationDevice>());
+		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<FalconFigurine>());
 		//savedCampaign.Characters[1].SetEquippedSmallSlotItem(0, ModelDB.Item<ScrollOfCharisma>());
 		//savedCampaign.Characters[1].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[0].AddItem(ModelDB.Item<PoisonDagger>());
