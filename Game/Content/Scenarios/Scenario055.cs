@@ -61,7 +61,7 @@ public class Scenario055 : ScenarioModel
 				Monster monster = await SpawnMonster(parameters.Figure, ModelDB.Monster<LivingBonesScenario55>(), MonsterType.Normal,
 					sarcophagusObstacle.Hexes,
 					alignment: Alignment.Characters, enemies: Alignment.Enemies);
-				monster.AMDCardDeck = parameters.Figure.AMDCardDeck;
+				monster.SetAMDCardDeck(parameters.Figure.AMDCardDeck);
 				_openedSarcophagi.Add(sarcophagusObstacle);
 
 				Character character;

@@ -46,23 +46,17 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 			EffectButtonParameters effectButtonParameters = null, EffectInfoViewParameters effectInfoViewParameters = null)
 		{
 			//TODO: Make sure this works for items that make you skip an element consumption (perhaps after clicking, a new prompt opens up to select what to use)
-			return new Subscription(parameters =>
+			return new Subscription(
+				parameters =>
 				{
-					if(parameters is not ParametersBaseWithAbilityState abilityStateParameters)
+					Figure potentialConsumer = null;
+					if(parameters is ParametersBaseWithAbilityState parametersBase)
 					{
-						Log.Error("Tried consuming an element without an Ability State");
-						return false;
+						potentialConsumer = parametersBase.BaseAbilityState.Performer;
 					}
 
-					AbilityState abilityState = abilityStateParameters.BaseAbilityState;
-					if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert ||
-					   !ScenarioCheckEvents.CanConsumeElementCheckEvent
-						   .Fire(new ScenarioCheckEvents.CanConsumeElementCheck.Parameters(abilityState.Authority, element)).CanConsume)
-					{
-						return false;
-					}
-
-					return canApplyFunction == null || canApplyFunction.Invoke(parameters);
+					return !AbilityCmd.CanConsumeElement(element, potentialConsumer) &&
+					       (canApplyFunction == null || canApplyFunction.Invoke(parameters));
 				},
 				async parameters =>
 				{
@@ -88,10 +82,15 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 			//TODO: Make sure this works for items that make you skip an element consumption (perhaps after clicking, a new prompt opens up to select what to use)
 			return new Subscription(parameters =>
 				{
+					Figure potentialConsumer = null;
+					if(parameters is ParametersBaseWithAbilityState parametersBase)
+					{
+						potentialConsumer = parametersBase.BaseAbilityState.Performer;
+					}
 					bool elementAvailable = false;
 					for(int i = 0; i < 6; i++)
 					{
-						if(GameController.Instance.ElementManager.GetState((Element)i) > ElementState.Inert)
+						if(AbilityCmd.CanConsumeElement((Element)i, potentialConsumer))
 						{
 							elementAvailable = true;
 							break;
@@ -102,7 +101,9 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 				},
 				async parameters =>
 				{
-					Element? wildConsume = await AbilityCmd.AskConsumeWildElement(new Character(), true);
+					Element? wildConsume = await AbilityCmd.AskConsumeWildElement(
+						parameters is ParametersBaseWithAbilityState parametersBase ? parametersBase.BaseAbilityState.Performer : new Character(),
+						true);
 					if(wildConsume.HasValue)
 					{
 						if(applyFunction != null)
@@ -123,19 +124,14 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 			//TODO: Make sure this works for items that make you skip an element consumption (perhaps after clicking, a new prompt opens up to select what to use)
 			return new Subscription(parameters =>
 				{
-					if(parameters is not ParametersBaseWithAbilityState abilityStateParameters)
+					Figure potentialConsumer = null;
+					if(parameters is ParametersBaseWithAbilityState parametersBase)
 					{
-						Log.Error("Tried consuming an element without an Ability State");
-						return false;
+						potentialConsumer = parametersBase.BaseAbilityState.Performer;
 					}
-
-					AbilityState abilityState = abilityStateParameters.BaseAbilityState;
 					foreach(Element element in elements)
 					{
-						if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert ||
-						   !ScenarioCheckEvents.CanConsumeElementCheckEvent
-							   .Fire(new ScenarioCheckEvents.CanConsumeElementCheck.Parameters(abilityState.Authority, element))
-							   .CanConsume)
+						if(!AbilityCmd.CanConsumeElement(element, potentialConsumer))
 						{
 							return false;
 						}

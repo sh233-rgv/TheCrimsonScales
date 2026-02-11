@@ -1362,4 +1362,16 @@ public static class AbilityCmd
 
 		return true;
 	}
+
+	public static bool CanConsumeElement(Element element, Figure potentialConsumer)
+	{
+		if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert ||
+		   !ScenarioCheckEvents.CanConsumeElementCheckEvent
+			   .Fire(new ScenarioCheckEvents.CanConsumeElementCheck.Parameters(potentialConsumer, element)).CanConsume)
+		{
+			return false;
+		}
+
+		return true;
+	}
 }

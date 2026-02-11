@@ -17,6 +17,7 @@ public partial class Summon : Figure
 
 	public override string DisplayName => _name;
 	public override string DebugName => _name;
+	public override AMDCardDeck AMDCardDeck => CharacterOwner.AMDCardDeck;
 	public override Texture2D MapIconTexture => _summonViewComponent.Sprite.Texture;
 	public override Node2D Visual => _summonViewComponent.Sprite;
 
@@ -32,7 +33,6 @@ public partial class Summon : Figure
 		Stats = stats;
 		CharacterOwner = characterOwner;
 		_name = name;
-		AMDCardDeck = CharacterOwner.AMDCardDeck;
 
 		_outline.SetSelfModulate(CharacterOwner.OutlineColor);
 		_figureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);

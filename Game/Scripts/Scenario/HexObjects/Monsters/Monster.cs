@@ -12,6 +12,7 @@ public partial class Monster : Figure
 
 	private Sprite2D _staticSprite;
 	private MonsterViewComponent _monsterViewComponent;
+	private AMDCardDeck _amdCardDeckOverride;
 
 	public MonsterModel MonsterModel { get; private set; }
 	public MonsterGroup MonsterGroup { get; private set; }
@@ -25,7 +26,7 @@ public partial class Monster : Figure
 
 	public override string DisplayName => $"{(MonsterType == MonsterType.Elite ? $"{MonsterType} " : string.Empty)}{MonsterGroup.MonsterModel.Name}";
 	public override string DebugName => $"{MonsterGroup.MonsterModel.Name} {StandeeNumber}";
-	public override AMDCardDeck AMDCardDeck => GameController.Instance.MonsterAMDCardDeck;
+	public override AMDCardDeck AMDCardDeck => _amdCardDeckOverride ?? GameController.Instance.MonsterAMDCardDeck;
 	public override Texture2D MapIconTexture => _staticSprite.Texture;
 	public override Node2D Visual => _staticSprite;
 
@@ -183,5 +184,10 @@ public partial class Monster : Figure
 		base.AddInfoItemParameters(parametersList);
 
 		parametersList.Add(new MonsterInfoItem.Parameters(this));
+	}
+
+	public void SetAMDCardDeck(AMDCardDeck amdCardDeck)
+	{
+		_amdCardDeckOverride = amdCardDeck;
 	}
 }
