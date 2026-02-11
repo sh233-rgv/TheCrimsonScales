@@ -14,7 +14,7 @@ public class ChieftainModel : ClassModel
 
 	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Chieftain.tscn");
 
-	public override IList<AbilityCardModel> AbilityCards { get; } =
+	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
 		ModelDB.AbilityCard<CatastrophicCattle>(),
 		ModelDB.AbilityCard<OutrunTheEnemy>(),

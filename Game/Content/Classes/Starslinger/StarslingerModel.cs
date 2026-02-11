@@ -14,7 +14,7 @@ public class StarslingerModel : ClassModel
 
 	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Starslinger.tscn");
 
-	public override IList<AbilityCardModel> AbilityCards { get; } =
+	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
 		ModelDB.AbilityCard<AlignedConstellations>(),
 		ModelDB.AbilityCard<CrashingFlare>(),

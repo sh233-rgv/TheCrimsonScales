@@ -14,7 +14,7 @@ public class BombardModel : ClassModel
 
 	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Bombard.tscn");
 
-	public override IList<AbilityCardModel> AbilityCards { get; } =
+	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
 		ModelDB.AbilityCard<ConsistentFiring>(),
 		ModelDB.AbilityCard<DoubleCannons>(),
@@ -36,5 +36,10 @@ public class BombardModel : ClassModel
 		ModelDB.AbilityCard<TwinBlast>(),
 		ModelDB.AbilityCard<HurriedRepairs>(),
 		ModelDB.AbilityCard<PowerfulBuckshot>(),
+	];
+
+	public override List<PerkModel> Perks { get; } =
+	[
+		ModelDB.Perk<BombardPerks.RemoveTwoMinusOnes>()
 	];
 }
