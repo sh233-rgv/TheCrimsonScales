@@ -48,4 +48,8 @@ public class RuinmawModel : ClassModel
 		ModelDB.AbilityCard<RipAndTear>(),
 		ModelDB.AbilityCard<BellyOfTheBeast>(),
 	];
+
+	public override List<PerkModel> Perks { get; } =
+	[
+	];
 }

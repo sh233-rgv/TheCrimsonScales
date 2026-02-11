@@ -50,6 +50,10 @@ public class HierophantModel : ClassModel
 		ModelDB.AbilityCard<BringerOfMiracles>(),
 	];
 
+	public override List<PerkModel> Perks { get; } =
+	[
+	];
+
 	public List<AbilityCardModel> AllPrayerCards { get; } =
 	[
 		ModelDB.AbilityCard<Aspiration>(),

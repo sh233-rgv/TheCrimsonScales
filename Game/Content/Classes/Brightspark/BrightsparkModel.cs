@@ -17,4 +17,8 @@ public class BrightsparkModel : ClassModel
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
 	];
+
+	public override List<PerkModel> Perks { get; } =
+	[
+	];
 }

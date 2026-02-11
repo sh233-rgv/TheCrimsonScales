@@ -40,6 +40,8 @@ public class BombardModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
-		ModelDB.Perk<BombardPerks.RemoveTwoMinusOnes>()
+		ModelDB.Perk<BombardPerks.RemoveTwoMinusOnes>(),
+		ModelDB.Perk<BombardPerks.ReplaceTwoPlusZeroWithTwoRollingPierceThree>(),
+		ModelDB.Perk<BombardPerks.ReplaceOneMinusOneWithOnePlusZeroPlusThreeIfProjectile>(),
 	];
 }

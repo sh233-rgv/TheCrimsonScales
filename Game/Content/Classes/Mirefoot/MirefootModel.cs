@@ -38,4 +38,8 @@ public class MirefootModel : ClassModel
 		ModelDB.AbilityCard<RadiantForestFungi>(),
 		ModelDB.AbilityCard<FirerootSap>(),
 	];
+
+	public override List<PerkModel> Perks { get; } =
+	[
+	];
 }

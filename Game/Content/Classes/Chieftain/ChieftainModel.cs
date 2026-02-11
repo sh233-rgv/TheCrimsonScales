@@ -48,4 +48,8 @@ public class ChieftainModel : ClassModel
 		ModelDB.AbilityCard<MasterTheReins>(),
 		ModelDB.AbilityCard<RegalBeast>(),
 	];
+
+	public override List<PerkModel> Perks { get; } =
+	[
+	];
 }

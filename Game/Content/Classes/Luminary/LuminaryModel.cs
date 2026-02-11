@@ -47,4 +47,8 @@ public class LuminaryModel : ClassModel
 		ModelDB.AbilityCard<BlazingPincers>(),
 		ModelDB.AbilityCard<LightTheWay>(),
 	];
+
+	public override List<PerkModel> Perks { get; } =
+	[
+	];
 }

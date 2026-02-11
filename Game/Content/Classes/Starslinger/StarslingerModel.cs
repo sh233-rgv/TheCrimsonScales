@@ -48,4 +48,8 @@ public class StarslingerModel : ClassModel
 		ModelDB.AbilityCard<InterplanarVoyage>(),
 		ModelDB.AbilityCard<PierceTheFirmament>(),
 	];
+
+	public override List<PerkModel> Perks { get; } =
+	[
+	];
 }

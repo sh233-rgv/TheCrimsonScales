@@ -49,6 +49,10 @@ public class FireKnightModel : ClassModel
 		ModelDB.AbilityCard<IncidentCommander>(),
 	];
 
+	public override List<PerkModel> Perks { get; } =
+	[
+	];
+
 	public List<ItemModel> AllItems { get; } =
 	[
 		ModelDB.Item<FireKnightEmberCladding>(),
