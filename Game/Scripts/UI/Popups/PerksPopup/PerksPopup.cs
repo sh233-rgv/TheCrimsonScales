@@ -20,11 +20,12 @@ public partial class PerksPopup : Popup<PerksPopup.Request>
 	{
 		base.OnOpen();
 
-		foreach(SavedPerk savedPerk in PopupRequest.SavedCharacter.SavedPerks)
+		for(int i = 0; i < PopupRequest.SavedCharacter.ClassModel.Perks.Count; i++)
 		{
+			PerkModel perkModel = PopupRequest.SavedCharacter.ClassModel.Perks[i];
 			PerksPopupPerk perk = _perkScene.Instantiate<PerksPopupPerk>();
 			_perkContainer.AddChild(perk);
-			perk.Init(savedPerk);
+			perk.Init(perkModel, i, PopupRequest.SavedCharacter.AcquiredPerkIndices.Contains(i));
 			_perks.Add(perk);
 		}
 	}

@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cbtuwtadxyfut"]
+[gd_scene load_steps=34 format=3 uid="uid://cbtuwtadxyfut"]
 
 [ext_resource type="Script" uid="uid://x4kpb6u0l25u" path="res://Scripts/AppController.cs" id="1_6s6iu"]
 [ext_resource type="Script" uid="uid://bn4208bsiittm" path="res://Scripts/InputController.cs" id="2_2vstq"]
@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://fhktc7hrkay6" path="res://Scenes/UI/Popups/MenuPopup.tscn" id="13_gkkkd"]
 [ext_resource type="PackedScene" uid="uid://4gnhl0ponwls" path="res://Scenes/UI/Popups/ItemRewardCharacterSelectionPopup/ItemRewardCharacterSelectionPopup.tscn" id="14_i0olc"]
 [ext_resource type="PackedScene" uid="uid://b301gw0ephxqc" path="res://Scenes/UI/Popups/OptionsPopup/OptionsPopup.tscn" id="16_448tb"]
+[ext_resource type="PackedScene" uid="uid://ctdqr5ctagsyw" path="res://Scenes/UI/Popups/PerksPopup/PerksPopup.tscn" id="16_naft5"]
 [ext_resource type="Script" uid="uid://bu37eqpl075ak" path="res://Scripts/Audio/AudioController.cs" id="16_u3jyv"]
 [ext_resource type="PackedScene" uid="uid://dy57ybgbn2epj" path="res://Scenes/AudioStreamPlayer.tscn" id="17_7c1c5"]
 [ext_resource type="PackedScene" uid="uid://bvih1o1ec48e2" path="res://Scenes/UI/Popups/ErrorPopup.tscn" id="17_g5bd1"]
@@ -93,6 +94,9 @@ layout_mode = 1
 layout_mode = 1
 
 [node name="CardSelectionPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("12_6akjg")]
+layout_mode = 1
+
+[node name="PerksPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("16_naft5")]
 layout_mode = 1
 
 [node name="TextPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("11_tfguv")]

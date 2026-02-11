@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 public class SavedCharacter
 {
 	[JsonProperty]
-	public string ClassModelId { get; set; }
+	public string ClassModelId { get; private set; }
 
 	[JsonProperty]
 	public int Level { get; private set; }
@@ -41,7 +41,7 @@ public class SavedCharacter
 	public List<string> EquippedSmallItems { get; private set; }
 
 	[JsonProperty]
-	public List<SavedPerk> SavedPerks { get; private set; } = new List<SavedPerk>();
+	public List<int> AcquiredPerkIndices { get; private set; } = new List<int>();
 
 	[JsonProperty]
 	public string[] DonationAMDCardIds { get; private set; }
@@ -63,6 +63,7 @@ public class SavedCharacter
 	public event Action<SavedCharacter> NameChangedEvent;
 	public event Action<SavedCharacter> EquipmentChangedEvent;
 	public event Action<SavedCharacter> CardsChangedEvent;
+	public event Action<SavedCharacter> PerksChangedEvent;
 
 	public SavedCharacter()
 	{
@@ -293,6 +294,13 @@ public class SavedCharacter
 		}
 
 		CheckmarkCount--;
+	}
+
+	public void AddPerk(int perkIndex)
+	{
+		AcquiredPerkIndices.Add(perkIndex);
+
+		PerksChangedEvent?.Invoke(this);
 	}
 
 	public bool GetCanRetire(SavedCampaign savedCampaign)

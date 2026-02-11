@@ -115,6 +115,11 @@ public partial class Character : Figure
 		for(int i = Items.Count - 1; i >= 0; i--)
 		{
 			ItemModel item = Items[i];
+			if(item.ItemState == ItemState.Active)
+			{
+				await AbilityCmd.SpendOrConsume(item);
+			}
+
 			item.SetOwner(null);
 		}
 

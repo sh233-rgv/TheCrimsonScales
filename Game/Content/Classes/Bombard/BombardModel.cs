@@ -43,5 +43,17 @@ public class BombardModel : ClassModel
 		ModelDB.Perk<BombardPerks.RemoveTwoMinusOnes>(),
 		ModelDB.Perk<BombardPerks.ReplaceTwoPlusZeroWithTwoRollingPierceThree>(),
 		ModelDB.Perk<BombardPerks.ReplaceOneMinusOneWithOnePlusZeroPlusThreeIfProjectile>(),
+		ModelDB.Perk<BombardPerks.ReplaceOneMinusOneWithOnePlusZeroPlusThreeIfProjectile>(),
+		ModelDB.Perk<BombardPerks.AddTwoPlusTwoImmobilize>(),
+		ModelDB.Perk<BombardPerks.AddTwoPlusTwoImmobilize>(),
+		ModelDB.Perk<BombardPerks.ReplaceOnePlusOneWithTwoPlusOneRetaliateOne>(),
+		ModelDB.Perk<BombardPerks.AddTwoPlusOnePullSelfTowardTarget>(),
+		ModelDB.Perk<BombardPerks.AddOnePlusZeroStrengthenSelf>(),
+		ModelDB.Perk<BombardPerks.AddOnePlusZeroStun>(),
+		ModelDB.Perk<BombardPerks.AddOnePlusOneWound>(),
+		ModelDB.Perk<BombardPerks.AddTwoRollingPlusZeroShieldOne>(),
+		ModelDB.Perk<BombardPerks.AddTwoRollingPlusZeroHealOneSelf>(),
+		ModelDB.Perk<BombardPerks.IgnoreNegativeScenarioEffectsRemovePlusZero>(),
+		ModelDB.Perk<BombardPerks.IgnoreNegativeItemEffectsRemovePlusZero>(),
 	];
 }

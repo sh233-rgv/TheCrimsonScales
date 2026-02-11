@@ -22,6 +22,8 @@ public abstract partial class Figure : HexObject, IActionSource
 	private GTween _shieldTween;
 	private GTween _retaliateTween;
 
+	private readonly List<ActionState> _otherRoundActionStates = new List<ActionState>();
+
 	public int Health { get; private set; }
 	public int MaxHealth { get; private set; }
 
@@ -108,6 +110,8 @@ public abstract partial class Figure : HexObject, IActionSource
 	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
 	{
 		await base.Destroy(immediately, forceDestroy);
+
+		await DeactivateOtherRoundActionStates();
 
 		GameController.Instance.Map.DeregisterFigure(this);
 
@@ -254,6 +258,25 @@ public abstract partial class Figure : HexObject, IActionSource
 		await GDTask.CompletedTask;
 	}
 
+	public void AddOtherRoundActionState(ActionState actionState)
+	{
+		_otherRoundActionStates.Add(actionState);
+	}
+
+	public async GDTask DeactivateOtherRoundActionState(ActionState actionState)
+	{
+		await actionState.RemoveFromActive();
+	}
+
+	public async GDTask DeactivateOtherRoundActionStates()
+	{
+		for(int i = _otherRoundActionStates.Count - 1; i >= 0; i--)
+		{
+			ActionState actionState = _otherRoundActionStates[i];
+			await DeactivateOtherRoundActionState(actionState);
+		}
+	}
+
 	public bool HasCondition(ConditionModel conditionModel)
 	{
 		return GetCondition(conditionModel) != null;
@@ -390,10 +413,12 @@ public abstract partial class Figure : HexObject, IActionSource
 
 	protected abstract Initiative GetInitiative();
 
-	public virtual void RoundEnd()
+	public virtual async GDTask RoundEnd()
 	{
 		CanTakeTurn = true;
 		RoundPerformedActionStates.Clear();
+
+		await DeactivateOtherRoundActionStates();
 	}
 
 	public void SetCrackedShield(bool crackedShield)

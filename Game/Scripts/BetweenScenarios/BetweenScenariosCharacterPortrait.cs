@@ -93,7 +93,7 @@ public partial class BetweenScenariosCharacterPortrait : Control
 
 		SavedCharacter.GoldChangedEvent += OnGoldChanged;
 		SavedCharacter.XPChangedEvent += OnXPChanged;
-		SavedCharacter.LevelChangedEvent += OnLevelCHanged;
+		SavedCharacter.LevelChangedEvent += OnLevelChanged;
 		SavedCharacter.NameChangedEvent += OnNameChanged;
 		SavedCharacter.CardsChangedEvent += OnCardsChanged;
 
@@ -105,6 +105,7 @@ public partial class BetweenScenariosCharacterPortrait : Control
 		_infoButton.Pressed += OnInfoPressed;
 		_equipmentButton.Pressed += OnEquipmentPressed;
 		_cardsButton.Pressed += OnCardsPressed;
+		_perksButton.Pressed += OnPerksPressed;
 		_levelUpButton.Pressed += OnLevelUpPressed;
 
 		GetViewport().SizeChanged += OnViewportSizeChanged;
@@ -118,7 +119,7 @@ public partial class BetweenScenariosCharacterPortrait : Control
 		{
 			SavedCharacter.GoldChangedEvent -= OnGoldChanged;
 			SavedCharacter.XPChangedEvent -= OnXPChanged;
-			SavedCharacter.LevelChangedEvent -= OnLevelCHanged;
+			SavedCharacter.LevelChangedEvent -= OnLevelChanged;
 			SavedCharacter.NameChangedEvent -= OnNameChanged;
 			SavedCharacter.CardsChangedEvent -= OnCardsChanged;
 		}
@@ -214,7 +215,7 @@ public partial class BetweenScenariosCharacterPortrait : Control
 		UpdateVisuals();
 	}
 
-	private void OnLevelCHanged(SavedCharacter savedCharacter)
+	private void OnLevelChanged(SavedCharacter savedCharacter)
 	{
 		UpdateVisuals();
 	}
@@ -254,6 +255,14 @@ public partial class BetweenScenariosCharacterPortrait : Control
 	private void OnCardsPressed()
 	{
 		AppController.Instance.PopupManager.RequestPopup(new CardSelectionPopup.Request
+		{
+			SavedCharacter = SavedCharacter
+		});
+	}
+
+	private void OnPerksPressed()
+	{
+		AppController.Instance.PopupManager.RequestPopup(new PerksPopup.Request
 		{
 			SavedCharacter = SavedCharacter
 		});
