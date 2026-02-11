@@ -29,6 +29,7 @@ public class FalconFigurine : Prosperity4Item
 							.WithHealth(2)
 							.WithMove(3)
 							.WithAttack(2)
+							.WithTraits(new FlyingTrait())
 							.Build()
 					]).Perform();
 				});

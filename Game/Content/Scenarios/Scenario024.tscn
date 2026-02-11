@@ -19,7 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://dp3yukeoyx8hd" path="res://Content/OverlayTiles/Obstacles/Boulder2H.tscn" id="16_avue3"]
 [ext_resource type="PackedScene" uid="uid://o2mxc8a8ee4j" path="res://Content/MapTiles/K2a.tscn" id="17_8ne5d"]
 [ext_resource type="PackedScene" uid="uid://cpecx0ae1flrj" path="res://Content/OverlayTiles/Obstacles/AltarHorizontal1H.tscn" id="18_yk22e"]
-[ext_resource type="PackedScene" uid="uid://cjpnbtuih20q5" path="res://Scenes/Scenario/CoinStack - Deprecated.tscn" id="19_1cbr3"]
+[ext_resource type="PackedScene" uid="uid://drwupkt4x7cbj" path="res://Scenes/Scenario/Coin.tscn" id="19_1cbr3"]
 [ext_resource type="PackedScene" uid="uid://eu066aoq41ti" path="res://Content/OverlayTiles/Doors/StoneDoorHorizontal1H.tscn" id="21_7o3mj"]
 
 [sub_resource type="Resource" id="Resource_j2lmu"]

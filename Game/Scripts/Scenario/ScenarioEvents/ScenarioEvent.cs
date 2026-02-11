@@ -46,14 +46,17 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 			EffectButtonParameters effectButtonParameters = null, EffectInfoViewParameters effectInfoViewParameters = null)
 		{
 			//TODO: Make sure this works for items that make you skip an element consumption (perhaps after clicking, a new prompt opens up to select what to use)
-			return new Subscription(parameters =>
+			return new Subscription(
+				parameters =>
 				{
-					if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert)
+					Figure potentialConsumer = null;
+					if(parameters is ParametersBaseWithAbilityState parametersBase)
 					{
-						return false;
+						potentialConsumer = parametersBase.BaseAbilityState.Performer;
 					}
 
-					return canApplyFunction == null || canApplyFunction.Invoke(parameters);
+					return !AbilityCmd.CanConsumeElement(element, potentialConsumer) &&
+					       (canApplyFunction == null || canApplyFunction.Invoke(parameters));
 				},
 				async parameters =>
 				{
@@ -79,10 +82,15 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 			//TODO: Make sure this works for items that make you skip an element consumption (perhaps after clicking, a new prompt opens up to select what to use)
 			return new Subscription(parameters =>
 				{
+					Figure potentialConsumer = null;
+					if(parameters is ParametersBaseWithAbilityState parametersBase)
+					{
+						potentialConsumer = parametersBase.BaseAbilityState.Performer;
+					}
 					bool elementAvailable = false;
 					for(int i = 0; i < 6; i++)
 					{
-						if(GameController.Instance.ElementManager.GetState((Element)i) > ElementState.Inert)
+						if(AbilityCmd.CanConsumeElement((Element)i, potentialConsumer))
 						{
 							elementAvailable = true;
 							break;
@@ -93,7 +101,9 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 				},
 				async parameters =>
 				{
-					Element? wildConsume = await AbilityCmd.AskConsumeWildElement(new Character(), true);
+					Element? wildConsume = await AbilityCmd.AskConsumeWildElement(
+						parameters is ParametersBaseWithAbilityState parametersBase ? parametersBase.BaseAbilityState.Performer : new Character(),
+						true);
 					if(wildConsume.HasValue)
 					{
 						if(applyFunction != null)
@@ -114,9 +124,14 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 			//TODO: Make sure this works for items that make you skip an element consumption (perhaps after clicking, a new prompt opens up to select what to use)
 			return new Subscription(parameters =>
 				{
+					Figure potentialConsumer = null;
+					if(parameters is ParametersBaseWithAbilityState parametersBase)
+					{
+						potentialConsumer = parametersBase.BaseAbilityState.Performer;
+					}
 					foreach(Element element in elements)
 					{
-						if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert)
+						if(!AbilityCmd.CanConsumeElement(element, potentialConsumer))
 						{
 							return false;
 						}
@@ -471,7 +486,7 @@ public abstract class ScenarioEvent
 		public T AbilityState { get; }
 
 		public override AbilityState BaseAbilityState => AbilityState;
-		public Figure Authority => AbilityState.Performer;
+		public Figure Authority { get; private set; }
 		public Figure Performer => AbilityState.Performer;
 
 		public ParametersBase(T abilityState)
@@ -483,6 +498,12 @@ public abstract class ScenarioEvent
 			}
 
 			AbilityState = abilityState;
+			Authority = AbilityState.Authority;
+		}
+
+		public void SetAuthority(Figure figure)
+		{
+			Authority = figure;
 		}
 	}
 

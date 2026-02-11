@@ -21,8 +21,7 @@ public class Seize : RuinmawCardModel<Seize.CardTop, Seize.CardBottom>
 				{
 					ConditionAbility.State conditionAbilityState = state.ActionState.GetAbilityState<ConditionAbility.State>(0);
 
-					Coin coin = await AbilityCmd.SpawnCoin(conditionAbilityState.UniqueTargetedFigures[0].Hex);
-					if(coin != null)
+					foreach(Coin coin in await AbilityCmd.SpawnCoin(conditionAbilityState.UniqueTargetedFigures[0].Hex))
 					{
 						await coin.Loot(state.Performer);
 						state.SetPerformed();

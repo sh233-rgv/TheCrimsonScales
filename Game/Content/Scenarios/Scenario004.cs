@@ -139,10 +139,8 @@ public class Scenario004 : ScenarioModel
 		MonsterModel monsterModel = marker.MarkerType == Marker.Type.a ? ModelDB.Monster<CityArcher>() : ModelDB.Monster<CityGuard>();
 		int guardLevel = GameController.Instance.SavedScenario.ScenarioLevel > 0 ? GameController.Instance.SavedScenario.ScenarioLevel - 1 : 0;
 
-		Monster monster = await AbilityCmd.SpawnMonster(monsterModel, MonsterType.Normal, marker.Hex, guardLevel);
+		Monster monster = await AbilityCmd.SpawnMonster(monsterModel, MonsterType.Normal, marker.Hex, guardLevel, Alignment.Other, Alignment.Other);
 
-		monster.SetAlignment(Alignment.Other);
-		monster.SetEnemies(Alignment.Other);
 		monster.SetHealth(4);
 		monster.SetMaxHealth(4);
 		await AbilityCmd.AddCondition(null, monster, Conditions.Infect);

@@ -206,6 +206,18 @@ public class MoveAbility : Ability<MoveAbility.State>
 
 		if(abilityState.Authority is Character)
 		{
+			if(abilityState.Performer.EnemiesWith(abilityState.Authority))
+			{
+				ScenarioCheckEvents.ImmuneToForcedMovementCheck.Parameters immuneToForcedMovementParameters =
+					ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Fire(
+						new ScenarioCheckEvents.ImmuneToForcedMovementCheck.Parameters(abilityState.Performer));
+
+				if(immuneToForcedMovementParameters.ImmuneToForcedMovement)
+				{
+					return;
+				}
+			}
+
 			// Character moving
 			ScenarioEvents.DuringMovement.Parameters duringMovementAbilityStateParameters =
 				new ScenarioEvents.DuringMovement.Parameters(abilityState);
