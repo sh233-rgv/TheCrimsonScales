@@ -9,6 +9,7 @@ public class ControlAbility : TargetedAbility<ControlAbility.State, SingleTarget
 {
 	public class State : TargetedAbilityState<SingleTargetState>
 	{
+		public List<ActionState> ControlAbilityActionStates { get; } = new List<ActionState>();
 	}
 
 	private List<Ability> _abilities;
@@ -109,11 +110,11 @@ public class ControlAbility : TargetedAbility<ControlAbility.State, SingleTarget
 	protected override async GDTask AfterTargetConfirmedBeforeConditionsApplied(State abilityState, Figure target)
 	{
 		await base.AfterTargetConfirmedBeforeConditionsApplied(abilityState, target);
-
 		// Perform the actual abilities
 		ActionState actionState = new ActionState(abilityState.ActionState.ActionSource, target,
 			target is Character ? target : abilityState.Performer, _abilities ?? _getAbilities(abilityState),
 			abilityState.ActionState);
+		abilityState.ControlAbilityActionStates.Add(actionState);
 		await actionState.Perform();
 	}
 }
