@@ -8,14 +8,20 @@
 [node name="PerksPopup" node_paths=PackedStringArray("_perkContainer") instance=ExtResource("1_uho5h")]
 script = ExtResource("2_xnhqj")
 _perkScene = ExtResource("3_jmif4")
-_perkContainer = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Perks")
+_perkContainer = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/ScrollContainer/Perks")
 
 [node name="Label" parent="Panel/MarginContainer/VBoxContainer/Header" index="1"]
 text = "Perks"
 
-[node name="Perks" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content" index="0"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content" index="0"]
+custom_minimum_size = Vector2(620, 700)
 layout_mode = 2
-theme_override_constants/separation = 20
+horizontal_scroll_mode = 0
+scroll_deadzone = 10
+
+[node name="Perks" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/ScrollContainer" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="ConfirmButton" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons" index="0" instance=ExtResource("3_l7jtr")]
 layout_mode = 2

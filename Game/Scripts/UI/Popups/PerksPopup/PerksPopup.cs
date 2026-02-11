@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public partial class PerksPopup : Popup<PerksPopup.Request>
@@ -20,13 +21,17 @@ public partial class PerksPopup : Popup<PerksPopup.Request>
 	{
 		base.OnOpen();
 
-		for(int i = 0; i < PopupRequest.SavedCharacter.ClassModel.Perks.Count; i++)
+		int perkIndex = 0;
+		IEnumerable<IGrouping<PerkModel, PerkModel>> perkGroups = PopupRequest.SavedCharacter.ClassModel.Perks.GroupBy(perkModel => perkModel);
+		foreach(IGrouping<PerkModel, PerkModel> perkGroup in perkGroups)
 		{
-			PerkModel perkModel = PopupRequest.SavedCharacter.ClassModel.Perks[i];
+			PerkModel perkModel = PopupRequest.SavedCharacter.ClassModel.Perks[perkIndex];
 			PerksPopupPerk perk = _perkScene.Instantiate<PerksPopupPerk>();
 			_perkContainer.AddChild(perk);
-			perk.Init(perkModel, i, PopupRequest.SavedCharacter.AcquiredPerkIndices.Contains(i));
+			perk.Init(perkModel, perkIndex, perkGroup.Count(), PopupRequest.SavedCharacter);
 			_perks.Add(perk);
+
+			perkIndex++;
 		}
 	}
 

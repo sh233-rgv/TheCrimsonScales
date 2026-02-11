@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8iqgols66v5l"]
+[gd_scene load_steps=5 format=3 uid="uid://c8iqgols66v5l"]
 
-[ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="1_mnmgq"]
-[ext_resource type="Texture2D" uid="uid://bj03vc6rpjr3f" path="res://Art/Icons/Other/CheckMark.svg" id="2_5674b"]
+[ext_resource type="Script" uid="uid://5orxujc7fsl0" path="res://Scripts/UI/Popups/PerksPopup/PerksPopupPerkBox.cs" id="1_2ybgm"]
+[ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="2_gkl7f"]
+[ext_resource type="Texture2D" uid="uid://bj03vc6rpjr3f" path="res://Art/Icons/Other/CheckMark.svg" id="3_fcw8d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lxurl"]
 draw_center = false
@@ -15,11 +16,15 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="PerkBox" type="Control"]
+[node name="PerksPopupPerkBox" type="Control" node_paths=PackedStringArray("_button", "_checkmark")]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 3
 anchors_preset = 0
 size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("1_2ybgm")
+_button = NodePath("BetterButton")
+_checkmark = NodePath("BetterButton/Outline/Checkmark")
 
 [node name="BetterButton" type="BaseButton" parent="."]
 _import_path = NodePath("")
@@ -77,7 +82,7 @@ focus_neighbor_bottom = NodePath("")
 focus_next = NodePath("")
 focus_previous = NodePath("")
 focus_mode = 2
-mouse_filter = 0
+mouse_filter = 1
 mouse_force_pass_scroll_events = true
 mouse_default_cursor_shape = 0
 theme = null
@@ -92,7 +97,7 @@ button_group = null
 shortcut = null
 shortcut_feedback = true
 shortcut_in_tooltip = true
-script = ExtResource("1_mnmgq")
+script = ExtResource("2_gkl7f")
 metadata/_custom_type_script = "uid://dir5vjdxjac3n"
 
 [node name="Outline" type="Panel" parent="BetterButton"]
@@ -102,6 +107,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_lxurl")
 
 [node name="Checkmark" type="TextureRect" parent="BetterButton/Outline"]
@@ -118,5 +124,5 @@ offset_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("2_5674b")
+texture = ExtResource("3_fcw8d")
 expand_mode = 1
