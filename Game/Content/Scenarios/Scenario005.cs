@@ -144,9 +144,8 @@ public class Scenario005 : ScenarioModel
 	private async GDTask SpawnEliteBloodOoze()
 	{
 		// Sort the markers by distance to the boss
-		_markers.Sort(Comparer<Marker>.Create(
-			(marker0, marker1) =>
-				RangeHelper.Distance(marker0.Hex, _gelatinousGiant.Hex) - RangeHelper.Distance(marker1.Hex, _gelatinousGiant.Hex)
+		_markers.Sort(Comparer<Marker>.Create((marker0, marker1) =>
+			RangeHelper.Distance(marker0.Hex, _gelatinousGiant.Hex) - RangeHelper.Distance(marker1.Hex, _gelatinousGiant.Hex)
 		));
 
 		// First see if there are unoccupied water hexes in water group with the closest marker
@@ -184,7 +183,7 @@ public class Scenario005 : ScenarioModel
 
 		ScenarioCheckEvents.SpawnCoinCheckEvent.Subscribe(this,
 			parameters => parameters.Dropper == _gelatinousGiant,
-			parameters => parameters.SetSpawnCoin(false));
+			parameters => parameters.SetCoinsToSpawn(0));
 
 		await _gelatinousGiant.Destroy(immediately: true);
 

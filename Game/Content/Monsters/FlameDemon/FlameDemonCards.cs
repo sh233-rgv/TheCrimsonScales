@@ -37,7 +37,7 @@ public class FlameDemonAbilityCard0 : FlameDemonAbilityCard
 
 public class FlameDemonAbilityCard1 : FlameDemonAbilityCard
 {
-	public override int Initiative => 60;
+	public override int Initiative => 24;
 	public override int CardIndex => 1;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>

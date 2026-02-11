@@ -43,7 +43,7 @@ public abstract partial class Figure : HexObject, IActionSource
 
 	public abstract string DisplayName { get; }
 	public abstract string DebugName { get; }
-	public abstract AMDCardDeck AMDCardDeck { get; }
+	public virtual AMDCardDeck AMDCardDeck { get; }
 	public abstract Texture2D MapIconTexture { get; }
 	public abstract Node2D Visual { get; }
 
@@ -244,7 +244,7 @@ public abstract partial class Figure : HexObject, IActionSource
 		TakingTurn = false;
 		CanTakeTurn = false;
 
-		GameController.Instance.ElementManager.FinishInfusing();
+		await GameController.Instance.ElementManager.FinishInfusing();
 
 		_figureViewComponent.ActivePS.TweenModulateAlpha(0f, 0.2f).OnComplete(_figureViewComponent.ActivePS.Hide).PlayFastForwardable();
 	}
