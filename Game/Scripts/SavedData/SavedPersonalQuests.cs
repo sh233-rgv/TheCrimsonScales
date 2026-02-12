@@ -18,7 +18,7 @@ public class SavedPersonalQuests
 		// ModelDB.PersonalQuest<AdrenalineSpike>(),
 		ModelDB.PersonalQuest<MutualSupport>(),
 		ModelDB.PersonalQuest<ThyBeBlessed>(),
-		// ModelDB.PersonalQuest<SpiritualGainsPersonalQuest>(),
+		ModelDB.PersonalQuest<SpiritualGainsPersonalQuest>(),
 		// ModelDB.PersonalQuest<ThePathOfAgony>(),
 		// ModelDB.PersonalQuest<TheDyingOfLight>(),
 		// ModelDB.PersonalQuest<NaturalSelection>(),

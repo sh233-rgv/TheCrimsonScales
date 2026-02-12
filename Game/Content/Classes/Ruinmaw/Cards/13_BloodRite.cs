@@ -12,12 +12,12 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
 				.WithTarget(Target.Self)
-				.WithConditions(Ruinmaw.Empower, Ruinmaw.Empower)
+				.WithConditions([Ruinmaw.Empower, Ruinmaw.Empower])
 				.WithConditionalAbilityCheck(async state =>
 				{
 					Figure adjacentAlly = await AbilityCmd.SelectFigure(state, list =>
@@ -57,12 +57,12 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)
@@ -104,7 +104,7 @@ public class BloodRite : RuinmawCardModel<BloodRite.CardTop, BloodRite.CardBotto
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 
 		private async GDTask OnSated(Ruinmaw ruinmaw)
 		{

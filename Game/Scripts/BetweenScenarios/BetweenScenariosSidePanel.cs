@@ -86,6 +86,6 @@ public partial class BetweenScenariosSidePanel : Control
 				? 1f
 				: Mathf.InverseLerp(oldThresholdReputationAmount, newThresholdReputationAmount, savedCampaign.Reputation);
 
-		_reputationStat.Update(normalizedProgress, (-savedCampaign.GetItemPriceChange()).ToString());
+		_reputationStat.Update(normalizedProgress, (-savedCampaign.GetReputationItemPriceChange()).ToString());
 	}
 }

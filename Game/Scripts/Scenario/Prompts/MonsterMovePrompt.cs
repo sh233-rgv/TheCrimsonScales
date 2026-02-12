@@ -48,9 +48,9 @@ public class MonsterMovePrompt(
 		bool hasGrayHex = false;
 		if(aiMoveParameters.AOEPattern != null)
 		{
-			foreach(AOEHex pivotAOEHex in aiMoveParameters.AOEPattern.Hexes)
+			foreach(AOEHex pivotAOEHex in aiMoveParameters.AOEPattern.LocalHexes)
 			{
-				if(pivotAOEHex.Type == AOEHexType.Gray)
+				if(pivotAOEHex.Type.HasFlag(AOEHexType.Gray))
 				{
 					hasGrayHex = true;
 				}
@@ -203,9 +203,9 @@ public class MonsterMovePrompt(
 
 					for(int i = 0; i < 6; i++)
 					{
-						foreach(AOEHex pivotAOEHex in aiMoveParameters.AOEPattern.Hexes)
+						foreach(AOEHex pivotAOEHex in aiMoveParameters.AOEPattern.LocalHexes)
 						{
-							if(hasGrayHex && pivotAOEHex.Type != AOEHexType.Gray)
+							if(hasGrayHex && !pivotAOEHex.Type.HasFlag(AOEHexType.Gray))
 							{
 								continue;
 							}
@@ -214,15 +214,15 @@ public class MonsterMovePrompt(
 							int disadvantageCount = 0;
 							AttackableFiguresCache.Clear();
 
-							Vector2I pivotOffset = -pivotAOEHex.LocalCoords;
-							foreach(AOEHex aoeHex in aiMoveParameters.AOEPattern.Hexes)
+							Vector2I pivotOffset = -pivotAOEHex.Coords;
+							foreach(AOEHex aoeHex in aiMoveParameters.AOEPattern.LocalHexes)
 							{
-								if(aoeHex.Type != AOEHexType.Red)
+								if(!aoeHex.Type.HasFlag(AOEHexType.Red))
 								{
 									continue;
 								}
 
-								Vector2I globalCoords = hexInRange.Coords + Map.RotateCoordsClockwise(pivotOffset + aoeHex.LocalCoords, i);
+								Vector2I globalCoords = hexInRange.Coords + Map.RotateCoordsClockwise(pivotOffset + aoeHex.Coords, i);
 								Hex potentialTargetHex = map.GetHex(globalCoords);
 
 								if(potentialTargetHex == null || !GameController.Instance.Map.HasLineOfSight(moveHex, potentialTargetHex))
@@ -392,22 +392,22 @@ public class MonsterMovePrompt(
 
 				for(int i = 0; i < 6; i++)
 				{
-					foreach(AOEHex pivotAOEHex in aiMoveParameters.AOEPattern.Hexes)
+					foreach(AOEHex pivotAOEHex in aiMoveParameters.AOEPattern.LocalHexes)
 					{
-						if(hasGrayHex && pivotAOEHex.Type != AOEHexType.Gray)
+						if(hasGrayHex && !pivotAOEHex.Type.HasFlag(AOEHexType.Gray))
 						{
 							continue;
 						}
 
-						Vector2I pivotOffset = -pivotAOEHex.LocalCoords;
-						foreach(AOEHex aoeHex in aiMoveParameters.AOEPattern.Hexes)
+						Vector2I pivotOffset = -pivotAOEHex.Coords;
+						foreach(AOEHex aoeHex in aiMoveParameters.AOEPattern.LocalHexes)
 						{
-							if(aoeHex.Type != AOEHexType.Red)
+							if(!aoeHex.Type.HasFlag(AOEHexType.Red))
 							{
 								continue;
 							}
 
-							Vector2I globalCoords = hexInRange.Coords + Map.RotateCoordsClockwise(pivotOffset + aoeHex.LocalCoords, i);
+							Vector2I globalCoords = hexInRange.Coords + Map.RotateCoordsClockwise(pivotOffset + aoeHex.Coords, i);
 							Hex potentialTargetHex = map.GetHex(globalCoords);
 
 							HandlePotentialTargetHex(potentialTargetHex);

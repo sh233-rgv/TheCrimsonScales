@@ -17,6 +17,8 @@ public partial class Room : Node2D
 	public List<Hex> Hexes { get; private set; }
 	public List<Figure> Figures => Hexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>()).ToList();
 
+	public List<Figure> Figures => Hexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>()).ToList();
+
 	public void Init()
 	{
 		// Get all map hexes and parent them to the map, since we want them to be shown to the player at all times
@@ -121,7 +123,7 @@ public partial class Room : Node2D
 		// Initialize each door that hasn't been initialized yet; the first time it's revealed
 		foreach((Door otherDoor, Hex hex) in _doors)
 		{
-			if(!hex.Revealed)
+			if(!otherDoor.Revealed)
 			{
 				hex.Reveal();
 				int rotationIndex = (Mathf.RoundToInt(otherDoor.GlobalRotationDegrees / 60f) + 6) % 6;

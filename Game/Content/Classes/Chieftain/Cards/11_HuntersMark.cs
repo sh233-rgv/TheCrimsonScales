@@ -10,7 +10,7 @@ public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.C
 
 	public class CardTop : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -90,15 +90,15 @@ public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.C
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : ChieftainCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(state => [RetaliateAbility.Builder().WithRetaliateValue(1).Build()])
+				.WithAbilities([RetaliateAbility.Builder().WithRetaliateValue(1).Build()])
 				.WithCustomGetTargets((state, figures) =>
 				{
 					Figure mount = Chieftain.GetMount(state.Performer);
@@ -114,6 +114,6 @@ public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.C
 			),
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

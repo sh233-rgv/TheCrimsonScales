@@ -118,21 +118,23 @@ public class SavedCampaign
 
 		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), null, "Moerasvoet");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), null, "Beschieter");
-		savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), ModelDB.PersonalQuest<WeaponsSpecialist>(), "Opperpriester");
+		savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), ModelDB.PersonalQuest<SpiritualGainsPersonalQuest>(), "Opperpriester");
 		//savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), null, "Vuur Knecht");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), null, "Ketting Garde");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), null, "Dierenzitter");
-		savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), ModelDB.PersonalQuest<ExperiencedLeader>(), "Sterrenwerper");
+		//savedCampaign.AddCharacter(ModelDB.Class<StarslingerModel>(), ModelDB.PersonalQuest<ExperiencedLeader>(), "Sterrenwerper");
 		//savedCampaign.AddCharacter(ModelDB.Class<RuinmawModel>(), null, "Ruineerkaak");
 
 		//savedCampaign.Characters[0].AddItem(ModelDB.Item<MinorManaPotion>());
-		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<TranslocationDevice>());
+		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<FalconFigurine>());
 		//savedCampaign.Characters[1].SetEquippedSmallSlotItem(0, ModelDB.Item<ScrollOfCharisma>());
 		//savedCampaign.Characters[1].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[0].AddItem(ModelDB.Item<PoisonDagger>());
 		savedCampaign.Characters[0].AddItem(ModelDB.Item<Chainmail>());
-		savedCampaign.Characters[0].SavedPersonalQuest.PersonalQuestData.AdjustProgress(
-			30, savedCampaign.Characters[0].ClassModel, savedCampaign.Characters[0].SavedPersonalQuest.Model);
+		// savedCampaign.Characters[0].SavedPersonalQuest.PersonalQuestData.AdjustProgress(
+		// 	30, savedCampaign.Characters[0].ClassModel, savedCampaign.Characters[0].SavedPersonalQuest.Model);
+
+		savedCampaign.Characters[0].AddGold(1000);
 
 		// SavedScenarioProgress testScenario = new SavedScenarioProgress();
 		// testScenario.Discover();
@@ -276,7 +278,7 @@ public class SavedCampaign
 		return ReputationPriceCostThresholds.Length;
 	}
 
-	public int GetItemPriceChange()
+	public int GetReputationItemPriceChange()
 	{
 		int thresholdIndex = GetReputationThresholdIndex();
 		return 5 - thresholdIndex;
@@ -302,23 +304,23 @@ public class SavedCampaign
 			],
 			StartingGroup.Explorers =>
 			[
-				//ModelDB.Class<BrightsparkModel>(),
+				ModelDB.Class<BrightsparkModel>(),
 				ModelDB.Class<ChainguardModel>(),
-				//ModelDB.Class<HollowpactModel>(),
+				ModelDB.Class<HollowpactModel>(),
 				ModelDB.Class<StarslingerModel>()
 			],
 			StartingGroup.Trailblazers =>
 			[
 				ModelDB.Class<BombardModel>(),
-				//ModelDB.Class<BrightsparkModel>(),
-				//ModelDB.Class<LuminaryModel>(),
+				ModelDB.Class<BrightsparkModel>(),
+				ModelDB.Class<LuminaryModel>(),
 				ModelDB.Class<StarslingerModel>()
 			],
 			StartingGroup.Naturalists =>
 			[
 				ModelDB.Class<ChieftainModel>(),
-				//ModelDB.Class<HollowpactModel>(),
-				//ModelDB.Class<LuminaryModel>(),
+				ModelDB.Class<HollowpactModel>(),
+				ModelDB.Class<LuminaryModel>(),
 				ModelDB.Class<MirefootModel>()
 			],
 			_ => throw new ArgumentOutOfRangeException(nameof(startingGroup), startingGroup, null)
@@ -362,5 +364,8 @@ public class SavedCampaign
 
 		// Return temporary AMD cards
 		SanctuaryOfTheGreatOak.ReturnCards(savedCharacter);
+
+		// Unsubscribe personal quest events
+		savedCharacter.SavedPersonalQuest?.Model.OnBetweenScenariosEnded(savedCharacter);
 	}
 }

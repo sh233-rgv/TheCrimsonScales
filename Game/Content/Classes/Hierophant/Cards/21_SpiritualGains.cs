@@ -12,7 +12,7 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -26,7 +26,7 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 							              CardState.Lost or
 							              CardState.RoundLoss or
 							              CardState.UnrecoverablyLost &&
-						              parameters.AbilityCardSide != this,
+						              parameters.AbilityCardSide.Model != this,
 						async parameters =>
 						{
 							characterTokens++;
@@ -42,7 +42,7 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 							await GDTask.CompletedTask;
 						}, EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.LoseCard),
-						effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(this));
+						effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(GetAbilityCardSide(state)));
 
 					await GDTask.CompletedTask;
 				})
@@ -56,16 +56,16 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(5)
+				.WithDistance(5, new MoveCircle(this, new Vector2(0.619969f, 0.62733525f)))
 				.Build()),
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -104,7 +104,7 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

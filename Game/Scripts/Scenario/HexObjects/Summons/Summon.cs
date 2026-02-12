@@ -146,11 +146,11 @@ public partial class Summon : Figure
 			authority = CharacterOwner;
 		}
 
-		_turnActionState = new ActionState(this, authority, _abilities);
+		_turnActionState = new ActionState(this, this, authority, _abilities);
 		await _turnActionState.Perform();
 	}
 
-	public async GDTask RemoveActionFromActive()
+	public async GDTask RemoveTurnActionFromActive()
 	{
 		if(_turnActionState != null)
 		{
@@ -168,7 +168,7 @@ public partial class Summon : Figure
 			}
 		}
 
-		await RemoveActionFromActive();
+		await RemoveTurnActionFromActive();
 
 		ScenarioEvents.FigureFoundFocusEvent.Unsubscribe(this, CharacterOwner);
 

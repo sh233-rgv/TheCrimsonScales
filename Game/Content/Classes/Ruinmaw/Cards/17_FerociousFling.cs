@@ -12,7 +12,7 @@ public class FerociousFling : RuinmawCardModel<FerociousFling.CardTop, Ferocious
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
@@ -47,14 +47,14 @@ public class FerociousFling : RuinmawCardModel<FerociousFling.CardTop, Ferocious
 		];
 
 		protected override bool Sate => true;
-		protected override IEnumerable<Element> Elements => [Element.Air];
-		protected override int XP => 2;
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Air)];
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)

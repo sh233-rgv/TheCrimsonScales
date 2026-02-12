@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.CardTop, DevoutAssistance.CardBottom>
 {
@@ -11,7 +12,7 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 
 	public class CardTop : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -28,32 +29,7 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 									[
 										ShieldAbility.Builder()
 											.WithShieldValue(1)
-											.WithOnAbilityStarted(async shieldAbilityState =>
-											{
-												await AbilityCmd.GenericChoice(shieldAbilityState.Performer,
-												[
-													ScenarioEvents.GenericChoice.Subscription.ConsumeElement(Element.Earth,
-														applyFunction: async applyParameters =>
-														{
-															shieldAbilityState.SetCustomValue(this, "ChoseShield", true);
-															await GDTask.CompletedTask;
-														},
-														effectInfoViewParameters: new TextEffectInfoView.Parameters(
-															$"Perform {Icons.Inline(Icons.Shield)}1"),
-														effectType: EffectType.SelectableMandatory
-													),
-													ScenarioEvents.GenericChoice.Subscription.ConsumeElement(Element.Light,
-														applyFunction: async applyParameters =>
-														{
-															shieldAbilityState.SetBlocked();
-															await GDTask.CompletedTask;
-														},
-														effectInfoViewParameters: new TextEffectInfoView.Parameters(
-															$"Perform {Icons.Inline(Icons.Heal)}3, self"),
-														effectType: EffectType.SelectableMandatory
-													)
-												], hintText: "Select an ability to perform:");
-											})
+											.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Earth))
 											.WithOnAbilityEndedPerformed(async shieldAbilityState =>
 											{
 												ScenarioEvents.RoundEndedEvent.Subscribe(shieldAbilityState, this,
@@ -72,8 +48,8 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 											.WithConditionalAbilityCheck(async healAbilityState =>
 											{
 												await GDTask.CompletedTask;
-												return !healAbilityState.ActionState.GetAbilityState<ShieldAbility.State>(0)
-													.GetCustomValue<bool>(this, "ChoseShield");
+												return !healAbilityState.ActionState.GetAbilityState<ShieldAbility.State>(0).Performed &&
+												       await AbilityCmd.AskConsumeElement(state.Performer, Element.Light);
 											})
 											.Build()
 									])
@@ -93,17 +69,17 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : HierophantCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.6207892f, 0.70303124f)))
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					if(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false).Any(figure => figure.EnemiesWith(state.Performer)))

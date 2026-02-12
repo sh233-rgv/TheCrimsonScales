@@ -16,6 +16,7 @@ public sealed partial class ActionState
 
 	private bool _discardOrLoseRequested;
 
+	public IActionSource ActionSource { get; }
 	public Figure Performer { get; }
 	public Figure Authority { get; }
 
@@ -28,6 +29,7 @@ public sealed partial class ActionState
 	public List<ActionState> ChildActionStates { get; } = new List<ActionState>();
 
 	public bool OverrideRound { get; private set; }
+	public bool OverrideNoRound { get; private set; }
 	public bool OverridePersistent { get; private set; }
 	public bool OverrideNoPersistent { get; private set; }
 	public bool OverrideLoss { get; private set; }
@@ -36,15 +38,31 @@ public sealed partial class ActionState
 	public IReadOnlyList<AbilityState> AbilityStates => _abilityStates;
 	public int CurrentAbilityStateIndex => _abilityStates.Count - 1;
 
-	public ActionState(Figure performerAndAuthority, IList<Ability> abilities, ActionState parentActionState = null,
+	public ActionState(Figure performerAndAuthority, IList<Ability> abilities,
 		Func<ActionState, GDTask> onFirstActivateAbilityActivated = null, Func<ActionState, GDTask> onDiscardOrLoseRequested = null)
-		: this(performerAndAuthority, performerAndAuthority, abilities, parentActionState, onFirstActivateAbilityActivated, onDiscardOrLoseRequested)
+		: this(null, performerAndAuthority, performerAndAuthority, abilities, null,
+			onFirstActivateAbilityActivated, onDiscardOrLoseRequested)
 	{
 	}
 
-	public ActionState(Figure performer, Figure authority, IList<Ability> abilities, ActionState parentActionState = null,
+	public ActionState(ActionState parentActionState, Figure performerAndAuthority, IList<Ability> abilities,
+		Func<ActionState, GDTask> onFirstActivateAbilityActivated = null, Func<ActionState, GDTask> onDiscardOrLoseRequested = null)
+		: this(parentActionState.ActionSource, performerAndAuthority, performerAndAuthority, abilities, parentActionState,
+			onFirstActivateAbilityActivated, onDiscardOrLoseRequested)
+	{
+	}
+
+	public ActionState(IActionSource actionSource, Figure performerAndAuthority, IList<Ability> abilities, ActionState parentActionState = null,
+		Func<ActionState, GDTask> onFirstActivateAbilityActivated = null, Func<ActionState, GDTask> onDiscardOrLoseRequested = null)
+		: this(actionSource, performerAndAuthority, performerAndAuthority, abilities, parentActionState,
+			onFirstActivateAbilityActivated, onDiscardOrLoseRequested)
+	{
+	}
+
+	public ActionState(IActionSource actionSource, Figure performer, Figure authority, IList<Ability> abilities, ActionState parentActionState = null,
 		Func<ActionState, GDTask> onFirstActivateAbilityActivated = null, Func<ActionState, GDTask> onDiscardOrLoseRequested = null)
 	{
+		ActionSource = actionSource;
 		Performer = performer;
 		Authority = authority;
 
@@ -112,6 +130,10 @@ public sealed partial class ActionState
 
 		HasPerformedActiveAbility = true;
 
+		// if(ParentActionState == null && ActionSource != null)
+		// {
+		// 	await ActionSource.OnFirstActivateAbilityActivated(this);
+		// }
 		if(_onFirstActivateAbilityActivated != null)
 		{
 			await _onFirstActivateAbilityActivated(this);
@@ -131,7 +153,13 @@ public sealed partial class ActionState
 		}
 
 		_discardOrLoseRequested = true;
+		SetOverrideNoPersistent();
+		SetOverrideNoRound();
 
+		// if(ParentActionState == null && ActionSource != null)
+		// {
+		// 	await ActionSource.OnDiscardOrLoseRequested(this);
+		// }
 		if(_onDiscardOrLoseRequested != null)
 		{
 			await _onDiscardOrLoseRequested(this);
@@ -156,6 +184,13 @@ public sealed partial class ActionState
 		OverrideRound = true;
 
 		ParentActionState?.SetOverrideRound();
+	}
+
+	public void SetOverrideNoRound()
+	{
+		OverrideNoRound = true;
+
+		ParentActionState?.SetOverrideNoRound();
 	}
 
 	public void SetOverridePersistent()

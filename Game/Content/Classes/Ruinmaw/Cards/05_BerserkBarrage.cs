@@ -11,7 +11,7 @@ public class BerserkBarrage : RuinmawCardModel<BerserkBarrage.CardTop, BerserkBa
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -29,13 +29,13 @@ public class BerserkBarrage : RuinmawCardModel<BerserkBarrage.CardTop, BerserkBa
 		];
 
 		protected override bool Sate => true;
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)

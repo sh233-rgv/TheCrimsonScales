@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop, AbsoluteMagnitude.CardBottom>
 {
@@ -11,11 +12,11 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 
 	public class CardTop : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
-				.WithPush(3)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.44791222f, 0.18584071f)))
+				.WithPush(3, new PushSquare(this, new Vector2(0.66871876f, 0.18584071f)))
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -43,7 +44,7 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 
 	public class CardBottom : StarslingerCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(PushAbility.Builder()
 				.WithPush(3)
@@ -70,7 +71,7 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 				.Build())
 		];
 
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 }

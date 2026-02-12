@@ -40,6 +40,7 @@ public class Road08 : RoadEventModel<Road08.ChoiceA, Road08.ChoiceB>
 							}
 						}, hintText: "Select a hex to spawn the allied Vermling Scout"
 					);
+
 					if(hex != null)
 					{
 						Monster monster = await AbilityCmd.SpawnMonster(ModelDB.Monster<VermlingScout>(), MonsterType.Normal, hex);

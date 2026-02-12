@@ -12,6 +12,7 @@ public partial class Monster : Figure
 
 	private Sprite2D _staticSprite;
 	private MonsterViewComponent _monsterViewComponent;
+	private AMDCardDeck _amdCardDeckOverride;
 
 	public MonsterModel MonsterModel { get; private set; }
 	public MonsterGroup MonsterGroup { get; private set; }
@@ -25,7 +26,7 @@ public partial class Monster : Figure
 
 	public override string DisplayName => $"{(MonsterType == MonsterType.Elite ? $"{MonsterType} " : string.Empty)}{MonsterGroup.MonsterModel.Name}";
 	public override string DebugName => $"{MonsterGroup.MonsterModel.Name} {StandeeNumber}";
-	public override AMDCardDeck AMDCardDeck => GameController.Instance.MonsterAMDCardDeck;
+	public override AMDCardDeck AMDCardDeck => _amdCardDeckOverride ?? GameController.Instance.MonsterAMDCardDeck;
 	public override Texture2D MapIconTexture => _staticSprite.Texture;
 	public override Node2D Visual => _staticSprite;
 
@@ -48,7 +49,8 @@ public partial class Monster : Figure
 		_monsterViewComponent = GetViewComponent<MonsterViewComponent>();
 	}
 
-	public async GDTask Spawn(MonsterGroup monsterGroup, MonsterType monsterType, int standeeNumber, bool summon, int? monsterLevel)
+	public async GDTask Spawn(MonsterGroup monsterGroup, MonsterType monsterType, int standeeNumber, bool summon,
+		int? monsterLevel, Alignment alignment, Alignment enemies)
 	{
 		MonsterGroup = monsterGroup;
 		MonsterType = monsterType;
@@ -71,6 +73,10 @@ public partial class Monster : Figure
 				TypeColor = BossColor;
 				levelStats = MonsterModel.BossLevelStats;
 				break;
+			case MonsterType.Named:
+				TypeColor = BossColor;
+				levelStats = MonsterModel.NamedLevelStats;
+				break;
 			default:
 				throw new ArgumentOutOfRangeException(nameof(monsterType), monsterType, null);
 		}
@@ -90,14 +96,14 @@ public partial class Monster : Figure
 			_staticSprite.SetScale((250f / textureWidth) * Vector2.One);
 		}
 
-		MonsterLevel = monsterLevel ?? GameController.Instance.SavedScenario.ScenarioLevel;
+		MonsterLevel = Math.Clamp(monsterLevel ?? GameController.Instance.SavedScenario.ScenarioLevel, 0, 7);
 		Stats = levelStats[MonsterLevel];
 
 		SetMaxHealth(Stats.Health);
 		SetHealth(Stats.Health);
 
-		SetAlignment(Alignment.Enemies);
-		SetEnemies(Alignment.Characters);
+		SetAlignment(alignment);
+		SetEnemies(enemies);
 
 		if(Stats.Traits != null)
 		{
@@ -178,5 +184,10 @@ public partial class Monster : Figure
 		base.AddInfoItemParameters(parametersList);
 
 		parametersList.Add(new MonsterInfoItem.Parameters(this));
+	}
+
+	public void SetAMDCardDeck(AMDCardDeck amdCardDeck)
+	{
+		_amdCardDeckOverride = amdCardDeck;
 	}
 }

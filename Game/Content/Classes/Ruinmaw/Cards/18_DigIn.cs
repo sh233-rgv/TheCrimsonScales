@@ -11,7 +11,7 @@ public class DigIn : RuinmawCardModel<DigIn.CardTop, DigIn.CardBottom>
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
@@ -54,7 +54,7 @@ public class DigIn : RuinmawCardModel<DigIn.CardTop, DigIn.CardBottom>
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Invisible)
@@ -100,6 +100,6 @@ public class DigIn : RuinmawCardModel<DigIn.CardTop, DigIn.CardBottom>
 				.Build())
 		];
 
-		protected override bool Round => true;
+		public override bool Round => true;
 	}
 }

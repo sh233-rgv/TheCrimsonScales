@@ -35,16 +35,16 @@ public partial class ToggleButton<T> : Control
 		_button.Pressed += OnPressed;
 	}
 
-	public void SetSelected(bool active, bool canPress)
+	public void SetSelected(bool selected, bool canPress, bool skipAnimation = false)
 	{
 		_button.SetEnabled(canPress, false);
 
-		if(_selected == active)
+		if(_selected == selected)
 		{
 			return;
 		}
 
-		_selected = active;
+		_selected = selected;
 
 		_scaleTween?.Kill();
 		if(_selected)
@@ -53,7 +53,7 @@ public partial class ToggleButton<T> : Control
 				.AppendTime(0.05f)
 				.Append(_container.TweenScale(1f, 0.15f).SetEasing(Easing.OutBack))
 				.Join(_inactiveOverlay.TweenModulateAlpha(0f, 0.15f))
-				.Build().Play();
+				.Build().Play(skipAnimation);
 		}
 		else
 		{
@@ -61,7 +61,7 @@ public partial class ToggleButton<T> : Control
 				.AppendTime(0.05f)
 				.Append(_container.TweenScale(0.9f, 0.15f).SetEasing(Easing.InBack))
 				.Join(_inactiveOverlay.TweenModulateAlpha(1f, 0.15f))
-				.Build().Play();
+				.Build().Play(skipAnimation);
 		}
 	}
 

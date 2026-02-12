@@ -294,4 +294,9 @@ public class SavedCharacter
 	{
 		return SavedPersonalQuest != null && SavedPersonalQuest.Model.GetCanRetire(savedCampaign, SavedPersonalQuest.PersonalQuestData);
 	}
+
+	public bool CanAfford(int goldCost)
+	{
+		return Gold >= goldCost;
+	}
 }

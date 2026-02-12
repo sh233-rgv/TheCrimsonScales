@@ -132,18 +132,20 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 	{
 		public interface IDamageStep
 		{
-			TBuilder WithDamage(DynamicInt<State> damage);
+			TBuilder WithDamage(DynamicInt<State> damage, params AttackEnhancementMark[] enhancementMarks);
 		}
 
-		public TBuilder WithDamage(DynamicInt<State> damage)
+		public TBuilder WithDamage(DynamicInt<State> damage, params AttackEnhancementMark[] enhancementMarks)
 		{
 			Obj.Damage = damage;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithPierce(DynamicInt<State> pierce)
+		public TBuilder WithPierce(DynamicInt<State> pierce, params PierceSquare[] enhancementMarks)
 		{
 			Obj.Pierce = pierce;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
@@ -192,7 +194,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public TBuilder WithDuringAttackSubscriptions(
 			List<ScenarioEvents.DuringAttack.Subscription> duringAttackSubscriptions)
 		{
-			Obj.DuringAttackSubscriptions = duringAttackSubscriptions;
+			Obj.DuringAttackSubscriptions.AddRange(duringAttackSubscriptions);
 			return (TBuilder)this;
 		}
 
@@ -206,7 +208,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public TBuilder WithAfterTargetConfirmedSubscriptions(
 			List<ScenarioEvents.AttackAfterTargetConfirmed.Subscription> afterTargetConfirmedSubscriptions)
 		{
-			Obj.AfterTargetConfirmedSubscriptions = afterTargetConfirmedSubscriptions;
+			Obj.AfterTargetConfirmedSubscriptions.AddRange(afterTargetConfirmedSubscriptions);
 			return (TBuilder)this;
 		}
 
@@ -220,7 +222,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public TBuilder WithAfterAttackPerformedSubscriptions(
 			List<ScenarioEvents.AfterAttackPerformed.Subscription> afterAttackPerformedSubscriptions)
 		{
-			Obj.AfterAttackPerformedSubscriptions = afterAttackPerformedSubscriptions;
+			Obj.AfterAttackPerformedSubscriptions.AddRange(afterAttackPerformedSubscriptions);
 			return (TBuilder)this;
 		}
 	}
@@ -274,19 +276,6 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(AfterTargetConfirmedSubscriptions);
 		ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(AfterAttackPerformedSubscriptions);
 	}
-
-	// protected override async GDTask InitAbilityState(State abilityState)
-	// {
-	// 	await base.InitAbilityState(abilityState);
-	//
-	// 	abilityState.AbilityAttackValue = Damage.GetValue(abilityState);
-	// 	abilityState.AbilityPierce = Pierce.GetValue(abilityState);
-	// 	abilityState.AbilityHasAdvantage = HasAdvantage;
-	// 	abilityState.AbilityHasDisadvantage = HasDisadvantage;
-	//
-	// 	await ScenarioEvents.AttackAbilityStartEvent.CreatePrompt(
-	// 		new ScenarioEvents.AttackAbilityStart.Parameters(abilityState), abilityState);
-	// }
 
 	protected override void InitAbilityStateForSingleTarget(State abilityState)
 	{
@@ -394,7 +383,8 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 
 		if(!retaliateParameters.RetaliateBlocked && retaliateParameters.Retaliate > 0)
 		{
-			await AbilityCmd.SufferDamage(abilityState.Performer, retaliateParameters.Retaliate, damageDealer: retaliateParameters.RetaliatingFigure);
+			await AbilityCmd.SufferDamage(abilityState.Performer, retaliateParameters.Retaliate,
+				potentialDamageDealer: retaliateParameters.RetaliatingFigure);
 		}
 
 		await ScenarioEvents.AfterAttackPerformedEvent.CreatePrompt(

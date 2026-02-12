@@ -12,10 +12,10 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 
 	public class CardTop : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackSquare(this, new Vector2(0.3507742f, 0.1690416f)))
 				.WithRange(2)
 				.WithAOEPattern(new AOEPattern(
 					[
@@ -23,7 +23,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 						new AOEHex(Vector2I.Zero.Add(Direction.West), AOEHexType.Red),
 						new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
 					]
-				))
+				), new AOEHexMark(Vector2I.Zero.Add(Direction.SouthEast), this, new Vector2(0.74144036f, 0.24602105f)))
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(
 						parameters => parameters.Performer.Hex.HasHexObjectOfType<Ladder>(),
@@ -73,21 +73,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 				.WithCustomGetTargets((abilityState, list) =>
 				{
 					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);
-
-					foreach((Vector2I coords, AOEHexType hexType) in attackAbilityState.AOEHexes)
-					{
-						if(hexType == AOEHexType.Red)
-						{
-							Hex hex = GameController.Instance.Map.GetHex(coords);
-							if(hex != null)
-							{
-								foreach(Figure figure in hex.GetHexObjectsOfType<Figure>())
-								{
-									list.Add(figure);
-								}
-							}
-						}
-					}
+					list.AddRange(attackAbilityState.GetRedAOEHexes().SelectMany(hex => hex.GetHexObjectsOfType<Figure>()));
 				})
 				.WithConditionalAbilityCheck(async state =>
 					{
@@ -95,7 +81,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 
 						AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 
-						if(attackAbilityState.AOEHexes == null || attackAbilityState.AOEHexes.Count == 0)
+						if(attackAbilityState.TargetedAOEHexes == null || attackAbilityState.TargetedAOEHexes.Count == 0)
 						{
 							return false;
 						}
@@ -106,12 +92,12 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 				.Build())
 		];
 
-		protected override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
 	}
 
 	public class CardBottom : FireKnightCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -165,8 +151,8 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 
 		private bool CanApply(Figure performer, OtherActiveAbility.State state, bool requireStrengthen)

@@ -11,7 +11,7 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 
 	public class CardTop : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -71,13 +71,13 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 				.Build()),
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : RuinmawCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(4)

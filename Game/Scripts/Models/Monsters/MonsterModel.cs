@@ -7,6 +7,8 @@ public abstract class MonsterModel : AbstractModel
 	public virtual MonsterStats[] NormalLevelStats => null;
 	public virtual MonsterStats[] EliteLevelStats => null;
 	public virtual MonsterStats[] BossLevelStats => null;
+	public virtual MonsterStats[] NamedLevelStats => null;
+	public virtual MonsterModel ParentMonsterModel => null;
 
 	public abstract string Name { get; }
 
