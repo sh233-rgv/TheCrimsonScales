@@ -59,8 +59,7 @@ public class AstronomicalStrike : BrightsparkCardModel<AstronomicalStrike.CardTo
 							await AbilityCmd.SufferDamage(state, figure, 1);
 							state.SetPerformed();
 						}
-					}).Build())
-					//TODO: Scenarios added: new PermanentConditionTrait(Conditions.Invisible),
+					}).Build()), new PermanentConditionTrait(Conditions.Invisible)
 					//TODO: Cannot be moved)
 				)
 				.Build())

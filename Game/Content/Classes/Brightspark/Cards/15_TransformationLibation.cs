@@ -57,7 +57,7 @@ public class TransformationLibation : BrightsparkCardModel<TransformationLibatio
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Air];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Air)];
 		public override bool Persistent => true;
 		public override bool Loss => true;
 	}

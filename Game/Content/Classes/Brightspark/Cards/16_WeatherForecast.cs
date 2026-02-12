@@ -20,7 +20,7 @@ public class WeatherForecast : BrightsparkCardModel<WeatherForecast.CardTop, Wea
 				.Build())
 		];
 
-		//TODO: public override IEnumerable<Element> Elements => AnyElement;
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.InfuseWild()];
 	}
 
 	public class CardBottom : BrightsparkCardSide

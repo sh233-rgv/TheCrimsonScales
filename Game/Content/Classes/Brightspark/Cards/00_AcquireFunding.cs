@@ -18,25 +18,32 @@ public class AcquireFunding : BrightsparkCardModel<AcquireFunding.CardTop, Acqui
 				.WithRange(3)
 				.WithOnAbilityStarted(async abilityState =>
 				{
-					bool lootCoin = false;
+					int coinsToLoot = 0;
 					ScenarioCheckEvents.SpawnCoinCheckEvent.Subscribe(abilityState, this,
-						canApplyParameters => abilityState.Target == canApplyParameters.Figure && canApplyParameters.SpawnCoin,
+						canApplyParameters => abilityState.Target == canApplyParameters.Dropper && canApplyParameters.CoinsToSpawn > 0,
 						applyParameters =>
 						{
-							applyParameters.SetSpawnCoin(false);
-							lootCoin = true;
+							coinsToLoot = applyParameters.CoinsToSpawn;
+							applyParameters.SetCoinsToSpawn(0);
 						}, order: 100
 					);
 					ScenarioEvents.AfterAttackPerformedEvent.Subscribe(abilityState, this,
-						parameters => parameters.AbilityState.Target.IsDead && lootCoin,
+						parameters => parameters.AbilityState.Target.IsDead && coinsToLoot > 0,
 						async parameters =>
 						{
-							PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/CoinStack.tscn");
-							CoinStack coinStack = scene.Instantiate<CoinStack>();
-							GameController.Instance.Map.AddChild(coinStack);
-							await coinStack.Init(abilityState.Target.Hex);
+							List<Coin> coins = [];
 
-							await coinStack.Loot(abilityState.Performer);
+							for(int i = 0; i < coinsToLoot; i++)
+							{
+								coins.AddRange(await AbilityCmd.SpawnCoin(abilityState.Target.Hex));
+							}
+
+							foreach(Coin coin in coins)
+							{
+								await coin.Loot(abilityState.Performer);
+							}
+
+							coinsToLoot = 0;
 						});
 
 					await GDTask.CompletedTask;

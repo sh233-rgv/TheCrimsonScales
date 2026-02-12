@@ -208,24 +208,8 @@ public abstract class ItemModel : AbstractModel<ItemModel>, IActionSource
 
 		if(fullyUsed)
 		{
-			switch(ItemUseType)
 			if(_activeActionStates.Count > 0)
 			{
-				case ItemUseType.Spend:
-					await SetItemState(ItemState.Spent);
-					break;
-				case ItemUseType.Consume:
-					await SetItemState(ItemState.Consumed);
-					break;
-				case ItemUseType.ConsumeUnrecoverable:
-					await SetItemState(ItemState.UnrecoverablyConsumed);
-					break;
-				case ItemUseType.Always:
-					break;
-				case ItemUseType.Flip:
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
 				await SetItemState(ItemState.Active);
 			}
 			else
@@ -247,10 +231,6 @@ public abstract class ItemModel : AbstractModel<ItemModel>, IActionSource
 				}
 			}
 		}
-
-		await apply(user);
-
-		user.TurnItemsUsed.Add(this);
 
 		await ScenarioEvents.ItemUseEndedEvent.CreatePrompt(new ScenarioEvents.ItemUseEnded.Parameters(this, Owner));
 	}
@@ -545,8 +525,5 @@ public abstract class ItemModel : AbstractModel<ItemModel>, IActionSource
 	private async GDTask OnDiscardOrLoseRequested(ActionState actionState)
 	{
 		await AbilityCmd.SpendOrConsume(this);
-	public bool IsConsumed()
-	{
-		return ItemState == ItemState.Consumed || ItemState == ItemState.UnrecoverablyConsumed;
 	}
 }

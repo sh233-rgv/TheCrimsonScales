@@ -26,7 +26,7 @@ public class ExothermicCocktail : BrightsparkCardModel<ExothermicCocktail.CardTo
 				.Build()),
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
 		public override int XP => 1;
 	}
 

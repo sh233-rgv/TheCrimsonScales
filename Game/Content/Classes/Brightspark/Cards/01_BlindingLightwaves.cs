@@ -19,7 +19,7 @@ public class BlindingLightwaves : BrightsparkCardModel<BlindingLightwaves.CardTo
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Light];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];
 		public override int XP => 2;
 		public override bool Loss => true;
 	}

@@ -57,7 +57,7 @@ public class NourishingFormula : BrightsparkCardModel<NourishingFormula.CardTop,
 				.WithConditionalAbilityCheck(async state =>
 				{
 					return state.Performer is Character character &&
-					       character.TurnItemsUsed.Any(item => item.IsConsumed() && item.ItemType == ItemType.Small) &&
+					       character.TurnItemsUsed.Any(item => item.ItemState == ItemState.Consumed && item.ItemType == ItemType.Small) &&
 					       await AbilityCmd.HasPerformedAbility(state, 0);
 				})
 				.Build())

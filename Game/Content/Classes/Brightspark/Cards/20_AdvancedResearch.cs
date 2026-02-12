@@ -137,7 +137,7 @@ public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, A
 				.Build())
 		];
 
-		//TODO: 2 Any Elements
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.InfuseWild(), CardElementInfusion.InfuseWild()];
 		public override int XP => 2;
 		public override bool Persistent => true;
 		public override bool Loss => true;

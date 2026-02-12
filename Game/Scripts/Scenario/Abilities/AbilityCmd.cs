@@ -477,24 +477,6 @@ public static class AbilityCmd
 		return overlayTile.Hex;
 	}
 
-	public static async GDTask<Hex> MoveOverlayTile(Figure performer, OverlayTile overlayTile, Action<List<Hex>> moveToHexes)
-	{
-		Hex movedToHex = await SelectHex(performer, moveToHexes, mandatory: true,
-			hintText: $"Select a hex to move the {overlayTile.GetType().ToString().ToLower()} to");
-
-		if(movedToHex == null)
-		{
-			return null;
-		}
-
-		await overlayTile.TweenGlobalPosition(movedToHex.GlobalPosition, 0.3f).SetEasing(Easing.OutSine)
-			.PlayFastForwardableAsync();
-		await GDTask.DelayFastForwardable(0.03f);
-		overlayTile.SetOriginHexAndRotation(movedToHex);
-
-		return overlayTile.Hex;
-	}
-
 	public static async GDTask<Trap> CreateTrap(Hex hex, string assetPath, int damage = 0, ConditionModel[] conditions = null)
 	{
 		PackedScene scene = ResourceLoader.Load<PackedScene>(assetPath);

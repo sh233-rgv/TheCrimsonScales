@@ -64,7 +64,7 @@ public class PreliminaryResearch : BrightsparkCardModel<PreliminaryResearch.Card
 				.Build())
 		];
 
-		//TODO: public override IEnumerable<Element> Elements => WildElement;
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.InfuseWild()];
 		public override int XP => 2;
 		public override bool Persistent => true;
 		public override bool Loss => true;

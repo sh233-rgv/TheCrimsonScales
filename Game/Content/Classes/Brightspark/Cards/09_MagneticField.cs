@@ -55,7 +55,7 @@ public class MagneticField : BrightsparkCardModel<MagneticField.CardTop, Magneti
 				.Build()),
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Air];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Air)];
 	}
 
 	public class CardBottom : BrightsparkCardSide

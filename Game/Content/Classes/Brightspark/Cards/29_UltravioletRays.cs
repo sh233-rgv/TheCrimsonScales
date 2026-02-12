@@ -22,7 +22,7 @@ public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, Ult
 					List<object> subscribers = [subscriber1, subscriber2, subscriber3, subscriber4];
 					state.SetCustomValue(this, "subscribers", subscribers);
 
-					ScenarioEvents.DuringAttackEvent.Subscribe(ScenarioEvents.GetSubscriberPair(state, subscriber1),
+					ScenarioEvents.DuringAttackEvent.Subscribe(state, subscriber1,
 						ScenarioEvents.DuringAttack.Subscription.ConsumeWildElements(
 							parameters => parameters.AbilityState.IsSingleTarget,
 							async applyParameters =>
@@ -30,7 +30,7 @@ public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, Ult
 								applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
 								await GDTask.CompletedTask;
 							}));
-					ScenarioEvents.DuringAttackEvent.Subscribe(ScenarioEvents.GetSubscriberPair(state, subscriber1),
+					ScenarioEvents.DuringAttackEvent.Subscribe(state, subscriber2,
 						ScenarioEvents.DuringAttack.Subscription.ConsumeWildElements(
 							parameters => parameters.AbilityState.IsSingleTarget,
 							async applyParameters =>
@@ -38,7 +38,7 @@ public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, Ult
 								applyParameters.AbilityState.SingleTargetAdjustPierce(3);
 								await GDTask.CompletedTask;
 							}));
-					ScenarioEvents.DuringAttackEvent.Subscribe(ScenarioEvents.GetSubscriberPair(state, subscriber1),
+					ScenarioEvents.DuringAttackEvent.Subscribe(state, subscriber3,
 						ScenarioEvents.DuringAttack.Subscription.ConsumeWildElements(
 							parameters => parameters.AbilityState.IsSingleTarget,
 							async applyParameters =>
@@ -46,7 +46,7 @@ public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, Ult
 								applyParameters.AbilityState.SingleTargetAdjustPush(2);
 								await GDTask.CompletedTask;
 							}));
-					ScenarioEvents.DuringAttackEvent.Subscribe(ScenarioEvents.GetSubscriberPair(state, subscriber1),
+					ScenarioEvents.DuringAttackEvent.Subscribe(state, subscriber4,
 						ScenarioEvents.DuringAttack.Subscription.ConsumeWildElements(
 							parameters => parameters.AbilityState.IsSingleTarget,
 							async applyParameters =>
@@ -104,6 +104,6 @@ public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, Ult
 				.Build())
 		];
 
-		//TODO: Elements: 2x wild element
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.InfuseWild(), CardElementInfusion.InfuseWild()];
 	}
 }
