@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class WildStings : MirefootCardModel<WildStings.CardTop, WildStings.CardBottom>
 {
@@ -12,12 +13,12 @@ public class WildStings : MirefootCardModel<WildStings.CardTop, WildStings.CardB
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(1)
+				.WithDamage(1, new AttackDiamond(this, new Vector2(0.4637037f, 0.24021162f)))
 				.WithTargets(2)
 				.WithConditions(Conditions.Poison1)
 				.Build()),
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.50982964f, 0.33842435f)))
 				.WithTargets(2)
 				.Build())
 		];

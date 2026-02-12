@@ -16,8 +16,8 @@ public class SludgeBomb : MirefootCardModel<SludgeBomb.CardTop, SludgeBomb.CardB
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
-				.WithRange(3)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.35703704f, 0.19851269f)))
+				.WithRange(3, new RangeSquare(this, new Vector2(0.5674074f, 0.19788358f)))
 				.WithConditions([Conditions.Wound1, Conditions.Immobilize])
 				.WithAfterAttackPerformedSubscription(
 					ScenarioEvents.AfterAttackPerformed.Subscription.New(

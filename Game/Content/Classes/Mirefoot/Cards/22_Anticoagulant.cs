@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class Anticoagulant : MirefootCardModel<Anticoagulant.CardTop, Anticoagulant.CardBottom>
 {
@@ -12,11 +13,11 @@ public class Anticoagulant : MirefootCardModel<Anticoagulant.CardTop, Anticoagul
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(1)
+				.WithDamage(1, new AttackDiamond(this, new Vector2(0.5104704f, 0.24021162f)))
 				.WithConditions(Conditions.Wound1)
 				.Build()),
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.4975778f, 0.33862433f)))
 				.WithConditions(Conditions.Wound2)
 				.Build())
 		];
@@ -27,7 +28,7 @@ public class Anticoagulant : MirefootCardModel<Anticoagulant.CardTop, Anticoagul
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.5243444f, 0.7206349f)))
 				.WithMoveType(MoveType.Jump)
 				.Build()),
 			new AbilityCardAbility(MoveAbility.Builder()

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class LingeringSwampMoss : MirefootCardModel<LingeringSwampMoss.CardTop, LingeringSwampMoss.CardBottom>
 {
@@ -14,7 +15,7 @@ public class LingeringSwampMoss : MirefootCardModel<LingeringSwampMoss.CardTop, 
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.4952556f, 0.2913344f)))
 				.WithConditions(Conditions.Poison4)
 				.Build()),
 		];

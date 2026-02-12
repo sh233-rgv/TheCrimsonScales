@@ -91,7 +91,7 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(1)
+				.WithDamage(1, new AttackDiamond(this, new Vector2(0.4507118f, 0.771774f)))
 				.WithConditions([Conditions.Wound2, Conditions.Stun])
 				.Build())
 		];

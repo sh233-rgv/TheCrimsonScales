@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, PersonalPoison.CardBottom>
 {
@@ -50,15 +51,24 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 						{
 							await AbilityCmd.AddCondition(state, parameters.Target, Conditions.Wound1);
 						});
+
+					ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(state, this,
+						parameters => parameters.Figure is Monster monster && monsterGroup.Monsters.Contains(monster),
+						parameters =>
+						{
+							parameters.Add(new InfoTextExtraEffect.Parameters(
+								$"Whenever this figure gains {Icons.Inline(Icons.GetCondition(Conditions.Poison1))}, it also gains {Icons.Inline(Icons.GetCondition(Conditions.Wound1))}"));
+						});
 				})
 				.WithOnDeactivate(async state =>
 				{
 					ScenarioEvents.InflictConditionEvent.Unsubscribe(state, this);
+					ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})
 				.Build()),
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.49777776f, 0.36613753f)))
 				.WithConditions(Conditions.Poison2)
 				.Build())
 		];

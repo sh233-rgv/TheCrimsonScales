@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 
 public class TaintedWaters : MirefootCardModel<TaintedWaters.CardTop, TaintedWaters.CardBottom>
 {
@@ -31,7 +32,7 @@ public class TaintedWaters : MirefootCardModel<TaintedWaters.CardTop, TaintedWat
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(5)
+				.WithDistance(5, new MoveCircle(this, new Vector2(0.6209408f, 0.64953536f)))
 				.Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Immobilize)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class TwistTheBlade : MirefootCardModel<TwistTheBlade.CardTop, TwistTheBlade.CardBottom>
 {
@@ -12,11 +13,11 @@ public class TwistTheBlade : MirefootCardModel<TwistTheBlade.CardTop, TwistTheBl
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(1)
+				.WithDamage(1, new AttackDiamond(this, new Vector2(0.49855936f, 0.17132856f)))
 				.WithConditions(Conditions.Poison2)
 				.Build()),
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(1)
+				.WithDamage(1, new AttackDiamond(this, new Vector2(0.51042974f, 0.26951215f)))
 				.WithConditions(Conditions.Poison1)
 				.WithAfterTargetConfirmedSubscription(
 					ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
@@ -47,7 +48,7 @@ public class TwistTheBlade : MirefootCardModel<TwistTheBlade.CardTop, TwistTheBl
 				.WithDistance(3)
 				.Build()),
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.510711f, 0.773974f)))
 				.WithConditions(Conditions.Poison1)
 				.Build()),
 			new AbilityCardAbility(MoveAbility.Builder()
