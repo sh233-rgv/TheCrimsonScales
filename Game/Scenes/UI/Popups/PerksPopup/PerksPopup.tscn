@@ -8,7 +8,7 @@
 [node name="PerksPopup" node_paths=PackedStringArray("_perkContainer") instance=ExtResource("1_uho5h")]
 script = ExtResource("2_xnhqj")
 _perkScene = ExtResource("3_jmif4")
-_perkContainer = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/ScrollContainer/Perks")
+_perkContainer = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/ScrollContainer/MarginContainer/Perks")
 
 [node name="Label" parent="Panel/MarginContainer/VBoxContainer/Header" index="1"]
 text = "Perks"
@@ -19,7 +19,14 @@ layout_mode = 2
 horizontal_scroll_mode = 0
 scroll_deadzone = 10
 
-[node name="Perks" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/ScrollContainer" index="0"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/ScrollContainer" index="0"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Perks" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/ScrollContainer/MarginContainer" index="0"]
 layout_mode = 2
 theme_override_constants/separation = 10
 

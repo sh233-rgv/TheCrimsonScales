@@ -13,6 +13,10 @@ public class BombardAMDCards
 
 	public class PlusZeroPlusThreeIfProjectile : BombardAMDCardModel
 	{
+		public override string ToString(RichTextParameters richTextParameters) =>
+			GetBasicString(richTextParameters, +0,
+				extraText: $"+3 instead if Projectile {Icons.Inline(ModelDB.Class<BombardModel>().IconPath, richTextParameters)}");
+
 		protected override int AtlasIndex => 2;
 
 		public override int? GetValue(AttackAbility.State attackAbilityState) =>
@@ -32,6 +36,10 @@ public class BombardAMDCards
 
 	public class PlusOneRetaliateOne : BombardAMDCardModel
 	{
+		public override string ToString(RichTextParameters richTextParameters) =>
+			GetBasicString(richTextParameters, +0,
+				extraText: $"{Icons.Inline(Icons.Retaliate, richTextParameters)}1,{Icons.Inline(Icons.Range, richTextParameters)}3");
+
 		protected override int AtlasIndex => 6;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 
@@ -43,6 +51,10 @@ public class BombardAMDCards
 
 	public class PlusOnePullSelfTowardTarget : BombardAMDCardModel
 	{
+		public override string ToString(RichTextParameters richTextParameters) =>
+			GetBasicString(richTextParameters, +1,
+				extraText: $"{Icons.Inline(Icons.Pull, richTextParameters)}, self, toward the target");
+
 		protected override int AtlasIndex => 8;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 
@@ -54,6 +66,11 @@ public class BombardAMDCards
 
 	public class PlusZeroStrengthenSelf : BombardAMDCardModel
 	{
+		public override string ToString(RichTextParameters richTextParameters) =>
+			GetBasicString(richTextParameters, +0,
+				extraText: $"{Icons.Inline(Icons.GetCondition(Conditions.Strengthen), richTextParameters)}, self",
+				rolling: true);
+
 		protected override int AtlasIndex => 10;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 
@@ -79,6 +96,11 @@ public class BombardAMDCards
 
 	public class RollingPlusZeroShieldOne : BombardAMDCardModel
 	{
+		public override string ToString(RichTextParameters richTextParameters) =>
+			GetBasicString(richTextParameters, +0,
+				extraText: $"{Icons.Inline(Icons.Shield, richTextParameters)}1",
+				rolling: true);
+
 		protected override int AtlasIndex => 13;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -91,6 +113,11 @@ public class BombardAMDCards
 
 	public class RollingPlusZeroHealOneSelf : BombardAMDCardModel
 	{
+		public override string ToString(RichTextParameters richTextParameters) =>
+			GetBasicString(richTextParameters, +0,
+				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, self",
+				rolling: true);
+
 		protected override int AtlasIndex => 15;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
