@@ -16,6 +16,9 @@ public class Scenario004 : ScenarioModel
 		                        "Any character may forgo the top action of their turn to perform a" +
 		                        $"“{Icons.Inline(Icons.Heal)}1, {Icons.Inline(Icons.Range)}2” ability.");
 
+	protected override List<MonsterModel> SpawnedMonsterModels { get; } = [ModelDB.Monster<CityArcher>(), ModelDB.Monster<CityGuard>()];
+
+
 	private int _revealedWarriors = 0;
 	private List<InfectedWarrior> _infectedWarriors = [];
 	private bool _roomRevealed = false;
@@ -23,9 +26,6 @@ public class Scenario004 : ScenarioModel
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
-
-		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<CityArcher>());
-		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<CityGuard>());
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<BonecladShawl>());
 

@@ -10,25 +10,25 @@ public class TaintedWaters : MirefootCardModel<TaintedWaters.CardTop, TaintedWat
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
 				.WithTarget(Target.TargetAll | Target.Enemies)
 				.WithRange(4)
-				.WithConditions(Conditions.Wound2, Conditions.Poison2)
+				.WithConditions([Conditions.Wound2, Conditions.Poison2])
 				.WithFilterTargets((state, figure) =>
 					figure.Hex.HasHexObjectOfType<DifficultTerrain>())
 				.Build())
 		];
 
-		protected override int XP => 2;
+		public override int XP => 2;
 		public override bool Loss => true;
 	}
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(5)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 
 public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, PersonalPoison.CardBottom>
@@ -10,16 +11,15 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
 					//TODO: add visual indicator
-					//TODO: Make there be some way to identify "base" groups that would be ignored by this (e.g. Giant Vipers w/ Ghost Vipers)
 					MonsterGroup monsterGroup = null;
 					List<ScenarioEvents.GenericChoice.Subscription> subscriptions = [];
-					foreach(MonsterGroup group in GameController.Instance.Scenario.Map.MonsterGroups)
+					foreach(MonsterGroup group in GameController.Instance.Scenario.Map.MonsterGroups.Where(group => !group.ExtensionGroup))
 					{
 						subscriptions.Add(ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.New(
 							subscriptionParameters => true,
@@ -63,16 +63,16 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 				.Build())
 		];
 
-		protected override int XP => 1;
-		protected override bool Persistent => true;
+		public override int XP => 1;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
-				.WithConditions(Conditions.Wound1, Conditions.Poison1)
+				.WithConditions([Conditions.Wound1, Conditions.Poison1])
 				.WithTarget(Target.Self)
 				.WithMandatory(true)
 				.Build()),
@@ -100,7 +100,7 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.AbilityCardStateChangedEvent.Subscribe(state, this,
-						parameters => parameters.AbilityCard == AbilityCard && parameters.AbilityCard.CardState == CardState.Discarded,
+						parameters => parameters.AbilityCard == GetAbilityCard(state) && parameters.AbilityCard.CardState == CardState.Discarded,
 						async parameters =>
 						{
 							await new ActionState(state.Performer, [HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()])
@@ -116,6 +116,6 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

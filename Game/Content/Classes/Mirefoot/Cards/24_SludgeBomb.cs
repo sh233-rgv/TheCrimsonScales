@@ -13,12 +13,12 @@ public class SludgeBomb : MirefootCardModel<SludgeBomb.CardTop, SludgeBomb.CardB
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
 				.WithRange(3)
-				.WithConditions(Conditions.Wound1, Conditions.Immobilize)
+				.WithConditions([Conditions.Wound1, Conditions.Immobilize])
 				.WithAfterAttackPerformedSubscription(
 					ScenarioEvents.AfterAttackPerformed.Subscription.New(
 						parameters => true,
@@ -47,7 +47,7 @@ public class SludgeBomb : MirefootCardModel<SludgeBomb.CardTop, SludgeBomb.CardB
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -103,6 +103,6 @@ public class SludgeBomb : MirefootCardModel<SludgeBomb.CardTop, SludgeBomb.CardB
 				.Build())
 		];
 
-		protected override bool Persistent => true;
+		public override bool Persistent => true;
 	}
 }

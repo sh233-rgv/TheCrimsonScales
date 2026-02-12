@@ -57,17 +57,6 @@ public partial class ScenarioEvents
 	private readonly HexObjectDestroyed _hexObjectDestroyed = new HexObjectDestroyed();
 	public static HexObjectDestroyed HexObjectDestroyedEvent => GameController.Instance.ScenarioEvents._hexObjectDestroyed;
 
-	public class OverlayTileCreated : ScenarioEvent<OverlayTileCreated.Parameters>
-	{
-		public class Parameters(OverlayTile overlayTile) : ParametersBase
-		{
-			public OverlayTile OverlayTile { get; } = overlayTile;
-		}
-	}
-
-	private readonly OverlayTileCreated _overlayTileCreated = new OverlayTileCreated();
-	public static OverlayTileCreated OverlayTileCreatedEvent => GameController.Instance.ScenarioEvents._overlayTileCreated;
-
 	public class DuringAttack : ScenarioEvent<DuringAttack.Parameters>
 	{
 		public class Parameters(AttackAbility.State abilityState) : ParametersBase<AttackAbility.State>(abilityState)

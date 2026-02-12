@@ -11,11 +11,12 @@ public class Scenario006 : ScenarioModel
 	protected override ScenarioGoals CreateScenarioGoals() => new CustomScenarioGoals(
 		"Purify the poisoned water supply to win this scenario. ");
 
+	protected override List<MonsterModel> SpawnedMonsterModels { get; } = [ModelDB.Monster<FlamingDrake>()];
+
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
-
-		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<FlamingDrake>());
 
 		List<Hex> hexesWithAntidote = GameController.Instance.Map.Markers
 			.Where(marker => marker.MarkerType == Marker.Type._1)

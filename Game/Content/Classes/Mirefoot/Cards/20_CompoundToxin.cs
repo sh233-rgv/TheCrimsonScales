@@ -11,7 +11,7 @@ public class CompoundToxin : MirefootCardModel<CompoundToxin.CardTop, CompoundTo
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -30,7 +30,7 @@ public class CompoundToxin : MirefootCardModel<CompoundToxin.CardTop, CompoundTo
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -70,8 +70,8 @@ public class CompoundToxin : MirefootCardModel<CompoundToxin.CardTop, CompoundTo
 				.Build())
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

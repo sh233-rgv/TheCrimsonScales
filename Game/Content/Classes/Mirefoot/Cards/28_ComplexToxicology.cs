@@ -10,7 +10,7 @@ public class ComplexToxicology : MirefootCardModel<ComplexToxicology.CardTop, Co
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Disarm)
@@ -64,13 +64,13 @@ public class ComplexToxicology : MirefootCardModel<ComplexToxicology.CardTop, Co
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
 				.WithTargets(2)
 				.WithRange(3)
-				.WithConditions(Conditions.Wound1, Conditions.Poison2, Conditions.Muddle)
+				.WithConditions([Conditions.Wound1, Conditions.Poison2, Conditions.Muddle])
 				.Build())
 		];
 	}

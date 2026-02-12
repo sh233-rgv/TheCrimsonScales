@@ -11,7 +11,7 @@ public class LingeringSwampMoss : MirefootCardModel<LingeringSwampMoss.CardTop, 
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -22,7 +22,7 @@ public class LingeringSwampMoss : MirefootCardModel<LingeringSwampMoss.CardTop, 
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -80,8 +80,8 @@ public class LingeringSwampMoss : MirefootCardModel<LingeringSwampMoss.CardTop, 
 				.Build()),
 		];
 
-		protected override int XP => 2;
-		protected override bool Persistent => true;
+		public override int XP => 2;
+		public override bool Persistent => true;
 		public override bool Loss => true;
 	}
 }

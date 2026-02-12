@@ -9,7 +9,7 @@ public class WildStings : MirefootCardModel<WildStings.CardTop, WildStings.CardB
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
@@ -25,22 +25,16 @@ public class WildStings : MirefootCardModel<WildStings.CardTop, WildStings.CardB
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SummonAbility.Builder()
-				.WithSummonStats(new SummonStats()
-				{
-					Health = 3,
-					Attack = 1,
-					Traits =
-					[
-						new ApplyConditionTrait(Conditions.Poison1),
-						new PerformOnDeathTrait(ConditionAbility.Builder().WithConditions(Conditions.Poison2)
-							.WithTarget(Target.TargetAll | Target.Enemies).WithRange(1).Build())
-					]
-				})
 				.WithName("Crypt Nettle")
 				.WithTexturePath("res://Content/Classes/Mirefoot/CryptNettle.png")
+				.WithHealth(3)
+				.WithAttack(1)
+				.WithTraits(new ApplyConditionTrait(Conditions.Poison1),
+					new PerformOnDeathTrait(ConditionAbility.Builder().WithConditions(Conditions.Poison2)
+						.WithTarget(Target.TargetAll | Target.Enemies).WithRange(1).Build()))
 				.WithGetValidHexes((abilityState, list) =>
 					{
 						RangeHelper.FindHexesInRange(abilityState.Performer.Hex, 3, true, list);
@@ -51,7 +45,7 @@ public class WildStings : MirefootCardModel<WildStings.CardTop, WildStings.CardB
 				.Build())
 		];
 
-		protected override int XP => 1;
-		protected override bool Persistent => true;
+		public override int XP => 1;
+		public override bool Persistent => true;
 	}
 }

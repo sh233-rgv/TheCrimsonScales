@@ -17,8 +17,6 @@ public partial class Room : Node2D
 	public List<Hex> Hexes { get; private set; }
 	public List<Figure> Figures => Hexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>()).ToList();
 
-	public List<Figure> Figures => Hexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>()).ToList();
-
 	public void Init()
 	{
 		// Get all map hexes and parent them to the map, since we want them to be shown to the player at all times

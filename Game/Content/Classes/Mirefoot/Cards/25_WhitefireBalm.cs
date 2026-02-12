@@ -12,7 +12,7 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 
 	public class CardTop : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -82,17 +82,17 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 				.Build())
 		];
 
-		protected override int XP => 1;
-		protected override bool Persistent => true;
+		public override int XP => 1;
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : MirefootCardSide
 	{
-		protected override IEnumerable<AbilityCardAbility> GetAbilities() =>
+		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
-				.WithConditions(Conditions.Wound2, Conditions.Stun)
+				.WithConditions([Conditions.Wound2, Conditions.Stun])
 				.Build())
 		];
 	}

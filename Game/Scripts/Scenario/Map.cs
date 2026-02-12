@@ -238,6 +238,7 @@ public partial class Map : Node2D
 
 	public void AddMonsterGroup(MonsterModel monsterModel)
 	{
+		bool extensionGroup = false;
 		if(MonsterGroups.Any(group => group.MonsterModel == monsterModel))
 		{
 			return;
@@ -246,6 +247,7 @@ public partial class Map : Node2D
 		if(monsterModel.ParentMonsterModel != null)
 		{
 			AddMonsterGroup(monsterModel.ParentMonsterModel);
+			extensionGroup = true;
 		}
 
 		MonsterAbilityCardDeck deckIsAlreadyInUseByAGroup = MonsterGroups
@@ -254,7 +256,7 @@ public partial class Map : Node2D
 			.FirstOrDefault();
 		MonsterGroup parentMonsterGroup = MonsterGroups.FirstOrDefault(monsterGroup => monsterGroup.MonsterModel == monsterModel.ParentMonsterModel);
 		MonsterGroup group = new MonsterGroup(monsterModel, parentMonsterGroup?.GroupIndex ?? MonsterGroups.Count, deckIsAlreadyInUseByAGroup,
-			parentMonsterGroup);
+			parentMonsterGroup, extensionGroup);
 		MonsterGroups.Add(group);
 	}
 }
