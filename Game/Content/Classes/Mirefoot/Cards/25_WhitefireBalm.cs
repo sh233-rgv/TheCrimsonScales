@@ -37,6 +37,19 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 						{
 							parameters.AdjustShield(3);
 
+							object subscriber = new object();
+
+							ScenarioEvents.RetaliateEvent.Subscribe(state, subscriber,
+								canApplyParameters => canApplyParameters.RetaliatingFigure == figure &&
+								                      canApplyParameters.AbilityState == parameters.PotentialAbilityState,
+								async applyParameters =>
+								{
+									applyParameters.AdjustRetaliate(3);
+									ScenarioEvents.RetaliateEvent.Unsubscribe(state, subscriber);
+									await state.AdvanceUseSlot();
+								}
+							);
+
 							await GDTask.CompletedTask;
 						}
 					);
@@ -49,14 +62,13 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 							applyParameters.AdjustShield(3);
 						}
 					);
-
-					ScenarioEvents.RetaliateEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.RetaliatingFigure == figure,
-						async applyParameters =>
+					
+					ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(state, this,
+						canApplyParameters =>
+							canApplyParameters.Figure == figure,
+						applyParameters =>
 						{
-							applyParameters.AdjustRetaliate(3);
-
-							await state.AdvanceUseSlot();
+							applyParameters.AddRetaliate(3, 1);
 						}
 					);
 					//TODO: Tie retliate and shield together
@@ -65,9 +77,9 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 				})
 				.WithOnDeactivate(async state =>
 					{
-						ScenarioEvents.RetaliateEvent.Unsubscribe(state, this);
 						ScenarioEvents.SufferDamageEvent.Unsubscribe(state, this);
 						ScenarioCheckEvents.ShieldCheckEvent.Unsubscribe(state, this);
+						ScenarioCheckEvents.RetaliateCheckEvent.Unsubscribe(state, this);
 
 						await AbilityCmd.RemoveCharacterToken(state, state.GetCustomValue<Figure>(this, "Figure"));
 

@@ -17,7 +17,6 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					//TODO: add visual indicator
 					MonsterGroup monsterGroup = null;
 					List<ScenarioEvents.GenericChoice.Subscription> subscriptions = [];
 					foreach(MonsterGroup group in GameController.Instance.Scenario.Map.MonsterGroups.Where(group => !group.ExtensionGroup))
