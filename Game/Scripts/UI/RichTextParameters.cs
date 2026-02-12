@@ -11,3 +11,11 @@ public struct RichTextParameters
 		Color = color;
 	}
 }
+
+public static class RichTextLabelExtensionMethods
+{
+	public static RichTextParameters GetRichTextParameters(this RichTextLabel richTextLabel)
+	{
+		return new RichTextParameters(richTextLabel.GetThemeFontSize("normal_font_size"), richTextLabel.SelfModulate);
+	}
+}

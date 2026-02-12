@@ -25,13 +25,15 @@ public partial class PerksPopup : Popup<PerksPopup.Request>
 		IEnumerable<IGrouping<PerkModel, PerkModel>> perkGroups = PopupRequest.SavedCharacter.ClassModel.Perks.GroupBy(perkModel => perkModel);
 		foreach(IGrouping<PerkModel, PerkModel> perkGroup in perkGroups)
 		{
-			PerkModel perkModel = PopupRequest.SavedCharacter.ClassModel.Perks[perkIndex];
+			int perkCount = perkGroup.Count();
+
+			PerkModel perkModel = perkGroup.Key;
 			PerksPopupPerk perk = _perkScene.Instantiate<PerksPopupPerk>();
 			_perkContainer.AddChild(perk);
-			perk.Init(perkModel, perkIndex, perkGroup.Count(), PopupRequest.SavedCharacter);
+			perk.Init(perkModel, perkIndex, perkCount, PopupRequest.SavedCharacter);
 			_perks.Add(perk);
 
-			perkIndex++;
+			perkIndex += perkCount;
 		}
 	}
 

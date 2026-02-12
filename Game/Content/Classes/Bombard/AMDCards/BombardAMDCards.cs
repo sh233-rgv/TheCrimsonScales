@@ -53,7 +53,7 @@ public class BombardAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
-				extraText: $"{Icons.Inline(Icons.Pull, richTextParameters)}, self, toward the target");
+				extraText: $"{Icons.Inline(Icons.Pull, richTextParameters)}3, self, toward the target");
 
 		protected override int AtlasIndex => 8;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;

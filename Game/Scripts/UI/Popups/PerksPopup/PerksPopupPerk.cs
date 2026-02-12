@@ -30,7 +30,7 @@ public partial class PerksPopupPerk : Control
 			_perkBoxes.Add(perkBox);
 		}
 
-		_description.SetText(perkModel.GetType().Name);
+		_description.SetText(perkModel.ToString(_description.GetRichTextParameters()));
 	}
 
 	private void OnPressed()
