@@ -8,15 +8,35 @@ public abstract class PerkModel : AbstractModel
 	{
 		string returnValue = string.Empty;
 
+		if(IgnoreNegativeScenarioEffects)
+		{
+			returnValue += "ignore negative scenario effects";
+		}
+
+		if(IgnoreNegativeItemEffects)
+		{
+			if(!string.IsNullOrEmpty(returnValue))
+			{
+				returnValue += " and ";
+			}
+
+			returnValue += "ignore negative item effects";
+		}
+
 		if(CardsToRemove.Count > 0)
 		{
+			if(!string.IsNullOrEmpty(returnValue))
+			{
+				returnValue += " and ";
+			}
+
 			if(CardsToAdd.Count > 0)
 			{
-				returnValue += "Replace ";
+				returnValue += "replace ";
 			}
 			else
 			{
-				returnValue += "Remove ";
+				returnValue += "remove ";
 			}
 
 			returnValue += GetCardsString(CardsToRemove, richTextParameters);
@@ -28,9 +48,10 @@ public abstract class PerkModel : AbstractModel
 		}
 		else if(CardsToAdd.Count > 0)
 		{
-			returnValue += $"Add {GetCardsString(CardsToAdd, richTextParameters)}";
+			returnValue += $"add {GetCardsString(CardsToAdd, richTextParameters)}";
 		}
 
+		returnValue = string.Concat(returnValue[0].ToString().ToUpper(), returnValue.AsSpan(1));
 		return returnValue;
 	}
 
