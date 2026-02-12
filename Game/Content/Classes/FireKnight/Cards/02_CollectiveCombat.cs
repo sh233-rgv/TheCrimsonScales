@@ -54,7 +54,7 @@ public class CollectiveCombat : FireKnightCardModel<CollectiveCombat.CardTop, Co
 
 						AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 
-						if(attackAbilityState.AOEHexes == null || attackAbilityState.AOEHexes.Count == 0)
+						if(attackAbilityState.TargetedAOEHexes == null || attackAbilityState.TargetedAOEHexes.Count == 0)
 						{
 							return false;
 						}

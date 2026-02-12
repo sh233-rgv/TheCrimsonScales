@@ -48,6 +48,6 @@ public class Grace : HierophantPrayerCardModel<Grace.CardTop, Grace.CardBottom>
 			new AbilityCardAbility(HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Light];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];
 	}
 }

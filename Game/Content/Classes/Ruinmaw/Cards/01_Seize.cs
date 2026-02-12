@@ -21,13 +21,11 @@ public class Seize : RuinmawCardModel<Seize.CardTop, Seize.CardBottom>
 				{
 					ConditionAbility.State conditionAbilityState = state.ActionState.GetAbilityState<ConditionAbility.State>(0);
 
-					PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/CoinStack.tscn");
-					CoinStack coinStack = scene.Instantiate<CoinStack>();
-					GameController.Instance.Map.AddChild(coinStack);
-					await coinStack.Init(conditionAbilityState.UniqueTargetedFigures[0].Hex);
-
-					await coinStack.Loot(state.Performer);
-					state.SetPerformed();
+					foreach(Coin coin in await AbilityCmd.SpawnCoin(conditionAbilityState.UniqueTargetedFigures[0].Hex))
+					{
+						await coin.Loot(state.Performer);
+						state.SetPerformed();
+					}
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.Build())

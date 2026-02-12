@@ -204,7 +204,7 @@ public partial class Enhancer : BetweenScenariosAction
 				if(model == ModelDB.Enhancement<RedHexEnhancement>())
 				{
 					cost /=
-						targetedAbility.AOEPattern.Hexes.Count(hex => hex.Type == AOEHexType.Red) +
+						targetedAbility.AOEPattern.LocalHexes.Count(hex => hex.Type == AOEHexType.Red) +
 						savedEnhancements.Count(enhancement => enhancement.Value.Model == ModelDB.Enhancement<RedHexEnhancement>());
 				}
 				else

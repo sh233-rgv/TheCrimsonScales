@@ -33,11 +33,11 @@ public class ExplodingCannonball : BombardCardModel<ExplodingCannonball.CardTop,
 						.Build()
 				])
 				.WithAbilityCardSide(this)
-				.WithRange(4)
+				.WithRange(4, new ProjectileRangeSquare(this, new Vector2(0.33784395f, 0.16527776f)))
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];
 
 		public override int XP => 2;
 		public override bool Persistent => true;

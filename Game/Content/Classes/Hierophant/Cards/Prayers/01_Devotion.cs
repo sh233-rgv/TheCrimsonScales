@@ -72,7 +72,7 @@ public class Devotion : HierophantPrayerCardModel<Devotion.CardTop, Devotion.Car
 			new AbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(1).Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
 		public override bool Round => true;
 	}
 }

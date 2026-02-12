@@ -37,13 +37,14 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 {
 	public List<Figure> UniqueTargetedFigures { get; } = new List<Figure>();
 	public List<Hex> TargetedHexes { get; } = new List<Hex>();
-	public List<AOEHex> AOEHexes { get; set; }
+	public List<AOEHex> TargetedAOEHexes { get; set; }
 
 	public Target AbilityTarget { get; set; }
 	public int AbilityTargets { get; set; }
 	public Action<TargetedAbilityState, List<Figure>> AbilityCustomGetTargets { get; set; }
 	public Func<TargetedAbilityState, Figure, bool> AbilityFilterTargets { get; set; }
 	public AOEPattern AbilityAOEPattern { get; set; }
+	public Hex AbilityPerformHex { private get; set; }
 
 	public RangeType AbilityRangeType { get; set; }
 	public int AbilityRange { get; set; }
@@ -61,16 +62,18 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 
 	public abstract Figure Target { get; }
 
+	public Hex GetPerformHex => AbilityPerformHex ?? Performer.Hex;
+
 	public IEnumerable<Hex> GetEmptyAOEHexes()
 	{
-		if(AOEHexes == null)
+		if(TargetedAOEHexes == null)
 		{
 			yield break;
 		}
 
-		foreach(AOEHex aoeHex in AOEHexes)
+		foreach(AOEHex aoeHex in TargetedAOEHexes)
 		{
-			Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
+			Hex hex = GameController.Instance.Map.GetHex(aoeHex.Coords);
 
 			if(hex != null && aoeHex.Type.HasFlag(AOEHexType.Empty))
 			{
@@ -81,14 +84,14 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 
 	public IEnumerable<Hex> GetRedAOEHexes()
 	{
-		if(AOEHexes == null)
+		if(TargetedAOEHexes == null)
 		{
 			yield break;
 		}
 
-		foreach(AOEHex aoeHex in AOEHexes)
+		foreach(AOEHex aoeHex in TargetedAOEHexes)
 		{
-			Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
+			Hex hex = GameController.Instance.Map.GetHex(aoeHex.Coords);
 
 			if(hex != null && aoeHex.Type.HasFlag(AOEHexType.Red))
 			{
@@ -99,14 +102,14 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 
 	public IEnumerable<Hex> GetYellowAOEHexes()
 	{
-		if(AOEHexes == null)
+		if(TargetedAOEHexes == null)
 		{
 			yield break;
 		}
 
-		foreach(AOEHex aoeHex in AOEHexes)
+		foreach(AOEHex aoeHex in TargetedAOEHexes)
 		{
-			Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
+			Hex hex = GameController.Instance.Map.GetHex(aoeHex.Coords);
 
 			if(hex != null && aoeHex.Type.HasFlag(AOEHexType.Yellow))
 			{
@@ -117,14 +120,14 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 
 	public IEnumerable<Hex> GetCustomMarkedHexes(string customMark)
 	{
-		if(AOEHexes == null)
+		if(TargetedAOEHexes == null)
 		{
 			yield break;
 		}
 
-		foreach(AOEHex aoeHex in AOEHexes)
+		foreach(AOEHex aoeHex in TargetedAOEHexes)
 		{
-			Hex hex = GameController.Instance.Map.GetHex(aoeHex.LocalCoords);
+			Hex hex = GameController.Instance.Map.GetHex(aoeHex.Coords);
 
 			if(hex != null && aoeHex.CustomMark == customMark)
 			{
@@ -141,6 +144,15 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 	public void SetAbilityFilterTargets(Func<TargetedAbilityState, Figure, bool> filterTargets)
 	{
 		AbilityFilterTargets = filterTargets;
+	}
+
+	public async GDTask SetPerformHex(Action<List<Hex>> getValidHexes, bool mandatory = true)
+	{
+		Hex hex = await AbilityCmd.SelectHex(this, getValidHexes, mandatory, "Select a hex to perform this ability from");
+		if(hex != null)
+		{
+			AbilityPerformHex = hex;
+		}
 	}
 
 	public void SetTarget(Target target)
@@ -208,7 +220,7 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 
 	public void AbilityAddAOEHex(AOEHex aoeHex)
 	{
-		AbilityAOEPattern.Hexes.Add(aoeHex);
+		AbilityAOEPattern.LocalHexes.Add(aoeHex);
 	}
 
 	public void AbilityAdjustPush(int amount)
@@ -289,6 +301,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 	public int Range { get; private set; } = 1;
 	public RangeType RangeType { get; private set; } = RangeType.Melee;
 	public bool RequiresLineOfSight { get; private set; } = true;
+
 	public Target Target { get; protected set; } = Target.Enemies;
 	public int Targets { get; private set; } = 1;
 	public Hex TargetHex { get; private set; }
@@ -306,7 +319,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 	public bool IsMultiTarget =>
 		Targets > 1 ||
 		Target.HasFlag(Target.TargetAll) ||
-		(AOEPattern != null && AOEPattern.Hexes.Count(hex => hex.Type == AOEHexType.Red) > 1);
+		(AOEPattern != null && AOEPattern.LocalHexes.Count(hex => hex.Type == AOEHexType.Red) > 1);
 
 	/// <summary>
 	/// A builder extending <see cref="Ability{T}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods
@@ -454,6 +467,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 			abilityState.AbilityTargets = int.MaxValue;
 		}
 
+		abilityState.AbilityPerformHex = null;
+
 		abilityState.AbilityRange = Range;
 		abilityState.AbilityRangeType = RangeType;
 		abilityState.AbilityConditionModels = Conditions.ToList();
@@ -512,7 +527,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 				aoeHexes = aoeAnswer.AOEHexes;
 			}
 
-			abilityState.AOEHexes = aoeHexes;
+			abilityState.TargetedAOEHexes = aoeHexes;
 		}
 
 		int targetsOutOfAOE = 0;
@@ -577,21 +592,21 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 			// Pull
 			if(!performer.IsDestroyed && !target.IsDestroyed && abilityState.SingleTargetPull > 0)
 			{
-				await ForcedMovement(abilityState, performer.Hex, target, abilityState.SingleTargetPull, ForcedMovementType.Pull,
+				await ForcedMovement(abilityState, abilityState.GetPerformHex, target, abilityState.SingleTargetPull, ForcedMovementType.Pull,
 					() => $"Select a path to {Icons.HintText(Icons.Pull)}{abilityState.SingleTargetPull} target");
 			}
 
 			// Push
 			if(!performer.IsDestroyed && !target.IsDestroyed && abilityState.SingleTargetPush > 0)
 			{
-				await ForcedMovement(abilityState, performer.Hex, target, abilityState.SingleTargetPush, ForcedMovementType.Push,
+				await ForcedMovement(abilityState, abilityState.GetPerformHex, target, abilityState.SingleTargetPush, ForcedMovementType.Push,
 					() => $"Select a path to {Icons.HintText(Icons.Push)}{abilityState.SingleTargetPush} target");
 			}
 
 			// Swing
 			if(!performer.IsDestroyed && !target.IsDestroyed && abilityState.SingleTargetSwing > 0)
 			{
-				await ForcedMovement(abilityState, performer.Hex, target, abilityState.SingleTargetSwing, ForcedMovementType.Swing,
+				await ForcedMovement(abilityState, abilityState.GetPerformHex, target, abilityState.SingleTargetSwing, ForcedMovementType.Swing,
 					() => $"Select a path to {Icons.HintText(Icons.Swing)}{abilityState.SingleTargetSwing} target");
 			}
 
@@ -604,7 +619,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 
 			if(abilityState.AbilityAOEPattern != null)
 			{
-				if(abilityState.TargetedHexes.Count == abilityState.AbilityAOEPattern.Hexes.Count &&
+				if(abilityState.TargetedHexes.Count == abilityState.AbilityAOEPattern.LocalHexes.Count &&
 				   targetsOutOfAOE == abilityState.AbilityTargets - 1)
 				{
 					break;
@@ -749,7 +764,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 		{
 			CustomGetTargets(abilityState, figures);
 		}
-		else if(abilityState.AOEHexes != null)
+		else if(abilityState.TargetedAOEHexes != null)
 		{
 			foreach(Hex redAOEHex in abilityState.GetRedAOEHexes())
 			{
@@ -774,7 +789,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 		else
 		{
 			HexCache.Clear();
-			RangeHelper.FindHexesInRange(performer.Hex, abilityState.SingleTargetRange, true, HexCache);
+			RangeHelper.FindHexesInRange(abilityState.GetPerformHex, abilityState.SingleTargetRange, true, HexCache);
 
 			foreach(Hex hex in HexCache)
 			{
@@ -839,7 +854,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 				remove = true;
 			}
 
-			if(RequiresLineOfSight && !GameController.Instance.Map.HasLineOfSight(abilityState.Performer.Hex, figure.Hex))
+			if(RequiresLineOfSight && !GameController.Instance.Map.HasLineOfSight(abilityState.GetPerformHex, figure.Hex))
 			{
 				remove = true;
 			}

@@ -73,7 +73,7 @@ public class LightTheWay : LuminaryCardModel<LightTheWay.CardTop, LightTheWay.Ca
 				.Build())
 		];
 
-		//TODO: public override IEnumerable<Element> Elements => [Wild Element];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.InfuseWild()];
 		public override int XP => 2;
 		public override bool Persistent => true;
 		public override bool Loss => true;

@@ -17,7 +17,7 @@ public class SkinningKnife : ChieftainCardModel<SkinningKnife.CardTop, SkinningK
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];
 
 		public override int XP => 1;
 	}

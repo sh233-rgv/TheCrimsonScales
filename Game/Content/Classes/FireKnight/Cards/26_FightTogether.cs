@@ -40,7 +40,7 @@ public class FightTogether : FireKnightLevelUpCardModel<FightTogether.CardTop, F
 
 					GrantAbility.State grantAbilityState = state.ActionState.GetAbilityState<GrantAbility.State>(0);
 
-					return grantAbilityState.UniqueTargetedFigures.Where(target => target != state.Performer).Count() == 1;
+					return grantAbilityState.UniqueTargetedFigures.Count(target => target != state.Performer) == 1;
 				}
 			))
 		];
@@ -106,6 +106,6 @@ public class FightTogether : FireKnightLevelUpCardModel<FightTogether.CardTop, F
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
 	}
 }

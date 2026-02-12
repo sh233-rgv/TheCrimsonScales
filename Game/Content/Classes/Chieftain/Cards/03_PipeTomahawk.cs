@@ -19,7 +19,7 @@ public class PipeTomahawk : ChieftainCardModel<PipeTomahawk.CardTop, PipeTomahaw
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
 	}
 
 	public class CardBottom : ChieftainCardSide

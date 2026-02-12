@@ -150,7 +150,7 @@ public partial class Summon : Figure
 		await _turnActionState.Perform();
 	}
 
-	public async GDTask RemoveActionFromActive()
+	public async GDTask RemoveTurnActionFromActive()
 	{
 		if(_turnActionState != null)
 		{
@@ -168,7 +168,7 @@ public partial class Summon : Figure
 			}
 		}
 
-		await RemoveActionFromActive();
+		await RemoveTurnActionFromActive();
 
 		ScenarioEvents.FigureFoundFocusEvent.Unsubscribe(this, CharacterOwner);
 

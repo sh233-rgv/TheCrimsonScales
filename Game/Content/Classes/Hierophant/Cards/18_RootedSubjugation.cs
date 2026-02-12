@@ -66,7 +66,7 @@ public class RootedSubjugation : HierophantLevelUpCardModel<RootedSubjugation.Ca
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];
 		public override bool Round => true;
 	}
 

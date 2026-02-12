@@ -81,7 +81,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 
 						AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 
-						if(attackAbilityState.AOEHexes == null || attackAbilityState.AOEHexes.Count == 0)
+						if(attackAbilityState.TargetedAOEHexes == null || attackAbilityState.TargetedAOEHexes.Count == 0)
 						{
 							return false;
 						}
@@ -92,7 +92,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
 	}
 
 	public class CardBottom : FireKnightCardSide

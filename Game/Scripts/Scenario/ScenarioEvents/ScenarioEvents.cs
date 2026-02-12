@@ -30,8 +30,10 @@ public partial class ScenarioEvents
 
 	public class GenericChoice : ScenarioEvent<GenericChoice.Parameters>
 	{
-		public class Parameters() : ParametersBase
+		public class Parameters(object source) : ParametersBase
 		{
+			public object Source { get; } = source;
+
 			public bool ChoiceMade { get; private set; }
 
 			public void SetChoiceMade()
@@ -297,6 +299,19 @@ public partial class ScenarioEvents
 
 	private readonly RemoveCondition _removeCondition = new RemoveCondition();
 	public static RemoveCondition RemoveConditionEvent => GameController.Instance.ScenarioEvents._removeCondition;
+
+	public class AfterRemoveCondition : ScenarioEvent<AfterRemoveCondition.Parameters>
+	{
+		public class Parameters(Figure figure, ConditionModel condition) : ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+			public ConditionModel Condition { get; } = condition;
+		}
+	}
+
+	private readonly AfterRemoveCondition _afterRemoveCondition = new AfterRemoveCondition();
+	public static AfterRemoveCondition AfterRemoveConditionEvent => GameController.Instance.ScenarioEvents._afterRemoveCondition;
+
 
 	private readonly DuringGrant _duringGrant = new DuringGrant();
 	public static DuringGrant DuringGrantEvent => GameController.Instance.ScenarioEvents._duringGrant;
@@ -648,6 +663,16 @@ public partial class ScenarioEvents
 	private readonly ElementInfused _elementInfused = new ElementInfused();
 	public static ElementInfused ElementInfusedEvent => GameController.Instance.ScenarioEvents._elementInfused;
 
+	public class FinishElementInfused : ScenarioEvent<FinishElementInfused.Parameters>
+	{
+		public class Parameters : ParametersBase
+		{
+		}
+	}
+
+	private readonly FinishElementInfused _finishElementInfused = new FinishElementInfused();
+	public static FinishElementInfused FinishElementInfusedEvent => GameController.Instance.ScenarioEvents._finishElementInfused;
+
 	public class ConsumeElement : ScenarioEvent<ConsumeElement.Parameters>
 	{
 		public class Parameters(IEnumerable<Element> elements)
@@ -775,6 +800,28 @@ public partial class ScenarioEvents
 
 	private readonly ItemStateChanged _itemStateChanged = new ItemStateChanged();
 	public static ItemStateChanged ItemStateChangedEvent => GameController.Instance.ScenarioEvents._itemStateChanged;
+
+	public class OverlayTileCreated : ScenarioEvent<OverlayTileCreated.Parameters>
+	{
+		public class Parameters(OverlayTile overlayTile) : ParametersBase
+		{
+			public OverlayTile OverlayTile = overlayTile;
+		}
+	}
+
+	private readonly OverlayTileCreated _overlayTileCreated = new OverlayTileCreated();
+	public static OverlayTileCreated OverlayTileCreatedEvent => GameController.Instance.ScenarioEvents._overlayTileCreated;
+
+	public class OverlayTileMoved : ScenarioEvent<OverlayTileMoved.Parameters>
+	{
+		public class Parameters(OverlayTile overlayTile) : ParametersBase
+		{
+			public OverlayTile OverlayTile = overlayTile;
+		}
+	}
+
+	private readonly OverlayTileMoved _overlayTileMoved = new OverlayTileMoved();
+	public static OverlayTileMoved OverlayTileMovedEvent => GameController.Instance.ScenarioEvents._overlayTileMoved;
 
 	public class ShortRestStarted : ScenarioEvent<ShortRestStarted.Parameters>
 	{
@@ -1095,15 +1142,42 @@ public partial class ScenarioEvents
 	private readonly ScenarioEnded _scenarioEnded = new ScenarioEnded();
 	public static ScenarioEnded ScenarioEndedEvent => GameController.Instance.ScenarioEvents._scenarioEnded;
 
+	public class CoinSpawned : ScenarioEvent<CoinSpawned.Parameters>
+	{
+		public class Parameters(Figure potentialDropper, Coin coin)
+			: ParametersBase
+		{
+			public Figure PotentialDropper { get; } = potentialDropper;
+			public Coin Coin { get; } = coin;
+		}
+	}
+
+	private readonly CoinSpawned _coinSpawned = new CoinSpawned();
+	public static CoinSpawned CoinSpawnedEvent => GameController.Instance.ScenarioEvents._coinSpawned;
+
 	public class CoinLooted : ScenarioEvent<CoinLooted.Parameters>
 	{
-		public class Parameters(Figure lootObtainer)
+		public class Parameters(Figure lootObtainer, Coin coin)
 			: ParametersBase
 		{
 			public Figure LootObtainer { get; } = lootObtainer;
+			public Coin Coin { get; } = coin;
 		}
 	}
 
 	private readonly CoinLooted _coinLooted = new CoinLooted();
 	public static CoinLooted CoinLootedEvent => GameController.Instance.ScenarioEvents._coinLooted;
+
+	public class LootableObjectLooted : ScenarioEvent<LootableObjectLooted.Parameters>
+	{
+		public class Parameters(Figure lootObtainer, LootableObject lootableObject)
+			: ParametersBase
+		{
+			public Figure LootObtainer { get; } = lootObtainer;
+			public LootableObject LootableObject { get; } = lootableObject;
+		}
+	}
+
+	private readonly LootableObjectLooted _lootableObjectLooted = new LootableObjectLooted();
+	public static LootableObjectLooted LootableObjectLootedEvent => GameController.Instance.ScenarioEvents._lootableObjectLooted;
 }

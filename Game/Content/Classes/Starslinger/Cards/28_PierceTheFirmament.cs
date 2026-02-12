@@ -31,7 +31,8 @@ public class PierceTheFirmament : StarslingerCardModel<PierceTheFirmament.CardTo
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Dark, Element.Light];
+		public override IEnumerable<CardElementInfusion> Elements =>
+			[CardElementInfusion.Infuse(Element.Dark), CardElementInfusion.Infuse(Element.Light)];
 	}
 
 	public class CardBottom : StarslingerCardSide

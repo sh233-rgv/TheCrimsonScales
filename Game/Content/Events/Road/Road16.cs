@@ -36,6 +36,7 @@ public class Road16 : RoadEventModel<Road16.ChoiceA, Road16.ChoiceB>
 					if(figure != null)
 					{
 						int useCount = 0;
+
 						ScenarioEvents.DuringAttackEvent.Subscribe(this,
 							parameters =>
 								parameters.Performer == figure &&

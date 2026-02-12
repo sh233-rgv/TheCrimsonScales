@@ -152,9 +152,8 @@ public static class AbilityCmd
 	{
 		await target.Destroy();
 
-		ScenarioEvents.FigureKilled.Parameters parameters =
-			await ScenarioEvents.FigureKilledEvent.CreatePrompt(
-				new ScenarioEvents.FigureKilled.Parameters(potentialAbilityState, target, potentialKiller), target);
+		await ScenarioEvents.FigureKilledEvent.CreatePrompt(
+			new ScenarioEvents.FigureKilled.Parameters(potentialAbilityState, target, potentialKiller), target);
 	}
 
 	public static async GDTask KillOrExhaust(Figure target, Figure potentialKiller)
@@ -230,6 +229,10 @@ public static class AbilityCmd
 		if(condition != null)
 		{
 			await RemoveCondition(condition);
+			ScenarioEvents.AfterRemoveCondition.Parameters afterRemoveConditionParameters =
+				await ScenarioEvents.AfterRemoveConditionEvent.CreatePrompt(
+					new ScenarioEvents.AfterRemoveCondition.Parameters(target, conditionModel), target);
+
 			return true;
 		}
 
@@ -309,6 +312,18 @@ public static class AbilityCmd
 		await GDTask.CompletedTask;
 	}
 
+	public static async GDTask AddCharacterToken(Character character, Figure target, string effectText)
+	{
+		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(character, target,
+			parameters => parameters.Figure == target,
+			parameters => parameters.Add(new InfoTextExtraEffect.Parameters(effectText))
+		);
+
+		target.AddEffectView<CharacterTokenHexObjectEffectView>(new CharacterTokenHexObjectEffectView.Parameters(character, target));
+
+		await GDTask.CompletedTask;
+	}
+
 	public static async GDTask RemoveCharacterToken(AbilityState abilityState, Figure target)
 	{
 		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(abilityState, target);
@@ -373,29 +388,25 @@ public static class AbilityCmd
 		return await CreateOverlayTile<DifficultTerrain>(hex, scene);
 	}
 
-	public static async GDTask SpawnCoin(Hex hex, Figure figure = null)
+	public static async GDTask<List<Coin>> SpawnCoin(Hex hex, Figure dropper = null)
 	{
 		ScenarioCheckEvents.SpawnCoinCheck.Parameters spawnCoinCheckEventParameters =
-			ScenarioCheckEvents.SpawnCoinCheckEvent.Fire(new ScenarioCheckEvents.SpawnCoinCheck.Parameters(figure));
+			ScenarioCheckEvents.SpawnCoinCheckEvent.Fire(new ScenarioCheckEvents.SpawnCoinCheck.Parameters(dropper));
 
-		if(!spawnCoinCheckEventParameters.SpawnCoin)
+		List<Coin> coins = new List<Coin>();
+		for(int i = spawnCoinCheckEventParameters.CoinsToSpawn; i > 0; i++)
 		{
-			return;
+			PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Coin.tscn");
+			Coin coin = scene.Instantiate<Coin>();
+			GameController.Instance.Map.AddChild(coin);
+			await coin.Init(hex);
+
+			await ScenarioEvents.CoinSpawnedEvent.CreatePrompt(new ScenarioEvents.CoinSpawned.Parameters(dropper, coin));
+
+			coins.Add(coin);
 		}
 
-		if(!hex.TryGetHexObjectOfType(out CoinStack coinStack))
-		{
-			PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/CoinStack.tscn");
-			coinStack = scene.Instantiate<CoinStack>();
-			GameController.Instance.Map.AddChild(coinStack);
-			await coinStack.Init(hex);
-		}
-		else
-		{
-			coinStack.AddCoin();
-		}
-
-		await GDTask.CompletedTask;
+		return coins;
 	}
 
 	public static async GDTask LootHex(Figure figure, Hex hex)
@@ -409,18 +420,20 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask<Monster> SummonMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex, int? monsterLevel = null)
+	public static async GDTask<Monster> SummonMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex, int? monsterLevel = null,
+		Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
 	{
-		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, true, monsterLevel);
+		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, true, monsterLevel, alignment, enemies);
 	}
 
-	public static async GDTask<Monster> SpawnMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex, int? monsterLevel = null)
+	public static async GDTask<Monster> SpawnMonster(MonsterModel monsterModel, MonsterType monsterType, Hex hex, int? monsterLevel = null,
+		Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
 	{
-		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, false, monsterLevel);
+		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, false, monsterLevel, alignment, enemies);
 	}
 
 	public static async GDTask<T> CreateOverlayTile<T>(Hex hex, PackedScene scene)
-		where T : HexObject
+		where T : OverlayTile
 	{
 		if(!hex.IsFeatureless())
 		{
@@ -428,16 +441,40 @@ public static class AbilityCmd
 			return null;
 		}
 
-		HexObject hexObject = scene.Instantiate<HexObject>();
-		GameController.Instance.Map.AddChild(hexObject);
-		await hexObject.Init(hex);
+		OverlayTile overlayTile = scene.Instantiate<OverlayTile>();
+		GameController.Instance.Map.AddChild(overlayTile);
+		await overlayTile.Init(hex);
 
-		hexObject.Scale = Vector2.Zero;
-		hexObject.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
+		overlayTile.Scale = Vector2.Zero;
+		overlayTile.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
 
 		await GDTask.CompletedTask;
 
-		return (T)hexObject;
+		await ScenarioEvents.OverlayTileCreatedEvent.CreatePrompt(
+			new ScenarioEvents.OverlayTileCreated.Parameters(overlayTile));
+
+		return (T)overlayTile;
+	}
+
+	public static async GDTask<Hex> MoveOverlayTile(Figure performer, OverlayTile overlayTile, Action<List<Hex>> moveToHexes)
+	{
+		Hex movedToHex = await SelectHex(performer, moveToHexes, mandatory: true,
+			hintText: $"Select a hex to move the {overlayTile.GetType().ToString().ToLower()} to");
+
+		if(movedToHex == null)
+		{
+			return null;
+		}
+
+		await overlayTile.TweenGlobalPosition(movedToHex.GlobalPosition, 0.3f).SetEasing(Easing.OutSine)
+			.PlayFastForwardableAsync();
+		await GDTask.DelayFastForwardable(0.03f);
+		overlayTile.SetOriginHexAndRotation(movedToHex);
+
+		await ScenarioEvents.OverlayTileMovedEvent.CreatePrompt(
+			new ScenarioEvents.OverlayTileMoved.Parameters(overlayTile));
+
+		return overlayTile.Hex;
 	}
 
 	public static async GDTask<Hex> MoveOverlayTile(Figure performer, OverlayTile overlayTile, Action<List<Hex>> moveToHexes)
@@ -470,6 +507,9 @@ public static class AbilityCmd
 		trap.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
 
 		await GDTask.CompletedTask;
+
+		await ScenarioEvents.OverlayTileCreatedEvent.CreatePrompt(
+			new ScenarioEvents.OverlayTileCreated.Parameters(trap));
 
 		return trap;
 	}
@@ -671,6 +711,19 @@ public static class AbilityCmd
 			return false;
 		}
 
+		ScenarioCheckEvents.CanEnterCheck.Parameters canEnter =
+			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
+				new ScenarioCheckEvents.CanEnterCheck.Parameters(figureA, figureB.Hex));
+
+		ScenarioCheckEvents.CanEnterCheck.Parameters canEnter2 =
+			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
+				new ScenarioCheckEvents.CanEnterCheck.Parameters(figureB, figureA.Hex));
+
+		if(!canEnter.CanEnter || !canEnter.CanEnter)
+		{
+			return false;
+		}
+
 		return true;
 	}
 
@@ -693,6 +746,7 @@ public static class AbilityCmd
 			ScenarioEvents.GenericChoice.CanApplyFunction newCanApplyFunction = parameters =>
 			{
 				return
+					parameters.Source == subscriber &&
 					(canSelectMultiple || !parameters.ChoiceMade) &&
 					(oldCanApplyFunction == null || oldCanApplyFunction.Invoke(parameters));
 			};
@@ -700,7 +754,6 @@ public static class AbilityCmd
 			ScenarioEvents.GenericChoice.ApplyFunction oldApplyFunction = subscription.ApplyFunction;
 			ScenarioEvents.GenericChoice.ApplyFunction newApplyFunction = async parameters =>
 			{
-				//TODO: Fix issue with nested generic choices
 				if(oldApplyFunction != null)
 				{
 					await oldApplyFunction.Invoke(parameters);
@@ -718,7 +771,7 @@ public static class AbilityCmd
 			ScenarioEvents.GenericChoiceEvent.Subscribe(authority, subscriber, newSubscription, false);
 		}
 
-		await ScenarioEvents.GenericChoiceEvent.CreatePrompt(new ScenarioEvents.GenericChoice.Parameters(), authority, hintText);
+		await ScenarioEvents.GenericChoiceEvent.CreatePrompt(new ScenarioEvents.GenericChoice.Parameters(subscriber), authority, hintText);
 		ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
 	}
 
@@ -769,7 +822,7 @@ public static class AbilityCmd
 
 		if(immediately)
 		{
-			GameController.Instance.ElementManager.InfuseImmediately(element);
+			await GameController.Instance.ElementManager.InfuseImmediately(element);
 		}
 		else
 		{
@@ -795,7 +848,9 @@ public static class AbilityCmd
 			ScenarioEvents.ConsumeElementEvent.Subscribe(authority, subscriber,
 				canApplyParameters =>
 					!canApplyParameters.Consumed && canApplyParameters.Elements.Contains(possibleElement) &&
-					GameController.Instance.ElementManager.GetState(possibleElement) > ElementState.Inert,
+					GameController.Instance.ElementManager.GetState(possibleElement) > ElementState.Inert &&
+					ScenarioCheckEvents.CanConsumeElementCheckEvent
+						.Fire(new ScenarioCheckEvents.CanConsumeElementCheck.Parameters(authority, possibleElement)).CanConsume,
 				async applyParameters =>
 				{
 					applyParameters.SetConsumed(possibleElement);
@@ -822,7 +877,9 @@ public static class AbilityCmd
 		ScenarioEvents.ConsumeElementEvent.Subscribe(authority, subscriber,
 			canApplyParameters =>
 				canApplyParameters.Elements.Contains(element) &&
-				GameController.Instance.ElementManager.GetState(element) > ElementState.Inert,
+				GameController.Instance.ElementManager.GetState(element) > ElementState.Inert &&
+				ScenarioCheckEvents.CanConsumeElementCheckEvent
+					.Fire(new ScenarioCheckEvents.CanConsumeElementCheck.Parameters(authority, element)).CanConsume,
 			async applyParameters =>
 			{
 				applyParameters.SetConsumed(element);
@@ -929,12 +986,43 @@ public static class AbilityCmd
 
 	public static async GDTask RefreshItem(ItemModel item)
 	{
+		await item.RemoveFromActive();
+
 		await item.Refresh();
 	}
 
 	public static async GDTask SpendItem(ItemModel item)
 	{
+		await item.RemoveFromActive();
+
 		await item.SetItemState(ItemState.Spent);
+	}
+
+	public static async GDTask ConsumeItem(ItemModel item)
+	{
+		await item.RemoveFromActive();
+
+		if(item.Unrecoverable)
+		{
+			await item.SetItemState(ItemState.UnrecoverablyConsumed);
+		}
+		else
+		{
+			await item.SetItemState(ItemState.Consumed);
+		}
+	}
+
+	public static async GDTask SpendOrConsume(ItemModel item)
+	{
+		if(item.ItemUseType == ItemUseType.Spend)
+		{
+			await SpendItem(item);
+		}
+
+		if(item.ItemUseType == ItemUseType.Consume)
+		{
+			await ConsumeItem(item);
+		}
 	}
 
 	public static async GDTask<AbilityCardSection> PerformAbilityCardTopOrBottom(Figure performer, AbilityCard abilityCard)
@@ -988,13 +1076,29 @@ public static class AbilityCmd
 		item.Init(character);
 		character.AddItem(item);
 
-		await PromptManager.Prompt(new TreasureItemRewardPrompt(character, itemModel, null), character);
+		await PromptManager.Prompt(new TreasureItemRewardPrompt(character, itemModel, null, false), character);
 
 		void OnScenarioEnd(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress)
 		{
 			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(itemModel);
 			savedItem.AddUnlocked(1);
 			character.SavedCharacter.AddItem(itemModel);
+		}
+
+		GameController.Instance.EndEvent += OnScenarioEnd;
+	}
+
+	public static async GDTask GainItemDesign(Character character, ItemModel itemModel)
+	{
+		ItemModel item = itemModel.ToMutable();
+
+		await PromptManager.Prompt(new TreasureItemRewardPrompt(character, itemModel, null, true), character);
+
+		void OnScenarioEnd(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress)
+		{
+			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(itemModel);
+			savedItem.AddUnlocked(item.ShopCount);
+			savedItem.AddStock(item.ShopCount);
 		}
 
 		GameController.Instance.EndEvent += OnScenarioEnd;
@@ -1305,6 +1409,18 @@ public static class AbilityCmd
 		await EnterHex(potentialAbilityState, figureB, authority, hexA, true, true);
 		await EnterHex(potentialAbilityState, figureA, authority, hexB, true, true);
 		potentialAbilityState?.SetPerformed();
+
+		return true;
+	}
+
+	public static bool CanConsumeElement(Element element, Figure potentialConsumer)
+	{
+		if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert ||
+		   !ScenarioCheckEvents.CanConsumeElementCheckEvent
+			   .Fire(new ScenarioCheckEvents.CanConsumeElementCheck.Parameters(potentialConsumer, element)).CanConsume)
+		{
+			return false;
+		}
 
 		return true;
 	}

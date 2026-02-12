@@ -19,7 +19,7 @@ public class RadiantGlare : LuminaryCardModel<RadiantGlare.CardTop, RadiantGlare
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
 		public override int XP => 1;
 		public override bool Persistent => true;
 
@@ -55,6 +55,6 @@ public class RadiantGlare : LuminaryCardModel<RadiantGlare.CardTop, RadiantGlare
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Dark];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Dark)];
 	}
 }

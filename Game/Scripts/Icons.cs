@@ -1,3 +1,4 @@
+﻿using System;
 ﻿using Godot;
 
 public static class Icons
@@ -49,6 +50,11 @@ public static class Icons
 	public static string GetCondition(ConditionModel conditionModel)
 	{
 		return conditionModel.IconPath;
+	}
+
+	public static string GetAMDValue(string amdValue)
+	{
+		return $"res://Art/Icons/AMDs/{amdValue}.png";
 	}
 
 	public static string InlineMarker(Marker.Type markerType, int size = 30)
