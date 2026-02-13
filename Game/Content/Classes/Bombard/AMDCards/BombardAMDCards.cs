@@ -3,7 +3,7 @@ using System.Linq;
 
 public class BombardAMDCards
 {
-	public class RollingPierceThree : BombardAMDCardModel
+	public class PlusZeroPierceThreeRolling : BombardAMDCardModel
 	{
 		protected override int AtlasIndex => 0;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
@@ -15,7 +15,7 @@ public class BombardAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"+3 instead if Projectile {Icons.Inline(ModelDB.Class<BombardModel>().IconPath, richTextParameters)}");
+				extraText: $"If this attack is a Projectile {Icons.Inline(ModelDB.Class<BombardModel>().IconPath, richTextParameters)}, +3 instead");
 
 		protected override int AtlasIndex => 2;
 
@@ -68,8 +68,7 @@ public class BombardAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"{Icons.Inline(Icons.GetCondition(Conditions.Strengthen), richTextParameters)}, self",
-				rolling: true);
+				extraText: $"{Icons.Inline(Icons.GetCondition(Conditions.Strengthen), richTextParameters)}, self");
 
 		protected override int AtlasIndex => 10;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -94,7 +93,7 @@ public class BombardAMDCards
 		public override List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) => [Conditions.Wound1];
 	}
 
-	public class RollingPlusZeroShieldOne : BombardAMDCardModel
+	public class PlusZeroShieldOneRolling : BombardAMDCardModel
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
@@ -111,7 +110,7 @@ public class BombardAMDCards
 		];
 	}
 
-	public class RollingPlusZeroHealOneSelf : BombardAMDCardModel
+	public class PlusZeroHealOneSelfRolling : BombardAMDCardModel
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,

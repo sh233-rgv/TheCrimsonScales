@@ -98,33 +98,33 @@ public abstract class AMDCardModel : AbstractModel
 				// 	returnValue += ", ";
 				// }
 
-				returnValue += Icons.Inline(Icons.GetCondition(conditionModel), richTextParameters, true);
+				returnValue += $" {Icons.Inline(Icons.GetCondition(conditionModel), richTextParameters, true)}";
 			}
 		}
 
 		if(Pierce.HasValue)
 		{
-			returnValue += $"{Icons.Inline(Icons.Pierce, richTextParameters, true)}{Pierce}";
+			returnValue += $" {Icons.Inline(Icons.Pierce, richTextParameters, true)}{Pierce}";
 		}
 
 		if(Push.HasValue)
 		{
-			returnValue += $"{Icons.Inline(Icons.Push, richTextParameters, true)}{Push}";
+			returnValue += $" {Icons.Inline(Icons.Push, richTextParameters, true)}{Push}";
 		}
 
 		if(Pull.HasValue)
 		{
-			returnValue += $"{Icons.Inline(Icons.Push, richTextParameters, true)}{Pull}";
+			returnValue += $" {Icons.Inline(Icons.Push, richTextParameters, true)}{Pull}";
 		}
 
 		if(extraText != null)
 		{
-			returnValue += $"“{extraText}”";
+			returnValue += $" “{extraText}”";
 		}
 
 		if(rolling)
 		{
-			returnValue += Icons.Inline(Icons.Rolling, richTextParameters, true);
+			returnValue += $" {Icons.Inline(Icons.Rolling, richTextParameters, true)}";
 		}
 
 		return returnValue;

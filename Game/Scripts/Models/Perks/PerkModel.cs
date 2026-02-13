@@ -48,6 +48,11 @@ public abstract class PerkModel : AbstractModel
 		}
 		else if(CardsToAdd.Count > 0)
 		{
+			if(!string.IsNullOrEmpty(returnValue))
+			{
+				returnValue += " and ";
+			}
+
 			returnValue += $"add {GetCardsString(CardsToAdd, richTextParameters)}";
 		}
 
@@ -60,6 +65,11 @@ public abstract class PerkModel : AbstractModel
 
 	public virtual bool IgnoreNegativeScenarioEffects => false;
 	public virtual bool IgnoreNegativeItemEffects => false;
+
+	protected string GetNonAMDString(string title, string description, RichTextParameters richTextParameters)
+	{
+		return $"[b]{title}:[/b] {description}";
+	}
 
 	private string GetCardsString(List<AMDCardModel> cards, RichTextParameters richTextParameters)
 	{

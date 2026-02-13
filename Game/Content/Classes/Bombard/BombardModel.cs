@@ -41,19 +41,32 @@ public class BombardModel : ClassModel
 	public override List<PerkModel> Perks { get; } =
 	[
 		ModelDB.Perk<BombardPerks.RemoveTwoMinusOnes>(),
-		ModelDB.Perk<BombardPerks.ReplaceTwoPlusZeroWithTwoRollingPierceThree>(),
-		ModelDB.Perk<BombardPerks.ReplaceOneMinusOneWithOnePlusZeroPlusThreeIfProjectile>(),
-		ModelDB.Perk<BombardPerks.ReplaceOneMinusOneWithOnePlusZeroPlusThreeIfProjectile>(),
-		ModelDB.Perk<BombardPerks.AddTwoPlusTwoImmobilize>(),
-		ModelDB.Perk<BombardPerks.AddTwoPlusTwoImmobilize>(),
+
+		ModelDB.Perk<BombardPerks.ReplaceOneMinusOneWithOneShieldOneRolling>(),
+		ModelDB.Perk<BombardPerks.ReplaceOneMinusOneWithOneShieldOneRolling>(),
+
+		ModelDB.Perk<BombardPerks.ReplaceOnePlusZeroWithOnePlusZeroPlusThreeIfProjectile>(),
+		ModelDB.Perk<BombardPerks.ReplaceOnePlusZeroWithOnePlusZeroPlusThreeIfProjectile>(),
+
+		ModelDB.Perk<BombardPerks.ReplaceTwoPlusZeroWithTwoPierceThreeRolling>(),
+
+		ModelDB.Perk<BombardPerks.ReplacePlusZeroWithOnePlusOneWound>(),
+
+		ModelDB.Perk<BombardPerks.ReplacePlusZeroWithOnePlusZeroStun>(),
+
 		ModelDB.Perk<BombardPerks.ReplaceOnePlusOneWithTwoPlusOneRetaliateOne>(),
-		ModelDB.Perk<BombardPerks.AddTwoPlusOnePullSelfTowardTarget>(),
-		ModelDB.Perk<BombardPerks.AddOnePlusZeroStrengthenSelf>(),
-		ModelDB.Perk<BombardPerks.AddOnePlusZeroStun>(),
-		ModelDB.Perk<BombardPerks.AddOnePlusOneWound>(),
-		ModelDB.Perk<BombardPerks.AddTwoRollingPlusZeroShieldOne>(),
-		ModelDB.Perk<BombardPerks.AddTwoRollingPlusZeroHealOneSelf>(),
-		ModelDB.Perk<BombardPerks.IgnoreNegativeScenarioEffectsRemovePlusZero>(),
-		ModelDB.Perk<BombardPerks.IgnoreNegativeItemEffectsRemovePlusZero>(),
+
+		ModelDB.Perk<BombardPerks.ReplaceOnePlusOneWithOnePlusZeroStrengthenSelf>(),
+
+		ModelDB.Perk<BombardPerks.AddOnePlusTwoImmobilize>(),
+		ModelDB.Perk<BombardPerks.AddOnePlusTwoImmobilize>(),
+
+		ModelDB.Perk<BombardPerks.AddTwoPlusZeroHealOneSelfRolling>(),
+
+		ModelDB.Perk<BombardPerks.IgnoreNegativeScenarioEffectsAddPlusOnePullSelf>(),
+
+		ModelDB.Perk<BombardPerks.IgnoreNegativeItemEffectsAddPlusOnePullSelf>(),
+
+		ModelDB.Perk<BombardPerks.EmergencyEmplacement>(),
 	];
 }

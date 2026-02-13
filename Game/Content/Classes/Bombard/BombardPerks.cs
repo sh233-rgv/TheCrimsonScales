@@ -15,22 +15,7 @@ public class BombardPerks
 		];
 	}
 
-	public class ReplaceTwoPlusZeroWithTwoRollingPierceThree : BombardPerk
-	{
-		public override List<AMDCardModel> CardsToRemove { get; } =
-		[
-			ModelDB.AMDCard<PlusZeroAMDCard>(),
-			ModelDB.AMDCard<PlusZeroAMDCard>()
-		];
-
-		public override List<AMDCardModel> CardsToAdd { get; } =
-		[
-			ModelDB.AMDCard<BombardAMDCards.RollingPierceThree>(),
-			ModelDB.AMDCard<BombardAMDCards.RollingPierceThree>()
-		];
-	}
-
-	public class ReplaceOneMinusOneWithOnePlusZeroPlusThreeIfProjectile : BombardPerk
+	public class ReplaceOneMinusOneWithOneShieldOneRolling : BombardPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -39,16 +24,61 @@ public class BombardPerks
 
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
+			ModelDB.AMDCard<BombardAMDCards.PlusZeroShieldOneRolling>()
+		];
+	}
+
+	public class ReplaceOnePlusZeroWithOnePlusZeroPlusThreeIfProjectile : BombardPerk
+	{
+		public override List<AMDCardModel> CardsToRemove { get; } =
+		[
+			ModelDB.AMDCard<PlusZeroAMDCard>()
+		];
+
+		public override List<AMDCardModel> CardsToAdd { get; } =
+		[
 			ModelDB.AMDCard<BombardAMDCards.PlusZeroPlusThreeIfProjectile>()
 		];
 	}
 
-	public class AddTwoPlusTwoImmobilize : BombardPerk
+	public class ReplaceTwoPlusZeroWithTwoPierceThreeRolling : BombardPerk
 	{
+		public override List<AMDCardModel> CardsToRemove { get; } =
+		[
+			ModelDB.AMDCard<PlusZeroAMDCard>(),
+			ModelDB.AMDCard<PlusZeroAMDCard>(),
+		];
+
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<BombardAMDCards.PlusTwoImmobilize>(),
-			ModelDB.AMDCard<BombardAMDCards.PlusTwoImmobilize>()
+			ModelDB.AMDCard<BombardAMDCards.PlusZeroPierceThreeRolling>(),
+			ModelDB.AMDCard<BombardAMDCards.PlusZeroPierceThreeRolling>(),
+		];
+	}
+
+	public class ReplacePlusZeroWithOnePlusOneWound : BombardPerk
+	{
+		public override List<AMDCardModel> CardsToRemove { get; } =
+		[
+			ModelDB.AMDCard<PlusZeroAMDCard>()
+		];
+
+		public override List<AMDCardModel> CardsToAdd { get; } =
+		[
+			ModelDB.AMDCard<BombardAMDCards.PlusOneWound>()
+		];
+	}
+
+	public class ReplacePlusZeroWithOnePlusZeroStun : BombardPerk
+	{
+		public override List<AMDCardModel> CardsToRemove { get; } =
+		[
+			ModelDB.AMDCard<PlusZeroAMDCard>()
+		];
+
+		public override List<AMDCardModel> CardsToAdd { get; } =
+		[
+			ModelDB.AMDCard<BombardAMDCards.PlusZeroStun>()
 		];
 	}
 
@@ -66,74 +96,66 @@ public class BombardPerks
 		];
 	}
 
-	public class AddTwoPlusOnePullSelfTowardTarget : BombardPerk
+	public class ReplaceOnePlusOneWithOnePlusZeroStrengthenSelf : BombardPerk
 	{
-		public override List<AMDCardModel> CardsToAdd { get; } =
+		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
-			ModelDB.AMDCard<BombardAMDCards.PlusOnePullSelfTowardTarget>(),
-			ModelDB.AMDCard<BombardAMDCards.PlusOnePullSelfTowardTarget>()
+			ModelDB.AMDCard<PlusOneAMDCard>()
 		];
-	}
 
-	public class AddOnePlusZeroStrengthenSelf : BombardPerk
-	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
 			ModelDB.AMDCard<BombardAMDCards.PlusZeroStrengthenSelf>()
 		];
 	}
 
-	public class AddOnePlusZeroStun : BombardPerk
+	public class AddOnePlusTwoImmobilize : BombardPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<BombardAMDCards.PlusZeroStun>()
+			ModelDB.AMDCard<BombardAMDCards.PlusTwoImmobilize>()
 		];
 	}
 
-	public class AddOnePlusOneWound : BombardPerk
+	public class AddTwoPlusZeroHealOneSelfRolling : BombardPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<BombardAMDCards.PlusOneWound>()
+			ModelDB.AMDCard<BombardAMDCards.PlusZeroHealOneSelfRolling>(),
+			ModelDB.AMDCard<BombardAMDCards.PlusZeroHealOneSelfRolling>()
 		];
 	}
 
-	public class AddTwoRollingPlusZeroShieldOne : BombardPerk
+	public class IgnoreNegativeScenarioEffectsAddPlusOnePullSelf : BombardPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<BombardAMDCards.RollingPlusZeroShieldOne>(),
-			ModelDB.AMDCard<BombardAMDCards.RollingPlusZeroShieldOne>()
-		];
-	}
-
-	public class AddTwoRollingPlusZeroHealOneSelf : BombardPerk
-	{
-		public override List<AMDCardModel> CardsToAdd { get; } =
-		[
-			ModelDB.AMDCard<BombardAMDCards.RollingPlusZeroHealOneSelf>(),
-			ModelDB.AMDCard<BombardAMDCards.RollingPlusZeroHealOneSelf>()
-		];
-	}
-
-	public class IgnoreNegativeScenarioEffectsRemovePlusZero : BombardPerk
-	{
-		public override List<AMDCardModel> CardsToRemove { get; } =
-		[
-			ModelDB.AMDCard<PlusZeroAMDCard>()
+			ModelDB.AMDCard<BombardAMDCards.PlusOnePullSelfTowardTarget>()
 		];
 
 		public override bool IgnoreNegativeScenarioEffects => true;
 	}
 
-	public class IgnoreNegativeItemEffectsRemovePlusZero : BombardPerk
+	public class IgnoreNegativeItemEffectsAddPlusOnePullSelf : BombardPerk
 	{
-		public override List<AMDCardModel> CardsToRemove { get; } =
+		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<PlusZeroAMDCard>()
+			ModelDB.AMDCard<BombardAMDCards.PlusOnePullSelfTowardTarget>()
 		];
 
 		public override bool IgnoreNegativeItemEffects => true;
+	}
+
+	public class EmergencyEmplacement : BombardPerk
+	{
+		public override string ToString(RichTextParameters richTextParameters)
+		{
+			return GetNonAMDString(
+				"Emergency Emplacement",
+				$"Whenever you short rest, you may gain {Icons.Inline(Icons.GetCondition(Conditions.Immobilize), richTextParameters, true)} to immediately resolve any of your active Projectile {Icons.Inline(ModelDB.Class<BombardModel>().IconPath, richTextParameters)} abilities.",
+				richTextParameters);
+		}
+
+		//TODO: Implement
 	}
 }
