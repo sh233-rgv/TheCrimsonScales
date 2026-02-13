@@ -6,6 +6,8 @@
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="4_6lufe"]
 
 [node name="PerksPopupPerk" type="MarginContainer" node_paths=PackedStringArray("_perkBoxContainer", "_description")]
+offset_right = 620.0
+offset_bottom = 75.0
 mouse_filter = 2
 script = ExtResource("1_ns48j")
 _perkBoxScene = ExtResource("2_hnck8")
@@ -25,6 +27,7 @@ theme_override_constants/separation = 10
 [node name="Description" type="RichTextLabel" parent="HBoxContainer"]
 custom_minimum_size = Vector2(600, 75)
 layout_mode = 2
+size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("1_50y7x")
 theme_override_fonts/bold_font = ExtResource("4_6lufe")

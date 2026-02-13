@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 
 public partial class PerksPopupPerkBox : Control
 {
@@ -9,6 +10,8 @@ public partial class PerksPopupPerkBox : Control
 
 	public int PerkIndex { get; private set; }
 
+	public event Action<PerksPopupPerkBox> PressedEvent;
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -16,14 +19,18 @@ public partial class PerksPopupPerkBox : Control
 		_button.Pressed += OnPressed;
 	}
 
-	public void Init(int perkIndex, bool acquiredPerk)
+	public void Init(int perkIndex)
 	{
 		PerkIndex = perkIndex;
+	}
 
-		_checkmark.SetVisible(acquiredPerk);
+	public void SetAcquired(bool acquired)
+	{
+		_checkmark.SetVisible(acquired);
 	}
 
 	private void OnPressed()
 	{
+		PressedEvent?.Invoke(this);
 	}
 }

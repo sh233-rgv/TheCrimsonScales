@@ -41,6 +41,9 @@ public class SavedCharacter
 	public List<string> EquippedSmallItems { get; private set; }
 
 	[JsonProperty]
+	public int TotalAvailablePerkCount { get; private set; }
+
+	[JsonProperty]
 	public List<int> AcquiredPerkIndices { get; private set; } = new List<int>();
 
 	[JsonProperty]
@@ -283,6 +286,11 @@ public class SavedCharacter
 		}
 
 		CheckmarkCount++;
+
+		if(CheckmarkCount % 3 == 0)
+		{
+			AddAvailablePerk();
+		}
 	}
 
 	public void RemoveCheckmark()
@@ -296,11 +304,37 @@ public class SavedCharacter
 		CheckmarkCount--;
 	}
 
-	public void AddPerk(int perkIndex)
+	public void AcquirePerk(int perkIndex)
 	{
+		if(GetAvailablePerkCount() <= 0 || GetPerkAcquired(perkIndex))
+		{
+			return;
+		}
+
 		AcquiredPerkIndices.Add(perkIndex);
 
 		PerksChangedEvent?.Invoke(this);
+	}
+
+	public int GetUsedPerkCount()
+	{
+		return AcquiredPerkIndices.Count;
+	}
+
+	public int GetAvailablePerkCount()
+	{
+		int usedPerkCount = GetUsedPerkCount();
+		return TotalAvailablePerkCount - usedPerkCount;
+	}
+
+	public void AddAvailablePerk()
+	{
+		TotalAvailablePerkCount++;
+	}
+
+	public bool GetPerkAcquired(int perkIndex)
+	{
+		return AcquiredPerkIndices.Contains(perkIndex);
 	}
 
 	public bool GetCanRetire(SavedCampaign savedCampaign)
