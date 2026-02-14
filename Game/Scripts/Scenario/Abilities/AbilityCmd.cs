@@ -394,7 +394,7 @@ public static class AbilityCmd
 			ScenarioCheckEvents.SpawnCoinCheckEvent.Fire(new ScenarioCheckEvents.SpawnCoinCheck.Parameters(dropper));
 
 		List<Coin> coins = new List<Coin>();
-		for(int i = spawnCoinCheckEventParameters.CoinsToSpawn; i > 0; i++)
+		for(int i = 0; i < spawnCoinCheckEventParameters.CoinsToSpawn; i++)
 		{
 			PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Coin.tscn");
 			Coin coin = scene.Instantiate<Coin>();
