@@ -4,7 +4,7 @@ using Godot;
 public partial class PerksPopupPerk : Control
 {
 	[Export]
-	private PackedScene _perkBoxScene;
+	private PackedScene _perkBoxesScene;
 	[Export]
 	private Control _perkBoxContainer;
 
@@ -30,7 +30,7 @@ public partial class PerksPopupPerk : Control
 		for(int i = 0; i < perkCount; i++)
 		{
 			int perkIndex = startingPerkIndex + i;
-			PerksPopupPerkBoxes perkBoxes = _perkBoxScene.Instantiate<PerksPopupPerkBoxes>();
+			PerksPopupPerkBoxes perkBoxes = _perkBoxesScene.Instantiate<PerksPopupPerkBoxes>();
 			_perkBoxContainer.AddChild(perkBoxes);
 			perkBoxes.Init(perkIndex, perkModel.PerkBoxCount);
 			perkBoxes.PressedEvent += OnPerkBoxPressed;

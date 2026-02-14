@@ -10,7 +10,7 @@ offset_right = 620.0
 offset_bottom = 75.0
 mouse_filter = 2
 script = ExtResource("1_ns48j")
-_perkBoxScene = ExtResource("2_hnck8")
+_perkBoxesScene = ExtResource("2_hnck8")
 _perkBoxContainer = NodePath("HBoxContainer/PerkBoxes")
 _description = NodePath("HBoxContainer/Description")
 
@@ -23,9 +23,6 @@ theme_override_constants/separation = 20
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 10
-
-[node name="PerksPopupPerkBox" parent="HBoxContainer/PerkBoxes" instance=ExtResource("2_hnck8")]
-layout_mode = 2
 
 [node name="Description" type="RichTextLabel" parent="HBoxContainer"]
 custom_minimum_size = Vector2(600, 75)

@@ -28,6 +28,7 @@ public partial class ExclamationMark : Control
 		_active = active;
 
 		SetVisible(_active);
+		SetScale(Vector2.One);
 
 		_tween?.Kill();
 		_tween = GTweenSequenceBuilder.New()

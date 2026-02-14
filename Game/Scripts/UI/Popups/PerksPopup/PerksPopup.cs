@@ -15,6 +15,9 @@ public partial class PerksPopup : Popup<PerksPopup.Request>
 	private CheckmarkBoxSet[] _checkmarkBoxSets;
 
 	[Export]
+	private ScrollContainer _scrollContainer;
+
+	[Export]
 	private PackedScene _perkScene;
 	[Export]
 	private Control _perkContainer;
@@ -77,6 +80,8 @@ public partial class PerksPopup : Popup<PerksPopup.Request>
 		}
 
 		_perks.Clear();
+
+		_scrollContainer.SetVScroll(0);
 
 		UnsubscribeSavedCharacter();
 	}

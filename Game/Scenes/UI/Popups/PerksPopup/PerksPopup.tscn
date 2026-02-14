@@ -8,10 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://bm2kpcuh43pw6" path="res://Scenes/UI/Popups/PerksPopup/CheckmarkBoxSet.tscn" id="4_jmif4"]
 [ext_resource type="LabelSettings" uid="uid://d235d2njdpdmg" path="res://Resources/ButtonLabel.tres" id="5_rxf0f"]
 
-[node name="PerksPopup" node_paths=PackedStringArray("_remainingPerksLabel", "_checkmarkBoxSets", "_perkContainer") instance=ExtResource("1_uho5h")]
+[node name="PerksPopup" node_paths=PackedStringArray("_remainingPerksLabel", "_checkmarkBoxSets", "_scrollContainer", "_perkContainer") instance=ExtResource("1_uho5h")]
 script = ExtResource("2_xnhqj")
 _remainingPerksLabel = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Top/MarginContainer/VBoxContainer/RequiredCountLabel")
 _checkmarkBoxSets = [NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Top/Perks/CheckmarkSet"), NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Top/Perks/CheckmarkSet2"), NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Top/Perks/CheckmarkSet3"), NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Top/Perks/CheckmarkSet4"), NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Top/Perks/CheckmarkSet5"), NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/Top/Perks/CheckmarkSet6")]
+_scrollContainer = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/ScrollContainer")
 _perkScene = ExtResource("3_jmif4")
 _perkContainer = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/ScrollContainer/MarginContainer/Perks")
 
