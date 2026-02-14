@@ -32,7 +32,7 @@ public class StoneMeteorite : StarslingerCardModel<StoneMeteorite.CardTop, Stone
 					)
 				)
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Dark,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Dark)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAddCondition(Conditions.Stun);
@@ -58,7 +58,7 @@ public class StoneMeteorite : StarslingerCardModel<StoneMeteorite.CardTop, Stone
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(5, new MoveCircle(this, new Vector2(0.6210601f, 0.71188086f)))
 				.WithDuringMovementSubscription(
-					ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Light,
+					ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AdjustMoveValue(2);

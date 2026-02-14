@@ -32,7 +32,7 @@ public class Backdraft : FireKnightLevelUpCardModel<Backdraft.CardTop, Backdraft
 					new AOEHexMark(Vector2I.Zero.Add(Direction.West), this, new Vector2(0.61196f, 0.21662252f)),
 					new AOEHexMark(Vector2I.Zero.Add(Direction.SouthEast).Add(Direction.East), this, new Vector2(0.8676434f, 0.2808193f)))
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(2);

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class TransformationLibation : BrightsparkCardModel<TransformationLibation.CardTop, TransformationLibation.CardBottom>
 {
@@ -70,11 +71,11 @@ public class TransformationLibation : BrightsparkCardModel<TransformationLibatio
 				.WithGetAbilities(state =>
 					[
 						MoveAbility.Builder()
-							.WithDistance(2)
+							.WithDistance(2, new MoveCircle(this, new Vector2(0.6213409f, 0.7961962f)))
 							.Build()
 					]
 				)
-				.WithRange(3)
+				.WithRange(3, new RangeSquare(this, new Vector2(0.7985185f, 0.73534966f)))
 				.Build()),
 		];
 	}

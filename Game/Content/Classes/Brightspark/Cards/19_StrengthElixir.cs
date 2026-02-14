@@ -76,10 +76,9 @@ public class StrengthElixir : BrightsparkCardModel<StrengthElixir.CardTop, Stren
 				})
 				.WithUseSlots(
 				[
-					//TODO: Fix Use slot positioning
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.29185185f, 0.81269836f)),
+					new UseSlot(new Vector2(0.49777776f, 0.81269836f)),
+					new UseSlot(new Vector2(0.70592594f, 0.81269836f), GainXP)
 				])
 				.Build())
 		];

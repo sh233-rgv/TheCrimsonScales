@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, DynamicBalance.CardBottom>
 {
@@ -13,7 +14,7 @@ public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, Dynam
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.6191593f, 0.19725448f)))
 				.WithOnAbilityStarted(async state =>
 				{
 					await AbilityCmd.GenericChoice(state.Performer,
@@ -53,7 +54,7 @@ public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, Dynam
 				})
 				.Build()),
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6214815f, 0.315873f)))
 				.WithConditionalAbilityCheck(async state =>
 				{
 					await GDTask.CompletedTask;
@@ -85,7 +86,8 @@ public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, Dynam
 						ScenarioEvents.GenericChoice.Subscription.New(canApplyFunction: canApplyParameters => true,
 							applyFunction: async applyParameters =>
 							{
-								await AttackAbility.Builder().WithDamage(3).Build().Perform(state.ActionState);
+								await AttackAbility.Builder().WithDamage(3, new AttackDiamond(this, new Vector2(0.6193186f, 0.71640205f))).Build()
+									.Perform(state.ActionState);
 							},
 							effectButtonParameters: new IconEffectButton.Parameters(Icons.Attack),
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Attack)}3"),
@@ -94,7 +96,8 @@ public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, Dynam
 						ScenarioEvents.GenericChoice.Subscription.New(canApplyFunction: canApplyParameters => true,
 							applyFunction: async applyParameters =>
 							{
-								await MoveAbility.Builder().WithDistance(3).Build().Perform(state.ActionState);
+								await MoveAbility.Builder().WithDistance(3, new MoveCircle(this, new Vector2(0.62128145f, 0.8143437f))).Build()
+									.Perform(state.ActionState);
 							},
 							effectButtonParameters: new IconEffectButton.Parameters(Icons.Move),
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Move)}3"),

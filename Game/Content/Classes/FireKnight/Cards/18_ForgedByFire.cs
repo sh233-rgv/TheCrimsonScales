@@ -19,7 +19,7 @@ public class ForgedByFire : FireKnightLevelUpCardModel<ForgedByFire.CardTop, For
 				.WithTargets(2)
 				.WithRange(2)
 				.WithDuringHealSubscription(
-					ScenarioEvents.DuringHeal.Subscription.ConsumeElement(Element.Fire,
+					ScenarioEvents.DuringHeal.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
 						parameters => true,
 						async parameters =>
 						{

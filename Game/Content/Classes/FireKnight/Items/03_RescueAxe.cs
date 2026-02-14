@@ -24,7 +24,7 @@ public class FireKnightRescueAxe : FireKnightItem
 								.WithDamage(2)
 								.WithConditions(Conditions.Muddle)
 								.WithDuringAttackSubscription(
-									ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
+									ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
 										applyFunction: async parameters =>
 										{
 											parameters.AbilityState.AbilityAddCondition(Conditions.Wound1);

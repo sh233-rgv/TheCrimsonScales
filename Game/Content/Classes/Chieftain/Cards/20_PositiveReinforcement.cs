@@ -53,7 +53,7 @@ public class PositiveReinforcement : ChieftainCardModel<PositiveReinforcement.Ca
 				[
 					AbilityCmd.SummonMovePlusX(0).Build(),
 					AbilityCmd.SummonAttackPlusX(0).WithDuringAttackSubscription(
-						ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Earth,
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Earth)],
 							applyFunction: async applyParameters =>
 							{
 								applyParameters.AbilityState.AbilityAdjustAttackValue(1);

@@ -880,6 +880,66 @@ public static class AbilityCmd
 		return consumeEventParameters.Consumed;
 	}
 
+	public static async GDTask<List<Element>> ConsumeElements(Figure authority, List<CardElementConsumption> consumptions)
+	{
+		List<List<Element>> possibilities = FindConsumptionPossibilities(consumptions, authority);
+		if(possibilities.Count == 0)
+		{
+			throw new InvalidOperationException("Tried consuming elements, but no possible solutions were found");
+		}
+
+		if(possibilities.Count == 1)
+		{
+			foreach(Element element in possibilities[0])
+			{
+				await TryConsumeElement(element);
+			}
+
+			return possibilities[0];
+		}
+		else
+		{
+			object subscriber = new object();
+			List<ScenarioEvents.GenericChoice.Subscription> subscriptions = [];
+			List<Element> chosenConsumption = null;
+
+			foreach(List<Element> possibility in possibilities)
+			{
+				string text = "Consume";
+				foreach(Element element in possibility)
+				{
+					text += $" {Icons.Inline(Icons.GetElement(element))}";
+				}
+
+				subscriptions.Add(ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.New(
+					applyFunction: async parameters =>
+					{
+						chosenConsumption = possibility;
+
+						await GDTask.CompletedTask;
+					},
+					effectType: EffectType.SelectableMandatory,
+					effectButtonParameters: new ConsumeElementEffectButton.Parameters(possibility),
+					effectInfoViewParameters: new TextEffectInfoView.Parameters(text)
+				));
+			}
+
+			await GenericChoice(authority, subscriptions, hintText: "Select a set of elements to consume");
+
+			if(chosenConsumption == null)
+			{
+				return null;
+			}
+
+			foreach(Element element in chosenConsumption)
+			{
+				await TryConsumeElement(element);
+			}
+
+			return chosenConsumption;
+		}
+	}
+
 	public static async GDTask<bool> TryConsumeElement(Element element)
 	{
 		if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert)
@@ -1405,5 +1465,108 @@ public static class AbilityCmd
 		}
 
 		return true;
+	}
+
+	public static bool CanConsumeElements(List<CardElementConsumption> consumptions, Figure potentialConsumer)
+	{
+		List<Element> remainingElements = GetAvailableElementsToConsume(consumptions, potentialConsumer);
+		foreach(CardElementConsumption elementConsumption in consumptions)
+		{
+			foreach(Element element in elementConsumption.ConsumableElements.Except(remainingElements))
+			{
+				if(CanConsumeElement(element, potentialConsumer))
+				{
+					remainingElements.Add(element);
+				}
+			}
+		}
+
+		List<CardElementConsumption> orderedConsumptions = consumptions.OrderBy(consumption => consumption.ConsumableElements.Count).ToList();
+
+		return TryMatchConsumptions(orderedConsumptions, remainingElements, 0);
+	}
+
+	private static bool TryMatchConsumptions(List<CardElementConsumption> consumptions, List<Element> remainingElements, int index)
+	{
+		if(index >= consumptions.Count)
+		{
+			return true;
+		}
+
+		CardElementConsumption consumption = consumptions[index];
+
+		foreach(Element element in consumption.ConsumableElements)
+		{
+			int elementIndex = remainingElements.IndexOf(element);
+			if(elementIndex >= 0)
+			{
+				remainingElements.RemoveAt(elementIndex);
+				if(TryMatchConsumptions(consumptions, remainingElements, index + 1))
+				{
+					return true;
+				}
+			}
+
+			remainingElements.Insert(elementIndex, element);
+		}
+
+		return false;
+	}
+
+	public static List<List<Element>> FindConsumptionPossibilities(List<CardElementConsumption> consumptions, Figure potentialConsumer)
+	{
+		List<Element> remainingElements = GetAvailableElementsToConsume(consumptions, potentialConsumer);
+
+		List<List<Element>> possibilities = [];
+
+		List<CardElementConsumption> orderedConsumptions = consumptions.OrderBy(consumption => consumption.ConsumableElements.Count).ToList();
+
+		TryMatchConsumptionPossibilities(orderedConsumptions, remainingElements, 0, [], possibilities);
+		return possibilities;
+	}
+
+	private static void TryMatchConsumptionPossibilities(List<CardElementConsumption> consumptions, List<Element> remainingElements, int index,
+		List<Element> current, List<List<Element>> possibilities)
+	{
+		if(possibilities.Count > 1)
+		{
+			return;
+		}
+
+		if(index >= consumptions.Count)
+		{
+			possibilities.Add(new List<Element>(current));
+			return;
+		}
+
+		foreach(Element element in consumptions[index].ConsumableElements)
+		{
+			int elementIndex = remainingElements.IndexOf(element);
+			if(elementIndex >= 0)
+			{
+				remainingElements.RemoveAt(elementIndex);
+				current.Add(element);
+				TryMatchConsumptionPossibilities(consumptions, remainingElements, index + 1, current, possibilities);
+				current.RemoveAt(current.Count - 1);
+				remainingElements.Insert(elementIndex, element);
+			}
+		}
+	}
+
+	private static List<Element> GetAvailableElementsToConsume(List<CardElementConsumption> consumptions, Figure potentialConsumer)
+	{
+		List<Element> remainingElements = [];
+		foreach(CardElementConsumption elementConsumption in consumptions)
+		{
+			foreach(Element element in elementConsumption.ConsumableElements.Except(remainingElements))
+			{
+				if(CanConsumeElement(element, potentialConsumer))
+				{
+					remainingElements.Add(element);
+				}
+			}
+		}
+
+		return remainingElements;
 	}
 }

@@ -16,13 +16,13 @@ public class NourishingFormula : BrightsparkCardModel<NourishingFormula.CardTop,
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
-				.WithHealValue(2)
+				.WithHealValue(2, new HealDiamondPlus(this, new Vector2(0.25777778f, 0.13968253f)))
 				.WithTarget(Target.SelfOrAllies | Target.SelfCountsForTargets)
 				.WithTargets(2)
 				.WithRange(3)
 				.WithDuringHealSubscriptions(
 					[
-						ScenarioEvents.DuringHeal.Subscription.ConsumeWildElements(
+						ScenarioEvents.DuringHeal.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							applyFunction: async parameters =>
 							{
 								parameters.AbilityState.AbilityAdjustHealValue(1);
@@ -31,7 +31,7 @@ public class NourishingFormula : BrightsparkCardModel<NourishingFormula.CardTop,
 							},
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Heal)}")
 						),
-						ScenarioEvents.DuringHeal.Subscription.ConsumeWildElements(
+						ScenarioEvents.DuringHeal.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							applyFunction: async parameters =>
 							{
 								parameters.AbilityState.AbilityAdjustHealValue(1);
@@ -69,20 +69,15 @@ public class NourishingFormula : BrightsparkCardModel<NourishingFormula.CardTop,
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62222224f, 0.6190476f)))
 				.Build()),
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.FigureTurnEndedEvent.Subscribe(state, this,
-						parameters => parameters.Figure == state.Performer,
+						parameters => parameters.Figure == state.Performer && state.UseSlotIndex <= 2,
 						async parameters =>
 						{
-							if(state.UseSlotIndex > 2)
-							{
-								return;
-							}
-
 							Ability ability = state.UseSlotIndex switch
 							{
 								0 => MoveAbility.Builder().WithDistance(3).Build(),
@@ -115,10 +110,9 @@ public class NourishingFormula : BrightsparkCardModel<NourishingFormula.CardTop,
 				})
 				.WithUseSlots(
 				[
-					//TODO: Fix positioning
-					new UseSlot(new Vector2(0.29199997f, 0.7944986f)),
-					new UseSlot(new Vector2(0.4999998f, 0.7944986f)),
-					new UseSlot(new Vector2(0.7079987f, 0.7944986f))
+					new UseSlot(new Vector2(0.29037037f, 0.87671953f)),
+					new UseSlot(new Vector2(0.49777776f, 0.87671953f)),
+					new UseSlot(new Vector2(0.70666665f, 0.87671953f))
 				])
 				.Build())
 		];

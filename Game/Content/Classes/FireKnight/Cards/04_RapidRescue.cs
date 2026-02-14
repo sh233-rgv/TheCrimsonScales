@@ -42,7 +42,7 @@ public class RapidRescue : FireKnightCardModel<RapidRescue.CardTop, RapidRescue.
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.6215359f, 0.33479995f)))
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);

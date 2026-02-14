@@ -15,7 +15,7 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(5, new AttackDiamond(this, new Vector2(0.6192083f, 0.13470992f)))
 				.WithAbilityStartedSubscription(
-					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(Element.Fire,
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
 						applyFunction: async parameters =>
 						{
 							((AttackAbility.State)parameters.AbilityState).AbilitySetAOEPattern(new AOEPattern(
@@ -33,7 +33,7 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 				)
 				.WithDuringAttackSubscriptions(
 				[
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Ice,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Ice)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustPierce(2);
@@ -42,7 +42,7 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Pierce)}2")
 					),
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Light,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustPush(2);
@@ -51,7 +51,7 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Push)}2")
 					),
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Dark,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Dark)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAddCondition(Conditions.Curse);

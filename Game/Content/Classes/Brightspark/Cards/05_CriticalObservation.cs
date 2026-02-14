@@ -15,7 +15,7 @@ public class CriticalObservation : BrightsparkCardModel<CriticalObservation.Card
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.61994064f, 0.22867142f)))
 				.WithAfterTargetConfirmedSubscription(
 					ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
 						parameters => Math.Abs(parameters.AbilityState.Target.Initiative.MainInitiative -

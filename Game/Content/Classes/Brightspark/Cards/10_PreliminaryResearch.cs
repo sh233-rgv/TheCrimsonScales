@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class PreliminaryResearch : BrightsparkCardModel<PreliminaryResearch.CardTop, PreliminaryResearch.CardBottom>
 {
@@ -14,8 +15,8 @@ public class PreliminaryResearch : BrightsparkCardModel<PreliminaryResearch.Card
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
-				.WithTargets(2)
-				.WithRange(3)
+				.WithTargets(2, new TargetsSquare(this, new Vector2(0.50074077f, 0.28994706f)))
+				.WithRange(3, new RangeSquare(this, new Vector2(0.70834816f, 0.29063448f)))
 				.Build())
 		];
 	}

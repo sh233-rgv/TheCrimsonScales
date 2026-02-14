@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class MagneticField : BrightsparkCardModel<MagneticField.CardTop, MagneticField.CardBottom>
 {
@@ -63,10 +64,10 @@ public class MagneticField : BrightsparkCardModel<MagneticField.CardTop, Magneti
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
-				.WithRange(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.44888887f, 0.7171312f)))
+				.WithRange(2, new RangeSquare(this, new Vector2(0.65979993f, 0.71693116f)))
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Air,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Air)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustPush(1);

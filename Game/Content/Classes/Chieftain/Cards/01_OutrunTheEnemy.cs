@@ -62,7 +62,7 @@ public class OutrunTheEnemy : ChieftainCardModel<OutrunTheEnemy.CardTop, OutrunT
 				[
 					AbilityCmd.SummonMovePlusX(0)
 						.WithDuringMovementSubscription(
-							ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Earth,
+							ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Earth)],
 								applyFunction: async applyParameters =>
 								{
 									applyParameters.AbilityState.AdjustMoveValue(2);

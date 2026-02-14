@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class ElevatedChemicals : BrightsparkCardModel<ElevatedChemicals.CardTop, ElevatedChemicals.CardBottom>
 {
@@ -13,10 +14,10 @@ public class ElevatedChemicals : BrightsparkCardModel<ElevatedChemicals.CardTop,
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.6192593f, 0.16560845f)))
 				.WithDuringAttackSubscriptions(
 					[
-						ScenarioEvents.DuringAttack.Subscription.ConsumeWildElements(
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							applyFunction: async parameters =>
 							{
 								parameters.AbilityState.AbilityAdjustAttackValue(2);
@@ -25,7 +26,7 @@ public class ElevatedChemicals : BrightsparkCardModel<ElevatedChemicals.CardTop,
 							},
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Attack)}")
 						),
-						ScenarioEvents.DuringAttack.Subscription.ConsumeWildElements(
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							applyFunction: async parameters =>
 							{
 								parameters.AbilityState.AbilityAdjustAttackValue(1);
@@ -34,15 +35,14 @@ public class ElevatedChemicals : BrightsparkCardModel<ElevatedChemicals.CardTop,
 							},
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
 						),
-						ScenarioEvents.DuringAttack.Subscription.ConsumeWildElements(
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							applyFunction: async parameters =>
 							{
 								parameters.AbilityState.AbilityAddCondition(Conditions.Disarm);
 
 								await AbilityCmd.GainXP(parameters.Performer, 1);
 							},
-							effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Disarm))}"),
-							elementsToConsume: 2
+							effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Disarm))}")
 						)
 					]
 				)
@@ -55,10 +55,10 @@ public class ElevatedChemicals : BrightsparkCardModel<ElevatedChemicals.CardTop,
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.61787784f, 0.6460317f)))
 				.WithDuringMovementSubscriptions(
 					[
-						ScenarioEvents.DuringMovement.Subscription.ConsumeWildElements(
+						ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							applyFunction: async parameters =>
 							{
 								parameters.AbilityState.AddJump();
@@ -67,7 +67,7 @@ public class ElevatedChemicals : BrightsparkCardModel<ElevatedChemicals.CardTop,
 							},
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Jump)}")
 						),
-						ScenarioEvents.DuringMovement.Subscription.ConsumeWildElements(
+						ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							applyFunction: async parameters =>
 							{
 								parameters.AbilityState.AdjustMoveValue(2);
@@ -76,7 +76,7 @@ public class ElevatedChemicals : BrightsparkCardModel<ElevatedChemicals.CardTop,
 							},
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Move)}")
 						),
-						ScenarioEvents.DuringMovement.Subscription.ConsumeWildElements(
+						ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							applyFunction: async parameters =>
 							{
 								await AbilityCmd.InfuseWildElement(parameters.AbilityState);

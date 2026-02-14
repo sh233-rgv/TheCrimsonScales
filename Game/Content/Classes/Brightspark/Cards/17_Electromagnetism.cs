@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class Electromagnetism : BrightsparkCardModel<Electromagnetism.CardTop, Electromagnetism.CardBottom>
 {
@@ -15,8 +16,8 @@ public class Electromagnetism : BrightsparkCardModel<Electromagnetism.CardTop, E
 			new AbilityCardAbility(SummonAbility.Builder()
 				.WithName("Metal Detector")
 				.WithTexturePath("res://Content/Classes/Brightspark/MetalDetector.png")
-				.WithHealth(6)
-				.WithMove(1)
+				.WithHealth(6, new SummonHealthSquare(this, new Vector2(0.4474074f, 0.2185185f)))
+				.WithMove(1, new SummonMoveSquare(this, new Vector2(0.67767775f, 0.2179894f)))
 				.WithTraits(new PerformAtEndOfTurnTrait(LootAbility.Builder().WithRange(1)
 					.WithCustomGetLootObtainer(state => ((Summon)state.Performer).CharacterOwner).Build()))
 				.Build()
@@ -33,10 +34,10 @@ public class Electromagnetism : BrightsparkCardModel<Electromagnetism.CardTop, E
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(PullAbility.Builder()
-				.WithPull(2)
-				.WithRange(3)
+				.WithPull(2, new PullCircle(this, new Vector2(0.46054077f, 0.6676248f)))
+				.WithRange(3, new RangeSquare(this, new Vector2(0.6696296f, 0.6656084f)))
 				.WithAbilityStartedSubscription(
-					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(Element.Air,
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Air)],
 						applyFunction: async applyParameters =>
 						{
 							((PullAbility.State)applyParameters.AbilityState).AbilityAdjustRange(1);

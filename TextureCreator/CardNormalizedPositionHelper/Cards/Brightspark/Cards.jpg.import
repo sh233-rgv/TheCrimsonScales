@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kssatw3x4fib"
-path="res://.godot/imported/Cards.jpg-44d4d68bf0719704baf4520a4edff048.ctex"
+uid="uid://58vt3ofylrxn"
+path="res://.godot/imported/Cards.jpg-f42dcf294ac5fea6518d309088a9109e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Classes/Brightspark/Cards.jpg"
-dest_files=["res://.godot/imported/Cards.jpg-44d4d68bf0719704baf4520a4edff048.ctex"]
+source_file="res://CardNormalizedPositionHelper/Cards/Brightspark/Cards.jpg"
+dest_files=["res://.godot/imported/Cards.jpg-f42dcf294ac5fea6518d309088a9109e.ctex"]
 
 [params]
 

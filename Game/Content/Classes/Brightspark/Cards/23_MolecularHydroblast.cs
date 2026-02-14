@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class MolecularHydroblast : BrightsparkCardModel<MolecularHydroblast.CardTop, MolecularHydroblast.CardBottom>
 {
@@ -14,10 +15,10 @@ public class MolecularHydroblast : BrightsparkCardModel<MolecularHydroblast.Card
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(5)
-				.WithRange(3)
+				.WithDamage(5, new AttackDiamond(this, new Vector2(0.44888887f, 0.23915341f)))
+				.WithRange(3, new RangeSquare(this, new Vector2(0.65925926f, 0.23809522f)))
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Ice,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Ice)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAddCondition(Conditions.Immobilize);
@@ -36,10 +37,11 @@ public class MolecularHydroblast : BrightsparkCardModel<MolecularHydroblast.Card
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(5)
+				.WithDistance(5, new MoveCircle(this, new Vector2(0.5237037f, 0.7026455f)))
 				.WithMoveType(MoveType.Jump)
 				.WithDuringMovementSubscription(
-					ScenarioEvents.DuringMovement.Subscription.ConsumeElements([Element.Fire, Element.Ice],
+					ScenarioEvents.DuringMovement.Subscription.ConsumeElement(
+						[CardElementConsumption.Consume(Element.Fire), CardElementConsumption.Consume(Element.Ice)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AdjustMoveValue(-1);
@@ -53,7 +55,7 @@ public class MolecularHydroblast : BrightsparkCardModel<MolecularHydroblast.Card
 							parameters.AbilityState.GetCustomValue<bool>(this, "ElementsConsumed"),
 						async parameters =>
 						{
-							MoveAbility.State moveAbilityState = ((MoveAbility.State)parameters.AbilityState);
+							MoveAbility.State moveAbilityState = (MoveAbility.State)parameters.AbilityState;
 							foreach(Figure figure in moveAbilityState.Hexes
 								        .SelectMany(hex => hex.GetHexObjectsOfType<Figure>()).Distinct()
 								        .Where(f => moveAbilityState.Performer.EnemiesWith(f)))

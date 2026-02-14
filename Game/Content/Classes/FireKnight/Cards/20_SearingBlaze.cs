@@ -107,7 +107,7 @@ public class SearingBlaze : FireKnightLevelUpCardModel<SearingBlaze.CardTop, Sea
 					);
 
 					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
-						ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
 							canApplyParameters => canApplyParameters.Performer == state.Performer && !woundAdded,
 							async applyParameters =>
 							{

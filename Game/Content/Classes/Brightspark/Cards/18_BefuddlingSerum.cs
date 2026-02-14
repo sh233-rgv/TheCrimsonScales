@@ -15,7 +15,7 @@ public class BefuddlingSerum : BrightsparkCardModel<BefuddlingSerum.CardTop, Bef
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.34814814f, 0.28994706f)))
 				.WithRange(2)
 				.WithRangeType(RangeType.Melee)
 				.WithConditions(Conditions.Muddle)
@@ -64,11 +64,10 @@ public class BefuddlingSerum : BrightsparkCardModel<BefuddlingSerum.CardTop, Bef
 				})
 				.WithUseSlots(
 				[
-					//TODO: Fix Use slot positioning
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.16296296f, 0.80529094f)),
+					new UseSlot(new Vector2(0.3711111f, 0.80529094f), GainXP),
+					new UseSlot(new Vector2(0.5785185f, 0.80529094f)),
+					new UseSlot(new Vector2(0.78962964f, 0.80529094f), GainXP)
 				])
 				.Build())
 		];

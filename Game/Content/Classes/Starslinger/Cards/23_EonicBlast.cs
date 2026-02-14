@@ -16,7 +16,7 @@ public class EonicBlast : StarslingerCardModel<EonicBlast.CardTop, EonicBlast.Ca
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Light,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAddCondition(Conditions.Immobilize);

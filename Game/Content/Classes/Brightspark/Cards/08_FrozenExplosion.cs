@@ -14,7 +14,7 @@ public class FrozenExplosion : BrightsparkCardModel<FrozenExplosion.CardTop, Fro
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.43565553f, 0.22698413f)))
 				.WithAOEPattern(new AOEPattern(
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
@@ -27,7 +27,7 @@ public class FrozenExplosion : BrightsparkCardModel<FrozenExplosion.CardTop, Fro
 					]
 				))
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Ice,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Ice)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAddCondition(Conditions.Immobilize);
@@ -73,7 +73,7 @@ public class FrozenExplosion : BrightsparkCardModel<FrozenExplosion.CardTop, Fro
 				])
 				.Build()),
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6214815f, 0.895267f)))
 				.Build())
 		];
 

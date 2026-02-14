@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class ElevatedIntake : BrightsparkCardModel<ElevatedIntake.CardTop, ElevatedIntake.CardBottom>
 {
@@ -13,8 +14,8 @@ public class ElevatedIntake : BrightsparkCardModel<ElevatedIntake.CardTop, Eleva
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(5)
-				.WithRange(3)
+				.WithDamage(5, new AttackDiamond(this, new Vector2(0.44888887f, 0.23300421f)))
+				.WithRange(3, new RangeSquare(this, new Vector2(0.65925926f, 0.23227511f)))
 				.WithOnAbilityStarted(async state =>
 				{
 					ScenarioEvents.ItemStateChangedEvent.Subscribe(state, this,
@@ -48,7 +49,7 @@ public class ElevatedIntake : BrightsparkCardModel<ElevatedIntake.CardTop, Eleva
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6213409f, 0.70045805f)))
 				.Build()),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>

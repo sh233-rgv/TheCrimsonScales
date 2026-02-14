@@ -18,7 +18,7 @@ public class CrashingFlare : StarslingerCardModel<CrashingFlare.CardTop, Crashin
 				.WithRange(2)
 				.WithDuringAttackSubscriptions(
 					[
-						ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Light,
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
 							applyFunction: async parameters =>
 							{
 								parameters.AbilityState.AbilityAdjustAttackValue(1);
@@ -27,7 +27,7 @@ public class CrashingFlare : StarslingerCardModel<CrashingFlare.CardTop, Crashin
 							},
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
 						),
-						ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Dark,
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Dark)],
 							applyFunction: async parameters =>
 							{
 								parameters.AbilityState.AbilityAdjustRange(2);

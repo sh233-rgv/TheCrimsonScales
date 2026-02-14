@@ -24,7 +24,7 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 				.WithSelectAutomatically(true)
 				.Build()
 			),
-			new AbilityCardAbility(OtherActiveAbility.Builder()
+			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
 					Figure target = state.ActionState.GetAbilityState<GiveAbilityCardAbility.State>(0).UniqueTargetedFigures[0];
@@ -40,6 +40,7 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 
 					await GDTask.CompletedTask;
 				})
+				.WithUseSlot(new UseSlot(new Vector2(0.32444444f, 0.45978832f)))
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.Build())
 		];
@@ -117,10 +118,9 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 				})
 				.WithUseSlots(
 				[
-					//TODO: Use Slot Positioning
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f)),
+					new UseSlot(new Vector2(0.26814815f, 0.89629626f)),
+					new UseSlot(new Vector2(0.47555554f, 0.89629626f)),
+					new UseSlot(new Vector2(0.6844444f, 0.89629626f)),
 				])
 				.Build()),
 		];

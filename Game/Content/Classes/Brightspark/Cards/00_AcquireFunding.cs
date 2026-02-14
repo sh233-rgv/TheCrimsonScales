@@ -15,7 +15,7 @@ public class AcquireFunding : BrightsparkCardModel<AcquireFunding.CardTop, Acqui
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
-				.WithRange(3)
+				.WithRange(3, new RangeSquare(this, new Vector2(0.61454064f, 0.22757141f)))
 				.WithOnAbilityStarted(async abilityState =>
 				{
 					int coinsToLoot = 0;

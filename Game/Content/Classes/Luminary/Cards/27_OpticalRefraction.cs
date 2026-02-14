@@ -29,7 +29,7 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 				))
 				.WithDuringAttackSubscriptions(
 				[
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Dark,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Dark)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustPierce(3);
@@ -38,7 +38,7 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Pierce)}3")
 					),
-					ScenarioEvents.DuringAttack.Subscription.ConsumeWildElements(
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 						applyFunction: async parameters =>
 						{
 							await AbilityCmd.InfuseWildElement(parameters.AbilityState);

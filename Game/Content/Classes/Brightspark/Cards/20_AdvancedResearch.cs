@@ -58,7 +58,7 @@ public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, A
 				})
 				.WithAbilityStartedSubscriptions(
 				[
-					ScenarioEvents.AbilityStarted.Subscription.ConsumeWildElements(
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 						applyFunction: async applyParameters =>
 						{
 							applyParameters.AbilityState.SetCustomValue(this, "ExtraTarget", true);
@@ -66,7 +66,7 @@ public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, A
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(
 							$"Affect one additional ally within {Icons.Inline(Icons.Range)}3")),
-					ScenarioEvents.AbilityStarted.Subscription.ConsumeWildElements(
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 						applyFunction: async applyParameters =>
 						{
 							applyParameters.AbilityState.SetCustomValue(this, "RecoverItem", true);
@@ -74,14 +74,14 @@ public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, A
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(
 							$"They may also {Icons.Inline(Icons.RecoverCard)} one spent item")),
-					ScenarioEvents.AbilityStarted.Subscription.ConsumeWildElements(
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(
+						[CardElementConsumption.ConsumeWild(), CardElementConsumption.ConsumeWild()],
 						applyFunction: async applyParameters =>
 						{
 							applyParameters.AbilityState.SetCustomValue(this, "ExtraCard", 1);
 							await GDTask.CompletedTask;
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters("Two cards from their discard pile instead"),
-						elementsToConsume: 2)
+						effectInfoViewParameters: new TextEffectInfoView.Parameters("Two cards from their discard pile instead"))
 				])
 				.Build())
 		];

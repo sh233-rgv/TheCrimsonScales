@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class ContagiousMelody : BrightsparkCardModel<ContagiousMelody.CardTop, ContagiousMelody.CardBottom>
 {
@@ -14,8 +15,8 @@ public class ContagiousMelody : BrightsparkCardModel<ContagiousMelody.CardTop, C
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
-				.WithRange(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.405426f, 0.22764231f)))
+				.WithRange(2, new RangeSquare(this, new Vector2(0.6155555f, 0.22698413f)))
 				.WithConditions(Conditions.Poison1)
 				.Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
@@ -41,7 +42,7 @@ public class ContagiousMelody : BrightsparkCardModel<ContagiousMelody.CardTop, C
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128145f, 0.70793647f)))
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>

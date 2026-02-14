@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, UltravioletRays.CardBottom>
 {
@@ -15,39 +16,32 @@ public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, Ult
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					object subscriber1 = new object();
-					object subscriber2 = new object();
-					object subscriber3 = new object();
-					object subscriber4 = new object();
-					List<object> subscribers = [subscriber1, subscriber2, subscriber3, subscriber4];
-					state.SetCustomValue(this, "subscribers", subscribers);
-
-					ScenarioEvents.DuringAttackEvent.Subscribe(state, subscriber1,
-						ScenarioEvents.DuringAttack.Subscription.ConsumeWildElements(
+					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							parameters => parameters.AbilityState.IsSingleTarget,
 							async applyParameters =>
 							{
 								applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
 								await GDTask.CompletedTask;
 							}));
-					ScenarioEvents.DuringAttackEvent.Subscribe(state, subscriber2,
-						ScenarioEvents.DuringAttack.Subscription.ConsumeWildElements(
+					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							parameters => parameters.AbilityState.IsSingleTarget,
 							async applyParameters =>
 							{
 								applyParameters.AbilityState.SingleTargetAdjustPierce(3);
 								await GDTask.CompletedTask;
 							}));
-					ScenarioEvents.DuringAttackEvent.Subscribe(state, subscriber3,
-						ScenarioEvents.DuringAttack.Subscription.ConsumeWildElements(
+					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							parameters => parameters.AbilityState.IsSingleTarget,
 							async applyParameters =>
 							{
 								applyParameters.AbilityState.SingleTargetAdjustPush(2);
 								await GDTask.CompletedTask;
 							}));
-					ScenarioEvents.DuringAttackEvent.Subscribe(state, subscriber4,
-						ScenarioEvents.DuringAttack.Subscription.ConsumeWildElements(
+					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							parameters => parameters.AbilityState.IsSingleTarget,
 							async applyParameters =>
 							{
@@ -58,10 +52,7 @@ public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, Ult
 				})
 				.WithOnDeactivate(async state =>
 				{
-					foreach(object obj in state.GetCustomValue<List<object>>(this, "subscribers"))
-					{
-						ScenarioEvents.DuringAttackEvent.Unsubscribe(state, obj);
-					}
+					ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
 				})
@@ -78,10 +69,10 @@ public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, Ult
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6203f, 0.631746f)))
 				.WithDuringMovementSubscriptions(
 					[
-						ScenarioEvents.DuringMovement.Subscription.ConsumeWildElements(
+						ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							applyFunction: async parameters =>
 							{
 								parameters.AbilityState.AdjustMoveValue(3);
@@ -90,7 +81,7 @@ public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, Ult
 							},
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+3{Icons.Inline(Icons.Move)}")
 						),
-						ScenarioEvents.DuringMovement.Subscription.ConsumeWildElements(
+						ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							applyFunction: async parameters =>
 							{
 								parameters.AbilityState.AdjustMoveValue(3);

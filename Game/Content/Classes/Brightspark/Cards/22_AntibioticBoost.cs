@@ -62,13 +62,13 @@ public class AntibioticBoost : BrightsparkCardModel<AntibioticBoost.CardTop, Ant
 				})
 				.WithUseSlots(
 				[
-					//TODO: Fix positioning
-					new UseSlot(new Vector2(0.29199997f, 0.7944986f), FirstSlotAbility),
-					new UseSlot(new Vector2(0.4999998f, 0.7944986f), SecondSlotAbility),
-					new UseSlot(new Vector2(0.7079987f, 0.7944986f), ThirdSlotAbility)
+					new UseSlot(new Vector2(0.29185185f, 0.8783068f), FirstSlotAbility),
+					new UseSlot(new Vector2(0.49925926f, 0.8783068f), SecondSlotAbility),
+					new UseSlot(new Vector2(0.70666665f, 0.8783068f), ThirdSlotAbility)
 				])
 				.WithAbilityStartedSubscription(
-					ScenarioEvents.AbilityStarted.Subscription.ConsumeElements([Element.Air, Element.Light],
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(
+						[CardElementConsumption.Consume(Element.Air), CardElementConsumption.Consume(Element.Light)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.SetCustomValue(this, "ElementsConsumed", true);

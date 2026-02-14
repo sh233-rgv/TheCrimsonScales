@@ -76,7 +76,7 @@ public class CrewIntegrity : FireKnightLevelUpCardModel<CrewIntegrity.CardTop, C
 				.WithRange(3)
 				.WithTarget(Target.SelfOrAllies | Target.SelfCountsForTargets)
 				.WithDuringGrantSubscription(
-					ScenarioEvents.DuringGrant.Subscription.ConsumeElement(Element.Fire,
+					ScenarioEvents.DuringGrant.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AdjustTargets(1);

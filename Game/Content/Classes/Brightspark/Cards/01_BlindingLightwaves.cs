@@ -41,7 +41,7 @@ public class BlindingLightwaves : BrightsparkCardModel<BlindingLightwaves.CardTo
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(1)
 				.WithAbilityStartedSubscription(
-					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(Element.Light,
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
 						applyFunction: async parameters =>
 						{
 							AbilityState state = parameters.AbilityState;

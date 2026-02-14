@@ -15,7 +15,8 @@ public class CriticalHypothesis : BrightsparkCardModel<CriticalHypothesis.CardTo
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.617037f, 0.2174603f)),
+					new AttackDiamond(this, new Vector2(0.7051852f, 0.2174603f)))
 				.WithAfterTargetConfirmedSubscription(
 					ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
 						parameters => Math.Abs(parameters.AbilityState.Target.Initiative.MainInitiative -
@@ -60,10 +61,9 @@ public class CriticalHypothesis : BrightsparkCardModel<CriticalHypothesis.CardTo
 				})
 				.WithUseSlots(
 				[
-					//TODO: Fix use slot positioning
-					new UseSlot(new Vector2(0.2925002f, 0.8124983f)),
-					new UseSlot(new Vector2(0.50000006f, 0.8124983f)),
-					new UseSlot(new Vector2(0.70749974f, 0.8124983f))
+					new UseSlot(new Vector2(0.29147023f, 0.8142857f)),
+					new UseSlot(new Vector2(0.49925926f, 0.8142857f)),
+					new UseSlot(new Vector2(0.70666665f, 0.8142857f))
 				])
 				.Build())
 		];

@@ -23,7 +23,7 @@ public class ChainsOfLight : HierophantLevelUpCardModel<ChainsOfLight.CardTop, C
 				.WithDamage(3)
 				.WithTarget(Target.TargetAll | Target.Enemies)
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Light,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.SingleTargetAddCondition(Conditions.Stun);

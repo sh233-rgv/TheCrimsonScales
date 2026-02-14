@@ -162,7 +162,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 					await GDTask.CompletedTask;
 				})
 				.WithAbilityStartedSubscription(
-					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(Element.Fire,
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.SetCustomValue(this, "Fire Consumed", true);

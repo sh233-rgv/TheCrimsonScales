@@ -26,7 +26,7 @@ public class BlackenedRage : LuminaryCardModel<BlackenedRage.CardTop, BlackenedR
 					]
 				))
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Dark,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Dark)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);

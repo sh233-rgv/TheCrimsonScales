@@ -15,7 +15,7 @@ public class WeatherForecast : BrightsparkCardModel<WeatherForecast.CardTop, Wea
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.5f, 0.24867724f)))
 				.WithRange(3)
 				.Build())
 		];
@@ -53,10 +53,9 @@ public class WeatherForecast : BrightsparkCardModel<WeatherForecast.CardTop, Wea
 				})
 				.WithUseSlots(
 				[
-					//TODO: Use Slot Positioning
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f)),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
+					new UseSlot(new Vector2(0.29185185f, 0.81824744f)),
+					new UseSlot(new Vector2(0.49777776f, 0.81824744f)),
+					new UseSlot(new Vector2(0.7074074f, 0.81824744f), GainXP)
 				])
 				.Build()),
 		];

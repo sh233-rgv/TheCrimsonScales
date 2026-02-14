@@ -26,7 +26,7 @@ public class BurningSparks : LuminaryCardModel<BurningSparks.CardTop, BurningSpa
 				), new AOEHexMark(Vector2I.Zero.Add(Direction.NorthWest), this, new Vector2(0.6228876f, 0.23067176f)))
 				.WithDuringAttackSubscriptions(
 				[
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);
@@ -35,7 +35,7 @@ public class BurningSparks : LuminaryCardModel<BurningSparks.CardTop, BurningSpa
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
 					),
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Light,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);

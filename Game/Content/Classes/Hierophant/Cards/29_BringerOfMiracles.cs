@@ -17,7 +17,7 @@ public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.Ca
 				.WithHealValue(3)
 				.WithRange(3)
 				.WithAbilityStartedSubscription(
-					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(Element.Light,
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
 						applyFunction: async applyParameters =>
 						{
 							((HealAbility.State)applyParameters.AbilityState).AbilityAddCondition(Conditions.Strengthen);

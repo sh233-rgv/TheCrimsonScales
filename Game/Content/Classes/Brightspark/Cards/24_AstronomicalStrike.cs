@@ -15,7 +15,7 @@ public class AstronomicalStrike : BrightsparkCardModel<AstronomicalStrike.CardTo
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.43461484f, 0.2378243f)))
 				.WithAOEPattern(new AOEPattern(
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
@@ -28,7 +28,7 @@ public class AstronomicalStrike : BrightsparkCardModel<AstronomicalStrike.CardTo
 					]
 				))
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Light,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);
@@ -50,6 +50,7 @@ public class AstronomicalStrike : BrightsparkCardModel<AstronomicalStrike.CardTo
 				.WithName("Black Hole")
 				.WithTexturePath("res://Content/Classes/Brightspark/BlackHole.png")
 				.WithHealth(6)
+				//TODO: Add Pull ability
 				.WithRange(4)
 				.WithTraits(new PerformAtEndOfTurnTrait(OtherAbility.Builder().WithPerformAbility(async state =>
 					{
@@ -60,7 +61,7 @@ public class AstronomicalStrike : BrightsparkCardModel<AstronomicalStrike.CardTo
 							state.SetPerformed();
 						}
 					}).Build()), new PermanentConditionTrait(Conditions.Invisible)
-					//TODO: Cannot be moved)
+					//TODO: Cannot be moved
 				)
 				.Build())
 		];

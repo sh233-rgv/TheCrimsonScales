@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class NutrientOverdose : BrightsparkCardModel<NutrientOverdose.CardTop, NutrientOverdose.CardBottom>
 {
@@ -43,7 +44,7 @@ public class NutrientOverdose : BrightsparkCardModel<NutrientOverdose.CardTop, N
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6208408f, 0.7248677f)))
 				.WithDuringMovementSubscription(
 					ScenarioEvents.DuringMovement.Subscription.New(
 						parameters => parameters.Performer is Character character && character.RoundCardData.Any(roundCardData =>

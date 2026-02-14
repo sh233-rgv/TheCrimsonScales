@@ -14,24 +14,24 @@ public class VersatileConcoction : BrightsparkCardModel<VersatileConcoction.Card
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.617037f, 0.16772486f)))
 				.WithDuringAttackSubscriptions(
 				[
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);
 							parameters.AbilityState.AbilityAddCondition(Conditions.Wound1);
 							await GDTask.CompletedTask;
 						}),
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Ice,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Ice)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);
 							parameters.AbilityState.AbilityAddCondition(Conditions.Immobilize);
 							await GDTask.CompletedTask;
 						}),
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Air,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Air)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);
@@ -66,12 +66,11 @@ public class VersatileConcoction : BrightsparkCardModel<VersatileConcoction.Card
 				})
 				.WithUseSlots(
 				[
-					//TODO: Use Slot Positioning
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.16650043f, 0.3549993f), async state => await AbilityCmd.InfuseElement(state, Element.Fire)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP),
-					new UseSlot(new Vector2(0.57749975f, 0.3549993f), async state => await AbilityCmd.InfuseWildElement(state)),
-					new UseSlot(new Vector2(0.78700954f, 0.3549993f), async state =>
+					new UseSlot(new Vector2(0.257037f, 0.79999995f), GainXP),
+					new UseSlot(new Vector2(0.46222222f, 0.79999995f), async state => await AbilityCmd.InfuseElement(state, Element.Fire)),
+					new UseSlot(new Vector2(0.6696296f, 0.79999995f), GainXP),
+					new UseSlot(new Vector2(0.35999998f, 0.8994708f), async state => await AbilityCmd.InfuseWildElement(state)),
+					new UseSlot(new Vector2(0.5674074f, 0.8994708f), async state =>
 					{
 						await AbilityCmd.InfuseWildElement(state);
 						await AbilityCmd.InfuseWildElement(state);

@@ -24,7 +24,7 @@ public class CorrosiveCombustion : BrightsparkCardModel<CorrosiveCombustion.Card
 					]
 				))
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilitySetAOEPattern(new AOEPattern(

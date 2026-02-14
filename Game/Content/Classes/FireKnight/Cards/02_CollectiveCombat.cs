@@ -25,7 +25,7 @@ public class CollectiveCombat : FireKnightCardModel<CollectiveCombat.CardTop, Co
 					]
 				), new AOEHexMark(Vector2I.Zero.Add(Direction.West), this, new Vector2(0.6045485f, 0.25425407f)))
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);
