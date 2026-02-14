@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 using GTweens.Builders;
 using GTweens.Easings;
 using GTweens.Tweens;
@@ -42,6 +43,11 @@ public partial class BetweenScenariosCharacterPortrait : Control
 	private BetterButton _perksButton;
 
 	[Export]
+	private ExclamationMark _cardsExclamationMark;
+	[Export]
+	private ExclamationMark _perksExclamationMark;
+
+	[Export]
 	private Texture2D _normalInfoTexture;
 	[Export]
 	private Texture2D _retireInfoTexture;
@@ -49,7 +55,7 @@ public partial class BetweenScenariosCharacterPortrait : Control
 	private TextureRect _infoButtonTextureRect;
 
 	[Export]
-	private Control _levelUpScaleContainer;
+	private ExclamationMark _levelUpExclamationMark;
 	[Export]
 	private BetterButton _levelUpButton;
 
@@ -58,7 +64,6 @@ public partial class BetweenScenariosCharacterPortrait : Control
 
 	private bool _active;
 	private GTween _scaleTween;
-	private GTween _levelUpTween;
 
 	public SavedCharacter SavedCharacter { get; private set; }
 
@@ -96,6 +101,8 @@ public partial class BetweenScenariosCharacterPortrait : Control
 		SavedCharacter.LevelChangedEvent += OnLevelChanged;
 		SavedCharacter.NameChangedEvent += OnNameChanged;
 		SavedCharacter.CardsChangedEvent += OnCardsChanged;
+		SavedCharacter.CheckmarkCountChangedEvent += OnCheckmarkCountChanged;
+		SavedCharacter.PerksChangedEvent += OnPerksChanged;
 
 		if(_personalQuestData != null)
 		{
@@ -122,6 +129,8 @@ public partial class BetweenScenariosCharacterPortrait : Control
 			SavedCharacter.LevelChangedEvent -= OnLevelChanged;
 			SavedCharacter.NameChangedEvent -= OnNameChanged;
 			SavedCharacter.CardsChangedEvent -= OnCardsChanged;
+			SavedCharacter.CheckmarkCountChangedEvent -= OnCheckmarkCountChanged;
+			SavedCharacter.PerksChangedEvent -= OnPerksChanged;
 		}
 
 		if(_personalQuestData != null)
@@ -178,20 +187,21 @@ public partial class BetweenScenariosCharacterPortrait : Control
 
 		_infoButtonTextureRect.SetTexture(SavedCharacter.GetCanRetire(_savedCampaign) ? _retireInfoTexture : _normalInfoTexture);
 
-		_levelUpTween?.Complete();
-		if(SavedCharacter.LevelUpInProgress || SavedCharacter.CheckCanLevelUp())
-		{
-			_levelUpButton.SetEnabled(true, false);
+		bool canLevelUp = SavedCharacter.LevelUpInProgress || SavedCharacter.CheckCanLevelUp();
+		_levelUpExclamationMark.SetActive(canLevelUp);
+		_levelUpButton.SetEnabled(canLevelUp, false);
 
-			_levelUpTween = GTweenSequenceBuilder.New()
-				.Append(_levelUpScaleContainer.TweenScale(1.2f, 0.3f))
-				.Append(_levelUpScaleContainer.TweenScale(1f, 0.3f))
-				.Build().SetMaxLoops().Play();
-		}
-		else
+		bool canAcquirePerk = false;
+		for(int i = 0; i < SavedCharacter.ClassModel.Perks.Count; i++)
 		{
-			_levelUpButton.SetEnabled(false, false);
+			if(SavedCharacter.CanAcquirePerk(i))
+			{
+				canAcquirePerk = true;
+				break;
+			}
 		}
+
+		_perksExclamationMark.SetActive(canAcquirePerk);
 
 		UpdateScaling();
 	}
@@ -226,6 +236,16 @@ public partial class BetweenScenariosCharacterPortrait : Control
 	}
 
 	private void OnCardsChanged(SavedCharacter savedCharacter)
+	{
+		UpdateVisuals();
+	}
+
+	private void OnCheckmarkCountChanged(SavedCharacter savedCharacter)
+	{
+		UpdateVisuals();
+	}
+
+	private void OnPerksChanged(SavedCharacter savedCharacter)
 	{
 		UpdateVisuals();
 	}

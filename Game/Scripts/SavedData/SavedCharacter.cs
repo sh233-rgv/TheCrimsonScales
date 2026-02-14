@@ -66,6 +66,7 @@ public class SavedCharacter
 	public event Action<SavedCharacter> NameChangedEvent;
 	public event Action<SavedCharacter> EquipmentChangedEvent;
 	public event Action<SavedCharacter> CardsChangedEvent;
+	public event Action<SavedCharacter> CheckmarkCountChangedEvent;
 	public event Action<SavedCharacter> PerksChangedEvent;
 
 	public SavedCharacter()
@@ -292,6 +293,8 @@ public class SavedCharacter
 		{
 			AddAvailablePerk();
 		}
+
+		CheckmarkCountChangedEvent?.Invoke(this);
 	}
 
 	public void RemoveCheckmark()
@@ -303,12 +306,12 @@ public class SavedCharacter
 		}
 
 		CheckmarkCount--;
+		CheckmarkCountChangedEvent?.Invoke(this);
 	}
 
 	public void AcquirePerk(int perkIndex)
 	{
-		PerkModel perkModel = ClassModel.Perks[perkIndex];
-		if(GetAvailablePerkCount() < perkModel.PerkBoxCount || GetPerkAcquired(perkIndex))
+		if(!CanAcquirePerk(perkIndex))
 		{
 			return;
 		}
@@ -347,6 +350,12 @@ public class SavedCharacter
 	public bool GetPerkAcquired(int perkIndex)
 	{
 		return AcquiredPerkIndices.Contains(perkIndex);
+	}
+
+	public bool CanAcquirePerk(int perkIndex)
+	{
+		PerkModel perkModel = ClassModel.Perks[perkIndex];
+		return GetAvailablePerkCount() >= perkModel.PerkBoxCount && !GetPerkAcquired(perkIndex);
 	}
 
 	public bool GetCanRetire(SavedCampaign savedCampaign)
