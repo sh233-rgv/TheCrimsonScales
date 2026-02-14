@@ -37,7 +37,7 @@ public class BombardAMDCards
 	public class PlusOneRetaliateOne : BombardAMDCardModel
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
+			GetBasicString(richTextParameters, +1,
 				extraText: $"{Icons.Inline(Icons.Retaliate, richTextParameters)}1,{Icons.Inline(Icons.Range, richTextParameters)}3");
 
 		protected override int AtlasIndex => 6;

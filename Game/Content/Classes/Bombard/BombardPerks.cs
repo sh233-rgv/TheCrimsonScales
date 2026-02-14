@@ -148,13 +148,10 @@ public class BombardPerks
 
 	public class EmergencyEmplacement : BombardPerk
 	{
-		public override string ToString(RichTextParameters richTextParameters)
-		{
-			return GetNonAMDString(
-				"Emergency Emplacement",
-				$"Whenever you short rest, you may gain {Icons.Inline(Icons.GetCondition(Conditions.Immobilize), richTextParameters, true)} to immediately resolve any of your active Projectile {Icons.Inline(ModelDB.Class<BombardModel>().IconPath, richTextParameters)} abilities.",
-				richTextParameters);
-		}
+		public override string Title => "Emergency Emplacement";
+
+		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
+			$"Whenever you short rest, you may gain {Icons.Inline(Icons.GetCondition(Conditions.Immobilize), richTextParameters, true)} to immediately resolve any of your active Projectile {Icons.Inline(ModelDB.Class<BombardModel>().IconPath, richTextParameters)} abilities.";
 
 		//TODO: Implement
 	}

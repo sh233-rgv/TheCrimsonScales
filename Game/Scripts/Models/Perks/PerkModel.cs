@@ -6,6 +6,11 @@ public abstract class PerkModel : AbstractModel
 {
 	public virtual string ToString(RichTextParameters richTextParameters)
 	{
+		if(!string.IsNullOrEmpty(Title))
+		{
+			return GetNonAMDString(richTextParameters);
+		}
+
 		string returnValue = string.Empty;
 
 		if(IgnoreNegativeScenarioEffects)
@@ -56,9 +61,17 @@ public abstract class PerkModel : AbstractModel
 			returnValue += $"add {GetCardsString(CardsToAdd, richTextParameters)}";
 		}
 
+		if(string.IsNullOrEmpty(returnValue))
+		{
+			return returnValue;
+		}
+
 		returnValue = string.Concat(returnValue[0].ToString().ToUpper(), returnValue.AsSpan(1));
 		return returnValue;
 	}
+
+	public virtual string Title => null;
+	public virtual string GetNonAMDDescription(RichTextParameters richTextParameters) => null;
 
 	public virtual List<AMDCardModel> CardsToRemove => [];
 	public virtual List<AMDCardModel> CardsToAdd => [];
@@ -66,9 +79,9 @@ public abstract class PerkModel : AbstractModel
 	public virtual bool IgnoreNegativeScenarioEffects => false;
 	public virtual bool IgnoreNegativeItemEffects => false;
 
-	protected string GetNonAMDString(string title, string description, RichTextParameters richTextParameters)
+	private string GetNonAMDString(RichTextParameters richTextParameters)
 	{
-		return $"[b]{title}:[/b] {description}";
+		return $"[b]{Title}:[/b] {GetNonAMDDescription(richTextParameters)}";
 	}
 
 	private string GetCardsString(List<AMDCardModel> cards, RichTextParameters richTextParameters)

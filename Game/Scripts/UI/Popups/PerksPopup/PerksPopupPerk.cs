@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Godot;
 
 public partial class PerksPopupPerk : Control
@@ -72,6 +71,11 @@ public partial class PerksPopupPerk : Control
 
 	private void OnPerkBoxPressed(PerksPopupPerkBox perkBox)
 	{
-		_savedCharacter.AcquirePerk(perkBox.PerkIndex);
+		AppController.Instance.PopupManager.OpenPopupOnTop(new PerkConfirmationPopup.Request()
+		{
+			SavedCharacter = _savedCharacter,
+			PerkModel = PerkModel,
+			PerkIndex = perkBox.PerkIndex
+		});
 	}
 }
