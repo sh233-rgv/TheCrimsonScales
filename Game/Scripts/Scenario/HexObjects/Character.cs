@@ -618,6 +618,15 @@ public partial class Character : Figure
 			}
 		}
 
+		for(int i = 0; i < ClassModel.Perks.Count; i++)
+		{
+			PerkModel perkModel = ClassModel.Perks[i];
+			if(SavedCharacter.GetPerkAcquired(i))
+			{
+				await perkModel.OnScenarioSetupPhaseCompleted();
+			}
+		}
+
 		object loseHandCardToCancelDamageSubscriber = new object();
 		ScenarioEvents.SufferDamageEvent.Subscribe(this, loseHandCardToCancelDamageSubscriber,
 			parameters => parameters.Figure == this && parameters.WouldSufferDamage &&

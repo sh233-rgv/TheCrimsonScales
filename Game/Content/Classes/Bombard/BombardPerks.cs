@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Fractural.Tasks;
 
 public class BombardPerks
 {
@@ -148,11 +149,16 @@ public class BombardPerks
 
 	public class EmergencyEmplacement : BombardPerk
 	{
-		public override string Title => "Emergency Emplacement";
+		protected override string Title => "Emergency Emplacement";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
 			$"Whenever you short rest, you may gain {Icons.Inline(Icons.GetCondition(Conditions.Immobilize), richTextParameters, true)} to immediately resolve any of your active Projectile {Icons.Inline(ModelDB.Class<BombardModel>().IconPath, richTextParameters)} abilities.";
 
-		//TODO: Implement
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			//TODO: Implement
+		}
 	}
 }

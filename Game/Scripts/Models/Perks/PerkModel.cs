@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Fractural.Tasks;
 
 public abstract class PerkModel : AbstractModel
 {
@@ -70,7 +71,7 @@ public abstract class PerkModel : AbstractModel
 		return returnValue;
 	}
 
-	public virtual string Title => null;
+	protected virtual string Title => null;
 	public virtual string GetNonAMDDescription(RichTextParameters richTextParameters) => null;
 
 	public virtual List<AMDCardModel> CardsToRemove => [];
@@ -78,6 +79,11 @@ public abstract class PerkModel : AbstractModel
 
 	public virtual bool IgnoreNegativeScenarioEffects => false;
 	public virtual bool IgnoreNegativeItemEffects => false;
+
+	public virtual async GDTask OnScenarioSetupPhaseCompleted()
+	{
+		await GDTask.CompletedTask;
+	}
 
 	private string GetNonAMDString(RichTextParameters richTextParameters)
 	{
