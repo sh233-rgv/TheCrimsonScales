@@ -60,7 +60,9 @@ public partial class PerksPopupPerk : Control
 		{
 			int perkIndex = StartingPerkIndex + i;
 			PerksPopupPerkBox perkBox = _perkBoxes[i];
-			perkBox.SetAcquired(_savedCharacter.GetPerkAcquired(perkIndex));
+			bool acquired = _savedCharacter.GetPerkAcquired(perkIndex);
+			perkBox.SetAcquired(acquired);
+			perkBox.SetCanPress(_savedCharacter.GetAvailablePerkCount() > 0 && !acquired);
 		}
 	}
 

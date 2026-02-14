@@ -29,6 +29,11 @@ public partial class PerksPopupPerkBox : Control
 		_checkmark.SetVisible(acquired);
 	}
 
+	public void SetCanPress(bool canPress)
+	{
+		_button.SetEnabled(canPress);
+	}
+
 	private void OnPressed()
 	{
 		PressedEvent?.Invoke(this);
