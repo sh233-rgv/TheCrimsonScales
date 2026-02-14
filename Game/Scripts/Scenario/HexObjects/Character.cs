@@ -597,15 +597,25 @@ public partial class Character : Figure
 			Items.Add(item);
 		}
 
-		foreach(ItemModel item in Items)
+		bool ignoreNegativeItemEffects = false;
+		for(int i = 0; i < ClassModel.Perks.Count; i++)
 		{
-			//TODO: Check for perk that ignores -1 cards
-			for(int i = 0; i < item.MinusOneCount; i++)
+			PerkModel perkModel = ClassModel.Perks[i];
+			if(perkModel.IgnoreNegativeItemEffects && SavedCharacter.GetPerkAcquired(i))
 			{
-				AMDCardDeck.AddMinusOne();
+				ignoreNegativeItemEffects = true;
 			}
+		}
 
-			//item.SetupForScenario();
+		if(!ignoreNegativeItemEffects)
+		{
+			foreach(ItemModel item in Items)
+			{
+				for(int i = 0; i < item.MinusOneCount; i++)
+				{
+					AMDCardDeck.AddMinusOne();
+				}
+			}
 		}
 
 		object loseHandCardToCancelDamageSubscriber = new object();
