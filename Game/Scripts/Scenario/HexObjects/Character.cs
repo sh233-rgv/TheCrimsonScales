@@ -75,6 +75,36 @@ public partial class Character : Figure
 		AMDCardOwner amdCardOwner = (AMDCardOwner)(Index + 1);
 		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards(amdCardOwner);
 		_amdCardDeck = new AMDCardDeck(amdCards, amdCardOwner);
+
+		for(int i = 0; i < ClassModel.Perks.Count; i++)
+		{
+			PerkModel perk = ClassModel.Perks[i];
+			if(SavedCharacter.GetPerkAcquired(i))
+			{
+				bool success = true;
+				foreach(AMDCardModel amdCardModel in perk.CardsToRemove)
+				{
+					AMDCard cardToRemove = _amdCardDeck.DrawPile.FirstOrDefault(amdCard => amdCard.Model == amdCardModel);
+					if(cardToRemove == null)
+					{
+						success = false;
+						Log.Warning($"Could not remove the appropriate AMD card for perk {perk.GetType().Name}.");
+						continue;
+					}
+
+					_amdCardDeck.RemoveCard(cardToRemove);
+				}
+
+				if(success)
+				{
+					foreach(AMDCardModel amdCardModel in perk.CardsToAdd)
+					{
+						_amdCardDeck.AddCard(new AMDCard(amdCardModel, amdCardOwner), true);
+					}
+				}
+			}
+		}
+
 		if(savedCharacter.DonationAMDCardIds != null)
 		{
 			foreach(string donationAMDCardId in savedCharacter.DonationAMDCardIds)
