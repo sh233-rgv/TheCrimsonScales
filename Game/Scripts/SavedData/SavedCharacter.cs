@@ -144,6 +144,7 @@ public class SavedCharacter
 		{
 			Level++;
 			LevelUpInProgress = true;
+			AddAvailablePerk();
 
 			LevelChangedEvent?.Invoke(this);
 		}
