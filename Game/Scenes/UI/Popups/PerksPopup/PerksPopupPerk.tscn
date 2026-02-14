@@ -2,7 +2,7 @@
 
 [ext_resource type="FontVariation" uid="uid://ciy2q5rti2m6m" path="res://Fonts/MarkaziVariation.tres" id="1_50y7x"]
 [ext_resource type="Script" uid="uid://bp85k02lk4k5w" path="res://Scripts/UI/Popups/PerksPopup/PerksPopupPerk.cs" id="1_ns48j"]
-[ext_resource type="PackedScene" uid="uid://c8iqgols66v5l" path="res://Scenes/UI/Popups/PerksPopup/PerksPopupPerkBox.tscn" id="2_hnck8"]
+[ext_resource type="PackedScene" uid="uid://c8iqgols66v5l" path="res://Scenes/UI/Popups/PerksPopup/PerksPopupPerkBoxes.tscn" id="2_hnck8"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="4_6lufe"]
 
 [node name="PerksPopupPerk" type="MarginContainer" node_paths=PackedStringArray("_perkBoxContainer", "_description")]
@@ -23,6 +23,9 @@ theme_override_constants/separation = 20
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 10
+
+[node name="PerksPopupPerkBox" parent="HBoxContainer/PerkBoxes" instance=ExtResource("2_hnck8")]
+layout_mode = 2
 
 [node name="Description" type="RichTextLabel" parent="HBoxContainer"]
 custom_minimum_size = Vector2(600, 75)

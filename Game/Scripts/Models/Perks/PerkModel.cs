@@ -71,6 +71,8 @@ public abstract class PerkModel : AbstractModel
 		return returnValue;
 	}
 
+	public virtual int PerkBoxCount => 1;
+
 	protected virtual string Title => null;
 	public virtual string GetNonAMDDescription(RichTextParameters richTextParameters) => null;
 

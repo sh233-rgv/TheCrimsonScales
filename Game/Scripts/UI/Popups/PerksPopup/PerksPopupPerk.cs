@@ -13,7 +13,7 @@ public partial class PerksPopupPerk : Control
 
 	private SavedCharacter _savedCharacter;
 
-	private readonly List<PerksPopupPerkBox> _perkBoxes = new List<PerksPopupPerkBox>();
+	private readonly List<PerksPopupPerkBoxes> _perkBoxes = new List<PerksPopupPerkBoxes>();
 
 	public PerkModel PerkModel { get; private set; }
 	public int StartingPerkIndex { get; private set; }
@@ -30,11 +30,11 @@ public partial class PerksPopupPerk : Control
 		for(int i = 0; i < perkCount; i++)
 		{
 			int perkIndex = startingPerkIndex + i;
-			PerksPopupPerkBox perkBox = _perkBoxScene.Instantiate<PerksPopupPerkBox>();
-			_perkBoxContainer.AddChild(perkBox);
-			perkBox.Init(perkIndex);
-			perkBox.PressedEvent += OnPerkBoxPressed;
-			_perkBoxes.Add(perkBox);
+			PerksPopupPerkBoxes perkBoxes = _perkBoxScene.Instantiate<PerksPopupPerkBoxes>();
+			_perkBoxContainer.AddChild(perkBoxes);
+			perkBoxes.Init(perkIndex, perkModel.PerkBoxCount);
+			perkBoxes.PressedEvent += OnPerkBoxPressed;
+			_perkBoxes.Add(perkBoxes);
 		}
 
 		UpdatePerks();
@@ -59,10 +59,10 @@ public partial class PerksPopupPerk : Control
 		for(int i = 0; i < PerkCount; i++)
 		{
 			int perkIndex = StartingPerkIndex + i;
-			PerksPopupPerkBox perkBox = _perkBoxes[i];
+			PerksPopupPerkBoxes perkBoxes = _perkBoxes[i];
 			bool acquired = _savedCharacter.GetPerkAcquired(perkIndex);
-			perkBox.SetAcquired(acquired);
-			perkBox.SetCanPress(_savedCharacter.GetAvailablePerkCount() > 0 && !acquired);
+			perkBoxes.SetAcquired(acquired);
+			perkBoxes.SetCanPress(_savedCharacter.GetAvailablePerkCount() >= perkBoxes.BoxCount && !acquired);
 		}
 	}
 
@@ -71,13 +71,13 @@ public partial class PerksPopupPerk : Control
 		UpdatePerks();
 	}
 
-	private void OnPerkBoxPressed(PerksPopupPerkBox perkBox)
+	private void OnPerkBoxPressed(PerksPopupPerkBoxes perkBoxes)
 	{
 		AppController.Instance.PopupManager.OpenPopupOnTop(new PerkConfirmationPopup.Request()
 		{
 			SavedCharacter = _savedCharacter,
 			PerkModel = PerkModel,
-			PerkIndex = perkBox.PerkIndex
+			PerkIndex = perkBoxes.PerkIndex
 		});
 	}
 }

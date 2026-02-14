@@ -307,7 +307,8 @@ public class SavedCharacter
 
 	public void AcquirePerk(int perkIndex)
 	{
-		if(GetAvailablePerkCount() <= 0 || GetPerkAcquired(perkIndex))
+		PerkModel perkModel = ClassModel.Perks[perkIndex];
+		if(GetAvailablePerkCount() < perkModel.PerkBoxCount || GetPerkAcquired(perkIndex))
 		{
 			return;
 		}
@@ -319,7 +320,17 @@ public class SavedCharacter
 
 	public int GetUsedPerkCount()
 	{
-		return AcquiredPerkIndices.Count;
+		ClassModel classModel = ClassModel;
+
+		int perkBoxCount = 0;
+
+		foreach(int acquiredPerkIndex in AcquiredPerkIndices)
+		{
+			PerkModel perkModel = classModel.Perks[acquiredPerkIndex];
+			perkBoxCount += perkModel.PerkBoxCount;
+		}
+
+		return perkBoxCount;
 	}
 
 	public int GetAvailablePerkCount()
