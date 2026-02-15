@@ -13,7 +13,7 @@ public class ExothermicCocktail : BrightsparkCardModel<ExothermicCocktail.CardTo
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3, new AttackDiamond(this, new Vector2(0.6191593f, 0.14467353f)))
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.6191593f, 0.14467353f)))
 				.WithAOEPattern(new AOEPattern(
 						[
 							new AOEHex(Vector2I.Zero, AOEHexType.Gray),

@@ -394,7 +394,7 @@ public static class AbilityCmd
 			ScenarioCheckEvents.SpawnCoinCheckEvent.Fire(new ScenarioCheckEvents.SpawnCoinCheck.Parameters(dropper));
 
 		List<Coin> coins = new List<Coin>();
-		for(int i = spawnCoinCheckEventParameters.CoinsToSpawn; i > 0; i++)
+		for(int i = spawnCoinCheckEventParameters.CoinsToSpawn; i > 0; i--)
 		{
 			PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Coin.tscn");
 			Coin coin = scene.Instantiate<Coin>();
@@ -456,10 +456,28 @@ public static class AbilityCmd
 		return (T)overlayTile;
 	}
 
-	public static async GDTask<Hex> MoveOverlayTile(Figure performer, OverlayTile overlayTile, Action<List<Hex>> moveToHexes)
+	public static async GDTask<Hex> RelocateOverlayTile(AbilityState state, Action<List<Hex>> selectOverlayHexes,
+		Action<OverlayTile, List<Hex>> moveToHexes, Type[] possibleTypes, string selectionHintText = "Select an overlay tile to relocate")
 	{
-		Hex movedToHex = await SelectHex(performer, moveToHexes, mandatory: true,
-			hintText: $"Select a hex to move the {overlayTile.GetType().ToString().ToLower()} to");
+		//TODO: Change to select overlay tile
+		Action<List<Hex>> selection = list =>
+		{
+			selectOverlayHexes(list);
+			list.RemoveAll(hex => !hex.HexObjects.Any(hexObject => possibleTypes.Contains(hexObject.GetType())));
+		};
+		Hex hex = await SelectHex(state.Performer, selection, hintText: selectionHintText);
+
+		OverlayTile overlayTile = hex?.HexObjects.First(hexObject => possibleTypes.Contains(hexObject.GetType())) as OverlayTile;
+		if(overlayTile == null)
+		{
+			return null;
+		}
+
+		Action<List<Hex>> hexes = list => moveToHexes(overlayTile, list);
+
+		Hex movedToHex = await SelectHex(state.Performer, hexes, mandatory: true,
+			hintText: $"Select a hex to move {overlayTile.GetType().ToString().ToLower()} to");
+
 
 		if(movedToHex == null)
 		{
@@ -473,6 +491,8 @@ public static class AbilityCmd
 
 		await ScenarioEvents.OverlayTileMovedEvent.CreatePrompt(
 			new ScenarioEvents.OverlayTileMoved.Parameters(overlayTile));
+
+		state.SetPerformed();
 
 		return overlayTile.Hex;
 	}
@@ -899,7 +919,6 @@ public static class AbilityCmd
 		}
 		else
 		{
-			object subscriber = new object();
 			List<ScenarioEvents.GenericChoice.Subscription> subscriptions = [];
 			List<Element> chosenConsumption = null;
 
@@ -924,7 +943,8 @@ public static class AbilityCmd
 				));
 			}
 
-			await GenericChoice(authority, subscriptions, hintText: "Select a set of elements to consume");
+			await GenericChoice(authority, subscriptions,
+				hintText: consumptions.Count == 1 ? "Select an element to consume" : "Select a set of elements to consume");
 
 			if(chosenConsumption == null)
 			{
@@ -1455,7 +1475,7 @@ public static class AbilityCmd
 		return true;
 	}
 
-	public static bool CanConsumeElement(Element element, Figure potentialConsumer)
+	private static bool CanConsumeElement(Element element, Figure potentialConsumer)
 	{
 		if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert ||
 		   !ScenarioCheckEvents.CanConsumeElementCheckEvent
@@ -1505,15 +1525,15 @@ public static class AbilityCmd
 				{
 					return true;
 				}
-			}
 
-			remainingElements.Insert(elementIndex, element);
+				remainingElements.Insert(elementIndex, element);
+			}
 		}
 
 		return false;
 	}
 
-	public static List<List<Element>> FindConsumptionPossibilities(List<CardElementConsumption> consumptions, Figure potentialConsumer)
+	private static List<List<Element>> FindConsumptionPossibilities(List<CardElementConsumption> consumptions, Figure potentialConsumer)
 	{
 		List<Element> remainingElements = GetAvailableElementsToConsume(consumptions, potentialConsumer);
 
@@ -1528,14 +1548,15 @@ public static class AbilityCmd
 	private static void TryMatchConsumptionPossibilities(List<CardElementConsumption> consumptions, List<Element> remainingElements, int index,
 		List<Element> current, List<List<Element>> possibilities)
 	{
-		if(possibilities.Count > 1)
-		{
-			return;
-		}
-
 		if(index >= consumptions.Count)
 		{
-			possibilities.Add(new List<Element>(current));
+			List<Element> sorted = current.OrderBy(e => e).ToList();
+
+			if(!possibilities.Any(possibility => possibility.SequenceEqual(sorted)))
+			{
+				possibilities.Add(sorted);
+			}
+
 			return;
 		}
 

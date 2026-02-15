@@ -23,7 +23,8 @@ public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, Ult
 							{
 								applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
 								await GDTask.CompletedTask;
-							}));
+							}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Attack)}")),
+						checkDuplicates: false);
 					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
 						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							parameters => parameters.AbilityState.IsSingleTarget,
@@ -31,7 +32,8 @@ public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, Ult
 							{
 								applyParameters.AbilityState.SingleTargetAdjustPierce(3);
 								await GDTask.CompletedTask;
-							}));
+							}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Pierce)}3")),
+						checkDuplicates: false);
 					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
 						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							parameters => parameters.AbilityState.IsSingleTarget,
@@ -39,7 +41,7 @@ public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, Ult
 							{
 								applyParameters.AbilityState.SingleTargetAdjustPush(2);
 								await GDTask.CompletedTask;
-							}));
+							}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Push)}2")), checkDuplicates: false);
 					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
 						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 							parameters => parameters.AbilityState.IsSingleTarget,
@@ -47,7 +49,8 @@ public class UltravioletRays : BrightsparkCardModel<UltravioletRays.CardTop, Ult
 							{
 								applyParameters.AbilityState.SingleTargetAddCondition(Conditions.Poison1);
 								await GDTask.CompletedTask;
-							}));
+							}, effectInfoViewParameters: new TextEffectInfoView.Parameters(Icons.Inline(Icons.GetCondition(Conditions.Poison1)))),
+						checkDuplicates: false);
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>

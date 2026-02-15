@@ -18,8 +18,13 @@ public class Electromagnetism : BrightsparkCardModel<Electromagnetism.CardTop, E
 				.WithTexturePath("res://Content/Classes/Brightspark/MetalDetector.png")
 				.WithHealth(6, new SummonHealthSquare(this, new Vector2(0.4474074f, 0.2185185f)))
 				.WithMove(1, new SummonMoveSquare(this, new Vector2(0.67767775f, 0.2179894f)))
-				.WithTraits(new PerformAtEndOfTurnTrait(LootAbility.Builder().WithRange(1)
-					.WithCustomGetLootObtainer(state => ((Summon)state.Performer).CharacterOwner).Build()))
+				.WithTraits(new AtEndOfTurnTrait(async figure =>
+					{
+						await new ActionState(figure, [
+							LootAbility.Builder().WithRange(1)
+								.WithCustomGetLootObtainer(state => ((Summon)state.Performer).CharacterOwner).Build()
+						]).Perform();
+					}, $"Perform {Icons.Inline(Icons.Loot)}1"))
 				.Build()
 			),
 		];
@@ -44,7 +49,8 @@ public class Electromagnetism : BrightsparkCardModel<Electromagnetism.CardTop, E
 							((PullAbility.State)applyParameters.AbilityState).AbilityAdjustPull(1);
 
 							await GDTask.CompletedTask;
-						}))
+						},
+						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Pull)}, +1{Icons.Inline(Icons.Range)}")))
 				.Build()),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)

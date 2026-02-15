@@ -52,15 +52,14 @@ public class AstronomicalStrike : BrightsparkCardModel<AstronomicalStrike.CardTo
 				.WithHealth(6)
 				//TODO: Add Pull ability
 				.WithRange(4)
-				.WithTraits(new PerformAtEndOfTurnTrait(OtherAbility.Builder().WithPerformAbility(async state =>
-					{
-						foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1)
-							        .Where(figure => figure.EnemiesWith(state.Performer)))
+				.WithTraits(new AtEndOfTurnTrait(async summon =>
 						{
-							await AbilityCmd.SufferDamage(state, figure, 1);
-							state.SetPerformed();
-						}
-					}).Build()), new PermanentConditionTrait(Conditions.Invisible)
+							foreach(Figure adjacentFigure in RangeHelper.GetFiguresInRange(summon.Hex, 1).Where(summon.EnemiesWith))
+							{
+								await AbilityCmd.SufferDamage(adjacentFigure, 1, summon);
+							}
+						}, $"All adjacent enemies suffer {Icons.Inline(Icons.Damage)}1"),
+					new PermanentConditionTrait(Conditions.Invisible)
 					//TODO: Cannot be moved
 				)
 				.Build())

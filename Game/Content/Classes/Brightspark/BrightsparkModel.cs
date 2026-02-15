@@ -5,7 +5,7 @@ public class BrightsparkModel : ClassModel
 {
 	public override string Name => "Brightspark";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.Medium;
-	public override int HandSize => 14;
+	public override int HandSize => 11;
 	public override Ancestry Ancestry => Ancestry.Human;
 
 	public override string AssetPath => "res://Content/Classes/Brightspark";
@@ -19,7 +19,7 @@ public class BrightsparkModel : ClassModel
 		ModelDB.AbilityCard<AcquireFunding>(),
 		ModelDB.AbilityCard<BlindingLightwaves>(),
 		ModelDB.AbilityCard<CellRegeneration>(),
-		ModelDB.AbilityCard<ContagiousMelody>(),
+		ModelDB.AbilityCard<ContagiousMalady>(),
 		ModelDB.AbilityCard<CorrosiveCombustion>(),
 		ModelDB.AbilityCard<CriticalObservation>(),
 		ModelDB.AbilityCard<DynamicBalance>(),
@@ -46,5 +46,7 @@ public class BrightsparkModel : ClassModel
 		ModelDB.AbilityCard<NourishingFormula>(),
 		ModelDB.AbilityCard<CriticalHypothesis>(),
 		ModelDB.AbilityCard<VersatileConcoction>(),
+		ModelDB.AbilityCard<ElixirOfLife>(),
+		ModelDB.AbilityCard<UltravioletRays>()
 	];
 }

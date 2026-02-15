@@ -23,11 +23,11 @@ public class CorrosiveCombustion : BrightsparkCardModel<CorrosiveCombustion.Card
 						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
 					]
 				))
-				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
+				.WithAbilityStartedSubscription(
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
 						applyFunction: async parameters =>
 						{
-							parameters.AbilityState.AbilitySetAOEPattern(new AOEPattern(
+							((AttackAbility.State)parameters.AbilityState).AbilitySetAOEPattern(new AOEPattern(
 								[
 									new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 									new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),

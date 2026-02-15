@@ -39,10 +39,13 @@ public class StrengthElixir : BrightsparkCardModel<StrengthElixir.CardTop, Stren
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
+					ActionState previousAttackActionState = null;
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
-						parameters => parameters.AbilityState.Target == state.Performer,
+						parameters => parameters.AbilityState.Target == state.Performer &&
+						              parameters.AbilityState.ActionState != previousAttackActionState,
 						async parameters =>
 						{
+							previousAttackActionState = parameters.AbilityState.ActionState;
 							ScenarioEvents.SufferDamageEvent.Subscribe(state, this,
 								canApplyParameters => canApplyParameters.Figure.AlliedWith(state.Performer, true) && canApplyParameters.FromAttack &&
 								                      canApplyParameters.PotentialAbilityState.ActionState == parameters.AbilityState.ActionState,
@@ -59,7 +62,7 @@ public class StrengthElixir : BrightsparkCardModel<StrengthElixir.CardTop, Stren
 								async applyParameters =>
 								{
 									ScenarioEvents.SufferDamageEvent.Unsubscribe(state, this);
-									ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
+									ScenarioEvents.ActionEndedEvent.Unsubscribe(state, this);
 
 									await GDTask.CompletedTask;
 								});

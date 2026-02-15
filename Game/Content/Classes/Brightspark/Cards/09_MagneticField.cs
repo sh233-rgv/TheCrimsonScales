@@ -47,7 +47,7 @@ public class MagneticField : BrightsparkCardModel<MagneticField.CardTop, Magneti
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(2)
 				.WithTargets(2)
-				.WithRange(1)
+				.WithRange(3)
 				.WithConditionalAbilityCheck(async state =>
 				{
 					await GDTask.CompletedTask;
@@ -74,7 +74,7 @@ public class MagneticField : BrightsparkCardModel<MagneticField.CardTop, Magneti
 
 							await GDTask.CompletedTask;
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Push)}1")
 					)
 				)
 				.Build())

@@ -21,7 +21,7 @@ public class CellRegeneration : BrightsparkCardModel<CellRegeneration.CardTop, C
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AdjustTargets(1);
-							parameters.AbilityState.AdjustTarget(Target.SelfOrAllies | Target.SelfCountsForTargets);
+							parameters.AbilityState.SetTarget(Target.SelfOrAllies | Target.SelfCountsForTargets);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(

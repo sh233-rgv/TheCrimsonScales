@@ -1,6 +1,7 @@
-﻿using Fractural.Tasks;
+﻿using System;
+using Fractural.Tasks;
 
-public class PerformAtEndOfTurnTrait(params Ability[] abilities) : FigureTrait
+public class AtEndOfTurnTrait(Func<Figure, GDTask> endOfTurn, string endOfTurnDescription) : FigureTrait
 {
 	public override async GDTask Activate(Figure figure)
 	{
@@ -10,8 +11,7 @@ public class PerformAtEndOfTurnTrait(params Ability[] abilities) : FigureTrait
 			parameters => parameters.Figure == figure,
 			async parameters =>
 			{
-				ActionState actionState = new ActionState(figure, abilities);
-				await actionState.Perform();
+				await endOfTurn(figure);
 			}
 		);
 
@@ -19,7 +19,7 @@ public class PerformAtEndOfTurnTrait(params Ability[] abilities) : FigureTrait
 			parameters => parameters.Figure == figure,
 			parameters =>
 			{
-				parameters.Add(new InfoTextExtraEffect.Parameters($"Performs abilities at end of turn"));
+				parameters.Add(new InfoTextExtraEffect.Parameters($"{endOfTurnDescription} at end of turn"));
 			}
 		);
 	}

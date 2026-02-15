@@ -32,7 +32,7 @@ public class NutrientOverdose : BrightsparkCardModel<NutrientOverdose.CardTop, N
 
 							await GDTask.CompletedTask;
 						}, EffectType.Selectable,
-						effectButtonParameters: new IconEffectButton.Parameters(Icons.HintText(Icons.Attack)),
+						effectButtonParameters: new IconEffectButton.Parameters(Icons.Attack),
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(
 							$"Forgo your bottom action to add +3{Icons.Inline(Icons.Attack)}")))
 				.Build())
@@ -61,7 +61,7 @@ public class NutrientOverdose : BrightsparkCardModel<NutrientOverdose.CardTop, N
 
 							await GDTask.CompletedTask;
 						}, EffectType.Selectable,
-						effectButtonParameters: new IconEffectButton.Parameters(Icons.HintText(Icons.Move)),
+						effectButtonParameters: new IconEffectButton.Parameters(Icons.Move),
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(
 							$"Forgo your bottom action to add +3{Icons.Inline(Icons.Move)}")))
 				.Build())

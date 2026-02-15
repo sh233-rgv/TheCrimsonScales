@@ -3,9 +3,9 @@ using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
-public class ContagiousMelody : BrightsparkCardModel<ContagiousMelody.CardTop, ContagiousMelody.CardBottom>
+public class ContagiousMalady : BrightsparkCardModel<ContagiousMalady.CardTop, ContagiousMalady.CardBottom>
 {
-	public override string Name => "Contagious Melody";
+	public override string Name => "Contagious Malady";
 	public override int Level => 1;
 	public override int Initiative => 13;
 	protected override int AtlasIndex => 3;
@@ -64,7 +64,7 @@ public class ContagiousMelody : BrightsparkCardModel<ContagiousMelody.CardTop, C
 						));
 					}
 
-					await AbilityCmd.GenericChoice(state.Performer, subscriptions, hintText: "Select a condition to remove");
+					await AbilityCmd.GenericChoice(state.Performer, subscriptions, hintText: "Select a condition to give");
 					if(conditionGiven == null)
 					{
 						return;
@@ -73,7 +73,7 @@ public class ContagiousMelody : BrightsparkCardModel<ContagiousMelody.CardTop, C
 					Figure figure = await AbilityCmd.SelectFigure(state,
 						figures => figures.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1)
 							.Where(figure => figure.EnemiesWith(state.Performer))),
-						hintText: () => $"Select an enemy to give {Icons.Inline(Icons.GetCondition(conditionGiven))}");
+						hintText: () => $"Select an enemy to give {Icons.HintText(Icons.GetCondition(conditionGiven))}");
 					if(figure == null)
 					{
 						return;

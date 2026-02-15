@@ -89,12 +89,13 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 				{
 					await AbilityCmd.GainXP(state.Performer, 1);
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Light))
+				.WithConditionalAbilityCheck(state =>
+					AbilityCmd.AskConsumeElement(state.Performer, Element.Light, effectInfoText: $"Perform {Icons.Inline(Icons.Heal)}3 ability"))
 				.Build()),
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					ScenarioEvents.FigureTurnEndedEvent.Subscribe(state, this,
+					ScenarioEvents.FigureTurnEndingEvent.Subscribe(state, this,
 						parameters => parameters.Figure == state.Performer,
 						async parameters =>
 						{
@@ -102,8 +103,8 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 							int moveValue = 2 - state.UseSlotIndex % 2;
 							ActionState actionState = new ActionState(parameters.Figure,
 							[
-								MoveAbility.Builder().WithDistance(healValue).Build(),
-								HealAbility.Builder().WithHealValue(moveValue).WithTarget(Target.Self).Build()
+								MoveAbility.Builder().WithDistance(moveValue).Build(),
+								HealAbility.Builder().WithHealValue(healValue).WithTarget(Target.Self).Build()
 							]);
 							await actionState.Perform();
 
@@ -113,7 +114,7 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 				})
 				.WithOnDeactivate(async state =>
 				{
-					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
+					ScenarioEvents.FigureTurnEndingEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})
 				.WithUseSlots(

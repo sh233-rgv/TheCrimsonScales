@@ -23,21 +23,21 @@ public class VersatileConcoction : BrightsparkCardModel<VersatileConcoction.Card
 							parameters.AbilityState.AbilityAdjustAttackValue(1);
 							parameters.AbilityState.AbilityAddCondition(Conditions.Wound1);
 							await GDTask.CompletedTask;
-						}),
+						}, effectInfoViewParameters: new TextEffectInfoView.Parameters(Icons.Inline(Icons.GetCondition(Conditions.Wound1)))),
 					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Ice)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);
 							parameters.AbilityState.AbilityAddCondition(Conditions.Immobilize);
 							await GDTask.CompletedTask;
-						}),
+						}, effectInfoViewParameters: new TextEffectInfoView.Parameters(Icons.Inline(Icons.GetCondition(Conditions.Immobilize)))),
 					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Air)],
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);
 							parameters.AbilityState.AbilityAdjustPush(2);
 							await GDTask.CompletedTask;
-						})
+						}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Push)}2"))
 				])
 				.Build()),
 		];

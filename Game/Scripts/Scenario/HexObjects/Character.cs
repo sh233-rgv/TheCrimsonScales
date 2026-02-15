@@ -305,7 +305,8 @@ public partial class Character : Figure
 
 			for(int i = 0; i < RoundCardData.Count; i++)
 			{
-				if(IsDead || !TakingTurn)
+				if(IsDead || !TakingTurn || RoundCardData.All(data =>
+					   !data.CanPlayBasicBottom && !data.CanPlayBottom && !data.CanPlayBasicTop && !data.CanPlayTop))
 				{
 					break;
 				}

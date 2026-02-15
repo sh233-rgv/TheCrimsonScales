@@ -30,7 +30,7 @@ public class PreliminaryResearch : BrightsparkCardModel<PreliminaryResearch.Card
 				{
 					IEnumerable<AbilityCard> selectedAbilityCards =
 						await AbilityCmd.SelectAbilityCards((Character)state.Performer, CardState.Discarded, 0, 3,
-							hintText: $"Select up to 3 cards to recover");
+							hintText: "Select up to 3 cards to recover");
 
 					foreach(AbilityCard selectedAbilityCard in selectedAbilityCards)
 					{
@@ -52,7 +52,7 @@ public class PreliminaryResearch : BrightsparkCardModel<PreliminaryResearch.Card
 								hintText: "Select an item to recover");
 							if(item != null)
 							{
-								await item.Refresh();
+								await AbilityCmd.RefreshItem(item);
 							}
 						});
 					await GDTask.CompletedTask;

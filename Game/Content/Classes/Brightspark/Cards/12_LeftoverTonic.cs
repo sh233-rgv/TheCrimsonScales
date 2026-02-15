@@ -17,7 +17,7 @@ public class LeftoverTonic : BrightsparkCardModel<LeftoverTonic.CardTop, Leftove
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					ScenarioEvents.FigureTurnEndedEvent.Subscribe(state, this,
+					ScenarioEvents.FigureTurnEndingEvent.Subscribe(state, this,
 						parameters => parameters.Figure == state.Performer &&
 						              parameters.Figure.TurnPerformedActionStates.SelectMany(actionState => actionState.AbilityStates)
 							              .All(abilityState => abilityState is not AttackAbility.State || !abilityState.Performed),
@@ -34,7 +34,7 @@ public class LeftoverTonic : BrightsparkCardModel<LeftoverTonic.CardTop, Leftove
 				})
 				.WithOnDeactivate(async state =>
 				{
-					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
+					ScenarioEvents.FigureTurnEndingEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})
 				.WithUseSlots(
@@ -56,7 +56,7 @@ public class LeftoverTonic : BrightsparkCardModel<LeftoverTonic.CardTop, Leftove
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					ScenarioEvents.FigureTurnEndedEvent.Subscribe(state, this,
+					ScenarioEvents.FigureTurnEndingEvent.Subscribe(state, this,
 						parameters => parameters.Figure == state.Performer &&
 						              parameters.Figure.TurnPerformedActionStates.SelectMany(actionState => actionState.AbilityStates)
 							              .All(abilityState => abilityState is not MoveAbility.State || !abilityState.Performed),
@@ -73,7 +73,7 @@ public class LeftoverTonic : BrightsparkCardModel<LeftoverTonic.CardTop, Leftove
 				})
 				.WithOnDeactivate(async state =>
 				{
-					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
+					ScenarioEvents.FigureTurnEndingEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})
 				.WithUseSlots(

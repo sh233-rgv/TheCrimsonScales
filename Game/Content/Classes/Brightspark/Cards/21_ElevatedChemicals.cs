@@ -35,7 +35,8 @@ public class ElevatedChemicals : BrightsparkCardModel<ElevatedChemicals.CardTop,
 							},
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
 						),
-						ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
+						ScenarioEvents.DuringAttack.Subscription.ConsumeElement(
+							[CardElementConsumption.ConsumeWild(), CardElementConsumption.ConsumeWild()],
 							applyFunction: async parameters =>
 							{
 								parameters.AbilityState.AbilityAddCondition(Conditions.Disarm);

@@ -50,10 +50,16 @@ public class NourishingFormula : BrightsparkCardModel<NourishingFormula.CardTop,
 						.WithDamage(3)
 						.WithOnAbilityEndedPerformed(async attackAbilityState =>
 						{
-							await AbilityCmd.InfuseWildElement(attackAbilityState);
-							await AbilityCmd.GainXP(attackAbilityState.Authority, 1);
+							await AbilityCmd.InfuseWildElement(state);
+							await AbilityCmd.GainXP(state.Performer, 1);
 						}).Build()
 				])
+				.WithCustomGetTargets((state, figures) =>
+				{
+					figures.AddRange(state.ActionState.GetAbilityState<HealAbility.State>(0).UniqueTargetedFigures
+						.Where(figure => figure != state.Performer));
+					GD.Print(figures.Count);
+				})
 				.WithConditionalAbilityCheck(async state =>
 				{
 					return state.Performer is Character character &&
@@ -74,7 +80,7 @@ public class NourishingFormula : BrightsparkCardModel<NourishingFormula.CardTop,
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					ScenarioEvents.FigureTurnEndedEvent.Subscribe(state, this,
+					ScenarioEvents.FigureTurnEndingEvent.Subscribe(state, this,
 						parameters => parameters.Figure == state.Performer && state.UseSlotIndex <= 2,
 						async parameters =>
 						{
@@ -104,7 +110,7 @@ public class NourishingFormula : BrightsparkCardModel<NourishingFormula.CardTop,
 				})
 				.WithOnDeactivate(async state =>
 				{
-					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
+					ScenarioEvents.FigureTurnEndingEvent.Unsubscribe(state, this);
 					ScenarioEvents.RoundEndedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})

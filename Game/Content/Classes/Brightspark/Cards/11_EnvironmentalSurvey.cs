@@ -16,34 +16,10 @@ public class EnvironmentalSurvey : BrightsparkCardModel<EnvironmentalSurvey.Card
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					Hex hex = (await AbilityCmd.SelectHex(state.Performer, list =>
-					{
-						list.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 2)
-							.Where(hex => hex.TryGetHexObjectOfType(out Obstacle obs) && obs.HexObjectShape == HexObjectShape.Single ||
-							              hex.TryGetHexObjectOfType(out Trap trap)));
-					}, hintText: "Select an obstacle to move"));
-
-					if(hex == null)
-					{
-						return;
-					}
-
-					OverlayTile overlayTile;
-					if(hex.TryGetHexObjectOfType(out Obstacle obstacle))
-					{
-						overlayTile = obstacle;
-					}
-					else
-					{
-						overlayTile = hex.GetHexObjectOfType<Trap>();
-					}
-
-					await AbilityCmd.MoveOverlayTile(state.Performer, overlayTile, list =>
-					{
-						list.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 2)
-							.Where(moveToHex => moveToHex.IsEmpty()));
-					});
-					state.SetPerformed();
+					await AbilityCmd.RelocateOverlayTile(state, hexes => hexes.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 2)),
+						(_, hexes) => hexes.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 2).Where(moveToHex => moveToHex.IsEmpty())),
+						[typeof(Obstacle), typeof(Trap)],
+						"Select a trap or obstacle to relocate");
 				})
 				.Build())
 		];
@@ -62,7 +38,7 @@ public class EnvironmentalSurvey : BrightsparkCardModel<EnvironmentalSurvey.Card
 					ScenarioCheckEvents.MoveCheckEvent.Subscribe(state, this,
 						canApplyParameters =>
 							canApplyParameters.Performer.AlliedWith(state.Performer, true) &&
-							RangeHelper.Distance(canApplyParameters.Performer.Hex, state.Performer.Hex) <= 4 &&
+							RangeHelper.Distance(canApplyParameters.Hex, state.Performer.Hex) <= 4 &&
 							(canApplyParameters.Hex.HasHexObjectOfType<DifficultTerrain>() ||
 							 canApplyParameters.Hex.HasHexObjectOfType<HazardousTerrain>()),
 						applyParameters =>
@@ -81,7 +57,7 @@ public class EnvironmentalSurvey : BrightsparkCardModel<EnvironmentalSurvey.Card
 
 					ScenarioEvents.HazardousTerrainTriggeredEvent.Subscribe(state, this,
 						canApplyParameters => canApplyParameters.Figure.AlliedWith(state.Performer, true) &&
-						                      RangeHelper.Distance(canApplyParameters.Figure.Hex, state.Performer.Hex) <= 4,
+						                      RangeHelper.Distance(canApplyParameters.Hex, state.Performer.Hex) <= 4,
 						async applyParameters =>
 						{
 							applyParameters.SetAffectedByHazardousTerrain(false);

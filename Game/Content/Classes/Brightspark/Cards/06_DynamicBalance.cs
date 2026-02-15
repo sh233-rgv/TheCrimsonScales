@@ -75,6 +75,17 @@ public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, Dynam
 
 	public class CardBottom : BrightsparkCardSide
 	{
+		private MoveCircle _moveEnhancementMark;
+		private AttackDiamond _attackEnhancementMark;
+
+		protected override void InitExtraEnhancements()
+		{
+			base.InitExtraEnhancements();
+
+			_moveEnhancementMark = new MoveCircle(this, new Vector2(0.6176377f, 0.26352012f));
+			_attackEnhancementMark = new AttackDiamond(this, new Vector2(0.62063766f, 0.33751917f));
+		}
+
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(OtherAbility.Builder()
@@ -86,7 +97,7 @@ public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, Dynam
 						ScenarioEvents.GenericChoice.Subscription.New(canApplyFunction: canApplyParameters => true,
 							applyFunction: async applyParameters =>
 							{
-								await AttackAbility.Builder().WithDamage(3, new AttackDiamond(this, new Vector2(0.6193186f, 0.71640205f))).Build()
+								await AttackAbility.Builder().WithDamage(3, _attackEnhancementMark).Build()
 									.Perform(state.ActionState);
 							},
 							effectButtonParameters: new IconEffectButton.Parameters(Icons.Attack),
@@ -96,7 +107,7 @@ public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, Dynam
 						ScenarioEvents.GenericChoice.Subscription.New(canApplyFunction: canApplyParameters => true,
 							applyFunction: async applyParameters =>
 							{
-								await MoveAbility.Builder().WithDistance(3, new MoveCircle(this, new Vector2(0.62128145f, 0.8143437f))).Build()
+								await MoveAbility.Builder().WithDistance(3, _moveEnhancementMark).Build()
 									.Perform(state.ActionState);
 							},
 							effectButtonParameters: new IconEffectButton.Parameters(Icons.Move),

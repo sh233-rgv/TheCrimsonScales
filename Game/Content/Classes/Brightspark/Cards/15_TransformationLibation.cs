@@ -29,6 +29,8 @@ public class TransformationLibation : BrightsparkCardModel<TransformationLibatio
 
 					monster.SetEnemies(Alignment.Enemies);
 					monster.SetAlignment(Alignment.Characters);
+					await AbilityCmd.AddCharacterToken(state, monster,
+						$"This monster is an ally to you, suffers {Icons.Inline(Icons.Damage)}1 at the start of each of its turns, and cannot be healed");
 					ScenarioEvents.FigureTurnStartedEvent.Subscribe(state, this,
 						parameters => parameters.Figure == monster,
 						async parameters =>

@@ -6,8 +6,8 @@ public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, A
 {
 	public override string Name => "Advanced Research";
 	public override int Level => 5;
-	public override int Initiative => 20;
-	protected override int AtlasIndex => 85;
+	public override int Initiative => 85;
+	protected override int AtlasIndex => 20;
 
 	public class CardTop : BrightsparkCardSide
 	{
@@ -115,12 +115,12 @@ public class AdvancedResearch : BrightsparkCardModel<AdvancedResearch.CardTop, A
 						{
 							await AbilityCmd.InfuseWildElement(state);
 							AbilityCard card = await AbilityCmd.SelectAbilityCard(parameters.Character, CardState.Discarded,
-								hintText: $"Select a card to lose to {Icons.Inline(Icons.RecoverCard)} a lost card");
+								hintText: $"Select a card to {Icons.HintText(Icons.LoseCard)} to {Icons.HintText(Icons.RecoverCard)} a lost card");
 							if(card != null)
 							{
 								await card.SetCardState(CardState.Lost);
 								AbilityCard recoveredCard = await AbilityCmd.SelectAbilityCard(parameters.Character, CardState.Lost, true,
-									hintText: $"{Icons.Inline(Icons.RecoverCard)} a card from your lost pile");
+									hintText: $"{Icons.HintText(Icons.RecoverCard)} a card from your lost pile");
 								if(recoveredCard != null)
 								{
 									await AbilityCmd.ReturnToHand(card);
