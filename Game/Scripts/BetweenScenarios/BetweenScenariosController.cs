@@ -107,6 +107,14 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 					}
 				}
 
+				if(inputEventKey.Keycode == Key.C)
+				{
+					foreach(SavedCharacter savedCharacter in SavedCampaign.Characters)
+					{
+						savedCharacter.AddCheckmark();
+					}
+				}
+
 				if(inputEventKey.Keycode == Key.P)
 				{
 					SavedCampaign.AdjustProsperity(1);

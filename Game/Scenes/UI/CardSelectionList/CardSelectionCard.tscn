@@ -16,7 +16,6 @@ corner_radius_bottom_left = 10
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0audc"]
 shader = ExtResource("6_72eni")
-shader_parameter/tint = Color(1, 1, 1, 1)
 
 [node name="CardSelectionCard" type="Control" node_paths=PackedStringArray("_container", "_textureRect", "_initiativeLabel", "_cardButton", "_initiativeButton", "_initiativeIndicatorContainer")]
 layout_mode = 3
