@@ -37,8 +37,7 @@ texture = ExtResource("4_o1qpf")
 scale = Vector2(0.9, 0.9)
 texture = ExtResource("5_j8rm1")
 
-[node name="FigureViewComponent" parent="." node_paths=PackedStringArray("Outline") instance=ExtResource("5_ex5sq")]
-Outline = NodePath("../Outline")
+[node name="FigureViewComponent" parent="." instance=ExtResource("5_ex5sq")]
 
 [node name="SummonViewComponent" type="Node2D" parent="." node_paths=PackedStringArray("StandeeNumberCircle", "StandeeNumberLabel", "Sprite")]
 script = ExtResource("6_rpkou")

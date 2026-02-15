@@ -215,7 +215,10 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 
 		foreach(SavedCharacter savedCharacter in SavedCampaign.Characters)
 		{
-			await savedCharacter.SavedPersonalQuest.Model.OnBetweenScenariosStarted(savedCharacter);
+			if(savedCharacter.SavedPersonalQuest != null)
+			{
+				await savedCharacter.SavedPersonalQuest.Model.OnBetweenScenariosStarted(savedCharacter);
+			}
 		}
 
 		if(SavedCampaign.SavedEvents.CanDrawCityEvent && SavedCampaign.SavedEvents.CityEventDeckIds.Count > 0)
