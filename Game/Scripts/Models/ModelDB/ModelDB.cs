@@ -151,6 +151,11 @@ public static class ModelDB
 		return GetOrCreate<T>();
 	}
 
+	public static T Perk<T>() where T : PerkModel
+	{
+		return GetOrCreate<T>();
+	}
+
 	public static IEnumerable<Type> GetSubtypes<T>()
 	{
 		return GetSubtypes(typeof(T));
