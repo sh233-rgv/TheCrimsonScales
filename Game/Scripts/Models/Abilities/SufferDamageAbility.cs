@@ -21,6 +21,10 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 		public AOEPattern AbilityAOEPattern { get; set; }
 		public int AbilityRange { get; set; }
 
+		public int AbilityDamage { get; set; }
+
+		public int SingleTargetDamage { get; set; }
+
 		public IEnumerable<Hex> GetRedAOEHexes()
 		{
 			if(TargetedAOEHexes == null)
@@ -46,7 +50,7 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 
 	public DynamicInt<State> Damage { get; protected set; }
 	public int Range { get; private set; } = 1;
-	public bool RequiresLineOfSight { get; private set; } = true;
+	public bool RequiresLineOfSight { get; private set; } = false;
 
 	public Target Target { get; protected set; } = Target.Enemies;
 	public int Targets { get; private set; } = 1;
@@ -73,18 +77,17 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 		where TAbility : SufferDamageAbility, new()
 	{
 		protected Target? _target;
-		protected RangeType? _rangeType;
+		protected bool? _mandatory;
 		protected Func<State, string> GetTargetingHintText;
 
 		public interface IDamageStep
 		{
-			TBuilder WithDamage(DynamicInt<State> damage, params AttackEnhancementMark[] enhancementMarks);
+			TBuilder WithDamage(DynamicInt<State> damage);
 		}
 
-		public TBuilder WithDamage(DynamicInt<State> damage, params AttackEnhancementMark[] enhancementMarks)
+		public TBuilder WithDamage(DynamicInt<State> damage)
 		{
 			Obj.Damage = damage;
-			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
@@ -95,10 +98,9 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithRange(int range, params RangeSquare[] enhancementMarks)
+		public TBuilder WithRange(int range)
 		{
 			Obj.Range = range;
-			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
@@ -115,10 +117,9 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithTargets(int targets, params TargetsSquare[] enhancementMarks)
+		public TBuilder WithTargets(int targets)
 		{
 			Obj.Targets = targets;
-			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
@@ -128,15 +129,15 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithAOEPattern(AOEPattern aoePattern, params AOEHexMark[] enhancementMarks)
+		public TBuilder WithAOEPattern(AOEPattern aoePattern)
 		{
 			Obj.AOEPattern = aoePattern;
-			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
 		public TBuilder WithMandatory(bool mandatory)
 		{
+			_mandatory = mandatory;
 			Obj.Mandatory = mandatory;
 			return (TBuilder)this;
 		}
@@ -153,9 +154,28 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 		public override TAbility Build()
 		{
 			Obj.Target = _target ?? Target.Enemies;
+			Obj.Mandatory = _mandatory ?? (Obj.Target.HasFlag(Target.Self));
 			Obj._getTargetingHintText = GetTargetingHintText ?? Obj.DefaultTargetingHintText;
 			return base.Build();
 		}
+	}
+
+	/// <summary>
+	/// A concrete implementation of the AbstractBuilder. Required to actually use the builder,
+	/// as abstract builders cannot be instantiated.
+	/// </summary>
+	public class SufferDamageBuilder : AbstractBuilder<SufferDamageBuilder, SufferDamageAbility>
+	{
+		internal SufferDamageBuilder() { }
+	}
+
+	/// <summary>
+	/// A convenience method that returns an instance of AttackBuilder.
+	/// </summary>
+	/// <returns></returns>
+	public static SufferDamageBuilder.IDamageStep Builder()
+	{
+		return new SufferDamageBuilder();
 	}
 
 	public SufferDamageAbility() { }
@@ -177,6 +197,8 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 		abilityState.AbilityCustomGetTargets = CustomGetTargets != null
 			? (state, figures) => CustomGetTargets(state, figures)
 			: null;
+
+		abilityState.AbilityDamage = Damage.GetValue(abilityState);
 	}
 
 	protected override async GDTask Perform(State abilityState)
@@ -235,6 +257,8 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 				break;
 			}
 
+			InitAbilityStateForSingleTarget(abilityState);
+
 			Figure target;
 
 			if(abilityState.Authority is Character)
@@ -273,6 +297,8 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 
 			abilityState.SetPerformed();
 
+			await AbilityCmd.SufferDamage(abilityState, target, abilityState.SingleTargetDamage);
+
 			if(performer.IsDestroyed)
 			{
 				break;
@@ -293,7 +319,12 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 		}
 	}
 
-	protected virtual void GetValidTargets(State abilityState, List<Figure> figures, int targetsOutOfAOE)
+	private void InitAbilityStateForSingleTarget(State abilityState)
+	{
+		abilityState.SingleTargetDamage = abilityState.AbilityDamage;
+	}
+
+	private void GetValidTargets(State abilityState, List<Figure> figures, int targetsOutOfAOE)
 	{
 		Figure performer = abilityState.Performer;
 
@@ -421,6 +452,6 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 
 	private string DefaultTargetingHintText(State abilityState)
 	{
-		return $"Select a target to suffer {Icons.HintText(Icons.Attack)}{Damage.GetValue(abilityState)}";
+		return $"Select a target to suffer {Icons.HintText(Icons.Damage)}{Damage.GetValue(abilityState)}";
 	}
 }
