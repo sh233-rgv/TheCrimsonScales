@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-
 public class FalconFigurine : Prosperity4Item
 {
 	public override string Name => "Falcon Figurine";
@@ -9,6 +6,7 @@ public class FalconFigurine : Prosperity4Item
 	public override int Cost => 50;
 	public override ItemType ItemType => ItemType.Small;
 	public override ItemUseType ItemUseType => ItemUseType.Consume;
+	public override bool Persistent => true;
 
 	protected override int AtlasIndex => 14;
 
@@ -18,23 +16,22 @@ public class FalconFigurine : Prosperity4Item
 
 		SubscribeDuringTurn(
 			canApply: character =>
-				character == Owner &&
-				character.Cards.Count(card => card.CardState == CardState.Discarded) > 0,
+				character == Owner,
 			apply: async character =>
 			{
 				await Use(async user =>
 				{
-					ActionState actionState = new ActionState(user, [
+					await GetActionState(user,
+					[
 						SummonAbility.Builder()
 							.WithName("Jade Falcon")
-							.WithTexturePath("res://Content/Items/Summons/JadeFalcon.png")
+							.WithTexturePath("res://Content/Items/Prosperity4/JadeFalcon.tres")
 							.WithHealth(2)
 							.WithMove(3)
 							.WithAttack(2)
 							.WithTraits(new FlyingTrait())
 							.Build()
-					]);
-					await actionState.Perform();
+					]).Perform();
 				});
 			}
 		);

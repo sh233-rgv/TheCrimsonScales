@@ -31,7 +31,7 @@
 [ext_resource type="Texture2D" uid="uid://cgvuos5ph5e6r" path="res://Art/Icons/BetweenScenariosActions/HazardSign.svg" id="22_ywvcx"]
 [ext_resource type="Material" uid="uid://cun442tgtvgh" path="res://Materials/UIBlur.tres" id="23_1ehwm"]
 [ext_resource type="Script" uid="uid://co64dv05t1htu" path="res://Scripts/BetweenScenarios/BetweenScenariosSidePanel.cs" id="23_5k12q"]
-[ext_resource type="Shader" path="res://Shaders/ShadowCatcher.gdshader" id="23_6rvjw"]
+[ext_resource type="Shader" uid="uid://dpr1nhb31kvce" path="res://Shaders/ShadowCatcher.gdshader" id="23_6rvjw"]
 [ext_resource type="Script" uid="uid://chjh44dw8f42s" path="res://Scripts/BetweenScenarios/BetweenScenariosCharacterPortraitManager.cs" id="23_cdfbw"]
 [ext_resource type="Script" uid="uid://d0y7qlayk04fe" path="res://Scripts/BetweenScenarios/SanctuaryOfTheGreatOak/SanctuaryOfTheGreatOak.cs" id="23_gyc5w"]
 [ext_resource type="Shader" uid="uid://coeiuysk5p21c" path="res://Shaders/Vignette.gdshader" id="23_psaff"]
@@ -853,7 +853,7 @@ ScenarioNumber = 30
 
 [node name="ScenarioButton33" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
 layout_mode = 2
-ScenarioNumber = 30
+ScenarioNumber = 33
 
 [node name="ScenarioButton12" parent="CanvasLayer/UI/BetweenScenariosActionManager/ScenarioFlowchart/Container/SubViewportContainer/SubViewport/Container/Flowchart/Buttons" instance=ExtResource("1_5l4i3")]
 layout_mode = 2
@@ -1723,9 +1723,9 @@ anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -720.0
+offset_left = -730.0
 offset_top = 100.0
-offset_right = -430.0
+offset_right = -440.0
 offset_bottom = -180.0
 grow_horizontal = 0
 grow_vertical = 2

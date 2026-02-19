@@ -67,7 +67,7 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Light];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];
 		public override bool Round => true;
 	}
 

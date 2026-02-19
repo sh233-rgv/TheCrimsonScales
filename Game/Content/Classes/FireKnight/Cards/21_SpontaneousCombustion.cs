@@ -57,7 +57,7 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 				.Build()),
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
 		public override int XP => 2;
 		public override bool Loss => true;
 	}

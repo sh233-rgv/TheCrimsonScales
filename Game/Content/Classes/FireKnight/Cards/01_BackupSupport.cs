@@ -86,7 +86,7 @@ public class BackupSupport : FireKnightCardModel<BackupSupport.CardTop, BackupSu
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Fire];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
 		public override int XP => 1;
 		public override bool Persistent => true;
 		public override bool Loss => true;

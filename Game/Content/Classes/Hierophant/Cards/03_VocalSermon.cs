@@ -39,7 +39,9 @@ public class VocalSermon : HierophantCardModel<VocalSermon.CardTop, VocalSermon.
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Earth, Element.Light];
+		public override IEnumerable<CardElementInfusion> Elements =>
+			[CardElementInfusion.Infuse(Element.Earth), CardElementInfusion.Infuse(Element.Light)];
+
 		public override int XP => 1;
 		public override bool Loss => true;
 	}

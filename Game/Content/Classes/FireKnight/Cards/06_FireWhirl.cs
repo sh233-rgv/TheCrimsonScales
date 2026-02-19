@@ -57,7 +57,9 @@ public class FireWhirl : FireKnightCardModel<FireWhirl.CardTop, FireWhirl.CardBo
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Fire, Element.Air];
+		public override IEnumerable<CardElementInfusion> Elements =>
+			[CardElementInfusion.Infuse(Element.Fire), CardElementInfusion.Infuse(Element.Air)];
+
 		public override int XP => 1;
 		public override bool Loss => true;
 	}

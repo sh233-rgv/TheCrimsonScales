@@ -4,10 +4,10 @@ using Godot;
 public class ReapingScythe : Prosperity6Item
 {
 	public override string Name => "Reaping Scythe";
-	public override int ItemNumber => 18;
+	public override int ItemNumber => 47;
 	public override int ShopCount => 2;
-	public override int Cost => 25;
-	public override ItemType ItemType => ItemType.OneHand;
+	public override int Cost => 40;
+	public override ItemType ItemType => ItemType.TwoHands;
 	public override ItemUseType ItemUseType => ItemUseType.Consume;
 
 	protected override int AtlasIndex => 8;
@@ -30,6 +30,7 @@ public class ReapingScythe : Prosperity6Item
 							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
 						]
 					));
 

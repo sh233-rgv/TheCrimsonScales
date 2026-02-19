@@ -47,7 +47,7 @@ public class DivineAllegiance : HierophantLevelUpCardModel<DivineAllegiance.Card
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Light];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];
 		public override bool Loss => true;
 	}
 

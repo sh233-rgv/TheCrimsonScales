@@ -98,9 +98,9 @@ public class RoundPhase : ScenarioPhase
 			monsterGroup.MonsterAbilityCardDeck.ReshuffleIfMarked();
 		}
 
-		// If any character ability card in a character’s active area has a round bonus, place it in their discard pile or lost pile, depending on whether the action has a lost icon
 		foreach(Character character in GameController.Instance.CharacterManager.Characters)
 		{
+			// If any character ability card in a character’s active area has a round bonus, place it in their discard pile or lost pile, depending on whether the action has a lost icon
 			for(int i = character.Cards.Count - 1; i >= 0; i--)
 			{
 				AbilityCard card = character.Cards[i];
@@ -110,10 +110,21 @@ public class RoundPhase : ScenarioPhase
 				}
 			}
 
+			// Deactivate all round items
+			for(int i = character.Items.Count - 1; i >= 0; i--)
+			{
+				ItemModel item = character.Items[i];
+				if(item.ItemState == ItemState.Active && item.Round)
+				{
+					await AbilityCmd.SpendOrConsume(item);
+				}
+			}
+
+			// Any summon turn actions are removed
 			for(int i = character.Summons.Count - 1; i >= 0; i--)
 			{
 				Summon summon = character.Summons[i];
-				await summon.RemoveActionFromActive();
+				await summon.RemoveTurnActionFromActive();
 			}
 		}
 
@@ -130,7 +141,7 @@ public class RoundPhase : ScenarioPhase
 
 		foreach(Figure figure in _sortedFigures)
 		{
-			figure.RoundEnd();
+			await figure.RoundEnd();
 		}
 
 		GameController.Instance.Map.FigureAddedEvent -= OnFigureAdded;

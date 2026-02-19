@@ -34,7 +34,11 @@ public class EmpoweringRays : LuminaryCardModel<EmpoweringRays.CardTop, Empoweri
 				.Build()),
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Fire, Element.Light, Element.Dark];
+		public override IEnumerable<CardElementInfusion> Elements =>
+		[
+			CardElementInfusion.Infuse(Element.Fire), CardElementInfusion.Infuse(Element.Light), CardElementInfusion.Infuse(Element.Dark)
+		];
+
 		public override bool Loss => true;
 	}
 

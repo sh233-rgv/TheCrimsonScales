@@ -70,7 +70,7 @@
 			ModelDB.Item<CloakOfPockets>(),
 			ModelDB.Item<BootsOfDashing>(),
 			ModelDB.Item<BootsOfQuickness>(),
-			// ModelDB.Item<SpikedShield>(),
+			ModelDB.Item<SpikedShield>(),
 			ModelDB.Item<StaffOfEminence>(),
 			ModelDB.Item<WandOfFrost>(),
 			ModelDB.Item<WandOfStorms>(),

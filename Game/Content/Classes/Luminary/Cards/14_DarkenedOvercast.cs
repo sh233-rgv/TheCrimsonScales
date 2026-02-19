@@ -61,7 +61,7 @@ public class DarkenedOvercast : LuminaryCardModel<DarkenedOvercast.CardTop, Dark
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Dark];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Dark)];
 		public override bool Round => true;
 	}
 
@@ -130,7 +130,7 @@ public class DarkenedOvercast : LuminaryCardModel<DarkenedOvercast.CardTop, Dark
 				.Build())
 		];
 
-		//TODO: public override IEnumerable<Element> Elements => [Wild Element];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.InfuseWild()];
 		public override int XP => 2;
 		public override bool Persistent => true;
 		public override bool Loss => true;

@@ -110,12 +110,12 @@ public class GrantAbility : TargetedAbility<GrantAbility.State, SingleTargetStat
 	protected override async GDTask AfterTargetConfirmedBeforeConditionsApplied(State abilityState, Figure target)
 	{
 		await base.AfterTargetConfirmedBeforeConditionsApplied(abilityState, target);
-
 		// Perform the actual abilities
 		ActionState actionState = new ActionState(abilityState.ActionState.ActionSource, target,
 			target is Character ? target : abilityState.Performer, _abilities ?? _getAbilities(abilityState),
 			abilityState.ActionState);
 		abilityState.GrantAbilityActionStates.Add(actionState);
+
 		await actionState.Perform();
 	}
 

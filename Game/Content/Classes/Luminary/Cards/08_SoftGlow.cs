@@ -19,7 +19,7 @@ public class SoftGlow : LuminaryCardModel<SoftGlow.CardTop, SoftGlow.CardBottom>
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Dark];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Dark)];
 		public override int XP => 1;
 		public override bool Persistent => true;
 
@@ -56,6 +56,6 @@ public class SoftGlow : LuminaryCardModel<SoftGlow.CardTop, SoftGlow.CardBottom>
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Light];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];
 	}
 }

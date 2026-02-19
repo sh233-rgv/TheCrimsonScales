@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -14,6 +15,8 @@ public partial class Room : Node2D
 
 	public List<MapTile> MapTiles { get; private set; }
 	public List<Hex> Hexes { get; private set; }
+
+	public List<Figure> Figures => Hexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>()).ToList();
 
 	public void Init()
 	{
@@ -57,6 +60,12 @@ public partial class Room : Node2D
 					otherHex.AddNeighbour(hex);
 				}
 			}
+		}
+
+		List<MonsterSpawner> monsterSpawners = this.GetChildrenOfType<MonsterSpawner>();
+		foreach(MonsterSpawner monsterSpawner in monsterSpawners)
+		{
+			GameController.Instance.Map.AddMonsterGroup(ModelDB.GetById<MonsterModel>(new ModelId(monsterSpawner.MonsterModelId)));
 		}
 
 		Visible = false;
@@ -113,7 +122,7 @@ public partial class Room : Node2D
 		// Initialize each door that hasn't been initialized yet; the first time it's revealed
 		foreach((Door otherDoor, Hex hex) in _doors)
 		{
-			if(!hex.Revealed)
+			if(!otherDoor.Revealed)
 			{
 				hex.Reveal();
 				int rotationIndex = (Mathf.RoundToInt(otherDoor.GlobalRotationDegrees / 60f) + 6) % 6;

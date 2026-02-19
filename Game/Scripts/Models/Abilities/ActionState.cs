@@ -130,6 +130,10 @@ public sealed partial class ActionState
 
 		HasPerformedActiveAbility = true;
 
+		// if(ParentActionState == null && ActionSource != null)
+		// {
+		// 	await ActionSource.OnFirstActivateAbilityActivated(this);
+		// }
 		if(_onFirstActivateAbilityActivated != null)
 		{
 			await _onFirstActivateAbilityActivated(this);
@@ -152,6 +156,10 @@ public sealed partial class ActionState
 		SetOverrideNoPersistent();
 		SetOverrideNoRound();
 
+		// if(ParentActionState == null && ActionSource != null)
+		// {
+		// 	await ActionSource.OnDiscardOrLoseRequested(this);
+		// }
 		if(_onDiscardOrLoseRequested != null)
 		{
 			await _onDiscardOrLoseRequested(this);
@@ -177,7 +185,7 @@ public sealed partial class ActionState
 
 		ParentActionState?.SetOverrideRound();
 	}
-	
+
 	public void SetOverrideNoRound()
 	{
 		OverrideNoRound = true;
