@@ -1,9 +1,9 @@
 ﻿using Fractural.Tasks;
 
-public class Acrobatic : TheCrimsonScalesBattleGoal
+public class Assistant : TheCrimsonScalesBattleGoal
 {
-	public override string Title => "Acrobatic";
-	public override string Description => "Lose a card to negate 5 or more damage.";
+	public override string Title => "Assistant";
+	public override string Description => "Kill a monster attacked by an ally earlier in the round.";
 
 	public override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoalData battleGoalData)
 	{

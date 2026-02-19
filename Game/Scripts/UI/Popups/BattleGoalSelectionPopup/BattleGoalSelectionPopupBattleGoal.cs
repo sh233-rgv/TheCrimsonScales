@@ -21,14 +21,12 @@ public partial class BattleGoalSelectionPopupBattleGoal : Control
 
 	public void Init(BattleGoalModel battleGoalModel)
 	{
-		_betterButton.SetEnabled(false, false);
 		_battleGoalToggleButton.Init(battleGoalModel);
 	}
 
-	public void SetSelected(bool active, bool canPress)
+	public void SetSelected(bool active)
 	{
-		_battleGoalToggleButton.SetSelected(active, canPress);
-		_betterButton.SetEnabled(canPress, false);
+		_battleGoalToggleButton.SetSelected(active, true);
 	}
 
 	private void OnPressed()

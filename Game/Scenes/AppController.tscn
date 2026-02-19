@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cbtuwtadxyfut"]
+[gd_scene load_steps=36 format=3 uid="uid://cbtuwtadxyfut"]
 
 [ext_resource type="Script" uid="uid://x4kpb6u0l25u" path="res://Scripts/AppController.cs" id="1_6s6iu"]
 [ext_resource type="Script" uid="uid://bn4208bsiittm" path="res://Scripts/InputController.cs" id="2_2vstq"]
@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://bvih1o1ec48e2" path="res://Scenes/UI/Popups/ErrorPopup.tscn" id="17_g5bd1"]
 [ext_resource type="PackedScene" uid="uid://c0b85tbrwp16b" path="res://Scenes/UI/Popups/PartyInfoPopup/PartyInfoPopup.tscn" id="17_pcrgh"]
 [ext_resource type="PackedScene" uid="uid://d02u5q1n1c7d8" path="res://Scenes/UI/Popups/PerkConfirmationPopup/PerkConfirmationPopup.tscn" id="17_vkcub"]
+[ext_resource type="PackedScene" uid="uid://4mxl41wid7pu" path="res://Scenes/UI/Popups/BattleGoalSelectionPopup/BattleGoalSelectionPopup.tscn" id="18_aa7an"]
 [ext_resource type="PackedScene" uid="uid://dbuus8ix025vl" path="res://Scenes/UI/Popups/RetirementPopup.tscn" id="18_xa2sm"]
 [ext_resource type="Script" uid="uid://cwsakirhn6l0u" path="res://Scripts/UI/LongPressIndicator.cs" id="19_7txjg"]
 [ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="19_7484g"]
@@ -101,6 +102,9 @@ layout_mode = 1
 layout_mode = 1
 
 [node name="PerkConfirmationPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("17_vkcub")]
+layout_mode = 1
+
+[node name="BattleGoalSelectionPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("18_aa7an")]
 layout_mode = 1
 
 [node name="TextPopup" parent="CanvasLayer/PopupManager" instance=ExtResource("11_tfguv")]

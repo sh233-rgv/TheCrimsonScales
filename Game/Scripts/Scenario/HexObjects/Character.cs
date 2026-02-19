@@ -17,7 +17,8 @@ public partial class Character : Figure
 
 	public int PlayableAbilityCardCount { get; private set; }
 
-	public List<BattleGoalModel> AvailableBattleGoals { get; private set; }
+	public List<BattleGoalModel> AvailableBattleGoals { get; } = new List<BattleGoalModel>();
+	public BattleGoalModel BattleGoal { get; private set; }
 
 	public List<AbilityCard> Cards { get; } = new List<AbilityCard>();
 	public List<ItemModel> Items { get; } = new List<ItemModel>();
@@ -170,6 +171,16 @@ public partial class Character : Figure
 		{
 			AppController.Instance.Options.AnimatedCharacters.ValueChangedEvent -= OnAnimatedCharactersChanged;
 		}
+	}
+
+	public void AddAvailableBattleGoal(BattleGoalModel battleGoal)
+	{
+		AvailableBattleGoals.Add(battleGoal);
+	}
+
+	public void SetBattleGoal(BattleGoalModel battleGoal)
+	{
+		BattleGoal = battleGoal;
 	}
 
 	public void OnRoundCardsChanged()

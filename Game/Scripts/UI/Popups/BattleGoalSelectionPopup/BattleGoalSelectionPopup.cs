@@ -24,7 +24,40 @@ public partial class BattleGoalSelectionPopup : Popup<BattleGoalSelectionPopup.R
 			BattleGoalSelectionPopupBattleGoal battleGoal = _battleGoalScene.Instantiate<BattleGoalSelectionPopupBattleGoal>();
 			_battleGoalsParent.AddChild(battleGoal);
 			battleGoal.Init(battleGoalModel);
+			battleGoal.PressedEvent += OnBattleGoalPressed;
 			_battleGoals.Add(battleGoal);
+
+			if(PopupRequest.Character.BattleGoal != null)
+			{
+				battleGoal.SetSelected(battleGoal.BattleGoalModel == PopupRequest.Character.BattleGoal);
+			}
+		}
+	}
+
+	protected override void OnClosed()
+	{
+		base.OnClosed();
+
+		foreach(BattleGoalSelectionPopupBattleGoal battleGoal in _battleGoals)
+		{
+			battleGoal.QueueFree();
+		}
+
+		_battleGoals.Clear();
+	}
+
+	private void OnBattleGoalPressed(BattleGoalSelectionPopupBattleGoal battleGoal)
+	{
+		if(battleGoal.BattleGoalModel == PopupRequest.Character.BattleGoal)
+		{
+			return;
+		}
+
+		PopupRequest.Character.SetBattleGoal(battleGoal.BattleGoalModel);
+
+		foreach(BattleGoalSelectionPopupBattleGoal otherBattleGoal in _battleGoals)
+		{
+			otherBattleGoal.SetSelected(otherBattleGoal == battleGoal);
 		}
 	}
 }

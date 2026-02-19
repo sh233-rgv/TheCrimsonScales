@@ -355,7 +355,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="ScenarioSetupButtonsView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_startScenarioButton", "_equipmentButton", "_cardsButton")]
+[node name="ScenarioSetupButtonsView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_startScenarioButton", "_equipmentButton", "_cardsButton", "_battleGoalsButton")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -367,6 +367,7 @@ script = ExtResource("15_nbwi6")
 _startScenarioButton = NodePath("StartScenario")
 _equipmentButton = NodePath("OptionsContainer/EquipmentButton")
 _cardsButton = NodePath("OptionsContainer/CardsButton")
+_battleGoalsButton = NodePath("OptionsContainer/BattleGoalsButton")
 
 [node name="StartScenario" parent="CanvasLayer/UI/ScenarioSetupButtonsView" instance=ExtResource("29_4v2ql")]
 layout_mode = 1
