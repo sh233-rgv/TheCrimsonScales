@@ -67,7 +67,7 @@ public class Scenario039 : ScenarioModel
 		);
 
 		ScenarioCheckEvents.CanEnterCheckEvent.Subscribe(this,
-			parameters => parameters.Figure is Character character && character.SavedCharacter.SavedPersonalQuest.Model is AnAdderDivides &&
+			parameters => parameters.Figure is Character character && character.SavedCharacter?.SavedPersonalQuest.Model is AnAdderDivides &&
 			              GameController.Instance.ScenarioPhaseManager.RoundIndex + 1 < 9,
 			parameters =>
 			{
@@ -75,7 +75,7 @@ public class Scenario039 : ScenarioModel
 			});
 
 		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(this,
-			parameters => parameters.Figure is Character character && character.SavedCharacter.SavedPersonalQuest.Model is AnAdderDivides,
+			parameters => parameters.Figure is Character character && character.SavedCharacter?.SavedPersonalQuest.Model is AnAdderDivides,
 			parameters =>
 			{
 				parameters.Add(new InfoTextExtraEffect.Parameters("Viper Hunter (see special rules)"));

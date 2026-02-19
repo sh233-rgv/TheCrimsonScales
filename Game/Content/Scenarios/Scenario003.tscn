@@ -95,7 +95,7 @@ CannotBeDestroyed = true
 
 [node name="MonsterSpawner" parent="Map/Rooms/Room" index="17" instance=ExtResource("8_s4hec")]
 position = Vector2(2073.26, 189)
-MonsterModelId = "MONSTER_MODEL.HYDRA_SPIRIT"
+MonsterModelId = "WATER_SPIRIT.HYDRA_SPIRIT"
 MonsterType2Characters = 3
 MonsterType3Characters = 3
 MonsterType4Characters = 3

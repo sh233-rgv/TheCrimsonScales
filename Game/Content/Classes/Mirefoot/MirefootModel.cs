@@ -14,7 +14,7 @@ public class MirefootModel : ClassModel
 
 	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Mirefoot.tscn");
 
-	public override IList<AbilityCardModel> AbilityCards { get; } =
+	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
 		ModelDB.AbilityCard<BloodThinner>(),
 		ModelDB.AbilityCard<Bogstep>(),
@@ -47,5 +47,9 @@ public class MirefootModel : ClassModel
 		ModelDB.AbilityCard<TwistTheBlade>(),
 		ModelDB.AbilityCard<LingeringSwampMoss>(),
 		ModelDB.AbilityCard<ComplexToxicology>(),
+	];
+
+	public override List<PerkModel> Perks { get; } =
+	[
 	];
 }
