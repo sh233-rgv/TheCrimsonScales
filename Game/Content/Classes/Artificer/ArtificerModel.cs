@@ -50,5 +50,34 @@ public class ArtificerModel : ClassModel
 	
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<ArtificerPerks.ReplaceOneMinusTwoWithOneMinusOneGainScrap>(),
+		
+		ModelDB.Perk<ArtificerPerks.ReplaceOneMinusOneGainScrapWithOnePlusOneGainScrap>(),
+		
+		ModelDB.Perk<ArtificerPerks.ReplaceOnePlusOneGainScrapWithOnePlusThreeDisarmGainScrap>(),
+		
+		ModelDB.Perk<ArtificerPerks.ReplaceOneMinusOneWithOnePlusOne>(),
+		ModelDB.Perk<ArtificerPerks.ReplaceOneMinusOneWithOnePlusOne>(),
+		
+		ModelDB.Perk<ArtificerPerks.ReplaceOneMinusOneWithTwoPlusZeroPierceTwoRolling>(),
+		ModelDB.Perk<ArtificerPerks.ReplaceOneMinusOneWithTwoPlusZeroPierceTwoRolling>(),
+		
+		ModelDB.Perk<ArtificerPerks.ReplaceOnePlusZeroWithOnePlusOneWoundIfDrawnBySummon>(),
+		ModelDB.Perk<ArtificerPerks.ReplaceOnePlusZeroWithOnePlusOneWoundIfDrawnBySummon>(),
+		ModelDB.Perk<ArtificerPerks.ReplaceOnePlusZeroWithOnePlusOneWoundIfDrawnBySummon>(),
+		
+		ModelDB.Perk<ArtificerPerks.ReplaceOnePlusZeroWithOnePlusZeroCreateDamageTwoTrapRolling>(),
+		ModelDB.Perk<ArtificerPerks.ReplaceOnePlusZeroWithOnePlusZeroCreateDamageTwoTrapRolling>(),
+		ModelDB.Perk<ArtificerPerks.ReplaceOnePlusZeroWithOnePlusZeroCreateDamageTwoTrapRolling>(),
+		
+		ModelDB.Perk<ArtificerPerks.ReplaceOnePlusTwoWithOnePlusFour>(),
+		
+		ModelDB.Perk<ArtificerPerks.IgnoreNegativeScenarioEffectsAddPlusOneRolling>(),
+		
+		ModelDB.Perk<ArtificerPerks.SpareParts>(),
+		
+		ModelDB.Perk<ArtificerPerks.QuickTinkering>(),
+		
+		ModelDB.Perk<ArtificerPerks.Reconjigger>(),
 	];
 }
