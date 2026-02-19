@@ -17,6 +17,8 @@ public partial class Character : Figure
 
 	public int PlayableAbilityCardCount { get; private set; }
 
+	public List<BattleGoalModel> AvailableBattleGoals { get; private set; }
+
 	public List<AbilityCard> Cards { get; } = new List<AbilityCard>();
 	public List<ItemModel> Items { get; } = new List<ItemModel>();
 
