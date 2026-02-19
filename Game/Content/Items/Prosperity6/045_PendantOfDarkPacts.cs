@@ -22,11 +22,15 @@ public class PendantOfDarkPacts : Prosperity5Item
 					for(int i = 0; i < 2; i++)
 					{
 						ItemModel item = await AbilityCmd.SelectItem(user, ItemState.Consumed, ItemType.Small);
-						if(item != null)
+						if(item == null)
 						{
-							await AbilityCmd.RefreshItem(item);
+							break;
 						}
+
+						await AbilityCmd.RefreshItem(item);
 					}
+
+					await AbilityCmd.AddCondition(null, user, Conditions.Curse);
 				});
 			}
 		);

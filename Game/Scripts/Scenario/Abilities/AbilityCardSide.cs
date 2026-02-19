@@ -34,9 +34,13 @@ public class AbilityCardSide : IActionSource
 
 				await AbilityCmd.GainXP(performer, Model.XP);
 
-				foreach(Element element in Model.Elements)
+				foreach(CardElementInfusion elementInfusion in Model.Elements)
 				{
-					await AbilityCmd.InfuseElement(null, element, performer);
+					if(elementInfusion.ConsumableElements == null ||
+					   await AbilityCmd.AskConsumeElement(performer, elementInfusion.ConsumableElements) != null)
+					{
+						await AbilityCmd.InfuseElement(null, elementInfusion.PossibleInfusedElements, performer);
+					}
 				}
 
 				bool round = Model.Round || actionState.OverrideRound;

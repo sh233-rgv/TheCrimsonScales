@@ -37,7 +37,7 @@ public class ExplodingCannonball : BombardCardModel<ExplodingCannonball.CardTop,
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];
 
 		public override int XP => 2;
 		public override bool Persistent => true;

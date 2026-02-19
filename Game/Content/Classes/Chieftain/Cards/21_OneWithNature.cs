@@ -39,6 +39,6 @@ public class OneWithNature : ChieftainCardModel<OneWithNature.CardTop, OneWithNa
 				.Build()),
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];
 	}
 }

@@ -37,6 +37,6 @@ public class CatastrophicCattle : ChieftainCardModel<CatastrophicCattle.CardTop,
 				.Build()),
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];
 	}
 }

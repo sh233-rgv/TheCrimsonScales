@@ -53,6 +53,6 @@ public class DiamondRings : StarslingerCardModel<DiamondRings.CardTop, DiamondRi
 				.Build()),
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Light];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];
 	}
 }

@@ -21,10 +21,13 @@ public abstract partial class Figure : HexObject, IActionSource
 	private GTween _shieldTween;
 	private GTween _retaliateTween;
 
+	private readonly List<ActionState> _otherRoundActionStates = new List<ActionState>();
+
 	public int Health { get; private set; }
 	public int MaxHealth { get; private set; }
 
 	public List<Condition> Conditions { get; } = new List<Condition>();
+	public List<FigureTrait> Traits { get; } = new List<FigureTrait>();
 
 	public Alignment Alignment { get; private set; }
 	public Alignment Enemies { get; private set; }
@@ -41,7 +44,7 @@ public abstract partial class Figure : HexObject, IActionSource
 
 	public abstract string DisplayName { get; }
 	public abstract string DebugName { get; }
-	public abstract AMDCardDeck AMDCardDeck { get; }
+	public virtual AMDCardDeck AMDCardDeck { get; }
 	public abstract Texture2D MapIconTexture { get; }
 	public abstract Node2D Visual { get; }
 
@@ -106,6 +109,13 @@ public abstract partial class Figure : HexObject, IActionSource
 	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
 	{
 		await base.Destroy(immediately, forceDestroy);
+
+		await DeactivateOtherRoundActionStates();
+
+		foreach(FigureTrait trait in Traits)
+		{
+			await trait.Deactivate(this);
+		}
 
 		GameController.Instance.Map.DeregisterFigure(this);
 
@@ -245,7 +255,7 @@ public abstract partial class Figure : HexObject, IActionSource
 		TakingTurn = false;
 		CanTakeTurn = false;
 
-		GameController.Instance.ElementManager.FinishInfusing();
+		await GameController.Instance.ElementManager.FinishInfusing();
 
 		_figureViewComponent.ActivePS.TweenModulateAlpha(0f, 0.2f).OnComplete(_figureViewComponent.ActivePS.Hide).PlayFastForwardable();
 	}
@@ -253,6 +263,25 @@ public abstract partial class Figure : HexObject, IActionSource
 	protected virtual async GDTask EndOfTurnLooting()
 	{
 		await GDTask.CompletedTask;
+	}
+
+	public void AddOtherRoundActionState(ActionState actionState)
+	{
+		_otherRoundActionStates.Add(actionState);
+	}
+
+	public async GDTask DeactivateOtherRoundActionState(ActionState actionState)
+	{
+		await actionState.RemoveFromActive();
+	}
+
+	public async GDTask DeactivateOtherRoundActionStates()
+	{
+		for(int i = _otherRoundActionStates.Count - 1; i >= 0; i--)
+		{
+			ActionState actionState = _otherRoundActionStates[i];
+			await DeactivateOtherRoundActionState(actionState);
+		}
 	}
 
 	public bool HasCondition(ConditionModel conditionModel)
@@ -329,6 +358,13 @@ public abstract partial class Figure : HexObject, IActionSource
 		ReorderEffects();
 	}
 
+	protected async GDTask AddTrait(FigureTrait trait)
+	{
+		FigureTrait mutableTrait = trait.ToMutable();
+		Traits.Add(mutableTrait);
+		await mutableTrait.Activate(this);
+	}
+	
 	public void SetAlignment(Alignment alignment)
 	{
 		Alignment = alignment;
@@ -374,10 +410,12 @@ public abstract partial class Figure : HexObject, IActionSource
 
 	protected abstract Initiative GetInitiative();
 
-	public virtual void RoundEnd()
+	public virtual async GDTask RoundEnd()
 	{
 		CanTakeTurn = true;
 		RoundPerformedActionStates.Clear();
+
+		await DeactivateOtherRoundActionStates();
 	}
 
 	public void SetCrackedShield(bool crackedShield)

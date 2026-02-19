@@ -51,7 +51,7 @@ public class Resurrection : ChieftainCardModel<Resurrection.CardTop, Resurrectio
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];
 
 		public override bool Loss => true;
 		public override bool Unrecoverable => true;

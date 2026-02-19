@@ -1,3 +1,4 @@
+﻿using System;
 ﻿using Godot;
 
 public static class Icons
@@ -36,6 +37,7 @@ public static class Icons
 	public const string RedAOEHex = "res://Art/Icons/Other/RedAOEHex.svg";
 	public const string PlusOneEnhancement = "res://Art/Icons/Other/PlusOneEnhancement.svg";
 	public const string JumpEnhancement = "res://Art/Icons/Other/JumpEnhancement.svg";
+	public const string Rolling = "res://Art/Icons/Other/Rolling.svg";
 
 	public static string GetElement(Element element)
 	{
@@ -52,6 +54,11 @@ public static class Icons
 		return conditionModel.IconPath;
 	}
 
+	public static string GetAMDValue(string amdValue)
+	{
+		return $"res://Art/Icons/AMDs/{amdValue}.png";
+	}
+
 	public static string InlineMarker(Marker.Type markerType, int size = 30)
 	{
 		return Inline(GetMarker(markerType), size);
@@ -66,6 +73,12 @@ public static class Icons
 	{
 		Color finalColor = color ?? Colors.White;
 		return $"[img width={size} color=#{finalColor.ToHtml()}]{iconPath}[/img]";
+	}
+
+	public static string Inline(string iconPath, RichTextParameters richTextParameters, bool ignoreParametersColor = false)
+	{
+		Color finalColor = ignoreParametersColor ? Colors.White : richTextParameters.Color;
+		return $"[img width={richTextParameters.FontSize} color=#{finalColor.ToHtml()}]{iconPath}[/img]";
 	}
 
 	public static string HintText(string iconPath)

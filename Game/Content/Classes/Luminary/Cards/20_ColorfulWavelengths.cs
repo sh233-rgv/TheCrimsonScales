@@ -83,7 +83,14 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 			PerformFreeGlow()
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Fire, Element.Ice, Element.Light, Element.Dark];
+		public override IEnumerable<CardElementInfusion> Elements =>
+		[
+			CardElementInfusion.Infuse(Element.Fire),
+			CardElementInfusion.Infuse(Element.Ice),
+			CardElementInfusion.Infuse(Element.Light),
+			CardElementInfusion.Infuse(Element.Dark)
+		];
+
 		public override int XP => 2;
 		public override bool Loss => true;
 	}

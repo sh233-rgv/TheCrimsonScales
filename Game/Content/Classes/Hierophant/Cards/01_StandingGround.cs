@@ -25,7 +25,7 @@ public class StandingGround : HierophantCardModel<StandingGround.CardTop, Standi
 				.Build())
 		];
 
-		public override IEnumerable<Element> Elements => [Element.Earth];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];
 		public override bool Round => true;
 	}
 

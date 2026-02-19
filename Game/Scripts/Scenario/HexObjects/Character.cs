@@ -75,6 +75,36 @@ public partial class Character : Figure
 		AMDCardOwner amdCardOwner = (AMDCardOwner)(Index + 1);
 		List<AMDCard> amdCards = AMDCardDeck.GetDefaultDeckCards(amdCardOwner);
 		_amdCardDeck = new AMDCardDeck(amdCards, amdCardOwner);
+
+		for(int i = 0; i < ClassModel.Perks.Count; i++)
+		{
+			PerkModel perk = ClassModel.Perks[i];
+			if(SavedCharacter.GetPerkAcquired(i))
+			{
+				bool success = true;
+				foreach(AMDCardModel amdCardModel in perk.CardsToRemove)
+				{
+					AMDCard cardToRemove = _amdCardDeck.DrawPile.FirstOrDefault(amdCard => amdCard.Model == amdCardModel);
+					if(cardToRemove == null)
+					{
+						success = false;
+						Log.Warning($"Could not remove the appropriate AMD card for perk {perk.GetType().Name}.");
+						continue;
+					}
+
+					_amdCardDeck.RemoveCard(cardToRemove);
+				}
+
+				if(success)
+				{
+					foreach(AMDCardModel amdCardModel in perk.CardsToAdd)
+					{
+						_amdCardDeck.AddCard(new AMDCard(amdCardModel, amdCardOwner), true);
+					}
+				}
+			}
+		}
+
 		if(savedCharacter.DonationAMDCardIds != null)
 		{
 			foreach(string donationAMDCardId in savedCharacter.DonationAMDCardIds)
@@ -115,6 +145,11 @@ public partial class Character : Figure
 		for(int i = Items.Count - 1; i >= 0; i--)
 		{
 			ItemModel item = Items[i];
+			if(item.ItemState == ItemState.Active)
+			{
+				await AbilityCmd.SpendOrConsume(item);
+			}
+
 			item.SetOwner(null);
 		}
 
@@ -562,15 +597,34 @@ public partial class Character : Figure
 			Items.Add(item);
 		}
 
-		foreach(ItemModel item in Items)
+		bool ignoreNegativeItemEffects = false;
+		for(int i = 0; i < ClassModel.Perks.Count; i++)
 		{
-			//TODO: Check for perk that ignores -1 cards
-			for(int i = 0; i < item.MinusOneCount; i++)
+			PerkModel perkModel = ClassModel.Perks[i];
+			if(perkModel.IgnoreNegativeItemEffects && SavedCharacter.GetPerkAcquired(i))
 			{
-				AMDCardDeck.AddMinusOne();
+				ignoreNegativeItemEffects = true;
 			}
+		}
 
-			//item.SetupForScenario();
+		if(!ignoreNegativeItemEffects)
+		{
+			foreach(ItemModel item in Items)
+			{
+				for(int i = 0; i < item.MinusOneCount; i++)
+				{
+					AMDCardDeck.AddMinusOne();
+				}
+			}
+		}
+
+		for(int i = 0; i < ClassModel.Perks.Count; i++)
+		{
+			PerkModel perkModel = ClassModel.Perks[i];
+			if(SavedCharacter.GetPerkAcquired(i))
+			{
+				await perkModel.OnScenarioSetupPhaseCompleted();
+			}
 		}
 
 		object loseHandCardToCancelDamageSubscriber = new object();

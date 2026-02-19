@@ -51,7 +51,7 @@
 			ModelDB.Item<ReapingScythe>(),
 			ModelDB.Item<MoonEarring>(),
 			ModelDB.Item<MajorHealingPotion>(),
-			// ModelDB.Item<FalconFigurine>(),
+			ModelDB.Item<FalconFigurine>(),
 		],
 		[ // 5
 			ModelDB.Item<EmpoweringTalisman>(),
@@ -70,7 +70,7 @@
 			ModelDB.Item<CloakOfPockets>(),
 			ModelDB.Item<BootsOfDashing>(),
 			ModelDB.Item<BootsOfQuickness>(),
-			// ModelDB.Item<SpikedShield>(),
+			ModelDB.Item<SpikedShield>(),
 			ModelDB.Item<StaffOfEminence>(),
 			ModelDB.Item<WandOfFrost>(),
 			ModelDB.Item<WandOfStorms>(),

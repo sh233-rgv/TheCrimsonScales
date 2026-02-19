@@ -77,7 +77,7 @@ public class AbilityCard : IReferenced
 		}
 	}
 
-	public async GDTask RemoveFromActive(ActionState activeActionState)
+	private async GDTask RemoveFromActive(ActionState activeActionState)
 	{
 		ActiveActionStates.Remove(activeActionState);
 		await activeActionState.RemoveFromActive();

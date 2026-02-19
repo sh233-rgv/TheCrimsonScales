@@ -170,7 +170,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 		abilityState.Move = Move;
 		abilityState.Attack = Attack;
 		abilityState.Range = Range;
-		abilityState.Traits = Traits.ToList();
+		abilityState.Traits = Traits?.ToList() ?? [];
 	}
 
 	protected override async GDTask Perform(State abilityState)
