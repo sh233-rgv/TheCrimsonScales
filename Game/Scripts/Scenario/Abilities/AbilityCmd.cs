@@ -629,19 +629,6 @@ public static class AbilityCmd
 				}
 			}
 		}
-
-		DifficultTerrain difficultTerrain = hex.GetHexObjectOfType<DifficultTerrain>();
-		if(difficultTerrain != null && triggerHexEffects)
-		{
-			ScenarioCheckEvents.FlyingCheck.Parameters flyingCheckParameters =
-				ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figure));
-
-			if(!flyingCheckParameters.HasFlying)
-			{
-				await ScenarioEvents.DifficultTerrainTriggeredEvent.CreatePrompt(
-					new ScenarioEvents.DifficultTerrainTriggered.Parameters(potentialAbilityState, figure, hex, difficultTerrain), authority);
-			}
-		}
 	}
 
 	public static GDTask<bool> TrySwap(Figure authority, Figure figureA, Figure figureB)
