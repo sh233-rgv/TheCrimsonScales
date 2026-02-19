@@ -42,7 +42,7 @@ public abstract class ArtificerCardSide : AbilityCardSideModel
 			.Build());
 	}
 
-	protected async GDTask GainScrapToken(AbilityState state)
+	public static async GDTask GainScrapToken(AbilityState state)
 	{
 		if(state.Performer is Artificer artificer)
 		{
@@ -52,7 +52,17 @@ public abstract class ArtificerCardSide : AbilityCardSideModel
 		await GDTask.CompletedTask;
 	}
 
-	protected void LoseScrapTokens(Figure figure, int count = 1)
+	public static async GDTask GainScrapToken(Character character)
+	{
+		if(character is Artificer artificer)
+		{
+			artificer.GainScrapToken();
+		}
+
+		await GDTask.CompletedTask;
+	}
+
+	public static void LoseScrapTokens(Figure figure, int count = 1)
 	{
 		if(figure is Artificer artificer)
 		{
@@ -60,7 +70,7 @@ public abstract class ArtificerCardSide : AbilityCardSideModel
 		}
 	}
 
-	protected bool HasXScrapTokens(Figure figure, int x)
+	public static bool HasXScrapTokens(Figure figure, int x)
 	{
 		if(figure is Artificer artificer)
 		{
