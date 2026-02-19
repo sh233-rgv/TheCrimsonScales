@@ -7,7 +7,7 @@ using Godot;
 public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOfTheBeast.CardBottom>
 {
 	public override string Name => "Belly of the Beast";
-	public override int Level => 9;
+	public override int Level => 1;
 	public override int Initiative => 42;
 	protected override int AtlasIndex => 29;
 
@@ -82,31 +82,6 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 								break;
 							default:
 								throw new ArgumentOutOfRangeException();
-						}
-
-						foreach(CardPlayCardData cardData in cardDatas)
-						{
-							if(cardData.AbilityCard == card)
-							{
-								cardData.CanPlayTop = false;
-								cardData.CanPlayBottom = false;
-							}
-						}
-
-						if(topsPlayed == 2)
-						{
-							foreach(CardPlayCardData cardData in cardDatas)
-							{
-								cardData.CanPlayBottom = false;
-							}
-						}
-
-						if(bottomsPlayed == 2)
-						{
-							foreach(CardPlayCardData cardData in cardDatas)
-							{
-								cardData.CanPlayTop = false;
-							}
 						}
 					}
 				})

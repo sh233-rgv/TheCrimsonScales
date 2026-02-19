@@ -472,6 +472,9 @@ public partial class Character : Figure
 				.Build()
 		]);
 		await actionState.Perform();
+
+		await ScenarioEvents.LongRestEndedEvent.CreatePrompt(
+			new ScenarioEvents.LongRestEnded.Parameters(this));
 	}
 
 	public async GDTask ShortRest()
@@ -623,7 +626,7 @@ public partial class Character : Figure
 			PerkModel perkModel = ClassModel.Perks[i];
 			if(SavedCharacter.GetPerkAcquired(i))
 			{
-				await perkModel.OnScenarioSetupPhaseCompleted();
+				await perkModel.OnScenarioSetupPhaseCompleted(this);
 			}
 		}
 

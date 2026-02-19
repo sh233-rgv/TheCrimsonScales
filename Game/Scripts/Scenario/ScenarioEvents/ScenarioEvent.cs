@@ -43,16 +43,16 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 		public static Subscription ConsumeElement(Element element,
 			CanApplyFunction canApplyFunction = null, ApplyFunction applyFunction = null, EffectType effectType = EffectType.Selectable,
 			int order = 0, bool canApplyMultipleTimesDuringSubscription = false, bool canApplyMultipleTimesInEffectCollection = false,
-			EffectButtonParameters effectButtonParameters = null, EffectInfoViewParameters effectInfoViewParameters = null)
+			EffectButtonParameters effectButtonParameters = null, EffectInfoViewParameters effectInfoViewParameters = null,
+			Figure potentialConsumer = null)
 		{
 			//TODO: Make sure this works for items that make you skip an element consumption (perhaps after clicking, a new prompt opens up to select what to use)
 			return new Subscription(
 				parameters =>
 				{
-					Figure potentialConsumer = null;
 					if(parameters is ParametersBaseWithAbilityState parametersBase)
 					{
-						potentialConsumer = parametersBase.BaseAbilityState.Performer;
+						potentialConsumer ??= parametersBase.BaseAbilityState.Performer;
 					}
 
 					return
@@ -78,15 +78,15 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 		public static Subscription ConsumeWildElement(CanApplyFunction canApplyFunction = null, ApplyFunction applyFunction = null,
 			EffectType effectType = EffectType.Selectable,
 			int order = 0, bool canApplyMultipleTimesDuringSubscription = false, bool canApplyMultipleTimesInEffectCollection = false,
-			EffectButtonParameters effectButtonParameters = null, EffectInfoViewParameters effectInfoViewParameters = null)
+			EffectButtonParameters effectButtonParameters = null, EffectInfoViewParameters effectInfoViewParameters = null,
+			Figure potentialConsumer = null)
 		{
 			//TODO: Make sure this works for items that make you skip an element consumption (perhaps after clicking, a new prompt opens up to select what to use)
 			return new Subscription(parameters =>
 				{
-					Figure potentialConsumer = null;
 					if(parameters is ParametersBaseWithAbilityState parametersBase)
 					{
-						potentialConsumer = parametersBase.BaseAbilityState.Performer;
+						potentialConsumer ??= parametersBase.BaseAbilityState.Performer;
 					}
 
 					bool elementAvailable = false;
@@ -103,8 +103,10 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 				},
 				async parameters =>
 				{
-					Element? wildConsume = await AbilityCmd.AskConsumeWildElement(
-						parameters is ParametersBaseWithAbilityState parametersBase ? parametersBase.BaseAbilityState.Performer : new Character(),
+					Element? wildConsume = await AbilityCmd.AskConsumeWildElement(potentialConsumer ??
+					                                                              (parameters is ParametersBaseWithAbilityState parametersBase
+						                                                              ? parametersBase.BaseAbilityState.Performer
+						                                                              : new Character()),
 						true);
 					if(wildConsume.HasValue)
 					{

@@ -882,6 +882,17 @@ public partial class ScenarioEvents
 	private readonly LongRestCardSelection _longRestCardSelection = new LongRestCardSelection();
 	public static LongRestCardSelection LongRestCardSelectionEvent => GameController.Instance.ScenarioEvents._longRestCardSelection;
 
+	public class LongRestEnded : ScenarioEvent<LongRestEnded.Parameters>
+	{
+		public class Parameters(Character character) : ParametersBase
+		{
+			public Character Character { get; } = character;
+		}
+	}
+
+	private readonly LongRestEnded _longRestEnded = new LongRestEnded();
+	public static LongRestEnded LongRestEndedEvent => GameController.Instance.ScenarioEvents._longRestEnded;
+
 	public class FigureTurnStarted : ScenarioEvent<FigureTurnStarted.Parameters>
 	{
 		public class Parameters(Figure figure)
