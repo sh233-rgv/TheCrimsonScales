@@ -16,10 +16,6 @@ public class BrightsparkModel : ClassModel
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
-	];
-
-	public override List<PerkModel> Perks { get; } =
-	[
 		ModelDB.AbilityCard<AcquireFunding>(),
 		ModelDB.AbilityCard<BlindingLightwaves>(),
 		ModelDB.AbilityCard<CellRegeneration>(),
@@ -52,5 +48,9 @@ public class BrightsparkModel : ClassModel
 		ModelDB.AbilityCard<VersatileConcoction>(),
 		ModelDB.AbilityCard<ElixirOfLife>(),
 		ModelDB.AbilityCard<UltravioletRays>()
+	];
+
+	public override List<PerkModel> Perks { get; } =
+	[
 	];
 }
