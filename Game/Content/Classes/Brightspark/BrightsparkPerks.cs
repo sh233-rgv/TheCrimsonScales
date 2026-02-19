@@ -136,6 +136,7 @@ public class BrightsparkPerks
 
 	public class SparkOfInspiration : BrightsparkPerk, IEventSubscriber
 	{
+		public override int PerkBoxCount => 2;
 		protected override string Title => "Spark of Inspiration";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
