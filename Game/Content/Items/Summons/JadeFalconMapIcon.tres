@@ -1,7 +1,0 @@
-[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://c4eate5ocdiat"]
-
-[ext_resource type="Texture2D" uid="uid://c36gmlce480yb" path="res://Content/Items/Summons/JadeFalcon.png" id="1_uch87"]
-
-[resource]
-atlas = ExtResource("1_uch87")
-region = Rect2(0, 20, 740, 740)

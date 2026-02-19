@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c36gmlce480yb"
-path="res://.godot/imported/JadeFalcon.png-3bfab93512d9dd18756ecdcabf7012b1.ctex"
+path="res://.godot/imported/JadeFalcon.png-42138e2c90706e3dad826221aa3aa7e6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Items/Summons/JadeFalcon.png"
-dest_files=["res://.godot/imported/JadeFalcon.png-3bfab93512d9dd18756ecdcabf7012b1.ctex"]
+source_file="res://Content/Items/Prosperity4/JadeFalcon.png"
+dest_files=["res://.godot/imported/JadeFalcon.png-42138e2c90706e3dad826221aa3aa7e6.ctex"]
 
 [params]
 
