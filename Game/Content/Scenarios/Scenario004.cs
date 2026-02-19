@@ -1,7 +1,6 @@
 using System.Linq;
 using Fractural.Tasks;
 using System.Collections.Generic;
-using Godot;
 
 public class Scenario004 : ScenarioModel
 {
@@ -17,7 +16,6 @@ public class Scenario004 : ScenarioModel
 		                        $"“{Icons.Inline(Icons.Heal)}1, {Icons.Inline(Icons.Range)}2” ability.");
 
 	protected override List<MonsterModel> SpawnedMonsterModels { get; } = [ModelDB.Monster<CityArcher>(), ModelDB.Monster<CityGuard>()];
-
 
 	private int _revealedWarriors = 0;
 	private List<InfectedWarrior> _infectedWarriors = [];

@@ -15,7 +15,6 @@ public class Scenario007 : ScenarioModel
 	protected override List<MonsterModel> SpawnedMonsterModels { get; } =
 		[ModelDB.Monster<CaveBear>(), ModelDB.Monster<ForestImp>(), ModelDB.Monster<RendingDrake>(), ModelDB.Monster<SpittingDrake>()];
 
-
 	public override string BGSPath => "res://Audio/BGS/Forest Day.ogg";
 
 	private readonly List<(Water, int)> _waterTiles = new List<(Water, int)>();
@@ -24,11 +23,6 @@ public class Scenario007 : ScenarioModel
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
-
-		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<CaveBear>());
-		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<ForestImp>());
-		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<RendingDrake>());
-		GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<SpittingDrake>());
 
 		UpdateScenarioText(
 			$"Once per round, when a character ends their turn on a water tile marked {Icons.InlineMarker(Marker.Type.a)}, " +

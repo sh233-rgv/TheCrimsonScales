@@ -28,7 +28,7 @@ public class PerformOnDeathTrait(params Ability[] abilities) : FigureTrait
 	{
 		await base.Deactivate(figure);
 
-		ScenarioEvents.FigureKilledEvent.Unsubscribe(figure, this);
+		ScenarioEvents.BeforeFigureKilledEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(figure, this);
 	}
 }

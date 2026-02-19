@@ -30,9 +30,9 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 								await GDTask.CompletedTask;
 							},
 							effectType: EffectType.SelectableMandatory,
-							effectButtonParameters: new IconEffectButton.Parameters(group.MonsterModel.PortraitTexturePath),
+							effectButtonParameters: new IconEffectButton.Parameters(group.MonsterModel.MapIconTexturePath),
 							effectInfoViewParameters: new TextEffectInfoView.Parameters(
-								$"Place a character token on {group.MonsterModel.Name}s")));
+								$"Place a character token on the {group.MonsterModel.Name} monster group")));
 					}
 
 					await AbilityCmd.GenericChoice(state.Performer,

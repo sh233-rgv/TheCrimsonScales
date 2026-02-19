@@ -19,7 +19,8 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 				{
 					Figure figure = await AbilityCmd.SelectFigure(state,
 						list => list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1)
-							.Where(figure => figure.AlliedWith(state.Performer))), hintText: () => "Select a character to place a character on");
+							.Where(figure => figure.AlliedWith(state.Performer))),
+						hintText: () => "Select a character to place a character token on");
 					if(figure == null)
 					{
 						return;
@@ -32,25 +33,27 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 
 					ScenarioEvents.SufferDamageEvent.Subscribe(state, this,
 						parameters =>
-							parameters.Figure == figure && parameters.FromAttack,
+							parameters.Figure == figure && parameters.FromAttack && parameters.WouldSufferDamage,
 						async parameters =>
 						{
 							parameters.AdjustShield(3);
 
 							object subscriber = new object();
 
-							ScenarioEvents.RetaliateEvent.Subscribe(state, subscriber,
-								canApplyParameters => canApplyParameters.RetaliatingFigure == figure &&
-								                      canApplyParameters.AbilityState == parameters.PotentialAbilityState,
-								async applyParameters =>
+
+							await AbilityCmd.AddRetaliate(figure, subscriber, 2, 1,
+								customCanApplyParameters => customCanApplyParameters.AbilityState == parameters.PotentialAbilityState);
+
+							ScenarioEvents.AfterAttackPerformedEvent.Subscribe(state, subscriber,
+								canApplyParameters => canApplyParameters.AbilityState == parameters.PotentialAbilityState,
+								async _ =>
 								{
-									applyParameters.AdjustRetaliate(3);
-									ScenarioEvents.RetaliateEvent.Unsubscribe(state, subscriber);
-									await state.AdvanceUseSlot();
+									AbilityCmd.RemoveRetaliate(figure, subscriber);
+									ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, subscriber);
+
+									await GDTask.CompletedTask;
 								}
 							);
-
-							await GDTask.CompletedTask;
 						}
 					);
 
@@ -62,7 +65,7 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 							applyParameters.AdjustShield(3);
 						}
 					);
-					
+
 					ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(state, this,
 						canApplyParameters =>
 							canApplyParameters.Figure == figure,

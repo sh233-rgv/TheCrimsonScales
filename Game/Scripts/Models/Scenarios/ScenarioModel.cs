@@ -12,6 +12,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	public virtual IEnumerable<ScenarioConnection> Connections { get; } = [];
 	public virtual int[] TreasureNumbers { get; } = [];
 
+	//TODO: Change to being abstract to force scenarios to override for view pre-scenario
 	protected virtual List<MonsterModel> SpawnedMonsterModels { get; } = [];
 	protected virtual IEnumerable<ScenarioRequirement> ScenarioRequirements { get; } = [];
 
@@ -34,7 +35,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 		foreach(MonsterModel monsterModel in SpawnedMonsterModels)
 		{
-			GameController.Instance.Map.AddMonsterGroup(ModelDB.Monster<Granurso>());
+			GameController.Instance.Map.AddMonsterGroup(monsterModel);
 		}
 
 		await GDTask.CompletedTask;

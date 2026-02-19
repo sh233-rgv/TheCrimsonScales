@@ -13,7 +13,6 @@ public class Scenario006 : ScenarioModel
 
 	protected override List<MonsterModel> SpawnedMonsterModels { get; } = [ModelDB.Monster<FlamingDrake>()];
 
-
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();

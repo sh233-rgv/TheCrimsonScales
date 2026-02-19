@@ -7,12 +7,13 @@ public partial class Hex : Node2D
 {
 	public Vector2I Coords { get; private set; }
 	public MapTile MapTile { get; private set; }
-	public Room Room => GameController.Instance.Map.Rooms.FirstOrDefault(room => room.MapTiles.Contains(MapTile));
 
 	public bool Revealed { get; private set; }
 
 	public List<Hex> Neighbours { get; } = new List<Hex>();
 	public List<HexObject> HexObjects { get; } = new List<HexObject>();
+
+	public Room Room => GameController.Instance.Map.Rooms.FirstOrDefault(room => room.MapTiles.Contains(MapTile));
 
 	public event Action<Hex> HexObjectsChangedEvent;
 

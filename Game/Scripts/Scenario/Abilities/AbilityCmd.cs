@@ -454,9 +454,6 @@ public static class AbilityCmd
 		await ScenarioEvents.OverlayTileCreatedEvent.CreatePrompt(
 			new ScenarioEvents.OverlayTileCreated.Parameters(overlayTile));
 
-		await ScenarioEvents.OverlayTileCreatedEvent.CreatePrompt(
-			new ScenarioEvents.OverlayTileCreated.Parameters(overlayTile));
-
 		return (T)overlayTile;
 	}
 
@@ -530,7 +527,6 @@ public static class AbilityCmd
 		TargetSelectionPrompt.Answer targetAnswer = await PromptManager.Prompt(
 			new TargetSelectionPrompt(getValidTargets, autoSelectIfOne, mandatory, effectCollection, hintText ?? (() => "Select a target")),
 			authority);
-
 
 		if(targetAnswer.Skipped)
 		{
