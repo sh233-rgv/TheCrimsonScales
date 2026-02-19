@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class StarEarring : Prosperity5Item
+public class StarEarring : Prosperity9Item
 {
 	public override string Name => "Star Earring";
 	public override int ItemNumber => 69;

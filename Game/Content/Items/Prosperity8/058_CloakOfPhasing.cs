@@ -35,20 +35,6 @@ public class CloakOfPhasing : Prosperity8Item
 				});
 			});
 
-		ScenarioEvents.AbilityStartedEvent.Subscribe(this, _subscriber,
-			parameters => parameters.Performer == Owner && parameters.AbilityState is AttackAbility.State,
-			async parameters =>
-			{
-				await Use(async user =>
-				{
-					parameters.SetIsBlocked(true);
-
-					await GDTask.CompletedTask;
-				});
-			}
-		);
-
-
 		ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(this, _subscriber,
 			parameters => parameters.PotentialTarget == Owner && parameters.Performer.EnemiesWith(Owner) && Owner.Hex.HasHexObjectOfType<Obstacle>(),
 			parameters =>

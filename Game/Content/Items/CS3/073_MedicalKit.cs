@@ -24,21 +24,20 @@ public class MedicalKit : CS3Item
 	{
 		base.Subscribe();
 
-		ScenarioEvents.AbilityStartedEvent.Subscribe(this, _subscriber,
+		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this, _subscriber,
 			parameters =>
-				parameters.Performer == Owner &&
-				parameters.AbilityState is AttackAbility.State attackAbilityState &&
-				attackAbilityState.ActionState.ActionSource is AbilityCardSide abilityCardSide &&
-				abilityCardSide.AbilityCardSideType == AbilityCardSideType.BasicTop,
+				!parameters.ForgoneAction &&
+				parameters.AbilityCardSide.AbilityCardSideType is AbilityCardSideType.BasicTop,
 			async parameters =>
 			{
-				await Use(async user =>
-				{
-					parameters.AbilityState.SetBlocked();
-					await HealAbility.Builder().WithHealValue(2).WithRange(1).Build().Perform(parameters.AbilityState.ActionState);
-					await GDTask.CompletedTask;
-				});
-			}, EffectType.Selectable
+				parameters.ForgoAction();
+
+				ActionState actionState = new ActionState(parameters.Performer, [HealAbility.Builder().WithHealValue(2).WithRange(1).Build()]);
+				await actionState.Perform();
+			},
+			EffectType.Selectable,
+			effectButtonParameters: new IconEffectButton.Parameters(Icons.Heal),
+			effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Heal)}1, {Icons.Inline(Icons.Range)}2")
 		);
 	}
 
@@ -46,6 +45,6 @@ public class MedicalKit : CS3Item
 	{
 		base.Unsubscribe();
 
-		ScenarioEvents.AbilityStartedEvent.Unsubscribe(this, _subscriber);
+		ScenarioEvents.AbilityCardSideStartedEvent.Unsubscribe(this, _subscriber);
 	}
 }
