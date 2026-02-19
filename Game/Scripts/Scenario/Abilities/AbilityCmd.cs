@@ -324,7 +324,7 @@ public static class AbilityCmd
 		await GDTask.CompletedTask;
 	}
 
-	public static async GDTask RemoveCharacterToken(AbilityState abilityState, Figure target)
+	public static async GDTask RemoveCharacterToken(AbilityState abilityState, HexObject target)
 	{
 		ScenarioCheckEvents.GenericInfoItemExtraEffectsCheckEvent.Unsubscribe(abilityState, target);
 

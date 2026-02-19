@@ -13,7 +13,7 @@ public class ArtificerModel : ClassModel
 
 	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Artificer.tscn");
 
-	public override IList<AbilityCardModel> AbilityCards { get; } =
+	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
 		ModelDB.AbilityCard<JuryRiggedMachine>(),
 		ModelDB.AbilityCard<ImprovisedMortar>(),
@@ -46,5 +46,9 @@ public class ArtificerModel : ClassModel
 		ModelDB.AbilityCard<DoubleBarrelRailcaster>(),
 		ModelDB.AbilityCard<AnnihilatingContraption>(),
 		ModelDB.AbilityCard<PerfectedExosuit>()
+	];
+	
+	public override List<PerkModel> Perks { get; } =
+	[
 	];
 }

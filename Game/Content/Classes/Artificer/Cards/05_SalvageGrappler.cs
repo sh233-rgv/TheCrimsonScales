@@ -19,26 +19,28 @@ public class SalvageGrappler : ArtificerCardModel<SalvageGrappler.CardTop, Salva
 				.WithPull(1, new PullSquare(this, new Vector2(0.72050005f, 0.20105818f)))
 				.WithOnAbilityStarted(async abilityState =>
 				{
-					bool lootCoin = false;
-					/*ScenarioCheckEvents.SpawnCoinCheckEvent.Subscribe(abilityState, this,
-						canApplyParameters => abilityState.Target == canApplyParameters.Figure && canApplyParameters.SpawnCoin,
+					int coinsToLoot = 0;
+					ScenarioCheckEvents.SpawnCoinCheckEvent.Subscribe(abilityState, this,
+						canApplyParameters => abilityState.Target == canApplyParameters.Dropper && canApplyParameters.CoinsToSpawn > 0,
 						applyParameters =>
 						{
-							applyParameters.SetSpawnCoin(false);
-							lootCoin = true;
+							coinsToLoot = applyParameters.CoinsToSpawn;
+							applyParameters.SetCoinsToSpawn(0);
 						}, order: 100
-					);*/
-					//TODO: Add after brightspark
+					);
 					ScenarioEvents.AfterAttackPerformedEvent.Subscribe(abilityState, this,
-						parameters => parameters.AbilityState.Target.IsDead && lootCoin,
-						async parameters =>
+						parameters => parameters.AbilityState.Target.IsDead && coinsToLoot > 0,
+						async _ =>
 						{
-							PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/CoinStack.tscn");
-							CoinStack coinStack = scene.Instantiate<CoinStack>();
-							GameController.Instance.Map.AddChild(coinStack);
-							await coinStack.Init(abilityState.Target.Hex);
+							for(int i = 0; i < coinsToLoot; i++)
+							{
+								PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/CoinStack.tscn");
+								Coin coinStack = scene.Instantiate<Coin>();
+								GameController.Instance.Map.AddChild(coinStack);
+								await coinStack.Init(abilityState.Target.Hex);
 
-							await coinStack.Loot(abilityState.Performer);
+								await coinStack.Loot(abilityState.Performer);
+							}
 							await GainScrapToken(abilityState);
 						});
 
