@@ -37,7 +37,7 @@ public class MedicalKit : CS3Item
 			},
 			EffectType.Selectable,
 			effectButtonParameters: new IconEffectButton.Parameters(Icons.Heal),
-			effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Heal)}1, {Icons.Inline(Icons.Range)}2")
+			effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Heal)}2, {Icons.Inline(Icons.Range)}1")
 		);
 	}
 
