@@ -17,7 +17,7 @@ public class ArtificerAMDCards
 		public override Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) =>
 			async state =>
 			{
-				await ArtificerCardSide.GainScrapToken(state);
+				await ArtificerCardSide.GainScrapToken(GetCharacter(attackAbilityState));
 			};
 	}
 
@@ -33,7 +33,7 @@ public class ArtificerAMDCards
 		public override Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) =>
 			async state =>
 			{
-				await ArtificerCardSide.GainScrapToken(state);
+				await ArtificerCardSide.GainScrapToken(GetCharacter(attackAbilityState));
 			};
 	}
 
@@ -50,7 +50,7 @@ public class ArtificerAMDCards
 		public override Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) =>
 			async state =>
 			{
-				await ArtificerCardSide.GainScrapToken(state);
+				await ArtificerCardSide.GainScrapToken(GetCharacter(attackAbilityState));
 			};
 	}
 
