@@ -128,7 +128,7 @@ public class ArtificerPerks
 		protected override string Title => "Spare Parts";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
-			$"At the start of each scenario, you may lose one {Icons.Inline(Icons.GetItem(ItemType.Head))}, {Icons.Inline(Icons.GetItem(ItemType.Feet))}, {Icons.Inline(Icons.GetItem(ItemType.OneHand))}, or {Icons.Inline(Icons.GetItem(ItemType.TwoHands))} item for no effect to gain 2 {Icons.Inline(Artificer.ScrapToken)}.";
+			$"At the start of each scenario, you may lose one {Icons.Inline(Icons.GetItem(ItemType.Head), richTextParameters)}, {Icons.Inline(Icons.GetItem(ItemType.Feet), richTextParameters)}, {Icons.Inline(Icons.GetItem(ItemType.OneHand), richTextParameters)}, or {Icons.Inline(Icons.GetItem(ItemType.TwoHands), richTextParameters)} item for no effect to gain 2 {Icons.Inline(Artificer.ScrapToken, richTextParameters)}.";
 
 		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 		{
@@ -156,7 +156,7 @@ public class ArtificerPerks
 		protected override string Title => "Quick Tinkering";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
-			$"Whenever you short rest, you may {Icons.Inline(Icons.RecoverCard)} one spent {Icons.Inline(Icons.GetItem(ItemType.Head))}, {Icons.Inline(Icons.GetItem(ItemType.Feet))}, {Icons.Inline(Icons.GetItem(ItemType.OneHand))}, or {Icons.Inline(Icons.GetItem(ItemType.TwoHands))} item.";
+			$"Whenever you short rest, you may {Icons.Inline(Icons.RecoverCard, richTextParameters)} one spent {Icons.Inline(Icons.GetItem(ItemType.Head), richTextParameters)}, {Icons.Inline(Icons.GetItem(ItemType.Feet), richTextParameters)}, {Icons.Inline(Icons.GetItem(ItemType.OneHand), richTextParameters)}, or {Icons.Inline(Icons.GetItem(ItemType.TwoHands), richTextParameters)} item.";
 
 		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 		{
@@ -185,7 +185,7 @@ public class ArtificerPerks
 		protected override string Title => "Reconjigger";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
-			$"Whenever you long rest, you may spend 1{Icons.Inline(Artificer.ScrapToken)} to {Icons.Inline(Icons.RecoverCard)} one lost {Icons.Inline(Icons.GetItem(ItemType.Head))}, {Icons.Inline(Icons.GetItem(ItemType.Feet))}, {Icons.Inline(Icons.GetItem(ItemType.OneHand))}, or {Icons.Inline(Icons.GetItem(ItemType.TwoHands))} item.";
+			$"Whenever you long rest, you may spend 1{Icons.Inline(Artificer.ScrapToken, richTextParameters)} to {Icons.Inline(Icons.RecoverCard, richTextParameters)} one lost {Icons.Inline(Icons.GetItem(ItemType.Head), richTextParameters)}, {Icons.Inline(Icons.GetItem(ItemType.Feet), richTextParameters)}, {Icons.Inline(Icons.GetItem(ItemType.OneHand), richTextParameters)}, or {Icons.Inline(Icons.GetItem(ItemType.TwoHands), richTextParameters)} item.";
 
 		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 		{
