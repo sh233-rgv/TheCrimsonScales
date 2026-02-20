@@ -140,7 +140,7 @@ public class BrightsparkPerks
 		protected override string Title => "Spark of Inspiration";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
-			$"Whenever you long rest, after you recover your cards from your discard pile, you may play one card from your hand to perform all persistent abilities on either the top or bottom action of the card";
+			$"Whenever you long rest, after you recover your cards from your discard pile, you may play one card from your hand to perform all persistent abilities on either the top or bottom action of the card.";
 
 		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 		{

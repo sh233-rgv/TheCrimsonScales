@@ -9,7 +9,7 @@ public class BrightsparkAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, -2,
-				extraText: $"{Icons.Inline(Icons.RecoverCard)} one random card from your discard pile");
+				extraText: $"{Icons.Inline(Icons.RecoverCard, richTextParameters)} one random card from your discard pile");
 
 		protected override int AtlasIndex => 0;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => -2;
@@ -37,7 +37,8 @@ public class BrightsparkAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"Consume {Icons.Inline(Icons.WildElement)} to add +2{Icons.Inline(Icons.Attack)}");
+				extraText:
+				$"Consume {Icons.Inline(Icons.WildElement, richTextParameters)} to add +2{Icons.Inline(Icons.Attack, richTextParameters)}");
 
 		protected override int AtlasIndex => 1;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -61,7 +62,8 @@ public class BrightsparkAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
-				extraText: $"{Icons.Inline(Icons.Heal)}1, {Icons.Inline(Icons.Targets)}1 ally, {Icons.Inline(Icons.Range)}2");
+				extraText:
+				$"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.Targets, richTextParameters)}1 ally, {Icons.Inline(Icons.Range, richTextParameters)}2");
 
 		protected override int AtlasIndex => 4;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
@@ -76,7 +78,8 @@ public class BrightsparkAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
-				extraText: $"Grant one ally within {Icons.Inline(Icons.Range)}2 {Icons.Inline(Icons.Shield)}1");
+				extraText:
+				$"Grant one ally within {Icons.Inline(Icons.Range, richTextParameters)}2 {Icons.Inline(Icons.Shield, richTextParameters)}1");
 
 		protected override int AtlasIndex => 4;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
@@ -97,7 +100,8 @@ public class BrightsparkAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"Consume {Icons.Inline(Icons.WildElement)} to {Icons.Inline(Icons.WildElement)}", rolling: true);
+				extraText: $"Consume {Icons.Inline(Icons.WildElement, richTextParameters)} to {Icons.Inline(Icons.WildElement, richTextParameters)}",
+				rolling: true);
 
 		protected override int AtlasIndex => 7;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -121,7 +125,7 @@ public class BrightsparkAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +2,
-				extraText: $"{Icons.Inline(Icons.WildElement)}");
+				extraText: $"{Icons.Inline(Icons.WildElement, richTextParameters)}");
 
 		protected override int AtlasIndex => 10;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +2;
@@ -133,7 +137,7 @@ public class BrightsparkAMDCards
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText:
-				$"{Icons.Inline(Icons.GetCondition(Conditions.Strengthen))}, {Icons.Inline(Icons.Targets)}1 ally, {Icons.Inline(Icons.Range)}2");
+				$"{Icons.Inline(Icons.GetCondition(Conditions.Strengthen), richTextParameters)}, {Icons.Inline(Icons.Targets, richTextParameters)}1 ally, {Icons.Inline(Icons.Range, richTextParameters)}2");
 
 		protected override int AtlasIndex => 12;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
@@ -148,7 +152,7 @@ public class BrightsparkAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0, [Conditions.Immobilize],
-				extraText: Icons.Inline(Icons.GetElement(Element.Ice)), rolling: true);
+				extraText: Icons.Inline(Icons.GetElement(Element.Ice), richTextParameters), rolling: true);
 
 		protected override int AtlasIndex => 14;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -160,7 +164,8 @@ public class BrightsparkAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"{Icons.Inline(Icons.Push)}1 or {Icons.Inline(Icons.Pull)}1, {Icons.Inline(Icons.GetElement(Element.Air))}",
+				extraText:
+				$"{Icons.Inline(Icons.Push, richTextParameters)}1 or {Icons.Inline(Icons.Pull, richTextParameters)}1, {Icons.Inline(Icons.GetElement(Element.Air), richTextParameters)}",
 				rolling: true);
 
 		protected override int AtlasIndex => 15;
@@ -194,7 +199,8 @@ public class BrightsparkAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"{Icons.Inline(Icons.Pierce)}2, {Icons.Inline(Icons.GetElement(Element.Fire))}", rolling: true);
+				extraText: $"{Icons.Inline(Icons.Pierce, richTextParameters)}2, {Icons.Inline(Icons.GetElement(Element.Fire), richTextParameters)}",
+				rolling: true);
 
 		protected override int AtlasIndex => 16;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -206,7 +212,8 @@ public class BrightsparkAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"{Icons.Inline(Icons.Heal)}1, {Icons.Inline(Icons.Range)}3, {Icons.Inline(Icons.GetElement(Element.Light))}",
+				extraText:
+				$"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.Range, richTextParameters)}3, {Icons.Inline(Icons.GetElement(Element.Light), richTextParameters)}",
 				rolling: true);
 
 		protected override int AtlasIndex => 17;

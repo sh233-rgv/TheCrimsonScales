@@ -51,5 +51,31 @@ public class ChieftainModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<ChieftainPerks.ReplaceOneMinusTwoWithOneMinusTwoBlessSelf>(),
+		
+		ModelDB.Perk<ChieftainPerks.ReplaceOneMinusOneWithOnePlusZeroPoison>(),
+		
+		ModelDB.Perk<ChieftainPerks.ReplaceOneMinusOneWithOnePlusZeroHealOneChieftain>(),
+		ModelDB.Perk<ChieftainPerks.ReplaceOneMinusOneWithOnePlusZeroHealOneChieftain>(),
+		
+		ModelDB.Perk<ChieftainPerks.ReplaceOneMinusOneWithOnePlusZeroHealTargetAllYourSummons>(),
+		ModelDB.Perk<ChieftainPerks.ReplaceOneMinusOneWithOnePlusZeroHealTargetAllYourSummons>(),
+		
+		ModelDB.Perk<ChieftainPerks.ReplaceTwoPlusZeroWithPlusZeroPushOneImmobilize>(),
+		
+		ModelDB.Perk<ChieftainPerks.ReplacePlusZeroWithOnePlusZeroAddPlusOneForEachOfYourSummons>(),
+		ModelDB.Perk<ChieftainPerks.ReplacePlusZeroWithOnePlusZeroAddPlusOneForEachOfYourSummons>(),
+		
+		ModelDB.Perk<ChieftainPerks.ReplaceOnePlusZeroWithTwoPlusZeroPierceTwoUnaffectedByRetaliateRolling>(),
+		
+		ModelDB.Perk<ChieftainPerks.ReplaceOnePlusZeroWithOnePlusOneIfDrawnBySummonRolling>(),
+		
+		ModelDB.Perk<ChieftainPerks.AddTwoPlusOneEarth>(),
+		
+		ModelDB.Perk<ChieftainPerks.IgnoreNegativeScenarioEffectsAddPlusZeroPierceOneWound>(),
+		
+		ModelDB.Perk<ChieftainPerks.PracticedControl>(),
+		
+		ModelDB.Perk<ChieftainPerks.Stampede>(),
 	];
 }
