@@ -22,6 +22,7 @@ public partial class ScenarioSetupButtonsView : Control
 	private Character _selectedCharacter;
 
 	private event Action StartPressedEvent;
+	private event Action<Character, int> BattleGoalSelectedEvent;
 
 	public override void _Ready()
 	{
@@ -34,11 +35,12 @@ public partial class ScenarioSetupButtonsView : Control
 		_battleGoalsButton.BetterButton.Pressed += OnBattleGoalsPressed;
 	}
 
-	public void Open(Action onStartPressed)
+	public void Open(Action onStartPressed, Action<Character, int> battleGoalSelectedEvent)
 	{
 		_opened = true;
 
 		StartPressedEvent = onStartPressed;
+		BattleGoalSelectedEvent = battleGoalSelectedEvent;
 
 		_startScenarioButton.SetActive(false);
 
@@ -138,7 +140,8 @@ public partial class ScenarioSetupButtonsView : Control
 
 		AppController.Instance.PopupManager.RequestPopup(new BattleGoalSelectionPopup.Request
 		{
-			Character = _selectedCharacter
+			Character = _selectedCharacter,
+			BattleGoalSelectedEvent = BattleGoalSelectedEvent
 		});
 	}
 }

@@ -5,10 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="3_6la3q"]
 [ext_resource type="PackedScene" uid="uid://dck04vx4nfhj5" path="res://Scenes/UI/Popups/BattleGoalSelectionPopup/BattleGoalSelectionPopupBattleGoal.tscn" id="3_nkx7n"]
 
-[node name="BattleGoalSelectionPopup" node_paths=PackedStringArray("_battleGoalsParent") instance=ExtResource("1_qlusc")]
+[node name="BattleGoalSelectionPopup" node_paths=PackedStringArray("_battleGoalsParent", "_confirmButton") instance=ExtResource("1_qlusc")]
 script = ExtResource("2_fk0t7")
 _battleGoalScene = ExtResource("3_nkx7n")
 _battleGoalsParent = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Content/BattleGoals")
+_confirmButton = NodePath("Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons/ConfirmButton/BetterButton")
 
 [node name="Label" parent="Panel/MarginContainer/VBoxContainer/Header" index="1"]
 text = "Battle Goal Selection"

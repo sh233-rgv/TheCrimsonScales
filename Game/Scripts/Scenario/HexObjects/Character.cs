@@ -45,6 +45,7 @@ public partial class Character : Figure
 	public override Node2D Visual =>
 		AppController.Instance.Options.AnimatedCharacters.Value && ClassModel.HasAnimatedSprite ? _animatedSprite : _staticSprite;
 
+	public event Action<Character> BattleGoalChangedEvent;
 	public event Action<Character> ShortRestedEvent;
 	public event Action<Character> CoinsChangedEvent;
 	public event Action<Character> XPChangedEvent;
@@ -180,7 +181,14 @@ public partial class Character : Figure
 
 	public void SetBattleGoal(BattleGoalModel battleGoal)
 	{
+		if(battleGoal == BattleGoal)
+		{
+			return;
+		}
+
 		BattleGoal = battleGoal;
+
+		BattleGoalChangedEvent?.Invoke(this);
 	}
 
 	public void OnRoundCardsChanged()

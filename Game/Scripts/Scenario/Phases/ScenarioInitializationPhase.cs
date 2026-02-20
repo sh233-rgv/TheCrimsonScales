@@ -23,6 +23,7 @@ public class ScenarioInitializationPhase : ScenarioPhase
 
 		// Give all characters battle goals to pick from
 		List<BattleGoalModel> battleGoals = BattleGoals.Goals.ToList();
+		battleGoals.Shuffle(GameController.Instance.StateRNG);
 		foreach(Character character in GameController.Instance.CharacterManager.Characters)
 		{
 			for(int i = 0; i < 3; i++)

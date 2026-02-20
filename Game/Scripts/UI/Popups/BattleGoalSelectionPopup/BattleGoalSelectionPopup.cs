@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class BattleGoalSelectionPopup : Popup<BattleGoalSelectionPopup.Request>
@@ -6,6 +7,7 @@ public partial class BattleGoalSelectionPopup : Popup<BattleGoalSelectionPopup.R
 	public class Request : PopupRequest
 	{
 		public Character Character { get; init; }
+		public Action<Character, int> BattleGoalSelectedEvent { get; init; }
 	}
 
 	[Export]
@@ -13,7 +15,17 @@ public partial class BattleGoalSelectionPopup : Popup<BattleGoalSelectionPopup.R
 	[Export]
 	private Control _battleGoalsParent;
 
+	[Export]
+	private BetterButton _confirmButton;
+
 	private readonly List<BattleGoalSelectionPopupBattleGoal> _battleGoals = new List<BattleGoalSelectionPopupBattleGoal>();
+
+	public override void _Ready()
+	{
+		base._Ready();
+
+		_confirmButton.Pressed += OnConfirmPressed;
+	}
 
 	protected override void OnOpen()
 	{
@@ -32,6 +44,8 @@ public partial class BattleGoalSelectionPopup : Popup<BattleGoalSelectionPopup.R
 				battleGoal.SetSelected(battleGoal.BattleGoalModel == PopupRequest.Character.BattleGoal);
 			}
 		}
+
+		PopupRequest.Character.BattleGoalChangedEvent += OnBattleGoalChanged;
 	}
 
 	protected override void OnClosed()
@@ -44,6 +58,11 @@ public partial class BattleGoalSelectionPopup : Popup<BattleGoalSelectionPopup.R
 		}
 
 		_battleGoals.Clear();
+
+		if(PopupRequest.Character != null)
+		{
+			PopupRequest.Character.BattleGoalChangedEvent -= OnBattleGoalChanged;
+		}
 	}
 
 	private void OnBattleGoalPressed(BattleGoalSelectionPopupBattleGoal battleGoal)
@@ -53,11 +72,28 @@ public partial class BattleGoalSelectionPopup : Popup<BattleGoalSelectionPopup.R
 			return;
 		}
 
-		PopupRequest.Character.SetBattleGoal(battleGoal.BattleGoalModel);
+		// PopupRequest.Character.SetBattleGoal(battleGoal.BattleGoalModel);
+		//
+		// foreach(BattleGoalSelectionPopupBattleGoal otherBattleGoal in _battleGoals)
+		// {
+		// 	otherBattleGoal.SetSelected(otherBattleGoal == battleGoal);
+		// }
 
-		foreach(BattleGoalSelectionPopupBattleGoal otherBattleGoal in _battleGoals)
+		PopupRequest.BattleGoalSelectedEvent?.Invoke(
+			PopupRequest.Character,
+			PopupRequest.Character.AvailableBattleGoals.IndexOf(battleGoal.BattleGoalModel));
+	}
+
+	private void OnConfirmPressed()
+	{
+		Close();
+	}
+
+	private void OnBattleGoalChanged(Character character)
+	{
+		foreach(BattleGoalSelectionPopupBattleGoal battleGoal in _battleGoals)
 		{
-			otherBattleGoal.SetSelected(otherBattleGoal == battleGoal);
+			battleGoal.SetSelected(battleGoal.BattleGoalModel == character.BattleGoal);
 		}
 	}
 }
