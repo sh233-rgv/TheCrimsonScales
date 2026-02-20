@@ -11,6 +11,8 @@ public class Scenario006 : ScenarioModel
 	protected override ScenarioGoals CreateScenarioGoals() => new CustomScenarioGoals(
 		"Purify the poisoned water supply to win this scenario. ");
 
+	protected override List<MonsterModel> SpawnedMonsterModels { get; } = [ModelDB.Monster<FlamingDrake>()];
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
@@ -47,17 +49,17 @@ public class Scenario006 : ScenarioModel
 		// Allow picking up the antidote
 		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this, pickSubscriber,
 			parameters =>
-				!parameters.ForgoneAction && 
-				RangeHelper.GetHexesInRange(parameters.Performer.Hex, 1).Any(hex => hexesWithAntidote.Contains(hex) && 
-				hex.HasHexObjectOfType<Obstacle>()) &&
+				!parameters.ForgoneAction &&
+				RangeHelper.GetHexesInRange(parameters.Performer.Hex, 1).Any(hex => hexesWithAntidote.Contains(hex) &&
+				                                                                    hex.HasHexObjectOfType<Obstacle>()) &&
 				!characterHasAntidote[parameters.Performer],
 			async parameters =>
 			{
 				Hex chosenHex = await AbilityCmd.SelectHex(GameController.Instance.CharacterManager.FirstAlive(),
-				list =>
-				{
-					list.AddRange(RangeHelper.GetHexesInRange(parameters.Performer.Hex, 1).Where(hex => hexesWithAntidote.Contains(hex)));
-				}, mandatory: true);
+					list =>
+					{
+						list.AddRange(RangeHelper.GetHexesInRange(parameters.Performer.Hex, 1).Where(hex => hexesWithAntidote.Contains(hex)));
+					}, mandatory: true);
 
 				parameters.ForgoAction();
 
@@ -101,8 +103,8 @@ public class Scenario006 : ScenarioModel
 		// Allow placing the antidote into the fountain
 		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this, placeSubscriber,
 			parameters => !parameters.ForgoneAction &&
-				RangeHelper.GetHexesInRange(parameters.Performer.Hex, 1).Any(hex => hexWithFountain == hex) &&
-				characterHasAntidote[parameters.Performer],
+			              RangeHelper.GetHexesInRange(parameters.Performer.Hex, 1).Any(hex => hexWithFountain == hex) &&
+			              characterHasAntidote[parameters.Performer],
 			async parameters =>
 			{
 				await AbilityCmd.SelectHex(GameController.Instance.CharacterManager.FirstAlive(), list => list.Add(hexWithFountain), mandatory: true);
