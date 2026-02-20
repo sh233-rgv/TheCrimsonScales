@@ -123,14 +123,14 @@ public class ChieftainPerks
 		];
 	}
 
-	public class IgnoreNegativeScenarioEffectsAddPlusZeroPierceOneWound : ChieftainPerk
+	public class IgnoreScenarioEffectsAddPlusZeroPierceOneWound : ChieftainPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
 			ModelDB.AMDCard<ChieftainAMDCards.PlusZeroPierceOneWound>()
 		];
 
-		public override bool IgnoreNegativeScenarioEffects => true;
+		public override bool IgnoreScenarioEffects => true;
 	}
 
 	public class PracticedControl : ChieftainPerk, IEventSubscriber
@@ -173,6 +173,7 @@ public class ChieftainPerks
 						ActionState actionState = new ActionState(summon, [AbilityCmd.SummonMovePlusX(+0).Build()]);
 						await actionState.Perform();
 					}
+
 					AbilityCmd.UnsubscribeDuringTurn(this);
 				}, new IconEffectButton.Parameters(Icons.Move),
 				new TextEffectInfoView.Parameters($"All of your summon perform {Icons.Inline(Icons.Move)}+0"));

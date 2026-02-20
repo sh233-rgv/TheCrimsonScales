@@ -124,14 +124,14 @@ public class BrightsparkPerks
 		];
 	}
 
-	public class IgnoreNegativeScenarioEffectsRemoveOneMinusOne : BrightsparkPerk
+	public class IgnoreScenarioEffectsRemoveOneMinusOne : BrightsparkPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
 			ModelDB.AMDCard<MinusOneAMDCard>()
 		];
 
-		public override bool IgnoreNegativeScenarioEffects => true;
+		public override bool IgnoreScenarioEffects => true;
 	}
 
 	public class SparkOfInspiration : BrightsparkPerk, IEventSubscriber

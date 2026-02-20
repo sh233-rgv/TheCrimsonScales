@@ -53,19 +53,19 @@ public partial class PerkConfirmationPopup : Popup<PerkConfirmationPopup.Request
 
 		string effectsText = string.Empty;
 
-		if(perkModel.IgnoreNegativeScenarioEffects)
+		if(perkModel.IgnoreScenarioEffects)
 		{
-			effectsText += "Ignore negative scenario effects.";
+			effectsText += "Ignore scenario effects.";
 		}
 
-		if(perkModel.IgnoreNegativeItemEffects)
+		if(perkModel.IgnoreItemMinusOneEffects)
 		{
 			if(!string.IsNullOrEmpty(effectsText))
 			{
 				effectsText += "\n";
 			}
 
-			effectsText += "Ignore negative item effects.";
+			effectsText += $"Ignore item {Icons.Inline(Icons.MinusOneCard, _effectsLabel.GetRichTextParameters())} effects.";
 		}
 
 		string nonAMDDescription = perkModel.GetNonAMDDescription(_effectsLabel.GetRichTextParameters());

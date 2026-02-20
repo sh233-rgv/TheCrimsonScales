@@ -63,9 +63,9 @@ public class BombardModel : ClassModel
 
 		ModelDB.Perk<BombardPerks.AddTwoPlusZeroHealOneSelfRolling>(),
 
-		ModelDB.Perk<BombardPerks.IgnoreNegativeScenarioEffectsAddPlusOnePullSelf>(),
+		ModelDB.Perk<BombardPerks.IgnoreScenarioEffectsAddPlusOnePullSelf>(),
 
-		ModelDB.Perk<BombardPerks.IgnoreNegativeItemEffectsAddPlusOnePullSelf>(),
+		ModelDB.Perk<BombardPerks.IgnoreItemMinusOneEffectsAddPlusOnePullSelf>(),
 
 		ModelDB.Perk<BombardPerks.EmergencyEmplacement>(),
 	];

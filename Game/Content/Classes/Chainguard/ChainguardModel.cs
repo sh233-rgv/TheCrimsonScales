@@ -71,7 +71,7 @@ public class ChainguardModel : ClassModel
 		ModelDB.Perk<ChainguardPerks.AddOnePlusTwoShackle>(),
 		ModelDB.Perk<ChainguardPerks.AddOnePlusTwoShackle>(),
 
-		ModelDB.Perk<ChainguardPerks.IgnoreNegativeItemEffectsAddPlusOneCreateDamageTwoTrap>(),
+		ModelDB.Perk<ChainguardPerks.IgnoreItemMinusOneEffectsAddPlusOneCreateDamageTwoTrap>(),
 
 		ModelDB.Perk<ChainguardPerks.UnyieldingJailer>(),
 	];

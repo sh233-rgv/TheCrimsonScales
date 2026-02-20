@@ -104,6 +104,7 @@ public class BrightsparkAMDCards
 				rolling: true);
 
 		protected override int AtlasIndex => 7;
+		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.ConsumeWildInfuseWild()];
 
@@ -155,6 +156,7 @@ public class BrightsparkAMDCards
 				extraText: Icons.Inline(Icons.GetElement(Element.Ice), richTextParameters), rolling: true);
 
 		protected override int AtlasIndex => 14;
+		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) => [Conditions.Immobilize];
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Ice)];
@@ -169,6 +171,7 @@ public class BrightsparkAMDCards
 				rolling: true);
 
 		protected override int AtlasIndex => 15;
+		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Air)];
 
@@ -203,6 +206,7 @@ public class BrightsparkAMDCards
 				rolling: true);
 
 		protected override int AtlasIndex => 16;
+		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override int? Pierce => 2;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Fire)];
@@ -217,6 +221,7 @@ public class BrightsparkAMDCards
 				rolling: true);
 
 		protected override int AtlasIndex => 17;
+		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Light)];
 

@@ -127,24 +127,24 @@ public class BombardPerks
 		];
 	}
 
-	public class IgnoreNegativeScenarioEffectsAddPlusOnePullSelf : BombardPerk
+	public class IgnoreScenarioEffectsAddPlusOnePullSelf : BombardPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
 			ModelDB.AMDCard<BombardAMDCards.PlusOnePullSelfTowardTarget>()
 		];
 
-		public override bool IgnoreNegativeScenarioEffects => true;
+		public override bool IgnoreScenarioEffects => true;
 	}
 
-	public class IgnoreNegativeItemEffectsAddPlusOnePullSelf : BombardPerk
+	public class IgnoreItemMinusOneEffectsAddPlusOnePullSelf : BombardPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
 			ModelDB.AMDCard<BombardAMDCards.PlusOnePullSelfTowardTarget>()
 		];
 
-		public override bool IgnoreNegativeItemEffects => true;
+		public override bool IgnoreItemMinusOneEffects => true;
 	}
 
 	public class EmergencyEmplacement : BombardPerk

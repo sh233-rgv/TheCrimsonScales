@@ -1070,6 +1070,19 @@ public partial class ScenarioEvents
 	private readonly RoomRevealed _roomRevealed = new RoomRevealed();
 	public static RoomRevealed RoomRevealedEvent => GameController.Instance.ScenarioEvents._roomRevealed;
 
+	public class DoorOpened : ScenarioEvent<DoorOpened.Parameters>
+	{
+		public class Parameters(Door openedDoor, Figure potentialOpener)
+			: ParametersBase
+		{
+			public Door OpenedDoor { get; } = openedDoor;
+			public Figure PotentialOpener { get; } = potentialOpener;
+		}
+	}
+
+	private readonly DoorOpened _doorOpened = new DoorOpened();
+	public static DoorOpened DoorOpenedEvent => GameController.Instance.ScenarioEvents._doorOpened;
+
 	public class ItemUseStarted : ScenarioEvent<ItemUseStarted.Parameters>
 	{
 		public class Parameters(ItemModel item, Figure performer) : ParametersBase

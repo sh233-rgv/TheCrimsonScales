@@ -102,14 +102,14 @@ public class ChainguardPerks
 		];
 	}
 
-	public class IgnoreNegativeItemEffectsAddPlusOneCreateDamageTwoTrap : ChainguardPerk
+	public class IgnoreItemMinusOneEffectsAddPlusOneCreateDamageTwoTrap : ChainguardPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
 			ModelDB.AMDCard<ChainguardAMDCards.PlusOneCreateDamageTwoTrap>()
 		];
 
-		public override bool IgnoreNegativeItemEffects => true;
+		public override bool IgnoreItemMinusOneEffects => true;
 	}
 
 	public class UnyieldingJailer : ChainguardPerk, IEventSubscriber

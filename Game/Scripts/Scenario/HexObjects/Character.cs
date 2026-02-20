@@ -600,17 +600,17 @@ public partial class Character : Figure
 			Items.Add(item);
 		}
 
-		bool ignoreNegativeItemEffects = false;
+		bool IgnoreItemMinusOneEffects = false;
 		for(int i = 0; i < ClassModel.Perks.Count; i++)
 		{
 			PerkModel perkModel = ClassModel.Perks[i];
-			if(perkModel.IgnoreNegativeItemEffects && SavedCharacter.GetPerkAcquired(i))
+			if(perkModel.IgnoreItemMinusOneEffects && SavedCharacter.GetPerkAcquired(i))
 			{
-				ignoreNegativeItemEffects = true;
+				IgnoreItemMinusOneEffects = true;
 			}
 		}
 
-		if(!ignoreNegativeItemEffects)
+		if(!IgnoreItemMinusOneEffects)
 		{
 			foreach(ItemModel item in Items)
 			{
