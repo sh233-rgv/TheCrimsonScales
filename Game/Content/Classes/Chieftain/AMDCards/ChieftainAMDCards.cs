@@ -55,12 +55,7 @@ public class ChieftainAMDCards
 				.WithTarget(Target.SelfOrAllies | Target.TargetAll)
 				.WithCustomGetTargets((state, figures) =>
 				{
-					Character character = state.Performer switch
-					{
-						Character performer => performer,
-						Summon summon => summon.CharacterOwner,
-						_ => null
-					};
+					Character character = GetCharacter(attackAbilityState);
 
 					if(character != null)
 					{
@@ -107,16 +102,7 @@ public class ChieftainAMDCards
 
 		protected override int AtlasIndex => 7;
 
-		public override int? GetValue(AttackAbility.State attackAbilityState)
-		{
-			Character character = attackAbilityState.Performer switch
-			{
-				Character performer => performer,
-				Summon summon => summon.CharacterOwner,
-				_ => null
-			};
-			return character?.Summons.Count ?? 0;
-		}
+		public override int? GetValue(AttackAbility.State attackAbilityState) => GetCharacter(attackAbilityState)?.Summons.Count ?? 0;
 	}
 
 	public class PlusOneIfDrawnBySummonRolling : ChieftainAMDCardModel
