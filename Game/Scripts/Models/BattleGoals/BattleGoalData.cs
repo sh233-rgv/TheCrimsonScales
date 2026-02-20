@@ -6,7 +6,11 @@ public class BattleGoalData
 
 	public event Action<BattleGoalData> ProgressChangedEvent;
 
-	private void AdjustProgress(int value, BattleGoalModel battleGoalModel)
+	public BattleGoalData(BattleGoalModel battleGoalModel)
+	{
+	}
+
+	private void AdjustProgress(int value)
 	{
 		Progress += value;
 

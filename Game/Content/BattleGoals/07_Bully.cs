@@ -5,7 +5,7 @@ public class Bully : TheCrimsonScalesBattleGoal
 	public override string Title => "Bully";
 	public override string Description => "Kill a monster afflicted by a negative condition";
 
-	public override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoalData battleGoalData)
+	protected override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoalData battleGoalData)
 	{
 		//TODO: Implement
 		await GDTask.CompletedTask;

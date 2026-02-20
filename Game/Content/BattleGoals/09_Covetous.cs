@@ -7,7 +7,7 @@ public class Covetous : TheCrimsonScalesBattleGoal
 
 	public override bool FailIfProgressFull => true;
 
-	public override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoalData battleGoalData)
+	protected override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoalData battleGoalData)
 	{
 		//TODO: Implement
 		await GDTask.CompletedTask;

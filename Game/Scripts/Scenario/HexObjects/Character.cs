@@ -662,6 +662,11 @@ public partial class Character : Figure
 			await SavedCharacter.SavedPersonalQuest.Model.OnScenarioSetupPhaseCompleted(this);
 		}
 
+		if(BattleGoal != null)
+		{
+			await BattleGoal.OnScenarioSetupPhaseCompleted(this);
+		}
+
 		await GDTask.CompletedTask;
 	}
 
