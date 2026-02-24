@@ -87,6 +87,10 @@ public abstract class PerkModel : AbstractModel
 		await GDTask.CompletedTask;
 	}
 
+	public virtual void OnPerkAcquired(SavedCharacter savedCharacter)
+	{
+	}
+
 	private string GetNonAMDString(RichTextParameters richTextParameters)
 	{
 		return $"[b]{Title}:[/b] {GetNonAMDDescription(richTextParameters)}";

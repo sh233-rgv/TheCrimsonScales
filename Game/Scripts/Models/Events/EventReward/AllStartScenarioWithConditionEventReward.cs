@@ -33,7 +33,14 @@ public class AllStartScenarioWithConditionEventReward(params ConditionModel[] co
 		{
 			foreach(ConditionModel conditionModel in conditionModels)
 			{
-				await AbilityCmd.AddCondition(null, character, conditionModel);
+				ScenarioEvents.InflictConditionEventReward.Parameters inflictConditionsParameters =
+					await ScenarioEvents.InflictConditionEventRewardEvent.CreatePrompt(
+						new ScenarioEvents.InflictConditionEventReward.Parameters(character, conditionModel), character);
+				
+				if(!inflictConditionsParameters.Prevented)
+				{
+					await AbilityCmd.AddCondition(null, character, conditionModel);
+				}
 			}
 		}
 	}

@@ -51,7 +51,7 @@ public class FireKnightAMDCards
 		protected override int AtlasIndex => 4;
 
 		public override int? GetValue(AttackAbility.State attackAbilityState) =>
-			attackAbilityState.Performer.Hex.HasHexObjectOfType<Ladder>() ? +2 : +0;
+			attackAbilityState?.Performer.Hex.HasHexObjectOfType<Ladder>() == true ? +2 : +0;
 	}
 
 	public class PlusOneWound : FireKnightAMDCardModel

@@ -112,7 +112,7 @@ public class ChieftainAMDCards
 				extraText: $"If this card is drawn by one of your summons, it is considered {Icons.Inline(Icons.Rolling, richTextParameters)}");
 
 		protected override int AtlasIndex => 9;
-		public override bool GetRolling(AttackAbility.State attackAbilityState) => attackAbilityState.Performer is Summon;
+		public override bool GetRolling(AttackAbility.State attackAbilityState) => attackAbilityState?.Performer is Summon;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 	}
 

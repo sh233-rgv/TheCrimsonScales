@@ -20,7 +20,9 @@ public class ChainguardAMDCards
 				$"If the target has {Icons.Inline(Icons.GetCondition(Chainguard.Shackle), richTextParameters)}, {Icons.Inline(Icons.GetAMDValue("+2"), richTextParameters)} instead");
 
 		protected override int AtlasIndex => 2;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => attackAbilityState.Target.HasCondition(Chainguard.Shackle) ? +2 : 0;
+
+		public override int? GetValue(AttackAbility.State attackAbilityState) =>
+			attackAbilityState?.Target.HasCondition(Chainguard.Shackle) == true ? +2 : 0;
 	}
 
 	public class PlusZeroShieldOneRolling : ChainguardAMDCardModel
@@ -85,7 +87,7 @@ public class ChainguardAMDCards
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 
 		public override List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) =>
-			attackAbilityState.Target.HasCondition(Chainguard.Shackle) ? [Conditions.Disarm] : [];
+			attackAbilityState?.Target.HasCondition(Chainguard.Shackle) ?? false ? [Conditions.Disarm] : [];
 	}
 
 	public class PlusOneCreateDamageTwoTrap : ChainguardAMDCardModel

@@ -293,6 +293,12 @@ public partial class Character : Figure
 		item.SetOwner(null);
 	}
 
+	public void EquipItem(ItemModel itemModel)
+	{
+		itemModel.Init(this);
+		Items.Add(itemModel);
+	}
+
 	public void RegisterSummon(Summon summon)
 	{
 		Summons.Add(summon);
@@ -584,8 +590,7 @@ public partial class Character : Figure
 			}
 
 			ItemModel item = ModelDB.GetById<ItemModel>(baseSlotItem).ToMutable();
-			item.Init(this);
-			Items.Add(item);
+			EquipItem(item);
 		}
 
 		foreach(string smallItem in SavedCharacter.EquippedSmallItems)
@@ -596,21 +601,20 @@ public partial class Character : Figure
 			}
 
 			ItemModel item = ModelDB.GetById<ItemModel>(smallItem).ToMutable();
-			item.Init(this);
-			Items.Add(item);
+			EquipItem(item);
 		}
 
-		bool IgnoreItemMinusOneEffects = false;
+		bool ignoreItemMinusOneEffects = false;
 		for(int i = 0; i < ClassModel.Perks.Count; i++)
 		{
 			PerkModel perkModel = ClassModel.Perks[i];
 			if(perkModel.IgnoreItemMinusOneEffects && SavedCharacter.GetPerkAcquired(i))
 			{
-				IgnoreItemMinusOneEffects = true;
+				ignoreItemMinusOneEffects = true;
 			}
 		}
 
-		if(!IgnoreItemMinusOneEffects)
+		if(!ignoreItemMinusOneEffects)
 		{
 			foreach(ItemModel item in Items)
 			{

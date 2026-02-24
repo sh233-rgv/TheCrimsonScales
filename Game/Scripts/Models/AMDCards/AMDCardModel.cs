@@ -132,7 +132,7 @@ public abstract class AMDCardModel : AbstractModel
 
 	protected Character GetCharacter(AttackAbility.State state)
 	{
-		return state.Performer switch
+		return state?.Performer switch
 		{
 			Character performer => performer,
 			Summon summon => summon.CharacterOwner,

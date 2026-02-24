@@ -938,7 +938,7 @@ public static class AbilityCmd
 		return selectedItem;
 	}
 
-	public static async GDTask<ItemModel> SelectItem(Figure authority, List<ItemModel> items, string hintText = "Select an item")
+	public static async GDTask<ItemModel> SelectItem(Figure authority, List<ItemModel> items, bool mandatory = false, string hintText = "Select an item")
 	{
 		List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
 			new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
@@ -954,7 +954,7 @@ public static class AbilityCmd
 
 					await GDTask.CompletedTask;
 				},
-				effectType: EffectType.SelectableMandatory,
+				effectType: mandatory ? EffectType.SelectableMandatory : EffectType.Selectable,
 				effectButtonParameters: new ItemEffectButton.Parameters(item),
 				effectInfoViewParameters: new ItemEffectInfoView.Parameters(item)
 			));

@@ -309,7 +309,7 @@ public class SavedCharacter
 		CheckmarkCountChangedEvent?.Invoke(this);
 	}
 
-	public void AcquirePerk(int perkIndex)
+	public void AcquirePerk(int perkIndex, PerkModel perkModel)
 	{
 		if(!CanAcquirePerk(perkIndex))
 		{
@@ -319,6 +319,8 @@ public class SavedCharacter
 		AcquiredPerkIndices.Add(perkIndex);
 
 		PerksChangedEvent?.Invoke(this);
+		GD.Print("Getting Item");
+		perkModel.OnPerkAcquired(this);
 	}
 
 	public int GetUsedPerkCount()

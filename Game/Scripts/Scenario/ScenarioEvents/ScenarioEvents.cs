@@ -1210,4 +1210,62 @@ public partial class ScenarioEvents
 
 	private readonly LootableObjectLooted _lootableObjectLooted = new LootableObjectLooted();
 	public static LootableObjectLooted LootableObjectLootedEvent => GameController.Instance.ScenarioEvents._lootableObjectLooted;
+	
+	public class InflictConditionEventReward : ScenarioEvent<InflictConditionEventReward.Parameters>
+	{
+		public class Parameters(Character character, ConditionModel conditionModel)
+			: ParametersBase
+		{
+			public Character Character { get; } = character;
+			public ConditionModel ConditionModel { get; } = conditionModel;
+
+			public bool Prevented { get; private set; }
+
+			public void SetPrevented(bool prevented)
+			{
+				Prevented = prevented;
+			}
+		}
+	}
+
+	private readonly InflictConditionEventReward _inflictConditionEventReward = new InflictConditionEventReward();
+	public static InflictConditionEventReward InflictConditionEventRewardEvent => GameController.Instance.ScenarioEvents._inflictConditionEventReward;
+	
+	public class SufferDamageEventReward : ScenarioEvent<SufferDamageEventReward.Parameters>
+	{
+		public class Parameters(Character character)
+			: ParametersBase
+		{
+			public Character Character { get; } = character;
+
+			public bool Prevented { get; private set; }
+
+			public void SetPrevented(bool prevented)
+			{
+				Prevented = prevented;
+			}
+		}
+	}
+
+	private readonly SufferDamageEventReward _sufferDamageEventReward = new SufferDamageEventReward();
+	public static SufferDamageEventReward SufferDamageEventRewardEvent => GameController.Instance.ScenarioEvents._sufferDamageEventReward;
+	
+	public class AddMinusOnesEventReward : ScenarioEvent<AddMinusOnesEventReward.Parameters>
+	{
+		public class Parameters(Character character)
+			: ParametersBase
+		{
+			public Character Character { get; } = character;
+
+			public bool Prevented { get; private set; }
+
+			public void SetPrevented(bool prevented)
+			{
+				Prevented = prevented;
+			}
+		}
+	}
+
+	private readonly AddMinusOnesEventReward _addMinusOnesEventReward = new AddMinusOnesEventReward();
+	public static AddMinusOnesEventReward AddMinusOnesEventRewardEvent => GameController.Instance.ScenarioEvents._addMinusOnesEventReward;
 }

@@ -132,18 +132,5 @@ public class LuminaryAMDCards
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.ConsumeWildInfuseWild()];
-
-		public override Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) =>
-			async state =>
-			{
-				await AbilityCmd.GenericChoice(state.Authority,
-				[
-					ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.ConsumeWildElement(applyFunction: async _ =>
-						{
-							await AbilityCmd.InfuseWildElement(state);
-						}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"Infuse {Icons.Inline(Icons.WildElement)}"),
-						potentialConsumer: state.Performer)
-				]);
-			};
 	}
 }

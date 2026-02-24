@@ -127,7 +127,7 @@ public partial class PerkConfirmationPopup : Popup<PerkConfirmationPopup.Request
 
 	private void OnConfirmPressed()
 	{
-		PopupRequest.SavedCharacter.AcquirePerk(PopupRequest.PerkIndex);
+		PopupRequest.SavedCharacter.AcquirePerk(PopupRequest.PerkIndex, PopupRequest.PerkModel);
 
 		AppController.Instance.SaveFile.Save();
 
