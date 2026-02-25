@@ -151,7 +151,7 @@ public class LuminaryPerks
 			await base.OnScenarioSetupPhaseCompleted(character);
 
 			ScenarioEvents.AbilityCardSideEndedEvent.Subscribe(this,
-				parameters => parameters.Performer == character && parameters.ResultingState == CardState.Lost,
+				parameters => parameters.Performer == character && CardStates.IsLoss(parameters.ResultingState),
 				async _ =>
 				{
 					AbilityCard selectedAbilityCard = await AbilityCmd.SelectAbilityCard(character, CardState.Hand,
@@ -160,7 +160,7 @@ public class LuminaryPerks
 					{
 						return;
 					}
-					
+
 					AbilityCard card = GameController.Instance.ReferenceManager.Get<AbilityCard>(selectedAbilityCard.ReferenceId);
 
 					if(!GameController.FastForward)

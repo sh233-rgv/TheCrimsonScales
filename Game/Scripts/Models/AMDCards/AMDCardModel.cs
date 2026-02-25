@@ -109,7 +109,7 @@ public abstract class AMDCardModel : AbstractModel
 
 		if(Swing.HasValue)
 		{
-			returnValue += $" {Icons.Inline(Icons.Push, richTextParameters, true)}{Swing}";
+			returnValue += $" {Icons.Inline(Icons.Swing, richTextParameters, true)}{Swing}";
 		}
 
 		if(extraText != null)
@@ -119,7 +119,7 @@ public abstract class AMDCardModel : AbstractModel
 
 		foreach(CardElementInfusion cardElementInfusion in ElementInfusions)
 		{
-			if(cardElementInfusion.ConsumableElements.Any())
+			if(cardElementInfusion.ConsumableElements?.Any() ?? false)
 			{
 				continue;
 			}

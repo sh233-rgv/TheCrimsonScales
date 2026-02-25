@@ -9,5 +9,5 @@
 
 public abstract class BombardCardSide : AbilityCardSideModel
 {
-	public const string ProjectileIconPath = "res://Content/Classes/Luminary/Glow.svg";
+	public const string ProjectileIconPath = "res://Content/Classes/Bombard/ProjectileIcon.svg";
 }

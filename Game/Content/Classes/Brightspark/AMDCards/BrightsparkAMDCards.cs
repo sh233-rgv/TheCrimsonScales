@@ -5,6 +5,7 @@ using Fractural.Tasks;
 
 public class BrightsparkAMDCards
 {
+	//TODO: Check that everything looks right with the perks once brightspark is implemented
 	public class MinusTwoRecoverRandomCardFromDiscard : BrightsparkAMDCardModel
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
@@ -13,9 +14,10 @@ public class BrightsparkAMDCards
 
 		protected override int AtlasIndex => 0;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => -2;
+		public override bool CharacterSpecific => true;
 
 		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
-			async (state, figure) =>
+			async (_, figure) =>
 			{
 				List<AbilityCard> discardedCards = ((Character)figure).Cards.Where(card => card.CardState is CardState.Discarded).ToList();
 				if(!discardedCards.Any())
@@ -43,8 +45,8 @@ public class BrightsparkAMDCards
 		protected override int AtlasIndex => 1;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 
-		public override Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) =>
-			async state =>
+		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
+			async (state, figure) =>
 			{
 				await AbilityCmd.GenericChoice(state.Authority,
 				[
@@ -53,7 +55,7 @@ public class BrightsparkAMDCards
 							state.SingleTargetAdjustAttackValue(2);
 							await GDTask.CompletedTask;
 						}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Attack)}"),
-						potentialConsumer: state.Performer)
+						potentialConsumer: figure)
 				]);
 			};
 	}
@@ -152,8 +154,8 @@ public class BrightsparkAMDCards
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Air)];
 
-		public override Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) =>
-			async state =>
+		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
+			async (state, _) =>
 			{
 				await AbilityCmd.GenericChoice(state.Authority,
 				[

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbau32cufq2ix"
-path="res://.godot/imported/-1Card.svg-bedd06223e7057a7adba73d6e58a98c1.ctex"
+uid="uid://bqqfc6jer3hd7"
+path="res://.godot/imported/ProjectileIcon.svg-a8acb7276668ec611e32ca9f65dfe638.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Icons/Other/-1Card.svg"
-dest_files=["res://.godot/imported/-1Card.svg-bedd06223e7057a7adba73d6e58a98c1.ctex"]
+source_file="res://Content/Classes/Bombard/ProjectileIcon.svg"
+dest_files=["res://.godot/imported/ProjectileIcon.svg-a8acb7276668ec611e32ca9f65dfe638.ctex"]
 
 [params]
 

@@ -96,11 +96,11 @@ public class ChainguardAMDCards
 		protected override int AtlasIndex => 13;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 
-		public override Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) =>
-			async state =>
+		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
+			async (state, figure) =>
 			{
 				Hex hex = await AbilityCmd.SelectHex(state,
-					hexes => hexes.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 2).Where(hex => hex.IsEmpty())),
+					hexes => hexes.AddRange(RangeHelper.GetHexesInRange(figure.Hex, 2).Where(hex => hex.IsEmpty())),
 					hintText: $"Select a hex to create a {Icons.HintText(Icons.Damage)}2 trap");
 				if(hex != null)
 				{

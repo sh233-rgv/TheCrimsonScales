@@ -4,7 +4,7 @@ using Fractural.Tasks;
 
 public class AMDCardValue(
 	Character potentialDeckOwner, bool rolling, AMDCardType cardType, int? value, int? pierce, int? push, int? pull, int? swing, int? addedTargets,
-	bool classSpecific, List<CardElementInfusion> elementInfusions, List<ConditionModel> conditionModels, List<Ability> abilities,
+	bool characterSpecific, List<CardElementInfusion> elementInfusions, List<ConditionModel> conditionModels, List<Ability> abilities,
 	Func<AttackAbility.State, Figure, GDTask> extraEffects) : IActionSource
 {
 	public Character PotentialDeckOwner { get; } = potentialDeckOwner;
@@ -18,7 +18,7 @@ public class AMDCardValue(
 	public int? Pull { get; } = pull;
 	public int? Swing { get; } = swing;
 	public int? AddedTargets { get; } = addedTargets;
-	public bool ClassSpecific { get; } = classSpecific;
+	public bool CharacterSpecific { get; } = characterSpecific;
 	public List<CardElementInfusion> ElementInfusions { get; } = elementInfusions;
 	public List<ConditionModel> ConditionModels { get; } = conditionModels;
 	public List<Ability> Abilities { get; } = abilities;
@@ -95,7 +95,7 @@ public class AMDCardValue(
 				{
 					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(attackAbilityState, this);
 
-					Figure performer = ClassSpecific ? PotentialDeckOwner : attackAbilityState.Performer;
+					Figure performer = CharacterSpecific ? PotentialDeckOwner : attackAbilityState.Performer;
 
 					ActionState actionState = new ActionState(this, performer, Abilities,
 						onFirstActivateAbilityActivated: OnFirstActivateAbilityActivated, onDiscardOrLoseRequested: OnDiscardOrLoseRequested);
@@ -106,7 +106,7 @@ public class AMDCardValue(
 
 		if(ExtraEffects != null)
 		{
-			await ExtraEffects.Invoke(attackAbilityState, ClassSpecific ? PotentialDeckOwner : attackAbilityState.Performer);
+			await ExtraEffects.Invoke(attackAbilityState, CharacterSpecific ? PotentialDeckOwner : attackAbilityState.Performer);
 		}
 	}
 

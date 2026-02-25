@@ -103,6 +103,11 @@ public abstract class PerkModel : AbstractModel
 		IEnumerable<IGrouping<AMDCardModel, AMDCardModel>> amdCardGroups = cards.GroupBy(perkModel => perkModel);
 		foreach(IGrouping<AMDCardModel, AMDCardModel> amdCardGroup in amdCardGroups)
 		{
+			if(!string.IsNullOrEmpty(returnValue))
+			{
+				returnValue += " and ";
+			}
+
 			int count = amdCardGroup.Count();
 			string number;
 			switch(count)

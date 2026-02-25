@@ -13,22 +13,24 @@ public class HierophantAMDCards
 
 		protected override int AtlasIndex => 0;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => -1;
+		public override bool CharacterSpecific => true;
 
-		public override Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) =>
-			async state =>
+		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
+			async (state, figure) =>
 			{
-				if(GetCharacter(state) is Hierophant hierophant)
+				if(figure is Hierophant hierophant)
 				{
-					Figure figure = await AbilityCmd.SelectFigure(hierophant,
+					Figure chosenFigure = await AbilityCmd.SelectFigure(hierophant,
 						figures => figures.AddRange(
-							GameController.Instance.Map.Figures.Where(figure => figure.AlliedWith(hierophant) && figure is Character)),
+							GameController.Instance.Map.Figures.Where(possibleFigure =>
+								possibleFigure.AlliedWith(hierophant) && possibleFigure is Character)),
 						hintText: () => "Select an ally to give a PRAYER card");
-					if(figure == null)
+					if(chosenFigure == null)
 					{
 						return;
 					}
 
-					await HierophantCardSide.GivePrayerCard(state, hierophant, figure);
+					await HierophantCardSide.GivePrayerCard(state, hierophant, chosenFigure);
 				}
 			};
 	}

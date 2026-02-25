@@ -63,6 +63,7 @@ public class LuminaryAMDCards
 
 	public class PlusZeroPerformPoisonAbility : LuminaryAMDCardModel
 	{
+		//TODO: Some way to show what the actual area of effect is
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"Perform {Icons.Inline(Icons.GetCondition(Conditions.Poison1), richTextParameters)} area of effect ability");

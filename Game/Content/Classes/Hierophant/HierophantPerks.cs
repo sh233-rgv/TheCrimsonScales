@@ -129,7 +129,7 @@ public class HierophantPerks
 		protected override string Title => "Gift of the Oak";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
-			$"At the start of each scenario, perform {Icons.Inline(Icons.GetCondition(Conditions.Bless), richTextParameters)}, {Icons.Inline(Icons.Range, richTextParameters)}2.";
+			$"At the start of each scenario, perform: {Icons.Inline(Icons.GetCondition(Conditions.Bless), richTextParameters)}, {Icons.Inline(Icons.Range, richTextParameters)}2.";
 
 		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 		{

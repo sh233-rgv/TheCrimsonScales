@@ -130,16 +130,15 @@ public class ChieftainAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText:
-				$"This attack is unaffected by {Icons.Inline(Icons.Retaliate, richTextParameters)}", rolling: true);
+				extraText: $"This attack is unaffected by {Icons.Inline(Icons.Retaliate, richTextParameters)}", rolling: true);
 
 		protected override int AtlasIndex => 14;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override int? Pierce => 2;
 
-		public override Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) =>
-			async state =>
+		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
+			async (state, _) =>
 			{
 				SingleTargetState singleTargetState = state.SingleTargetState;
 				ScenarioEvents.RetaliateEvent.Subscribe(state, this,
@@ -147,6 +146,7 @@ public class ChieftainAMDCards
 					async parameters =>
 					{
 						parameters.SetRetaliateBlocked();
+						ScenarioEvents.RetaliateEvent.Unsubscribe(state, this);
 						await GDTask.CompletedTask;
 					});
 				await GDTask.CompletedTask;
