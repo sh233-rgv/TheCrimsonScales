@@ -16,6 +16,11 @@ public class Scenario026 : ScenarioModel
 
 	public override string BGSPath => "res://Audio/BGS/Cave.ogg";
 
+	public override async GDTask StartOfScenarioEffects(Character character)
+	{
+		await AbilityCmd.AddCondition(null, character, Conditions.Chill);
+	}
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
@@ -117,12 +122,6 @@ public class Scenario026 : ScenarioModel
 		UpdateScenarioText(_text);
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<OrbOfDespair>());
-
-		//TODO: Scenario effect
-		// foreach(Character character in GameController.Instance.CharacterManager.Characters)
-		// {
-		// 	await AbilityCmd.AddCondition(null, character, Conditions.Chill);
-		// }
 
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
 			parameters => _thermalStonesDestroyed == 5,

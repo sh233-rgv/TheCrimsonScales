@@ -41,6 +41,11 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		await GDTask.CompletedTask;
 	}
 
+	public virtual async GDTask StartOfScenarioEffects(Character character)
+	{
+		await GDTask.CompletedTask;
+	}
+
 	protected virtual async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters parameters)
 	{
 		await GDTask.CompletedTask;

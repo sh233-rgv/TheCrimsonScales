@@ -15,11 +15,14 @@ public class Scenario018 : ScenarioModel
 
 	private IEnumerable<Hex> _markerHexes;
 
+	public override async GDTask StartOfScenarioEffects(Character character)
+	{
+		await AbilityCmd.AddCondition(null, character, Conditions.Immobilize);
+	}
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
-
-		//Scenario Effect
 
 		UpdateScenarioText($"If any character is exhausted while not occupying a hex {Icons.InlineMarker(Marker.Type.a)}, the scenario is lost");
 

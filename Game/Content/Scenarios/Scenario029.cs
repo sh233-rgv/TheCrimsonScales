@@ -11,11 +11,14 @@ public class Scenario029 : ScenarioModel
 	protected override ScenarioGoals CreateScenarioGoals() =>
 		new KillSpecificEnemiesTypeGoals(ModelDB.Monster<BoneArcher>(), "Kill all Bone Archers to win this scenario");
 
+	public override async GDTask StartOfScenarioEffects(Character character)
+	{
+		await AbilityCmd.AddConditions(null, character, [Conditions.Curse, Conditions.Curse, Conditions.Curse]);
+	}
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
-
-		//TODO: Scenario Effect
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<ChainMace>());
 

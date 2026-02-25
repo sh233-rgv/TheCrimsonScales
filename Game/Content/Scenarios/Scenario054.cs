@@ -8,13 +8,16 @@ public class Scenario054 : ScenarioModel
 
 	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals();
 
+	public override async GDTask StartOfScenarioEffects(Character character)
+	{
+		await AbilityCmd.AddConditions(null, character, [Conditions.Curse, Conditions.Curse]);
+	}
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
 
 		GameController.Instance.Map.Treasures[0].SetItemDesignLoot(ModelDB.Item<TrophyHelm>());
-
-		//TODO: Scenario Effect
 
 		UpdateScenarioText("""
 		                   The Giant Vipers are Hanging Snakes and have double the number of hit points.

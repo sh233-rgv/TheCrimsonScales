@@ -13,11 +13,20 @@ public class Scenario012 : ScenarioModel
 
 	private bool _lootedTreasure;
 
+	public override async GDTask StartOfScenarioEffects(Character character)
+	{
+		ItemModel item = await AbilityCmd.SelectItem(character, ItemState.Available, ItemType.Small,
+			hintText: $"Select one {Icons.HintText(Icons.GetItem(ItemType.Small))} to {Icons.HintText(Icons.LoseCard)}");
+
+		if(item != null)
+		{
+			await item.SetItemState(ItemState.Consumed);
+		}
+	}
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
-
-		//Scenario Effects
 
 		GameController.Instance.Map.Treasures[0].SetObtainLootFunction(OnTreasureLooted);
 

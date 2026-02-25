@@ -13,6 +13,11 @@ public class Scenario006 : ScenarioModel
 
 	protected override List<MonsterModel> SpawnedMonsterModels { get; } = [ModelDB.Monster<FlamingDrake>()];
 
+	public override async GDTask StartOfScenarioEffects(Character character)
+	{
+		await AbilityCmd.AddCondition(null, character, Conditions.Poison1);
+	}
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
@@ -35,12 +40,6 @@ public class Scenario006 : ScenarioModel
 		foreach(Character character in GameController.Instance.CharacterManager.Characters)
 		{
 			characterHasAntidote.Add(character, false);
-		}
-
-		//TODO: Scenario effect
-		foreach(Character character in GameController.Instance.CharacterManager.Characters)
-		{
-			await AbilityCmd.AddCondition(null, character, Conditions.Poison1);
 		}
 
 		object pickSubscriber = new();

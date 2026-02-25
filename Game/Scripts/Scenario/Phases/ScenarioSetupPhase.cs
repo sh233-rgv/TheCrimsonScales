@@ -85,12 +85,17 @@ public class ScenarioSetupPhase : ScenarioPhase
 		// End of the phase
 		await GameController.Instance.CharacterManager.RemoveCharacterStartHexes();
 
+		GameController.Instance.UndoManager.AddStep(new ScenarioSetupUndoStep());
+
 		foreach(Character character in GameController.Instance.CharacterManager.Characters)
 		{
 			await character.OnScenarioSetupCompleted();
+			if(ScenarioCheckEvents.ApplyScenarioEffectsCheckEvent.Fire(new ScenarioCheckEvents.ApplyScenarioEffectsCheck.Parameters(character))
+			   .CanApply)
+			{
+				await GameController.Instance.ScenarioModel.StartOfScenarioEffects(character);
+			}
 		}
-
-		GameController.Instance.UndoManager.AddStep(new ScenarioSetupUndoStep());
 
 		foreach(SavedEventState savedEventState in GameController.Instance.SavedCampaign.SavedEvents.SavedEventStates)
 		{

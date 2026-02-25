@@ -12,6 +12,11 @@ public class Scenario044 : ScenarioModel
 
 	private int _remainingLivingSpiritKills;
 
+	public override async GDTask StartOfScenarioEffects(Character character)
+	{
+		await AbilityCmd.AddConditions(null, character, [Conditions.Curse, Conditions.Curse, Conditions.Curse]);
+	}
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
@@ -19,8 +24,6 @@ public class Scenario044 : ScenarioModel
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<ConcussionMine>());
 		GameController.Instance.Map.Treasures[1].SetItemLoot(AbilityCmd.GetRandomAvailableStone());
 		GameController.Instance.Map.Treasures[2].SetItemLoot(ModelDB.Item<DrainingGreaves>());
-
-		//TODO: Scenario Effects: 3 Curses
 
 		_remainingLivingSpiritKills = GameController.Instance.SavedCampaign.Characters.Count * 2;
 		UpdateScenarioText(); 

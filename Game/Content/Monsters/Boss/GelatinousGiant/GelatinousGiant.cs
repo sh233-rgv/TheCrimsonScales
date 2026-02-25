@@ -10,14 +10,14 @@ public class GelatinousGiant : BloodOoze, IBossMonsterModel
 			{
 				Health = stats.Health * CharacterCount,
 				Traits = (stats.Traits ?? [])
-					.Append(new AllDamageImmunityTrait())
-					.Append(new AllNegativeConditionImmunityTrait())
-					.ToArray()
+				.Append(new AllDamageImmunityTrait())
+				.Append(new AllNegativeConditionImmunityTrait())
+				.ToArray()
 			})
 			.ToArray();
 
 	public override string Name => "Gelatinous Giant";
-	public override MonsterModel ParentMonsterModel => ModelDB.Monster<Ooze>();
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<BloodOoze>();
 
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
