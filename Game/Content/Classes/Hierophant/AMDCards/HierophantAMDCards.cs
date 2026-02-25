@@ -48,10 +48,6 @@ public class HierophantAMDCards
 
 	public class PlusZeroLightRolling : HierophantAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText: Icons.Inline(Icons.GetElement(Element.Light), richTextParameters), rolling: true);
-
 		protected override int AtlasIndex => 4;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -60,10 +56,6 @@ public class HierophantAMDCards
 
 	public class PlusZeroEarthRolling : HierophantAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText: Icons.Inline(Icons.GetElement(Element.Earth), richTextParameters), rolling: true);
-
 		protected override int AtlasIndex => 5;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;

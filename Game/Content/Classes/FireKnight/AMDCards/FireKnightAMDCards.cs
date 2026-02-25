@@ -63,10 +63,6 @@ public class FireKnightAMDCards
 
 	public class PlusOneFire : FireKnightAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +1,
-				extraText: Icons.Inline(Icons.GetElement(Element.Fire), richTextParameters));
-
 		protected override int AtlasIndex => 9;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Fire)];
@@ -81,10 +77,6 @@ public class FireKnightAMDCards
 
 	public class PlusTwoFire : FireKnightAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +2,
-				extraText: Icons.Inline(Icons.GetElement(Element.Fire), richTextParameters));
-
 		protected override int AtlasIndex => 11;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +2;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Fire)];
@@ -120,10 +112,6 @@ public class FireKnightAMDCards
 
 	public class PlusZeroFireRolling : FireKnightAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText: Icons.Inline(Icons.GetElement(Element.Fire), richTextParameters), rolling: true);
-
 		protected override int AtlasIndex => 15;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;

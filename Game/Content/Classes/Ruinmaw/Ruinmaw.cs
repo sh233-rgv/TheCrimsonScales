@@ -4,6 +4,8 @@ using Godot;
 
 public partial class Ruinmaw : Character, IHasEmpower
 {
+	public const string SatedIconPath = "res://Content/Classes/Ruinmaw/SatedIcon.png";
+	public const string SatedUpIconPath = "res://Content/Classes/Ruinmaw/SatedUpIcon.png";
 	public static EmpowerRuinmaw Empower { get; } = ModelDB.Condition<EmpowerRuinmaw>();
 
 	[Export]

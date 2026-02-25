@@ -99,7 +99,7 @@ public partial class Character : Figure
 				{
 					foreach(AMDCardModel amdCardModel in perk.CardsToAdd)
 					{
-						_amdCardDeck.AddCard(new AMDCard(amdCardModel, amdCardOwner), true);
+						_amdCardDeck.AddCard(new AMDCard(amdCardModel, amdCardOwner, potentialDeckOwner: this), true);
 					}
 				}
 			}

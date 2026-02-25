@@ -152,7 +152,7 @@ public class BombardPerks
 		protected override string Title => "Emergency Emplacement";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
-			$"Whenever you short rest, you may gain {Icons.Inline(Icons.GetCondition(Conditions.Immobilize), richTextParameters, true)} to immediately resolve any of your active Projectile {Icons.Inline(ModelDB.Class<BombardModel>().IconPath, richTextParameters)} abilities.";
+			$"Whenever you short rest, you may gain {Icons.Inline(Icons.GetCondition(Conditions.Immobilize), richTextParameters, true)} to immediately resolve any of your active {Icons.Inline(BombardCardSide.ProjectileIconPath, richTextParameters)} abilities.";
 
 		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 		{

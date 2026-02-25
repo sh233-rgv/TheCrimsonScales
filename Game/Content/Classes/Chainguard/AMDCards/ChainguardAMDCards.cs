@@ -59,10 +59,6 @@ public class ChainguardAMDCards
 
 	public class PlusZeroSwingThreeRolling : ChainguardAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText: $"{Icons.Inline(Icons.Swing, richTextParameters)}3", rolling: true);
-
 		protected override int AtlasIndex => 8;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -92,6 +88,11 @@ public class ChainguardAMDCards
 
 	public class PlusOneCreateDamageTwoTrap : ChainguardAMDCardModel
 	{
+		public override string ToString(RichTextParameters richTextParameters) =>
+			GetBasicString(richTextParameters, +1,
+				extraText:
+				$"Create one {Icons.Inline(Icons.Damage, richTextParameters)}2 trap in an empty hex within {Icons.Inline(Icons.Range, richTextParameters)}2");
+
 		protected override int AtlasIndex => 13;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 
@@ -112,8 +113,7 @@ public class ChainguardAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, self",
-				rolling: true);
+				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, self", rolling: true);
 
 		protected override int AtlasIndex => 14;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;

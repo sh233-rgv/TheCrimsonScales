@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwcryt4nh37p4"
-path="res://.godot/imported/AMDCards.png-9da13a45f5bf9d4d9dc2b13796472021.ctex"
+uid="uid://ck4svytjeikbk"
+path="res://.godot/imported/SatedIcon.png-2fae17b25914f18c37dcbe4ca13507bf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Classes/Ruinmaw/AMDCards/AMDCards.png"
-dest_files=["res://.godot/imported/AMDCards.png-9da13a45f5bf9d4d9dc2b13796472021.ctex"]
+source_file="res://Content/Classes/Ruinmaw/SatedIcon.png"
+dest_files=["res://.godot/imported/SatedIcon.png-2fae17b25914f18c37dcbe4ca13507bf.ctex"]
 
 [params]
 

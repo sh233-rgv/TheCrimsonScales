@@ -68,8 +68,8 @@ public class MirefootAMDCards
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 
-		public override Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) =>
-			async state =>
+		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
+			async (state, _) =>
 			{
 				Hex hex = await AbilityCmd.SelectHex(state, hexes => hexes.Add(state.Target.Hex),
 					hintText: "Place difficult terrain?");
@@ -105,12 +105,12 @@ public class MirefootAMDCards
 		protected override int AtlasIndex => 15;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 
-		public override Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) =>
-			async state =>
+		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
+			async (state, figure) =>
 			{
 				if(state.Performer.Hex.HasHexObjectOfType<DifficultTerrain>())
 				{
-					await AbilityCmd.AddCondition(state, state.Performer, Conditions.Invisible);
+					await AbilityCmd.AddCondition(state, figure, Conditions.Invisible);
 				}
 			};
 	}
@@ -119,8 +119,7 @@ public class MirefootAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"If you are occupying difficult terrain, {Icons.Inline(Icons.GetAMDValue("+1"))} instead",
-				rolling: true);
+				extraText: $"If you are occupying difficult terrain, {Icons.Inline(Icons.GetAMDValue("+1"))} instead", rolling: true);
 
 		protected override int AtlasIndex => 17;
 

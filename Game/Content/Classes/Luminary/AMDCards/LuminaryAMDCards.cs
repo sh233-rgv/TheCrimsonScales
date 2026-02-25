@@ -22,10 +22,6 @@ public class LuminaryAMDCards
 
 	public class PlusZeroFire : LuminaryAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText: Icons.Inline(Icons.GetElement(Element.Fire), richTextParameters));
-
 		protected override int AtlasIndex => 1;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Fire)];
@@ -33,10 +29,6 @@ public class LuminaryAMDCards
 
 	public class PlusZeroIce : LuminaryAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText: Icons.Inline(Icons.GetElement(Element.Ice), richTextParameters));
-
 		protected override int AtlasIndex => 2;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Ice)];
@@ -44,10 +36,6 @@ public class LuminaryAMDCards
 
 	public class PlusZeroLight : LuminaryAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText: Icons.Inline(Icons.GetElement(Element.Light), richTextParameters));
-
 		protected override int AtlasIndex => 3;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Light)];
@@ -55,10 +43,6 @@ public class LuminaryAMDCards
 
 	public class PlusZeroDark : LuminaryAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText: Icons.Inline(Icons.GetElement(Element.Dark), richTextParameters));
-
 		protected override int AtlasIndex => 4;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Dark)];
@@ -66,10 +50,6 @@ public class LuminaryAMDCards
 
 	public class PlusZeroWild : LuminaryAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText: Icons.Inline(Icons.WildElement, richTextParameters));
-
 		protected override int AtlasIndex => 5;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.InfuseWild()];

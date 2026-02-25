@@ -83,11 +83,6 @@ public class ChieftainAMDCards
 
 	public class PlusZeroPushOneImmobilize : ChieftainAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText:
-				$"{Icons.Inline(Icons.Push, richTextParameters)}1, {Icons.Inline(Icons.GetCondition(Conditions.Immobilize), richTextParameters)}");
-
 		protected override int AtlasIndex => 6;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override int? Push => 1;
@@ -118,11 +113,6 @@ public class ChieftainAMDCards
 
 	public class PlusZeroPierceOneWound : ChieftainAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText:
-				$"{Icons.Inline(Icons.Pierce, richTextParameters)}1, {Icons.Inline(Icons.GetCondition(Conditions.Wound1), richTextParameters)}");
-
 		protected override int AtlasIndex => 11;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override int? Pierce => 1;
@@ -131,10 +121,6 @@ public class ChieftainAMDCards
 
 	public class PlusOneEarth : ChieftainAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +1,
-				extraText: Icons.Inline(Icons.GetElement(Element.Earth), richTextParameters));
-
 		protected override int AtlasIndex => 12;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Earth)];
@@ -145,7 +131,7 @@ public class ChieftainAMDCards
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText:
-				$"{Icons.Inline(Icons.Pierce, richTextParameters)}2, this attack is unaffected by {Icons.Inline(Icons.Retaliate, richTextParameters)}");
+				$"This attack is unaffected by {Icons.Inline(Icons.Retaliate, richTextParameters)}", rolling: true);
 
 		protected override int AtlasIndex => 14;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;

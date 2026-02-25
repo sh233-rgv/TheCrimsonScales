@@ -14,10 +14,10 @@ public class BrightsparkAMDCards
 		protected override int AtlasIndex => 0;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => -2;
 
-		public override Func<AttackAbility.State, GDTask> GetExtraEffects(AttackAbility.State attackAbilityState) =>
-			async state =>
+		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
+			async (state, figure) =>
 			{
-				List<AbilityCard> discardedCards = ((Character)state.Performer).Cards.Where(card => card.CardState is CardState.Discarded).ToList();
+				List<AbilityCard> discardedCards = ((Character)figure).Cards.Where(card => card.CardState is CardState.Discarded).ToList();
 				if(!discardedCards.Any())
 				{
 					return;
@@ -111,10 +111,6 @@ public class BrightsparkAMDCards
 
 	public class PlusTwoWildElement : BrightsparkAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +2,
-				extraText: $"{Icons.Inline(Icons.WildElement, richTextParameters)}");
-
 		protected override int AtlasIndex => 10;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +2;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.InfuseWild()];
@@ -138,10 +134,6 @@ public class BrightsparkAMDCards
 
 	public class PlusZeroImmobilizeIceRolling : BrightsparkAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0, [Conditions.Immobilize],
-				extraText: Icons.Inline(Icons.GetElement(Element.Ice), richTextParameters), rolling: true);
-
 		protected override int AtlasIndex => 14;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -153,9 +145,7 @@ public class BrightsparkAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText:
-				$"{Icons.Inline(Icons.Push, richTextParameters)}1 or {Icons.Inline(Icons.Pull, richTextParameters)}1, {Icons.Inline(Icons.GetElement(Element.Air), richTextParameters)}",
-				rolling: true);
+				extraText: $"{Icons.Inline(Icons.Push, richTextParameters)}1 or {Icons.Inline(Icons.Pull, richTextParameters)}1", rolling: true);
 
 		protected override int AtlasIndex => 15;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
@@ -187,11 +177,6 @@ public class BrightsparkAMDCards
 
 	public class PlusZeroPierceTwoFireRolling : BrightsparkAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText: $"{Icons.Inline(Icons.Pierce, richTextParameters)}2, {Icons.Inline(Icons.GetElement(Element.Fire), richTextParameters)}",
-				rolling: true);
-
 		protected override int AtlasIndex => 16;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -203,9 +188,7 @@ public class BrightsparkAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText:
-				$"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.Range, richTextParameters)}3, {Icons.Inline(Icons.GetElement(Element.Light), richTextParameters)}",
-				rolling: true);
+				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.Range, richTextParameters)}3", rolling: true);
 
 		protected override int AtlasIndex => 17;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;

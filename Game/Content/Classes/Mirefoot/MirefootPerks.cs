@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Fractural.Tasks;
-using Godot;
 
 public class MirefootPerks
 {
@@ -77,7 +76,7 @@ public class MirefootPerks
 			ModelDB.AMDCard<MirefootAMDCards.PlusTwo>()
 		];
 	}
-	
+
 	public class ReplaceOnePlusOneWithOnePlusZeroWoundTwo : MirefootPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
@@ -127,7 +126,7 @@ public class MirefootPerks
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
 			$"Ignore negative conditions and attack modifiers and damage from events and remove one {Icons.Inline(Icons.GetAMDValue("-1"), richTextParameters)} card.";
-		
+
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
 			ModelDB.AMDCard<MinusOneAMDCard>()
@@ -175,7 +174,7 @@ public class MirefootPerks
 			await base.OnScenarioSetupPhaseCompleted(character);
 
 			List<ItemModel> itemModels = [];
-			
+
 			foreach(string itemId in character.SavedCharacter.ItemIds)
 			{
 				ItemModel item = ModelDB.GetById<ItemModel>(itemId).ToMutable();
@@ -187,11 +186,10 @@ public class MirefootPerks
 
 			ItemModel itemModel = await AbilityCmd.SelectItem(character, itemModels, hintText: "Select an additional Dagger item to bring.");
 
-			if(itemModel == null)
+			if(itemModel != null)
 			{
-				return;
+				character.EquipItem(itemModel);
 			}
-			character.EquipItem(itemModel);
 		}
 
 		public override void OnPerkAcquired(SavedCharacter savedCharacter)

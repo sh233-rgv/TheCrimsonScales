@@ -24,7 +24,8 @@ public class BombardAMDCards
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"If this attack is a Projectile {Icons.Inline(ModelDB.Class<BombardModel>().IconPath, richTextParameters)}, {Icons.Inline(Icons.GetAMDValue("+3"), richTextParameters)} instead");
+				extraText:
+				$"If this attack is a {Icons.Inline(BombardCardSide.ProjectileIconPath, richTextParameters)}, {Icons.Inline(Icons.GetAMDValue("+3"), richTextParameters)} instead");
 
 		protected override int AtlasIndex => 2;
 
@@ -35,7 +36,7 @@ public class BombardAMDCards
 				? +3
 				: +0;
 	}
-	
+
 	public class PlusZeroPierceThreeRolling : BombardAMDCardModel
 	{
 		protected override int AtlasIndex => 4;
@@ -57,12 +58,12 @@ public class BombardAMDCards
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) => [Conditions.Stun];
 	}
-	
+
 	public class PlusOneRetaliateOne : BombardAMDCardModel
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
-				extraText: $"{Icons.Inline(Icons.Retaliate, richTextParameters)}1,{Icons.Inline(Icons.Range, richTextParameters)}3");
+				extraText: $"{Icons.Inline(Icons.Retaliate, richTextParameters)}1, {Icons.Inline(Icons.Range, richTextParameters)}3");
 
 		protected override int AtlasIndex => 8;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;

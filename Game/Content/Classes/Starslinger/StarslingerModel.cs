@@ -51,5 +51,28 @@ public class StarslingerModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<StarslingerPerks.ReplaceOneMinusTwoWithOneMinusOneInvisibleSelf>(),
+
+		ModelDB.Perk<StarslingerPerks.ReplaceOneMinusOneWithOnePlusZeroImmobilizeRolling>(),
+		ModelDB.Perk<StarslingerPerks.ReplaceOneMinusOneWithOnePlusZeroImmobilizeRolling>(),
+
+		ModelDB.Perk<StarslingerPerks.ReplaceOneMinusOneWithOnePlusZeroControlTargetMoveOneRolling>(),
+		ModelDB.Perk<StarslingerPerks.ReplaceOneMinusOneWithOnePlusZeroControlTargetMoveOneRolling>(),
+
+		ModelDB.Perk<StarslingerPerks.ReplaceTwoPlusZeroWithOnePlusOneLight>(),
+		ModelDB.Perk<StarslingerPerks.ReplaceTwoPlusZeroWithOnePlusOneLight>(),
+
+		ModelDB.Perk<StarslingerPerks.AddTwoPlusOneHealOneRangeThree>(),
+
+		ModelDB.Perk<StarslingerPerks.AddOnePlusOneIfYouAreUndamagedPlusThreeInstead>(),
+		ModelDB.Perk<StarslingerPerks.AddOnePlusOneIfYouAreUndamagedPlusThreeInstead>(),
+
+		ModelDB.Perk<StarslingerPerks.AddTwoPlusZeroHealOneRangeOneRolling>(),
+
+		ModelDB.Perk<StarslingerPerks.AddOnePlusZeroLootOneRolling>(),
+
+		ModelDB.Perk<StarslingerPerks.IgnoreScenarioEffectsAddOnePlusZeroDark>(),
+
+		ModelDB.Perk<StarslingerPerks.ReflectiveJourney>(),
 	];
 }
