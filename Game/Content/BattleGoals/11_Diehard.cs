@@ -9,7 +9,7 @@ public class Diehard : TheCrimsonScalesBattleGoal
 
 	public override bool FailIfProgressFull => true;
 
-	protected override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoalData battleGoalData)
+	public override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoalData battleGoalData)
 	{
 		//TODO: Implement
 		await GDTask.CompletedTask;

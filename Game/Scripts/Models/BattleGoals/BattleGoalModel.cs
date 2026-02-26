@@ -10,10 +10,5 @@ public abstract class BattleGoalModel : AbstractModel
 	public virtual int MaxProgress => 1;
 	public virtual bool FailIfProgressFull => true;
 
-	public async GDTask OnScenarioSetupPhaseCompleted(Character character)
-	{
-		await OnScenarioSetupPhaseCompleted(character, new BattleGoalData(this));
-	}
-
-	protected abstract GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoalData battleGoalData);
+	public abstract GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoalData battleGoalData);
 }

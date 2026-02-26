@@ -5,7 +5,7 @@ public class Assistant : TheCrimsonScalesBattleGoal
 	public override string Title => "Assistant";
 	public override string Description => "Kill a monster attacked by an ally earlier in the round.";
 
-	protected override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoalData battleGoalData)
+	public override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoalData battleGoalData)
 	{
 		//TODO: Implement
 		await GDTask.CompletedTask;

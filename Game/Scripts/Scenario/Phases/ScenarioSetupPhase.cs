@@ -86,12 +86,12 @@ public class ScenarioSetupPhase : ScenarioPhase
 		// End of the phase
 		await GameController.Instance.CharacterManager.RemoveCharacterStartHexes();
 
+		GameController.Instance.UndoManager.AddStep(new ScenarioSetupUndoStep());
+
 		foreach(Character character in GameController.Instance.CharacterManager.Characters)
 		{
 			await character.OnScenarioSetupCompleted();
 		}
-
-		GameController.Instance.UndoManager.AddStep(new ScenarioSetupUndoStep());
 
 		foreach(SavedEventState savedEventState in GameController.Instance.SavedCampaign.SavedEvents.SavedEventStates)
 		{
@@ -193,6 +193,11 @@ public class ScenarioSetupPhase : ScenarioPhase
 			if(!character.IsLocal || character.IsDestroyed)
 			{
 				continue;
+			}
+
+			if(character.SelectedBattleGoalModel == null)
+			{
+				hasUnfinishedCharacter = true;
 			}
 		}
 

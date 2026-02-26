@@ -14,6 +14,9 @@ public partial class ScenarioSetupButtonsView : Control
 	[Export]
 	private ChoiceButton _battleGoalsButton;
 
+	[Export]
+	private ExclamationMark _battleGoalsExclamationMark;
+
 	private readonly List<object> _blockers = new List<object>();
 
 	private bool _startActive;
@@ -52,6 +55,8 @@ public partial class ScenarioSetupButtonsView : Control
 	public void SetCharacter(Character character)
 	{
 		_selectedCharacter = character;
+
+		UpdateButtons();
 	}
 
 	public void SetButtons(bool startActive)
@@ -93,6 +98,8 @@ public partial class ScenarioSetupButtonsView : Control
 		_equipmentButton.SetActive(_opened && !blocked);
 		_cardsButton.SetActive(_opened && !blocked);
 		_battleGoalsButton.SetActive(_opened && !blocked);
+
+		_battleGoalsExclamationMark.SetActive(_selectedCharacter != null && _selectedCharacter.SelectedBattleGoalModel == null);
 	}
 
 	private void OnStartScenarioPressed()

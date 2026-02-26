@@ -6,7 +6,7 @@ public class BattleGoalData
 
 	public event Action<BattleGoalData> ProgressChangedEvent;
 
-	public BattleGoalData(BattleGoalModel battleGoalModel)
+	public BattleGoalData()
 	{
 	}
 

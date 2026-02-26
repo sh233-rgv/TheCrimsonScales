@@ -18,7 +18,8 @@ public partial class Character : Figure
 	public int PlayableAbilityCardCount { get; private set; }
 
 	public List<BattleGoalModel> AvailableBattleGoals { get; } = new List<BattleGoalModel>();
-	public BattleGoalModel BattleGoal { get; private set; }
+	public BattleGoalModel SelectedBattleGoalModel { get; private set; }
+	public BattleGoal BattleGoal { get; private set; }
 
 	public List<AbilityCard> Cards { get; } = new List<AbilityCard>();
 	public List<ItemModel> Items { get; } = new List<ItemModel>();
@@ -181,12 +182,12 @@ public partial class Character : Figure
 
 	public void SetBattleGoal(BattleGoalModel battleGoal)
 	{
-		if(battleGoal == BattleGoal)
+		if(battleGoal == SelectedBattleGoalModel)
 		{
 			return;
 		}
 
-		BattleGoal = battleGoal;
+		SelectedBattleGoalModel = battleGoal;
 
 		BattleGoalChangedEvent?.Invoke(this);
 	}
@@ -670,8 +671,9 @@ public partial class Character : Figure
 			await SavedCharacter.SavedPersonalQuest.Model.OnScenarioSetupPhaseCompleted(this);
 		}
 
-		if(BattleGoal != null)
+		if(SelectedBattleGoalModel != null)
 		{
+			BattleGoal = new BattleGoal(SelectedBattleGoalModel);
 			await BattleGoal.OnScenarioSetupPhaseCompleted(this);
 		}
 

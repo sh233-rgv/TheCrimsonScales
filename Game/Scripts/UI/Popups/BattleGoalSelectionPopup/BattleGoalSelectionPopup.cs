@@ -39,9 +39,9 @@ public partial class BattleGoalSelectionPopup : Popup<BattleGoalSelectionPopup.R
 			battleGoal.PressedEvent += OnBattleGoalPressed;
 			_battleGoals.Add(battleGoal);
 
-			if(PopupRequest.Character.BattleGoal != null)
+			if(PopupRequest.Character.SelectedBattleGoalModel != null)
 			{
-				battleGoal.SetSelected(battleGoal.BattleGoalModel == PopupRequest.Character.BattleGoal);
+				battleGoal.SetSelected(battleGoal.BattleGoalModel == PopupRequest.Character.SelectedBattleGoalModel);
 			}
 		}
 
@@ -67,7 +67,7 @@ public partial class BattleGoalSelectionPopup : Popup<BattleGoalSelectionPopup.R
 
 	private void OnBattleGoalPressed(BattleGoalSelectionPopupBattleGoal battleGoal)
 	{
-		if(battleGoal.BattleGoalModel == PopupRequest.Character.BattleGoal)
+		if(battleGoal.BattleGoalModel == PopupRequest.Character.SelectedBattleGoalModel)
 		{
 			return;
 		}
@@ -93,7 +93,7 @@ public partial class BattleGoalSelectionPopup : Popup<BattleGoalSelectionPopup.R
 	{
 		foreach(BattleGoalSelectionPopupBattleGoal battleGoal in _battleGoals)
 		{
-			battleGoal.SetSelected(battleGoal.BattleGoalModel == character.BattleGoal);
+			battleGoal.SetSelected(battleGoal.BattleGoalModel == character.SelectedBattleGoalModel);
 		}
 	}
 }

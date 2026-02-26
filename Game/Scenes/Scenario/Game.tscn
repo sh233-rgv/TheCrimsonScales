@@ -1,4 +1,4 @@
-[gd_scene load_steps=95 format=3 uid="uid://dc3oqbu0m8jid"]
+[gd_scene load_steps=96 format=3 uid="uid://dc3oqbu0m8jid"]
 
 [ext_resource type="Script" uid="uid://bq2pwm6f32li" path="res://Scripts/Scenario/GameController.cs" id="1_arwlr"]
 [ext_resource type="Script" uid="uid://d1n1uymvup76h" path="res://Scripts/Scenario/TeleportPath/TeleportPath.cs" id="6_b23n0"]
@@ -38,6 +38,7 @@
 [ext_resource type="Script" uid="uid://dfk8lfs8ihi6x" path="res://Scripts/Scenario/UI/ChoiceButtonsView/ChoiceButtonsView.cs" id="28_pgpxo"]
 [ext_resource type="Texture2D" uid="uid://cfivk5ub57vcr" path="res://Art/Icons/Other/BattleGoal.svg" id="28_spwjx"]
 [ext_resource type="PackedScene" uid="uid://sn6fhyik5ch5" path="res://Scenes/Scenario/UI/ChoiceButton.tscn" id="29_4v2ql"]
+[ext_resource type="PackedScene" uid="uid://cw7b3ccvlqx53" path="res://Scenes/UI/ExclamationMark.tscn" id="29_dsbfq"]
 [ext_resource type="Script" uid="uid://d4d7ijusnuvqu" path="res://Scripts/Scenario/UI/PortraitView/PortraitView.cs" id="30_05yo2"]
 [ext_resource type="Script" uid="uid://dvnj5squppncw" path="res://Scripts/Scenario/UI/EffectSelectionView/EffectSelectionView.cs" id="32_07pbp"]
 [ext_resource type="Texture2D" uid="uid://mqfp1jeh80g1" path="res://Art/AMDs/CardBack.tres" id="34_dfaft"]
@@ -355,7 +356,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="ScenarioSetupButtonsView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_startScenarioButton", "_equipmentButton", "_cardsButton", "_battleGoalsButton")]
+[node name="ScenarioSetupButtonsView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_startScenarioButton", "_equipmentButton", "_cardsButton", "_battleGoalsButton", "_battleGoalsExclamationMark")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -368,6 +369,7 @@ _startScenarioButton = NodePath("StartScenario")
 _equipmentButton = NodePath("OptionsContainer/EquipmentButton")
 _cardsButton = NodePath("OptionsContainer/CardsButton")
 _battleGoalsButton = NodePath("OptionsContainer/BattleGoalsButton")
+_battleGoalsExclamationMark = NodePath("OptionsContainer/BattleGoalsButton/ExclamationMark")
 
 [node name="StartScenario" parent="CanvasLayer/UI/ScenarioSetupButtonsView" instance=ExtResource("29_4v2ql")]
 layout_mode = 1
@@ -408,7 +410,21 @@ layout_mode = 2
 [node name="TextureRect" parent="CanvasLayer/UI/ScenarioSetupButtonsView/OptionsContainer/BattleGoalsButton/BetterButton/Panel/MarginContainer" index="0"]
 texture = ExtResource("28_spwjx")
 
+[node name="ExclamationMark" parent="CanvasLayer/UI/ScenarioSetupButtonsView/OptionsContainer/BattleGoalsButton" instance=ExtResource("29_dsbfq")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -24.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 24.0
+grow_horizontal = 0
+scale = Vector2(1.5, 1.5)
+pivot_offset = Vector2(16, 16)
+
 [node name="AOEButtonView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_buttonContainer", "_mirrorButton", "_rotateCounterClockwiseButton", "_rotateClockwiseButton")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -666,6 +682,7 @@ scale = Vector2(1.07, 1.07)
 pivot_offset = Vector2(0, 448)
 
 [node name="ShortRestView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_cardView", "_redrawButton", "_confirmButton")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -721,6 +738,7 @@ offset_right = 0.0
 offset_bottom = 0.0
 
 [node name="TreasureItemRewardView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_itemView")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -758,6 +776,7 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="ChoiceButtonsView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_continueButton", "_skipButton")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -914,6 +933,7 @@ theme_override_constants/separation = 20
 alignment = 1
 
 [node name="AMDDrawView" type="Control" parent="CanvasLayer/UI" node_paths=PackedStringArray("_deckAnchor", "_discardAnchor", "_discardContainer", "_discardTopCardTextureRect")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
