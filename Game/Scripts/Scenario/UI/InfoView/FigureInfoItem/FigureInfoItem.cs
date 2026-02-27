@@ -127,7 +127,7 @@ public abstract partial class FigureInfoItem<T> : InfoItem<T>
 		if(retaliateCheckParameters.RetaliateValues.Count > 0)
 		{
 			int finalRetaliate = 0;
-			foreach((int retaliate, int range) in retaliateCheckParameters.RetaliateValues)
+			foreach((int retaliate, int range, _) in retaliateCheckParameters.RetaliateValues)
 			{
 				finalRetaliate += retaliate;
 			}

@@ -45,6 +45,25 @@ public partial class ScenarioCheckEvents
 	private readonly AIMoveParametersCheck _aiMoveParametersCheck = new AIMoveParametersCheck();
 	public static AIMoveParametersCheck AIMoveParametersCheckEvent => GameController.Instance.ScenarioCheckEvents._aiMoveParametersCheck;
 
+	public class FigureFocus : ScenarioCheckEvent<FigureFocus.Parameters>
+	{
+		public class Parameters(AbilityState abilityState) : ParametersBase
+		{
+			public AbilityState AbilityState { get; } = abilityState;
+			public ActionState ActionState { get; } = abilityState.ActionState;
+
+			public bool FocusFarthest { get; private set; } = false;
+
+			public void SetFocusFarthest()
+			{
+				FocusFarthest = true;
+			}
+		}
+	}
+
+	private readonly FigureFocus _figureFocus = new FigureFocus();
+	public static FigureFocus FigureFocusEvent => GameController.Instance.ScenarioCheckEvents._figureFocus;
+
 	public class MoveCheck : ScenarioCheckEvent<MoveCheck.Parameters>
 	{
 		public class Parameters(AbilityState abilityState, Figure performer, Hex hex, Hex fromHex, int moveCost, bool affectedByNegativeHex)
@@ -235,11 +254,11 @@ public partial class ScenarioCheckEvents
 		{
 			public Figure Figure { get; } = figure;
 
-			public List<(int, int)> RetaliateValues { get; } = new List<(int, int)>();
+			public List<(int, int, int)> RetaliateValues { get; } = new List<(int, int, int)>();
 
-			public void AddRetaliate(int amount, int range)
+			public void AddRetaliate(int amount, int range, int minRange = 0)
 			{
-				RetaliateValues.Add((amount, range));
+				RetaliateValues.Add((amount, range, minRange));
 			}
 		}
 	}

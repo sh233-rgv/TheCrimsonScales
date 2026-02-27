@@ -26,7 +26,7 @@ public class SpikedShield : Prosperity6Item
 					object subscriber = new object();
 
 					await AbilityCmd.AddRetaliate(user, subscriber, 2, 1,
-						customCanApplyParameters => customCanApplyParameters.AbilityState == parameters.PotentialAbilityState);
+						customCanApply: customCanApplyParameters => customCanApplyParameters.AbilityState == parameters.PotentialAbilityState);
 
 					ScenarioEvents.AfterAttackPerformedEvent.Subscribe(this, subscriber,
 						canApplyParameters => canApplyParameters.AbilityState == parameters.PotentialAbilityState,

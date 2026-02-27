@@ -1,7 +1,7 @@
-[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://cfiqtb7nfotly"]
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://cejk3ld7ousls"]
 
-[ext_resource type="Texture2D" uid="uid://dhme1mk5irkhc" path="res://Content/Monsters/AncientArtillery/Icon.jpg" id="1_i1uui"]
+[ext_resource type="Texture2D" uid="uid://b8ipg3scucg1g" path="res://Content/Monsters/HarrowerAegis/harrower-aegis.jpeg" id="1_tv674"]
 
 [resource]
-atlas = ExtResource("1_i1uui")
-region = Rect2(65, 65, 370, 370)
+atlas = ExtResource("1_tv674")
+region = Rect2(140, 120, 500, 500)

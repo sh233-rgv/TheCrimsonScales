@@ -98,6 +98,8 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 	public override string Name => "Captain of the Guard";
 
 	public override string AssetPath => "res://Content/Monsters/Boss/CaptainOfTheGuard";
+	public override string PortraitTexturePath => $"{AssetPath}/Portrait.tres";
+	public override string MapIconTexturePath => $"{AssetPath}/Icon.tres";
 
 	public override int MaxStandeeCount => 1;
 

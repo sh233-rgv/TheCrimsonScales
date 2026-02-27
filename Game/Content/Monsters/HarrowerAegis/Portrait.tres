@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://brfpuq6ggjhig"]
+
+[ext_resource type="Texture2D" uid="uid://b8ipg3scucg1g" path="res://Content/Monsters/HarrowerAegis/harrower-aegis.jpeg" id="1_g06ce"]
+
+[resource]
+atlas = ExtResource("1_g06ce")
+region = Rect2(200, 160, 400, 600)

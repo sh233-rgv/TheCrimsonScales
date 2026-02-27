@@ -18,7 +18,8 @@ public class CardSelectionPhase : ScenarioPhase
 
 		// Start of round before card selection
 		await ScenarioEvents.RoundStartBeforeCardSelectionEvent.CreatePrompt(
-			new ScenarioEvents.RoundStartBeforeCardSelection.Parameters(), GameController.Instance.CharacterManager.GetCharacter(0));
+			new ScenarioEvents.RoundStartBeforeCardSelection.Parameters(GameController.Instance.ScenarioPhaseManager.RoundIndex),
+			GameController.Instance.CharacterManager.GetCharacter(0));
 
 		foreach(Character character in GameController.Instance.CharacterManager.Characters)
 		{

@@ -36,8 +36,8 @@ position = Vector2(218.238, 0)
 position = Vector2(-436.477, -378)
 
 [node name="MonsterSpawner" parent="Map/Rooms/Room" index="5" instance=ExtResource("8_5bvco")]
-position = Vector2(109.119, -189)
-MonsterModelId = "MONSTER_MODEL.INOX_GUARD"
+position = Vector2(327.358, -189)
+MonsterModelId = "MONSTER_MODEL.HARROWER_AEGIS"
 MonsterType2Characters = 0
 MonsterType3Characters = 1
 MonsterType4Characters = 1
@@ -53,7 +53,7 @@ MonsterType4Characters = 1
 position = Vector2(-109.119, 189)
 
 [node name="CharacterStartHex2" parent="Map/Rooms/Room" index="8" instance=ExtResource("9_6v84j")]
-position = Vector2(109.119, 189)
+position = Vector2(109.119, -189)
 
 [node name="CharacterStartHex3" parent="Map/Rooms/Room" index="9" instance=ExtResource("9_6v84j")]
 position = Vector2(-218.238, 378)

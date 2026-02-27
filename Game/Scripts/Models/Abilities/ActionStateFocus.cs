@@ -60,10 +60,14 @@ public partial class ActionState
 
 	public async GDTask<Figure> GetFocus(AbilityState abilityState)
 	{
+		ScenarioCheckEvents.FigureFocus.Parameters figureFocusParameters =
+			ScenarioCheckEvents.FigureFocusEvent.Fire(
+				new ScenarioCheckEvents.FigureFocus.Parameters(abilityState));
+
 		if(!_focusDetermined || (_cachedFocus != null && _cachedFocus.IsDead))
 		{
 			_focusDetermined = true;
-			_cachedFocus = await DetermineFocus();
+			_cachedFocus = await DetermineFocus(figureFocusParameters);
 		}
 
 		ScenarioEvents.FigureFoundFocus.Parameters figureFoundFocusEventParameters =
@@ -74,7 +78,7 @@ public partial class ActionState
 	}
 
 	// TODO: Change this to a prompt of sorts, to ensure this is saved
-	private async GDTask<Figure> DetermineFocus()
+	private async GDTask<Figure> DetermineFocus(ScenarioCheckEvents.FigureFocus.Parameters figureFocusParameters)
 	{
 		AIMoveParameters aiMoveParameters = GetAIMoveParameters();
 
@@ -152,7 +156,7 @@ public partial class ActionState
 					else
 					{
 						FocusNode previousBestNode = bestFocusNodes[0];
-						CompareResult compareResult = newNode.CompareTo(previousBestNode);
+						CompareResult compareResult = newNode.CompareTo(previousBestNode, figureFocusParameters);
 						switch(compareResult)
 						{
 							case CompareResult.Better:

@@ -461,7 +461,7 @@ public abstract partial class Figure : HexObject, IActionSource
 			ScenarioCheckEvents.RetaliateCheckEvent.Fire(new ScenarioCheckEvents.RetaliateCheck.Parameters(this));
 
 		int finalRetaliate = 0;
-		foreach((int retaliate, int range) in parameters.RetaliateValues)
+		foreach((int retaliate, int range, _) in parameters.RetaliateValues)
 		{
 			finalRetaliate += retaliate;
 		}

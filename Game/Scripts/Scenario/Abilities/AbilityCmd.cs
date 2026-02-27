@@ -482,7 +482,7 @@ public static class AbilityCmd
 		Action<List<Hex>> customSelectHexes = null, int range = 1, int trapCount = 1, ConditionModel[] conditions = null,
 		bool mandatory = false, string assetPath = null)
 	{
-		List<Hex> targetHexes = await SelectHexes(authority?? performer, list =>
+		List<Hex> targetHexes = await SelectHexes(authority ?? performer, list =>
 			{
 				if(customSelectHexes != null)
 				{
@@ -500,7 +500,7 @@ public static class AbilityCmd
 			hintText: (trapCount == 1) ? $"Select a hex to place the trap" : $"Select up to {trapCount} hexes to place the traps");
 
 		List<Trap> createdTraps = [];
-		
+
 		if(targetHexes.Count > 0)
 		{
 			foreach(Hex hex in targetHexes)
@@ -1298,7 +1298,7 @@ public static class AbilityCmd
 		ScenarioEvents.SufferDamageEvent.Unsubscribe(figure, subscriber);
 	}
 
-	public static async GDTask AddRetaliate(Figure figure, object subscriber, int retaliateValue, int range,
+	public static async GDTask AddRetaliate(Figure figure, object subscriber, int retaliateValue, int range, int minRange = 0,
 		Func<ScenarioEvents.Retaliate.Parameters, bool> customCanApply = null, bool customCanApplyReplaceFully = false)
 	{
 		ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(figure, subscriber,
@@ -1306,16 +1306,17 @@ public static class AbilityCmd
 				canApplyParameters.Figure == figure,
 			applyParameters =>
 			{
-				applyParameters.AddRetaliate(retaliateValue, range);
+				applyParameters.AddRetaliate(retaliateValue, range, minRange);
 			}
 		);
 
 		ScenarioEvents.RetaliateEvent.Subscribe(figure, subscriber,
 			canApplyParameters =>
 			{
+				int distance = RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, figure.Hex);
 				bool canApply =
 					canApplyParameters.RetaliatingFigure == figure &&
-					RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, figure.Hex) <= range;
+					distance <= range && distance >= minRange;
 
 				if(customCanApply != null)
 				{

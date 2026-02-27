@@ -40,9 +40,19 @@ public class MonsterAbilityCard : IDeckCard
 		// 		}
 		// 	}, EffectType.MandatoryAfterOptionals
 		// );
-
 		IEnumerable<MonsterAbilityCardAbility> abilities = Model.GetAbilities(performer);
 		ActionState actionState = new ActionState(performer, abilities.Select(ability => ability.Ability).ToList());
+
+		if(Model.AdjustFocus != null)
+		{
+			ScenarioCheckEvents.FigureFocusEvent.Subscribe(performer, this,
+				parameters => parameters.ActionState == actionState,
+				parameters =>
+				{
+					Model.AdjustFocus(parameters);
+				});
+		}
+
 		_actionStates.Add(actionState);
 
 		// Ordering is important here, since GetAbilities registers element consumptions, so this needs to be done after creating the abilities, but before actually performing them
@@ -89,6 +99,7 @@ public class MonsterAbilityCard : IDeckCard
 		}
 
 		await actionState.Perform();
+		ScenarioCheckEvents.FigureFocusEvent.Unsubscribe(performer, this);
 
 		// ScenarioEvents.AbilityStartedEvent.Unsubscribe(performer, this);
 	}

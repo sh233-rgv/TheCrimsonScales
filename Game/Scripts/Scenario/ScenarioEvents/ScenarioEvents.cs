@@ -1023,9 +1023,12 @@ public partial class ScenarioEvents
 
 	public class RoundStartBeforeCardSelection : ScenarioEvent<RoundStartBeforeCardSelection.Parameters>
 	{
-		public class Parameters()
+		public class Parameters(int roundIndex)
 			: ParametersBase
 		{
+			public int RoundIndex { get; } = roundIndex;
+
+			public int RoundNumber => RoundIndex + 1;
 		}
 	}
 
