@@ -36,7 +36,7 @@ public class CloakOfPhasing : Prosperity8Item
 			});
 
 		ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(this, _subscriber,
-			parameters => ItemState is ItemState.Active && parameters.PotentialTarget == Owner && parameters.Performer.EnemiesWith(Owner) && Owner.Hex.HasHexObjectOfType<Obstacle>(),
+			parameters => ItemState is ItemState.Available && parameters.PotentialTarget == Owner && parameters.Performer.EnemiesWith(Owner) && Owner.Hex.HasHexObjectOfType<Obstacle>(),
 			parameters =>
 			{
 				parameters.SetCannotBeFocused();
@@ -44,7 +44,7 @@ public class CloakOfPhasing : Prosperity8Item
 		);
 
 		ScenarioCheckEvents.CanBeTargetedCheckEvent.Subscribe(this, _subscriber,
-			parameters => ItemState is ItemState.Active && parameters.PotentialTarget == Owner && parameters.Performer.EnemiesWith(Owner) && Owner.Hex.HasHexObjectOfType<Obstacle>(),
+			parameters => ItemState is ItemState.Available && parameters.PotentialTarget == Owner && parameters.Performer.EnemiesWith(Owner) && Owner.Hex.HasHexObjectOfType<Obstacle>(),
 			parameters =>
 			{
 				parameters.SetCannotBeTargeted();
@@ -52,7 +52,7 @@ public class CloakOfPhasing : Prosperity8Item
 		);
 
 		ScenarioCheckEvents.CanPassEnemyCheckEvent.Subscribe(this, _subscriber,
-			parameters => ItemState is ItemState.Active && parameters.EnemyFigure == Owner && Owner.Hex.HasHexObjectOfType<Obstacle>(),
+			parameters => ItemState is ItemState.Available && parameters.EnemyFigure == Owner && Owner.Hex.HasHexObjectOfType<Obstacle>(),
 			parameters =>
 			{
 				parameters.SetCanPass();
@@ -60,7 +60,7 @@ public class CloakOfPhasing : Prosperity8Item
 		);
 
 		ScenarioCheckEvents.FlyingCheckEvent.Subscribe(this, _subscriber,
-			parameters => ItemState is ItemState.Active && parameters.Figure == Owner && ItemState is ItemState.Available,
+			parameters => ItemState is ItemState.Available && parameters.Figure == Owner && ItemState is ItemState.Available,
 			parameters =>
 			{
 				parameters.SetFlying(true);
