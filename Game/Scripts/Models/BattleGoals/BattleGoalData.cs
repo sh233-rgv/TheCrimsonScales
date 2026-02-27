@@ -10,7 +10,7 @@ public class BattleGoalData
 	{
 	}
 
-	private void AdjustProgress(int value)
+	public void AdjustProgress(int value)
 	{
 		Progress += value;
 

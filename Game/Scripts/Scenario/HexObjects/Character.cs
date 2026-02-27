@@ -673,8 +673,8 @@ public partial class Character : Figure
 
 		if(SelectedBattleGoalModel != null)
 		{
-			BattleGoal = new BattleGoal(SelectedBattleGoalModel);
-			await BattleGoal.OnScenarioSetupPhaseCompleted(this);
+			BattleGoal = new BattleGoal(this, SelectedBattleGoalModel);
+			await BattleGoal.OnScenarioSetupPhaseCompleted();
 		}
 
 		await GDTask.CompletedTask;

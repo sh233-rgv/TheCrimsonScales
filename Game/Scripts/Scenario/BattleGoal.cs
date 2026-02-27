@@ -1,18 +1,43 @@
-﻿using Fractural.Tasks;
+﻿using System;
+using Fractural.Tasks;
+using Godot;
 
 public class BattleGoal
 {
-	public BattleGoalModel Model { get; }
-	public BattleGoalData Data { get; }
+	public static readonly Color CompletedColor = Color.FromHtml("548d57");
+	public static readonly Color FailedColor = Color.FromHtml("d0483c");
 
-	public BattleGoal(BattleGoalModel model)
+	private readonly Character _character;
+
+	public BattleGoalModel Model { get; }
+
+	public int Progress { get; private set; }
+
+	public event Action<BattleGoal> ProgressChangedEvent;
+
+	public BattleGoal(Character character, BattleGoalModel model)
 	{
+		_character = character;
 		Model = model;
-		Data = new BattleGoalData();
+		Progress = 0;
 	}
 
-	public async GDTask OnScenarioSetupPhaseCompleted(Character character)
+	public void AdjustProgress(int value)
 	{
-		await Model.OnScenarioSetupPhaseCompleted(character, Data);
+		bool previouslyFullProgress = Progress >= Model.MaxProgress;
+
+		Progress += value;
+
+		if(_character.IsLocal && !previouslyFullProgress && GameController.Instance != null && !GameController.FastForward)
+		{
+			AppController.Instance.BattleGoalProgressUpdateView.AddItem(this);
+		}
+
+		ProgressChangedEvent?.Invoke(this);
+	}
+
+	public async GDTask OnScenarioSetupPhaseCompleted()
+	{
+		await Model.OnScenarioSetupPhaseCompleted(_character, this);
 	}
 }

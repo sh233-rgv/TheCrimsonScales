@@ -9,7 +9,7 @@ public class Aggressor : TheCrimsonScalesBattleGoal
 
 	public override bool FailIfProgressFull => true;
 
-	public override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoalData battleGoalData)
+	public override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoal battleGoal)
 	{
 		//TODO: Implement
 		await GDTask.CompletedTask;

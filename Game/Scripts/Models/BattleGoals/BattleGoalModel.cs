@@ -1,6 +1,6 @@
 ﻿using Fractural.Tasks;
 
-public abstract class BattleGoalModel : AbstractModel
+public abstract class BattleGoalModel : AbstractModel, IEventSubscriber
 {
 	public abstract string Title { get; }
 	public abstract string Description { get; }
@@ -8,7 +8,7 @@ public abstract class BattleGoalModel : AbstractModel
 	public virtual BattleGoalCheckmarkCount CheckmarkCount => BattleGoalCheckmarkCount.One;
 
 	public virtual int MaxProgress => 1;
-	public virtual bool FailIfProgressFull => true;
+	public virtual bool FailIfProgressFull => false;
 
-	public abstract GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoalData battleGoalData);
+	public abstract GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoal battleGoalData);
 }
