@@ -47,6 +47,7 @@ public partial class Character : Figure
 		AppController.Instance.Options.AnimatedCharacters.Value && ClassModel.HasAnimatedSprite ? _animatedSprite : _staticSprite;
 
 	public event Action<Character> BattleGoalChangedEvent;
+	public event Action<Character> BattleGoalProgressChangedEvent;
 	public event Action<Character> ShortRestedEvent;
 	public event Action<Character> CoinsChangedEvent;
 	public event Action<Character> XPChangedEvent;
@@ -674,6 +675,7 @@ public partial class Character : Figure
 		if(SelectedBattleGoalModel != null)
 		{
 			BattleGoal = new BattleGoal(this, SelectedBattleGoalModel);
+			BattleGoal.ProgressChangedEvent += OnBattleGoalProgressChanged;
 			await BattleGoal.OnScenarioSetupPhaseCompleted();
 		}
 
@@ -684,6 +686,11 @@ public partial class Character : Figure
 	{
 		_staticSprite.SetVisible(!ClassModel.HasAnimatedSprite || !animatedCharacters);
 		_animatedSprite.SetVisible(ClassModel.HasAnimatedSprite && animatedCharacters);
+	}
+
+	private void OnBattleGoalProgressChanged(BattleGoal battleGoal)
+	{
+		BattleGoalProgressChangedEvent?.Invoke(this);
 	}
 
 	public override void AddInfoItemParameters(List<InfoItemParameters> parametersList)
