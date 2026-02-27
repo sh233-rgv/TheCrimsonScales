@@ -11,8 +11,9 @@ public class Bully : TheCrimsonScalesBattleGoal
 	{
 		ScenarioEvents.FigureKilledEvent.Subscribe(this,
 			parameters =>
-				parameters.PotentialKiller == character, // &&
-			//parameters.Figure.Conditions.Count > 0,
+				parameters.PotentialKiller == character &&
+				parameters.Figure is Monster &&
+				parameters.Figure.Conditions.Count > 0,
 			async parameters =>
 			{
 				battleGoal.AdjustProgress(1);
