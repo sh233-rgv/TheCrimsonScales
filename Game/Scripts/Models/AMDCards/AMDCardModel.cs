@@ -119,7 +119,7 @@ public abstract class AMDCardModel : AbstractModel
 
 		foreach(CardElementInfusion cardElementInfusion in ElementInfusions)
 		{
-			if(cardElementInfusion.ConsumableElements?.Any() ?? false)
+			if(cardElementInfusion.ConsumableElements?.Any() == true)
 			{
 				continue;
 			}

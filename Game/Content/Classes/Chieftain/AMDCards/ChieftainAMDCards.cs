@@ -53,7 +53,7 @@ public class ChieftainAMDCards
 			HealAbility.Builder()
 				.WithHealValue(1)
 				.WithTarget(Target.SelfOrAllies | Target.TargetAll)
-				.WithCustomGetTargets((state, figures) =>
+				.WithCustomGetTargets((_, figures) =>
 				{
 					Character character = GetCharacter(attackAbilityState);
 

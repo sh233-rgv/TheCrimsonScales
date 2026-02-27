@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Fractural.Tasks;
 
 public class ChainguardAMDCards
@@ -83,7 +82,7 @@ public class ChainguardAMDCards
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 
 		public override List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) =>
-			attackAbilityState?.Target.HasCondition(Chainguard.Shackle) ?? false ? [Conditions.Disarm] : [];
+			attackAbilityState?.Target.HasCondition(Chainguard.Shackle) == true ? [Conditions.Disarm] : [];
 	}
 
 	public class PlusOneCreateDamageTwoTrap : ChainguardAMDCardModel
@@ -97,15 +96,9 @@ public class ChainguardAMDCards
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 
 		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
-			async (state, figure) =>
+			async (_, figure) =>
 			{
-				Hex hex = await AbilityCmd.SelectHex(state,
-					hexes => hexes.AddRange(RangeHelper.GetHexesInRange(figure.Hex, 2).Where(hex => hex.IsEmpty())),
-					hintText: $"Select a hex to create a {Icons.HintText(Icons.Damage)}2 trap");
-				if(hex != null)
-				{
-					await AbilityCmd.CreateTrap(hex, "res://Content/OverlayTiles/Traps/BearTrap1H.tscn", 2);
-				}
+				await AbilityCmd.CreateTraps(damage: 2, range: 2, performer: figure, assetPath: "res://Content/Classes/Chainguard/Traps/cs-trap.png");
 			};
 	}
 
