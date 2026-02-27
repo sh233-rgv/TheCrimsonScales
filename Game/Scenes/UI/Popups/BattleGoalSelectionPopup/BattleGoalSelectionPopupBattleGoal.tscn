@@ -5,6 +5,8 @@
 [ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="2_ng13d"]
 
 [node name="BattleGoalSelectionPopupBattleGoal" type="MarginContainer" node_paths=PackedStringArray("_battleGoalToggleButton", "_betterButton")]
+offset_right = 287.0
+offset_bottom = 445.0
 mouse_filter = 2
 script = ExtResource("1_5umdd")
 _battleGoalToggleButton = NodePath("BetterButton/PersonalQuestToggleButton")
@@ -36,7 +38,7 @@ texture_repeat = 0
 material = null
 use_parent_material = false
 clip_contents = false
-custom_minimum_size = Vector2(358.4, 555.8)
+custom_minimum_size = Vector2(286.72, 444.64)
 layout_direction = 0
 layout_mode = 2
 size_flags_horizontal = 1
