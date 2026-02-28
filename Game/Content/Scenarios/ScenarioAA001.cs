@@ -5,6 +5,7 @@ using Fractural.Tasks;
 public class ScenarioAA001 : ScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/ScenarioAA001.tscn";
+	public override string ScenarioPrefix => "AA";
 	public override int ScenarioNumber => 1;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<AAScenarioChain>();
 

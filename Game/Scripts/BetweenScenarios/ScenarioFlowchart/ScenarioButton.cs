@@ -28,7 +28,7 @@ public partial class ScenarioButton : Control
 	public SavedScenarioProgress SavedScenarioProgress { get; private set; }
 	public ScenarioButtonOutline ScenarioButtonOutline { get; private set; }
 
-	public string ModelId => $"SCENARIO_MODEL.SCENARIO{Model.ScenarioString}{ScenarioNumber:D3}";
+	public string ModelId => $"SCENARIO_MODEL.SCENARIO{Model.ScenarioPrefix}{ScenarioNumber:D3}";
 	public ScenarioModel Model => ModelDB.GetById<ScenarioModel>(ModelId);
 
 	public override void _Ready()
