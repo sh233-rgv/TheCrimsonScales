@@ -45,7 +45,7 @@ public class MonsterAbilityCard : IDeckCard
 
 		if(Model.AdjustFocus != null)
 		{
-			ScenarioCheckEvents.FigureFocusEvent.Subscribe(performer, this,
+			ScenarioCheckEvents.FigureFocusCheckEvent.Subscribe(performer, this,
 				parameters => parameters.ActionState == actionState,
 				parameters =>
 				{
@@ -99,7 +99,7 @@ public class MonsterAbilityCard : IDeckCard
 		}
 
 		await actionState.Perform();
-		ScenarioCheckEvents.FigureFocusEvent.Unsubscribe(performer, this);
+		ScenarioCheckEvents.FigureFocusCheckEvent.Unsubscribe(performer, this);
 
 		// ScenarioEvents.AbilityStartedEvent.Unsubscribe(performer, this);
 	}

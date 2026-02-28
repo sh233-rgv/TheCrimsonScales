@@ -17,9 +17,9 @@
 		MoveNode = moveNode;
 	}
 
-	public CompareResult CompareTo(FocusNode other, ScenarioCheckEvents.FigureFocus.Parameters figureFocusParameters = null)
+	public CompareResult CompareTo(FocusNode other, ScenarioCheckEvents.FigureFocusCheck.Parameters FigureFocusCheckParameters = null)
 	{
-		bool focusFarthest = figureFocusParameters?.FocusFarthest == true;
+		bool focusFarthest = FigureFocusCheckParameters?.FocusFarthest == true;
 		if(NegativeHexEncounteredCount > other.NegativeHexEncounteredCount)
 		{
 			return CompareResult.Worse;

@@ -129,7 +129,7 @@ public abstract class Ability<T> : Ability
 
 		public static implicit operator TAbility(AbstractBuilder<TBuilder, TAbility> builder)
 		{
-			return builder;
+			return builder.Build();
 		}
 	}
 

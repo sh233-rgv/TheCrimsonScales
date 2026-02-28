@@ -45,7 +45,7 @@ public partial class ScenarioCheckEvents
 	private readonly AIMoveParametersCheck _aiMoveParametersCheck = new AIMoveParametersCheck();
 	public static AIMoveParametersCheck AIMoveParametersCheckEvent => GameController.Instance.ScenarioCheckEvents._aiMoveParametersCheck;
 
-	public class FigureFocus : ScenarioCheckEvent<FigureFocus.Parameters>
+	public class FigureFocusCheck : ScenarioCheckEvent<FigureFocusCheck.Parameters>
 	{
 		public class Parameters(AbilityState abilityState) : ParametersBase
 		{
@@ -61,8 +61,8 @@ public partial class ScenarioCheckEvents
 		}
 	}
 
-	private readonly FigureFocus _figureFocus = new FigureFocus();
-	public static FigureFocus FigureFocusEvent => GameController.Instance.ScenarioCheckEvents._figureFocus;
+	private readonly FigureFocusCheck _FigureFocusCheck = new FigureFocusCheck();
+	public static FigureFocusCheck FigureFocusCheckEvent => GameController.Instance.ScenarioCheckEvents._FigureFocusCheck;
 
 	public class MoveCheck : ScenarioCheckEvent<MoveCheck.Parameters>
 	{

@@ -38,14 +38,14 @@ public static class CustomGTweenExtensions
 	// {
 	// 	return GTweenSequenceBuilder.New()
 	// 		.Append(target.TweenScale(pulseAmount, 0.5f * totalDuration).SetEasing(Easing.OutQuad))
-	// 		.Append(target.TweenScale(1f, 0.5f * totalDuration).SetEasing(Easing.InQuad));
+	// 		.Append(target.TweenScale(1f, 0.5f * totalDuration).SetEasing(Easing.InQuad)).Build();
 	// }
 	//
 	// public static GTween TweenPulse(this Control target, float totalDuration, float pulseAmount = 1.2f)
 	// {
 	// 	return GTweenSequenceBuilder.New()
 	// 		.Append(target.TweenScale(pulseAmount, 0.5f * totalDuration).SetEasing(Easing.OutQuad))
-	// 		.Append(target.TweenScale(1f, 0.5f * totalDuration).SetEasing(Easing.InQuad));
+	// 		.Append(target.TweenScale(1f, 0.5f * totalDuration).SetEasing(Easing.InQuad)).Build();
 	// }
 
 	public static GTween TweenProgress(this PathFollow3D target, float to, float duration)
