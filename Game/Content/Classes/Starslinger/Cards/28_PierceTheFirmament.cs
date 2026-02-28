@@ -27,8 +27,7 @@ public class PierceTheFirmament : StarslingerCardModel<PierceTheFirmament.CardTo
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build())
+				))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements =>
@@ -67,8 +66,7 @@ public class PierceTheFirmament : StarslingerCardModel<PierceTheFirmament.CardTo
 					ScenarioEvents.DuringHealEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Round => true;

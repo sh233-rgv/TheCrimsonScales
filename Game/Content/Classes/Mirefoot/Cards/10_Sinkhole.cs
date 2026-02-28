@@ -25,8 +25,7 @@ public class Sinkhole : MirefootCardModel<Sinkhole.CardTop, Sinkhole.CardBottom>
 					new AOEHex(Vector2I.Zero.Add((Direction)3), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add((Direction)4), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add((Direction)5), AOEHexType.Red),
-				]))
-				.Build()),
+				]))),
 
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async abilityState =>
@@ -55,8 +54,7 @@ public class Sinkhole : MirefootCardModel<Sinkhole.CardTop, Sinkhole.CardBottom>
 						await CreateDifficultTerrain(selectedHex);
 						abilityState.SetPerformed();
 					}
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;
@@ -68,8 +66,7 @@ public class Sinkhole : MirefootCardModel<Sinkhole.CardTop, Sinkhole.CardBottom>
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.62056f, 0.6804326f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62056f, 0.6804326f)))),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(abilityState =>
@@ -93,8 +90,7 @@ public class Sinkhole : MirefootCardModel<Sinkhole.CardTop, Sinkhole.CardBottom>
 					ScenarioCheckEvents.MoveCheckEvent.Unsubscribe(abilityState, this);
 
 					return GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;

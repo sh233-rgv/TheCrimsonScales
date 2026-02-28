@@ -35,8 +35,7 @@ public class PowerfulBuckshot : BombardCardModel<PowerfulBuckshot.CardTop, Power
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -47,8 +46,7 @@ public class PowerfulBuckshot : BombardCardModel<PowerfulBuckshot.CardTop, Power
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4, new AttackDiamond(this, new Vector2(0.40590954f, 0.7395128f)))
 				.WithTargets(2)
-				.WithRange(3, new RangeSquare(this, new Vector2(0.7083057f, 0.7395128f)))
-				.Build())
+				.WithRange(3, new RangeSquare(this, new Vector2(0.7083057f, 0.7395128f))))
 		];
 
 		public override int XP => 2;

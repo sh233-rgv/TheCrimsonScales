@@ -27,8 +27,7 @@ public class FollowTheChains : ChainguardCardModel<FollowTheChains.CardTop, Foll
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)
@@ -52,8 +51,7 @@ public class FollowTheChains : ChainguardCardModel<FollowTheChains.CardTop, Foll
 					ScenarioCheckEvents.MoveCanStopAtCheckEvent.Unsubscribe(state.Performer, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 	}
 
@@ -63,13 +61,11 @@ public class FollowTheChains : ChainguardCardModel<FollowTheChains.CardTop, Foll
 		[
 			new AbilityCardAbility(RetaliateAbility.Builder()
 				.WithRetaliateValue(1)
-				.Build()
 			),
 
 			new AbilityCardAbility(RetaliateAbility.Builder()
 				.WithRetaliateValue(1)
 				.WithCustomCanApply(parameters => parameters.AbilityState.Performer.HasCondition(Chainguard.Shackle))
-				.Build()
 			),
 		];
 

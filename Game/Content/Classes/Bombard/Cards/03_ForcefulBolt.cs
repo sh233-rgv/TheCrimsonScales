@@ -15,8 +15,7 @@ public class ForcefulBolt : BombardCardModel<ForcefulBolt.CardTop, ForcefulBolt.
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3, new AttackDiamond(this, new Vector2(0.39117384f, 0.29026878f)))
 				.WithRange(2, new RangeSquare(this, new Vector2(0.5999205f, 0.29026878f)))
-				.WithPush(2)
-				.Build())
+				.WithPush(2))
 		];
 	}
 
@@ -25,12 +24,10 @@ public class ForcefulBolt : BombardCardModel<ForcefulBolt.CardTop, ForcefulBolt.
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(LootAbility.Builder()
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(1, new MoveSquare(this, new Vector2(0.6240878f, 0.82054216f)))
-				.Build())
+				.WithDistance(1, new MoveSquare(this, new Vector2(0.6240878f, 0.82054216f))))
 		];
 	}
 }

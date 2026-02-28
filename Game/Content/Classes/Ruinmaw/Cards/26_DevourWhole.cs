@@ -41,8 +41,7 @@ public class DevourWhole : RuinmawCardModel<DevourWhole.CardTop, DevourWhole.Car
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
 					}
-				)
-				.Build()),
+				)),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -68,8 +67,7 @@ public class DevourWhole : RuinmawCardModel<DevourWhole.CardTop, DevourWhole.Car
 				{
 					await GDTask.CompletedTask;
 					return IsSated(state.Performer) && state.ActionState.GetAbilityState<AttackAbility.State>(0).KilledTargets.Count > 0;
-				})
-				.Build()),
+				})),
 		];
 	}
 
@@ -79,8 +77,7 @@ public class DevourWhole : RuinmawCardModel<DevourWhole.CardTop, DevourWhole.Car
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(6)
-				.WithMoveType(MoveType.Jump)
-				.Build()),
+				.WithMoveType(MoveType.Jump)),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(6)
 				.WithCustomGetTargets((state, targets) =>
@@ -89,8 +86,7 @@ public class DevourWhole : RuinmawCardModel<DevourWhole.CardTop, DevourWhole.Car
 					targets.AddRange(moveAbilityState.Hexes
 						.SelectMany(hex => hex.GetHexObjectsOfType<Figure>())
 						.Where(f => state.Performer.EnemiesWith(f)));
-				})
-				.Build()),
+				})),
 		];
 
 		protected override bool Sate => true;

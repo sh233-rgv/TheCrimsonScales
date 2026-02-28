@@ -50,7 +50,7 @@ public class OozeAbilityCard2 : OozeAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, targets: 2, conditions: [Conditions.Poison1])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithTargets(2).WithConditions(Conditions.Poison1))
 	];
 }
 
@@ -79,7 +79,7 @@ public class OozeAbilityCard4 : OozeAbilityCard
 			{
 				await AbilityCmd.SufferDamage(state, state.Performer, 2);
 			})
-			.Build()),
+		),
 
 		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
 			.WithMonsterModel(ModelDB.Monster<Ooze>())
@@ -93,7 +93,7 @@ public class OozeAbilityCard4 : OozeAbilityCard
 
 				await GDTask.CompletedTask;
 			})
-			.Build())
+		)
 	];
 }
 
@@ -110,7 +110,7 @@ public class OozeAbilityCard5 : OozeAbilityCard
 			{
 				await AbilityCmd.SufferDamage(state, state.Performer, 2);
 			})
-			.Build()),
+		),
 
 		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
 			.WithMonsterModel(ModelDB.Monster<Ooze>())
@@ -124,7 +124,7 @@ public class OozeAbilityCard5 : OozeAbilityCard
 
 				await GDTask.CompletedTask;
 			})
-			.Build())
+		)
 	];
 }
 
@@ -136,8 +136,8 @@ public class OozeAbilityCard6 : OozeAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(LootAbility.Builder().WithRange(1).Build()),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build())
+		new MonsterAbilityCardAbility(LootAbility.Builder().WithRange(1)),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self))
 	];
 }
 
@@ -152,7 +152,7 @@ public class OozeAbilityCard7 : OozeAbilityCard
 			.WithPush(1)
 			.WithConditions([Conditions.Poison1])
 			.WithTarget(Target.Enemies | Target.TargetAll)
-			.Build()),
+		),
 
 		new MonsterAbilityCardAbility(AttackAbility(monster, +1, extraRange: -1))
 	];

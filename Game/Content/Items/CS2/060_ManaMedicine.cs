@@ -19,7 +19,7 @@ public class ManaMedicine : CS2Item
 			{
 				await Use(async user =>
 				{
-					ActionState actionState = new ActionState(user, [HealAbility.Builder().WithHealValue(5).WithTarget(Target.Self).Build()]);
+					ActionState actionState = new ActionState(user, [HealAbility.Builder().WithHealValue(5).WithTarget(Target.Self)]);
 					await actionState.Perform();
 					await AbilityCmd.InfuseWildElement(null, character);
 				});

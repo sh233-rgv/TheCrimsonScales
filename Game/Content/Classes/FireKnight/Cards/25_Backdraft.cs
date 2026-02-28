@@ -41,8 +41,7 @@ public class Backdraft : FireKnightLevelUpCardModel<Backdraft.CardTop, Backdraft
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Attack)}")
 					)
-				)
-				.Build()),
+				)),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Muddle)
 				.WithTarget(Target.TargetAll | Target.SelfOrAllies | Target.Enemies)
@@ -52,8 +51,7 @@ public class Backdraft : FireKnightLevelUpCardModel<Backdraft.CardTop, Backdraft
 
 					list.AddRange(attackAbilityState.GetRedAOEHexes().SelectMany(hex => hex.GetHexObjectsOfType<Figure>()));
 				})
-				.WithMandatory(true)
-				.Build())
+				.WithMandatory(true))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements =>
@@ -68,8 +66,7 @@ public class Backdraft : FireKnightLevelUpCardModel<Backdraft.CardTop, Backdraft
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6176377f, 0.6209524f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6176377f, 0.6209524f)))),
 			new AbilityCardAbility(PushAbility.Builder()
 				.WithPush(2, new PushSquare(this, new Vector2(0.5074909f, 0.7079646f)))
 				.WithRange(1)
@@ -95,8 +92,7 @@ public class Backdraft : FireKnightLevelUpCardModel<Backdraft.CardTop, Backdraft
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build()),
+				)),
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];

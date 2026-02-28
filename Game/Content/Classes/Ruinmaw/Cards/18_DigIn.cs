@@ -27,8 +27,7 @@ public class DigIn : RuinmawCardModel<DigIn.CardTop, DigIn.CardBottom>
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
+				)),
 			new AbilityCardAbility(ShieldAbility.Builder()
 				.WithShieldValue(1)
 				.WithConditionalAbilityCheck(async state =>
@@ -47,8 +46,7 @@ public class DigIn : RuinmawCardModel<DigIn.CardTop, DigIn.CardBottom>
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -58,8 +56,7 @@ public class DigIn : RuinmawCardModel<DigIn.CardTop, DigIn.CardBottom>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Invisible)
-				.WithTarget(Target.Self)
-				.Build()),
+				.WithTarget(Target.Self)),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -72,7 +69,7 @@ public class DigIn : RuinmawCardModel<DigIn.CardTop, DigIn.CardBottom>
 							{
 								ActionState actionState = new ActionState(state.Performer,
 								[
-									AttackAbility.Builder().WithDamage(2).Build()
+									AttackAbility.Builder().WithDamage(2)
 								]);
 								await actionState.Perform();
 							}
@@ -96,8 +93,7 @@ public class DigIn : RuinmawCardModel<DigIn.CardTop, DigIn.CardBottom>
 					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Round => true;

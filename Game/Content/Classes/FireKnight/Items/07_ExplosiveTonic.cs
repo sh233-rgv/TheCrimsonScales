@@ -35,7 +35,6 @@ public class FireKnightExplosiveTonic : FireKnightItem
 										effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
 									)
 								)
-								.Build()
 						]
 					);
 					await actionState.Perform();

@@ -34,8 +34,7 @@ public class StrappingBullwhip : ChieftainCardModel<StrappingBullwhip.CardTop, S
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -67,8 +66,7 @@ public class StrappingBullwhip : ChieftainCardModel<StrappingBullwhip.CardTop, S
 					ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Round => true;

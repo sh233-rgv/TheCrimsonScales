@@ -35,7 +35,6 @@ public class Road47 : RoadEventModel<Road47.ChoiceA, Road47.ChoiceB>
 								HealAbility.Builder()
 									.WithHealValue(1)
 									.WithTarget(Target.Self)
-									.Build()
 							]);
 							await actionState.Perform();
 						}

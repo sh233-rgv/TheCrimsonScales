@@ -48,7 +48,6 @@ public class Road38 : RoadEventModel<Road38.ChoiceA, Road38.ChoiceB>
 								AttackAbility.Builder()
 									.WithDamage(4)
 									.WithRange(3)
-									.Build()
 							]);
 							await actionState.Perform();
 						},

@@ -13,16 +13,13 @@ public class LashingVines : MirefootCardModel<LashingVines.CardTop, LashingVines
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(0, new AttackDiamond(this, new Vector2(0.61555624f, 0.1930237f)))
-				.Build()),
+				.WithDamage(0, new AttackDiamond(this, new Vector2(0.61555624f, 0.1930237f)))),
 
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(0)
-				.Build()),
+				.WithDamage(0)),
 
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(0, new AttackDiamond(this, new Vector2(0.61555624f, 0.38992193f)))
-				.Build())
+				.WithDamage(0, new AttackDiamond(this, new Vector2(0.61555624f, 0.38992193f))))
 		];
 	}
 
@@ -42,8 +39,7 @@ public class LashingVines : MirefootCardModel<LashingVines.CardTop, LashingVines
 
 						list.RemoveAll(hex => !hex.HasHexObjectOfType<DifficultTerrain>() || hex.IsOccupied());
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override int XP => 1;

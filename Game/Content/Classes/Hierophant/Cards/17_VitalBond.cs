@@ -16,8 +16,7 @@ public class VitalBond : HierophantLevelUpCardModel<VitalBond.CardTop, VitalBond
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.39718983f, 0.180141f)))
 				.WithTargets(2)
-				.WithRange(4, new RangeSquare(this, new Vector2(0.72036666f, 0.180141f)))
-				.Build()),
+				.WithRange(4, new RangeSquare(this, new Vector2(0.72036666f, 0.180141f)))),
 
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -57,8 +56,7 @@ public class VitalBond : HierophantLevelUpCardModel<VitalBond.CardTop, VitalBond
 						return attackAbilityState.Performed && attackAbilityState.UniqueTargetedFigures.Count == 2 &&
 						       attackAbilityState.UniqueTargetedFigures.TrueForAll(figure => !figure.IsDead);
 					}
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -107,8 +105,7 @@ public class VitalBond : HierophantLevelUpCardModel<VitalBond.CardTop, VitalBond
 							await AbilityCmd.ReturnToHand(card);
 						}
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];

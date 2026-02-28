@@ -17,11 +17,9 @@ public class EncompassingAura : LuminaryCardModel<EncompassingAura.CardTop, Enco
 				.WithGetAbilities(state =>
 				[
 					ShieldAbility.Builder()
-						.WithShieldValue(new DynamicInt<ShieldAbility.State>(1, _ => state.GetCustomValue<int>(this, "IceConsumed")))
-						.Build(),
+						.WithShieldValue(new DynamicInt<ShieldAbility.State>(1, _ => state.GetCustomValue<int>(this, "IceConsumed"))),
 					RetaliateAbility.Builder()
-						.WithRetaliateValue(new DynamicInt<RetaliateAbility.State>(1, _ => state.GetCustomValue<int>(this, "DarkConsumed")))
-						.Build(),
+						.WithRetaliateValue(new DynamicInt<RetaliateAbility.State>(1, _ => state.GetCustomValue<int>(this, "DarkConsumed"))),
 				])
 				.WithTarget(Target.SelfOrAllies | Target.TargetAll)
 				.WithAOEPattern(new AOEPattern(
@@ -53,8 +51,7 @@ public class EncompassingAura : LuminaryCardModel<EncompassingAura.CardTop, Enco
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Retaliate)}")
 					)
-				])
-				.Build()),
+				])),
 		];
 
 		public override bool Round => true;
@@ -68,20 +65,16 @@ public class EncompassingAura : LuminaryCardModel<EncompassingAura.CardTop, Enco
 				.WithConditions(Conditions.Immobilize)
 				.WithTarget(Target.Enemies | Target.TargetAll)
 				.WithRange(1)
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Light))
-				.Build()),
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Light))),
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.6213844f, 0.7282153f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6213844f, 0.7282153f)))),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Wound1)
 				.WithTarget(Target.Enemies | Target.TargetAll)
 				.WithRange(1)
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))
-				.Build()),
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))),
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
-				.Build()),
+				.WithDistance(2)),
 		];
 	}
 }

@@ -15,8 +15,7 @@ public class BeaconOfHope : HierophantLevelUpCardModel<BeaconOfHope.CardTop, Bea
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3, new HealDiamondPlus(this, new Vector2(0.43511614f, 0.20235652f)))
-				.WithRange(3, new RangeSquare(this, new Vector2(0.66057616f, 0.20235652f)))
-				.Build()),
+				.WithRange(3, new RangeSquare(this, new Vector2(0.66057616f, 0.20235652f)))),
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.28136954f, 0.32378387f)))
@@ -34,8 +33,7 @@ public class BeaconOfHope : HierophantLevelUpCardModel<BeaconOfHope.CardTop, Bea
 						}
 					}
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];
@@ -47,8 +45,7 @@ public class BeaconOfHope : HierophantLevelUpCardModel<BeaconOfHope.CardTop, Bea
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions([Conditions.Bless, Conditions.Bless])
-				.WithRange(3)
-				.Build()),
+				.WithRange(3)),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -71,7 +68,6 @@ public class BeaconOfHope : HierophantLevelUpCardModel<BeaconOfHope.CardTop, Bea
 												HealAbility.Builder()
 													.WithHealValue(6)
 													.WithTarget(Target.Self)
-													.Build()
 											]
 										);
 
@@ -96,8 +92,7 @@ public class BeaconOfHope : HierophantLevelUpCardModel<BeaconOfHope.CardTop, Bea
 						await GDTask.CompletedTask;
 					}
 				)
-				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.9f)))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.9f))))
 		];
 
 		public override int XP => 1;

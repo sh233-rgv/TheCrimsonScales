@@ -16,8 +16,7 @@ public class HeavyIrons : FireKnightLevelUpCardModel<HeavyIrons.CardTop, HeavyIr
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3, new AttackDiamond(this, new Vector2(0.5020886f, 0.21237265f)))
-				.WithConditions(Conditions.Immobilize)
-				.Build()),
+				.WithConditions(Conditions.Immobilize)),
 
 			new AbilityCardAbility(GiveFireKnightItemAbility(
 				state => [ModelDB.Item<FireKnightRescueAxe>(), ModelDB.Item<FireKnightEmberCladding>(), ModelDB.Item<FireKnightScrollOfCharisma>()],
@@ -45,8 +44,7 @@ public class HeavyIrons : FireKnightLevelUpCardModel<HeavyIrons.CardTop, HeavyIr
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Move)}")
 					)
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -73,8 +71,7 @@ public class HeavyIrons : FireKnightLevelUpCardModel<HeavyIrons.CardTop, HeavyIr
 						await GDTask.CompletedTask;
 					}
 				)
-				.WithUseSlot(new UseSlot(null))
-				.Build())
+				.WithUseSlot(new UseSlot(null)))
 		];
 
 		public override bool Round => true;

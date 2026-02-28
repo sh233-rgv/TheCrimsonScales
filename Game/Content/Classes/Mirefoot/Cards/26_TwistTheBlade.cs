@@ -14,8 +14,7 @@ public class TwistTheBlade : MirefootCardModel<TwistTheBlade.CardTop, TwistTheBl
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1, new AttackDiamond(this, new Vector2(0.49855936f, 0.17132856f)))
-				.WithConditions(Conditions.Poison2)
-				.Build()),
+				.WithConditions(Conditions.Poison2)),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1, new AttackDiamond(this, new Vector2(0.51042974f, 0.26951215f)))
 				.WithConditions(Conditions.Poison1)
@@ -32,8 +31,7 @@ public class TwistTheBlade : MirefootCardModel<TwistTheBlade.CardTop, TwistTheBl
 							parameters.AbilityState.SingleTargetAdjustAttackValue(2);
 							parameters.AbilityState.SingleTargetSetHasAdvantage();
 							await AbilityCmd.GainXP(parameters.Performer, 1);
-						}))
-				.Build())
+						})))
 		];
 
 		public override int XP => 1;
@@ -45,15 +43,12 @@ public class TwistTheBlade : MirefootCardModel<TwistTheBlade.CardTop, TwistTheBl
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
-				.Build()),
+				.WithDistance(3)),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.510711f, 0.773974f)))
-				.WithConditions(Conditions.Poison1)
-				.Build()),
+				.WithConditions(Conditions.Poison1)),
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
-				.Build())
+				.WithDistance(2))
 		];
 	}
 }

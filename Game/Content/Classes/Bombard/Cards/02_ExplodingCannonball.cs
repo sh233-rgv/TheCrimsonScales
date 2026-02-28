@@ -30,11 +30,9 @@ public class ExplodingCannonball : BombardCardModel<ExplodingCannonball.CardTop,
 							new AOEHex(Vector2I.Zero.Add((Direction)4), AOEHexType.Red),
 							new AOEHex(Vector2I.Zero.Add((Direction)5), AOEHexType.Red)
 						]))
-						.Build()
 				])
 				.WithAbilityCardSide(this)
-				.WithRange(4, new ProjectileRangeSquare(this, new Vector2(0.33784395f, 0.16527776f)))
-				.Build())
+				.WithRange(4, new ProjectileRangeSquare(this, new Vector2(0.33784395f, 0.16527776f))))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];
@@ -86,8 +84,7 @@ public class ExplodingCannonball : BombardCardModel<ExplodingCannonball.CardTop,
 					ScenarioEvents.HazardousTerrainTriggeredEvent.Unsubscribe(abilityState, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 	}
 }

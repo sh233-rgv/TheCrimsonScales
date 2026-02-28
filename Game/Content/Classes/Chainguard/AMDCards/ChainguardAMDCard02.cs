@@ -10,6 +10,6 @@ public class ChainguardAMDCard02 : ChainguardAMDCardModel
 
 	public override List<Ability> GetAbilities(AttackAbility.State state) =>
 	[
-		ShieldAbility.Builder().WithShieldValue(1).Build()
+		ShieldAbility.Builder().WithShieldValue(1)
 	];
 }

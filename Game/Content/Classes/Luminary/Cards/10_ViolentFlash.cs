@@ -29,8 +29,7 @@ public class ViolentFlash : LuminaryCardModel<ViolentFlash.CardTop, ViolentFlash
 					{
 						await AbilityCmd.InfuseWildElement(state);
 					}
-				})
-				.Build()),
+				})),
 		];
 
 		public override int XP => 2;
@@ -42,11 +41,9 @@ public class ViolentFlash : LuminaryCardModel<ViolentFlash.CardTop, ViolentFlash
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128437f, 0.7193808f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128437f, 0.7193808f)))),
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
-				.Build()),
+				.WithDistance(2)),
 		];
 	}
 }

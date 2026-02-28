@@ -16,8 +16,7 @@ public class SacredDeath : HierophantCardModel<SacredDeath.CardTop, SacredDeath.
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3, new AttackDiamond(this, new Vector2(0.4478777f, 0.19583333f)))
-				.WithRange(3, new RangeSquare(this, new Vector2(0.66987485f, 0.19583333f)))
-				.Build()),
+				.WithRange(3, new RangeSquare(this, new Vector2(0.66987485f, 0.19583333f)))),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Bless)
@@ -34,8 +33,7 @@ public class SacredDeath : HierophantCardModel<SacredDeath.CardTop, SacredDeath.
 
 						return attackAbilityState.Performed && attackAbilityState.KilledTargets.Count > 0;
 					}
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -80,8 +78,7 @@ public class SacredDeath : HierophantCardModel<SacredDeath.CardTop, SacredDeath.
 
 						state.SetCustomValue(this, "RecoveredCards", selectedAbilityCards.Select(card => card.ReferenceId).ToList());
 					}
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -121,8 +118,7 @@ public class SacredDeath : HierophantCardModel<SacredDeath.CardTop, SacredDeath.
 
 						return true;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override bool Loss => true;

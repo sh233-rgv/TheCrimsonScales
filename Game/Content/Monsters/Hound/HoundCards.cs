@@ -26,7 +26,7 @@ public class HoundAbilityCard0 : HoundAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, conditions: [Conditions.Immobilize])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithConditions(Conditions.Immobilize))
 	];
 }
 
@@ -42,7 +42,7 @@ public class HoundAbilityCard1 : HoundAbilityCard
 			.WithConditions(Conditions.Muddle)
 			.WithRange(1)
 			.WithTarget(Target.Enemies | Target.TargetAll)
-			.Build()),
+		),
 	];
 }
 
@@ -55,33 +55,30 @@ public class HoundAbilityCard2 : HoundAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0,
-			afterTargetConfirmedSubscriptions:
-			[
-				ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
-					canApplyParameters =>
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithAfterTargetConfirmedSubscription(
+			ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
+				canApplyParameters =>
+				{
+					foreach(Hex neighbourHex in canApplyParameters.AbilityState.Target.Hex.Neighbours)
 					{
-						foreach(Hex neighbourHex in canApplyParameters.AbilityState.Target.Hex.Neighbours)
+						foreach(Figure figure in neighbourHex.GetHexObjectsOfType<Figure>())
 						{
-							foreach(Figure figure in neighbourHex.GetHexObjectsOfType<Figure>())
+							if(monster.AlliedWith(figure))
 							{
-								if(monster.AlliedWith(figure))
-								{
-									return true;
-								}
+								return true;
 							}
 						}
-
-						return false;
-					},
-					applyFunction: async applyParameters =>
-					{
-						applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
-
-						await GDTask.CompletedTask;
 					}
-				)
-			]
+
+					return false;
+				},
+				applyFunction: async applyParameters =>
+				{
+					applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
+
+					await GDTask.CompletedTask;
+				}
+			)
 		))
 	];
 }
@@ -95,33 +92,30 @@ public class HoundAbilityCard3 : HoundAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0,
-			afterTargetConfirmedSubscriptions:
-			[
-				ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
-					canApplyParameters =>
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithAfterTargetConfirmedSubscription(
+			ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
+				canApplyParameters =>
+				{
+					foreach(Hex neighbourHex in canApplyParameters.AbilityState.Target.Hex.Neighbours)
 					{
-						foreach(Hex neighbourHex in canApplyParameters.AbilityState.Target.Hex.Neighbours)
+						foreach(Figure figure in neighbourHex.GetHexObjectsOfType<Figure>())
 						{
-							foreach(Figure figure in neighbourHex.GetHexObjectsOfType<Figure>())
+							if(monster.AlliedWith(figure))
 							{
-								if(monster.AlliedWith(figure))
-								{
-									return true;
-								}
+								return true;
 							}
 						}
-
-						return false;
-					},
-					applyFunction: async applyParameters =>
-					{
-						applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
-
-						await GDTask.CompletedTask;
 					}
-				)
-			]
+
+					return false;
+				},
+				applyFunction: async applyParameters =>
+				{
+					applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
+
+					await GDTask.CompletedTask;
+				}
+			)
 		))
 	];
 }
@@ -169,8 +163,8 @@ public class HoundAbilityCard7 : HoundAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, pierce: 2)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithPierce(2)),
 		new MonsterAbilityCardAbility(MoveAbility(monster, -2)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, pierce: 2)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithPierce(2))
 	];
 }

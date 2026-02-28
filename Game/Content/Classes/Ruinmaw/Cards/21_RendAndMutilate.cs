@@ -25,8 +25,7 @@ public class RendAndMutilate : RuinmawCardModel<RendAndMutilate.CardTop, RendAnd
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 
 		protected override bool Sate => true;
@@ -39,8 +38,7 @@ public class RendAndMutilate : RuinmawCardModel<RendAndMutilate.CardTop, RendAnd
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
-				.Build()),
+				.WithDistance(2)),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -74,8 +72,7 @@ public class RendAndMutilate : RuinmawCardModel<RendAndMutilate.CardTop, RendAnd
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Round => true;

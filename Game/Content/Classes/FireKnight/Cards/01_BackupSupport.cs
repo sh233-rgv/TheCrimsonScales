@@ -32,8 +32,7 @@ public class BackupSupport : FireKnightCardModel<BackupSupport.CardTop, BackupSu
 						effectButtonParameters: new IconEffectButton.Parameters(LadderIconPath),
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Range)}")
 					)
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen, new ConditionDiamondPlus(this, new Vector2(0.40208158f, 0.37323144f)))
@@ -45,8 +44,7 @@ public class BackupSupport : FireKnightCardModel<BackupSupport.CardTop, BackupSu
 						AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 						return attackAbilityState.Performed && attackAbilityState.GetCustomValue<bool>(this, "AddedRange");
 					}
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -55,8 +53,7 @@ public class BackupSupport : FireKnightCardModel<BackupSupport.CardTop, BackupSu
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(5, new MoveCircle(this, new Vector2(0.61780804f, 0.62103546f)))
-				.Build()),
+				.WithDistance(5, new MoveCircle(this, new Vector2(0.61780804f, 0.62103546f)))),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -82,8 +79,7 @@ public class BackupSupport : FireKnightCardModel<BackupSupport.CardTop, BackupSu
 						await GDTask.CompletedTask;
 					}
 				)
-				.WithUseSlot(new UseSlot(new Vector2(0.5560003f, 0.8259989f), GainXP))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.5560003f, 0.8259989f), GainXP)))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];

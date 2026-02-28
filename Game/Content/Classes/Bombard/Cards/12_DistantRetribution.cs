@@ -14,8 +14,7 @@ public class DistantRetribution : BombardCardModel<DistantRetribution.CardTop, D
 		[
 			new AbilityCardAbility(RetaliateAbility.Builder()
 				.WithRetaliateValue(2)
-				.WithRange(3)
-				.Build())
+				.WithRange(3))
 		];
 
 		public override int XP => 1;
@@ -27,12 +26,10 @@ public class DistantRetribution : BombardCardModel<DistantRetribution.CardTop, D
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(1, new MoveCircle(this, new Vector2(0.62331194f, 0.71344733f)))
-				.Build()),
+				.WithDistance(1, new MoveCircle(this, new Vector2(0.62331194f, 0.71344733f)))),
 
 			new AbilityCardAbility(ShieldAbility.Builder()
-				.WithShieldValue(1)
-				.Build())
+				.WithShieldValue(1))
 		];
 
 		public override bool Round => true;

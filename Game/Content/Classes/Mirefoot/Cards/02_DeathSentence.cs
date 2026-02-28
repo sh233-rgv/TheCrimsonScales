@@ -15,8 +15,7 @@ public class DeathSentence : MirefootCardModel<DeathSentence.CardTop, DeathSente
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.4508403f, 0.27815282f)))
-				.WithConditions([Conditions.Poison3, Conditions.Stun])
-				.Build())
+				.WithConditions([Conditions.Poison3, Conditions.Stun]))
 		];
 
 		public override int XP => 2;
@@ -48,8 +47,7 @@ public class DeathSentence : MirefootCardModel<DeathSentence.CardTop, DeathSente
 					ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 	}
 }

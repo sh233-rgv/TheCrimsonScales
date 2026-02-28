@@ -36,8 +36,7 @@ public class RapidRescue : FireKnightCardModel<RapidRescue.CardTop, RapidRescue.
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.6215359f, 0.33479995f)))
@@ -53,8 +52,7 @@ public class RapidRescue : FireKnightCardModel<RapidRescue.CardTop, RapidRescue.
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(
 							$"+1{Icons.Inline(Icons.Attack)}, {Icons.Inline(Icons.GetCondition(Conditions.Muddle))}")
 					)
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -67,10 +65,8 @@ public class RapidRescue : FireKnightCardModel<RapidRescue.CardTop, RapidRescue.
 				[
 					MoveAbility.Builder()
 						.WithDistance(3, new MoveSquare(this, new Vector2(0.6178323f, 0.7326467f)))
-						.Build()
 				])
-				.WithRange(3)
-				.Build()),
+				.WithRange(3)),
 
 			new AbilityCardAbility(GiveFireKnightItemAbility(
 				state => [ModelDB.Item<FireKnightRescueAxe>(), ModelDB.Item<FireKnightRescueShield>()],

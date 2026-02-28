@@ -36,7 +36,6 @@ public class FireKnightRescueAxe : FireKnightItem
 											$"{Icons.Inline(Icons.GetCondition(Conditions.Wound1))} instead")
 									)
 								)
-								.Build()
 						]
 					);
 					await actionState.Perform();

@@ -55,6 +55,7 @@ public partial class ScenarioFlowchartArrow : Control
 			.Append(_container.TweenScaleX(1f, 0.1f))
 			.Join(_container.TweenSizeX(sizeX, 0.45f).SetEasing(Easing.InOutSine))
 			.Append(_linkContainer.TweenScale(Linked ? 1f : 0f, Linked ? 0.3f : 0f).SetEasing(Easing.OutBack))
-			.Build().Play();
+			.Build()
+			.Play();
 	}
 }

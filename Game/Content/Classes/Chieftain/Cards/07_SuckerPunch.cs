@@ -16,8 +16,7 @@ public class SuckerPunch : ChieftainCardModel<SuckerPunch.CardTop, SuckerPunch.C
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3, new AttackDiamond(this, new Vector2(0.5089311f, 0.2920354f)))
-				.WithConditions(Conditions.Immobilize)
-				.Build())
+				.WithConditions(Conditions.Immobilize))
 		];
 	}
 
@@ -48,8 +47,7 @@ public class SuckerPunch : ChieftainCardModel<SuckerPunch.CardTop, SuckerPunch.C
 					ScenarioEvents.SufferDamageEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Round => true;

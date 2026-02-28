@@ -14,8 +14,7 @@ public class BloodThinner : MirefootCardModel<BloodThinner.CardTop, BloodThinner
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1, new AttackDiamond(this, new Vector2(0.49809915f, 0.2793195f)))
-				.WithConditions(Conditions.Wound2)
-				.Build())
+				.WithConditions(Conditions.Wound2))
 		];
 
 		public override int XP => 1;
@@ -27,8 +26,7 @@ public class BloodThinner : MirefootCardModel<BloodThinner.CardTop, BloodThinner
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions([Conditions.Wound1, Conditions.Immobilize])
-				.WithRange(2, new RangeSquare(this, new Vector2(0.65683514f, 0.7661615f)))
-				.Build())
+				.WithRange(2, new RangeSquare(this, new Vector2(0.65683514f, 0.7661615f))))
 		];
 	}
 }

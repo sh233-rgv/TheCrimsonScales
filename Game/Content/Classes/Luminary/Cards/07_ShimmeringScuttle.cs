@@ -35,8 +35,7 @@ public class ShimmeringScuttle : LuminaryCardModel<ShimmeringScuttle.CardTop, Sh
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
 					),
-				])
-				.Build()),
+				])),
 			Scuttle(2, [Element.Fire]),
 		];
 	}
@@ -46,8 +45,7 @@ public class ShimmeringScuttle : LuminaryCardModel<ShimmeringScuttle.CardTop, Sh
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128437f, 0.7070308f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128437f, 0.7070308f)))),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -69,8 +67,7 @@ public class ShimmeringScuttle : LuminaryCardModel<ShimmeringScuttle.CardTop, Sh
 					ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 
 		public override bool Round => true;

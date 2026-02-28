@@ -34,7 +34,7 @@ public class City22 : CityEventModel<City22.ChoiceA, City22.ChoiceB>
 						{
 							ActionState actionState = new ActionState(character,
 								[
-									ConditionAbility.Builder().WithConditions(Conditions.Invisible).WithTarget(Target.Self).Build()
+									ConditionAbility.Builder().WithConditions(Conditions.Invisible).WithTarget(Target.Self)
 								]
 							);
 							await actionState.Perform();

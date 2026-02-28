@@ -25,10 +25,9 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 								GrantAbility.Builder()
 									.WithGetAbilities(grantAbilityState =>
 									[
-										MoveAbility.Builder().WithDistance(2).Build()
+										MoveAbility.Builder().WithDistance(2)
 									])
 									.WithRange(int.MaxValue)
-									.Build()
 							]);
 							await actionState.Perform();
 						}
@@ -40,8 +39,7 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 						ScenarioEvents.FigureTurnStartedEvent.Unsubscribe(state, this);
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override int XP => 2;
@@ -78,7 +76,6 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 								effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Move)}")
 							)
 						)
-						.Build()
 				])
 				.WithRange(3)
 				.WithTarget(Target.SelfOrAllies)
@@ -107,8 +104,7 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 							effectType: EffectType.SelectableMandatory
 						)
 					], hintText: "Select an ability to perform:");
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(ControlAbility.Builder()
 				.WithAbilities(
@@ -126,7 +122,6 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 								effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Move)}")
 							)
 						)
-						.Build()
 				])
 				.WithRange(3)
 				.WithConditionalAbilityCheck(async state =>
@@ -134,8 +129,7 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 					await GDTask.CompletedTask;
 
 					return !state.ActionState.GetAbilityState<GrantAbility.State>(0).GetCustomValue<bool>(this, "ChoseGrant");
-				})
-				.Build())
+				}))
 		];
 	}
 }

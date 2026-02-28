@@ -117,7 +117,8 @@ public partial class CharacterCreationOverlay : Control
 				.AppendCallback(_currentStep.Activate)
 				.AppendCallback(UpdateConfirmVisible)
 				.AppendCallback(() => _animating = false)
-				.Build().Play();
+				.Build()
+				.Play();
 		}
 	}
 

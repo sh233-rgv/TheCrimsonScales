@@ -19,7 +19,7 @@ public class ChainMace : CS1Item
 			{
 				await Use(async user =>
 				{
-					ActionState actionState = new ActionState(user, [AttackAbility.Builder().WithDamage(3).WithRange(2).Build()]);
+					ActionState actionState = new ActionState(user, [AttackAbility.Builder().WithDamage(3).WithRange(2)]);
 					await actionState.Perform();
 				});
 			}

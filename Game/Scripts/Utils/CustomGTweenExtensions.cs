@@ -38,14 +38,14 @@ public static class CustomGTweenExtensions
 	// {
 	// 	return GTweenSequenceBuilder.New()
 	// 		.Append(target.TweenScale(pulseAmount, 0.5f * totalDuration).SetEasing(Easing.OutQuad))
-	// 		.Append(target.TweenScale(1f, 0.5f * totalDuration).SetEasing(Easing.InQuad)).Build();
+	// 		.Append(target.TweenScale(1f, 0.5f * totalDuration).SetEasing(Easing.InQuad));
 	// }
 	//
 	// public static GTween TweenPulse(this Control target, float totalDuration, float pulseAmount = 1.2f)
 	// {
 	// 	return GTweenSequenceBuilder.New()
 	// 		.Append(target.TweenScale(pulseAmount, 0.5f * totalDuration).SetEasing(Easing.OutQuad))
-	// 		.Append(target.TweenScale(1f, 0.5f * totalDuration).SetEasing(Easing.InQuad)).Build();
+	// 		.Append(target.TweenScale(1f, 0.5f * totalDuration).SetEasing(Easing.InQuad));
 	// }
 
 	public static GTween TweenProgress(this PathFollow3D target, float to, float duration)
@@ -74,56 +74,48 @@ public static class CustomGTweenExtensions
 	{
 		GTween yTween = GTweenSequenceBuilder.New()
 			.Append(target.TweenGlobalPositionY((target.GlobalPosition.Y + to.Y) * 0.5f - jumpHeight, duration * 0.5f).SetEasing(Easing.OutQuad))
-			.Append(target.TweenGlobalPositionY(to.Y, duration * 0.5f).SetEasing(Easing.InQuad))
-			.Build();
+			.Append(target.TweenGlobalPositionY(to.Y, duration * 0.5f).SetEasing(Easing.InQuad)).Build();
 
 		return GTweenSequenceBuilder.New()
 			//.Join(target.TweenGlobalPosition(to, duration))
 			.Join(target.TweenGlobalPositionX(to.X, duration).SetEasing(Easing.Linear))
-			.Join(yTween)
-			.Build();
+			.Join(yTween).Build();
 	}
 
 	public static GTween TweenGlobalJump(this Node3D target, Vector3 to, float jumpHeight, float duration)
 	{
 		GTween yTween = GTweenSequenceBuilder.New()
 			.Append(target.TweenGlobalPositionY((target.GlobalPosition.Y + to.Y) * 0.5f + jumpHeight, duration * 0.5f).SetEasing(Easing.OutQuad))
-			.Append(target.TweenGlobalPositionY(to.Y, duration * 0.5f).SetEasing(Easing.InQuad))
-			.Build();
+			.Append(target.TweenGlobalPositionY(to.Y, duration * 0.5f).SetEasing(Easing.InQuad)).Build();
 
 		return GTweenSequenceBuilder.New()
 			.Join(target.TweenGlobalPositionXZ(to.XZ(), duration))
-			.Join(yTween)
-			.Build();
+			.Join(yTween).Build();
 	}
 
 	public static GTween TweenJump(this Node3D target, Vector3 to, float jumpHeight, float duration)
 	{
 		GTween yTween = GTweenSequenceBuilder.New()
 			.Append(target.TweenPositionY((target.Position.Y + to.Y) * 0.5f + jumpHeight, duration * 0.5f).SetEasing(Easing.OutQuad))
-			.Append(target.TweenPositionY(to.Y, duration * 0.5f).SetEasing(Easing.InQuad))
-			.Build();
+			.Append(target.TweenPositionY(to.Y, duration * 0.5f).SetEasing(Easing.InQuad)).Build();
 
 		return GTweenSequenceBuilder.New()
 			.Join(target.TweenPositionXZ(to.XZ(), duration))
-			.Join(yTween)
-			.Build();
+			.Join(yTween).Build();
 	}
 
 	public static GTween TweenPulse(this Node2D target, float targetScale, float duration)
 	{
 		return GTweenSequenceBuilder.New()
 			.Append(target.TweenScale(targetScale, duration * 0.5f).SetEasing(Easing.OutQuad))
-			.Append(target.TweenScale(1f, duration * 0.5f).SetEasing(Easing.OutBack))
-			.Build();
+			.Append(target.TweenScale(1f, duration * 0.5f).SetEasing(Easing.OutBack)).Build();
 	}
 
 	public static GTween TweenPulse(this Control target, float targetScale, float duration)
 	{
 		return GTweenSequenceBuilder.New()
 			.Append(target.TweenScale(targetScale, duration * 0.5f).SetEasing(Easing.OutQuad))
-			.Append(target.TweenScale(1f, duration * 0.5f).SetEasing(Easing.OutBack))
-			.Build();
+			.Append(target.TweenScale(1f, duration * 0.5f).SetEasing(Easing.OutBack)).Build();
 	}
 
 	public static GTween TweenValue(this TextureProgressBar target, float to, float duration)

@@ -171,8 +171,8 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			return;
 		}
 
-		AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request($"Scenario {scenarioModel.ScenarioNumber}",
-			$"Start scenario {scenarioModel.ScenarioNumber}?",
+		AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request($"Scenario {scenarioModel.ScenarioString}",
+			$"Start scenario {scenarioModel.ScenarioString}?",
 			new TextButton.Parameters("Cancel",
 				() =>
 				{

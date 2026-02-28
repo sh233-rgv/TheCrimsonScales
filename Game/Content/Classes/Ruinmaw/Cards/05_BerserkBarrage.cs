@@ -24,8 +24,7 @@ public class BerserkBarrage : RuinmawCardModel<BerserkBarrage.CardTop, BerserkBa
 						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 						new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
 					]
-				))
-				.Build()),
+				))),
 		];
 
 		protected override bool Sate => true;
@@ -44,11 +43,9 @@ public class BerserkBarrage : RuinmawCardModel<BerserkBarrage.CardTop, BerserkBa
 					await GDTask.CompletedTask;
 
 					return IsSated(state.Performer);
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
-				.Build())
+				.WithDamage(2))
 		];
 	}
 }

@@ -57,8 +57,7 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 						new UseSlot(new Vector2(0.3959975f, 0.42349842f), Heal),
 						new UseSlot(new Vector2(0.60500103f, 0.42349842f), GainXP),
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;
@@ -74,7 +73,6 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 						HealAbility.Builder()
 							.WithHealValue(1)
 							.WithRange(1)
-							.Build()
 					]);
 
 					await healAbility.Perform();
@@ -93,8 +91,7 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Invisible)
-				.WithTarget(Target.Self)
-				.Build()),
+				.WithTarget(Target.Self)),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -115,8 +112,7 @@ public class ForceField : StarslingerCardModel<ForceField.CardTop, ForceField.Ca
 						await GDTask.CompletedTask;
 					}
 				)
-				.WithMandatory(true)
-				.Build())
+				.WithMandatory(true))
 		];
 
 		public override int XP => 1;

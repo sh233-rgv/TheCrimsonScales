@@ -24,14 +24,12 @@ public class ShiftingChasma : StarslingerCardModel<ShiftingChasma.CardTop, Shift
 					new AOEHex(Vector2I.Zero.Add(Direction.SouthWest), AOEHexType.Yellow),
 					new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Yellow),
-				]))
-				.Build()),
+				]))),
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantAbilityState =>
 				[
 					AttackAbility.Builder()
 						.WithDamage(2)
-						.Build()
 				])
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.WithTarget(Target.Allies | Target.TargetAll)
@@ -46,8 +44,7 @@ public class ShiftingChasma : StarslingerCardModel<ShiftingChasma.CardTop, Shift
 							list.Add(figure);
 						}
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -76,8 +73,7 @@ public class ShiftingChasma : StarslingerCardModel<ShiftingChasma.CardTop, Shift
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 1;

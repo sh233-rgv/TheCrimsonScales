@@ -16,8 +16,7 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 		[
 			new AbilityCardAbility(GlowActiveAbility.Builder()
 				.WithGlowAbility(new GlowAbilityModel([Element.Fire], GlowAbility,
-					$"Perform {Icons.Inline(Icons.Damage)}2 ability", Icons.Damage))
-				.Build())
+					$"Perform {Icons.Inline(Icons.Damage)}2 ability", Icons.Damage)))
 		];
 
 		public override int XP => 1;
@@ -66,8 +65,7 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 					state.SetCustomValue(state.Performer, "Consumed Elements", elements);
 
 					await GDTask.CompletedTask;
-				})
-				.Build();
+				});
 		}
 	}
 
@@ -91,8 +89,7 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 					state.SetCustomValue(this, "ConsumedElements", consumedElements);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(0)
 				.WithTargets(0)
@@ -104,8 +101,7 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 					state.AdjustTargets(consumedElements);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 
 		public override int XP => 2;

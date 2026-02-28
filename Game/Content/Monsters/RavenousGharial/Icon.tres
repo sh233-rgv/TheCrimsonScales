@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://1ksan8y4j2w6"]
+
+[ext_resource type="Texture2D" uid="uid://46hvg62jp1ja" path="res://Content/Monsters/RavenousGharial/ravenous-gharial.jpg" id="1_plbei"]
+
+[resource]
+atlas = ExtResource("1_plbei")
+region = Rect2(75, 270, 600, 600)

@@ -38,7 +38,6 @@ public class TakeTheReins : ChieftainCardModel<TakeTheReins.CardTop, TakeTheRein
 								await GDTask.CompletedTask;
 							})
 						)
-						.Build()
 				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{
@@ -47,7 +46,6 @@ public class TakeTheReins : ChieftainCardModel<TakeTheReins.CardTop, TakeTheRein
 				})
 				.WithTarget(Target.Allies)
 				.WithRange(3)
-				.Build()
 			),
 		];
 	}
@@ -57,8 +55,7 @@ public class TakeTheReins : ChieftainCardModel<TakeTheReins.CardTop, TakeTheRein
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4, new MoveCircle(this, new Vector2(0.61780804f, 0.7005646f)))
-				.Build()),
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.61780804f, 0.7005646f)))),
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
@@ -68,7 +65,6 @@ public class TakeTheReins : ChieftainCardModel<TakeTheReins.CardTop, TakeTheRein
 
 					return Chieftain.GetIsMounted(state.Performer);
 				})
-				.Build()
 			)
 		];
 	}

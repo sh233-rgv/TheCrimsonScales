@@ -37,8 +37,7 @@ public class ImpetuousInquisition : HierophantCardModel<ImpetuousInquisition.Car
 
 							await GDTask.CompletedTask;
 						})
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -71,13 +70,12 @@ public class ImpetuousInquisition : HierophantCardModel<ImpetuousInquisition.Car
 					ScenarioEvents.AfterSufferDamageEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(state =>
 					[
-						RetaliateAbility.Builder().WithRetaliateValue(1).Build()
+						RetaliateAbility.Builder().WithRetaliateValue(1)
 					]
 				)
 				.WithTarget(Target.Allies | Target.TargetAll)
@@ -85,8 +83,7 @@ public class ImpetuousInquisition : HierophantCardModel<ImpetuousInquisition.Car
 				{
 					await AbilityCmd.GainXP(state.Performer, 1);
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Earth))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Earth)))
 		];
 
 		public override int XP => 1;

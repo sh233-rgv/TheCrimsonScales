@@ -36,8 +36,7 @@ public class TribalBlessing : ChieftainCardModel<TribalBlessing.CardTop, TribalB
 					figures.Add(state.Performer);
 					figures.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 3, false)
 						.Where(figure => figure.AlliedWith(state.Performer)));
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 1;
@@ -48,13 +47,11 @@ public class TribalBlessing : ChieftainCardModel<TribalBlessing.CardTop, TribalB
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4, new MoveCircle(this, new Vector2(0.6201599f, 0.7227307f)))
-				.Build()),
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.6201599f, 0.7227307f)))),
 
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3, new HealDiamondPlus(this, new Vector2(0.49307135f, 0.8153257f)))
 				.WithRange(3)
-				.Build()
 			)
 		];
 	}

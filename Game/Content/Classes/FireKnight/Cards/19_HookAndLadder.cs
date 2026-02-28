@@ -65,8 +65,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
-				)
-				.Build()),
+				)),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)
 				.WithTarget(Target.Allies | Target.TargetAll)
@@ -88,8 +87,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 
 						return true;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
@@ -147,8 +145,7 @@ public class HookAndLadder : FireKnightLevelUpCardModel<HookAndLadder.CardTop, H
 					ScenarioEvents.CardSideSelectionEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;

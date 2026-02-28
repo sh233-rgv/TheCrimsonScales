@@ -24,15 +24,14 @@ public class CanisterProjectile : CS2Item
 						GrantAbility.Builder()
 							.WithAbilities(
 							[
-								AbilityCmd.SummonMovePlusX(0).Build(),
-								AbilityCmd.SummonAttackPlusX(0).Build()
+								AbilityCmd.SummonMovePlusX(0),
+								AbilityCmd.SummonAttackPlusX(0)
 							])
 							.WithCustomGetTargets((grantState, figures) =>
 							{
 								figures.AddRange(((Character)grantState.Performer).Summons);
 							})
 							.WithTarget(Target.Allies)
-							.Build()
 					]);
 					await actionState.Perform();
 				});

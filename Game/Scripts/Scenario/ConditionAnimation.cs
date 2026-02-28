@@ -40,6 +40,7 @@ public partial class ConditionAnimation : Node2D
 			.AppendCallback(() => _animationPlayer.Play("ConditionAnimation"))
 			.AppendTime(1.2f)
 			.Append(_scaleContainer.TweenScale(0f, 0.4f).SetEasing(Easing.InBack))
-			.Build().Play();
+			.Build()
+			.Play();
 	}
 }

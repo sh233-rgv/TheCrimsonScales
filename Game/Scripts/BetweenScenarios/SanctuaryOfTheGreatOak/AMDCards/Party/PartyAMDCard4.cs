@@ -19,7 +19,7 @@ public class PartyAMDCard4 : PartyAMDCardModel
 				{
 					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
 
-					ActionState actionState = new ActionState(attackAbilityState.Performer, [MoveAbility.Builder().WithDistance(2).Build()]);
+					ActionState actionState = new ActionState(attackAbilityState.Performer, [MoveAbility.Builder().WithDistance(2)]);
 					await actionState.Perform();
 				}
 			);

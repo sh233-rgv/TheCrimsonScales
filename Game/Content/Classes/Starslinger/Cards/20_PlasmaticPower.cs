@@ -59,8 +59,7 @@ public class PlasmaticPower : StarslingerCardModel<PlasmaticPower.CardTop, Plasm
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override int XP => 2;
@@ -73,8 +72,7 @@ public class PlasmaticPower : StarslingerCardModel<PlasmaticPower.CardTop, Plasm
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215359f, 0.6727495f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215359f, 0.6727495f)))),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -98,8 +96,7 @@ public class PlasmaticPower : StarslingerCardModel<PlasmaticPower.CardTop, Plasm
 					await GDTask.CompletedTask;
 
 					return !state.Performer.IsDamaged();
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Round => true;

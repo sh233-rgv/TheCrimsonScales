@@ -50,8 +50,7 @@ public abstract class FireKnightCardSide : AbilityCardSideModel<FireKnight>
 			.WithRange(range)
 			.WithTarget(target)
 			.WithCustomGetTargets(customGetTargets)
-			.WithConditionalAbilityCheck(conditionalAbilityCheck)
-			.Build();
+			.WithConditionalAbilityCheck(conditionalAbilityCheck);
 	}
 
 	protected async GDTask GiveFireKnightItem(AbilityState abilityState, IList<ItemModel> possibleItemModels, Character target,

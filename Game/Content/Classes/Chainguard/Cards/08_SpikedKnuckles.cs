@@ -26,8 +26,7 @@ public class SpikedKnuckles : ChainguardCardModel<SpikedKnuckles.CardTop, Spiked
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 	}
 
@@ -36,8 +35,7 @@ public class SpikedKnuckles : ChainguardCardModel<SpikedKnuckles.CardTop, Spiked
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.62026906f, 0.7068813f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62026906f, 0.7068813f)))),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -60,8 +58,7 @@ public class SpikedKnuckles : ChainguardCardModel<SpikedKnuckles.CardTop, Spiked
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Round => true;

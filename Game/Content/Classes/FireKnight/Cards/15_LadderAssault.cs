@@ -37,8 +37,7 @@ public class LadderAssault : FireKnightLevelUpCardModel<LadderAssault.CardTop, L
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -93,8 +92,7 @@ public class LadderAssault : FireKnightLevelUpCardModel<LadderAssault.CardTop, L
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

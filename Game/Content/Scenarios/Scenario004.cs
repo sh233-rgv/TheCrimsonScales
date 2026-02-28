@@ -77,7 +77,7 @@ public class Scenario004 : ScenarioModel
 			{
 				parameters.ForgoAction();
 
-				ActionState actionState = new ActionState(parameters.Performer, [HealAbility.Builder().WithHealValue(1).WithRange(2).Build()]);
+				ActionState actionState = new ActionState(parameters.Performer, [HealAbility.Builder().WithHealValue(1).WithRange(2)]);
 				await actionState.Perform();
 			},
 			EffectType.Selectable,

@@ -10,11 +10,11 @@ public class LandLeviathan : DeepTerror, IBossMonsterModel
 			{
 				Health = stats.Health * (CharacterCount * 2 - 1),
 				Traits = (stats.Traits ?? [])
-					.Append(ConditionImmunityTrait.PoisonImmunityTrait())
-					.Append(new ConditionImmunityTrait(Conditions.Stun))
-					.Append(new ConditionImmunityTrait(Conditions.Disarm))
-					.Append(new ForcedMovementImmunityTrait())
-					.ToArray()
+				.Append(ConditionImmunityTrait.PoisonImmunityTrait())
+				.Append(new ConditionImmunityTrait(Conditions.Stun))
+				.Append(new ConditionImmunityTrait(Conditions.Disarm))
+				.Append(new ForcedMovementImmunityTrait())
+				.ToArray()
 			})
 			.ToArray();
 
@@ -28,53 +28,56 @@ public class LandLeviathan : DeepTerror, IBossMonsterModel
 	// IBossMonsterModel
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, -1, targets: 2, range: 5)),
+		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, -1).WithTargets(2).WithRange(5)),
 
 		new MonsterAbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
-            {
-                monster.SetMaxHealth(monster.MaxHealth + 2);
+			{
+				monster.SetMaxHealth(monster.MaxHealth + 2);
 				await GDTask.CompletedTask;
-            })
-			.Build()),
+			})
+		),
 
 		new MonsterAbilityCardAbility(HealAbility.Builder()
 			.WithHealValue(2)
 			.WithTarget(Target.Self)
-			.Build())
+		)
 	];
 
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial2Abilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
 			.WithMonsterModel(_summonBlackImp ? ModelDB.Monster<BlackImp>() : ModelDB.Monster<ForestImp>())
-			.WithMonsterType(_summonBlackImp ? ((CharacterCount >= 3) ? MonsterType.Elite : MonsterType.Normal) : ((CharacterCount >= 4) ? MonsterType.Elite : MonsterType.Normal))
+			.WithMonsterType(_summonBlackImp
+				? ((CharacterCount >= 3) ? MonsterType.Elite : MonsterType.Normal)
+				: ((CharacterCount >= 4) ? MonsterType.Elite : MonsterType.Normal))
 			.WithGetValidHexes((state, hexes) =>
-            {
-                hexes = RangeHelper.GetHexesInRange(state.Performer.Hex, 1, true).Where(hex => hex.IsEmpty()).ToList();
-				if (hexes.Count == 0)
-                {
-                    hexes = RangeHelper.GetHexesInRange(state.Performer.Hex, 2, true).Where(hex => hex.IsEmpty()).ToList();
-                }
-            })
+			{
+				hexes = RangeHelper.GetHexesInRange(state.Performer.Hex, 1, true).Where(hex => hex.IsEmpty()).ToList();
+				if(hexes.Count == 0)
+				{
+					hexes = RangeHelper.GetHexesInRange(state.Performer.Hex, 2, true).Where(hex => hex.IsEmpty()).ToList();
+				}
+			})
 			.WithOnAbilityEndedPerformed(async state =>
-            {
-                _summonBlackImp = !_summonBlackImp;
+			{
+				_summonBlackImp = !_summonBlackImp;
 				await GDTask.CompletedTask;
-            })
-			.Build()),
+			})
+		),
 
 		new MonsterAbilityCardAbility(GrantAbility.Builder()
-            .WithGetAbilities(state =>
+			.WithGetAbilities(state =>
 			[
-				HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()
+				HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self)
 			])
 			.WithTarget(Target.TargetAll | Target.Allies)
 			.WithRange(5)
 			.WithCustomGetTargets((state, targets) =>
-            {
-                targets.AddRange(RangeHelper.GetFiguresInRange(state.Performer, 100).Where(figure => figure is Monster monster && monster.MonsterModel is Imp));
-            })
-			.Build())
+			{
+				targets.AddRange(RangeHelper.GetFiguresInRange(state.Performer, 100)
+					.Where(figure => figure is Monster monster && monster.MonsterModel is Imp));
+			})
+		)
 	];
 }

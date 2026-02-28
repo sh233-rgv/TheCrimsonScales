@@ -70,8 +70,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;
@@ -87,8 +86,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 				.WithMove(3, _summonMoveEnhancementMark)
 				.WithAttack(2)
 				.WithRange(2, _summonRangeEnhancementMark)
-				.WithTraits(new FlyingTrait(), new InfuseElementAfterAttackTrait(Element.Fire))
-				.Build();
+				.WithTraits(new FlyingTrait(), new InfuseElementAfterAttackTrait(Element.Fire));
 		}
 	}
 
@@ -143,8 +141,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build()),
+				)),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -178,8 +175,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 						await PromptManager.Prompt(new ConfirmPrompt(null, () => "Perform damage ability?"), state.Authority);
 
 					return confirmAnswer.Confirmed;
-				})
-				.Build())
+				}))
 		];
 	}
 }

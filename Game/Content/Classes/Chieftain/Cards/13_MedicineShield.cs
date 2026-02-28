@@ -24,8 +24,7 @@ public class MedicineShield : ChieftainCardModel<MedicineShield.CardTop, Medicin
 							await AbilityCmd.GainXP(applyParameters.Performer, 1);
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Heal)}"))
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -36,12 +35,11 @@ public class MedicineShield : ChieftainCardModel<MedicineShield.CardTop, Medicin
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithAbilities(
 				[
-					HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build(),
-					ShieldAbility.Builder().WithShieldValue(2).Build()
+					HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self),
+					ShieldAbility.Builder().WithShieldValue(2)
 				])
 				.WithTarget(Target.SelfOrAllies | Target.TargetAll)
 				.WithRange(3)
-				.Build()
 			)
 		];
 

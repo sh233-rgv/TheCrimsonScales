@@ -15,8 +15,7 @@ public class ShiningDiversion : LuminaryCardModel<ShiningDiversion.CardTop, Shin
 		[
 			new AbilityCardAbility(GlowActiveAbility.Builder()
 				.WithGlowAbility(new GlowAbilityModel([Element.Light], GlowAbility,
-					$"Perform granted {Icons.Inline(Icons.Shield)} ability", Icons.Shield))
-				.Build())
+					$"Perform granted {Icons.Inline(Icons.Shield)} ability", Icons.Shield)))
 		];
 
 		public override int XP => 1;
@@ -32,8 +31,7 @@ public class ShiningDiversion : LuminaryCardModel<ShiningDiversion.CardTop, Shin
 						.WithOnAbilityEndedPerformed(async shieldState =>
 						{
 							await AbilityCmd.InfuseElement(shieldState, Element.Ice);
-						})
-						.Build(),
+						}),
 				])
 				.WithAOEPattern(new AOEPattern(
 					[
@@ -58,8 +56,7 @@ public class ShiningDiversion : LuminaryCardModel<ShiningDiversion.CardTop, Shin
 					{
 						await AbilityCmd.LootHex(state.Performer, hex);
 					}
-				})
-				.Build();
+				});
 		}
 	}
 
@@ -68,18 +65,15 @@ public class ShiningDiversion : LuminaryCardModel<ShiningDiversion.CardTop, Shin
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215359f, 0.66763306f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215359f, 0.66763306f)))),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Muddle)
 				.WithTarget(Target.Enemies | Target.TargetAll)
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.6215359f, 0.8736304f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6215359f, 0.8736304f)))),
 		];
 	}
 }

@@ -16,8 +16,7 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4, new AttackDiamond(this, new Vector2(0.44791222f, 0.18584071f)))
-				.WithPush(3, new PushSquare(this, new Vector2(0.66871876f, 0.18584071f)))
-				.Build()),
+				.WithPush(3, new PushSquare(this, new Vector2(0.66871876f, 0.18584071f)))),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -37,8 +36,7 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 					{
 						await AbilityCmd.GainXP(state.Performer, 1);
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -49,8 +47,7 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 			new AbilityCardAbility(PushAbility.Builder()
 				.WithPush(3)
 				.WithTarget(Target.Enemies | Target.TargetAll)
-				.WithRange(5)
-				.Build()),
+				.WithRange(5)),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -67,8 +64,7 @@ public class AbsoluteMagnitude : StarslingerCardModel<AbsoluteMagnitude.CardTop,
 
 					return state.ActionState.GetAbilityState<PushAbility.State>(0).SingleTargetStates
 						.Any(singleTargetState => singleTargetState.PushHexes.Count > 0);
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;

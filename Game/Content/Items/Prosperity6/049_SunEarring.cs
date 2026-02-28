@@ -31,7 +31,7 @@ public class SunEarring : Prosperity5Item
 					[
 						HealAbility.Builder()
 							.WithHealValue(3)
-							.WithTarget(Target.Self).Build()
+							.WithTarget(Target.Self)
 					]);
 					await actionState.Perform();
 				});

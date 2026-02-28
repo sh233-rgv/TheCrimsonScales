@@ -26,7 +26,7 @@ public class Scenario019 : ScenarioModel
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<InfraredGoggles>());
 		GameController.Instance.Map.Treasures[1].SetObtainLootFunction(async character =>
 		{
-			await new ActionState(character, [HealAbility.Builder().WithHealValue(6).WithTarget(Target.Self).Build()]).Perform();
+			await new ActionState(character, [HealAbility.Builder().WithHealValue(6).WithTarget(Target.Self)]).Perform();
 			await AbilityCmd.AddCondition(null, character, Conditions.Poison1);
 		});
 

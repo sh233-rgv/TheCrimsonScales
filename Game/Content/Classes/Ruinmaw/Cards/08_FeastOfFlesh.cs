@@ -22,8 +22,7 @@ public class FeastOfFlesh : RuinmawCardModel<FeastOfFlesh.CardTop, FeastOfFlesh.
 							await AbilityCmd.KillOrExhaust(parameters.AbilityState, parameters.AbilityState.Target);
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 
 		protected override bool Sate => true;
@@ -48,8 +47,7 @@ public class FeastOfFlesh : RuinmawCardModel<FeastOfFlesh.CardTop, FeastOfFlesh.
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 	}
 }

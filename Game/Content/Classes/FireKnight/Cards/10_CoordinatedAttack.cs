@@ -57,8 +57,7 @@ public class CoordinatedAttack : FireKnightCardModel<CoordinatedAttack.CardTop, 
 							}
 						}
 					)
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -91,7 +90,10 @@ public class CoordinatedAttack : FireKnightCardModel<CoordinatedAttack.CardTop, 
 								ActionState actionState = new ActionState(state.Performer,
 									[
 										GrantAbility.Builder()
-											.WithGetAbilities(state => [AttackAbility.Builder().WithDamage(2).Build()])
+											.WithAbilities(
+											[
+												AttackAbility.Builder().WithDamage(2)
+											])
 											.WithCustomGetTargets((grantState, list) =>
 												{
 													foreach(Figure potentialTarget in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, false))
@@ -104,7 +106,6 @@ public class CoordinatedAttack : FireKnightCardModel<CoordinatedAttack.CardTop, 
 													}
 												}
 											)
-											.Build()
 									]
 								);
 
@@ -121,8 +122,7 @@ public class CoordinatedAttack : FireKnightCardModel<CoordinatedAttack.CardTop, 
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override int XP => 2;

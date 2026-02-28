@@ -19,8 +19,7 @@ public class TaintedWaters : MirefootCardModel<TaintedWaters.CardTop, TaintedWat
 				.WithRange(4)
 				.WithConditions([Conditions.Wound2, Conditions.Poison2])
 				.WithFilterTargets((state, figure) =>
-					figure.Hex.HasHexObjectOfType<DifficultTerrain>())
-				.Build())
+					figure.Hex.HasHexObjectOfType<DifficultTerrain>()))
 		];
 
 		public override int XP => 2;
@@ -32,8 +31,7 @@ public class TaintedWaters : MirefootCardModel<TaintedWaters.CardTop, TaintedWat
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(5, new MoveCircle(this, new Vector2(0.6209408f, 0.64953536f)))
-				.Build()),
+				.WithDistance(5, new MoveCircle(this, new Vector2(0.6209408f, 0.64953536f)))),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Immobilize)
 				.WithRange(1)
@@ -46,8 +44,7 @@ public class TaintedWaters : MirefootCardModel<TaintedWaters.CardTop, TaintedWat
 
 						await CreateDifficultTerrain(selectedHex);
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 }

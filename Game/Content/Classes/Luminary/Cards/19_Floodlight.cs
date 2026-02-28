@@ -25,8 +25,7 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
 						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthWest), AOEHexType.Empty),
 						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
 					]
-				))
-				.Build()),
+				))),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithCustomGetTargets((state, targets) =>
@@ -38,8 +37,7 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
 				{
 					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Performed &&
 					       await AbilityCmd.AskConsumeElement(state.Performer, Element.Ice);
-				})
-				.Build()),
+				})),
 			Scuttle(2, [Element.Light]),
 		];
 
@@ -78,8 +76,7 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
 					ScenarioEvents.InflictConditionEvent.Unsubscribe(state, this);
 					ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -108,8 +105,7 @@ public class Floodlight : LuminaryCardModel<Floodlight.CardTop, Floodlight.CardB
 					new UseSlot(new Vector2(0.16350047f, 0.8974989f), GainXP),
 					new UseSlot(new Vector2(0.37350035f, 0.8974989f), GainXP),
 					new UseSlot(new Vector2(0.58100003f, 0.8974989f), GainXP)
-				])
-				.Build())
+				]))
 		];
 
 		public override bool Persistent => true;

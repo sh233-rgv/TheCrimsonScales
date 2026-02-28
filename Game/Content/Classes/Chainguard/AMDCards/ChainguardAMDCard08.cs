@@ -10,6 +10,6 @@ public class ChainguardAMDCard08 : ChainguardAMDCardModel
 
 	public override List<Ability> GetAbilities(AttackAbility.State state) =>
 	[
-		HealAbility.Builder().WithHealValue(1).Build()
+		HealAbility.Builder().WithHealValue(1)
 	];
 }

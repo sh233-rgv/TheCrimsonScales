@@ -16,8 +16,7 @@ public class LingeringSwampMoss : MirefootCardModel<LingeringSwampMoss.CardTop, 
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.4952556f, 0.2913344f)))
-				.WithConditions(Conditions.Poison4)
-				.Build()),
+				.WithConditions(Conditions.Poison4)),
 		];
 	}
 
@@ -59,8 +58,7 @@ public class LingeringSwampMoss : MirefootCardModel<LingeringSwampMoss.CardTop, 
 					ScenarioEvents.DifficultTerrainTriggeredEvent.Unsubscribe(state, this);
 					ScenarioEvents.OverlayTileCreatedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -77,8 +75,7 @@ public class LingeringSwampMoss : MirefootCardModel<LingeringSwampMoss.CardTop, 
 					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})
-				.WithMandatory(true)
-				.Build()),
+				.WithMandatory(true)),
 		];
 
 		public override int XP => 2;

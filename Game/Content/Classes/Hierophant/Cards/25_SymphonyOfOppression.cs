@@ -31,8 +31,7 @@ public class SymphonyOfOppression : HierophantLevelUpCardModel<SymphonyOfOppress
 							}
 
 							await GDTask.CompletedTask;
-						})
-						.Build(),
+						}),
 				])
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(
@@ -55,8 +54,7 @@ public class SymphonyOfOppression : HierophantLevelUpCardModel<SymphonyOfOppress
 						await GivePrayerCard(grantAbilityState, grantAbilityState.Target);
 					}
 				})
-				.WithTargets(2)
-				.Build()),
+				.WithTargets(2)),
 		];
 	}
 
@@ -89,8 +87,7 @@ public class SymphonyOfOppression : HierophantLevelUpCardModel<SymphonyOfOppress
 				{
 					ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 
 		public override int XP => 2;

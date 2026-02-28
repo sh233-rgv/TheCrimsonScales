@@ -14,8 +14,7 @@ public class DoubleKO : ChainguardLevelUpCardModel<DoubleKO.CardTop, DoubleKO.Ca
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4, new AttackDiamond(this, new Vector2(0.6220894f, 0.19567354f)))
-				.Build()),
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.6220894f, 0.19567354f)))),
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4, new AttackDiamond(this, new Vector2(0.6220894f, 0.38967186f)))
@@ -29,8 +28,7 @@ public class DoubleKO : ChainguardLevelUpCardModel<DoubleKO.CardTop, DoubleKO.Ca
 					}
 
 					return killedAnEnemy;
-				})
-				.Build()),
+				})),
 		];
 	}
 
@@ -38,7 +36,7 @@ public class DoubleKO : ChainguardLevelUpCardModel<DoubleKO.CardTop, DoubleKO.Ca
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
+			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3)),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -62,8 +60,7 @@ public class DoubleKO : ChainguardLevelUpCardModel<DoubleKO.CardTop, DoubleKO.Ca
 
 					await GDTask.CompletedTask;
 				})
-				.WithUseSlot(new UseSlot(new Vector2(0.49050012f, 0.87600124f)))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.49050012f, 0.87600124f))))
 		];
 
 		public override bool Persistent => true;

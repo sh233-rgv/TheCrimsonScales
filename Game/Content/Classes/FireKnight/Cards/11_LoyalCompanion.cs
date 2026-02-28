@@ -20,7 +20,6 @@ public class LoyalCompanion : FireKnightCardModel<LoyalCompanion.CardTop, LoyalC
 				.WithMove(2, new SummonMoveSquare(this, new Vector2(0.59166473f, 0.19665682f)))
 				.WithAttack(1, new SummonAttackSquare(this, new Vector2(0.39352584f, 0.30685148f)))
 				.WithTraits(new AdjacentAlliesGainAdvantageTrait())
-				.Build()
 			),
 
 			new AbilityCardAbility(OtherAbility.Builder()
@@ -33,14 +32,12 @@ public class LoyalCompanion : FireKnightCardModel<LoyalCompanion.CardTop, LoyalC
 							.WithConditions(Conditions.Bless)
 							.WithTarget(Target.Allies | Target.TargetAll)
 							.WithRange(2)
-							.Build()
 					]);
 					await actionState.Perform();
 
 					state.SetPerformed();
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 
 		public override int XP => 2;
@@ -65,8 +62,7 @@ public class LoyalCompanion : FireKnightCardModel<LoyalCompanion.CardTop, LoyalC
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build())
+				))
 		];
 	}
 }

@@ -34,8 +34,7 @@ public class IronThrust : ChainguardLevelUpCardModel<IronThrust.CardTop, IronThr
 				{
 					ScenarioCheckEvents.CanPassEnemyCheckEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithAbilities(
@@ -46,13 +45,11 @@ public class IronThrust : ChainguardLevelUpCardModel<IronThrust.CardTop, IronThr
 						{
 							AttackAbility.State attackAbilityState = state.ActionState.ParentActionState.GetAbilityState<AttackAbility.State>(0);
 							figures.AddRange(attackAbilityState.UniqueTargetedFigures);
-						})
-						.Build(),
+						}),
 					ConditionAbility.Builder()
 						.WithConditions(Conditions.Muddle)
 						.WithTarget(Target.Self)
 						.WithMandatory(true)
-						.Build()
 				])
 				.WithCustomGetTargets((state, figures) =>
 				{
@@ -64,8 +61,7 @@ public class IronThrust : ChainguardLevelUpCardModel<IronThrust.CardTop, IronThr
 					figures.AddRange(figuresPassedThrough.Where(figure => figure.AlliedWith(state.Performer) && figure != attackAbilityState.Target));
 				})
 				.WithTarget(Target.Allies | Target.TargetAll)
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build()),
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))),
 		];
 
 		public override int XP => 1;
@@ -77,8 +73,7 @@ public class IronThrust : ChainguardLevelUpCardModel<IronThrust.CardTop, IronThr
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3, new MoveCircle(this, new Vector2(0.5129702f, 0.743746f)))
-				.WithMoveType(MoveType.Jump)
-				.Build()),
+				.WithMoveType(MoveType.Jump)),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Chainguard.Shackle)
@@ -89,8 +84,7 @@ public class IronThrust : ChainguardLevelUpCardModel<IronThrust.CardTop, IronThr
 					IEnumerable<Figure> figuresPassedThrough = moveAbilityState.Hexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>());
 
 					figures.AddRange(figuresPassedThrough.Where(figure => figure.EnemiesWith(state.Performer)));
-				})
-				.Build())
+				}))
 		];
 	}
 }

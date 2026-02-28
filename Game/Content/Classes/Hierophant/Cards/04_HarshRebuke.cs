@@ -15,8 +15,7 @@ public class HarshRebuke : HierophantCardModel<HarshRebuke.CardTop, HarshRebuke.
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3, new AttackDiamond(this, new Vector2(0.5081693f, 0.21073955f)))
-				.WithRange(2)
-				.Build()),
+				.WithRange(2)),
 
 			new AbilityCardAbility(GivePrayerCardAbility(
 				conditionalAbilityCheck: async state =>
@@ -58,8 +57,7 @@ public class HarshRebuke : HierophantCardModel<HarshRebuke.CardTop, HarshRebuke.
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Move)}")
 						)
 					]
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(ShieldAbility.Builder()
 				.WithShieldValue(1)
@@ -75,8 +73,7 @@ public class HarshRebuke : HierophantCardModel<HarshRebuke.CardTop, HarshRebuke.
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
@@ -87,8 +84,7 @@ public class HarshRebuke : HierophantCardModel<HarshRebuke.CardTop, HarshRebuke.
 
 						return state.ActionState.GetAbilityState<MoveAbility.State>(0).GetCustomValue<bool>(this, "LightConsumed");
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

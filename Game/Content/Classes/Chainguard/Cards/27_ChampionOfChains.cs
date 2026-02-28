@@ -43,15 +43,13 @@ public class ChampionOfChains : ChainguardLevelUpCardModel<ChampionOfChains.Card
 
 					int maxShackleCount = Chainguard.GetMaxShackleCount(state.Performer);
 					await Chainguard.RemoveAllExtraShackles(state.Performer, maxShackleCount);
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(2)
 				.WithRange(3)
 				.WithConditions(Chainguard.Shackle)
-				.WithTargets(3)
-				.Build())
+				.WithTargets(3))
 		];
 
 		public override int XP => 2;
@@ -66,8 +64,7 @@ public class ChampionOfChains : ChainguardLevelUpCardModel<ChampionOfChains.Card
 			new AbilityCardAbility(SwingAbility.Builder()
 				.WithSwing(6)
 				.WithRange(3)
-				.WithConditions(Chainguard.Shackle)
-				.Build()),
+				.WithConditions(Chainguard.Shackle)),
 
 			new AbilityCardAbility(PushAbility.Builder()
 				.WithPush(4)
@@ -76,8 +73,7 @@ public class ChampionOfChains : ChainguardLevelUpCardModel<ChampionOfChains.Card
 					SwingAbility.State swingAbilityState = state.ActionState.GetAbilityState<SwingAbility.State>(0);
 					figures.AddRange(swingAbilityState.UniqueTargetedFigures);
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build()),
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))),
 
 			new AbilityCardAbility(SwingAbility.Builder()
 				.WithSwing(0)
@@ -125,8 +121,7 @@ public class ChampionOfChains : ChainguardLevelUpCardModel<ChampionOfChains.Card
 					ScenarioEvents.SwingDirectionCheckEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 	}
 }

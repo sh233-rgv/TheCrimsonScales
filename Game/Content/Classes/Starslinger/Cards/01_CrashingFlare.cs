@@ -37,8 +37,7 @@ public class CrashingFlare : StarslingerCardModel<CrashingFlare.CardTop, Crashin
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Range)}")
 						),
 					]
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -47,8 +46,7 @@ public class CrashingFlare : StarslingerCardModel<CrashingFlare.CardTop, Crashin
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.62076f, 0.71908075f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62076f, 0.71908075f)))),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -60,8 +58,7 @@ public class CrashingFlare : StarslingerCardModel<CrashingFlare.CardTop, Crashin
 					await GDTask.CompletedTask;
 
 					return !state.Performer.IsDamaged();
-				})
-				.Build())
+				}))
 		];
 	}
 }

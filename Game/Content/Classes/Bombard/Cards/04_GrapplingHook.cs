@@ -14,8 +14,7 @@ public class GrapplingHook : BombardCardModel<GrapplingHook.CardTop, GrapplingHo
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.5008511f, 0.19675682f)))
-				.WithRange(4)
-				.Build()),
+				.WithRange(4)),
 
 			new AbilityCardAbility(PullSelfAbility.Builder()
 				.WithPullSelfValue(4)
@@ -23,8 +22,7 @@ public class GrapplingHook : BombardCardModel<GrapplingHook.CardTop, GrapplingHo
 				{
 					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 					targets.AddRange(attackAbilityState.UniqueTargetedFigures);
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -34,8 +32,7 @@ public class GrapplingHook : BombardCardModel<GrapplingHook.CardTop, GrapplingHo
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3, new MoveCircle(this, new Vector2(0.52561843f, 0.76499504f)))
-				.WithMoveType(MoveType.Jump)
-				.Build())
+				.WithMoveType(MoveType.Jump))
 		];
 	}
 }

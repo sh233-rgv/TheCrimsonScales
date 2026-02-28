@@ -21,8 +21,7 @@ public class DoubleCannons : BombardCardModel<DoubleCannons.CardTop, DoubleCanno
 						new AOEHex(Vector2I.Zero, AOEHexType.Red),
 						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 					]
-				))
-				.Build())
+				)))
 		];
 	}
 
@@ -32,8 +31,7 @@ public class DoubleCannons : BombardCardModel<DoubleCannons.CardTop, DoubleCanno
 		[
 			new AbilityCardAbility(ShieldAbility.Builder()
 				.WithShieldValue(2, new ShieldDiamondPlus(this, new Vector2(0.6164321f, 0.71189773f)))
-				.WithRequiredRangeType(RangeType.Range)
-				.Build())
+				.WithRequiredRangeType(RangeType.Range))
 		];
 
 		public override bool Round => true;

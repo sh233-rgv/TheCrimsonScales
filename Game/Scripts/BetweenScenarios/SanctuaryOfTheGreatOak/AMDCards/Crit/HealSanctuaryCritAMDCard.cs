@@ -11,6 +11,6 @@ public class HealSanctuaryCritAMDCard : SanctuaryCritAMDCardModel
 
 	public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 	[
-		HealAbility.Builder().WithHealValue(2).WithRange(2).Build()
+		HealAbility.Builder().WithHealValue(2).WithRange(2)
 	];
 }

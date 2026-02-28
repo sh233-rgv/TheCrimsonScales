@@ -70,7 +70,7 @@ public partial class Summon : Figure
 
 		if(Stats.Move.HasValue)
 		{
-			MoveAbility moveAbility = MoveAbility.Builder().WithDistance(Stats.Move.Value).Build();
+			MoveAbility moveAbility = MoveAbility.Builder().WithDistance(Stats.Move.Value);
 			_abilities.Add(moveAbility);
 		}
 
@@ -79,8 +79,7 @@ public partial class Summon : Figure
 			AttackAbility attackAbility = AttackAbility.Builder()
 				.WithDamage(Stats.Attack.Value)
 				.WithRange(Stats.Range ?? 1)
-				.WithRangeType(Stats.RangeType)
-				.Build();
+				.WithRangeType(Stats.RangeType);
 			_abilities.Add(attackAbility);
 		}
 

@@ -28,7 +28,6 @@ public class MajesticMass : ChieftainCardModel<MajesticMass.CardTop, MajesticMas
 					])),
 					new MountTrait()
 				)
-				.Build()
 			),
 		];
 
@@ -45,7 +44,7 @@ public class MajesticMass : ChieftainCardModel<MajesticMass.CardTop, MajesticMas
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(state =>
 				[
-					MoveAbility.Builder().WithDistance(4).Build()
+					MoveAbility.Builder().WithDistance(4)
 				])
 				.WithCustomGetTargets((state, figures) =>
 				{
@@ -58,7 +57,6 @@ public class MajesticMass : ChieftainCardModel<MajesticMass.CardTop, MajesticMas
 					figures.Add(state.Performer);
 				})
 				.WithTarget(Target.SelfOrAllies)
-				.Build()
 			),
 		];
 	}

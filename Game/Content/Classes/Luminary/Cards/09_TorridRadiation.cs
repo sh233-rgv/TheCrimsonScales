@@ -22,8 +22,7 @@ public class TorridRadiation : LuminaryCardModel<TorridRadiation.CardTop, Torrid
 						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Empty),
 						new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
 					]
-				))
-				.Build()),
+				))),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -35,8 +34,7 @@ public class TorridRadiation : LuminaryCardModel<TorridRadiation.CardTop, Torrid
 				{
 					return state.ActionState.GetAbilityState<AttackAbility.State>(0).Target != null &&
 					       await AbilityCmd.AskConsumeElement(state.Performer, Element.Fire);
-				})
-				.Build()),
+				})),
 			Scuttle(1, [Element.Dark]),
 		];
 	}
@@ -46,8 +44,7 @@ public class TorridRadiation : LuminaryCardModel<TorridRadiation.CardTop, Torrid
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6213844f, 0.6537314f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6213844f, 0.6537314f)))),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -62,8 +59,7 @@ public class TorridRadiation : LuminaryCardModel<TorridRadiation.CardTop, Torrid
 					{
 						await AbilityCmd.InfuseWildElement(state);
 					}
-				})
-				.Build()),
+				})),
 		];
 
 		public override int XP => 2;

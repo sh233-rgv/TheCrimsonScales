@@ -15,8 +15,7 @@ public class SoftGlow : LuminaryCardModel<SoftGlow.CardTop, SoftGlow.CardBottom>
 		[
 			new AbilityCardAbility(GlowActiveAbility.Builder()
 				.WithGlowAbility(new GlowAbilityModel([Element.Ice], GlowAbility,
-					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Strengthen))} ability", Icons.GetCondition(Conditions.Strengthen)))
-				.Build())
+					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Strengthen))} ability", Icons.GetCondition(Conditions.Strengthen))))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Dark)];
@@ -42,8 +41,7 @@ public class SoftGlow : LuminaryCardModel<SoftGlow.CardTop, SoftGlow.CardBottom>
 					state.SetCustomValue(state.Performer, "Consumed Elements", elements);
 
 					await GDTask.CompletedTask;
-				})
-				.Build();
+				});
 		}
 	}
 
@@ -52,8 +50,7 @@ public class SoftGlow : LuminaryCardModel<SoftGlow.CardTop, SoftGlow.CardBottom>
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128437f, 0.72183055f)))
-				.Build())
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128437f, 0.72183055f))))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];

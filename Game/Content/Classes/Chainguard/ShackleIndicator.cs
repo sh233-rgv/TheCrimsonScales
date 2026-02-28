@@ -19,7 +19,8 @@ public partial class ShackleIndicator : Node2D
 				.Append(this.TweenModulateAlpha(1f, 0.3f))
 				.Join(this.TweenScale(0.8f, 0.3f))
 				.Append(this.TweenScale(destinationScale, 0.2f).SetEasing(Easing.OutBack))
-				.Build().PlayFastForwardable();
+				.Build()
+				.PlayFastForwardable();
 		}
 	}
 
@@ -29,7 +30,8 @@ public partial class ShackleIndicator : Node2D
 			.Append(this.TweenModulateAlpha(0f, 0.4f))
 			.Join(this.TweenScale(1.3f, 0.4f).SetEasing(Easing.InBack))
 			.AppendCallback(QueueFree)
-			.Build().PlayFastForwardable();
+			.Build()
+			.PlayFastForwardable();
 	}
 
 	public void Flash()
@@ -41,7 +43,8 @@ public partial class ShackleIndicator : Node2D
 			GTweenSequenceBuilder.New()
 				.Append(this.TweenScale(0.8f, 0.2f))
 				.Append(this.TweenScale(destinationScale, 0.2f).SetEasing(Easing.OutBack))
-				.Build().PlayFastForwardable();
+				.Build()
+				.PlayFastForwardable();
 		}
 	}
 }

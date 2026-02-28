@@ -17,9 +17,7 @@ public class FierceLeader : FireKnightCardModel<FierceLeader.CardTop, FierceLead
 				[
 					AttackAbility.Builder()
 						.WithDamage(3, new AttackDiamond(this, new Vector2(0.62056f, 0.23382162f)))
-						.Build()
-				])
-				.Build()),
+				])),
 
 			new AbilityCardAbility(GiveFireKnightItemAbility(
 				state => [ModelDB.Item<FireKnightScrollOfCharisma>(), ModelDB.Item<FireKnightScrollOfInvigoration>()],
@@ -48,8 +46,7 @@ public class FierceLeader : FireKnightCardModel<FierceLeader.CardTop, FierceLead
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Strengthen))}")
 					)
-				)
-				.Build())
+				))
 		];
 	}
 }

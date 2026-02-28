@@ -17,8 +17,7 @@ public class DominatingIllusion : LuminaryCardModel<DominatingIllusion.CardTop, 
 				.WithGlowAbility(new GlowAbilityModel([Element.Fire], GlowAbility1,
 						$"Add +1{Icons.Inline(Icons.Attack)} to all your attacks this turn", Icons.Attack),
 					new GlowAbilityModel([Element.Light], GlowAbility2,
-						$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Bless))}, self", Icons.GetCondition(Conditions.Bless)))
-				.Build())
+						$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Bless))}, self", Icons.GetCondition(Conditions.Bless))))
 		];
 
 		public override int XP => 1;
@@ -54,8 +53,7 @@ public class DominatingIllusion : LuminaryCardModel<DominatingIllusion.CardTop, 
 					state.SetCustomValue(state.Performer, "Consumed Elements", elements);
 
 					await GDTask.CompletedTask;
-				})
-				.Build();
+				});
 		}
 
 		private Ability GlowAbility2(List<Element> elements)
@@ -69,8 +67,7 @@ public class DominatingIllusion : LuminaryCardModel<DominatingIllusion.CardTop, 
 					state.SetCustomValue(state.Performer, "Consumed Elements", elements);
 
 					await GDTask.CompletedTask;
-				})
-				.Build();
+				});
 		}
 	}
 
@@ -90,8 +87,7 @@ public class DominatingIllusion : LuminaryCardModel<DominatingIllusion.CardTop, 
 						new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Empty),
 						new AOEHex(Vector2I.Zero.Add(Direction.SouthEast).Add(Direction.East), AOEHexType.Empty),
 					]
-				))
-				.Build()),
+				))),
 			Scuttle(2, [Element.Light]),
 		];
 	}

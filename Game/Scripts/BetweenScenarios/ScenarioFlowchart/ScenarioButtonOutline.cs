@@ -37,7 +37,8 @@ public partial class ScenarioButtonOutline : Control
 			.Append(_panel.TweenScale(1f, 0.3f))
 			.Join(CustomGTweenExtensions.Tween(
 				t => styleBox.SetCornerRadiusAll(Mathf.RoundToInt(Mathf.Lerp(60, 30, t))), 0.3f))
-			.Build().Play();
+			.Build()
+			.Play();
 	}
 
 	public void AnimateDirectionalExtension(int directionIndex, bool instantly = false)
@@ -46,7 +47,8 @@ public partial class ScenarioButtonOutline : Control
 
 		GTweenSequenceBuilder.New()
 			.Append(directionalExtension.TweenSizeX(250, 0.5f))
-			.Build().Play(instantly);
+			.Build()
+			.Play(instantly);
 	}
 
 	public void AnimateDiagonalExtension(int diagonalIndex, bool instantly = false)
@@ -56,6 +58,7 @@ public partial class ScenarioButtonOutline : Control
 		GTweenSequenceBuilder.New()
 			.Append(diagonalExtension.TweenSizeX(250, 0.5f))
 			.Join(diagonalExtension.TweenSizeY(250, 0.5f))
-			.Build().Play(instantly);
+			.Build()
+			.Play(instantly);
 	}
 }

@@ -36,7 +36,7 @@ public class FrozenCadaverAbilityCard0 : FrozenCadaverAbilityCard
 				IEnumerable<Figure> adjacentFigures = RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, includeOrigin: false);
 				figures.AddRange(adjacentFigures.Where(figure => figure.EnemiesWith(state.Performer) && !figure.HasCondition(Conditions.Chill)));
 			})
-			.Build()),
+		),
 	];
 }
 
@@ -62,7 +62,7 @@ public class FrozenCadaverAbilityCard1 : FrozenCadaverAbilityCard
 					}
 				}
 			)
-			.Build())
+		)
 	];
 }
 
@@ -88,7 +88,7 @@ public class FrozenCadaverAbilityCard3 : FrozenCadaverAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +2, conditions: [Conditions.Chill])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +2).WithConditions(Conditions.Chill))
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
@@ -103,21 +103,19 @@ public class FrozenCadaverAbilityCard4 : FrozenCadaverAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1,
-			afterTargetConfirmedSubscriptions:
-			[
-				ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
-					applyFunction: async applyParameters =>
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithAfterTargetConfirmedSubscription(
+			ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
+				applyFunction: async applyParameters =>
+				{
+					if(applyParameters.AbilityState.Target.HasCondition(Conditions.Chill))
 					{
-						if(applyParameters.AbilityState.Target.HasCondition(Conditions.Chill))
-						{
-							applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
-						}
-
-						await GDTask.CompletedTask;
+						applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
 					}
-				)
-			])),
+
+					await GDTask.CompletedTask;
+				}
+			)
+		)),
 	];
 }
 
@@ -129,21 +127,19 @@ public class FrozenCadaverAbilityCard5 : FrozenCadaverAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1,
-			afterTargetConfirmedSubscriptions:
-			[
-				ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
-					applyFunction: async applyParameters =>
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithAfterTargetConfirmedSubscription(
+			ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
+				applyFunction: async applyParameters =>
+				{
+					if(applyParameters.AbilityState.Target.HasCondition(Conditions.Chill))
 					{
-						if(applyParameters.AbilityState.Target.HasCondition(Conditions.Chill))
-						{
-							applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
-						}
-
-						await GDTask.CompletedTask;
+						applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
 					}
-				)
-			])),
+
+					await GDTask.CompletedTask;
+				}
+			)
+		)),
 	];
 }
 
@@ -159,7 +155,7 @@ public class FrozenCadaverAbilityCard6 : FrozenCadaverAbilityCard
 			.WithHealValue(2)
 			.WithTarget(Target.Self)
 			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<HealAbility.State>([Element.Ice]))
-			.Build()),
+		),
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -176,6 +172,6 @@ public class FrozenCadaverAbilityCard7 : FrozenCadaverAbilityCard
 		new MonsterAbilityCardAbility(ConditionAbility.Builder()
 			.WithConditions(Conditions.Stun)
 			.WithPush(1)
-			.Build())
+		)
 	];
 }

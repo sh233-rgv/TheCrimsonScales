@@ -40,8 +40,7 @@ public class RoundhouseSwing : ChainguardCardModel<RoundhouseSwing.CardTop, Roun
 							effectType: EffectType.SelectableMandatory
 						)
 					], hintText: "Select an ability to perform:");
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(SwingAbility.Builder()
 				.WithSwing(3)
@@ -70,8 +69,7 @@ public class RoundhouseSwing : ChainguardCardModel<RoundhouseSwing.CardTop, Roun
 					await GDTask.CompletedTask;
 
 					return !state.ActionState.GetAbilityState<LootAbility.State>(0).GetCustomValue<bool>(this, "ChoseLoot");
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -80,8 +78,7 @@ public class RoundhouseSwing : ChainguardCardModel<RoundhouseSwing.CardTop, Roun
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.61970896f, 0.70699817f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.61970896f, 0.70699817f)))),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -105,7 +102,6 @@ public class RoundhouseSwing : ChainguardCardModel<RoundhouseSwing.CardTop, Roun
 
 					await GDTask.CompletedTask;
 				})
-				.Build()
 			)
 		];
 

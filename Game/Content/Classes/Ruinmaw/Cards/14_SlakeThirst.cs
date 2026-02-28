@@ -15,8 +15,7 @@ public class SlakeThirst : RuinmawCardModel<SlakeThirst.CardTop, SlakeThirst.Car
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
-				.Build()),
+				.WithDamage(4)),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
 				.WithTarget(Target.Self)
@@ -27,8 +26,7 @@ public class SlakeThirst : RuinmawCardModel<SlakeThirst.CardTop, SlakeThirst.Car
 
 					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 					return attackAbilityState.UniqueTargetedFigures.Any(figure => figure.HasCondition(Conditions.Rupture));
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -73,8 +71,7 @@ public class SlakeThirst : RuinmawCardModel<SlakeThirst.CardTop, SlakeThirst.Car
 					new UseSlot(new Vector2(0.690505f, 0.77401024f), GainXP),
 					new UseSlot(new Vector2(0.36249793f, 0.8955159f)),
 					new UseSlot(new Vector2(0.5704994f, 0.8955159f), GainXP)
-				])
-				.Build())
+				]))
 		];
 
 		public override bool Persistent => true;

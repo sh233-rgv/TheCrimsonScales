@@ -15,12 +15,10 @@ public class PartyAMDCard1 : PartyAMDCardModel
 			.WithPerformAbility(async state =>
 			{
 				await AbilityCmd.SufferDamage(state, attackAbilityState.Target, 1);
-			})
-			.Build(),
+			}),
 
 		HealAbility.Builder()
 			.WithHealValue(1)
 			.WithTarget(Target.Self)
-			.Build()
 	];
 }

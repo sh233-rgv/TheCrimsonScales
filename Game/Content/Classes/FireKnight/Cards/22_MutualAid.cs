@@ -19,12 +19,10 @@ public class MutualAid : FireKnightLevelUpCardModel<MutualAid.CardTop, MutualAid
 				[
 					AttackAbility.Builder()
 						.WithDamage(3, new AttackDiamond(this, new Vector2(0.6204889f, 0.21533923f)))
-						.Build()
 				])
 				.WithRange(1)
 				.WithTargets(2)
-				.WithTarget(Target.SelfOrAllies | Target.SelfCountsForTargets)
-				.Build()),
+				.WithTarget(Target.SelfOrAllies | Target.SelfCountsForTargets)),
 			new AbilityCardAbility(GiveFireKnightItemAbility(
 				state => [ModelDB.Item<FireKnightFireproofHelm>(), ModelDB.Item<FireKnightScrollOfCharisma>(), ModelDB.Item<FireKnightPikeHook>()],
 				customGetTargets: (state, list) =>
@@ -61,8 +59,7 @@ public class MutualAid : FireKnightLevelUpCardModel<MutualAid.CardTop, MutualAid
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6182132f, 0.65978366f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6182132f, 0.65978366f)))),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2, new HealSquare(this, new Vector2(0.36875677f, 0.78111076f)))
 				.WithRange(1)
@@ -109,8 +106,7 @@ public class MutualAid : FireKnightLevelUpCardModel<MutualAid.CardTop, MutualAid
 								Conditions.Strengthen);
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 	}
 }

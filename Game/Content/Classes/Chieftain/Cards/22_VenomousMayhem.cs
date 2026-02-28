@@ -22,7 +22,6 @@ public class VenomousMayhem : ChieftainCardModel<VenomousMayhem.CardTop, Venomou
 					new ApplyConditionTrait(Conditions.Poison1),
 					new ApplyConditionTrait(Conditions.Immobilize)
 				)
-				.Build()
 			),
 		];
 
@@ -35,7 +34,7 @@ public class VenomousMayhem : ChieftainCardModel<VenomousMayhem.CardTop, Venomou
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(AttackAbility.Builder().WithDamage(3).WithConditions(Conditions.Poison1).Build()),
+			new AbilityCardAbility(AttackAbility.Builder().WithDamage(3).WithConditions(Conditions.Poison1)),
 		];
 	}
 }

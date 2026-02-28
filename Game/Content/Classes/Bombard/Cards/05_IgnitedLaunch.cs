@@ -29,11 +29,9 @@ public class IgnitedLaunch : BombardCardModel<IgnitedLaunch.CardTop, IgnitedLaun
 						.WithDamage(5, _enhancementMark)
 						.WithRangeType(RangeType.Range)
 						.WithTargetHex(hex)
-						.Build()
 				])
 				.WithAbilityCardSide(this)
-				.WithRange(4, new ProjectileRangeSquare(this, new Vector2(0.33784395f, 0.16527776f)))
-				.Build())
+				.WithRange(4, new ProjectileRangeSquare(this, new Vector2(0.33784395f, 0.16527776f))))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
@@ -119,8 +117,7 @@ public class IgnitedLaunch : BombardCardModel<IgnitedLaunch.CardTop, IgnitedLaun
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override int XP => 2;

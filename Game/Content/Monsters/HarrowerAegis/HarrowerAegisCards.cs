@@ -9,13 +9,13 @@ public abstract class HarrowerAegisAbilityCard : MonsterAbilityCardModel
 
 	public static IEnumerable<MonsterAbilityCardModel> Deck { get; } =
 	[
-		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard7>(),
-		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard7>(),
-		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard7>(),
-		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard7>(),
-		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard7>(),
-		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard7>(),
-		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard7>(),
+		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard0>(),
+		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard1>(),
+		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard2>(),
+		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard3>(),
+		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard4>(),
+		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard5>(),
+		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard6>(),
 		ModelDB.MonsterAbilityCard<HarrowerAegisAbilityCard7>()
 	];
 }
@@ -27,8 +27,11 @@ public class HarrowerAegisAbilityCard0 : HarrowerAegisAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +2, pierce: 2, push: 2, conditions: [Conditions.Immobilize])),
-		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(1).WithRange(3).Build())
+		new MonsterAbilityCardAbility(AttackAbility(monster, +2)
+			.WithPierce(2)
+			.WithPush(2)
+			.WithConditions(Conditions.Immobilize)),
+		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(1).WithRange(3))
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
@@ -45,16 +48,16 @@ public class HarrowerAegisAbilityCard1 : HarrowerAegisAbilityCard
 		new MonsterAbilityCardAbility(GrantAbility.Builder()
 			.WithAbilities(
 			[
-				RetaliateAbility.Builder().WithRetaliateValue(3).WithRange(3).WithMinRange(2).Build()
+				RetaliateAbility.Builder().WithRetaliateValue(3).WithRange(3).WithMinRange(2)
 			])
 			.WithTarget(Target.Allies | Target.TargetAll)
 			.WithRange(3)
-			.Build()),
+		),
 		new MonsterAbilityCardAbility(ConditionAbility.Builder()
 			.WithConditions(Conditions.Muddle)
 			.WithTarget(Target.Enemies | Target.TargetAll)
 			.WithRange(3)
-			.Build())
+		)
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
@@ -74,18 +77,18 @@ public class HarrowerAegisAbilityCard2 : HarrowerAegisAbilityCard
 			.WithRange(3)
 			.WithPull(2)
 			.WithConditions(Conditions.Immobilize)
-			.Build()),
+		),
 		new MonsterAbilityCardAbility(GrantAbility.Builder()
 			.WithAbilities(
 			[
-				RetaliateAbility.Builder().WithRetaliateValue(1).Build()
+				RetaliateAbility.Builder().WithRetaliateValue(1)
 			])
 			.WithCustomGetTargets((state, figures) =>
 			{
 				figures.Add(state.ActionState.GetAbilityState<HealAbility.State>(0).Target);
 			})
 			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<GrantAbility.State>([Element.Earth]))
-			.Build())
+		)
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -114,7 +117,7 @@ public class HarrowerAegisAbilityCard3 : HarrowerAegisAbilityCard
 						}
 					}
 				))
-			.Build())
+		)
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -135,7 +138,7 @@ public class HarrowerAegisAbilityCard4 : HarrowerAegisAbilityCard
 			.WithConditions(Conditions.Ward)
 			.WithTarget(Target.SelfOrAllies | Target.TargetAll)
 			.WithRange(1)
-			.Build())
+		)
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
@@ -158,10 +161,10 @@ public class HarrowerAegisAbilityCard5 : HarrowerAegisAbilityCard
 					await AbilityCmd.RemoveCondition(poison);
 				}
 			})
-			.Build()),
+		),
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, conditions: [Conditions.Poison1])),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).Build())
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithConditions(Conditions.Poison1)),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self))
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
@@ -175,15 +178,21 @@ public class HarrowerAegisAbilityCard6 : HarrowerAegisAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, range: 3, targets: 3,
-			afterAttackPerformedSubscriptions:
-			[
-				ScenarioEvents.AfterAttackPerformed.Subscription.New(
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1)
+			.WithRange(3)
+			.WithTargets(3)
+			.WithAbilityPerformedSubscription(
+				ScenarioEvents.AbilityPerformed.Subscription.New(
 					applyFunction: async parameters =>
 					{
-						await AbilityCmd.SufferDamage(parameters.AbilityState, parameters.AbilityState.Target, 1);
-					})
-			]))
+						foreach(Figure figure in ((AttackAbility.State)parameters.AbilityState).UniqueTargetedFigures)
+						{
+							await AbilityCmd.SufferDamage(parameters.AbilityState, figure, 1);
+						}
+					}
+				)
+			)
+		)
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
@@ -194,7 +203,6 @@ public class HarrowerAegisAbilityCard7 : HarrowerAegisAbilityCard
 {
 	public override int Initiative => 88;
 	public override int CardIndex => 7;
-
 	public override bool Reshuffles => true;
 
 	//TODO: Allow for choosing path
@@ -202,15 +210,15 @@ public class HarrowerAegisAbilityCard7 : HarrowerAegisAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(MoveAbility(monster, +2, MoveType.Jump)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0,
-			target: Target.Enemies | Target.TargetAll,
-			customGetTargets: (state, figures) =>
+		new MonsterAbilityCardAbility(MoveAbility(monster, +2).WithMoveType(MoveType.Jump)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0)
+			.WithTarget(Target.Enemies | Target.TargetAll)
+			.WithCustomGetTargets((state, figures) =>
 			{
 				figures.AddRange(state.ActionState.GetAbilityState<MoveAbility.State>(0).Hexes.SelectMany(hex => RangeHelper.GetHexesInRange(hex, 1))
 					.SelectMany(hex => hex.GetHexObjectsOfType<Figure>()));
-			}, duringAttackSubscriptions:
-			[
+			})
+			.WithDuringAttackSubscription(
 				ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Fire, Element.Earth],
 					applyFunction: async parameters =>
 					{
@@ -218,7 +226,8 @@ public class HarrowerAegisAbilityCard7 : HarrowerAegisAbilityCard
 						await GDTask.CompletedTask;
 					}
 				)
-			])),
+			)
+		)
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =

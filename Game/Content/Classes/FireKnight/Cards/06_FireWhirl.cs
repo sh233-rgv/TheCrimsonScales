@@ -38,8 +38,7 @@ public class FireWhirl : FireKnightCardModel<FireWhirl.CardTop, FireWhirl.CardBo
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
 					)
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Wound1)
@@ -53,8 +52,7 @@ public class FireWhirl : FireKnightCardModel<FireWhirl.CardTop, FireWhirl.CardBo
 						.GetRedAOEHexes()
 						.SelectMany(hex => hex.GetHexObjectsOfType<Figure>()));
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements =>
@@ -109,8 +107,7 @@ public class FireWhirl : FireKnightCardModel<FireWhirl.CardTop, FireWhirl.CardBo
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

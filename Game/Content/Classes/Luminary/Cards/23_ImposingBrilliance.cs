@@ -47,8 +47,7 @@ public class ImposingBrilliance : LuminaryCardModel<ImposingBrilliance.CardTop, 
 							await GDTask.CompletedTask;
 						}
 					)
-				])
-				.Build()),
+				])),
 			Scuttle(1, [Element.Dark]),
 		];
 	}
@@ -77,8 +76,7 @@ public class ImposingBrilliance : LuminaryCardModel<ImposingBrilliance.CardTop, 
 					}
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 	}
 }

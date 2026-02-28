@@ -24,8 +24,7 @@ public class SavageStalker : RuinmawCardModel<SavageStalker.CardTop, SavageStalk
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
+				)),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Invisible)
 				.WithTarget(Target.Self)
@@ -33,8 +32,7 @@ public class SavageStalker : RuinmawCardModel<SavageStalker.CardTop, SavageStalk
 				{
 					await GDTask.CompletedTask;
 					return state.ActionState.GetAbilityState<AttackAbility.State>(0).KilledTargets.Count > 0;
-				})
-				.Build())
+				}))
 		];
 
 		protected override bool Sate => true;
@@ -47,8 +45,7 @@ public class SavageStalker : RuinmawCardModel<SavageStalker.CardTop, SavageStalk
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
-				.Build()),
+				.WithDistance(4)),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
 				.WithPierce(1)
@@ -56,8 +53,7 @@ public class SavageStalker : RuinmawCardModel<SavageStalker.CardTop, SavageStalk
 				{
 					await GDTask.CompletedTask;
 					return IsSated(state.Performer);
-				})
-				.Build()),
+				})),
 		];
 	}
 }

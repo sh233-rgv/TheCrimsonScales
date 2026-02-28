@@ -23,11 +23,9 @@ public class DragThroughDirt : ChainguardCardModel<DragThroughDirt.CardTop, Drag
 						await AbilityCmd.AddCondition(state, state.Target, Conditions.Muddle);
 					}
 				})
-				.Build()
 			),
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3, new AttackDiamond(this, new Vector2(0.6216293f, 0.37818104f)))
-				.Build())
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.6216293f, 0.37818104f))))
 		];
 	}
 
@@ -37,8 +35,7 @@ public class DragThroughDirt : ChainguardCardModel<DragThroughDirt.CardTop, Drag
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Chainguard.Shackle)
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(6)
@@ -58,8 +55,7 @@ public class DragThroughDirt : ChainguardCardModel<DragThroughDirt.CardTop, Drag
 
 					state.SetCustomValue(this, "DesignatedEnemy", figure);
 					state.SetCustomValue(this, "DesignatedEnemyIsChosen", figure != null);
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(6)
@@ -72,8 +68,7 @@ public class DragThroughDirt : ChainguardCardModel<DragThroughDirt.CardTop, Drag
 					await GDTask.CompletedTask;
 
 					return state.ActionState.GetAbilityState<MoveAbility.State>(1).GetCustomValue<bool>(this, "DesignatedEnemyIsChosen");
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;

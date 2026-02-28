@@ -38,8 +38,8 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 									subscriptions.RemoveAt(0);
 									ActionState actionState = new ActionState(state.Performer,
 									[
-										MoveAbility.Builder().WithDistance(4).Build(),
-										AttackAbility.Builder().WithDamage(4).Build(),
+										MoveAbility.Builder().WithDistance(4),
+										AttackAbility.Builder().WithDamage(4),
 									]);
 									await actionState.Perform();
 									ScenarioEvents.AbilityEndedEvent.Subscribe(state, new object(), subscriptions);
@@ -64,11 +64,9 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 					new UseSlot(new Vector2(0.28000042f, 0.28149942f), SateRuinmaw),
 					new UseSlot(new Vector2(0.48500004f, 0.28149942f), GainXP),
 					new UseSlot(new Vector2(0.690999f, 0.28149942f), GainXP)
-				])
-				.Build()),
+				])),
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
-				.Build()),
+				.WithDamage(4)),
 		];
 
 		public override bool Persistent => true;
@@ -80,8 +78,7 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
-				.Build()),
+				.WithDistance(4)),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
 				.WithTarget(Target.Self)
@@ -96,8 +93,7 @@ public class VoraciousHunter : RuinmawCardModel<VoraciousHunter.CardTop, Voracio
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 	}
 }

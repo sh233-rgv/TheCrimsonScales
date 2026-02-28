@@ -23,8 +23,7 @@ public class GroundSolvent : MirefootCardModel<GroundSolvent.CardTop, GroundSolv
 							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red)
 						]
 					), new AOEHexMark(Vector2I.Zero.Add(Direction.East), this, new Vector2(0.76916414f, 0.20017323f))
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async abilityState =>
@@ -51,8 +50,7 @@ public class GroundSolvent : MirefootCardModel<GroundSolvent.CardTop, GroundSolv
 					}
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(0)
@@ -63,8 +61,7 @@ public class GroundSolvent : MirefootCardModel<GroundSolvent.CardTop, GroundSolv
 					ConditionAbility.State conditionAbilityState = abilityState.ActionState.GetAbilityState<ConditionAbility.State>(0);
 					list.AddRange(conditionAbilityState.GetRedAOEHexes().SelectMany(hex => hex.GetHexObjectsOfType<Figure>()));
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 
 		public override int XP => 1;
@@ -94,12 +91,10 @@ public class GroundSolvent : MirefootCardModel<GroundSolvent.CardTop, GroundSolv
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2, new AttackDiamond(this, new Vector2(0.61965984f, 0.8603736f)))
-				.Build())
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.61965984f, 0.8603736f))))
 		];
 	}
 }

@@ -49,8 +49,7 @@ public class SpikedMuzzle : ChieftainCardModel<SpikedMuzzle.CardTop, SpikedMuzzl
 					new UseSlot(new Vector2(0.70750487f, 0.2740003f)),
 					new UseSlot(new Vector2(0.39499655f, 0.4039986f)),
 					new UseSlot(new Vector2(0.59799652f, 0.4039986f), GainXP),
-				])
-				.Build())
+				]))
 		];
 
 		public override bool Persistent => true;
@@ -61,20 +60,18 @@ public class SpikedMuzzle : ChieftainCardModel<SpikedMuzzle.CardTop, SpikedMuzzl
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.62123585f, 0.695882f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62123585f, 0.695882f)))),
 
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithAbilities(
 				[
-					AbilityCmd.SummonMovePlusX(1).Build()
+					AbilityCmd.SummonMovePlusX(1)
 				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{
 					figures.AddRange(((Character)grantState.Performer).Summons);
 				})
 				.WithTarget(Target.Allies)
-				.Build()
 			),
 		];
 	}

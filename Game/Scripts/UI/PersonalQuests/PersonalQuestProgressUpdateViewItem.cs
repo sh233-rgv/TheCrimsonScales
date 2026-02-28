@@ -23,6 +23,7 @@ public partial class PersonalQuestProgressUpdateViewItem : Control
 			.AppendTime(2f)
 			.Append(_container.TweenPositionX(InitialPosX, 0.5f).SetEasing(Easing.InBack))
 			.AppendCallback(QueueFree)
-			.Build().Play();
+			.Build()
+			.Play();
 	}
 }

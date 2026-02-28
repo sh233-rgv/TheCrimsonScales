@@ -73,8 +73,7 @@ public partial class ElementsViewElement : Control
 		{
 			_infusingTween = GTweenSequenceBuilder.New()
 				.Append(_container.TweenScale(1.2f, 1f))
-				.Append(_container.TweenScale(1f, 1f))
-				.Build().SetMaxLoops().Play();
+				.Append(_container.TweenScale(1f, 1f)).Build().SetMaxLoops().Play();
 		}
 		else
 		{

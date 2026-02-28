@@ -31,8 +31,7 @@ public class EonicBlast : StarslingerCardModel<EonicBlast.CardTop, EonicBlast.Ca
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
-				]))
-				.Build()),
+				]))),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithTarget(Target.Allies | Target.TargetAll)
@@ -48,8 +47,7 @@ public class EonicBlast : StarslingerCardModel<EonicBlast.CardTop, EonicBlast.Ca
 							list.Add(figure);
 						}
 					}
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 1;
@@ -71,8 +69,7 @@ public class EonicBlast : StarslingerCardModel<EonicBlast.CardTop, EonicBlast.Ca
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 	}
 }

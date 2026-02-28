@@ -15,8 +15,7 @@ public class Luminescence : LuminaryCardModel<Luminescence.CardTop, Luminescence
 		[
 			new AbilityCardAbility(GlowActiveAbility.Builder()
 				.WithGlowAbility(new GlowAbilityModel([Element.Ice], GlowAbility,
-					$"Perform {Icons.Inline(Icons.Heal)}2 ability", Icons.Heal))
-				.Build())
+					$"Perform {Icons.Inline(Icons.Heal)}2 ability", Icons.Heal)))
 		];
 
 		public override int XP => 1;
@@ -41,8 +40,7 @@ public class Luminescence : LuminaryCardModel<Luminescence.CardTop, Luminescence
 					state.SetCustomValue(state.Performer, "Consumed Elements", elements);
 
 					await GDTask.CompletedTask;
-				})
-				.Build();
+				});
 		}
 	}
 
@@ -71,8 +69,7 @@ public class Luminescence : LuminaryCardModel<Luminescence.CardTop, Luminescence
 					{
 						await AbilityCmd.GainXP(state.Performer, 1);
 					}
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
 				.WithConditionalAbilityCheck(async state =>
@@ -80,8 +77,7 @@ public class Luminescence : LuminaryCardModel<Luminescence.CardTop, Luminescence
 					await GDTask.CompletedTask;
 
 					return state.ActionState.GetAbilityState<MoveAbility.State>(0).GetCustomValue<bool>(this, "IceConsumed");
-				})
-				.Build())
+				}))
 		];
 	}
 }

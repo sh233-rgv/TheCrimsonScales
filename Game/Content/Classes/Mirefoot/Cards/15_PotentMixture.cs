@@ -16,8 +16,7 @@ public class PotentMixture : MirefootCardModel<PotentMixture.CardTop, PotentMixt
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Disarm)
 				.WithTarget(Target.Self)
-				.WithMandatory(true)
-				.Build()),
+				.WithMandatory(true)),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -42,8 +41,7 @@ public class PotentMixture : MirefootCardModel<PotentMixture.CardTop, PotentMixt
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;
@@ -54,8 +52,7 @@ public class PotentMixture : MirefootCardModel<PotentMixture.CardTop, PotentMixt
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.6215359f, 0.67549807f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6215359f, 0.67549807f)))),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -98,8 +95,7 @@ public class PotentMixture : MirefootCardModel<PotentMixture.CardTop, PotentMixt
 						await GDTask.CompletedTask;
 					}
 				)
-				.WithUseSlot(new UseSlot(null))
-				.Build())
+				.WithUseSlot(new UseSlot(null)))
 		];
 
 		public override bool Round => true;

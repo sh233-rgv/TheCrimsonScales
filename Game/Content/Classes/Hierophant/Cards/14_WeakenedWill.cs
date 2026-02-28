@@ -16,8 +16,7 @@ public class WeakenedWill : HierophantLevelUpCardModel<WeakenedWill.CardTop, Wea
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.39718983f, 0.22812192f)))
 				.WithRange(3, new RangeSquare(this, new Vector2(0.6233896f, 0.22812192f)))
-				.WithConditions(Conditions.Muddle)
-				.Build()),
+				.WithConditions(Conditions.Muddle)),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)
@@ -39,8 +38,7 @@ public class WeakenedWill : HierophantLevelUpCardModel<WeakenedWill.CardTop, Wea
 						}
 					}
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 	}
 
@@ -49,8 +47,7 @@ public class WeakenedWill : HierophantLevelUpCardModel<WeakenedWill.CardTop, Wea
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(1, new MoveCircle(this, new Vector2(0.62072915f, 0.71336424f)))
-				.Build()),
+				.WithDistance(1, new MoveCircle(this, new Vector2(0.62072915f, 0.71336424f)))),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(state =>
@@ -86,8 +83,7 @@ public class WeakenedWill : HierophantLevelUpCardModel<WeakenedWill.CardTop, Wea
 
 						return GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override bool Round => true;

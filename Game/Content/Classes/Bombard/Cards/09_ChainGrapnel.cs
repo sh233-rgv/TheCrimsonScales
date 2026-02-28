@@ -16,8 +16,7 @@ public class ChainGrapnel : BombardCardModel<ChainGrapnel.CardTop, ChainGrapnel.
 				.WithDamage(2, new AttackCircle(this, new Vector2(0.34399113f, 0.28388575f)))
 				.WithRange(3, new RangeSquare(this, new Vector2(0.55398846f, 0.28388575f)))
 				.WithPull(2)
-				.WithConditions(Conditions.Immobilize)
-				.Build())
+				.WithConditions(Conditions.Immobilize))
 		];
 
 		public override int XP => 1;
@@ -40,11 +39,9 @@ public class ChainGrapnel : BombardCardModel<ChainGrapnel.CardTop, ChainGrapnel.
 							]
 						))
 						.WithTargetHex(hex)
-						.Build()
 				])
 				.WithAbilityCardSide(this)
-				.WithRange(4, new ProjectileRangeSquare(this, new Vector2(0.3408154f, 0.6195522f), EnhancementCostType.MultiTarget))
-				.Build())
+				.WithRange(4, new ProjectileRangeSquare(this, new Vector2(0.3408154f, 0.6195522f), EnhancementCostType.MultiTarget)))
 		];
 
 		public override int XP => 1;

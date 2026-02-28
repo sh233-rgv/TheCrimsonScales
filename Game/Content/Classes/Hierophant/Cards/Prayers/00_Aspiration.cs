@@ -23,7 +23,7 @@ public class Aspiration : HierophantPrayerCardModel<Aspiration.CardTop, Aspirati
 								applyParameters.SetPrevented(true);
 
 								ActionState actionState = new ActionState(state.Performer,
-									[HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()]);
+									[HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self)]);
 								await actionState.Perform();
 
 								await state.AdvanceUseSlot();
@@ -46,8 +46,7 @@ public class Aspiration : HierophantPrayerCardModel<Aspiration.CardTop, Aspirati
 						new UseSlot(new Vector2(0.38150153f, 0.3129901f)),
 						new UseSlot(new Vector2(0.58650404f, 0.3129901f))
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;
@@ -69,7 +68,7 @@ public class Aspiration : HierophantPrayerCardModel<Aspiration.CardTop, Aspirati
 								applyParameters.SetPrevented(true);
 
 								ActionState actionState = new ActionState(state.Performer,
-									[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()]);
+									[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self)]);
 								await actionState.Perform();
 
 								await state.AdvanceUseSlot();
@@ -87,8 +86,7 @@ public class Aspiration : HierophantPrayerCardModel<Aspiration.CardTop, Aspirati
 						await GDTask.CompletedTask;
 					}
 				)
-				.WithUseSlot(new UseSlot(new Vector2(0.4855002f, 0.78900117f)))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.4855002f, 0.78900117f))))
 		];
 
 		public override bool Persistent => true;

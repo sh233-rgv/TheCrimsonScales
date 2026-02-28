@@ -25,7 +25,6 @@ public class AgilePredator : ChieftainCardModel<AgilePredator.CardTop, AgilePred
 					new AttackersGainDisadvantageTrait(),
 					new MountTrait()
 				)
-				.Build()
 			),
 		];
 
@@ -41,7 +40,7 @@ public class AgilePredator : ChieftainCardModel<AgilePredator.CardTop, AgilePred
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantState =>
 				[
-					AbilityCmd.SummonMovePlusX(1).Build()
+					AbilityCmd.SummonMovePlusX(1)
 				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{
@@ -49,7 +48,6 @@ public class AgilePredator : ChieftainCardModel<AgilePredator.CardTop, AgilePred
 						.Where(summon => RangeHelper.Distance(grantState.Performer.Hex, summon.Hex) <= 3));
 				})
 				.WithTarget(Target.Allies)
-				.Build()
 			),
 		];
 	}

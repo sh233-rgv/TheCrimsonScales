@@ -24,8 +24,7 @@ public class Bogstep : MirefootCardModel<Bogstep.CardTop, Bogstep.CardBottom>
 							parameters.AbilityState.SingleTargetAdjustAttackValue(2);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						})
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -71,12 +70,10 @@ public class Bogstep : MirefootCardModel<Bogstep.CardTop, Bogstep.CardBottom>
 
 						return GDTask.CompletedTask;
 					}
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(6, new MoveCircle(this, new Vector2(0.6190325f, 0.79547685f)))
-				.Build())
+				.WithDistance(6, new MoveCircle(this, new Vector2(0.6190325f, 0.79547685f))))
 		];
 
 		public override int XP => 2;

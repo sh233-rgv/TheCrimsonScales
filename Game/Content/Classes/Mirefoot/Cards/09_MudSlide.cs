@@ -25,8 +25,7 @@ public class Mudslide : MirefootCardModel<Mudslide.CardTop, Mudslide.CardBottom>
 							parameters.AbilityState.SingleTargetAddCondition(Conditions.Muddle);
 							await GDTask.CompletedTask;
 						})
-				)
-				.Build())
+				))
 		];
 
 		public override int XP => 1;
@@ -67,8 +66,7 @@ public class Mudslide : MirefootCardModel<Mudslide.CardTop, Mudslide.CardBottom>
 						await CreateDifficultTerrain(selectedHex);
 						abilityState.SetPerformed();
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 }

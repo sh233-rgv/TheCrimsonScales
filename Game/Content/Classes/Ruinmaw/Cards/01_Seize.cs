@@ -14,8 +14,7 @@ public class Seize : RuinmawCardModel<Seize.CardTop, Seize.CardBottom>
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Disarm)
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -27,8 +26,7 @@ public class Seize : RuinmawCardModel<Seize.CardTop, Seize.CardBottom>
 						state.SetPerformed();
 					}
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 	}
 
@@ -36,17 +34,15 @@ public class Seize : RuinmawCardModel<Seize.CardTop, Seize.CardBottom>
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build()),
+			new AbilityCardAbility(MoveAbility.Builder().WithDistance(2)),
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(1)
 				.WithRange(2)
-				.WithConditions(Conditions.Poison1)
-				.Build()),
+				.WithConditions(Conditions.Poison1)),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Rupture)
 				.WithTarget(Target.Self)
-				.WithMandatory(true)
-				.Build())
+				.WithMandatory(true))
 		];
 	}
 }

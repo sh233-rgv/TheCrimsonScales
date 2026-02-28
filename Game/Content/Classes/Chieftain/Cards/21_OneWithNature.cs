@@ -25,7 +25,6 @@ public class OneWithNature : ChieftainCardModel<OneWithNature.CardTop, OneWithNa
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Attack)}")
 					)
 				)
-				.Build()
 			),
 		];
 	}
@@ -35,8 +34,7 @@ public class OneWithNature : ChieftainCardModel<OneWithNature.CardTop, OneWithNa
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(5, new MoveCircle(this, new Vector2(0.6217602f, 0.7227138f)))
-				.Build()),
+				.WithDistance(5, new MoveCircle(this, new Vector2(0.6217602f, 0.7227138f)))),
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];

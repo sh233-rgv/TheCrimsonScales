@@ -21,7 +21,7 @@ public class OakCharm : JotLItem
 				{
 					ActionState actionState = new ActionState(user,
 						[
-							ConditionAbility.Builder().WithConditions(Conditions.Bless).WithRange(5).Build()
+							ConditionAbility.Builder().WithConditions(Conditions.Bless).WithRange(5)
 						]
 					);
 					await actionState.Perform();

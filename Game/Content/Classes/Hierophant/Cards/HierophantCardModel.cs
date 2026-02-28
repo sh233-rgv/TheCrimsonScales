@@ -38,8 +38,7 @@ public abstract class HierophantCardSide : AbilityCardSideModel<Hierophant>
 			.WithTargets(targets)
 			.WithRange(range)
 			.WithCustomGetTargets(customGetTargets)
-			.WithConditionalAbilityCheck(conditionalAbilityCheck)
-			.Build();
+			.WithConditionalAbilityCheck(conditionalAbilityCheck);
 	}
 
 	protected async GDTask GivePrayerCard(AbilityState abilityState, Figure target)

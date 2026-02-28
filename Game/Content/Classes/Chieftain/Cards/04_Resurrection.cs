@@ -25,7 +25,6 @@ public class Resurrection : ChieftainCardModel<Resurrection.CardTop, Resurrectio
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}, advantage")
 					)
 				)
-				.Build()
 			),
 		];
 	}
@@ -47,8 +46,7 @@ public class Resurrection : ChieftainCardModel<Resurrection.CardTop, Resurrectio
 
 						state.SetPerformed();
 					}
-				})
-				.Build())
+				}))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];

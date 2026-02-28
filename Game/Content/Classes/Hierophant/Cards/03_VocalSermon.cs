@@ -35,8 +35,7 @@ public class VocalSermon : HierophantCardModel<VocalSermon.CardTop, VocalSermon.
 							}
 						}
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements =>
@@ -91,8 +90,7 @@ public class VocalSermon : HierophantCardModel<VocalSermon.CardTop, VocalSermon.
 						// 			});
 						// 	})
 					]
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(GivePrayerCardAbility(
 				conditionalAbilityCheck: async state =>

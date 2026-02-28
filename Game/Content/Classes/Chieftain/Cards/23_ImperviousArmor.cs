@@ -50,7 +50,6 @@ public class ImperviousArmor : ChieftainCardModel<ImperviousArmor.CardTop, Imper
 						}
 					)
 				)
-				.Build()
 			),
 		];
 
@@ -65,7 +64,7 @@ public class ImperviousArmor : ChieftainCardModel<ImperviousArmor.CardTop, Imper
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithGetAbilities(state => [ShieldAbility.Builder().WithShieldValue(2).Build()])
+				.WithGetAbilities(state => [ShieldAbility.Builder().WithShieldValue(2)])
 				.WithCustomGetTargets((state, figures) =>
 				{
 					Figure mount = Chieftain.GetMount(state.Performer);
@@ -77,7 +76,6 @@ public class ImperviousArmor : ChieftainCardModel<ImperviousArmor.CardTop, Imper
 					figures.Add(state.Performer);
 				})
 				.WithTarget(Target.SelfOrAllies | Target.TargetAll)
-				.Build()
 			)
 		];
 

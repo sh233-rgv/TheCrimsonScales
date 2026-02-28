@@ -25,7 +25,7 @@ public class LivingBonesAbilityCard0 : LivingBonesAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +1)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1))
 	];
 }
 
@@ -39,7 +39,7 @@ public class LivingBonesAbilityCard1 : LivingBonesAbilityCard
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -2)),
 		new MonsterAbilityCardAbility(AttackAbility(monster, +0)),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self))
 	];
 }
 
@@ -51,7 +51,7 @@ public class LivingBonesAbilityCard2 : LivingBonesAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1))
 	];
 }
 
@@ -63,7 +63,7 @@ public class LivingBonesAbilityCard3 : LivingBonesAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0))
 	];
 }
 
@@ -75,7 +75,7 @@ public class LivingBonesAbilityCard4 : LivingBonesAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0))
 	];
 }
 
@@ -86,7 +86,7 @@ public class LivingBonesAbilityCard5 : LivingBonesAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +2)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +2))
 	];
 }
 
@@ -98,7 +98,7 @@ public class LivingBonesAbilityCard6 : LivingBonesAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, target: Target.Enemies | Target.MustTargetSameWithAllTargets)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithTarget(Target.Enemies | Target.MustTargetSameWithAllTargets))
 	];
 }
 
@@ -110,7 +110,7 @@ public class LivingBonesAbilityCard7 : LivingBonesAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1).Build()),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()),
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1)),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self))
 	];
 }

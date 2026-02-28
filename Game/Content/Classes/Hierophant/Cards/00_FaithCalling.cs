@@ -16,12 +16,11 @@ public class FaithCalling : HierophantCardModel<FaithCalling.CardTop, FaithCalli
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(state =>
 					[
-						ShieldAbility.Builder().WithShieldValue(1).Build()
+						ShieldAbility.Builder().WithShieldValue(1)
 					]
 				)
 				.WithTarget(Target.Allies | Target.TargetAll)
 				.WithRange(2, new RangeSquare(this, new Vector2(0.7505667f, 0.14563331f)))
-				.Build()
 			),
 
 			new AbilityCardAbility(GivePrayerCardAbility(
@@ -74,8 +73,7 @@ public class FaithCalling : HierophantCardModel<FaithCalling.CardTop, FaithCalli
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build())
+				))
 		];
 	}
 }

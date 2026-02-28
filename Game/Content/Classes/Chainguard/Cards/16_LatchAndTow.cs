@@ -39,8 +39,7 @@ public class LatchAndTow : ChainguardLevelUpCardModel<LatchAndTow.CardTop, Latch
 					ScenarioEvents.TrapTriggeredEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -57,8 +56,7 @@ public class LatchAndTow : ChainguardLevelUpCardModel<LatchAndTow.CardTop, Latch
 					{
 						await AbilityCmd.AddConditions(state, state.Target, [Conditions.Muddle, Chainguard.Shackle]);
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 }

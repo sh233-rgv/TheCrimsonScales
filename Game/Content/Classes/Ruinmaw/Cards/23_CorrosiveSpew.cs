@@ -42,8 +42,7 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
 					}
-				)
-				.Build()),
+				)),
 		];
 	}
 
@@ -67,7 +66,7 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 									ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, obj);
 									ActionState actionState = new ActionState(state.Performer,
 									[
-										HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).WithConditions(Ruinmaw.Empower).Build(),
+										HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).WithConditions(Ruinmaw.Empower),
 									]);
 									await actionState.Perform();
 								}
@@ -89,8 +88,7 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 					new UseSlot(new Vector2(0.3705001f, 0.7284984f), GainXP),
 					new UseSlot(new Vector2(0.57550025f, 0.7284984f)),
 					new UseSlot(new Vector2(0.7819994f, 0.7284984f), GainXP)
-				])
-				.Build()),
+				])),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -110,8 +108,7 @@ public class CorrosiveSpew : RuinmawCardModel<CorrosiveSpew.CardTop, CorrosiveSp
 					ScenarioEvents.EmpowerAddedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Persistent => true;

@@ -14,13 +14,11 @@ public class StripFlesh : RuinmawCardModel<StripFlesh.CardTop, StripFlesh.CardBo
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(LootAbility.Builder()
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
 				.WithTarget(Target.Self)
-				.WithConditions(Ruinmaw.Empower)
-				.Build())
+				.WithConditions(Ruinmaw.Empower))
 		];
 	}
 
@@ -48,8 +46,7 @@ public class StripFlesh : RuinmawCardModel<StripFlesh.CardTop, StripFlesh.CardBo
 
 					await GDTask.CompletedTask;
 				})
-				.WithUseSlot(new UseSlot(new Vector2(0.47200036f, 0.8174985f), SateRuinmaw))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.47200036f, 0.8174985f), SateRuinmaw)))
 		];
 
 		public override int XP => 2;

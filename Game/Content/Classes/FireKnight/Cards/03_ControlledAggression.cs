@@ -44,8 +44,7 @@ public class ControlledAggression : FireKnightCardModel<ControlledAggression.Car
 						new UseSlot(new Vector2(0.3759946f, 0.35149997f)),
 						new UseSlot(new Vector2(0.5909972f, 0.35149997f), GainXP)
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;
@@ -56,8 +55,7 @@ public class ControlledAggression : FireKnightCardModel<ControlledAggression.Car
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4, new MoveCircle(this, new Vector2(0.6198599f, 0.76992834f)))
-				.Build())
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.6198599f, 0.76992834f))))
 		];
 	}
 }

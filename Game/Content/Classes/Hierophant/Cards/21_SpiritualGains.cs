@@ -52,8 +52,7 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 					ScenarioEvents.LongRestStartedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Persistent => true;
@@ -65,8 +64,7 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(5, new MoveCircle(this, new Vector2(0.619969f, 0.62733525f)))
-				.Build()),
+				.WithDistance(5, new MoveCircle(this, new Vector2(0.619969f, 0.62733525f)))),
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -86,7 +84,6 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 									.WithHealValue(7)
 									.WithTarget(Target.Self)
 									.WithConditions(Conditions.Invisible)
-									.Build()
 							]);
 							await actionState.Perform();
 							await state.AdvanceUseSlot();
@@ -100,8 +97,7 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 
 					await GDTask.CompletedTask;
 				})
-				.WithUseSlot(new UseSlot(new Vector2(0.48200023f, 0.90800273f), GainXP))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.48200023f, 0.90800273f), GainXP)))
 		];
 
 		public override bool Persistent => true;

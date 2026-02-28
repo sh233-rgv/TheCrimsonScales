@@ -14,8 +14,7 @@ public class AbsorbingLight : StarslingerCardModel<AbsorbingLight.CardTop, Absor
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3, new AttackDiamond(this, new Vector2(0.61900824f, 0.1985234f)))
-				.Build()),
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.61900824f, 0.1985234f)))),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(0)
 				.WithTarget(Target.Self)
@@ -24,8 +23,7 @@ public class AbsorbingLight : StarslingerCardModel<AbsorbingLight.CardTop, Absor
 					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 					state.AbilityAdjustHealValue(attackAbilityState.DamageDealt);
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -44,8 +42,7 @@ public class AbsorbingLight : StarslingerCardModel<AbsorbingLight.CardTop, Absor
 							await AbilityCmd.InfuseElement(parameters.AbilityState, Element.Light);
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 	}
 }

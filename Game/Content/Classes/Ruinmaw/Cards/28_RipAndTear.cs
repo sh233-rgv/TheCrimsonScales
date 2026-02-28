@@ -46,8 +46,7 @@ public class RipAndTear : RuinmawCardModel<RipAndTear.CardTop, RipAndTear.CardBo
 								: Conditions.Wound1);
 							await GDTask.CompletedTask;
 						})
-				)
-				.Build()),
+				)),
 		];
 	}
 
@@ -84,8 +83,7 @@ public class RipAndTear : RuinmawCardModel<RipAndTear.CardTop, RipAndTear.CardBo
 					new UseSlot(new Vector2(0.19800027f, 0.8769984f)),
 					new UseSlot(new Vector2(0.4045f, 0.8769984f)),
 					new UseSlot(new Vector2(0.6075001f, 0.8769984f), GainXP)
-				])
-				.Build())
+				]))
 		];
 
 		public override bool Persistent => true;

@@ -16,8 +16,7 @@ public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, P
 		[
 			new AbilityCardAbility(SwingAbility.Builder()
 				.WithSwing(4)
-				.WithRange(2)
-				.Build()),
+				.WithRange(2)),
 
 			new AbilityCardAbility(OtherTargetedAbility.Builder()
 				.WithCustomGetTargets((state, figures) =>
@@ -34,8 +33,7 @@ public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, P
 				{
 					await AbilityCmd.SufferDamage(state, figure, 2);
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build()),
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))),
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(5, new AttackDiamond(this, new Vector2(0.3839874f, 0.41022947f)))
@@ -46,8 +44,7 @@ public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, P
 					figures.Add(swingState.Target);
 				})
 				.WithTarget(Target.Enemies)
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 	}
 
@@ -57,8 +54,7 @@ public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, P
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(4, new MoveCircle(this, new Vector2(0.51195f, 0.69133186f)))
-				.WithMoveType(MoveType.Jump)
-				.Build()),
+				.WithMoveType(MoveType.Jump)),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Chainguard.Shackle)
@@ -69,8 +65,7 @@ public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, P
 					IEnumerable<Figure> figuresPassedThrough = moveAbilityState.Hexes.SelectMany(hex => hex.GetHexObjectsOfType<Figure>());
 
 					figures.AddRange(figuresPassedThrough.Where(figure => figure.EnemiesWith(state.Performer)));
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(3)
@@ -87,8 +82,7 @@ public class PivotAndSmash : ChainguardLevelUpCardModel<PivotAndSmash.CardTop, P
 							figures.Add(figure);
 						}
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 }

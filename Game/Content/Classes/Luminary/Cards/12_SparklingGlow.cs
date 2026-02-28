@@ -43,8 +43,7 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Targets)}")
 					)
-				])
-				.Build()),
+				])),
 		];
 
 		public override int XP => 2;
@@ -56,8 +55,7 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.6210601f, 0.6518512f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6210601f, 0.6518512f)))),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -73,7 +71,7 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 								ActionState actionState = new ActionState(state.Performer, [
 									GrantAbility.Builder()
 										.WithGetAbilities(grantAbilityState =>
-											[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()])
+											[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self)])
 										.WithTarget(Target.Allies | Target.TargetAll)
 										.WithCustomGetTargets((state, targets) =>
 										{
@@ -85,7 +83,6 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 										.WithGetTargetingHintText(grantAbilityState =>
 											$"Select an ally to grant {Icons.HintText(Icons.Heal)}2, Self"
 										)
-										.Build()
 								]);
 								await actionState.Perform();
 							}
@@ -99,8 +96,7 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 					ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 
 		public override bool Round => true;

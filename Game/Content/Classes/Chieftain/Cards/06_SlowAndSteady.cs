@@ -43,7 +43,6 @@ public class SlowAndSteady : ChieftainCardModel<SlowAndSteady.CardTop, SlowAndSt
 						}
 					)
 				)
-				.Build()
 			),
 		];
 
@@ -57,8 +56,7 @@ public class SlowAndSteady : ChieftainCardModel<SlowAndSteady.CardTop, SlowAndSt
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2, new AttackDiamond(this, new Vector2(0.6201599f, 0.7623622f)))
-				.Build()),
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.6201599f, 0.7623622f)))),
 		];
 	}
 }

@@ -59,7 +59,6 @@ public class Road26 : RoadEventModel<Road26.ChoiceA, Road26.ChoiceB>
 							.WithMove(3)
 							.WithAttack(1)
 							.WithTraits(new ApplyConditionTrait(Conditions.Poison1), new JumpTrait())
-							.Build()
 					)
 				];
 			}

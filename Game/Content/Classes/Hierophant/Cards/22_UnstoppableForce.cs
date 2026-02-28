@@ -46,8 +46,7 @@ public class UnstoppableForce : HierophantLevelUpCardModel<UnstoppableForce.Card
 						new UseSlot(new Vector2(0.48650017f, 0.3734997f)),
 						new UseSlot(new Vector2(0.68950886f, 0.3734997f), GainXP)
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;
@@ -72,8 +71,7 @@ public class UnstoppableForce : HierophantLevelUpCardModel<UnstoppableForce.Card
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(state =>
@@ -87,7 +85,6 @@ public class UnstoppableForce : HierophantLevelUpCardModel<UnstoppableForce.Card
 
 							state.ActionState.SetOverrideRound();
 						})
-						.Build()
 				])
 				.WithCustomGetTargets((state, list) =>
 				{
@@ -98,8 +95,7 @@ public class UnstoppableForce : HierophantLevelUpCardModel<UnstoppableForce.Card
 						list.AddRange(RangeHelper.GetFiguresInRange(target.Hex, 1));
 					}
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 	}
 }

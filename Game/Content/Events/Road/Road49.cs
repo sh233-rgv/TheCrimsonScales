@@ -32,7 +32,7 @@ public class Road49 : RoadEventModel<Road49.ChoiceA, Road49.ChoiceB>
 					{
 						if(figure is Monster monster)
 						{
-							ActionState actionState = new ActionState(monster, [MoveAbility.Builder().WithDistance(1).Build()]);
+							ActionState actionState = new ActionState(monster, [MoveAbility.Builder().WithDistance(1)]);
 							await actionState.Perform();
 						}
 					}
@@ -59,7 +59,7 @@ public class Road49 : RoadEventModel<Road49.ChoiceA, Road49.ChoiceB>
 				{
 					foreach(Character character in GameController.Instance.CharacterManager.Characters)
 					{
-						ActionState actionState = new ActionState(character, [MoveAbility.Builder().WithDistance(2).Build()]);
+						ActionState actionState = new ActionState(character, [MoveAbility.Builder().WithDistance(2)]);
 						await actionState.Perform();
 					}
 				},

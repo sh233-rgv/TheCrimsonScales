@@ -14,8 +14,7 @@ public class SufferingSteel : ChainguardLevelUpCardModel<SufferingSteel.CardTop,
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(RetaliateAbility.Builder()
-				.WithRetaliateValue(4, new RetaliateDiamondPlus(this, new Vector2(0.61210763f, 0.20048997f)))
-				.Build()),
+				.WithRetaliateValue(4, new RetaliateDiamondPlus(this, new Vector2(0.61210763f, 0.20048997f)))),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -39,8 +38,7 @@ public class SufferingSteel : ChainguardLevelUpCardModel<SufferingSteel.CardTop,
 					ScenarioEvents.SufferDamageEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;
@@ -53,12 +51,10 @@ public class SufferingSteel : ChainguardLevelUpCardModel<SufferingSteel.CardTop,
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.62026906f, 0.7225138f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62026906f, 0.7225138f)))),
 
 			new AbilityCardAbility(RetaliateAbility.Builder()
-				.WithRetaliateValue(2, new RetaliateDiamondPlus(this, new Vector2(0.6131678f, 0.83107513f)))
-				.Build()),
+				.WithRetaliateValue(2, new RetaliateDiamondPlus(this, new Vector2(0.6131678f, 0.83107513f)))),
 		];
 
 		public override bool Round => true;

@@ -210,13 +210,15 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 				.Append(target.Visual.TweenInstanceShaderPropertyFloat("tintFactor", 0.4f, 0.6f))
 				.AppendTime(0.1f)
 				.Append(target.Visual.TweenInstanceShaderPropertyFloat("tintFactor", 0f, 0.5f))
-				.Build().PlayFastForwardable();
+				.Build()
+				.PlayFastForwardable();
 
 			GTweenSequenceBuilder.New()
 				.Append(target.TweenScale(1.2f, 0.4f).SetEasing(Easing.InOutBack))
 				.AppendTime(0.4f)
 				.Append(target.TweenScale(1f, 0.2f).SetEasing(Easing.InBack))
-				.Build().PlayFastForwardable();
+				.Build()
+				.PlayFastForwardable();
 
 			await GDTask.DelayFastForwardable(1.2f);
 

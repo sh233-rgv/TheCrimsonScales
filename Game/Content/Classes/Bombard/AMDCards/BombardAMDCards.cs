@@ -45,7 +45,7 @@ public class BombardAMDCards
 
 		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 		[
-			RetaliateAbility.Builder().WithRetaliateValue(1).WithRange(3).Build()
+			RetaliateAbility.Builder().WithRetaliateValue(1).WithRange(3)
 		];
 	}
 
@@ -60,7 +60,7 @@ public class BombardAMDCards
 
 		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 		[
-			PullSelfAbility.Builder().WithPullSelfValue(3).WithCustomGetTargets(((state, list) => list.Add(attackAbilityState.Target))).Build()
+			PullSelfAbility.Builder().WithPullSelfValue(3).WithCustomGetTargets(((state, list) => list.Add(attackAbilityState.Target)))
 		];
 	}
 
@@ -75,7 +75,7 @@ public class BombardAMDCards
 
 		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 		[
-			ConditionAbility.Builder().WithConditions(Conditions.Strengthen).WithTarget(Target.Self).Build()
+			ConditionAbility.Builder().WithConditions(Conditions.Strengthen).WithTarget(Target.Self)
 		];
 	}
 
@@ -106,7 +106,7 @@ public class BombardAMDCards
 
 		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 		[
-			ShieldAbility.Builder().WithShieldValue(1).Build()
+			ShieldAbility.Builder().WithShieldValue(1)
 		];
 	}
 
@@ -123,7 +123,7 @@ public class BombardAMDCards
 
 		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 		[
-			HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()
+			HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self)
 		];
 	}
 }

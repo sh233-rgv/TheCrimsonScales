@@ -45,8 +45,7 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.WildElement)}")
 					)
-				])
-				.Build()),
+				])),
 			Scuttle(2, [Element.Ice]),
 		];
 	}
@@ -88,7 +87,7 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 								ActionState actionState = new ActionState(state.Performer, [
 									GrantAbility.Builder()
 										.WithGetAbilities(grantAbilityState =>
-											[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()])
+											[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self)])
 										.WithTarget(Target.Allies | Target.TargetAll)
 										.WithCustomGetTargets((state, targets) =>
 										{
@@ -100,7 +99,6 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 										.WithGetTargetingHintText(grantAbilityState =>
 											$"Select an ally to grant {Icons.HintText(Icons.Heal)}2, self"
 										)
-										.Build()
 								]);
 								await actionState.Perform();
 							}
@@ -130,8 +128,7 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 					ScenarioEvents.AbilityPerformedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.InfuseWild()];

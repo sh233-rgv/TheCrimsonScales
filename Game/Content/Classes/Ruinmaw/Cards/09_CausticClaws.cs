@@ -33,8 +33,7 @@ public class CausticClaws : RuinmawCardModel<CausticClaws.CardTop, CausticClaws.
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
 					}
-				)
-				.Build()),
+				)),
 		];
 	}
 
@@ -53,8 +52,7 @@ public class CausticClaws : RuinmawCardModel<CausticClaws.CardTop, CausticClaws.
 					{
 						await AbilityCmd.AddCondition(state, figure, Conditions.Rupture);
 					}
-				})
-				.Build())
+				}))
 		];
 
 		protected override bool Sate => true;

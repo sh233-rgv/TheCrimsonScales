@@ -34,8 +34,7 @@ public class CollectiveCombat : FireKnightCardModel<CollectiveCombat.CardTop, Co
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
 					)
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)
@@ -61,8 +60,7 @@ public class CollectiveCombat : FireKnightCardModel<CollectiveCombat.CardTop, Co
 
 						return true;
 					}
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -97,8 +95,7 @@ public class CollectiveCombat : FireKnightCardModel<CollectiveCombat.CardTop, Co
 						await GDTask.CompletedTask;
 					}
 				)
-				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.83799946f), GainXP))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.83799946f), GainXP)))
 		];
 
 		public override bool Persistent => true;

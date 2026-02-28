@@ -12,11 +12,10 @@ public class StillRiverAlgae : MirefootCardModel<StillRiverAlgae.CardTop, StillR
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(LootAbility.Builder().WithRange(1).Build()),
+			new AbilityCardAbility(LootAbility.Builder().WithRange(1)),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)
-				.WithRange(1)
-				.Build())
+				.WithRange(1))
 		];
 	}
 
@@ -40,12 +39,10 @@ public class StillRiverAlgae : MirefootCardModel<StillRiverAlgae.CardTop, StillR
 							abilityState.SetPerformed();
 						}
 					}
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6214359f, 0.82702506f)))
-				.Build())
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6214359f, 0.82702506f))))
 		];
 	}
 }

@@ -15,8 +15,7 @@ public class RustySpikes : ChainguardCardModel<RustySpikes.CardTop, RustySpikes.
 			new AbilityCardAbility(CreateTrapAbility.Builder()
 				.WithDamage(3)
 				.WithConditions(Conditions.Poison1)
-				.WithCustomAsset("res://Content/Classes/Chainguard/Traps/ChainguardPoisonTrap.tscn")
-				.Build())
+				.WithCustomAsset("res://Content/Classes/Chainguard/Traps/ChainguardPoisonTrap.tscn"))
 		];
 
 		public override int XP => 1;
@@ -27,13 +26,11 @@ public class RustySpikes : ChainguardCardModel<RustySpikes.CardTop, RustySpikes.
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.6204333f, 0.7188443f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6204333f, 0.7188443f)))),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Chainguard.Shackle)
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 		];
 	}
 }

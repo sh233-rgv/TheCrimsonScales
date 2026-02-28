@@ -28,13 +28,13 @@ public class FlamingDrakeAbilityCard0 : FlamingDrakeAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster,
-			extraDamage: -1,
-			aoePattern: new AOEPattern(
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1)
+			.WithAOEPattern(new AOEPattern(
 			[
 				new AOEHex(Vector2I.Zero, AOEHexType.Red),
 				new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-			]))),
+			]))
+		)
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
@@ -50,13 +50,11 @@ public class FlamingDrakeAbilityCard1 : FlamingDrakeAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster,
-			extraDamage: +0,
-			aoePattern: new AOEPattern(
-			[
-				new AOEHex(Vector2I.Zero, AOEHexType.Red),
-				new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-			]))),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithAOEPattern(new AOEPattern(
+		[
+			new AOEHex(Vector2I.Zero, AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+		]))),
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
@@ -75,7 +73,7 @@ public class FlamingDrakeAbilityCard2 : FlamingDrakeAbilityCard
 			.WithConditions(Conditions.Disarm)
 			.WithTarget(Target.Enemies | Target.TargetAll)
 			.WithRange(1)
-			.Build())
+		)
 	];
 }
 
@@ -86,7 +84,7 @@ public class FlamingDrakeAbilityCard3 : FlamingDrakeAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(2).Build()),
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(2)),
 		new MonsterAbilityCardAbility(HealAbility.Builder()
 			.WithHealValue(2)
 			.WithTarget(Target.Self)
@@ -100,7 +98,7 @@ public class FlamingDrakeAbilityCard3 : FlamingDrakeAbilityCard
 					}
 				)
 			)
-			.Build()),
+		),
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -115,18 +113,15 @@ public class FlamingDrakeAbilityCard4 : FlamingDrakeAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster,
-			extraDamage: -1,
-			aoePattern: new AOEPattern([
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1)
+			.WithAOEPattern(new AOEPattern([
 				new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 				new AOEHex(new Vector2I(1, 0), AOEHexType.Red),
 				new AOEHex(new Vector2I(2, 0), AOEHexType.Red),
 				new AOEHex(new Vector2I(3, 0), AOEHexType.Red),
-			]),
-			abilityStartedSubscriptions:
-			[
+			]))
+			.WithAbilityStartedSubscription(
 				ConsumeElementCheckSubscription<ScenarioEvents.AbilityStarted.Parameters>(monster, [Element.Fire],
-					canApplyFunction: parameters => parameters.AbilityState is AttackAbility.State,
 					applyFunction: async parameters =>
 					{
 						AttackAbility.State attackAbilityState = (AttackAbility.State)parameters.AbilityState;
@@ -141,9 +136,7 @@ public class FlamingDrakeAbilityCard4 : FlamingDrakeAbilityCard
 
 						await GDTask.CompletedTask;
 					}
-				)
-			]
-		)),
+				))),
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -158,19 +151,15 @@ public class FlamingDrakeAbilityCard5 : FlamingDrakeAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, extraDamage: +0,
-			duringAttackSubscriptions:
-			[
-				ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Fire],
-					applyFunction: async parameters =>
-					{
-						parameters.AbilityState.SingleTargetAdjustRange(2);
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithDuringAttackSubscription(
+			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Fire],
+				applyFunction: async parameters =>
+				{
+					parameters.AbilityState.SingleTargetAdjustRange(2);
 
-						await GDTask.CompletedTask;
-					}
-				)
-			]
-		)),
+					await GDTask.CompletedTask;
+				}
+			)))
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -184,7 +173,7 @@ public class FlamingDrakeAbilityCard6 : FlamingDrakeAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, extraDamage: +1, extraRange: -1, targets: 2)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1, -1).WithTargets(2))
 	];
 }
 
@@ -196,8 +185,8 @@ public class FlamingDrakeAbilityCard7 : FlamingDrakeAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, extraDamage: -2,
-			aoePattern: new AOEPattern([
+		new MonsterAbilityCardAbility(AttackAbility(monster, -2)
+			.WithAOEPattern(new AOEPattern([
 				new AOEHex(Vector2I.Zero, AOEHexType.Red),
 				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 				new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
@@ -205,7 +194,7 @@ public class FlamingDrakeAbilityCard7 : FlamingDrakeAbilityCard
 				new AOEHex(Vector2I.Zero.Add(Direction.SouthWest), AOEHexType.Red),
 				new AOEHex(Vector2I.Zero.Add(Direction.West), AOEHexType.Red),
 				new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
-			]), conditions: [Conditions.Immobilize]
-		)),
+			]))
+			.WithConditions(Conditions.Immobilize))
 	];
 }

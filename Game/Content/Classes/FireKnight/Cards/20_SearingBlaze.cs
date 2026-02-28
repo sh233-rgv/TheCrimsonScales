@@ -65,8 +65,7 @@ public class SearingBlaze : FireKnightLevelUpCardModel<SearingBlaze.CardTop, Sea
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
@@ -138,8 +137,7 @@ public class SearingBlaze : FireKnightLevelUpCardModel<SearingBlaze.CardTop, Sea
 					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;

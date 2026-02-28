@@ -48,8 +48,7 @@ public class InspiredRemedy : HierophantCardModel<InspiredRemedy.CardTop, Inspir
 							await GivePrayerCard(applyParameters.AbilityState, applyParameters.AbilityState.Target);
 						}
 					)
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -69,7 +68,6 @@ public class InspiredRemedy : HierophantCardModel<InspiredRemedy.CardTop, Inspir
 									.WithHealValue(1)
 									.WithRange(1)
 									.WithTarget(Target.Allies)
-									.Build()
 							]);
 							await actionState.Perform();
 						});
@@ -82,8 +80,7 @@ public class InspiredRemedy : HierophantCardModel<InspiredRemedy.CardTop, Inspir
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override int XP => 2;

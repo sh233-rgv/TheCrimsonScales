@@ -27,7 +27,7 @@ public class ToxicImpAbilityCard0 : ToxicImpAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, conditions: [Conditions.Infect])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithConditions(Conditions.Infect))
 	];
 }
 
@@ -40,7 +40,7 @@ public class ToxicImpAbilityCard1 : ToxicImpAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, conditions: [Conditions.Infect])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithConditions(Conditions.Infect))
 	];
 }
 
@@ -51,7 +51,7 @@ public class ToxicImpAbilityCard2 : ToxicImpAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithRange(2).WithTargets(2).Build()),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithRange(2).WithTargets(2)),
 	];
 }
 
@@ -62,8 +62,8 @@ public class ToxicImpAbilityCard3 : ToxicImpAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(2).Build()),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 1, rangeType: RangeType.Melee)),
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(2)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithRange(1).WithRangeType(RangeType.Melee))
 	];
 }
 
@@ -75,7 +75,7 @@ public class ToxicImpAbilityCard4 : ToxicImpAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, conditions: [Conditions.Poison1])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithConditions(Conditions.Poison1)),
 		new MonsterAbilityCardAbility(OtherActiveAbility.Builder()
 			.WithOnActivate(async state =>
 			{
@@ -106,7 +106,6 @@ public class ToxicImpAbilityCard4 : ToxicImpAbilityCard
 
 				await GDTask.CompletedTask;
 			})
-			.Build()
 		),
 	];
 }
@@ -118,11 +117,8 @@ public class ToxicImpAbilityCard5 : ToxicImpAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster,
-			extraDamage: +1,
-			extraRange: +1,
-			afterTargetConfirmedSubscriptions:
-			[
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1, +1)
+			.WithAfterTargetConfirmedSubscription(
 				ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
 					parameters => parameters.AbilityState.SingleTargetState.Target.HasCondition(Conditions.Infect),
 					async parameters =>
@@ -132,8 +128,8 @@ public class ToxicImpAbilityCard5 : ToxicImpAbilityCard
 						await GDTask.CompletedTask;
 					}
 				)
-			]
-		)),
+			)
+		)
 	];
 }
 
@@ -145,10 +141,8 @@ public class ToxicImpAbilityCard6 : ToxicImpAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster,
-			extraDamage: -1,
-			afterAttackPerformedSubscriptions:
-			[
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1)
+			.WithAfterAttackPerformedSubscription(
 				ScenarioEvents.AfterAttackPerformed.Subscription.New(
 					parameters => parameters.AbilityState.SingleTargetState.Target == monster,
 					async parameters =>
@@ -156,8 +150,8 @@ public class ToxicImpAbilityCard6 : ToxicImpAbilityCard
 						await AbilityCmd.AddCondition(null, parameters.Performer, Conditions.Infect);
 					}
 				)
-			]
-		)),
+			)
+		)
 	];
 }
 
@@ -181,6 +175,6 @@ public class ToxicImpAbilityCard7 : ToxicImpAbilityCard
 					}
 				)
 			)
-			.Build()),
+		),
 	];
 }

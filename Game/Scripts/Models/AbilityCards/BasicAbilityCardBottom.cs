@@ -6,6 +6,6 @@ public class BasicAbilityCardBottom : AbilityCardSideModel
 
 	protected override List<AbilityCardAbility> GetAbilities() =>
 	[
-		new AbilityCardAbility(MoveAbility.Builder().WithDistance(2).Build())
+		new AbilityCardAbility(MoveAbility.Builder().WithDistance(2))
 	];
 }

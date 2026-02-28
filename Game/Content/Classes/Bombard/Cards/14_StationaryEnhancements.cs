@@ -16,8 +16,7 @@ public class StationaryEnhancements : BombardCardModel<StationaryEnhancements.Ca
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Disarm)
 				.WithTarget(Target.Self)
-				.WithMandatory(true)
-				.Build()),
+				.WithMandatory(true)),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -60,8 +59,7 @@ public class StationaryEnhancements : BombardCardModel<StationaryEnhancements.Ca
 						new UseSlot(new Vector2(0.5f, 0.3959994f)),
 						new UseSlot(new Vector2(0.7025001f, 0.3959994f), GainXP)
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;
@@ -74,8 +72,7 @@ public class StationaryEnhancements : BombardCardModel<StationaryEnhancements.Ca
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Immobilize)
 				.WithTarget(Target.Self)
-				.WithMandatory(true)
-				.Build()),
+				.WithMandatory(true)),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -118,8 +115,7 @@ public class StationaryEnhancements : BombardCardModel<StationaryEnhancements.Ca
 						new UseSlot(new Vector2(0.5f, 0.8740155f)),
 						new UseSlot(new Vector2(0.7025001f, 0.8740155f), GainXP)
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;

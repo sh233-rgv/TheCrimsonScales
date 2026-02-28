@@ -25,7 +25,7 @@ public class ScoutAbilityCard0 : ScoutAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, range: 3)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithRange(3))
 	];
 }
 
@@ -61,7 +61,7 @@ public class ScoutAbilityCard3 : ScoutAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -2)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 3, conditions: [Conditions.Poison1])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithRange(3).WithConditions(Conditions.Poison1))
 	];
 }
 
@@ -85,7 +85,7 @@ public class ScoutAbilityCard5 : ScoutAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +2, conditions: [Conditions.Poison1])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +2).WithConditions(Conditions.Poison1))
 	];
 }
 
@@ -96,7 +96,7 @@ public class ScoutAbilityCard6 : ScoutAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, range: 4, targets: 2)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithRange(4).WithTargets(2))
 	];
 }
 
@@ -108,7 +108,7 @@ public class ScoutAbilityCard7 : ScoutAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(MoveAbility(monster, +1, MoveType.Jump)),
-		new MonsterAbilityCardAbility(LootAbility.Builder().WithRange(1).Build()),
+		new MonsterAbilityCardAbility(MoveAbility(monster, +1).WithMoveType(MoveType.Jump)),
+		new MonsterAbilityCardAbility(LootAbility.Builder().WithRange(1)),
 	];
 }

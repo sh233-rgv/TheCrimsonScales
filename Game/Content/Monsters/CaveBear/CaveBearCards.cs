@@ -39,7 +39,7 @@ public class CaveBearAbilityCard1 : CaveBearAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, conditions: [Conditions.Immobilize])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithConditions(Conditions.Immobilize))
 	];
 }
 
@@ -51,7 +51,7 @@ public class CaveBearAbilityCard2 : CaveBearAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +1, conditions: [Conditions.Wound1])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1).WithConditions(Conditions.Wound1))
 	];
 }
 
@@ -89,7 +89,7 @@ public class CaveBearAbilityCard5 : CaveBearAbilityCard
 	[
 		new MonsterAbilityCardAbility(AttackAbility(monster, -1)),
 		new MonsterAbilityCardAbility(MoveAbility(monster, -2)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, conditions: [Conditions.Wound1])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithConditions(Conditions.Wound1))
 	];
 }
 
@@ -101,7 +101,7 @@ public class CaveBearAbilityCard6 : CaveBearAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, targets: 2)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithTargets(2))
 	];
 }
 
@@ -112,8 +112,8 @@ public class CaveBearAbilityCard7 : CaveBearAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1).Build()),
-		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2).Build()),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()),
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1)),
+		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2)),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self)),
 	];
 }

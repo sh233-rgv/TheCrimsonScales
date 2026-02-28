@@ -24,8 +24,7 @@ public class PouncingPredator : RuinmawCardModel<PouncingPredator.CardTop, Pounc
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 	}
 
@@ -35,8 +34,7 @@ public class PouncingPredator : RuinmawCardModel<PouncingPredator.CardTop, Pounc
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(6)
-				.WithMoveType(MoveType.Jump)
-				.Build()),
+				.WithMoveType(MoveType.Jump)),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -52,8 +50,7 @@ public class PouncingPredator : RuinmawCardModel<PouncingPredator.CardTop, Pounc
 
 					await AbilityCmd.SufferDamage(state, figure, 3);
 					await AbilityCmd.AddConditions(state, figure, [Conditions.Rupture, Conditions.Wound1]);
-				})
-				.Build())
+				}))
 		];
 
 		protected override bool Sate => true;

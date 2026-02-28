@@ -37,8 +37,7 @@ public class BlackenedRage : LuminaryCardModel<BlackenedRage.CardTop, BlackenedR
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(
 							$"+1{Icons.Inline(Icons.Attack)}, {Icons.Inline(Icons.GetCondition(Conditions.Immobilize))}")
 					)
-				)
-				.Build()),
+				)),
 			Scuttle(1, [Element.Fire]),
 		];
 	}
@@ -49,8 +48,7 @@ public class BlackenedRage : LuminaryCardModel<BlackenedRage.CardTop, BlackenedR
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3, new MoveCircle(this, new Vector2(0.5242182f, 0.705998f)))
-				.WithMoveType(MoveType.Jump)
-				.Build()),
+				.WithMoveType(MoveType.Jump)),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -64,8 +62,7 @@ public class BlackenedRage : LuminaryCardModel<BlackenedRage.CardTop, BlackenedR
 						state.SetPerformed();
 					}
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))
-				.Build()),
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))),
 		];
 	}
 }

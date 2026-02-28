@@ -58,8 +58,7 @@ public class Devotion : HierophantPrayerCardModel<Devotion.CardTop, Devotion.Car
 						new UseSlot(new Vector2(0.3835002f, 0.2875001f)),
 						new UseSlot(new Vector2(0.5855027f, 0.2875001f))
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;
@@ -69,7 +68,7 @@ public class Devotion : HierophantPrayerCardModel<Devotion.CardTop, Devotion.Car
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(1).Build())
+			new AbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(1))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];

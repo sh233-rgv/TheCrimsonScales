@@ -15,8 +15,8 @@ public class EncouragedConviction : HierophantLevelUpCardModel<EncouragedConvict
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantAbilityState =>
 					[
-						HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build(),
-						ShieldAbility.Builder().WithShieldValue(1).Build(),
+						HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self),
+						ShieldAbility.Builder().WithShieldValue(1),
 						RetaliateAbility.Builder()
 							.WithRetaliateValue(1)
 							.WithAbilityStartedSubscription(
@@ -28,14 +28,13 @@ public class EncouragedConviction : HierophantLevelUpCardModel<EncouragedConvict
 										retaliateAbilityState.AdjustRange(2);
 										await AbilityCmd.GainXP(grantAbilityState.Performer, 1);
 									},
-									effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2 {Icons.Inline(Icons.Range)} to {Icons.Inline(Icons.Retaliate)}")
+									effectInfoViewParameters: new TextEffectInfoView.Parameters(
+										$"+2 {Icons.Inline(Icons.Range)} to {Icons.Inline(Icons.Retaliate)}")
 								)
 							)
-							.Build()
 					]
 				)
-				.WithRange(3)
-				.Build())
+				.WithRange(3))
 		];
 
 		public override bool Round => true;
@@ -103,8 +102,7 @@ public class EncouragedConviction : HierophantLevelUpCardModel<EncouragedConvict
 							}
 						}
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

@@ -15,8 +15,7 @@ public class GravitationalFlip : StarslingerCardModel<GravitationalFlip.CardTop,
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(LootAbility.Builder()
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 			new AbilityCardAbility(PushAbility.Builder()
 				.WithPush(1)
 				.WithTarget(Target.Enemies | Target.TargetAll)
@@ -28,8 +27,7 @@ public class GravitationalFlip : StarslingerCardModel<GravitationalFlip.CardTop,
 							.SelectMany(hex => RangeHelper.GetFiguresInRange(hex, 1))
 							.Where(f => f.EnemiesWith(state.Performer))
 					);
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -51,7 +49,6 @@ public class GravitationalFlip : StarslingerCardModel<GravitationalFlip.CardTop,
 				[
 					MoveAbility.Builder()
 						.WithDistance(2, _enhancementMark)
-						.Build()
 				])
 				.WithRange(3)
 				.WithOnAbilityStarted(async state =>
@@ -79,15 +76,13 @@ public class GravitationalFlip : StarslingerCardModel<GravitationalFlip.CardTop,
 							effectType: EffectType.SelectableMandatory
 						)
 					], hintText: "Select an ability to perform:");
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(ControlAbility.Builder()
 				.WithAbilities(
 				[
 					MoveAbility.Builder()
 						.WithDistance(2, _enhancementMark)
-						.Build()
 				])
 				.WithRange(3)
 				.WithConditionalAbilityCheck(async state =>
@@ -95,8 +90,7 @@ public class GravitationalFlip : StarslingerCardModel<GravitationalFlip.CardTop,
 					await GDTask.CompletedTask;
 
 					return !state.ActionState.GetAbilityState<GrantAbility.State>(0).GetCustomValue<bool>(this, "ChoseGrant");
-				})
-				.Build())
+				}))
 		];
 	}
 }

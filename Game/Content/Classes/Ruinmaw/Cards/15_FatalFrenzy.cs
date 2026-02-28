@@ -14,8 +14,7 @@ public class FatalFrenzy : RuinmawCardModel<FatalFrenzy.CardTop, FatalFrenzy.Car
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
-				.Build()),
+				.WithDamage(3)),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
 				.WithConditionalAbilityCheck(async state =>
@@ -27,8 +26,7 @@ public class FatalFrenzy : RuinmawCardModel<FatalFrenzy.CardTop, FatalFrenzy.Car
 					}
 
 					return IsSated(state.Performer);
-				})
-				.Build()),
+				})),
 		];
 	}
 
@@ -65,8 +63,7 @@ public class FatalFrenzy : RuinmawCardModel<FatalFrenzy.CardTop, FatalFrenzy.Car
 					new UseSlot(new Vector2(0.1965004f, 0.87799823f)),
 					new UseSlot(new Vector2(0.4040005f, 0.87799823f)),
 					new UseSlot(new Vector2(0.6079994f, 0.87799823f), GainXP)
-				])
-				.Build())
+				]))
 		];
 
 		public override bool Persistent => true;

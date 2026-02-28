@@ -11,6 +11,7 @@ public class Scenario039 : ScenarioModel
 	protected override ScenarioGoals CreateScenarioGoals() =>
 		new CustomScenarioGoals(
 			$"All characters must occupy a hex {Icons.InlineMarker(Marker.Type.a)} or become exhausted on a hex {Icons.InlineMarker(Marker.Type.a)} to win this scenario.");
+
 	protected override List<MonsterModel> SpawnedMonsterModels { get; } =
 		[ModelDB.Monster<EarthDemon>()];
 
@@ -137,7 +138,6 @@ public class Scenario039 : ScenarioModel
 										await AbilityCmd.RemoveCondition(poison4);
 									}
 								})
-								.Build()
 						]);
 						await actionState.Perform();
 					},

@@ -48,12 +48,10 @@ public class ThrowingDaggers : MirefootCardModel<ThrowingDaggers.CardTop, Throwi
 						new UseSlot(new Vector2(0.5f, 0.28600082f)),
 						new UseSlot(new Vector2(0.7025001f, 0.28600082f), GainXP)
 					]
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2, new AttackDiamond(this, new Vector2(0.618984f, 0.4140626f)))
-				.Build())
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.618984f, 0.4140626f))))
 		];
 
 		public override bool Persistent => true;
@@ -64,13 +62,11 @@ public class ThrowingDaggers : MirefootCardModel<ThrowingDaggers.CardTop, Throwi
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215359f, 0.71759737f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215359f, 0.71759737f)))),
 
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)
-				.WithMoveType(MoveType.Jump)
-				.Build())
+				.WithMoveType(MoveType.Jump))
 		];
 	}
 }

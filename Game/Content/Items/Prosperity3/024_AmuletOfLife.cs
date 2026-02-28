@@ -19,7 +19,7 @@ public class AmuletOfLife : Prosperity3Item
 			{
 				await Use(async user =>
 				{
-					ActionState actionState = new ActionState(user, [HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()]);
+					ActionState actionState = new ActionState(user, [HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self)]);
 					await actionState.Perform();
 				});
 			}

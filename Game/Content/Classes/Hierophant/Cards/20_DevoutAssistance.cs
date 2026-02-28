@@ -39,8 +39,7 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 														await shieldAbilityState.RemoveFromActive();
 													});
 												await GDTask.CompletedTask;
-											})
-											.Build(),
+											}),
 
 										HealAbility.Builder()
 											.WithHealValue(3)
@@ -51,9 +50,7 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 												return !healAbilityState.ActionState.GetAbilityState<ShieldAbility.State>(0).Performed &&
 												       await AbilityCmd.AskConsumeElement(state.Performer, Element.Light);
 											})
-											.Build()
 									])
-									.Build()
 							]);
 							await actionState.Perform();
 						});
@@ -65,8 +62,7 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 					ScenarioEvents.FigureTurnStartedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;
@@ -91,8 +87,7 @@ public class DevoutAssistance : HierophantLevelUpCardModel<DevoutAssistance.Card
 					{
 						await AbilityCmd.InfuseElement(state, Element.Light);
 					}
-				})
-				.Build()),
+				})),
 		];
 	}
 }

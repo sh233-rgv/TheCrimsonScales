@@ -22,11 +22,10 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 						{
 							ActionState actionState = new ActionState(state.ActionState, state.Performer, [
 								GrantAbility.Builder()
-									.WithAbilities([AttackAbility.Builder().WithDamage(3).WithRange(3).Build()])
+									.WithAbilities([AttackAbility.Builder().WithDamage(3).WithRange(3)])
 									.WithGetTargetingHintText(grantAbilityState =>
 										$"Select an ally to grant {Icons.HintText(Icons.Attack)}3, {Icons.HintText(Icons.Range)}3"
 									)
-									.Build()
 							]);
 							await actionState.Perform();
 
@@ -49,8 +48,7 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 					new UseSlot(new Vector2(0.36999783f, 0.3549993f), GainXP),
 					new UseSlot(new Vector2(0.57749975f, 0.3549993f)),
 					new UseSlot(new Vector2(0.78700954f, 0.3549993f), GainXP)
-				])
-				.Build())
+				]))
 		];
 
 		public override bool Persistent => true;
@@ -92,7 +90,6 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 								AttackAbility.Builder()
 									.WithDamage(4, _enhancementMark)
 									.WithRange(3)
-									.Build()
 							]);
 							await actionState.Perform();
 						},
@@ -109,8 +106,7 @@ public class ManTheCannon : BombardCardModel<ManTheCannon.CardTop, ManTheCannon.
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override bool Round => true;

@@ -6,6 +6,6 @@ public class BasicAbilityCardTop : AbilityCardSideModel
 
 	protected override List<AbilityCardAbility> GetAbilities() =>
 	[
-		new AbilityCardAbility(AttackAbility.Builder().WithDamage(2).Build())
+		new AbilityCardAbility(AttackAbility.Builder().WithDamage(2))
 	];
 }

@@ -61,18 +61,18 @@ public class Icebound : SavvasIceStorm, IBossMonsterModel
 				_summonElite = !_summonElite;
 				await GDTask.CompletedTask;
 			})
-			.Build()),
+		),
 		new MonsterAbilityCardAbility(HealAbility.Builder()
 			.WithHealValue(3)
 			.WithTarget(Target.Self)
-			.Build())
+		)
 	];
 
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial2Abilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, +0, range: 3, target: Target.TargetAll | Target.Enemies)),
+		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, +0).WithRange(3).WithTarget(Target.TargetAll | Target.Enemies)),
 		//TODO: Teleport ability
-		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, +0, range: 3, target: Target.TargetAll | Target.Enemies))
+		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, +0).WithRange(3).WithTarget(Target.TargetAll | Target.Enemies))
 	];
 
 	private MonsterModel CalculateMonsterModel(Monster monster)

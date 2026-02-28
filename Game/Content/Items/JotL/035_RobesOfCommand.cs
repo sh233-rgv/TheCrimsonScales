@@ -22,9 +22,8 @@ public class RobesOfCommand : JotLItem
 					ActionState actionState = new ActionState(user,
 						[
 							GrantAbility.Builder()
-								.WithGetAbilities(state => [AttackAbility.Builder().WithDamage(2).Build()])
+								.WithGetAbilities(state => [AttackAbility.Builder().WithDamage(2)])
 								.WithRange(1)
-								.Build()
 						]
 					);
 					await actionState.Perform();

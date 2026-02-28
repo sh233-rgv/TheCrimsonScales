@@ -43,8 +43,7 @@ public class OaksEmbrace : HierophantCardModel<OaksEmbrace.CardTop, OaksEmbrace.
 						new UseSlot(new Vector2(0.38800013f, 0.344f)),
 						new UseSlot(new Vector2(0.58949935f, 0.344f), GainXP)
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;
@@ -54,7 +53,7 @@ public class OaksEmbrace : HierophantCardModel<OaksEmbrace.CardTop, OaksEmbrace.
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4).Build()),
+			new AbilityCardAbility(MoveAbility.Builder().WithDistance(4)),
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(state =>
 					[
@@ -67,10 +66,8 @@ public class OaksEmbrace : HierophantCardModel<OaksEmbrace.CardTop, OaksEmbrace.
 
 								await GDTask.CompletedTask;
 							})
-							.Build()
 					]
-				)
-				.Build())
+				))
 		];
 	}
 }

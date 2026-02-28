@@ -90,7 +90,6 @@ public class ImpendingPower : ChainguardLevelUpCardModel<ImpendingPower.CardTop,
 						HealAbility.Builder()
 							.WithHealValue(state.Slots.Count - state.UseSlotIndex)
 							.WithTarget(Target.Self)
-							.Build()
 					]);
 
 					await actionState.Perform();
@@ -102,8 +101,7 @@ public class ImpendingPower : ChainguardLevelUpCardModel<ImpendingPower.CardTop,
 					new UseSlot(new Vector2(0.68350375f, 0.31649974f)),
 					new UseSlot(new Vector2(0.36449695f, 0.43299824f)),
 					new UseSlot(new Vector2(0.57449996f, 0.43299824f))
-				])
-				.Build())
+				]))
 		];
 
 		public override int XP => 1;
@@ -136,8 +134,7 @@ public class ImpendingPower : ChainguardLevelUpCardModel<ImpendingPower.CardTop,
 					ScenarioEvents.AbilityStartedEvent.Unsubscribe(state.Performer, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -157,8 +154,7 @@ public class ImpendingPower : ChainguardLevelUpCardModel<ImpendingPower.CardTop,
 					ScenarioEvents.TrapTriggeredEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;

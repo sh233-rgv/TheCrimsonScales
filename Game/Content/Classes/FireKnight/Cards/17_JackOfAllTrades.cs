@@ -38,8 +38,7 @@ public class JackOfAllTrades : FireKnightLevelUpCardModel<JackOfAllTrades.CardTo
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -49,8 +48,7 @@ public class JackOfAllTrades : FireKnightLevelUpCardModel<JackOfAllTrades.CardTo
 		[
 			new AbilityCardAbility(
 				MoveAbility.Builder()
-					.WithDistance(4, new MoveCircle(this, new Vector2(0.6200135f, 0.6419845f)))
-					.Build()),
+					.WithDistance(4, new MoveCircle(this, new Vector2(0.6200135f, 0.6419845f)))),
 
 			new AbilityCardAbility(GiveFireKnightItemAbility(
 				state => [ModelDB.Item<FireKnightPikeHook>(), ModelDB.Item<FireKnightKindledTonic>(), ModelDB.Item<FireKnightExplosiveTonic>()],
@@ -71,8 +69,7 @@ public class JackOfAllTrades : FireKnightLevelUpCardModel<JackOfAllTrades.CardTo
 				{
 					await AbilityCmd.GainXP(state.Performer, 1);
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire)))
 		];
 	}
 }

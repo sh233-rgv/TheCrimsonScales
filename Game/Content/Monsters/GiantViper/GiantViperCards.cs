@@ -27,33 +27,30 @@ public class GiantViperAbilityCard0 : GiantViperAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0,
-			afterTargetConfirmedSubscriptions:
-			[
-				ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
-					canApplyParameters =>
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithAfterTargetConfirmedSubscription(
+			ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
+				canApplyParameters =>
+				{
+					foreach(Hex neighbourHex in canApplyParameters.AbilityState.Target.Hex.Neighbours)
 					{
-						foreach(Hex neighbourHex in canApplyParameters.AbilityState.Target.Hex.Neighbours)
+						foreach(Figure figure in neighbourHex.GetHexObjectsOfType<Figure>())
 						{
-							foreach(Figure figure in neighbourHex.GetHexObjectsOfType<Figure>())
+							if(monster.AlliedWith(figure))
 							{
-								if(monster.AlliedWith(figure))
-								{
-									return true;
-								}
+								return true;
 							}
 						}
-
-						return false;
-					},
-					applyFunction: async applyParameters =>
-					{
-						applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
-
-						await GDTask.CompletedTask;
 					}
-				)
-			]
+
+					return false;
+				},
+				async applyParameters =>
+				{
+					applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
+
+					await GDTask.CompletedTask;
+				}
+			)
 		))
 	];
 }
@@ -67,33 +64,30 @@ public class GiantViperAbilityCard1 : GiantViperAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0,
-			afterTargetConfirmedSubscriptions:
-			[
-				ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
-					canApplyParameters =>
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithAfterTargetConfirmedSubscription(
+			ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
+				canApplyParameters =>
+				{
+					foreach(Hex neighbourHex in canApplyParameters.AbilityState.Target.Hex.Neighbours)
 					{
-						foreach(Hex neighbourHex in canApplyParameters.AbilityState.Target.Hex.Neighbours)
+						foreach(Figure figure in neighbourHex.GetHexObjectsOfType<Figure>())
 						{
-							foreach(Figure figure in neighbourHex.GetHexObjectsOfType<Figure>())
+							if(monster.AlliedWith(figure))
 							{
-								if(monster.AlliedWith(figure))
-								{
-									return true;
-								}
+								return true;
 							}
 						}
-
-						return false;
-					},
-					applyFunction: async applyParameters =>
-					{
-						applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
-
-						await GDTask.CompletedTask;
 					}
-				)
-			]
+
+					return false;
+				},
+				async applyParameters =>
+				{
+					applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
+
+					await GDTask.CompletedTask;
+				}
+			)
 		))
 	];
 }
@@ -105,7 +99,7 @@ public class GiantViperAbilityCard2 : GiantViperAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1).Build()),
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1)),
 		new MonsterAbilityCardAbility(AttackAbility(monster, -1)),
 	];
 }
@@ -117,8 +111,8 @@ public class GiantViperAbilityCard3 : GiantViperAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(MoveAbility(monster, +1, MoveType.Jump)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, target: Target.Enemies | Target.TargetAll)),
+		new MonsterAbilityCardAbility(MoveAbility(monster, +1).WithMoveType(MoveType.Jump)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithTarget(Target.Enemies | Target.TargetAll))
 	];
 }
 
@@ -141,7 +135,7 @@ public class GiantViperAbilityCard5 : GiantViperAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(MoveAbility(monster, +1, MoveType.Jump)),
+		new MonsterAbilityCardAbility(MoveAbility(monster, +1).WithMoveType(MoveType.Jump)),
 		new MonsterAbilityCardAbility(AttackAbility(monster, -1)),
 		new MonsterAbilityCardAbility(AbilityCmd.AllOpposingAttacksGainDisadvantageActiveAbility())
 	];
@@ -154,8 +148,8 @@ public class GiantViperAbilityCard6 : GiantViperAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(MoveAbility(monster, -1, MoveType.Jump)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, targets: 2)),
+		new MonsterAbilityCardAbility(MoveAbility(monster, -1).WithMoveType(MoveType.Jump)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithTargets(2))
 	];
 }
 
@@ -167,7 +161,7 @@ public class GiantViperAbilityCard7 : GiantViperAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, conditions: [Conditions.Immobilize])),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithConditions(Conditions.Immobilize)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1))
 	];
 }

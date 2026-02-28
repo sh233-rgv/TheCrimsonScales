@@ -17,8 +17,7 @@ public class Neurotoxin : MirefootCardModel<Neurotoxin.CardTop, Neurotoxin.CardB
 				.WithTargets(2)
 				.WithRange(3, new RangeSquare(this, new Vector2(0.6124042f, 0.29231876f)))
 				.WithRangeType(RangeType.Range)
-				.WithConditions([Conditions.Poison1, Conditions.Muddle])
-				.Build())
+				.WithConditions([Conditions.Poison1, Conditions.Muddle]))
 		];
 	}
 
@@ -26,7 +25,7 @@ public class Neurotoxin : MirefootCardModel<Neurotoxin.CardTop, Neurotoxin.CardB
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
+			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3)),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3, new HealCircle(this, new Vector2(0.62056f, 0.64306784f)))
 				.WithConditions(Conditions.Poison1)
@@ -36,8 +35,7 @@ public class Neurotoxin : MirefootCardModel<Neurotoxin.CardTop, Neurotoxin.CardB
 					{
 						await AbilityCmd.GainXP(abilityState.Performer, 1);
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 }

@@ -23,7 +23,6 @@ public class ChestThumper : ChieftainCardModel<ChestThumper.CardTop, ChestThumpe
 					new HealOnKillTrait(2),
 					new MountTrait()
 				)
-				.Build()
 			),
 		];
 
@@ -41,7 +40,6 @@ public class ChestThumper : ChieftainCardModel<ChestThumper.CardTop, ChestThumpe
 				.WithConditions(Conditions.Strengthen)
 				.WithTarget(Target.Allies | Target.TargetAll)
 				.WithRange(2, new RangeSquare(this, new Vector2(0.7236573f, 0.7644118f)))
-				.Build()
 			),
 		];
 	}

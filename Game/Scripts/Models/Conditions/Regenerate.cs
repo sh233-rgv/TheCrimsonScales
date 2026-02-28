@@ -22,7 +22,6 @@ public class Regenerate : ConditionModel
 						HealAbility.Builder()
 							.WithHealValue(1)
 							.WithTarget(Target.Self)
-							.Build()
 					]
 				);
 				await actionState.Perform();

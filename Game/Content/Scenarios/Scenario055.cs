@@ -10,6 +10,7 @@ public class Scenario055 : ScenarioModel
 
 	protected override ScenarioGoals CreateScenarioGoals() =>
 		new CustomScenarioGoals("Kill all monsters and open four coffins to win this scenario.");
+
 	protected override List<MonsterModel> SpawnedMonsterModels { get; } =
 		[ModelDB.Monster<LivingBonesScenario55>()];
 
@@ -46,7 +47,6 @@ public class Scenario055 : ScenarioModel
 							.WithRange(2)
 							.WithPierce(2)
 							.WithFilterTargets((_, figure) => figure == parameters.Figure)
-							.Build()
 					]);
 					await actionState.Perform();
 				});

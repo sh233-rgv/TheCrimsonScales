@@ -73,7 +73,6 @@ public class City07 : CityEventModel<City07.ChoiceA, City07.ChoiceB>
 							.WithMove(2)
 							.WithAttack(2)
 							.WithTraits(new PierceTrait(2))
-							.Build()
 					)
 				];
 			}

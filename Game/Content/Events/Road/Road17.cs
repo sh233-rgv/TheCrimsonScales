@@ -161,7 +161,7 @@ public class Road17 : RoadEventModel<Road17.ChoiceA, Road17.ChoiceB>
 								{
 									ActionState actionState = new ActionState(parameters.Figure,
 										[
-											HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()
+											HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self)
 										]
 									);
 									await actionState.Perform();

@@ -19,25 +19,21 @@ public class ConsistentFiring : BombardCardModel<ConsistentFiring.CardTop, Consi
 						AttackAbility.Builder()
 							.WithDamage(1)
 							.WithRangeType(RangeType.Range)
-							.WithTargetHex(hex)
-							.Build(),
+							.WithTargetHex(hex),
 						AttackAbility.Builder()
 							.WithDamage(1)
 							.WithRangeType(RangeType.Range)
 							.WithTargetHex(hex)
-							.WithPierce(1)
-							.Build(),
+							.WithPierce(1),
 						AttackAbility.Builder()
 							.WithDamage(1)
 							.WithRangeType(RangeType.Range)
 							.WithTargetHex(hex)
-							.WithPierce(2)
-							.Build(),
+							.WithPierce(2),
 					]
 				)
 				.WithAbilityCardSide(this)
-				.WithRange(3, new ProjectileRangeSquare(this, new Vector2(0.33784395f, 0.16527776f)))
-				.Build())
+				.WithRange(3, new ProjectileRangeSquare(this, new Vector2(0.33784395f, 0.16527776f))))
 		];
 
 		public override int XP => 1;
@@ -49,8 +45,7 @@ public class ConsistentFiring : BombardCardModel<ConsistentFiring.CardTop, Consi
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.62133324f, 0.66456664f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62133324f, 0.66456664f)))),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -72,8 +67,7 @@ public class ConsistentFiring : BombardCardModel<ConsistentFiring.CardTop, Consi
 
 					await GDTask.CompletedTask;
 				})
-				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.85f), GainXP))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.85f), GainXP)))
 		];
 
 		public override bool Persistent => true;

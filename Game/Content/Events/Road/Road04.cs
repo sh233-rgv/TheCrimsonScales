@@ -63,7 +63,7 @@ public class Road04 : RoadEventModel<Road04.ChoiceA, Road04.ChoiceB>
 								{
 									ActionState actionState = new ActionState(character,
 										[
-											HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).Build()
+											HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self)
 										]
 									);
 									await actionState.Perform();

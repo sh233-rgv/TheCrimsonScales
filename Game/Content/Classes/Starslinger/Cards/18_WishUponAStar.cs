@@ -17,8 +17,7 @@ public class WishUponAStar : StarslingerCardModel<WishUponAStar.CardTop, WishUpo
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
 				.WithTargets(2)
-				.WithRange(3, new RangeSquare(this, new Vector2(0.65633506f, 0.22123894f)))
-				.Build()),
+				.WithRange(3, new RangeSquare(this, new Vector2(0.65633506f, 0.22123894f)))),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Bless)
 				.WithCustomGetTargets((state, targets) =>
@@ -26,8 +25,7 @@ public class WishUponAStar : StarslingerCardModel<WishUponAStar.CardTop, WishUpo
 					HealAbility.State healAbilityState = state.ActionState.GetAbilityState<HealAbility.State>(0);
 					targets.AddRange(healAbilityState.UniqueTargetedFigures.Where(figure => !figure.IsDamaged()));
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Dark))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Dark)))
 		];
 	}
 
@@ -36,8 +34,7 @@ public class WishUponAStar : StarslingerCardModel<WishUponAStar.CardTop, WishUpo
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveSquare(this, new Vector2(0.62058425f, 0.6637168f)))
-				.Build()),
+				.WithDistance(2, new MoveSquare(this, new Vector2(0.62058425f, 0.6637168f)))),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -61,8 +58,7 @@ public class WishUponAStar : StarslingerCardModel<WishUponAStar.CardTop, WishUpo
 						await GDTask.CompletedTask;
 					}
 				)
-				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.8530133f), GainXP))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.8530133f), GainXP)))
 		];
 
 		public override bool Persistent => true;

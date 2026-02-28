@@ -25,8 +25,7 @@ public class MeteorHammer : ChainguardLevelUpCardModel<MeteorHammer.CardTop, Met
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 	}
 
@@ -35,8 +34,7 @@ public class MeteorHammer : ChainguardLevelUpCardModel<MeteorHammer.CardTop, Met
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.620109f, 0.6659502f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.620109f, 0.6659502f)))),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -59,8 +57,7 @@ public class MeteorHammer : ChainguardLevelUpCardModel<MeteorHammer.CardTop, Met
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Round => true;

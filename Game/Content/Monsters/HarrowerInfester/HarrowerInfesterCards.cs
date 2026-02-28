@@ -27,7 +27,7 @@ public class HarrowerInfesterAbilityCard0 : HarrowerInfesterAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +1, targets: 2)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1).WithTargets(2))
 	];
 }
 
@@ -39,7 +39,7 @@ public class HarrowerInfesterAbilityCard1 : HarrowerInfesterAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, conditions: [Conditions.Poison1])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithConditions(Conditions.Poison1))
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
@@ -55,7 +55,7 @@ public class HarrowerInfesterAbilityCard2 : HarrowerInfesterAbilityCard
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
 		new MonsterAbilityCardAbility(AttackAbility(monster, -1)),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(5).WithTarget(Target.Self).Build()),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(5).WithTarget(Target.Self)),
 	];
 }
 
@@ -66,8 +66,8 @@ public class HarrowerInfesterAbilityCard3 : HarrowerInfesterAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +2, conditions: [Conditions.Immobilize])),
-		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2).Build()),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +2).WithConditions(Conditions.Immobilize)),
+		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2)),
 	];
 }
 
@@ -79,8 +79,8 @@ public class HarrowerInfesterAbilityCard4 : HarrowerInfesterAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(2).Build()),
-		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2).WithRange(3).Build()),
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(2)),
+		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2).WithRange(3)),
 	];
 }
 
@@ -92,7 +92,7 @@ public class HarrowerInfesterAbilityCard5 : HarrowerInfesterAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, aoePattern: new AOEPattern([
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithAOEPattern(new AOEPattern([
 			new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 			new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
 			new AOEHex(Vector2I.Zero.Add(Direction.SouthEast).Add(Direction.SouthEast), AOEHexType.Red),
@@ -107,11 +107,12 @@ public class HarrowerInfesterAbilityCard5 : HarrowerInfesterAbilityCard
 					await HealAbility.Builder()
 						.WithHealValue(2)
 						.WithTarget(Target.Self)
-						.Build().Perform(state.ActionState);
+						.Build()
+						.Perform(state.ActionState);
 				}
 			})
 			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<OtherAbility.State>([Element.Dark]))
-			.Build())
+		)
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -126,8 +127,7 @@ public class HarrowerInfesterAbilityCard6 : HarrowerInfesterAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, targets: 2, duringAttackSubscriptions:
-		[
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithTargets(2).WithDuringAttackSubscription(
 			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Ice],
 				applyFunction: async parameters =>
 				{
@@ -136,7 +136,7 @@ public class HarrowerInfesterAbilityCard6 : HarrowerInfesterAbilityCard
 					await GDTask.CompletedTask;
 				}
 			)
-		])),
+		)),
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -151,7 +151,7 @@ public class HarrowerInfesterAbilityCard7 : HarrowerInfesterAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, range: 3, conditions: [Conditions.Muddle])),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(4).WithTarget(Target.Self).Build()),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithRange(3).WithConditions(Conditions.Muddle)),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(4).WithTarget(Target.Self)),
 	];
 }

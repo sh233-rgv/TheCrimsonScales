@@ -14,8 +14,7 @@ public class LightTheWay : LuminaryCardModel<LightTheWay.CardTop, LightTheWay.Ca
 		[
 			new AbilityCardAbility(GlowActiveAbility.Builder()
 				.WithGlowAbility(new GlowAbilityModel([Element.Ice, Element.Dark], GlowAbility,
-					"Summon Gleaming Squid", "Summon"))
-				.Build())
+					"Summon Gleaming Squid", "Summon")))
 		];
 
 		public override int XP => 1;
@@ -39,8 +38,7 @@ public class LightTheWay : LuminaryCardModel<LightTheWay.CardTop, LightTheWay.Ca
 					state.SetCustomValue(state.Performer, "Consumed Elements", elements);
 
 					await GDTask.CompletedTask;
-				})
-				.Build();
+				});
 		}
 	}
 
@@ -69,8 +67,7 @@ public class LightTheWay : LuminaryCardModel<LightTheWay.CardTop, LightTheWay.Ca
 					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.InfuseWild()];

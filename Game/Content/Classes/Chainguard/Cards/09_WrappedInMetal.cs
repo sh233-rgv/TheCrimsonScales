@@ -16,8 +16,7 @@ public class WrappedInMetal : ChainguardCardModel<WrappedInMetal.CardTop, Wrappe
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(1)
 				.WithRange(2)
-				.WithConditions([Conditions.Stun, Chainguard.Shackle])
-				.Build())
+				.WithConditions([Conditions.Stun, Chainguard.Shackle]))
 		];
 	}
 
@@ -42,8 +41,7 @@ public class WrappedInMetal : ChainguardCardModel<WrappedInMetal.CardTop, Wrappe
 
 					state.SetCustomValue(this, "DesignatedEnemy", figure);
 					state.SetCustomValue(this, "DesignatedEnemyIsChosen", figure != null);
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(3)
@@ -56,8 +54,7 @@ public class WrappedInMetal : ChainguardCardModel<WrappedInMetal.CardTop, Wrappe
 					await GDTask.CompletedTask;
 
 					return state.ActionState.GetAbilityState<MoveAbility.State>(0).GetCustomValue<bool>(this, "DesignatedEnemyIsChosen");
-				})
-				.Build())
+				}))
 		];
 	}
 }

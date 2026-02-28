@@ -11,6 +11,6 @@ public class BlessAllySanctuaryCritAMDCard : SanctuaryCritAMDCardModel
 
 	public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 	[
-		ConditionAbility.Builder().WithConditions(Conditions.Bless).WithTarget(Target.Allies).WithRange(int.MaxValue).Build()
+		ConditionAbility.Builder().WithConditions(Conditions.Bless).WithTarget(Target.Allies).WithRange(int.MaxValue)
 	];
 }

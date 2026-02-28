@@ -16,8 +16,8 @@ public class SoulWhisperer : ChieftainCardModel<SoulWhisperer.CardTop, SoulWhisp
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithAbilities(
 				[
-					AbilityCmd.SummonMovePlusX(0).Build(),
-					AbilityCmd.SummonAttackPlusX(0).Build()
+					AbilityCmd.SummonMovePlusX(0),
+					AbilityCmd.SummonAttackPlusX(0)
 				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{
@@ -25,7 +25,6 @@ public class SoulWhisperer : ChieftainCardModel<SoulWhisperer.CardTop, SoulWhisp
 						.Where(summon => RangeHelper.Distance(grantState.Performer.Hex, summon.Hex) <= 3));
 				})
 				.WithTarget(Target.Allies)
-				.Build()
 			),
 		];
 	}
@@ -41,8 +40,7 @@ public class SoulWhisperer : ChieftainCardModel<SoulWhisperer.CardTop, SoulWhisp
 					figures.AddRange(((Character)state.Performer).Summons
 						.Where(summon => RangeHelper.Distance(state.Performer.Hex, summon.Hex) <= 2));
 				})
-				.WithTarget(Target.Allies | Target.TargetAll)
-				.Build())
+				.WithTarget(Target.Allies | Target.TargetAll))
 		];
 	}
 }

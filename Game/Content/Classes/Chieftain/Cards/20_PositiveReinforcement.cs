@@ -35,8 +35,7 @@ public class PositiveReinforcement : ChieftainCardModel<PositiveReinforcement.Ca
 					ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;
@@ -51,7 +50,7 @@ public class PositiveReinforcement : ChieftainCardModel<PositiveReinforcement.Ca
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantState =>
 				[
-					AbilityCmd.SummonMovePlusX(0).Build(),
+					AbilityCmd.SummonMovePlusX(0),
 					AbilityCmd.SummonAttackPlusX(0).WithDuringAttackSubscription(
 						ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Earth,
 							applyFunction: async applyParameters =>
@@ -61,7 +60,7 @@ public class PositiveReinforcement : ChieftainCardModel<PositiveReinforcement.Ca
 								await AbilityCmd.GainXP(grantState.Performer, 1);
 							},
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
-						)).Build()
+						))
 				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{
@@ -69,7 +68,6 @@ public class PositiveReinforcement : ChieftainCardModel<PositiveReinforcement.Ca
 						.Where(summon => RangeHelper.Distance(grantState.Performer.Hex, summon.Hex) <= 3));
 				})
 				.WithTarget(Target.Allies)
-				.Build()
 			),
 		];
 	}

@@ -30,7 +30,6 @@ public class MercilessBeatdown : ChainguardCardModel<MercilessBeatdown.CardTop, 
 						}
 					)
 				)
-				.Build()
 			),
 		];
 
@@ -47,7 +46,6 @@ public class MercilessBeatdown : ChainguardCardModel<MercilessBeatdown.CardTop, 
 				[
 					AttackAbility.Builder()
 						.WithDamage(3, new AttackDiamond(this, new Vector2(0.62198937f, 0.8269419f)))
-						.Build()
 				])
 				.WithCustomGetTargets((state, figures) =>
 				{
@@ -55,7 +53,6 @@ public class MercilessBeatdown : ChainguardCardModel<MercilessBeatdown.CardTop, 
 					figures.AddRange(adjacentFigures.Where(figure => figure.EnemiesWith(state.Performer) && figure.HasCondition(Chainguard.Shackle)));
 				})
 				.WithTarget(Target.Enemies)
-				.Build()
 			),
 		];
 	}

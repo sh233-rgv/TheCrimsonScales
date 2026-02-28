@@ -30,7 +30,8 @@ public partial class HintTextView : Control
 		_scaleTween = GTweenSequenceBuilder.New()
 			.AppendTime(0.1f)
 			.Append(_container.TweenScale(1f, 0.2f).SetEasing(Easing.OutBack))
-			.Build().Play();
+			.Build()
+			.Play();
 	}
 
 	private void OnMinimumSizeChanged()

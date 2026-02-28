@@ -29,8 +29,7 @@ public class Equinox : StarslingerCardModel<Equinox.CardTop, Equinox.CardBottom>
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Yellow),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
-				]))
-				.Build()),
+				]))),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Bless)
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
@@ -50,8 +49,7 @@ public class Equinox : StarslingerCardModel<Equinox.CardTop, Equinox.CardBottom>
 					{
 						await AbilityCmd.GainXP(state.Performer, 1);
 					}
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -60,12 +58,10 @@ public class Equinox : StarslingerCardModel<Equinox.CardTop, Equinox.CardBottom>
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(5, new MoveCircle(this, new Vector2(0.62056f, 0.6485675f)))
-				.Build()),
+				.WithDistance(5, new MoveCircle(this, new Vector2(0.62056f, 0.6485675f)))),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
-				.WithTarget(Target.Self)
-				.Build()),
+				.WithTarget(Target.Self)),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
 				.WithAbilityStartedSubscription(
@@ -82,8 +78,7 @@ public class Equinox : StarslingerCardModel<Equinox.CardTop, Equinox.CardBottom>
 					await GDTask.CompletedTask;
 
 					return !state.Performer.IsDamaged();
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;

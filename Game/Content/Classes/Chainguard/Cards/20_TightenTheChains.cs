@@ -26,13 +26,11 @@ public class TightenTheChains : ChainguardLevelUpCardModel<TightenTheChains.Card
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(RetaliateAbility.Builder()
 				.WithRetaliateValue(1, new RetaliateSquare(this, new Vector2(0.61210763f, 0.34669936f)))
-				.WithCustomCanApply(parameters => parameters.AbilityState.Performer.HasCondition(Chainguard.Shackle))
-				.Build()),
+				.WithCustomCanApply(parameters => parameters.AbilityState.Performer.HasCondition(Chainguard.Shackle))),
 		];
 
 		public override bool Round => true;
@@ -59,7 +57,6 @@ public class TightenTheChains : ChainguardLevelUpCardModel<TightenTheChains.Card
 										figures.AddRange(adjacentFigures.Where(figure =>
 											figure.EnemiesWith(state.Performer) && figure.HasCondition(Chainguard.Shackle)));
 									})
-									.Build()
 							]);
 							await actionState.Perform();
 						});
@@ -71,8 +68,7 @@ public class TightenTheChains : ChainguardLevelUpCardModel<TightenTheChains.Card
 					ScenarioEvents.FigureTurnEndingEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;

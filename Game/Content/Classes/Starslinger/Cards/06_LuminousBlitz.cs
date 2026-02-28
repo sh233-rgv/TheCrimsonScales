@@ -19,8 +19,7 @@ public class LuminousBlitz : StarslingerCardModel<LuminousBlitz.CardTop, Luminou
 					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Yellow),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
-				]))
-				.Build()),
+				]))),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
@@ -40,8 +39,7 @@ public class LuminousBlitz : StarslingerCardModel<LuminousBlitz.CardTop, Luminou
 					{
 						await AbilityCmd.GainXP(state.Performer, 1);
 					}
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -50,12 +48,10 @@ public class LuminousBlitz : StarslingerCardModel<LuminousBlitz.CardTop, Luminou
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.62086004f, 0.7224138f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62086004f, 0.7224138f)))),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
-				.WithTarget(Target.Self)
-				.Build()),
+				.WithTarget(Target.Self)),
 		];
 	}
 }

@@ -16,7 +16,6 @@ public class Chokehold : ChainguardCardModel<Chokehold.CardTop, Chokehold.CardBo
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Chainguard.Shackle)
 				.WithRange(1)
-				.Build()
 			),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
@@ -57,8 +56,7 @@ public class Chokehold : ChainguardCardModel<Chokehold.CardTop, Chokehold.CardBo
 					new UseSlot(new Vector2(0.28449345f, 0.39049947f)),
 					new UseSlot(new Vector2(0.48700017f, 0.39049947f)),
 					new UseSlot(new Vector2(0.69299966f, 0.39049947f))
-				])
-				.Build())
+				]))
 		];
 
 		public override int XP => 2;
@@ -71,8 +69,7 @@ public class Chokehold : ChainguardCardModel<Chokehold.CardTop, Chokehold.CardBo
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4, new MoveCircle(this, new Vector2(0.619809f, 0.7069813f)))
-				.Build()),
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.619809f, 0.7069813f)))),
 
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -95,8 +92,7 @@ public class Chokehold : ChainguardCardModel<Chokehold.CardTop, Chokehold.CardBo
 
 						await AbilityCmd.SufferDamage(state, figure, 1);
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

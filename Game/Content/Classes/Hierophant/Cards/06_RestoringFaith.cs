@@ -15,8 +15,7 @@ public class RestoringFaith : HierophantCardModel<RestoringFaith.CardTop, Restor
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1, new HealDiamondPlus(this, new Vector2(0.43512207f, 0.17212221f)))
-				.WithRange(3, new RangeSquare(this, new Vector2(0.65840006f, 0.17251107f)))
-				.Build()),
+				.WithRange(3, new RangeSquare(this, new Vector2(0.65840006f, 0.17251107f)))),
 
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantAbilityState =>
@@ -24,7 +23,6 @@ public class RestoringFaith : HierophantCardModel<RestoringFaith.CardTop, Restor
 					LootAbility.Builder()
 						.WithRange(1)
 						.WithCustomGetLootObtainer(state => state.ActionState.ParentActionState.Performer)
-						.Build()
 				])
 				.WithCustomGetTargets((state, list) => list.Add(state.ActionState.GetAbilityState<HealAbility.State>(0).UniqueTargetedFigures[0]))
 				.WithTarget(Target.SelfOrAllies)
@@ -34,8 +32,7 @@ public class RestoringFaith : HierophantCardModel<RestoringFaith.CardTop, Restor
 
 						return state.ActionState.GetAbilityState<HealAbility.State>(0).Performed;
 					}
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -44,8 +41,7 @@ public class RestoringFaith : HierophantCardModel<RestoringFaith.CardTop, Restor
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6194556f, 0.6955332f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6194556f, 0.6955332f)))),
 
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -107,8 +103,7 @@ public class RestoringFaith : HierophantCardModel<RestoringFaith.CardTop, Restor
 							}
 						}
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 }

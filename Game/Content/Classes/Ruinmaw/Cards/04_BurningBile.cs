@@ -29,8 +29,7 @@ public class BurningBile : RuinmawCardModel<BurningBile.CardTop, BurningBile.Car
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
@@ -41,12 +40,10 @@ public class BurningBile : RuinmawCardModel<BurningBile.CardTop, BurningBile.Car
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
-				.Build()),
+				.WithDistance(3)),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Rupture)
-				.WithRange(1)
-				.Build())
+				.WithRange(1))
 		];
 	}
 }

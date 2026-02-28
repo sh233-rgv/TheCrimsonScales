@@ -25,12 +25,14 @@ public partial class CharacterStartHexMoveIndicator : Control
 		GTweenSequenceBuilder.New()
 			.Append(_icon.TweenRotationDegrees(-maxRotation, rotationDuration))
 			.Append(_icon.TweenRotationDegrees(maxRotation, rotationDuration))
-			.Build().SetMaxLoops().Play();
+			.Build()
+			.SetMaxLoops().Play();
 
 		GTweenSequenceBuilder.New()
 			.Append(_icon.TweenScale(1.1f, duration))
 			.Append(_icon.TweenScale(1f, duration))
-			.Build().SetMaxLoops().Play();
+			.Build()
+			.SetMaxLoops().Play();
 
 		this.TweenModulateAlpha(0f, 0f).Play();
 

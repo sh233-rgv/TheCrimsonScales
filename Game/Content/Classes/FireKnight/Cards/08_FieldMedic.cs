@@ -24,8 +24,7 @@ public class FieldMedic : FireKnightCardModel<FieldMedic.CardTop, FieldMedic.Car
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -34,8 +33,7 @@ public class FieldMedic : FireKnightCardModel<FieldMedic.CardTop, FieldMedic.Car
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.61780804f, 0.7116977f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.61780804f, 0.7116977f)))),
 
 			new AbilityCardAbility(GiveFireKnightItemAbility(state =>
 				[ModelDB.Item<FireKnightKindledTonic>(), ModelDB.Item<FireKnightScrollOfProtection>()]))

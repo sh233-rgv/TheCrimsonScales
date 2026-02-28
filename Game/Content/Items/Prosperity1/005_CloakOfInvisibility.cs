@@ -24,7 +24,6 @@ public class CloakOfInvisibility : Prosperity1Item
 						ConditionAbility.Builder()
 							.WithConditions(Conditions.Invisible)
 							.WithTarget(Target.Self)
-							.Build()
 					]);
 					await actionState.Perform();
 				});

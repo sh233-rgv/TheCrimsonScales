@@ -21,8 +21,7 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthWest).Add(Direction.NorthEast), AOEHexType.Yellow),
-				]))
-				.Build()),
+				]))),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Invisible)
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
@@ -42,8 +41,7 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 					{
 						await AbilityCmd.GainXP(state.Performer, 1);
 					}
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -64,7 +62,6 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 							[
 								MoveAbility.Builder()
 									.WithDistance(2)
-									.Build()
 							]);
 							await moveAbility.Perform();
 
@@ -88,8 +85,7 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 					new UseSlot(new Vector2(0.6810046f, 0.7735108f), Heal),
 					new UseSlot(new Vector2(0.37349778f, 0.9015168f), GainXP),
 					new UseSlot(new Vector2(0.58199996f, 0.9015168f), Heal),
-				])
-				.Build())
+				]))
 		];
 
 		public override bool Persistent => true;
@@ -101,7 +97,6 @@ public class SolarEclipse : StarslingerCardModel<SolarEclipse.CardTop, SolarEcli
 				HealAbility.Builder()
 					.WithHealValue(1)
 					.WithRange(3)
-					.Build()
 			]);
 			await healAbility.Perform();
 		}

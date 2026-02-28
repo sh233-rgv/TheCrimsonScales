@@ -31,8 +31,7 @@ public class Lamentation : HierophantPrayerCardModel<Lamentation.CardTopBottom, 
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;

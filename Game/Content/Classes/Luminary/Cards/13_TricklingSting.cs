@@ -31,8 +31,7 @@ public class TricklingSting : LuminaryCardModel<TricklingSting.CardTop, Tricklin
 					state.AbilityAdjustAttackValue(count);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -41,12 +40,10 @@ public class TricklingSting : LuminaryCardModel<TricklingSting.CardTop, Tricklin
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6210601f, 0.6248515f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6210601f, 0.6248515f)))),
 
 			new AbilityCardAbility(CreateTrapAbility.Builder()
-				.WithDamage(4)
-				.Build()),
+				.WithDamage(4)),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -74,8 +71,7 @@ public class TricklingSting : LuminaryCardModel<TricklingSting.CardTop, Tricklin
 
 					await GDTask.CompletedTask;
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 1))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 1)))
 		];
 
 		public override int XP => 1;

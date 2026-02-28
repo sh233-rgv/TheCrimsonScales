@@ -14,16 +14,13 @@ public class SlammingShove : ChainguardCardModel<SlammingShove.CardTop, Slamming
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3, new AttackDiamond(this, new Vector2(0.4923463f, 0.18387413f)))
-				.WithPush(2)
-				.Build()),
+				.WithPush(2)),
 
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
-				.Build()),
+				.WithDistance(2)),
 
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3, new AttackDiamond(this, new Vector2(0.6214893f, 0.4041298f)))
-				.Build()),
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.6214893f, 0.4041298f)))),
 		];
 
 		public override int XP => 2;
@@ -35,13 +32,11 @@ public class SlammingShove : ChainguardCardModel<SlammingShove.CardTop, Slamming
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.619809f, 0.72228116f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.619809f, 0.72228116f)))),
 
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
-				.WithTarget(Target.Self)
-				.Build()),
+				.WithTarget(Target.Self)),
 		];
 	}
 }

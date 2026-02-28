@@ -15,8 +15,7 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(RetaliateAbility.Builder()
-				.WithRetaliateValue(3)
-				.Build()),
+				.WithRetaliateValue(3)),
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -31,7 +30,7 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 									ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
 									ActionState actionState = new ActionState(state.Performer,
 									[
-										HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).WithConditions(Ruinmaw.Empower).Build(),
+										HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).WithConditions(Ruinmaw.Empower),
 									]);
 									await actionState.Perform();
 									await state.AdvanceUseSlot();
@@ -52,8 +51,7 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 				[
 					new UseSlot(new Vector2(0.3825001f, 0.41549924f)),
 					new UseSlot(new Vector2(0.5885006f, 0.41549924f))
-				])
-				.Build())
+				]))
 		];
 
 		public override bool Round => true;
@@ -65,12 +63,10 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(4)
-				.WithMoveType(MoveType.Jump)
-				.Build()),
+				.WithMoveType(MoveType.Jump)),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Rupture)
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -94,8 +90,7 @@ public class SurvivalInstincts : RuinmawCardModel<SurvivalInstincts.CardTop, Sur
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

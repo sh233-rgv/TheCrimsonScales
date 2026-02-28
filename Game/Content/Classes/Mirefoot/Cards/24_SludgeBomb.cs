@@ -40,8 +40,7 @@ public class SludgeBomb : MirefootCardModel<SludgeBomb.CardTop, SludgeBomb.CardB
 							{
 								await CreateDifficultTerrain(hex);
 							}
-						}))
-				.Build())
+						})))
 		];
 	}
 
@@ -64,8 +63,7 @@ public class SludgeBomb : MirefootCardModel<SludgeBomb.CardTop, SludgeBomb.CardB
 					}
 
 					state.SetCustomValue(this, "DestroyedDifficultTerrain", selectedHexes.Count);
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -99,8 +97,7 @@ public class SludgeBomb : MirefootCardModel<SludgeBomb.CardTop, SludgeBomb.CardB
 					}
 				)
 				.WithUseSlot(new UseSlot(new Vector2(0.4989973f, 0.88249975f), GainXP))
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 
 		public override bool Persistent => true;

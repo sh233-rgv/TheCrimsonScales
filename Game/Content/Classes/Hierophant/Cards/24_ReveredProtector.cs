@@ -55,8 +55,7 @@ public class ReveredProtector : HierophantLevelUpCardModel<ReveredProtector.Card
 						new UseSlot(new Vector2(0.37300277f, 0.43199965f)),
 						new UseSlot(new Vector2(0.57800215f, 0.43199965f))
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override bool Round => true;
@@ -76,8 +75,7 @@ public class ReveredProtector : HierophantLevelUpCardModel<ReveredProtector.Card
 					{
 						await AbilityCmd.RemoveOneNegativeCondition(figure);
 					}
-				})
-				.Build()),
+				})),
 		];
 	}
 }

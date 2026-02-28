@@ -31,12 +31,10 @@ public class TwinBlast : BombardCardModel<TwinBlast.CardTop, TwinBlast.CardBotto
 						.WithPierce(2, _enhancementMark)
 						.WithRangeType(RangeType.Range)
 						.WithTargetHex(hex)
-						.Build()
 				])
 				.WithAbilityCardSide(this)
 				.WithRange(4, new ProjectileRangeSquare(this, new Vector2(0.38324332f, 0.16257776f), EnhancementCostType.MultiTarget))
-				.WithTargets(2)
-				.Build())
+				.WithTargets(2))
 		];
 
 		public override int XP => 1;
@@ -49,8 +47,7 @@ public class TwinBlast : BombardCardModel<TwinBlast.CardTop, TwinBlast.CardBotto
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.5010511f, 0.6394347f)))
-				.WithRange(3)
-				.Build()),
+				.WithRange(3)),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -78,8 +75,7 @@ public class TwinBlast : BombardCardModel<TwinBlast.CardTop, TwinBlast.CardBotto
 						await GDTask.CompletedTask;
 					}
 				)
-				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.85f), GainXP))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.85f), GainXP)))
 		];
 
 		public override bool Persistent => true;

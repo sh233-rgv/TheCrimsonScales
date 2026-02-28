@@ -328,7 +328,8 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 				.Append(performer.TweenGlobalPosition(performerOrigin - normal * Map.HexSize * 0.1f, 0.1f))
 				.Append(performer.TweenGlobalPosition(performerOrigin + normal * Map.HexSize * 0.2f, 0.15f).SetEasing(Easing.OutQuart))
 				.Append(performer.TweenGlobalPosition(performerOrigin, 0.2f).SetEasing(Easing.InOutQuad))
-				.Build().PlayFastForwardable();
+				.Build()
+				.PlayFastForwardable();
 
 			if(abilityState.SingleTargetRangeType == RangeType.Melee)
 			{
@@ -363,7 +364,8 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 					.AppendTime(0.25f)
 					.Append(target.TweenGlobalPosition(targetOrigin + normal * Map.HexSize * 0.2f, 0.15f).SetEasing(Easing.OutQuart))
 					.Append(target.TweenGlobalPosition(targetOrigin, 0.2f).SetEasing(Easing.OutBack))
-					.Build().PlayFastForwardable();
+					.Build()
+					.PlayFastForwardable();
 			}
 
 			await GDTask.DelayFastForwardable(0.6f);

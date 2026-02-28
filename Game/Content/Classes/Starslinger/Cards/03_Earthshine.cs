@@ -16,8 +16,7 @@ public class Earthshine : StarslingerCardModel<Earthshine.CardTop, Earthshine.Ca
 				.WithHealValue(1)
 				.WithTarget(Target.Enemies)
 				.WithRange(3)
-				.WithConditions([Conditions.Stun, Conditions.Poison1])
-				.Build()),
+				.WithConditions([Conditions.Stun, Conditions.Poison1])),
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];
@@ -40,8 +39,7 @@ public class Earthshine : StarslingerCardModel<Earthshine.CardTop, Earthshine.Ca
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Move)}, {Icons.Inline(Icons.Jump)}")
 					)
-				)
-				.Build()),
+				)),
 		];
 	}
 }

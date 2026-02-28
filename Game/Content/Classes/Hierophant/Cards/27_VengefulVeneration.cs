@@ -16,8 +16,7 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4, new AttackDiamond(this, new Vector2(0.44721872f, 0.19194041f)))
-				.WithRange(4, new RangeSquare(this, new Vector2(0.6708979f, 0.19194041f)))
-				.Build()),
+				.WithRange(4, new RangeSquare(this, new Vector2(0.6708979f, 0.19194041f)))),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -43,8 +42,7 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 
 					await GDTask.CompletedTask;
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 
 		public override bool Round => true;
@@ -55,8 +53,7 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.61960894f, 0.69351536f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.61960894f, 0.69351536f)))),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -67,8 +64,7 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 						await AbilityCmd.SufferDamage(state, figure, (figures.Count == 1) ? 2 : 1);
 						state.SetPerformed();
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 }

@@ -36,8 +36,7 @@ public class RadiantForestFungi : MirefootCardModel<RadiantForestFungi.CardTop, 
 							abilityState.SetPerformed();
 						}
 					}
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -98,8 +97,7 @@ public class RadiantForestFungi : MirefootCardModel<RadiantForestFungi.CardTop, 
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override int XP => 1;
@@ -135,8 +133,7 @@ public class RadiantForestFungi : MirefootCardModel<RadiantForestFungi.CardTop, 
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

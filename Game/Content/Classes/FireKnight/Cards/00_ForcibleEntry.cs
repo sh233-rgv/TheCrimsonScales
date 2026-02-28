@@ -16,8 +16,7 @@ public class ForcibleEntry : FireKnightCardModel<ForcibleEntry.CardTop, Forcible
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(5, new AttackDiamond(this, new Vector2(0.4324528f, 0.24680433f)))
 				.WithPierce(2)
-				.WithConditions(Conditions.Wound1)
-				.Build()),
+				.WithConditions(Conditions.Wound1)),
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
@@ -30,8 +29,7 @@ public class ForcibleEntry : FireKnightCardModel<ForcibleEntry.CardTop, Forcible
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.61780804f, 0.64011794f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.61780804f, 0.64011794f)))),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -56,8 +54,7 @@ public class ForcibleEntry : FireKnightCardModel<ForcibleEntry.CardTop, Forcible
 
 					await GDTask.CompletedTask;
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire)))
 		];
 
 		public override bool Round => true;

@@ -16,8 +16,7 @@ public class DefyingGravity : StarslingerCardModel<DefyingGravity.CardTop, Defyi
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.39117384f, 0.1986234f)))
 				.WithRange(4)
-				.WithPull(2, new PullSquare(this, new Vector2(0.7262092f, 0.1986234f)))
-				.Build()),
+				.WithPull(2, new PullSquare(this, new Vector2(0.7262092f, 0.1986234f)))),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(0)
 				.WithTarget(Target.Self)
@@ -26,8 +25,7 @@ public class DefyingGravity : StarslingerCardModel<DefyingGravity.CardTop, Defyi
 					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 					state.AbilityAdjustHealValue(attackAbilityState.SingleTargetState.PullHexes.Count);
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -43,13 +41,12 @@ public class DefyingGravity : StarslingerCardModel<DefyingGravity.CardTop, Defyi
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthWest).Add(Direction.NorthEast), AOEHexType.Yellow),
-				]), new AOEHexMark(Vector2I.Zero.Add(Direction.East), this, new Vector2(0.8659575f, 0.8144255f)))
-				.Build()),
+				]), new AOEHexMark(Vector2I.Zero.Add(Direction.East), this, new Vector2(0.8659575f, 0.8144255f)))),
 
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithAbilities(
 				[
-					MoveAbility.Builder().WithDistance(2).Build()
+					MoveAbility.Builder().WithDistance(2)
 				])
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.WithCustomGetTargets((abilityState, list) =>
@@ -63,8 +60,7 @@ public class DefyingGravity : StarslingerCardModel<DefyingGravity.CardTop, Defyi
 							list.Add(figure);
 						}
 					}
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 1;

@@ -18,7 +18,7 @@ public class Ordination : HierophantPrayerCardModel<Ordination.CardTop, Ordinati
 						canApplyParameters => canApplyParameters.Figure == state.Performer,
 						async applyParameters =>
 						{
-							ActionState actionState = new ActionState(state.Performer, [MoveAbility.Builder().WithDistance(2).Build()]);
+							ActionState actionState = new ActionState(state.Performer, [MoveAbility.Builder().WithDistance(2)]);
 							await actionState.Perform();
 
 							await state.AdvanceUseSlot();
@@ -38,8 +38,7 @@ public class Ordination : HierophantPrayerCardModel<Ordination.CardTop, Ordinati
 						new UseSlot(new Vector2(0.38550016f, 0.3134999f)),
 						new UseSlot(new Vector2(0.5900029f, 0.3134999f))
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;
@@ -56,7 +55,7 @@ public class Ordination : HierophantPrayerCardModel<Ordination.CardTop, Ordinati
 						canApplyParameters => canApplyParameters.Figure == state.Performer,
 						async applyParameters =>
 						{
-							ActionState actionState = new ActionState(state.Performer, [MoveAbility.Builder().WithDistance(2).Build()]);
+							ActionState actionState = new ActionState(state.Performer, [MoveAbility.Builder().WithDistance(2)]);
 							await actionState.Perform();
 
 							await state.AdvanceUseSlot();
@@ -76,8 +75,7 @@ public class Ordination : HierophantPrayerCardModel<Ordination.CardTop, Ordinati
 						new UseSlot(new Vector2(0.38550016f, 0.7865109f)),
 						new UseSlot(new Vector2(0.5900029f, 0.7865109f))
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;

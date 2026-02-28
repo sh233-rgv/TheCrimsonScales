@@ -16,16 +16,15 @@ public class MasterTheReins : ChieftainCardModel<MasterTheReins.CardTop, MasterT
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(grantState =>
 				[
-					AbilityCmd.SummonMovePlusX(1).Build(),
-					AbilityCmd.SummonAttackPlusX(1).Build(),
-					AbilityCmd.SummonMovePlusX(1).Build(),
+					AbilityCmd.SummonMovePlusX(1),
+					AbilityCmd.SummonAttackPlusX(1),
+					AbilityCmd.SummonMovePlusX(1),
 				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{
 					figures.AddRange(((Character)grantState.Performer).Summons);
 				})
 				.WithTarget(Target.Allies | Target.TargetAll)
-				.Build()
 			),
 		];
 	}
@@ -98,8 +97,7 @@ public class MasterTheReins : ChieftainCardModel<MasterTheReins.CardTop, MasterT
 					ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Persistent => true;

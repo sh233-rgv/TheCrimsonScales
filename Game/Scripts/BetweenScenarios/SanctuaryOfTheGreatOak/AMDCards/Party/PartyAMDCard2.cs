@@ -17,6 +17,5 @@ public class PartyAMDCard2 : PartyAMDCardModel
 		ConditionAbility.Builder()
 			.WithConditions(Conditions.Strengthen)
 			.WithTarget(Target.Self)
-			.Build()
 	];
 }

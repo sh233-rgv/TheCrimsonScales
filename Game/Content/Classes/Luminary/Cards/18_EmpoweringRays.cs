@@ -15,8 +15,7 @@ public class EmpoweringRays : LuminaryCardModel<EmpoweringRays.CardTop, Empoweri
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)
-				.WithTarget(Target.Self)
-				.Build()),
+				.WithTarget(Target.Self)),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4, new AttackDiamond(this, new Vector2(0.45917222f, 0.24375446f)))
 				.WithAOEPattern(new AOEPattern(
@@ -30,8 +29,7 @@ public class EmpoweringRays : LuminaryCardModel<EmpoweringRays.CardTop, Empoweri
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					await AbilityCmd.GainXP(state.Performer, state.UniqueTargetedFigures.Count);
-				})
-				.Build()),
+				})),
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements =>
@@ -69,12 +67,10 @@ public class EmpoweringRays : LuminaryCardModel<EmpoweringRays.CardTop, Empoweri
 					ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215359f, 0.8255312f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215359f, 0.8255312f)))),
 		];
 
 		public override bool Round => true;

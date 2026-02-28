@@ -108,7 +108,7 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 	// IBossMonsterModel
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.TargetAll | Target.SelfOrAllies).Build())
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.TargetAll | Target.SelfOrAllies))
 	];
 
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial2Abilities(Monster monster) =>
@@ -133,7 +133,7 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 
 				await GDTask.CompletedTask;
 			})
-			.Build()),
+		),
 		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, +1)),
 	];
 }

@@ -58,8 +58,7 @@ public class FlameDemonAbilityCard2 : FlameDemonAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, duringAttackSubscriptions:
-		[
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithDuringAttackSubscription(
 			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Fire],
 				applyFunction: async parameters =>
 				{
@@ -74,8 +73,7 @@ public class FlameDemonAbilityCard2 : FlameDemonAbilityCard
 					]));
 					await GDTask.CompletedTask;
 				}
-			)
-		])),
+			)))
 		//TODO: Focus and whether the element is consumed won't take into account fire consume
 	];
 
@@ -90,8 +88,7 @@ public class FlameDemonAbilityCard3 : FlameDemonAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, duringAttackSubscriptions:
-		[
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithDuringAttackSubscription(
 			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Fire],
 				applyFunction: async parameters =>
 				{
@@ -99,8 +96,7 @@ public class FlameDemonAbilityCard3 : FlameDemonAbilityCard
 					parameters.AbilityState.AbilityAddCondition(Conditions.Wound1);
 					await GDTask.CompletedTask;
 				}
-			)
-		])),
+			)))
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -129,14 +125,15 @@ public class FlameDemonAbilityCard5 : FlameDemonAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, range: 1, rangeType: RangeType.Melee, target: Target.Enemies | Target.TargetAll)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithRange(1).WithRangeType(RangeType.Melee)
+			.WithTarget(Target.Enemies | Target.TargetAll)),
 		new MonsterAbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
 			{
 				await AbilityCmd.SufferDamage(state, state.Performer, 1);
 			})
 			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<OtherAbility.State>([Element.Ice]))
-			.Build())
+		)
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -164,9 +161,9 @@ public class FlameDemonAbilityCard6 : FlameDemonAbilityCard
 				}
 			)
 			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<OtherAbility.State>([Element.Fire]))
-			.Build()),
+		),
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -2, targets: 2, conditions: [Conditions.Wound1])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -2).WithTargets(2).WithConditions(Conditions.Wound1))
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -214,7 +211,7 @@ public class FlameDemonAbilityCard7 : FlameDemonAbilityCard
 				}
 			)
 			.WithMandatory(true)
-			.Build())
+		)
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =

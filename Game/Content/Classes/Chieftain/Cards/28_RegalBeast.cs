@@ -48,7 +48,6 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 						}
 					)
 				)
-				.Build()
 			),
 		];
 
@@ -103,8 +102,7 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 					}
 
 					ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Loss => true;

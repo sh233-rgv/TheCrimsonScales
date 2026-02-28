@@ -58,7 +58,7 @@ public class AncientArtilleryAbilityCard1 : AncientArtilleryAbilityCard
 					state.SetPerformed();
 				}
 			)
-			.Build())
+		)
 	];
 }
 
@@ -91,7 +91,7 @@ public class AncientArtilleryAbilityCard2 : AncientArtilleryAbilityCard
 					state.SetPerformed();
 				}
 			)
-			.Build())
+		)
 	];
 }
 
@@ -106,16 +106,13 @@ public class AncientArtilleryAbilityCard3 : AncientArtilleryAbilityCard
 			.WithPush(1)
 			.WithRange(1)
 			.WithTarget(Target.Enemies | Target.TargetAll)
-			.Build()),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, extraRange: -1,
-			aoePattern: new AOEPattern(
-				[
-					new AOEHex(Vector2I.Zero, AOEHexType.Red),
-					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-					new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-				]
-			)
-		))
+		),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1, extraRange: -1).WithAOEPattern(new AOEPattern(
+		[
+			new AOEHex(Vector2I.Zero, AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+		])))
 	];
 }
 
@@ -130,18 +127,17 @@ public class AncientArtilleryAbilityCard4 : AncientArtilleryAbilityCard
 			.WithPush(1)
 			.WithRange(1)
 			.WithTarget(Target.Enemies | Target.TargetAll)
-			.Build()),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, extraRange: -1,
-			aoePattern: new AOEPattern([
-				new AOEHex(Vector2I.Zero, AOEHexType.Red),
-				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-				new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-				new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
-				new AOEHex(Vector2I.Zero.Add(Direction.SouthWest), AOEHexType.Red),
-				new AOEHex(Vector2I.Zero.Add(Direction.West), AOEHexType.Red),
-				new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
-			])
-		)),
+		),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1, extraRange: -1).WithAOEPattern(new AOEPattern(
+		[
+			new AOEHex(Vector2I.Zero, AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.SouthWest), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.West), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
+		]))),
 	];
 }
 
@@ -167,8 +163,8 @@ public class AncientArtilleryAbilityCard6 : AncientArtilleryAbilityCard
 			.WithPush(2)
 			.WithRange(1)
 			.WithTarget(Target.Enemies | Target.TargetAll)
-			.Build()),
-		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(2).Build()),
+		),
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(2)),
 		new MonsterAbilityCardAbility(AttackAbility(monster, -2))
 	];
 }
@@ -180,14 +176,13 @@ public class AncientArtilleryAbilityCard7 : AncientArtilleryAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1,
-			aoePattern: new AOEPattern(
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1)
+			.WithAOEPattern(new AOEPattern(
 				[
 					new AOEHex(Vector2I.Zero, AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 				]
-			), conditions: [Conditions.Immobilize]
-		))
+			)).WithConditions(Conditions.Immobilize))
 	];
 }

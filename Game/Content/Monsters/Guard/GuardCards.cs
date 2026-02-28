@@ -25,8 +25,8 @@ public class GuardAbilityCard0 : GuardAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1).Build()),
-		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2).Build()),
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1)),
+		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(2)),
 	];
 }
 
@@ -50,7 +50,7 @@ public class GuardAbilityCard2 : GuardAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 2)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithRange(2))
 	];
 }
 
@@ -101,8 +101,7 @@ public class GuardAbilityCard6 : GuardAbilityCard
 		new MonsterAbilityCardAbility(AttackAbility(monster, +0)),
 		new MonsterAbilityCardAbility(ConditionAbility.Builder()
 			.WithConditions(Conditions.Strengthen)
-			.WithTarget(Target.Self)
-			.Build())
+			.WithTarget(Target.Self))
 	];
 }
 
@@ -114,7 +113,7 @@ public class GuardAbilityCard7 : GuardAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1).Build()),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, conditions: [Conditions.Poison1])),
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithConditions(Conditions.Poison1))
 	];
 }

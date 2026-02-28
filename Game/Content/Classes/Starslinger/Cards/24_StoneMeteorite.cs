@@ -43,8 +43,7 @@ public class StoneMeteorite : StarslingerCardModel<StoneMeteorite.CardTop, Stone
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					await AbilityCmd.GainXP(state.Performer, state.GetCustomValue<int>(this, "Undamaged"));
-				})
-				.Build()),
+				})),
 		];
 
 		public override int XP => 1;
@@ -68,8 +67,7 @@ public class StoneMeteorite : StarslingerCardModel<StoneMeteorite.CardTop, Stone
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Move)}, {Icons.Inline(Icons.Jump)}")
 					)
-				)
-				.Build()),
+				)),
 		];
 	}
 }

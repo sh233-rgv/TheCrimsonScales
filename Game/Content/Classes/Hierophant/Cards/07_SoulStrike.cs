@@ -16,8 +16,7 @@ public class SoulStrike : HierophantCardModel<SoulStrike.CardTop, SoulStrike.Car
 				.WithDamage(4, new AttackDiamond(this, new Vector2(0.3276776f, 0.29315552f)))
 				.WithRange(3, new RangeSquare(this, new Vector2(0.5516777f, 0.29315552f)))
 				.WithPierce(3)
-				.WithConditions(Conditions.Wound1)
-				.Build())
+				.WithConditions(Conditions.Wound1))
 		];
 
 		public override int XP => 2;
@@ -28,7 +27,7 @@ public class SoulStrike : HierophantCardModel<SoulStrike.CardTop, SoulStrike.Car
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3).Build()),
+			new AbilityCardAbility(MoveAbility.Builder().WithDistance(3)),
 
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
@@ -48,8 +47,7 @@ public class SoulStrike : HierophantCardModel<SoulStrike.CardTop, SoulStrike.Car
 							}
 						}
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

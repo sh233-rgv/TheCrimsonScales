@@ -33,8 +33,7 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Stun))}")
 					)
-				)
-				.Build()),
+				)),
 			Scuttle(1, [Element.Ice]),
 		];
 	}
@@ -65,8 +64,7 @@ public class ChillingWave : LuminaryCardModel<ChillingWave.CardTop, ChillingWave
 					ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 			PerformFreeGlow()
 		];
 

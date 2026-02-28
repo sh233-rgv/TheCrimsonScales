@@ -16,8 +16,7 @@ public class FerociousFling : RuinmawCardModel<FerociousFling.CardTop, Ferocious
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
-				.WithPush(2)
-				.Build()),
+				.WithPush(2)),
 			new AbilityCardAbility(PushAbility.Builder()
 				.WithPush(1)
 				.WithCustomGetTargets((state, targets) =>
@@ -28,8 +27,7 @@ public class FerociousFling : RuinmawCardModel<FerociousFling.CardTop, Ferocious
 						targets.AddRange(RangeHelper.GetFiguresInRange(figure.Hex, 1, false));
 					}
 				})
-				.WithTarget(Target.Enemies | Target.TargetAll)
-				.Build()),
+				.WithTarget(Target.Enemies | Target.TargetAll)),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -42,8 +40,7 @@ public class FerociousFling : RuinmawCardModel<FerociousFling.CardTop, Ferocious
 						await AbilityCmd.SufferDamage(state, figure, 2);
 						state.SetPerformed();
 					}
-				})
-				.Build())
+				}))
 		];
 
 		protected override bool Sate => true;
@@ -57,8 +54,7 @@ public class FerociousFling : RuinmawCardModel<FerociousFling.CardTop, Ferocious
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
-				.Build()),
+				.WithDistance(2)),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Rupture)
 				.WithAOEPattern(new AOEPattern(
@@ -67,8 +63,7 @@ public class FerociousFling : RuinmawCardModel<FerociousFling.CardTop, Ferocious
 						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 					]
-				))
-				.Build()),
+				))),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -102,8 +97,7 @@ public class FerociousFling : RuinmawCardModel<FerociousFling.CardTop, Ferocious
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

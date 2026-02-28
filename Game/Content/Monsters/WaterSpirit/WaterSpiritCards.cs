@@ -38,22 +38,18 @@ public class WaterSpiritAbilityCard0 : WaterSpiritAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0,
-			afterTargetConfirmedSubscriptions:
-			[
-				ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
-					applyFunction: async applyParameters =>
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithAfterTargetConfirmedSubscription(
+			ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
+				applyFunction: async applyParameters =>
+				{
+					if(applyParameters.AbilityState.Target.Hex.HasHexObjectOfType<Water>())
 					{
-						if(applyParameters.AbilityState.Target.Hex.HasHexObjectOfType<Water>())
-						{
-							applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
-						}
-
-						await GDTask.CompletedTask;
+						applyParameters.AbilityState.SingleTargetAdjustAttackValue(2);
 					}
-				)
-			]
-		))
+
+					await GDTask.CompletedTask;
+				}
+			)))
 	];
 }
 
@@ -66,8 +62,7 @@ public class WaterSpiritAbilityCard1 : WaterSpiritAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0,
-			pierce: new DynamicInt<AttackAbility.State>(state =>
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithPierce(new DynamicInt<AttackAbility.State>(state =>
 			{
 				List<Hex> hexes = new List<Hex>();
 				RangeHelper.FindHexesInRange(state.Performer.Hex, 1, false, hexes);
@@ -100,7 +95,7 @@ public class WaterSpiritAbilityCard2 : WaterSpiritAbilityCard
 					}
 				}
 			)
-			.Build()),
+		),
 	];
 }
 
@@ -112,24 +107,23 @@ public class WaterSpiritAbilityCard3 : WaterSpiritAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1,
-			aoePattern: new AOEPattern(
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1)
+			.WithAOEPattern(new AOEPattern(
 			[
 				new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 				new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 				new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red)
-			]),
-			afterAttackPerformedSubscriptions:
-			[
+			]))
+			.WithAfterAttackPerformedSubscription(
 				ScenarioEvents.AfterAttackPerformed.Subscription.New(
 					applyFunction: async applyParameters =>
 					{
 						await TryCreateWaterTile(applyParameters.AbilityState.Target.Hex);
 					}
 				)
-			]
-		))
+			)
+		)
 	];
 }
 
@@ -140,7 +134,7 @@ public class WaterSpiritAbilityCard4 : WaterSpiritAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 3, pull: 2, conditions: [Conditions.Immobilize])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithRange(3).WithPull(2).WithConditions(Conditions.Immobilize))
 	];
 }
 
@@ -152,15 +146,14 @@ public class WaterSpiritAbilityCard5 : WaterSpiritAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0,
-			state =>
+		new MonsterAbilityCardAbility(AttackAbility(monster, new DynamicInt<AttackAbility.State>(-1, state =>
 			{
 				List<Hex> hexes = new List<Hex>();
 				RangeHelper.FindHexesInRange(state.Performer.Hex, 1, false, hexes);
 				int waterHexCount = Mathf.Min(hexes.Count(hex => hex.HasHexObjectOfType<Water>()), 3);
-				return waterHexCount - 1;
+				return waterHexCount;
 			}
-		)),
+		))),
 	];
 }
 
@@ -172,7 +165,7 @@ public class WaterSpiritAbilityCard6 : WaterSpiritAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +2)),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).Build()),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self)),
 		new MonsterAbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
 				{
@@ -212,7 +205,7 @@ public class WaterSpiritAbilityCard6 : WaterSpiritAbilityCard
 					}
 				}
 			)
-			.Build())
+		)
 	];
 }
 
@@ -223,16 +216,12 @@ public class WaterSpiritAbilityCard7 : WaterSpiritAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +1, targets: 2,
-			afterTargetConfirmedSubscriptions:
-			[
-				ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
-					applyFunction: async applyParameters =>
-					{
-						await TryCreateWaterTile(applyParameters.AbilityState.Target.Hex);
-					}
-				)
-			]
-		)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1).WithTargets(2).WithAfterTargetConfirmedSubscription(
+			ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
+				applyFunction: async applyParameters =>
+				{
+					await TryCreateWaterTile(applyParameters.AbilityState.Target.Hex);
+				}
+			))),
 	];
 }

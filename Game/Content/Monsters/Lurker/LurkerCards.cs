@@ -27,11 +27,11 @@ public class LurkerAbilityCard0 : LurkerAbilityCard
 	[
 		new MonsterAbilityCardAbility(ShieldAbility.Builder()
 			.WithShieldValue(ConsumeElementDynamicValue<ShieldAbility.State>([Element.Ice], 1, 2))
-			.Build()),
+		),
 		new MonsterAbilityCardAbility(ConditionAbility.Builder()
 			.WithConditions(Conditions.Wound1)
 			.WithTarget(Target.Enemies | Target.TargetAll)
-			.Build()),
+		),
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -70,7 +70,7 @@ public class LurkerAbilityCard3 : LurkerAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, target: Target.Enemies | Target.MustTargetSameWithAllTargets)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithTarget(Target.Enemies | Target.MustTargetSameWithAllTargets))
 	];
 }
 
@@ -93,7 +93,7 @@ public class LurkerAbilityCard5 : LurkerAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +1, target: Target.Enemies | Target.TargetAll)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1).WithTarget(Target.Enemies | Target.TargetAll))
 	];
 }
 
@@ -108,9 +108,9 @@ public class LurkerAbilityCard6 : LurkerAbilityCard
 			.WithConditions(Conditions.Strengthen)
 			.WithTarget(Target.Self)
 			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<ConditionAbility.State>([Element.Ice]))
-			.Build()),
+		),
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, conditions: [Conditions.Wound1])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithConditions(Conditions.Wound1))
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -125,7 +125,7 @@ public class LurkerAbilityCard7 : LurkerAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1).Build()),
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1)),
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
 		new MonsterAbilityCardAbility(AttackAbility(monster, -1)),
 	];

@@ -109,8 +109,7 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 					new UseSlot(new Vector2(0.36899313f, 0.3559997f)),
 					new UseSlot(new Vector2(0.5764929f, 0.3559997f)),
 					new UseSlot(new Vector2(0.7889926f, 0.3559997f), Gain2XP)
-				])
-				.Build())
+				]))
 		];
 
 		public override bool Persistent => true;
@@ -122,8 +121,7 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6214329f, 0.63088423f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6214329f, 0.63088423f)))),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -136,7 +134,6 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 							ActionState actionState = new ActionState(state.Performer, [
 								MoveAbility.Builder()
 									.WithDistance(3)
-									.Build()
 							]);
 							await actionState.Perform();
 							await state.ActionState.RequestDiscardOrLose();
@@ -148,8 +145,7 @@ public class PhotonicDefense : LuminaryCardModel<PhotonicDefense.CardTop, Photon
 					ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Dark)];

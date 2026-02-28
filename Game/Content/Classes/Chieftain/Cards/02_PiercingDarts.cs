@@ -28,8 +28,7 @@ public class PiercingDarts : ChieftainCardModel<PiercingDarts.CardTop, PiercingD
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Poison1))}")
 					)
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -62,7 +61,6 @@ public class PiercingDarts : ChieftainCardModel<PiercingDarts.CardTop, PiercingD
 
 					await GDTask.CompletedTask;
 				})
-				.Build()
 			),
 		];
 

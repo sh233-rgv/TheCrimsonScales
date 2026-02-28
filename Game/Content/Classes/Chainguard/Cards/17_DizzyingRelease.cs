@@ -19,8 +19,7 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 				{
 					IEnumerable<Figure> adjacentFigures = RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, includeOrigin: false);
 					figures.AddRange(adjacentFigures.Where(figure => figure.EnemiesWith(state.Performer) && figure.HasCondition(Chainguard.Shackle)));
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(PushAbility.Builder()
 				.WithPush(3)
@@ -29,8 +28,7 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 					SwingAbility.State swingAbilityState = state.ActionState.GetAbilityState<SwingAbility.State>(0);
 					figures.AddRange(swingAbilityState.UniqueTargetedFigures);
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build()),
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))),
 
 			new AbilityCardAbility(SwingAbility.Builder()
 				.WithSwing(0)
@@ -78,8 +76,7 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 					ScenarioEvents.SwingDirectionCheckEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(0)
@@ -99,8 +96,7 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 
 					await GDTask.CompletedTask;
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build()),
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))),
 		];
 
 		public override int XP => 2;
@@ -114,8 +110,7 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 			new AbilityCardAbility(CreateTrapAbility.Builder()
 				.WithDamage(3)
 				.WithConditions(Conditions.Wound1)
-				.WithCustomAsset("res://Content/Classes/Chainguard/Traps/ChainguardWoodSpikeTrap.tscn")
-				.Build()),
+				.WithCustomAsset("res://Content/Classes/Chainguard/Traps/ChainguardWoodSpikeTrap.tscn")),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -145,8 +140,7 @@ public class DizzyingRelease : ChainguardLevelUpCardModel<DizzyingRelease.CardTo
 
 					await GDTask.CompletedTask;
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 
 		public override int XP => 1;

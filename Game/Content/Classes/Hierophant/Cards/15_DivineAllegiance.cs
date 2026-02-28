@@ -26,8 +26,7 @@ public class DivineAllegiance : HierophantLevelUpCardModel<DivineAllegiance.Card
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					await AbilityCmd.GainXP(state.Performer, state.UniqueTargetedFigures.Count);
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
@@ -43,8 +42,7 @@ public class DivineAllegiance : HierophantLevelUpCardModel<DivineAllegiance.Card
 						}
 					}
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];
@@ -56,14 +54,12 @@ public class DivineAllegiance : HierophantLevelUpCardModel<DivineAllegiance.Card
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.619769f, 0.72193056f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.619769f, 0.72193056f)))),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Bless)
 				.WithTarget(Target.Allies)
-				.WithRange(1)
-				.Build())
+				.WithRange(1))
 		];
 	}
 }

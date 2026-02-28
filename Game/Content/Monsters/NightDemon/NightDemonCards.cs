@@ -48,7 +48,7 @@ public class NightDemonAbilityCard1 : NightDemonAbilityCard
 			.WithConditions(Conditions.Invisible)
 			.WithTarget(Target.Self)
 			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<ConditionAbility.State>([Element.Dark]))
-			.Build())
+		)
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -77,8 +77,7 @@ public class NightDemonAbilityCard3 : NightDemonAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, -2, range: 3, targets: 3, duringAttackSubscriptions:
-		[
+		new MonsterAbilityCardAbility(AttackAbility(monster, -2).WithRange(3).WithTargets(3).WithDuringAttackSubscription(
 			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Dark],
 				applyFunction: async parameters =>
 				{
@@ -86,7 +85,7 @@ public class NightDemonAbilityCard3 : NightDemonAbilityCard
 					await GDTask.CompletedTask;
 				}
 			)
-		])),
+		))
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -102,8 +101,7 @@ public class NightDemonAbilityCard4 : NightDemonAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +1, duringAttackSubscriptions:
-		[
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1).WithDuringAttackSubscription(
 			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Dark],
 				applyFunction: async parameters =>
 				{
@@ -111,7 +109,7 @@ public class NightDemonAbilityCard4 : NightDemonAbilityCard
 					await GDTask.CompletedTask;
 				}
 			)
-		])),
+		))
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -142,12 +140,12 @@ public class NightDemonAbilityCard6 : NightDemonAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(AttackAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, pierce: 2)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithPierce(2)),
 		new MonsterAbilityCardAbility(ConditionAbility.Builder()
 			.WithConditions(Conditions.Curse)
 			.WithTarget(Target.Self)
 			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<ConditionAbility.State>([Element.Light]))
-			.Build())
+		)
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -172,7 +170,7 @@ public class NightDemonAbilityCard7 : NightDemonAbilityCard
 					}
 				}
 			)
-			.Build())
+		)
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =

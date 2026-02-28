@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Fractural.Tasks;
-using Godot;
 
 public abstract class CultistAbilityCard : MonsterAbilityCardModel
 {
@@ -35,7 +34,7 @@ public class CultistAbilityCard0 : CultistAbilityCard
 					parameters => parameters.Figure == monster,
 					async parameters =>
 					{
-						AttackAbility attackAbility = AttackAbility(monster, +2, target: Target.Enemies | Target.TargetAll);
+						AttackAbility attackAbility = AttackAbility(monster, +2).WithTarget(Target.Enemies | Target.TargetAll);
 						ActionState actionState = new ActionState(monster, [attackAbility]);
 						await actionState.Perform();
 					}
@@ -57,7 +56,7 @@ public class CultistAbilityCard0 : CultistAbilityCard
 
 				await GDTask.CompletedTask;
 			})
-			.Build())
+		)
 	];
 }
 
@@ -77,7 +76,7 @@ public class CultistAbilityCard1 : CultistAbilityCard
 					parameters => parameters.Figure == monster,
 					async parameters =>
 					{
-						AttackAbility attackAbility = AttackAbility(monster, +2, target: Target.Enemies | Target.TargetAll);
+						AttackAbility attackAbility = AttackAbility(monster, +2).WithTarget(Target.Enemies | Target.TargetAll);
 						ActionState actionState = new ActionState(monster, [attackAbility]);
 						await actionState.Perform();
 					}
@@ -99,7 +98,7 @@ public class CultistAbilityCard1 : CultistAbilityCard
 
 				await GDTask.CompletedTask;
 			})
-			.Build())
+		)
 	];
 }
 
@@ -136,7 +135,7 @@ public class CultistAbilityCard4 : CultistAbilityCard
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
 		new MonsterAbilityCardAbility(AttackAbility(monster, +0)),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self)),
 	];
 }
 
@@ -151,14 +150,14 @@ public class CultistAbilityCard5 : CultistAbilityCard
 		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
 			.WithMonsterModel(ModelDB.Monster<LivingBones>())
 			.WithMonsterType(MonsterType.Normal)
-			.Build()),
+		),
 
 		new MonsterAbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
 			{
 				await AbilityCmd.SufferDamage(state, state.Performer, 2);
 			})
-			.Build())
+		)
 	];
 }
 
@@ -173,14 +172,14 @@ public class CultistAbilityCard6 : CultistAbilityCard
 		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
 			.WithMonsterModel(ModelDB.Monster<LivingBones>())
 			.WithMonsterType(MonsterType.Normal)
-			.Build()),
+		),
 
 		new MonsterAbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
 			{
 				await AbilityCmd.SufferDamage(state, state.Performer, 2);
 			})
-			.Build())
+		)
 	];
 }
 
@@ -192,6 +191,6 @@ public class CultistAbilityCard7 : CultistAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(3).WithRange(3).Build()),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(3).WithRange(3)),
 	];
 }

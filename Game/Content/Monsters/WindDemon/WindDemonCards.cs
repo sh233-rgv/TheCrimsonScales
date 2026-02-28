@@ -27,12 +27,12 @@ public class WindDemonAbilityCard0 : WindDemonAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(AttackAbility(monster, -1)),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self)),
 		new MonsterAbilityCardAbility(ConditionAbility.Builder()
 			.WithConditions(Conditions.Invisible)
 			.WithTarget(Target.Self)
 			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<ConditionAbility.State>([Element.Air]))
-			.Build())
+		)
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -48,7 +48,7 @@ public class WindDemonAbilityCard1 : WindDemonAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, pull: 1)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithPull(1))
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
@@ -64,7 +64,7 @@ public class WindDemonAbilityCard2 : WindDemonAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, pull: 1)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithPull(1))
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
@@ -79,8 +79,7 @@ public class WindDemonAbilityCard3 : WindDemonAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, targets: 2, duringAttackSubscriptions:
-		[
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithTargets(2).WithDuringAttackSubscription(
 			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Air],
 				applyFunction: async parameters =>
 				{
@@ -88,7 +87,7 @@ public class WindDemonAbilityCard3 : WindDemonAbilityCard
 					await GDTask.CompletedTask;
 				}
 			)
-		])),
+		))
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -104,38 +103,33 @@ public class WindDemonAbilityCard4 : WindDemonAbilityCard
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
 
-		new MonsterAbilityCardAbility(
-			AttackAbility(
-				monster,
-				+0,
-				aoePattern: new AOEPattern([
-					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-					new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
-				]),
-				duringAttackSubscriptions:
-				[
-					ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(
-						monster,
-						[Element.Air],
-						applyFunction: async parameters =>
-						{
-							parameters.AbilityState.AbilityAdjustAttackValue(1);
-							parameters.AbilityState.AbilitySetAOEPattern(new AOEPattern([
-								new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-								new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-								new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-								new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
-								new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
-								new AOEHex(Vector2I.Zero.Add(Direction.SouthEast).Add(Direction.East), AOEHexType.Red),
-								new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
-							]));
-							await GDTask.CompletedTask;
-							//TODO: Currently the wind consume will not be taken into account for focus/move ability/whether wind is consumed
-						}
-					)
-				]
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0)
+			.WithAOEPattern(new AOEPattern([
+				new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+				new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
+			]))
+			.WithDuringAttackSubscription(
+				ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(
+					monster,
+					[Element.Air],
+					applyFunction: async parameters =>
+					{
+						parameters.AbilityState.AbilityAdjustAttackValue(1);
+						parameters.AbilityState.AbilitySetAOEPattern(new AOEPattern([
+							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.SouthEast).Add(Direction.East), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
+						]));
+						await GDTask.CompletedTask;
+						//TODO: Currently the wind consume will not be taken into account for focus/move ability/whether wind is consumed
+					}
+				)
 			)
 		),
 	];
@@ -153,8 +147,7 @@ public class WindDemonAbilityCard5 : WindDemonAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +1, duringAttackSubscriptions:
-		[
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1).WithDuringAttackSubscription(
 			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Air],
 				applyFunction: async parameters =>
 				{
@@ -163,7 +156,7 @@ public class WindDemonAbilityCard5 : WindDemonAbilityCard
 					//TODO: Extra target won't be considered for movement
 				}
 			)
-		])),
+		))
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -180,9 +173,8 @@ public class WindDemonAbilityCard6 : WindDemonAbilityCard
 		new MonsterAbilityCardAbility(PushAbility.Builder()
 			.WithPush(1)
 			.WithTarget(Target.Enemies | Target.TargetAll)
-			.Build()),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, duringAttackSubscriptions:
-		[
+		),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithDuringAttackSubscription(
 			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Earth],
 				applyFunction: async parameters =>
 				{
@@ -190,7 +182,7 @@ public class WindDemonAbilityCard6 : WindDemonAbilityCard
 					await GDTask.CompletedTask;
 				}
 			)
-		])),
+		))
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -204,7 +196,7 @@ public class WindDemonAbilityCard7 : WindDemonAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1).Build()),
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(1)),
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
 		new MonsterAbilityCardAbility(AttackAbility(monster, -1)),
 	];

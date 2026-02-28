@@ -38,8 +38,7 @@ public class Supernova : StarslingerCardModel<Supernova.CardTop, Supernova.CardB
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}, -1{Icons.Inline(Icons.Range)}")
 					)
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -74,8 +73,7 @@ public class Supernova : StarslingerCardModel<Supernova.CardTop, Supernova.CardB
 					new UseSlot(new Vector2(0.3649924f, 0.7585101f), GainXP),
 					new UseSlot(new Vector2(0.5739941f, 0.7585101f), Light),
 					new UseSlot(new Vector2(0.47049105f, 0.8870161f), GainXP)
-				])
-				.Build())
+				]))
 		];
 
 		public override bool Persistent => true;

@@ -37,8 +37,7 @@ public class HideAndSeek : MirefootCardModel<HideAndSeek.CardTop, HideAndSeek.Ca
 							abilityState.SetPerformed();
 						}
 					}
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(LootAbility.Builder()
 				.WithRange(1)
@@ -67,8 +66,7 @@ public class HideAndSeek : MirefootCardModel<HideAndSeek.CardTop, HideAndSeek.Ca
 					{
 						await AbilityCmd.GainXP(state.Performer, 1);
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -93,12 +91,10 @@ public class HideAndSeek : MirefootCardModel<HideAndSeek.CardTop, HideAndSeek.Ca
 							}
 						}
 					}
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215359f, 0.76617837f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215359f, 0.76617837f)))),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Invisible)
@@ -109,8 +105,7 @@ public class HideAndSeek : MirefootCardModel<HideAndSeek.CardTop, HideAndSeek.Ca
 
 						return state.Performer.Hex.HasHexObjectOfType<DifficultTerrain>();
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

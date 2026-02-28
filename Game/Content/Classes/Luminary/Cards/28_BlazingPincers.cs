@@ -39,8 +39,7 @@ public class BlazingPincers : LuminaryCardModel<BlazingPincers.CardTop, BlazingP
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
+				)),
 			Scuttle(2, global::Elements.All),
 		];
 	}
@@ -50,11 +49,9 @@ public class BlazingPincers : LuminaryCardModel<BlazingPincers.CardTop, BlazingP
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
-				.Build()),
+				.WithDistance(3)),
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
-				.Build())
+				.WithDamage(3))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.InfuseWild()];

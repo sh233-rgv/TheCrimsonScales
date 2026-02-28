@@ -31,7 +31,8 @@ public partial class AMDDrawCard : Control
 			.Join(_container.TweenScale(1.2f * Vector2.One, 0.15f).SetEasing(Easing.OutBack))
 			.AppendTime(0.1f)
 			.Append(_container.TweenScale(Vector2.One, 0.15f).SetEasing(Easing.OutQuad))
-			.Build().PlayFastForwardableAsync();
+			.Build()
+			.PlayFastForwardableAsync();
 
 		QueueFree();
 	}

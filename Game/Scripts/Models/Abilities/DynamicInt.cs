@@ -20,6 +20,17 @@ public class DynamicInt<TState>
 	public static implicit operator DynamicInt<TState>(int value) => new DynamicInt<TState>(value, null);
 	public static implicit operator DynamicInt<TState>(GetValueDelegate getValueFunc) => new DynamicInt<TState>(null, getValueFunc);
 
+	public static DynamicInt<TState> operator +(DynamicInt<TState> a, DynamicInt<TState> b)
+	{
+		return new DynamicInt<TState>(
+			getValueFunc: state =>
+			{
+				int valA = a.Value ?? a.GetValueFunc?.Invoke(state) ?? 0;
+				int valB = b.Value ?? b.GetValueFunc?.Invoke(state) ?? 0;
+				return valA + valB;
+			});
+	}
+
 	public int GetValue(TState state)
 	{
 		if(GetValueFunc != null)

@@ -28,8 +28,7 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthWest).Add(Direction.NorthWest), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.SouthEast).Add(Direction.SouthEast), AOEHexType.Red)
-				]))
-				.Build()),
+				]))),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
 				.WithTarget(Target.Allies | Target.TargetAll)
@@ -45,8 +44,7 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 							list.Add(figure);
 						}
 					}
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -64,8 +62,7 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 					}
 
 					await AbilityCmd.TrySwap(state, state.Performer, swapped);
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -95,8 +92,7 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 					}
 
 					await AbilityCmd.TrySwap(state, state.Performer, swapped);
-				})
-				.Build())
+				}))
 		];
 	}
 }

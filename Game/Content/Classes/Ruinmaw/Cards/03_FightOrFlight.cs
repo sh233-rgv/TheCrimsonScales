@@ -34,8 +34,7 @@ public class FightOrFlight : RuinmawCardModel<FightOrFlight.CardTop, FightOrFlig
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
 					}
-				)
-				.Build()),
+				)),
 		];
 	}
 
@@ -45,11 +44,9 @@ public class FightOrFlight : RuinmawCardModel<FightOrFlight.CardTop, FightOrFlig
 		[
 			new AbilityCardAbility(PushAbility.Builder()
 				.WithPush(2)
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
-				.Build())
+				.WithDistance(3))
 		];
 	}
 }

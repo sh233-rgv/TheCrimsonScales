@@ -78,7 +78,7 @@ public class RendingDrakeAbilityCard4 : RendingDrakeAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -2)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, range: 3, targets: 2, conditions: [Conditions.Poison1])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithRange(3).WithTargets(2).WithConditions(Conditions.Poison1))
 	];
 }
 
@@ -90,7 +90,7 @@ public class RendingDrakeAbilityCard5 : RendingDrakeAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -2)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +1, targets: 2)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1).WithTargets(2))
 	];
 }
 
@@ -114,8 +114,8 @@ public class RendingDrakeAbilityCard7 : RendingDrakeAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(2).Build()),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()),
-		new MonsterAbilityCardAbility(ConditionAbility.Builder().WithConditions(Conditions.Strengthen).Build())
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(2)),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self)),
+		new MonsterAbilityCardAbility(ConditionAbility.Builder().WithConditions(Conditions.Strengthen))
 	];
 }

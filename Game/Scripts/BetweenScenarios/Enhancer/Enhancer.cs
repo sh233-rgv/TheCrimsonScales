@@ -90,7 +90,8 @@ public partial class Enhancer : BetweenScenariosAction
 				GTweenSequenceBuilder.New()
 					.Append(_optionsContainer.TweenPositionX(-40f, 0.45f).SetEasing(Easing.OutQuad))
 					.Append(_optionsContainer.TweenPositionX(0f, 0.25f).SetEasing(Easing.OutQuad))
-					.Build().Play();
+					.Build()
+					.Play();
 
 				UpdateCardList();
 			}))

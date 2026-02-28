@@ -23,8 +23,7 @@ public class CompoundToxin : MirefootCardModel<CompoundToxin.CardTop, CompoundTo
 						{
 							parameters.AbilityState.SingleTargetAddCondition(Conditions.Poison3);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
-						}))
-				.Build())
+						})))
 		];
 	}
 
@@ -66,8 +65,7 @@ public class CompoundToxin : MirefootCardModel<CompoundToxin.CardTop, CompoundTo
 					ScenarioEvents.DifficultTerrainTriggeredEvent.Unsubscribe(state, this);
 					ScenarioEvents.OverlayTileCreatedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;

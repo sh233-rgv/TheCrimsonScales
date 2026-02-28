@@ -28,7 +28,7 @@ public class PreparedRations : ChieftainCardModel<PreparedRations.CardTop, Prepa
 								async parameters =>
 								{
 									ActionState actionState = new ActionState(owner,
-										[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()]);
+										[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self)]);
 									await actionState.Perform();
 								}
 							);
@@ -41,7 +41,6 @@ public class PreparedRations : ChieftainCardModel<PreparedRations.CardTop, Prepa
 						}
 					)
 				)
-				.Build()
 			),
 		];
 
@@ -55,13 +54,11 @@ public class PreparedRations : ChieftainCardModel<PreparedRations.CardTop, Prepa
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.6211601f, 0.7209304f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6211601f, 0.7209304f)))),
 
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2, new HealCircle(this, new Vector2(0.49397123f, 0.81769234f)))
-				.WithTarget(Target.Self)
-				.Build()),
+				.WithTarget(Target.Self)),
 		];
 	}
 }

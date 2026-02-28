@@ -14,12 +14,10 @@ public class FeralLunge : RuinmawCardModel<FeralLunge.CardTop, FeralLunge.CardBo
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)
-				.WithMoveType(MoveType.Jump)
-				.Build()),
+				.WithMoveType(MoveType.Jump)),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
-				.WithAdvantage()
-				.Build()),
+				.WithAdvantage()),
 		];
 
 		protected override bool Sate => true;
@@ -42,8 +40,7 @@ public class FeralLunge : RuinmawCardModel<FeralLunge.CardTop, FeralLunge.CardBo
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 	}
 }

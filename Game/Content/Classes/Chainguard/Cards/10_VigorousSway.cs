@@ -34,8 +34,7 @@ public class VigorousSway : ChainguardCardModel<VigorousSway.CardTop, VigorousSw
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -44,19 +43,16 @@ public class VigorousSway : ChainguardCardModel<VigorousSway.CardTop, VigorousSw
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.62082916f, 0.6348184f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62082916f, 0.6348184f)))),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Chainguard.Shackle)
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 
 			new AbilityCardAbility(CreateTrapAbility.Builder()
 				.WithDamage(3)
 				.WithConditions(Conditions.Stun)
-				.WithCustomAsset("res://Content/Classes/Chainguard/Traps/ChainguardRopeTrap.tscn")
-				.Build())
+				.WithCustomAsset("res://Content/Classes/Chainguard/Traps/ChainguardRopeTrap.tscn"))
 		];
 
 		public override int XP => 2;

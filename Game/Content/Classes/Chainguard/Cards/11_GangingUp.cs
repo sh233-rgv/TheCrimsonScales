@@ -16,7 +16,6 @@ public class GangingUp : ChainguardCardModel<GangingUp.CardTop, GangingUp.CardBo
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.51381016f, 0.18770726f)))
 				.WithConditions(Chainguard.Shackle)
-				.Build()
 			),
 
 			new AbilityCardAbility(ControlAbility.Builder()
@@ -24,7 +23,6 @@ public class GangingUp : ChainguardCardModel<GangingUp.CardTop, GangingUp.CardBo
 				[
 					AttackAbility.Builder()
 						.WithDamage(2, new AttackDiamond(this, new Vector2(0.62174934f, 0.3972468f)))
-						.Build()
 				])
 				.WithCustomGetTargets((state, figures) =>
 				{
@@ -32,7 +30,6 @@ public class GangingUp : ChainguardCardModel<GangingUp.CardTop, GangingUp.CardBo
 					figures.AddRange(adjacentFigures.Where(figure => figure.EnemiesWith(state.Performer) && figure.HasCondition(Chainguard.Shackle)));
 				})
 				.WithTarget(Target.Enemies)
-				.Build()
 			),
 		];
 	}
@@ -55,9 +52,7 @@ public class GangingUp : ChainguardCardModel<GangingUp.CardTop, GangingUp.CardBo
 							                                                 && figure.HasCondition(Chainguard.Shackle)));
 						})
 						.WithTarget(Target.Enemies)
-						.Build()
 				])
-				.Build()
 			),
 		];
 	}

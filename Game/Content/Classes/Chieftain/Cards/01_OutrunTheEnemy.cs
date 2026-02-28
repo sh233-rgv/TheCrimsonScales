@@ -44,7 +44,6 @@ public class OutrunTheEnemy : ChieftainCardModel<OutrunTheEnemy.CardTop, OutrunT
 
 						await GDTask.CompletedTask;
 					}))
-				.Build()
 			),
 		];
 
@@ -72,14 +71,12 @@ public class OutrunTheEnemy : ChieftainCardModel<OutrunTheEnemy.CardTop, OutrunT
 								effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Move)}")
 							)
 						)
-						.Build()
 				])
 				.WithCustomGetTargets((grantState, figures) =>
 				{
 					figures.AddRange(((Character)grantState.Performer).Summons);
 				})
 				.WithTarget(Target.Allies)
-				.Build()
 			),
 		];
 	}

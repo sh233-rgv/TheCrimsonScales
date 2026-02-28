@@ -75,10 +75,8 @@ public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.Ca
 								),
 							], canSelectMultiple: true, hintText: "Choose an ability to perform");
 						})
-						.Build()
 				])
-				.WithRange(3)
-				.Build())
+				.WithRange(3))
 		];
 	}
 
@@ -89,8 +87,7 @@ public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.Ca
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen, new ConditionDiamondPlus(this, new Vector2(0.40304643f, 0.66341674f)))
 				.WithRange(3)
-				.WithTarget(Target.Allies)
-				.Build()),
+				.WithTarget(Target.Allies)),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -163,8 +160,7 @@ public class IncidentCommander : FireKnightLevelUpCardModel<IncidentCommander.Ca
 
 					await GDTask.CompletedTask;
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 
 		public override int XP => 1;

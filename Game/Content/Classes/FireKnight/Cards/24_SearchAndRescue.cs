@@ -37,8 +37,7 @@ public class SearchAndRescue : FireKnightLevelUpCardModel<SearchAndRescue.CardTo
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3, new AttackDiamond(this, new Vector2(0.5020639f, 0.29498523f)))
@@ -70,8 +69,7 @@ public class SearchAndRescue : FireKnightLevelUpCardModel<SearchAndRescue.CardTo
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build())
+				))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
@@ -95,10 +93,11 @@ public class SearchAndRescue : FireKnightLevelUpCardModel<SearchAndRescue.CardTo
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
-			new AbilityCardAbility(GiveFireKnightItemAbility(
-				state => [ModelDB.Item<FireKnightRescueShield>(), ModelDB.Item<FireKnightEmberCladding>(), ModelDB.Item<FireKnightKindledTonic>()]
+				)),
+			new AbilityCardAbility(GiveFireKnightItemAbility(state =>
+				[
+					ModelDB.Item<FireKnightRescueShield>(), ModelDB.Item<FireKnightEmberCladding>(), ModelDB.Item<FireKnightKindledTonic>()
+				]
 			)),
 			new AbilityCardAbility(GiveFireKnightItemAbility(
 				state => GetOriginalOwner(state).FireKnightItems.Select(item => item.ImmutableInstance).ToList(),

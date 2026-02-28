@@ -34,8 +34,7 @@ public class CorneredAnimal : RuinmawCardModel<CorneredAnimal.CardTop, CorneredA
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
 					}
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -45,7 +44,7 @@ public class CorneredAnimal : RuinmawCardModel<CorneredAnimal.CardTop, CorneredA
 							canApplyParameters.AbilityState.Target == state.Performer,
 						async parameters =>
 						{
-							ActionState actionState = new ActionState(state.Performer, [AttackAbility.Builder().WithDamage(3).Build()]);
+							ActionState actionState = new ActionState(state.Performer, [AttackAbility.Builder().WithDamage(3)]);
 							await actionState.Perform();
 
 							await state.ActionState.RequestDiscardOrLose();
@@ -58,8 +57,7 @@ public class CorneredAnimal : RuinmawCardModel<CorneredAnimal.CardTop, CorneredA
 					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Round => true;
@@ -80,11 +78,9 @@ public class CorneredAnimal : RuinmawCardModel<CorneredAnimal.CardTop, CorneredA
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
-				)
-				.Build()),
+				)),
 			new AbilityCardAbility(ShieldAbility.Builder()
-				.WithShieldValue(1)
-				.Build())
+				.WithShieldValue(1))
 		];
 
 		public override bool Round => true;

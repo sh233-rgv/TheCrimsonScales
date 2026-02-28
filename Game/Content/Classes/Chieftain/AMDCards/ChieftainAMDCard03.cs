@@ -6,8 +6,8 @@ public class ChieftainAMDCard03 : ChieftainAMDCardModel
 
 	public override int? GetValue(AttackAbility.State state) => -2;
 
-	public override List<Ability> GetAbilities(AttackAbility.State state) => 
+	public override List<Ability> GetAbilities(AttackAbility.State state) =>
 	[
-		ConditionAbility.Builder().WithConditions(Conditions.Bless).WithTarget(Target.Self).Build()
+		ConditionAbility.Builder().WithConditions(Conditions.Bless).WithTarget(Target.Self)
 	];
 }

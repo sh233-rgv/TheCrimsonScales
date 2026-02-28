@@ -56,8 +56,7 @@ public class CrewIntegrity : FireKnightLevelUpCardModel<CrewIntegrity.CardTop, C
 							}
 						}
 					)
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -70,7 +69,6 @@ public class CrewIntegrity : FireKnightLevelUpCardModel<CrewIntegrity.CardTop, C
 				[
 					MoveAbility.Builder()
 						.WithDistance(3, new MoveCircle(this, new Vector2(0.6176377f, 0.8494575f)))
-						.Build()
 				])
 				.WithTargets(2)
 				.WithRange(3)
@@ -84,8 +82,7 @@ public class CrewIntegrity : FireKnightLevelUpCardModel<CrewIntegrity.CardTop, C
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
-				)
-				.Build())
+				))
 		];
 	}
 }

@@ -38,8 +38,7 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 					}
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -53,8 +52,7 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 					state.SetPerformed();
 					await AbilityCmd.GainXP(state.Performer, 1);
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire)))
 		];
 	}
 
@@ -74,8 +72,7 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 							.Except(targets)
 					);
 				})
-				.WithMandatory(true)
-				.Build()),
+				.WithMandatory(true)),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -106,8 +103,7 @@ public class RollingFlames : FireKnightLevelUpCardModel<RollingFlames.CardTop, R
 						await PromptManager.Prompt(new ConfirmPrompt(null, () => "Perform damage ability?"), state.Authority);
 
 					return confirmAnswer.Confirmed;
-				})
-				.Build())
+				}))
 		];
 	}
 }

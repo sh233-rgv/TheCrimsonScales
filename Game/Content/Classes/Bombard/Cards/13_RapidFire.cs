@@ -18,12 +18,10 @@ public class RapidFire : BombardCardModel<RapidFire.CardTop, RapidFire.CardBotto
 						.WithDamage(4)
 						.WithRangeType(RangeType.Range)
 						.WithTargetHex(hex)
-						.Build()
 				])
 				.WithAbilityCardSide(this)
 				.WithRange(3)
-				.WithTargets(3)
-				.Build())
+				.WithTargets(3))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Air)];
@@ -39,8 +37,7 @@ public class RapidFire : BombardCardModel<RapidFire.CardTop, RapidFire.CardBotto
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
 				.WithTargets(3, new TargetsSquare(this, new Vector2(0.49925107f, 0.77089477f)))
-				.WithRange(3, new RangeSquare(this, new Vector2(0.7098483f, 0.77089477f)))
-				.Build())
+				.WithRange(3, new RangeSquare(this, new Vector2(0.7098483f, 0.77089477f))))
 		];
 	}
 }

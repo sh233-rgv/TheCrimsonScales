@@ -123,7 +123,8 @@ public partial class UnlockCharacterView : Control
 			.Append(_classMat3DSprite.TweenPosition(new Vector3(0f, 0.8f, 0f), 0.5f).SetEasing(Easing.OutBack))
 			.AppendTime(0.2f)
 			.Append(_classMat3DSprite.TweenPosition(_initialMat3DSpritePosition, 0.3f)) //.SetEasing(Easing.OutBack))
-			.Build().Play();
+			.Build()
+			.Play();
 
 		await GDTask.Delay(1.5f, cancellationToken: cancellationToken);
 

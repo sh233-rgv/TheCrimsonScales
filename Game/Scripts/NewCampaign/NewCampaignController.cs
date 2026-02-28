@@ -91,7 +91,8 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 				.AppendTime(0.5f)
 				.AppendCallback(_currentStep.Activate)
 				.AppendCallback(UpdateConfirmVisible)
-				.Build().Play();
+				.Build()
+				.Play();
 		}
 	}
 

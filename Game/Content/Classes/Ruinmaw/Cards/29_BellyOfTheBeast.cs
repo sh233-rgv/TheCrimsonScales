@@ -109,15 +109,13 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 							}
 						}
 					}
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
 					await AbilityCmd.KillOrExhaust(state, state.Performer);
 					state.SetPerformed();
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;
@@ -151,7 +149,7 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 												Ruinmaw.Empower,
 												Ruinmaw.Empower
 											])
-											.WithTarget(Target.Self).Build(),
+											.WithTarget(Target.Self),
 									]);
 									await actionState.Perform();
 								}
@@ -170,8 +168,7 @@ public class BellyOfTheBeast : RuinmawCardModel<BellyOfTheBeast.CardTop, BellyOf
 				.WithUseSlots(
 				[
 					new UseSlot(new Vector2(0.47550005f, 0.8609986f), SateRuinmaw),
-				])
-				.Build()),
+				])),
 		];
 
 		public override bool Persistent => true;

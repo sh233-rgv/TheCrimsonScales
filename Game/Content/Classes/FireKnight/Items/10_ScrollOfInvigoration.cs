@@ -26,7 +26,6 @@
 									MoveAbility.Builder()
 										.WithDistance(2)
 										.WithMoveType(MoveType.Jump)
-										.Build()
 								]);
 								await actionState.Perform();
 							},
@@ -45,7 +44,6 @@
 									AttackAbility.Builder()
 										.WithDamage(2)
 										.WithHasAdvantage(true)
-										.Build()
 								]);
 								await actionState.Perform();
 							},
@@ -65,7 +63,6 @@
 										.WithHealValue(2)
 										.WithConditions(Conditions.Bless)
 										.WithTarget(Target.Self)
-										.Build()
 								]);
 								await actionState.Perform();
 							},

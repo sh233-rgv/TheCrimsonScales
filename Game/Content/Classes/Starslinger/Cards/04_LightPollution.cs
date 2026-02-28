@@ -24,8 +24,7 @@ public class LightPollution : StarslingerCardModel<LightPollution.CardTop, Light
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
-				]))
-				.Build()),
+				]))),
 			new AbilityCardAbility(OtherTargetedAbility.Builder()
 				.WithOnAfterConditionsApplied(async (state, target) =>
 				{
@@ -44,8 +43,7 @@ public class LightPollution : StarslingerCardModel<LightPollution.CardTop, Light
 							list.Add(figure);
 						}
 					}
-				})
-				.Build())
+				}))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];
@@ -77,8 +75,7 @@ public class LightPollution : StarslingerCardModel<LightPollution.CardTop, Light
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 	}
 }

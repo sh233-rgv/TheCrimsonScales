@@ -64,12 +64,10 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 					ScenarioEvents.InflictConditionEvent.Unsubscribe(state, this);
 					ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.49777776f, 0.36613753f)))
-				.WithConditions(Conditions.Poison2)
-				.Build())
+				.WithConditions(Conditions.Poison2))
 		];
 
 		public override int XP => 1;
@@ -83,8 +81,7 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions([Conditions.Wound1, Conditions.Poison1])
 				.WithTarget(Target.Self)
-				.WithMandatory(true)
-				.Build()),
+				.WithMandatory(true)),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -103,8 +100,7 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 				{
 					ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -112,7 +108,7 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 						parameters => parameters.AbilityCard == GetAbilityCard(state) && parameters.AbilityCard.CardState == CardState.Discarded,
 						async parameters =>
 						{
-							await new ActionState(state.Performer, [HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()])
+							await new ActionState(state.Performer, [HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self)])
 								.Perform();
 							ScenarioEvents.AbilityCardStateChangedEvent.Unsubscribe(state, this);
 						});
@@ -121,8 +117,7 @@ public class PersonalPoison : MirefootCardModel<PersonalPoison.CardTop, Personal
 				.WithOnDeactivate(async state =>
 				{
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Persistent => true;

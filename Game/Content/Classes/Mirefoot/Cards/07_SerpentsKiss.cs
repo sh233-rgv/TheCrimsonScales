@@ -15,8 +15,7 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1, new AttackDiamond(this, new Vector2(0.49752307f, 0.27856937f)))
-				.WithConditions(Conditions.Poison2)
-				.Build())
+				.WithConditions(Conditions.Poison2))
 		];
 
 		public override int XP => 1;
@@ -35,7 +34,6 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 				.WithOnCardDiscarded(OnCardDiscarded)
 				.WithOnCardLost(OnCardLost)
 				.WithSelectAutomatically(true)
-				.Build()
 			),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -51,7 +49,7 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 							parameters.SetPrevented(true);
 
 							ActionState actionState =
-								new ActionState(target, [HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()]);
+								new ActionState(target, [HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self)]);
 							await actionState.Perform();
 						}
 					);
@@ -64,8 +62,7 @@ public class SerpentsKiss : MirefootCardModel<SerpentsKiss.CardTop, SerpentsKiss
 
 					await GDTask.CompletedTask;
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 
 		public override int XP => 2;

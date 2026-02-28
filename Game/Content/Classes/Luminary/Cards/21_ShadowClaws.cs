@@ -16,8 +16,7 @@ public class ShadowClaws : LuminaryCardModel<ShadowClaws.CardTop, ShadowClaws.Ca
 		[
 			new AbilityCardAbility(GlowActiveAbility.Builder()
 				.WithGlowAbility(new GlowAbilityModel([Element.Dark], GlowAbility,
-					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Muddle))} ability", Icons.GetCondition(Conditions.Muddle)))
-				.Build())
+					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Muddle))} ability", Icons.GetCondition(Conditions.Muddle))))
 		];
 
 		public override int XP => 1;
@@ -69,8 +68,7 @@ public class ShadowClaws : LuminaryCardModel<ShadowClaws.CardTop, ShadowClaws.Ca
 					);
 
 					await GDTask.CompletedTask;
-				})
-				.Build();
+				});
 		}
 	}
 
@@ -82,12 +80,10 @@ public class ShadowClaws : LuminaryCardModel<ShadowClaws.CardTop, ShadowClaws.Ca
 				.WithPerformAbility(async state =>
 				{
 					await AbilityCmd.RemoveOneNegativeCondition(state.Performer);
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.6213844f, 0.674216f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6213844f, 0.674216f)))),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -114,8 +110,7 @@ public class ShadowClaws : LuminaryCardModel<ShadowClaws.CardTop, ShadowClaws.Ca
 				{
 					ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 
 		public override bool Persistent => true;

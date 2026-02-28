@@ -21,7 +21,7 @@ public class ChainCannon : CS2Item
 				{
 					ActionState actionState = new ActionState(user,
 					[
-						PullSelfAbility.Builder().WithPullSelfValue(2).WithRange(3).Build()
+						PullSelfAbility.Builder().WithPullSelfValue(2).WithRange(3)
 					]);
 					await actionState.Perform();
 				});

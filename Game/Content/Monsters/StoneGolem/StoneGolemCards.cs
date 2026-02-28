@@ -24,7 +24,7 @@ public class StoneGolemAbilityCard0 : StoneGolemAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(3).WithRange(3).Build()),
+		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(3).WithRange(3)),
 	];
 }
 
@@ -43,7 +43,7 @@ public class StoneGolemAbilityCard1 : StoneGolemAbilityCard
 					await AbilityCmd.SufferDamage(state, state.Performer, 1);
 				}
 			)
-			.Build())
+		)
 	];
 }
 
@@ -79,14 +79,14 @@ public class StoneGolemAbilityCard4 : StoneGolemAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +1, range: 3)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1).WithRange(3)),
 		new MonsterAbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
 				{
 					await AbilityCmd.SufferDamage(state, state.Performer, 2);
 				}
 			)
-			.Build())
+		)
 	];
 }
 
@@ -111,7 +111,7 @@ public class StoneGolemAbilityCard6 : StoneGolemAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, target: Target.Enemies | Target.TargetAll)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithTarget(Target.Enemies | Target.TargetAll))
 	];
 }
 
@@ -123,6 +123,6 @@ public class StoneGolemAbilityCard7 : StoneGolemAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -2, range: 3, pull: 2, conditions: [Conditions.Immobilize])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -2).WithRange(3).WithPull(2).WithConditions(Conditions.Immobilize))
 	];
 }

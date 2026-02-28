@@ -11,6 +11,7 @@ public class Scenario033 : ScenarioModel
 	//public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario034>(true)];
 
 	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals(true);
+
 	protected override List<MonsterModel> SpawnedMonsterModels { get; } =
 		[ModelDB.Monster<InoxBodyguard>()];
 
@@ -110,7 +111,7 @@ public class Scenario033 : ScenarioModel
 						UpdateScenarioText($"Each character immediately performs {Icons.Inline(Icons.Heal)}4, Self.");
 						foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Character))
 						{
-							await new ActionState(figure, [HealAbility.Builder().WithHealValue(4).WithTarget(Target.Self).Build()]).Perform();
+							await new ActionState(figure, [HealAbility.Builder().WithHealValue(4).WithTarget(Target.Self)]).Perform();
 						}
 
 						await SpawnMonster(null, ModelDB.Monster<InoxBodyguard>(), MonsterType.Boss, _markerDHex);

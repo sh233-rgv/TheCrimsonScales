@@ -24,8 +24,7 @@ public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.Ca
 							await AbilityCmd.GainXP(applyParameters.AbilityState.Performer, 1);
 						}
 					)
-				)
-				.Build()),
+				)),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -53,7 +52,6 @@ public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.Ca
 										state.AbilityAdjustHealValue(parameters.AbilityState.DamageDealt);
 										await GDTask.CompletedTask;
 									})
-									.Build()
 							]);
 							await actionState.Perform();
 							await state.ActionState.RequestDiscardOrLose();
@@ -65,8 +63,7 @@ public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.Ca
 					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this);
 					ScenarioEvents.AMDCardDrawnEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Round => true;
@@ -143,8 +140,7 @@ public class BringerOfMiracles : HierophantLevelUpCardModel<BringerOfMiracles.Ca
 					ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
 					ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];

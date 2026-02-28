@@ -24,13 +24,11 @@ public class Heartripper : RuinmawCardModel<Heartripper.CardTop, Heartripper.Car
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
+				)),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(5)
 				.WithConditions(Ruinmaw.Empower)
-				.WithTarget(Target.Self)
-				.Build())
+				.WithTarget(Target.Self))
 		];
 
 		protected override bool Sate => true;
@@ -54,8 +52,7 @@ public class Heartripper : RuinmawCardModel<Heartripper.CardTop, Heartripper.Car
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
+				)),
 		];
 	}
 }

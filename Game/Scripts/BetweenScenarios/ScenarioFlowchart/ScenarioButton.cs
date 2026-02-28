@@ -28,7 +28,7 @@ public partial class ScenarioButton : Control
 	public SavedScenarioProgress SavedScenarioProgress { get; private set; }
 	public ScenarioButtonOutline ScenarioButtonOutline { get; private set; }
 
-	public string ModelId => $"SCENARIO_MODEL.SCENARIO{ScenarioNumber:D3}";
+	public string ModelId => $"SCENARIO_MODEL.SCENARIO{Model.ScenarioString}{ScenarioNumber:D3}";
 	public ScenarioModel Model => ModelDB.GetById<ScenarioModel>(ModelId);
 
 	public override void _Ready()
@@ -42,7 +42,7 @@ public partial class ScenarioButton : Control
 		}
 
 		_betterButton.Pressed += OnButtonPressed;
-		_label.Text = Model.ScenarioNumber.ToString();
+		_label.Text = Model.ScenarioString;
 	}
 
 	public void Init(Vector2I coords)
@@ -67,7 +67,7 @@ public partial class ScenarioButton : Control
 			ScenarioFlowchartArrow arrow = _scenarioFlowchartArrowScene.Instantiate<ScenarioFlowchartArrow>();
 			AddChild(arrow);
 			ScenarioButton destinationScenarioButton =
-				BetweenScenariosController.Instance.ScenarioFlowchart.GetScenarioButton(connection.To.ScenarioNumber);
+				BetweenScenariosController.Instance.ScenarioFlowchart.GetScenarioButton(connection.To.ScenarioString);
 			arrow.Init(this, destinationScenarioButton, connection.Linked);
 			Arrows.Add(arrow);
 		}
@@ -101,7 +101,7 @@ public partial class ScenarioButton : Control
 		// 	.Append(this.TweenScale(1f, 0.5f))
 		// 	// .Append(_container.TweenSizeX(sizeX, 0.5f))
 		// 	// .Append(_linkContainer.TweenScale(Linked ? 1f : 0f, Linked ? 0.3f : 0f).SetEasing(Easing.OutBack))
-		// 	.Build().Play();
+		// 	.Play();
 	}
 
 	private void OnButtonPressed()

@@ -59,7 +59,8 @@ public partial class CardSelectionView : Control
 		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
 			[CardState.Playing], CardSelectionListCategoryType.Playing));
 		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
-			[CardState.Persistent, CardState.PersistentLoss, CardState.PersistentNoDeactivate, CardState.Round, CardState.RoundLoss], CardSelectionListCategoryType.Active));
+			[CardState.Persistent, CardState.PersistentLoss, CardState.PersistentNoDeactivate, CardState.Round, CardState.RoundLoss],
+			CardSelectionListCategoryType.Active));
 		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
 			[CardState.Hand], CardSelectionListCategoryType.Hand));
 		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
@@ -79,8 +80,7 @@ public partial class CardSelectionView : Control
 				category.HeaderContainer.SetPosition(new Vector2(-600, category.HeaderContainer.Position.Y));
 				GTweenSequenceBuilder.New()
 					.AppendTime(delay)
-					.Append(category.HeaderContainer.TweenPositionX(0f, 0.3f).SetEasing(Easing.OutBack))
-					.Build().Play();
+					.Append(category.HeaderContainer.TweenPositionX(0f, 0.3f).SetEasing(Easing.OutBack)).Build().Play();
 
 				delay += 0.03f;
 			}
@@ -90,8 +90,7 @@ public partial class CardSelectionView : Control
 				card.SetPosition(new Vector2(-600, card.Position.Y));
 				GTweenSequenceBuilder.New()
 					.AppendTime(delay)
-					.Append(card.TweenPositionX(0f, 0.3f).SetEasing(Easing.OutBack))
-					.Build().Play();
+					.Append(card.TweenPositionX(0f, 0.3f).SetEasing(Easing.OutBack)).Build().Play();
 
 				delay += 0.03f;
 			}
@@ -164,8 +163,7 @@ public partial class CardSelectionView : Control
 				GTweenSequenceBuilder.New()
 					.Append(category.HeaderContainer.TweenPositionX(category.HeaderContainer.Position.X, delay))
 					.Append(category.HeaderContainer.TweenPositionX(-600f, 0.15f).SetEasing(Easing.InBack))
-					.AppendCallback(category.HeaderContainer.QueueFree)
-					.Build().Play();
+					.AppendCallback(category.HeaderContainer.QueueFree).Build().Play();
 
 				delay += 0.03f;
 			}
@@ -177,8 +175,7 @@ public partial class CardSelectionView : Control
 				GTweenSequenceBuilder.New()
 					.Append(card.TweenPositionX(card.Position.X, delay))
 					.Append(card.TweenPositionX(-600f, 0.15f).SetEasing(Easing.InBack))
-					.AppendCallback(card.QueueFree)
-					.Build().Play();
+					.AppendCallback(card.QueueFree).Build().Play();
 
 				delay += 0.03f;
 			}

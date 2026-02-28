@@ -144,7 +144,6 @@ public class Scenario010 : ScenarioModel
 							HealAbility.Builder()
 								.WithHealValue(1)
 								.WithTarget(Target.Self)
-								.Build()
 						]);
 						await actionState.Perform();
 					}

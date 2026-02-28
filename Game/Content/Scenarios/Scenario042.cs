@@ -65,7 +65,6 @@ public class Scenario042 : ScenarioModel
 					PushAbility.Builder()
 						.WithPush(2)
 						.WithRange(1)
-						.Build()
 				]);
 				await actionState.Perform();
 			},

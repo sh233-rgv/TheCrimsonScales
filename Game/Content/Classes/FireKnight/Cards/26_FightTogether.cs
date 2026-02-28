@@ -18,15 +18,12 @@ public class FightTogether : FireKnightLevelUpCardModel<FightTogether.CardTop, F
 				.WithAbilities(
 				[
 					ShieldAbility.Builder()
-						.WithShieldValue(2, new ShieldDiamondPlus(this, new Vector2(0.49963737f, 0.24985416f)))
-						.Build(),
+						.WithShieldValue(2, new ShieldDiamondPlus(this, new Vector2(0.49963737f, 0.24985416f))),
 					ConditionAbility.Builder()
 						.WithConditions(Conditions.Bless)
 						.WithTarget(Target.Self)
-						.Build()
 				])
-				.WithTarget(Target.SelfOrAllies | Target.TargetAll)
-				.Build()),
+				.WithTarget(Target.SelfOrAllies | Target.TargetAll)),
 			new AbilityCardAbility(GiveFireKnightItemAbility(
 				state => [ModelDB.Item<FireKnightScrollOfProtection>()],
 				customGetTargets: (state, list) =>
@@ -93,17 +90,14 @@ public class FightTogether : FireKnightLevelUpCardModel<FightTogether.CardTop, F
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithAbilities(
 				[
 					AttackAbility.Builder()
 						.WithDamage(3, new AttackDiamond(this, new Vector2(0.61666214f, 0.8298918f)))
-						.Build()
-				])
-				.Build())
+				]))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];

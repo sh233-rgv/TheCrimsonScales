@@ -13,13 +13,11 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
-				.Build()),
+				.WithDistance(2)),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithTarget(Target.Self)
-				.WithConditions(Ruinmaw.Empower)
-				.Build()),
+				.WithConditions(Ruinmaw.Empower)),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -50,8 +48,7 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 					}
 
 					return IsSated(state.Performer);
-				})
-				.Build()),
+				})),
 		];
 	}
 
@@ -60,8 +57,7 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(5)
-				.Build()),
+				.WithDistance(5)),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -72,8 +68,7 @@ public class ScrapeAndScrounge : RuinmawCardModel<ScrapeAndScrounge.CardTop, Scr
 					}
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 
 		protected override bool Sate => true;

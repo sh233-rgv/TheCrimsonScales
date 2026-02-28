@@ -16,8 +16,7 @@ public class InnerReflection : HierophantCardModel<InnerReflection.CardTop, Inne
 				.WithDamage(1, new AttackDiamond(this, new Vector2(0.32887793f, 0.2931021f)))
 				.WithRange(3, new RangeSquare(this, new Vector2(0.55187505f, 0.2931021f)))
 				.WithPierce(3)
-				.WithConditions(Conditions.Wound1)
-				.Build())
+				.WithConditions(Conditions.Wound1))
 		];
 
 		public override int XP => 1;
@@ -60,8 +59,7 @@ public class InnerReflection : HierophantCardModel<InnerReflection.CardTop, Inne
 					{
 						await GivePrayerCard(state, targetedFigures[0]);
 					}
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;

@@ -36,8 +36,7 @@ public class SyndicatedAssault : ChainguardLevelUpCardModel<SyndicatedAssault.Ca
 					ScenarioCheckEvents.CanPassEnemyCheckEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithAbilities(
@@ -49,7 +48,6 @@ public class SyndicatedAssault : ChainguardLevelUpCardModel<SyndicatedAssault.Ca
 							AttackAbility.State attackAbilityState = state.ActionState.ParentActionState.GetAbilityState<AttackAbility.State>(0);
 							figures.AddRange(attackAbilityState.UniqueTargetedFigures);
 						})
-						.Build()
 				])
 				.WithCustomGetTargets((state, figures) =>
 				{
@@ -60,8 +58,7 @@ public class SyndicatedAssault : ChainguardLevelUpCardModel<SyndicatedAssault.Ca
 
 					figures.AddRange(figuresPassedThrough.Where(figure => figure.AlliedWith(state.Performer) && figure != swingState.Target));
 				})
-				.WithTarget(Target.Allies | Target.TargetAll)
-				.Build()),
+				.WithTarget(Target.Allies | Target.TargetAll)),
 		];
 	}
 
@@ -70,8 +67,7 @@ public class SyndicatedAssault : ChainguardLevelUpCardModel<SyndicatedAssault.Ca
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.61960894f, 0.7226138f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.61960894f, 0.7226138f)))),
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -80,8 +76,7 @@ public class SyndicatedAssault : ChainguardLevelUpCardModel<SyndicatedAssault.Ca
 					figures.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, includeOrigin: false)
 						.Where(figure => state.Performer.EnemiesWith(figure)));
 				})
-				.WithTarget(Target.Enemies | Target.TargetAll)
-				.Build())
+				.WithTarget(Target.Enemies | Target.TargetAll))
 		];
 	}
 }

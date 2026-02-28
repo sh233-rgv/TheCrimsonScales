@@ -32,8 +32,7 @@ public class VolatileTonic : MirefootCardModel<VolatileTonic.CardTop, VolatileTo
 
 							await AbilityCmd.GainXP(parameters.AbilityState.Performer, 1);
 						})
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -49,8 +48,7 @@ public class VolatileTonic : MirefootCardModel<VolatileTonic.CardTop, VolatileTo
 						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 					]
-				), new AOEHexMark(Vector2I.Zero.Add(Direction.East).Add(Direction.NorthEast), this, new Vector2(0.7762197f, 0.69813174f)))
-				.Build())
+				), new AOEHexMark(Vector2I.Zero.Add(Direction.East).Add(Direction.NorthEast), this, new Vector2(0.7762197f, 0.69813174f))))
 		];
 
 		public override int XP => 2;

@@ -19,7 +19,7 @@ public class HookShot : CS2Item
 			{
 				await Use(async user =>
 				{
-					ActionState actionState = new ActionState(user, [AttackAbility.Builder().WithDamage(2).WithRange(3).WithPierce(2).Build()]);
+					ActionState actionState = new ActionState(user, [AttackAbility.Builder().WithDamage(2).WithRange(3).WithPierce(2)]);
 					await actionState.Perform();
 				});
 			}

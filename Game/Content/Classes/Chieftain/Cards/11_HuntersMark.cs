@@ -86,8 +86,7 @@ public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.C
 					state.SetCustomValue(this, "Figure", figure);
 					return true;
 				})
-				.WithSkipConfirmation()
-				.Build())
+				.WithSkipConfirmation())
 		];
 
 		public override bool Persistent => true;
@@ -98,7 +97,7 @@ public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.C
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(GrantAbility.Builder()
-				.WithAbilities([RetaliateAbility.Builder().WithRetaliateValue(1).Build()])
+				.WithAbilities([RetaliateAbility.Builder().WithRetaliateValue(1)])
 				.WithCustomGetTargets((state, figures) =>
 				{
 					Figure mount = Chieftain.GetMount(state.Performer);
@@ -110,7 +109,6 @@ public class HuntersMark : ChieftainCardModel<HuntersMark.CardTop, HuntersMark.C
 					figures.Add(state.Performer);
 				})
 				.WithTarget(Target.SelfOrAllies | Target.TargetAll)
-				.Build()
 			),
 		];
 

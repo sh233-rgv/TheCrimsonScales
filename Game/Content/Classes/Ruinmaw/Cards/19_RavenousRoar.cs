@@ -43,8 +43,7 @@ public class RavenousRoar : RuinmawCardModel<RavenousRoar.CardTop, RavenousRoar.
 							await AbilityCmd.GainXP(state.Performer, 1);
 						}
 					}
-				)
-				.Build()),
+				)),
 		];
 	}
 
@@ -53,11 +52,9 @@ public class RavenousRoar : RuinmawCardModel<RavenousRoar.CardTop, RavenousRoar.
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(LootAbility.Builder()
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
-				.Build())
+				.WithDistance(3))
 		];
 	}
 }

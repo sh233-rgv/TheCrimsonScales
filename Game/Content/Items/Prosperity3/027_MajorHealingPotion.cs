@@ -23,7 +23,7 @@ public class MajorHealingPotion : Prosperity3Item
 					[
 						HealAbility.Builder()
 							.WithHealValue(5)
-							.WithTarget(Target.Self).Build()
+							.WithTarget(Target.Self)
 					]);
 					await actionState.Perform();
 				});

@@ -19,7 +19,6 @@ public class CatastrophicCattle : ChieftainCardModel<CatastrophicCattle.CardTop,
 				.WithMove(2, new SummonMoveSquare(this, new Vector2(0.67835045f, 0.23893806f)))
 				.WithAttack(2, new SummonAttackSquare(this, new Vector2(0.44718847f, 0.31493726f)))
 				.WithTraits(new MountTrait(), new PushTrait(1))
-				.Build()
 			),
 		];
 
@@ -33,8 +32,7 @@ public class CatastrophicCattle : ChieftainCardModel<CatastrophicCattle.CardTop,
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveSquare(this, new Vector2(0.6224222f, 0.723211f)))
-				.Build()),
+				.WithDistance(3, new MoveSquare(this, new Vector2(0.6224222f, 0.723211f)))),
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];

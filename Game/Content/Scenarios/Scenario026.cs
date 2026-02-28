@@ -73,8 +73,7 @@ public class Scenario026 : ScenarioModel
 					UpdateScenarioText(_text);
 					HealAbility heal = HealAbility.Builder()
 						.WithHealValue(3)
-						.WithTarget(Target.Self)
-						.Build();
+						.WithTarget(Target.Self);
 					ActionState actionState = new ActionState(applyParameters.Figure, [heal]);
 					await actionState.Perform();
 					await AbilityCmd.CreateOverlayTile<HazardousTerrain>(objective.Hex,
@@ -158,7 +157,6 @@ public class Scenario026 : ScenarioModel
 
 							await AbilityCmd.RemoveAllChill(figure);
 						})
-						.Build()
 				]);
 				await actionState.Perform();
 			},

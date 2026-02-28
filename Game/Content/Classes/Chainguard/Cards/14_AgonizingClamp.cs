@@ -15,8 +15,7 @@ public class AgonizingClamp : ChainguardLevelUpCardModel<AgonizingClamp.CardTop,
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Chainguard.Shackle)
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4, new AttackDiamond(this, new Vector2(0.3550224f, 0.34218287f)))
@@ -25,7 +24,6 @@ public class AgonizingClamp : ChainguardLevelUpCardModel<AgonizingClamp.CardTop,
 					IEnumerable<Figure> adjacentFigures = RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, includeOrigin: false);
 					figures.AddRange(adjacentFigures.Where(figure => figure.EnemiesWith(state.Performer) && figure.HasCondition(Chainguard.Shackle)));
 				})
-				.Build()
 			),
 		];
 	}
@@ -35,13 +33,11 @@ public class AgonizingClamp : ChainguardLevelUpCardModel<AgonizingClamp.CardTop,
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.61960894f, 0.7218475f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.61960894f, 0.7218475f)))),
 
 			new AbilityCardAbility(SwingAbility.Builder()
 				.WithSwing(3)
-				.WithRange(1)
-				.Build())
+				.WithRange(1))
 		];
 	}
 }

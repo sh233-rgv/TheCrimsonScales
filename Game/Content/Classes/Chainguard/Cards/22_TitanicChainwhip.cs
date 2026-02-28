@@ -16,8 +16,7 @@ public class TitanicChainwhip : ChainguardLevelUpCardModel<TitanicChainwhip.Card
 				.WithDamage(4, new AttackDiamond(this, new Vector2(0.32713646f, 0.29301867f)))
 				.WithRange(3, new RangeSquare(this, new Vector2(0.55225706f, 0.29301867f)))
 				.WithConditions(Chainguard.Shackle)
-				.WithPull(2)
-				.Build()),
+				.WithPull(2)),
 		];
 	}
 
@@ -28,8 +27,7 @@ public class TitanicChainwhip : ChainguardLevelUpCardModel<TitanicChainwhip.Card
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(4)
 				.WithRange(5)
-				.WithConditions([Chainguard.Shackle, Conditions.Wound1])
-				.Build()),
+				.WithConditions([Chainguard.Shackle, Conditions.Wound1])),
 		];
 	}
 }

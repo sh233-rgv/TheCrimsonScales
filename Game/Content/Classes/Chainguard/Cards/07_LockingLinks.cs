@@ -17,7 +17,6 @@ public class LockingLinks : ChainguardCardModel<LockingLinks.CardTop, LockingLin
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.5131502f, 0.1789577f)))
 				.WithConditions(Chainguard.Shackle)
-				.Build()
 			),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
@@ -61,7 +60,6 @@ public class LockingLinks : ChainguardCardModel<LockingLinks.CardTop, LockingLin
 					       !attackState.Target.IsDead &&
 					       attackState.Target.HasCondition(Chainguard.Shackle);
 				})
-				.Build()
 			)
 		];
 
@@ -74,8 +72,7 @@ public class LockingLinks : ChainguardCardModel<LockingLinks.CardTop, LockingLin
 		[
 			new AbilityCardAbility(CreateTrapAbility.Builder()
 				.WithDamage(2)
-				.WithCustomAsset("res://Content/Classes/Chainguard/Traps/ChainguardTrap.tscn")
-				.Build())
+				.WithCustomAsset("res://Content/Classes/Chainguard/Traps/ChainguardTrap.tscn"))
 		];
 
 		public override int XP => 1;

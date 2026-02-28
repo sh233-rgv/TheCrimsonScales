@@ -30,8 +30,7 @@ public class FlickeringLights : LuminaryCardModel<FlickeringLights.CardTop, Flic
 					{
 						await AbilityCmd.InfuseWildElement(state);
 					}
-				})
-				.Build()),
+				})),
 			Scuttle(1, [Element.Light]),
 		];
 
@@ -45,8 +44,7 @@ public class FlickeringLights : LuminaryCardModel<FlickeringLights.CardTop, Flic
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
-				.WithTarget(Target.Self)
-				.Build()),
+				.WithTarget(Target.Self)),
 			new AbilityCardAbility(LootAbility.Builder()
 				.WithRange(1)
 				.WithOnAbilityEndedPerformed(async state =>
@@ -55,8 +53,7 @@ public class FlickeringLights : LuminaryCardModel<FlickeringLights.CardTop, Flic
 					{
 						await AbilityCmd.InfuseWildElement(state);
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 }

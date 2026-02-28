@@ -44,7 +44,8 @@ public partial class CardSelectionCardPreview : Control
 		_tween = GTweenSequenceBuilder.New()
 			.Append(_cardView.TweenPositionX(0f, animationDuration))
 			.Join(_cardView.TweenModulateAlpha(1f, animationDuration))
-			.Build().Play();
+			.Build()
+			.Play();
 
 		SetProcess(true);
 	}
@@ -59,8 +60,7 @@ public partial class CardSelectionCardPreview : Control
 				.AppendTime(0.05f)
 				.Append(_cardView.TweenPositionX(_originOffset, animationDuration))
 				.Join(_cardView.TweenModulateAlpha(0f, animationDuration))
-				.AppendCallback(Hide)
-				.Build().Play();
+				.AppendCallback(Hide).Build().Play();
 
 			_focus = null;
 			SetProcess(false);

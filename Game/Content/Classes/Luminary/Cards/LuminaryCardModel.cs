@@ -56,7 +56,7 @@ public abstract class LuminaryCardSide : AbilityCardSideModel
 					await GDTask.CompletedTask;
 				}
 			)
-			.Build());
+		);
 	}
 
 	protected AbilityCardAbility PerformFreeGlow()
@@ -75,7 +75,7 @@ public abstract class LuminaryCardSide : AbilityCardSideModel
 
 				await GDTask.CompletedTask;
 			})
-			.Build());
+		);
 	}
 
 	public static async GDTask GlowAbility(Figure performer, GlowAbilityModel[] glowAbilities, bool consumeElements = true)

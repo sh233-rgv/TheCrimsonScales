@@ -21,7 +21,7 @@ public class IntoxicatingPotion : CS1Item
 				{
 					ActionState actionState = new ActionState(user, [
 						HealAbility.Builder().WithHealValue(5)
-							.WithConditions(Conditions.Poison1).WithTarget(Target.Self).Build()
+							.WithConditions(Conditions.Poison1).WithTarget(Target.Self)
 					]);
 					await actionState.Perform();
 				});

@@ -59,7 +59,7 @@ public class HarrowerIcecrawlersAbilityCard2 : HarrowerIcecrawlersAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(2).Build()),
+		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(2)),
 		new MonsterAbilityCardAbility(OtherActiveAbility.Builder()
 			//TODO: Change Retaliate Event so it requires suffering damage, and can work with retaliate of any range
 			.WithOnActivate(async state =>
@@ -88,7 +88,6 @@ public class HarrowerIcecrawlersAbilityCard2 : HarrowerIcecrawlersAbilityCard
 
 				await GDTask.CompletedTask;
 			})
-			.Build()
 		),
 	];
 }
@@ -101,14 +100,13 @@ public class HarrowerIcecrawlersAbilityCard3 : HarrowerIcecrawlersAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0,
-			aoePattern: new AOEPattern([
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0)
+			.WithAOEPattern(new AOEPattern([
 				new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 				new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-			]),
-			duringAttackSubscriptions:
-			[
+			]))
+			.WithDuringAttackSubscription(
 				ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Ice],
 					applyFunction: async parameters =>
 					{
@@ -116,8 +114,8 @@ public class HarrowerIcecrawlersAbilityCard3 : HarrowerIcecrawlersAbilityCard
 						await GDTask.CompletedTask;
 					}
 				)
-			]
-		)),
+			)
+		)
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -132,17 +130,14 @@ public class HarrowerIcecrawlersAbilityCard4 : HarrowerIcecrawlersAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -2)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +1, range: 3,
-			duringAttackSubscriptions:
-			[
-				ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Ice],
-					applyFunction: async parameters =>
-					{
-						parameters.AbilityState.AbilityAdjustPierce(2);
-						await GDTask.CompletedTask;
-					})
-			]
-		)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1).WithRange(3).WithDuringAttackSubscription(
+			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Ice],
+				applyFunction: async parameters =>
+				{
+					parameters.AbilityState.AbilityAdjustPierce(2);
+					await GDTask.CompletedTask;
+				})
+		))
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -156,8 +151,7 @@ public class HarrowerIcecrawlersAbilityCard5 : HarrowerIcecrawlersAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 5, afterAttackPerformedSubscriptions:
-		[
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0).WithRange(5).WithAfterAttackPerformedSubscription(
 			ScenarioEvents.AfterAttackPerformed.Subscription.New(canApplyFunction: canApply => CheckElementConsumed(monster, [Element.Ice]),
 				applyFunction: async applyParameters =>
 				{
@@ -177,7 +171,7 @@ public class HarrowerIcecrawlersAbilityCard5 : HarrowerIcecrawlersAbilityCard
 					}
 				}
 			)
-		]))
+		))
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
@@ -192,7 +186,7 @@ public class HarrowerIcecrawlersAbilityCard6 : HarrowerIcecrawlersAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, aoePattern: new AOEPattern([
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithAOEPattern(new AOEPattern([
 			new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 			new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 			new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthWest), AOEHexType.Red),
@@ -210,6 +204,6 @@ public class HarrowerIcecrawlersAbilityCard7 : HarrowerIcecrawlersAbilityCard
 	[
 		//TODO: Add "Add Range 3 to all retaliate" ability
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithRange(3).Build())
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithRange(3))
 	];
 }

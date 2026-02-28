@@ -23,7 +23,7 @@ public class SuperHealingPotion : Prosperity7Item
 					[
 						HealAbility.Builder()
 							.WithHealValue(7)
-							.WithTarget(Target.Self).Build()
+							.WithTarget(Target.Self)
 					]);
 					await actionState.Perform();
 				});

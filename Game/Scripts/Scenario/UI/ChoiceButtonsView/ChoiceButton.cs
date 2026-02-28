@@ -49,8 +49,7 @@ public partial class ChoiceButton : Control
 			_scaleTween = GTweenSequenceBuilder.New()
 				.AppendTime(0.05f)
 				.AppendCallback(Show)
-				.Append(this.TweenScale(1f, 0.15f).SetEasing(Easing.OutBack))
-				.Build().Play();
+				.Append(this.TweenScale(1f, 0.15f).SetEasing(Easing.OutBack)).Build().Play();
 		}
 		else
 		{

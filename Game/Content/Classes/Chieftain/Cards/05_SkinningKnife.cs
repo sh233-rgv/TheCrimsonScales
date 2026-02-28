@@ -13,8 +13,7 @@ public class SkinningKnife : ChieftainCardModel<SkinningKnife.CardTop, SkinningK
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3, new AttackDiamond(this, new Vector2(0.619084f, 0.24810435f)))
-				.Build())
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.619084f, 0.24810435f))))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];
@@ -26,7 +25,7 @@ public class SkinningKnife : ChieftainCardModel<SkinningKnife.CardTop, SkinningK
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(LootAbility.Builder().WithRange(1).Build())
+			new AbilityCardAbility(LootAbility.Builder().WithRange(1))
 		];
 	}
 }

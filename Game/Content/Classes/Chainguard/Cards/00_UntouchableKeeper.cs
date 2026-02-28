@@ -13,8 +13,7 @@ public class UntouchableKeeper : ChainguardCardModel<UntouchableKeeper.CardTop, 
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ShieldAbility.Builder()
-				.WithShieldValue(1)
-				.Build()),
+				.WithShieldValue(1)),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -50,8 +49,7 @@ public class UntouchableKeeper : ChainguardCardModel<UntouchableKeeper.CardTop, 
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override bool Round => true;
@@ -63,8 +61,7 @@ public class UntouchableKeeper : ChainguardCardModel<UntouchableKeeper.CardTop, 
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)
-				.WithTarget(Target.Self)
-				.Build()),
+				.WithTarget(Target.Self)),
 		];
 
 		public override int XP => 1;

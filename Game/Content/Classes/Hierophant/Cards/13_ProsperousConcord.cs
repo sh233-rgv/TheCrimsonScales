@@ -13,7 +13,7 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(AttackAbility.Builder().WithDamage(2).WithRange(3).Build()),
+			new AbilityCardAbility(AttackAbility.Builder().WithDamage(2).WithRange(3)),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -63,8 +63,7 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 					state.SetCustomValue(this, "Figure", figure);
 					return true;
 				})
-				.WithSkipConfirmation()
-				.Build())
+				.WithSkipConfirmation())
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];
@@ -111,8 +110,7 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 							effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Heal)}")
 						)
 					]
-				)
-				.Build())
+				))
 		];
 	}
 }

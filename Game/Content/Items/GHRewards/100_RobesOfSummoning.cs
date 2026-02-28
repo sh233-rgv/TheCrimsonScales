@@ -35,7 +35,6 @@ public class RobesOfSummoning : GHRewardsItem
 									}
 								})
 								.WithTargets(1)
-								.Build()
 						]
 					);
 					await actionState.Perform();

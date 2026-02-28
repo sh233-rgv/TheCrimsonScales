@@ -41,8 +41,7 @@ public class Penitence : HierophantPrayerCardModel<Penitence.CardTop, Penitence.
 						new UseSlot(new Vector2(0.38450018f, 0.3065f)),
 						new UseSlot(new Vector2(0.5899994f, 0.3065f))
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;
@@ -82,8 +81,7 @@ public class Penitence : HierophantPrayerCardModel<Penitence.CardTop, Penitence.
 						new UseSlot(new Vector2(0.38450018f, 0.7780105f)),
 						new UseSlot(new Vector2(0.5899994f, 0.7780105f))
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override bool Persistent => true;

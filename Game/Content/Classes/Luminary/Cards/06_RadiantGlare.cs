@@ -15,8 +15,7 @@ public class RadiantGlare : LuminaryCardModel<RadiantGlare.CardTop, RadiantGlare
 		[
 			new AbilityCardAbility(GlowActiveAbility.Builder()
 				.WithGlowAbility(new GlowAbilityModel([Element.Light], GlowAbility,
-					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Immobilize))} ability", Icons.GetCondition(Conditions.Immobilize)))
-				.Build())
+					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Immobilize))} ability", Icons.GetCondition(Conditions.Immobilize))))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
@@ -41,8 +40,7 @@ public class RadiantGlare : LuminaryCardModel<RadiantGlare.CardTop, RadiantGlare
 					state.SetCustomValue(state.Performer, "Consumed Elements", elements);
 
 					await GDTask.CompletedTask;
-				})
-				.Build();
+				});
 		}
 	}
 
@@ -51,8 +49,7 @@ public class RadiantGlare : LuminaryCardModel<RadiantGlare.CardTop, RadiantGlare
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128437f, 0.72183055f)))
-				.Build())
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128437f, 0.72183055f))))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Dark)];

@@ -163,7 +163,8 @@ public partial class BetweenScenariosCharacterPortrait : Control
 				.AppendTime(0.05f)
 				.Append(_container.TweenScale(1f, 0.15f).SetEasing(Easing.OutBack))
 				.Join(_inactiveOverlay.TweenModulateAlpha(0f, 0.15f))
-				.Build().Play();
+				.Build()
+				.Play();
 		}
 		else
 		{
@@ -171,7 +172,8 @@ public partial class BetweenScenariosCharacterPortrait : Control
 				.AppendTime(0.05f)
 				.Append(_container.TweenScale(0.9f, 0.15f).SetEasing(Easing.InBack))
 				.Join(_inactiveOverlay.TweenModulateAlpha(1f, 0.15f))
-				.Build().Play();
+				.Build()
+				.Play();
 		}
 	}
 

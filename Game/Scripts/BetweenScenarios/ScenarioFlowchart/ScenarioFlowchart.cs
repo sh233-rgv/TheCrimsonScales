@@ -29,7 +29,7 @@ public partial class ScenarioFlowchart : BetweenScenariosAction
 
 	private bool _animating;
 
-	private readonly Dictionary<int, ScenarioButton> _scenarioButtons = new Dictionary<int, ScenarioButton>();
+	private readonly Dictionary<string, ScenarioButton> _scenarioButtons = new Dictionary<string, ScenarioButton>();
 	private readonly Dictionary<Vector2I, ScenarioButton> _scenarioButtonsByCoords = new Dictionary<Vector2I, ScenarioButton>();
 
 	public int ColumnCount => _gridContainer.Columns;
@@ -46,7 +46,7 @@ public partial class ScenarioFlowchart : BetweenScenariosAction
 		{
 			if(scenarioButton.Model != null)
 			{
-				_scenarioButtons.Add(scenarioButton.Model.ScenarioNumber, scenarioButton);
+				_scenarioButtons.Add(scenarioButton.Model.ScenarioString, scenarioButton);
 			}
 		}
 	}
@@ -62,7 +62,7 @@ public partial class ScenarioFlowchart : BetweenScenariosAction
 
 	private void Init()
 	{
-		foreach((int number, ScenarioButton scenarioButton) in _scenarioButtons)
+		foreach((string _, ScenarioButton scenarioButton) in _scenarioButtons)
 		{
 			int index = scenarioButton.GetIndex();
 			Vector2I coords = new Vector2I(index % ColumnCount, index / ColumnCount);
@@ -70,7 +70,7 @@ public partial class ScenarioFlowchart : BetweenScenariosAction
 			_scenarioButtonsByCoords.Add(coords, scenarioButton);
 		}
 
-		foreach((int number, ScenarioButton scenarioButton) in _scenarioButtons)
+		foreach((string _, ScenarioButton scenarioButton) in _scenarioButtons)
 		{
 			foreach(ScenarioFlowchartArrow arrow in scenarioButton.Arrows)
 			{
@@ -78,7 +78,7 @@ public partial class ScenarioFlowchart : BetweenScenariosAction
 			}
 		}
 
-		foreach((int key, ScenarioButton scenarioButton) in _scenarioButtons)
+		foreach((string _, ScenarioButton scenarioButton) in _scenarioButtons)
 		{
 			if(!scenarioButton.SavedScenarioProgress.ShownOnMap)
 			{
@@ -115,9 +115,9 @@ public partial class ScenarioFlowchart : BetweenScenariosAction
 		}
 	}
 
-	public ScenarioButton GetScenarioButton(int scenarioNumber)
+	public ScenarioButton GetScenarioButton(string scenarioString)
 	{
-		return _scenarioButtons[scenarioNumber];
+		return _scenarioButtons[scenarioString];
 	}
 
 	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder, BetweenScenariosAction previousActiveAction)
@@ -192,7 +192,7 @@ public partial class ScenarioFlowchart : BetweenScenariosAction
 
 	private void DiscoverScenarios()
 	{
-		foreach((int _, ScenarioButton scenarioButton) in _scenarioButtons)
+		foreach((string _, ScenarioButton scenarioButton) in _scenarioButtons)
 		{
 			if(scenarioButton.SavedScenarioProgress.Completed)
 			{
@@ -211,7 +211,7 @@ public partial class ScenarioFlowchart : BetweenScenariosAction
 	{
 		CancellationToken cancellationToken = BetweenScenariosController.Instance.DestroyCancellationToken;
 
-		foreach((int _, ScenarioButton scenarioButton) in _scenarioButtons)
+		foreach((string _, ScenarioButton scenarioButton) in _scenarioButtons)
 		{
 			if(!scenarioButton.SavedScenarioProgress.Discovered || scenarioButton.SavedScenarioProgress.ShownOnMap)
 			{
@@ -272,7 +272,7 @@ public partial class ScenarioFlowchart : BetweenScenariosAction
 			await GDTask.Delay(0.7f, cancellationToken: cancellationToken);
 
 			// Find the arrows leading to this scenario button
-			foreach((int _, ScenarioButton otherScenarioButton) in _scenarioButtons)
+			foreach((string _, ScenarioButton otherScenarioButton) in _scenarioButtons)
 			{
 				foreach(ScenarioFlowchartArrow arrow in otherScenarioButton.Arrows)
 				{

@@ -27,8 +27,7 @@ public class BlueMoon : StarslingerCardModel<BlueMoon.CardTop, BlueMoon.CardBott
 					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.SouthWest), AOEHexType.Yellow),
-				]))
-				.Build()),
+				]))),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(4)
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
@@ -48,8 +47,7 @@ public class BlueMoon : StarslingerCardModel<BlueMoon.CardTop, BlueMoon.CardBott
 					{
 						await AbilityCmd.GainXP(state.Performer, 1);
 					}
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -58,8 +56,7 @@ public class BlueMoon : StarslingerCardModel<BlueMoon.CardTop, BlueMoon.CardBott
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4, new MoveCircle(this, new Vector2(0.61790806f, 0.674216f)))
-				.Build()),
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.61790806f, 0.674216f)))),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(5)
 				.WithTarget(Target.Self)
@@ -68,8 +65,7 @@ public class BlueMoon : StarslingerCardModel<BlueMoon.CardTop, BlueMoon.CardBott
 					MoveAbility.State moveAbilityState = state.ActionState.GetAbilityState<MoveAbility.State>(0);
 					state.AbilityAdjustHealValue(-moveAbilityState.Hexes.Count);
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 	}
 }

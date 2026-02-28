@@ -32,8 +32,7 @@ public class AlignedConstellations : StarslingerCardModel<AlignedConstellations.
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Dark)];
@@ -47,17 +46,14 @@ public class AlignedConstellations : StarslingerCardModel<AlignedConstellations.
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6216662f, 0.6884774f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6216662f, 0.6884774f)))),
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithAbilities(
 				[
 					MoveAbility.Builder()
 						.WithDistance(1, new MoveCircle(this, new Vector2(0.6216662f, 0.8459244f)))
-						.Build()
 				])
 				.WithRange(3)
-				.Build()
 			),
 		];
 	}

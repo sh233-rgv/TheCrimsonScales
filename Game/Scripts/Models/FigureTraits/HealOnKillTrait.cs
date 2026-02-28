@@ -12,7 +12,7 @@ public class HealOnKillTrait(int heal) : FigureTrait
 				parameters.PotentialAbilityState.Performer == figure,
 			async parameters =>
 			{
-				ActionState actionState = new(figure, [HealAbility.Builder().WithHealValue(heal).WithTarget(Target.Self).Build()]);
+				ActionState actionState = new(figure, [HealAbility.Builder().WithHealValue(heal).WithTarget(Target.Self)]);
 
 				await actionState.Perform();
 			}

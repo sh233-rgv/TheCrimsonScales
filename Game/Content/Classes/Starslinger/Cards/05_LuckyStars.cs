@@ -15,8 +15,7 @@ public class LuckyStars : StarslingerCardModel<LuckyStars.CardTop, LuckyStars.Ca
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2, new HealDiamondPlus(this, new Vector2(0.4941712f, 0.19487353f)))
-				.WithTarget(Target.Self)
-				.Build()),
+				.WithTarget(Target.Self)),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1, new AttackDiamond(this, new Vector2(0.5012269f, 0.2968518f)))
 				.WithRange(3)
@@ -36,8 +35,7 @@ public class LuckyStars : StarslingerCardModel<LuckyStars.CardTop, LuckyStars.Ca
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					await AbilityCmd.GainXP(state.Performer, state.GetCustomValue<int>(this, "Undamaged"));
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -48,12 +46,10 @@ public class LuckyStars : StarslingerCardModel<LuckyStars.CardTop, LuckyStars.Ca
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(1)
 				.WithRange(3, new RangeSquare(this, new Vector2(0.7280095f, 0.7031482f)))
-				.WithTarget(Target.Allies | Target.TargetAll)
-				.Build()),
+				.WithTarget(Target.Allies | Target.TargetAll)),
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Light))
-				.Build()),
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Light))),
 		];
 	}
 }

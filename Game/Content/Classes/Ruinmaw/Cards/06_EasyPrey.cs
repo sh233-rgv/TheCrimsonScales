@@ -25,12 +25,10 @@ public class EasyPrey : RuinmawCardModel<EasyPrey.CardTop, EasyPrey.CardBottom>
 					}
 
 					return IsSated(state.Performer);
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
-				.WithConditions(Conditions.Wound1)
-				.Build()),
+				.WithConditions(Conditions.Wound1)),
 		];
 	}
 
@@ -56,7 +54,6 @@ public class EasyPrey : RuinmawCardModel<EasyPrey.CardTop, EasyPrey.CardBottom>
 									.WithHealValue(4)
 									.WithConditions([Ruinmaw.Empower, Ruinmaw.Empower])
 									.WithTarget(Target.Self)
-									.Build()
 							]);
 							await actionState.Perform();
 
@@ -73,8 +70,7 @@ public class EasyPrey : RuinmawCardModel<EasyPrey.CardTop, EasyPrey.CardBottom>
 						await GDTask.CompletedTask;
 					}
 				)
-				.WithUseSlot(new UseSlot(new Vector2(0.47350034f, 0.8924996f), SateRuinmaw))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.47350034f, 0.8924996f), SateRuinmaw)))
 		];
 
 		public override int XP => 2;

@@ -30,7 +30,6 @@ public class Road06 : RoadEventModel<Road06.ChoiceA, Road06.ChoiceB>
 					.WithMove(1)
 					.WithAttack(2)
 					.WithTraits(new ShieldTrait(1))
-					.Build()
 			)
 		];
 	}

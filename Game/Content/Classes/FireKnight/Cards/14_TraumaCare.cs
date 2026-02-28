@@ -36,8 +36,7 @@ public class TraumaCare : FireKnightLevelUpCardModel<TraumaCare.CardTop, TraumaC
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}
 					)
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -86,11 +85,9 @@ public class TraumaCare : FireKnightLevelUpCardModel<TraumaCare.CardTop, TraumaC
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build()),
+				)),
 
-			new AbilityCardAbility(GiveFireKnightItemAbility(
-				state =>
+			new AbilityCardAbility(GiveFireKnightItemAbility(state =>
 				[
 					ModelDB.Item<FireKnightFireproofHelm>(), ModelDB.Item<FireKnightRescueShield>(), ModelDB.Item<FireKnightScrollOfProtection>()
 				]

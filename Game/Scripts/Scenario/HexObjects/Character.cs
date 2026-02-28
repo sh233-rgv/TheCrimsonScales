@@ -469,7 +469,6 @@ public partial class Character : Figure
 				.WithHealValue(2)
 				.WithTarget(Target.Self)
 				.WithCanPerformWhileStunned(true)
-				.Build()
 		]);
 		await actionState.Perform();
 	}

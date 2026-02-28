@@ -17,8 +17,7 @@ public class Sungaze : StarslingerCardModel<Sungaze.CardTop, Sungaze.CardBottom>
 				.WithHealValue(4)
 				.WithTarget(Target.Allies | Target.TargetAll)
 				.WithRange(1)
-				.WithConditions(Conditions.Strengthen)
-				.Build()),
+				.WithConditions(Conditions.Strengthen)),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 					{
@@ -31,8 +30,7 @@ public class Sungaze : StarslingerCardModel<Sungaze.CardTop, Sungaze.CardBottom>
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -46,8 +44,7 @@ public class Sungaze : StarslingerCardModel<Sungaze.CardTop, Sungaze.CardBottom>
 					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Yellow),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
-				]))
-				.Build()),
+				]))),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
@@ -67,8 +64,7 @@ public class Sungaze : StarslingerCardModel<Sungaze.CardTop, Sungaze.CardBottom>
 					{
 						await AbilityCmd.GainXP(state.Performer, 1);
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

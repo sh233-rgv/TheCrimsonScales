@@ -14,8 +14,7 @@ public class SolidLight : LuminaryCardModel<SolidLight.CardTop, SolidLight.CardB
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(ShieldAbility.Builder()
-				.WithShieldValue(1, new ShieldDiamondPlus(this, new Vector2(0.6196841f, 0.16519174f)))
-				.Build()),
+				.WithShieldValue(1, new ShieldDiamondPlus(this, new Vector2(0.6196841f, 0.16519174f)))),
 
 			new AbilityCardAbility(RetaliateAbility.Builder()
 				.WithRetaliateValue(1)
@@ -23,8 +22,7 @@ public class SolidLight : LuminaryCardModel<SolidLight.CardTop, SolidLight.CardB
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					await AbilityCmd.GainXP(state.Performer, 1);
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -42,8 +40,7 @@ public class SolidLight : LuminaryCardModel<SolidLight.CardTop, SolidLight.CardB
 					ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 
 		public override bool Round => true;
@@ -66,14 +63,12 @@ public class SolidLight : LuminaryCardModel<SolidLight.CardTop, SolidLight.CardB
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Move)}, {Icons.Inline(Icons.Jump)}")
 					)
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithRange(2)
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Ice))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Ice)))
 		];
 	}
 }

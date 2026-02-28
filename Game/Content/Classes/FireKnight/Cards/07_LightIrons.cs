@@ -76,8 +76,7 @@ public class LightIrons : FireKnightCardModel<LightIrons.CardTop, LightIrons.Car
 							}, true
 						);
 					}
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 1;
@@ -89,8 +88,7 @@ public class LightIrons : FireKnightCardModel<LightIrons.CardTop, LightIrons.Car
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.61780804f, 0.7116977f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.61780804f, 0.7116977f)))),
 
 			new AbilityCardAbility(GiveFireKnightItemAbility(state => [ModelDB.Item<FireKnightPikeHook>(), ModelDB.Item<FireKnightFireproofHelm>()]))
 		];

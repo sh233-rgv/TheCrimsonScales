@@ -23,7 +23,6 @@ public class MoundedSight : ChieftainCardModel<MoundedSight.CardTop, MoundedSigh
 					new IgnoreHazardousTerrainTrait(),
 					new MountTrait()
 				)
-				.Build()
 			),
 		];
 
@@ -37,12 +36,10 @@ public class MoundedSight : ChieftainCardModel<MoundedSight.CardTop, MoundedSigh
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.62076f, 0.72006404f)))
-				.Build()),
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62076f, 0.72006404f)))),
 
 			new AbilityCardAbility(PushAbility.Builder()
-				.WithPush(2, new PushCircle(this, new Vector2(0.51265895f, 0.81719226f)))
-				.Build()),
+				.WithPush(2, new PushCircle(this, new Vector2(0.51265895f, 0.81719226f)))),
 		];
 	}
 }

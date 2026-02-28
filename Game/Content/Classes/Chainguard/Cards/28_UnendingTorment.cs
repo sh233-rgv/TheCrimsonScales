@@ -46,8 +46,7 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 					ScenarioEvents.TrapTriggeredEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;
@@ -114,7 +113,6 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 
 								await GDTask.CompletedTask;
 							})
-							.Build()
 					]
 				)
 				.WithCustomGetTargets((state, figures) =>
@@ -122,8 +120,7 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 					IEnumerable<Figure> adjacentFigures = RangeHelper.GetFiguresInRange(state.Performer.Hex, 1, includeOrigin: false);
 					figures.AddRange(adjacentFigures.Where(figure => figure.EnemiesWith(state.Performer) && figure.HasCondition(Chainguard.Shackle)));
 				})
-				.WithTarget(Target.Enemies)
-				.Build()),
+				.WithTarget(Target.Enemies)),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -144,8 +141,7 @@ public class UnendingTorment : ChainguardLevelUpCardModel<UnendingTorment.CardTo
 					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Round => true;

@@ -21,8 +21,7 @@ public class ShootingStars : StarslingerCardModel<ShootingStars.CardTop, Shootin
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Yellow),
 					new AOEHex(Vector2I.Zero.Add(Direction.NorthWest).Add(Direction.NorthEast), AOEHexType.Red),
 					new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.NorthEast), AOEHexType.Red),
-				]))
-				.Build()),
+				]))),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
@@ -42,8 +41,7 @@ public class ShootingStars : StarslingerCardModel<ShootingStars.CardTop, Shootin
 					{
 						await AbilityCmd.GainXP(state.Performer, 1);
 					}
-				)
-				.Build())
+				))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Dark)];
@@ -54,13 +52,11 @@ public class ShootingStars : StarslingerCardModel<ShootingStars.CardTop, Shootin
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4, new MoveSquare(this, new Vector2(0.61878395f, 0.70344824f)))
-				.Build()),
+				.WithDistance(4, new MoveSquare(this, new Vector2(0.61878395f, 0.70344824f)))),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Immobilize)
 				.WithRange(3)
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Light))
-				.Build()),
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Light))),
 		];
 	}
 }

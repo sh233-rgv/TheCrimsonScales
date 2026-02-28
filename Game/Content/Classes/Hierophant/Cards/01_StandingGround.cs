@@ -19,10 +19,8 @@ public class StandingGround : HierophantCardModel<StandingGround.CardTop, Standi
 						ShieldAbility.Builder()
 							.WithShieldValue(2)
 							.WithPierceable(false)
-							.Build()
 					]
-				)
-				.Build())
+				))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];
@@ -50,8 +48,7 @@ public class StandingGround : HierophantCardModel<StandingGround.CardTop, Standi
 							}
 						}
 					}
-				)
-				.Build()),
+				)),
 
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithGetAbilities(state =>
@@ -65,7 +62,6 @@ public class StandingGround : HierophantCardModel<StandingGround.CardTop, Standi
 
 							state.ActionState.SetOverrideRound();
 						})
-						.Build()
 				])
 				.WithCustomGetTargets((state, list) =>
 				{
@@ -84,8 +80,7 @@ public class StandingGround : HierophantCardModel<StandingGround.CardTop, Standi
 
 						return attackAbilityState.Performed;
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

@@ -14,8 +14,7 @@ public class CopperneckBerries : MirefootCardModel<CopperneckBerries.CardTop, Co
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(4, new HealDiamondPlus(this, new Vector2(0.4953472f, 0.29036877f)))
-				.WithRange(1)
-				.Build())
+				.WithRange(1))
 		];
 	}
 
@@ -24,8 +23,7 @@ public class CopperneckBerries : MirefootCardModel<CopperneckBerries.CardTop, Co
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6213116f, 0.626352f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6213116f, 0.626352f)))),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions([Conditions.Strengthen, Conditions.Poison1])
@@ -36,8 +34,7 @@ public class CopperneckBerries : MirefootCardModel<CopperneckBerries.CardTop, Co
 							await AbilityCmd.GainXP(abilityState.Performer, 1);
 						}
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

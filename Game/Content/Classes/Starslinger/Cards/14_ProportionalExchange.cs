@@ -28,8 +28,7 @@ public class ProportionalExchange : StarslingerCardModel<ProportionalExchange.Ca
 							list.Add(figure);
 						}
 					}
-				})
-				.Build()),
+				})),
 		];
 	}
 
@@ -38,13 +37,11 @@ public class ProportionalExchange : StarslingerCardModel<ProportionalExchange.Ca
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.62113583f, 0.72173053f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62113583f, 0.72173053f)))),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithRange(1)
-				.WithTarget(Target.Allies)
-				.Build())
+				.WithTarget(Target.Allies))
 		];
 	}
 }

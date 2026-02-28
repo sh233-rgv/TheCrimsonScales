@@ -43,7 +43,8 @@ public partial class ItemPreview : Control
 		_tween = GTweenSequenceBuilder.New()
 			.Append(_itemView.TweenPositionX(0f, animationDuration))
 			.Join(_itemView.TweenModulateAlpha(1f, animationDuration))
-			.Build().Play();
+			.Build()
+			.Play();
 
 		SetProcess(true);
 	}
@@ -62,7 +63,8 @@ public partial class ItemPreview : Control
 			.Append(_itemView.TweenPositionX(_originOffset, animationDuration))
 			.Join(_itemView.TweenModulateAlpha(0f, animationDuration))
 			.AppendCallback(Hide)
-			.Build().Play();
+			.Build()
+			.Play();
 
 		_focus = null;
 		SetProcess(false);

@@ -44,7 +44,8 @@ public partial class BetweenScenariosActionButton : Control
 			_scaleTween = GTweenSequenceBuilder.New()
 				.AppendTime(0.05f)
 				.Append(_container.TweenScale(1.2f, 0.15f).SetEasing(Easing.OutBack))
-				.Build().Play();
+				.Build()
+				.Play();
 		}
 		else
 		{

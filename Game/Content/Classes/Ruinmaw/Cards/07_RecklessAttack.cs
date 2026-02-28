@@ -15,13 +15,11 @@ public class RecklessAttack : RuinmawCardModel<RecklessAttack.CardTop, RecklessA
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4)
-				.WithAdvantage()
-				.Build()),
+				.WithAdvantage()),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Wound1)
 				.WithTarget(Target.Self)
-				.WithMandatory(true)
-				.Build())
+				.WithMandatory(true))
 		];
 	}
 
@@ -31,8 +29,7 @@ public class RecklessAttack : RuinmawCardModel<RecklessAttack.CardTop, RecklessA
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)
-				.WithMoveType(MoveType.Jump)
-				.Build()),
+				.WithMoveType(MoveType.Jump)),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -65,8 +62,7 @@ public class RecklessAttack : RuinmawCardModel<RecklessAttack.CardTop, RecklessA
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

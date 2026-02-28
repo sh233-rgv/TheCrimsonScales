@@ -41,8 +41,7 @@ public class AirborneSpores : MirefootCardModel<AirborneSpores.CardTop, Airborne
 						}
 					)
 				)
-				.WithTarget(Target.Enemies | Target.TargetAll)
-				.Build()),
+				.WithTarget(Target.Enemies | Target.TargetAll)),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Poison1)
 				.WithCustomGetTargets((state, figures) =>
@@ -51,8 +50,7 @@ public class AirborneSpores : MirefootCardModel<AirborneSpores.CardTop, Airborne
 					figures.AddRange(conditionAbilityState.GetRedAOEHexes().SelectMany(hex => hex.GetHexObjectsOfType<Figure>()));
 				})
 				.WithTarget(Target.Allies | Target.TargetAll)
-				.WithMandatory(true)
-				.Build())
+				.WithMandatory(true))
 		];
 	}
 
@@ -75,8 +73,7 @@ public class AirborneSpores : MirefootCardModel<AirborneSpores.CardTop, Airborne
 							}
 						}
 					}
-				)
-				.Build())
+				))
 		];
 	}
 }

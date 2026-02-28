@@ -26,7 +26,7 @@ public class LivingCorpseAbilityCard0 : LivingCorpseAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +1)),
-		new MonsterAbilityCardAbility(ConditionAbility.Builder().WithConditions([Conditions.Muddle, Conditions.Immobilize]).Build()),
+		new MonsterAbilityCardAbility(ConditionAbility.Builder().WithConditions([Conditions.Muddle, Conditions.Immobilize])),
 	];
 }
 
@@ -93,7 +93,7 @@ public class LivingCorpseAbilityCard5 : LivingCorpseAbilityCard
 			{
 				await AbilityCmd.SufferDamage(state, state.Performer, 1);
 			})
-			.Build())
+		)
 	];
 }
 
@@ -109,7 +109,7 @@ public class LivingCorpseAbilityCard6 : LivingCorpseAbilityCard
 		new MonsterAbilityCardAbility(ConditionAbility.Builder()
 			.WithConditions([Conditions.Poison1])
 			.WithTarget(Target.Enemies | Target.TargetAll)
-			.Build()),
+		),
 	];
 }
 
@@ -120,12 +120,12 @@ public class LivingCorpseAbilityCard7 : LivingCorpseAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +2, push: 1)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +2).WithPush(1)),
 		new MonsterAbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
 			{
 				await AbilityCmd.SufferDamage(state, state.Performer, 1);
 			})
-			.Build())
+		)
 	];
 }

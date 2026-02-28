@@ -126,6 +126,11 @@ public abstract class Ability<T> : Ability
 			enhancementMark.SetAbility(Obj);
 			Obj.EnhancementMarks.Add(enhancementMark);
 		}
+
+		public static implicit operator TAbility(AbstractBuilder<TBuilder, TAbility> builder)
+		{
+			return builder;
+		}
 	}
 
 	protected Ability() { }

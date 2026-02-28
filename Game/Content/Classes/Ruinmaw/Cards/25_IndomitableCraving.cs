@@ -25,8 +25,7 @@ public class IndomitableCraving : RuinmawCardModel<IndomitableCraving.CardTop, I
 					}
 
 					return IsSated(state.Performer);
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -46,8 +45,7 @@ public class IndomitableCraving : RuinmawCardModel<IndomitableCraving.CardTop, I
 					}
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 	}
 
@@ -56,8 +54,7 @@ public class IndomitableCraving : RuinmawCardModel<IndomitableCraving.CardTop, I
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
-				.Build()),
+				.WithDistance(3)),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
@@ -74,8 +71,8 @@ public class IndomitableCraving : RuinmawCardModel<IndomitableCraving.CardTop, I
 									ScenarioEvents.AbilityEndedEvent.Unsubscribe(state, this);
 									ActionState actionState = new ActionState(state.Performer,
 									[
-										MoveAbility.Builder().WithDistance(3).Build(),
-										AttackAbility.Builder().WithDamage(3).Build(),
+										MoveAbility.Builder().WithDistance(3),
+										AttackAbility.Builder().WithDamage(3),
 									]);
 									await actionState.Perform();
 								}
@@ -91,8 +88,7 @@ public class IndomitableCraving : RuinmawCardModel<IndomitableCraving.CardTop, I
 					ScenarioEvents.FigureKilledEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 
 		public override bool Persistent => true;

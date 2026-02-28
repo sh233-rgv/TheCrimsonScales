@@ -53,12 +53,10 @@ public class UnexpectedBombshell : BombardCardModel<UnexpectedBombshell.CardTop,
 										await AbilityCmd.SufferDamage(applyParameters.AbilityState, enemy, 1);
 									}
 								})
-						)
-						.Build(),
+						),
 				])
 				.WithAbilityCardSide(this)
-				.WithRange(4, new ProjectileRangeSquare(this, new Vector2(0.33784395f, 0.16527776f)))
-				.Build())
+				.WithRange(4, new ProjectileRangeSquare(this, new Vector2(0.33784395f, 0.16527776f))))
 		];
 
 		public override int XP => 1;
@@ -71,8 +69,7 @@ public class UnexpectedBombshell : BombardCardModel<UnexpectedBombshell.CardTop,
 		[
 			new AbilityCardAbility(PullSelfAbility.Builder()
 				.WithPullSelfValue(4)
-				.WithRange(5)
-				.Build())
+				.WithRange(5))
 		];
 	}
 }

@@ -44,8 +44,7 @@ public class BurningSparks : LuminaryCardModel<BurningSparks.CardTop, BurningSpa
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}")
 					)
-				])
-				.Build()),
+				])),
 		];
 
 		public override int XP => 1;
@@ -56,11 +55,9 @@ public class BurningSparks : LuminaryCardModel<BurningSparks.CardTop, BurningSpa
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2, new AttackDiamond(this, new Vector2(0.61960834f, 0.7227138f)))
-				.Build()),
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.61960834f, 0.7227138f)))),
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(1, new MoveCircle(this, new Vector2(0.62438786f, 0.8199252f)))
-				.Build())
+				.WithDistance(1, new MoveCircle(this, new Vector2(0.62438786f, 0.8199252f))))
 		];
 	}
 }

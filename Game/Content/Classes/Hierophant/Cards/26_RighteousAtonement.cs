@@ -35,8 +35,7 @@ public class RighteousAtonement : HierophantLevelUpCardModel<RighteousAtonement.
 					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
 					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 
 		public override bool Round => true;
@@ -135,8 +134,7 @@ public class RighteousAtonement : HierophantLevelUpCardModel<RighteousAtonement.
 				{
 					ScenarioEvents.RoundEndedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 
 		public override int XP => 2;

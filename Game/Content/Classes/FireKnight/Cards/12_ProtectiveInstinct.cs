@@ -13,17 +13,15 @@ public class ProtectiveInstinct : FireKnightCardModel<ProtectiveInstinct.CardTop
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(LootAbility.Builder().WithRange(1).Build()),
+			new AbilityCardAbility(LootAbility.Builder().WithRange(1)),
 
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithAbilities(
 				[
 					ShieldAbility.Builder()
 						.WithShieldValue(1, new ShieldSquare(this, new Vector2(0.61310434f, 0.36479843f)))
-						.Build()
 				])
-				.WithTarget(Target.SelfOrAllies)
-				.Build())
+				.WithTarget(Target.SelfOrAllies))
 		];
 
 		public override bool Round => true;
@@ -34,15 +32,13 @@ public class ProtectiveInstinct : FireKnightCardModel<ProtectiveInstinct.CardTop
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.617708f, 0.6765259f)))
-				.Build()),
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.617708f, 0.6765259f)))),
 
 			new AbilityCardAbility(GrantAbility.Builder()
 				.WithAbilities(
 				[
 					MoveAbility.Builder()
 						.WithDistance(3, new MoveSquare(this, new Vector2(0.617708f, 0.8635235f)))
-						.Build()
 				])
 				.WithRange(2)
 				.WithConditionalAbilityCheck(async state =>
@@ -51,8 +47,7 @@ public class ProtectiveInstinct : FireKnightCardModel<ProtectiveInstinct.CardTop
 
 						return state.Performer.Hex.HasHexObjectOfType<Ladder>();
 					}
-				)
-				.Build()),
+				)),
 		];
 	}
 }

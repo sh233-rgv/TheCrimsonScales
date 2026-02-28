@@ -33,7 +33,8 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 						GTweenSequenceBuilder.New()
 							.AppendTime(0.4f)
 							.Append(characterToken.TweenScale(1f, 0.2f))
-							.Build().PlayFastForwardable();
+							.Build()
+							.PlayFastForwardable();
 
 						await GameController.Instance.ScreenDistortion.Disappear(state.Performer, 1.4f, true).PlayFastForwardableAsync();
 					}
@@ -126,8 +127,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 					ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(state, this);
 					ScenarioEvents.FigureTurnStartedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Persistent => true;
@@ -150,12 +150,10 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 							await GDTask.CompletedTask;
 						}
 					)
-				)
-				.Build()),
+				)),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Stun)
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Invisible)
 				.WithTarget(Target.Enemies)
@@ -164,8 +162,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 					ConditionAbility.State conditionAbilityState = state.ActionState.GetAbilityState<ConditionAbility.State>(1);
 					targets.AddRange(conditionAbilityState.UniqueTargetedFigures);
 				})
-				.WithMandatory(true)
-				.Build())
+				.WithMandatory(true))
 		];
 
 		public override int XP => 2;

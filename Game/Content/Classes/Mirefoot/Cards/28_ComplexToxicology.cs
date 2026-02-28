@@ -17,29 +17,25 @@ public class ComplexToxicology : MirefootCardModel<ComplexToxicology.CardTop, Co
 				.WithCustomGetTargets((state, figures) =>
 				{
 					figures.AddRange(GameController.Instance.Map.Figures.Where(figure => figure.HasWound()));
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Stun)
 				.WithCustomGetTargets((state, figures) =>
 				{
 					figures.AddRange(GameController.Instance.Map.Figures.Where(figure => figure.HasCondition(Conditions.Immobilize)));
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Wound1)
 				.WithCustomGetTargets((state, figures) =>
 				{
 					figures.AddRange(GameController.Instance.Map.Figures.Where(figure => figure.HasCondition(Conditions.Muddle)));
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Muddle)
 				.WithCustomGetTargets((state, figures) =>
 				{
 					figures.AddRange(GameController.Instance.Map.Figures.Where(figure => figure.HasPoison()));
-				})
-				.Build()),
+				})),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -57,8 +53,7 @@ public class ComplexToxicology : MirefootCardModel<ComplexToxicology.CardTop, Co
 						await AbilityCmd.SufferDamage(state, figure, 2);
 						state.SetPerformed();
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 
@@ -70,8 +65,7 @@ public class ComplexToxicology : MirefootCardModel<ComplexToxicology.CardTop, Co
 				.WithDamage(1)
 				.WithTargets(2)
 				.WithRange(3)
-				.WithConditions([Conditions.Wound1, Conditions.Poison2, Conditions.Muddle])
-				.Build())
+				.WithConditions([Conditions.Wound1, Conditions.Poison2, Conditions.Muddle]))
 		];
 	}
 }

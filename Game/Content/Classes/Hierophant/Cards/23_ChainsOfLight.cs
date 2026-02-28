@@ -17,8 +17,7 @@ public class ChainsOfLight : HierophantLevelUpCardModel<ChainsOfLight.CardTop, C
 			new AbilityCardAbility(PullAbility.Builder()
 				.WithPull(2)
 				.WithTargets(2)
-				.WithRange(3, new RangeSquare(this, new Vector2(0.6776391f, 0.19290696f)))
-				.Build()),
+				.WithRange(3, new RangeSquare(this, new Vector2(0.6776391f, 0.19290696f)))),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
 				.WithTarget(Target.TargetAll | Target.Enemies)
@@ -33,8 +32,7 @@ public class ChainsOfLight : HierophantLevelUpCardModel<ChainsOfLight.CardTop, C
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(
 							$"Add {Icons.Inline(Icons.GetCondition((Conditions.Stun)))} to the next attack")
 					)
-				)
-				.Build())
+				))
 		];
 	}
 
@@ -43,8 +41,7 @@ public class ChainsOfLight : HierophantLevelUpCardModel<ChainsOfLight.CardTop, C
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
-				.Build()),
+				.WithDistance(3)),
 
 			new AbilityCardAbility(PushAbility.Builder()
 				.WithPush(3)
@@ -57,8 +54,7 @@ public class ChainsOfLight : HierophantLevelUpCardModel<ChainsOfLight.CardTop, C
 					{
 						await AbilityCmd.AddCondition(state, enemy, Conditions.Immobilize);
 					}
-				})
-				.Build())
+				}))
 		];
 	}
 }

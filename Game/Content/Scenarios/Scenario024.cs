@@ -98,7 +98,6 @@ public class Scenario024 : ScenarioModel
 
 							await AbilityCmd.RemoveAllChill(figure);
 						})
-						.Build()
 				]);
 				await actionState.Perform();
 			},
@@ -237,7 +236,6 @@ public class Scenario024 : ScenarioModel
 									),
 								], hintText: "Choose an Orb to take");
 							})
-							.Build()
 					]);
 					await actionState.Perform();
 				},
@@ -309,7 +307,6 @@ public class Scenario024 : ScenarioModel
 
 								await GDTask.CompletedTask;
 							})
-							.Build()
 					]);
 					await actionState.Perform();
 				},

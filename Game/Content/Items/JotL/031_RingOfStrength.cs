@@ -24,7 +24,6 @@ public class RingOfStrength : JotLItem
 						ConditionAbility.Builder()
 							.WithConditions(Conditions.Strengthen)
 							.WithTarget(Target.Self)
-							.Build()
 					]);
 					await actionState.Perform();
 				});

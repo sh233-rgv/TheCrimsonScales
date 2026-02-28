@@ -94,8 +94,7 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 				[
 					new UseSlot(new Vector2(0.39700016f, 0.37199932f)),
 					new UseSlot(new Vector2(0.6060007f, 0.37199932f)),
-				])
-				.Build())
+				]))
 		];
 
 		public override int XP => 1;
@@ -108,8 +107,7 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1, new AttackDiamond(this, new Vector2(0.4507118f, 0.771774f)))
-				.WithConditions([Conditions.Wound2, Conditions.Stun])
-				.Build())
+				.WithConditions([Conditions.Wound2, Conditions.Stun]))
 		];
 	}
 }

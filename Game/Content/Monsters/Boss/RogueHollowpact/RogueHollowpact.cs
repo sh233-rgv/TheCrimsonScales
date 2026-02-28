@@ -117,7 +117,7 @@ public class RogueHollowpact : MonsterModel, IBossMonsterModel
 	// IBossMonsterModel
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(MonsterAbilityCardModel.MoveAbility(monster, +0, MoveType.Jump)),
+		new MonsterAbilityCardAbility(MonsterAbilityCardModel.MoveAbility(monster, +0).WithMoveType(MoveType.Jump)),
 		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, +2)),
 
 		new MonsterAbilityCardAbility(HealAbility.Builder()
@@ -130,7 +130,7 @@ public class RogueHollowpact : MonsterModel, IBossMonsterModel
 
 				await GDTask.CompletedTask;
 			})
-			.Build())
+		)
 	];
 
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial2Abilities(Monster monster) =>
@@ -141,8 +141,8 @@ public class RogueHollowpact : MonsterModel, IBossMonsterModel
 				//TODO: Teleport to void pit
 				await GDTask.CompletedTask;
 			})
-			.Build()),
-		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, +2, range: 4)),
+		),
+		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, +2).WithRange(4)),
 		new MonsterAbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
 			{
@@ -157,6 +157,6 @@ public class RogueHollowpact : MonsterModel, IBossMonsterModel
 					await AbilityCmd.SufferDamage(state, figure, 2);
 				}
 			})
-			.Build())
+		)
 	];
 }

@@ -27,7 +27,7 @@ public class LivingSpiritAbilityCard0 : LivingSpiritAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, conditions: [Conditions.Muddle])),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithConditions(Conditions.Muddle))
 	];
 }
 
@@ -40,7 +40,7 @@ public class LivingSpiritAbilityCard1 : LivingSpiritAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, target: Target.Enemies | Target.TargetAll)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1).WithTarget(Target.Enemies | Target.TargetAll))
 	];
 }
 
@@ -75,7 +75,7 @@ public class LivingSpiritAbilityCard4 : LivingSpiritAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, extraRange: -1, targets: 2)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0, extraRange: -1).WithTargets(2))
 	];
 }
 
@@ -88,7 +88,7 @@ public class LivingSpiritAbilityCard5 : LivingSpiritAbilityCard
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
 		new MonsterAbilityCardAbility(AttackAbility(monster, +1, extraRange: -1)),
-		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()),
+		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self)),
 	];
 }
 
@@ -104,7 +104,7 @@ public class LivingSpiritAbilityCard6 : LivingSpiritAbilityCard
 			.WithConditions(Conditions.Curse)
 			.WithRange(monster.Stats.Range ?? 1)
 			.WithTarget(Target.Enemies | Target.TargetAll)
-			.Build()),
+		),
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
@@ -119,19 +119,16 @@ public class LivingSpiritAbilityCard7 : LivingSpiritAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +1,
-			afterTargetConfirmedSubscriptions:
-			[
-				ConsumeElementCheckSubscription<ScenarioEvents.AttackAfterTargetConfirmed.Parameters>(monster, [Element.Ice],
-					applyFunction: async parameters =>
-					{
-						parameters.AbilityState.SingleTargetAddCondition(Conditions.Stun);
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1).WithAfterTargetConfirmedSubscription(
+			ConsumeElementCheckSubscription<ScenarioEvents.AttackAfterTargetConfirmed.Parameters>(monster, [Element.Ice],
+				applyFunction: async parameters =>
+				{
+					parameters.AbilityState.SingleTargetAddCondition(Conditions.Stun);
 
-						await GDTask.CompletedTask;
-					}
-				)
-			])
-		),
+					await GDTask.CompletedTask;
+				}
+			)
+		))
 	];
 
 	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =

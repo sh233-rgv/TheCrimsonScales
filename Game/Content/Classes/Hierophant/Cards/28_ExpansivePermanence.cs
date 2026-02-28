@@ -50,8 +50,7 @@ public class ExpansivePermanence : HierophantLevelUpCardModel<ExpansivePermanenc
 										await GDTask.CompletedTask;
 									});
 								await GDTask.CompletedTask;
-							})
-							.Build(),
+							}),
 						OtherActiveAbility.Builder()
 							.WithOnActivate(async state =>
 							{
@@ -71,12 +70,10 @@ public class ExpansivePermanence : HierophantLevelUpCardModel<ExpansivePermanenc
 								ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
 								await GDTask.CompletedTask;
 							})
-							.Build()
 					]
 				)
 				.WithRange(3)
-				.WithTarget(Target.SelfOrAllies)
-				.Build())
+				.WithTarget(Target.SelfOrAllies))
 		];
 
 		public override bool Round => true;
@@ -105,8 +102,7 @@ public class ExpansivePermanence : HierophantLevelUpCardModel<ExpansivePermanenc
 				{
 					ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Earth)];

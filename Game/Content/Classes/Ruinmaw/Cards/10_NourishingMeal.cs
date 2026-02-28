@@ -14,8 +14,7 @@ public class NourishingMeal : RuinmawCardModel<NourishingMeal.CardTop, Nourishin
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(5)
-				.Build()),
+				.WithDamage(5)),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithConditions([Ruinmaw.Empower, Ruinmaw.Empower])
@@ -24,8 +23,7 @@ public class NourishingMeal : RuinmawCardModel<NourishingMeal.CardTop, Nourishin
 				{
 					await GDTask.CompletedTask;
 					return state.ActionState.GetAbilityState<AttackAbility.State>(0).KilledTargets.Count > 0;
-				})
-				.Build())
+				}))
 		];
 
 		protected override bool Sate => true;
@@ -38,13 +36,11 @@ public class NourishingMeal : RuinmawCardModel<NourishingMeal.CardTop, Nourishin
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
-				.Build()),
+				.WithDistance(3)),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions(Conditions.Muddle)
 				.WithTarget(Target.TargetAll | Target.Enemies)
-				.WithRange(1)
-				.Build()),
+				.WithRange(1)),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(0)
 				.WithTarget(Target.Self)
@@ -64,8 +60,7 @@ public class NourishingMeal : RuinmawCardModel<NourishingMeal.CardTop, Nourishin
 				{
 					await GDTask.CompletedTask;
 					return IsSated(state.Performer);
-				})
-				.Build()),
+				})),
 		];
 	}
 }

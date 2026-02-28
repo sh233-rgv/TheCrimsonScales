@@ -22,9 +22,8 @@ public class FatefulCompass : JotLItem
 					ActionState actionState = new ActionState(user,
 						[
 							ControlAbility.Builder()
-								.WithGetAbilities(state => [MoveAbility.Builder().WithDistance(2).Build()])
+								.WithGetAbilities(state => [MoveAbility.Builder().WithDistance(2)])
 								.WithRange(3)
-								.Build()
 						]
 					);
 					await actionState.Perform();

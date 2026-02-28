@@ -15,8 +15,7 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 		[
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions([Conditions.Curse, Conditions.Curse])
-				.WithRange(3)
-				.Build()),
+				.WithRange(3)),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
@@ -50,8 +49,7 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 
 					await GDTask.CompletedTask;
 				})
-				.WithUseSlot(new UseSlot(new Vector2(0.48850015f, 0.39850003f)))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.48850015f, 0.39850003f))))
 		];
 
 		public override int XP => 2;
@@ -71,7 +69,6 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 				})
 				.WithRange(3)
 				.WithTarget(Target.Allies)
-				.Build()
 			),
 
 			new AbilityCardAbility(HealAbility.Builder()
@@ -83,8 +80,7 @@ public class UnrulyRepentance : HierophantCardModel<UnrulyRepentance.CardTop, Un
 				.WithCustomGetTargets((state, list) =>
 				{
 					list.AddRange(state.ActionState.GetAbilityState<OtherTargetedAbility.State>(0).UniqueTargetedFigures);
-				})
-				.Build())
+				}))
 		];
 	}
 }

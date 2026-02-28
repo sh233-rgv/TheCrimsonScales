@@ -53,8 +53,7 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 					ScenarioEvents.FigureKilledEvent.Unsubscribe(abilityState, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];
@@ -107,8 +106,7 @@ public class SpontaneousCombustion : FireKnightLevelUpCardModel<SpontaneousCombu
 
 						await GDTask.CompletedTask;
 					}
-				)
-				.Build()),
+				)),
 			new AbilityCardAbility(GiveFireKnightItemAbility(
 				state =>
 				[

@@ -59,7 +59,6 @@ public class BoosterShot : CS2Item
 										.WithHealValue(2)
 										.WithConditions(Conditions.Bless)
 										.WithTarget(Target.Self)
-										.Build()
 								]);
 								await actionState.Perform();
 							},

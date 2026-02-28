@@ -9,6 +9,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	public abstract string ScenePath { get; }
 	public abstract int ScenarioNumber { get; }
 	public abstract ScenarioChain ScenarioChain { get; }
+	public virtual string ScenarioPrefix { get; } = "";
 	public virtual IEnumerable<ScenarioConnection> Connections { get; } = [];
 	public virtual int[] TreasureNumbers { get; } = [];
 
@@ -18,6 +19,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 	public virtual string BGMPath => "res://Audio/BGM/Floral-Woods.ogg";
 	public virtual string BGSPath => null;
+	public string ScenarioString => ScenarioPrefix + ScenarioNumber;
 
 	public virtual async GDTask StartBeforeFirstRoomRevealed()
 	{

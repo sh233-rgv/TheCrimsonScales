@@ -30,7 +30,6 @@ public class SoulfulSalvation : HierophantCardModel<SoulfulSalvation.CardTop, So
 									{
 										list.AddRange(RangeHelper.GetFiguresInRange(applyParameters.Figure.Hex, 1));
 									})
-									.Build()
 							]);
 							await actionState.Perform();
 
@@ -46,8 +45,7 @@ public class SoulfulSalvation : HierophantCardModel<SoulfulSalvation.CardTop, So
 						await GDTask.CompletedTask;
 					}
 				)
-				.WithUseSlot(new UseSlot(new Vector2(0.48800015f, 0.34248334f)))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.48800015f, 0.34248334f))))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Light)];
@@ -95,7 +93,7 @@ public class SoulfulSalvation : HierophantCardModel<SoulfulSalvation.CardTop, So
 									async subscriptionParameters =>
 									{
 										ActionState actionState = new ActionState(parameters.Figure,
-											[HealAbility.Builder().WithHealValue(5).WithTarget(Target.Self).Build()]);
+											[HealAbility.Builder().WithHealValue(5).WithTarget(Target.Self)]);
 										await actionState.Perform();
 									},
 									effectType: EffectType.SelectableMandatory,
@@ -119,8 +117,7 @@ public class SoulfulSalvation : HierophantCardModel<SoulfulSalvation.CardTop, So
 						await GDTask.CompletedTask;
 					}
 				)
-				.WithUseSlot(new UseSlot(new Vector2(0.48800015f, 0.89949995f)))
-				.Build())
+				.WithUseSlot(new UseSlot(new Vector2(0.48800015f, 0.89949995f))))
 		];
 
 		public override int XP => 1;

@@ -14,8 +14,7 @@ public class BarbedArmor : BombardCardModel<BarbedArmor.CardTop, BarbedArmor.Car
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(RetaliateAbility.Builder()
-				.WithRetaliateValue(1, new RetaliateDiamondPlus(this, new Vector2(0.6193324f, 0.22017238f)))
-				.Build()),
+				.WithRetaliateValue(1, new RetaliateDiamondPlus(this, new Vector2(0.6193324f, 0.22017238f)))),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -36,8 +35,7 @@ public class BarbedArmor : BombardCardModel<BarbedArmor.CardTop, BarbedArmor.Car
 					ScenarioEvents.RetaliateEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override bool Round => true;
@@ -49,8 +47,7 @@ public class BarbedArmor : BombardCardModel<BarbedArmor.CardTop, BarbedArmor.Car
 		[
 			new AbilityCardAbility(ShieldAbility.Builder()
 				.WithShieldValue(2, new ShieldDiamondPlus(this, new Vector2(0.6174878f, 0.7124995f)))
-				.WithRequiredRangeType(RangeType.Melee)
-				.Build())
+				.WithRequiredRangeType(RangeType.Melee))
 		];
 
 		public override bool Round => true;

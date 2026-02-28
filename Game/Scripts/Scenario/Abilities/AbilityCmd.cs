@@ -85,8 +85,7 @@ public static class AbilityCmd
 
 					return GDTask.CompletedTask;
 				}
-			)
-			.Build();
+			);
 	}
 
 	public static async GDTask<int> SufferDamage(AbilityState potentialAbilityState, Figure target, int damage,

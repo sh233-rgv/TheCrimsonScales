@@ -22,8 +22,7 @@ public class SweepingCollision : ChainguardLevelUpCardModel<SweepingCollision.Ca
 					ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(state.Performer, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
@@ -44,8 +43,7 @@ public class SweepingCollision : ChainguardLevelUpCardModel<SweepingCollision.Ca
 					}
 				})
 				.WithTargets(2)
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.Build())
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0)))
 		];
 	}
 
@@ -74,8 +72,7 @@ public class SweepingCollision : ChainguardLevelUpCardModel<SweepingCollision.Ca
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build()),
+				})),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -94,8 +91,7 @@ public class SweepingCollision : ChainguardLevelUpCardModel<SweepingCollision.Ca
 					ScenarioCheckEvents.FlyingCheckEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 2;

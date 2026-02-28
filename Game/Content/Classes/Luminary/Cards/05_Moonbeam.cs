@@ -15,8 +15,7 @@ public class Moonbeam : LuminaryCardModel<Moonbeam.CardTop, Moonbeam.CardBottom>
 		[
 			new AbilityCardAbility(GlowActiveAbility.Builder()
 				.WithGlowAbility(new GlowAbilityModel([Element.Dark], GlowAbility,
-					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Curse))} ability", Icons.GetCondition(Conditions.Curse)))
-				.Build())
+					$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Curse))} ability", Icons.GetCondition(Conditions.Curse))))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Ice)];
@@ -40,8 +39,7 @@ public class Moonbeam : LuminaryCardModel<Moonbeam.CardTop, Moonbeam.CardBottom>
 					state.SetCustomValue(state.Performer, "Consumed Elements", elements);
 
 					await GDTask.CompletedTask;
-				})
-				.Build();
+				});
 		}
 	}
 
@@ -50,8 +48,7 @@ public class Moonbeam : LuminaryCardModel<Moonbeam.CardTop, Moonbeam.CardBottom>
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128437f, 0.72183055f)))
-				.Build())
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62128437f, 0.72183055f))))
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Fire)];

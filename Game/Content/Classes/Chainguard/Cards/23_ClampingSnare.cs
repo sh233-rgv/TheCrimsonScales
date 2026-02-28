@@ -16,8 +16,7 @@ public class ClampingSnare : ChainguardLevelUpCardModel<ClampingSnare.CardTop, C
 			new AbilityCardAbility(CreateTrapAbility.Builder()
 				.WithDamage(5)
 				.WithConditions(Conditions.Muddle)
-				.WithCustomAsset("res://Content/Classes/Chainguard/Traps/ChainguardRopeTrap.tscn")
-				.Build()),
+				.WithCustomAsset("res://Content/Classes/Chainguard/Traps/ChainguardRopeTrap.tscn")),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -49,8 +48,7 @@ public class ClampingSnare : ChainguardLevelUpCardModel<ClampingSnare.CardTop, C
 					ScenarioEvents.TrapTriggeredEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
-				})
-				.Build())
+				}))
 		];
 
 		public override int XP => 1;
@@ -62,15 +60,13 @@ public class ClampingSnare : ChainguardLevelUpCardModel<ClampingSnare.CardTop, C
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4, new MoveCircle(this, new Vector2(0.620109f, 0.66905016f)))
-				.Build()),
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.620109f, 0.66905016f)))),
 
 			new AbilityCardAbility(ShieldAbility.Builder()
 				.WithShieldValue(3)
 				.WithCustomCanApply(parameters =>
 					parameters.FromAttack &&
-					parameters.PotentialAbilityState.Performer.HasCondition(Chainguard.Shackle))
-				.Build()),
+					parameters.PotentialAbilityState.Performer.HasCondition(Chainguard.Shackle))),
 		];
 
 		public override bool Round => true;
