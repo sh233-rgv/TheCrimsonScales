@@ -17,15 +17,13 @@ public partial class BattleGoalProgressUpdateViewItem : Control
 	public void Init(BattleGoal battleGoal)
 	{
 		_battleGoalView.SetModel(battleGoal.Model);
-		float normalizedProgress = (float)battleGoal.Progress / battleGoal.Model.MaxProgress;
-		bool completed = battleGoal.Progress == battleGoal.Model.MaxProgress;
 
 		this.DelayedCall(() =>
 		{
-			_progressBar.Update(normalizedProgress, $"{battleGoal.Progress}/{battleGoal.Model.MaxProgress}");
+			_progressBar.Update(battleGoal.NormalizedProgress, $"{battleGoal.Progress}/{battleGoal.Model.MaxProgress}");
 		});
 
-		if(completed)
+		if(battleGoal.ProgressFull)
 		{
 			_progressBar.ProgressBarFill.SetSelfModulate(battleGoal.Model.FailIfProgressFull ? BattleGoal.FailedColor : BattleGoal.CompletedColor);
 		}

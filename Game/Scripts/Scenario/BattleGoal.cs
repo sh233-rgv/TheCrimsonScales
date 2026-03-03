@@ -13,6 +13,10 @@ public class BattleGoal
 
 	public int Progress { get; private set; }
 
+	public float NormalizedProgress => (float)Progress / Model.MaxProgress;
+	public bool ProgressFull => Progress >= Model.MaxProgress;
+	public bool GivesCheckmark => ProgressFull != Model.FailIfProgressFull;
+
 	public event Action<BattleGoal> ProgressChangedEvent;
 
 	public BattleGoal(Character character, BattleGoalModel model)
@@ -24,7 +28,7 @@ public class BattleGoal
 
 	public void AdjustProgress(int value)
 	{
-		bool previouslyFullProgress = Progress >= Model.MaxProgress;
+		bool previouslyFullProgress = ProgressFull;
 
 		Progress += value;
 

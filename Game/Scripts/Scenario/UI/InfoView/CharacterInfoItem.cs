@@ -73,17 +73,14 @@ public partial class CharacterInfoItem : FigureInfoItem<CharacterInfoItem.Parame
 		BattleGoal battleGoal = _character.BattleGoal;
 		if(battleGoal != null)
 		{
-			float normalizedProgress = (float)battleGoal.Progress / battleGoal.Model.MaxProgress;
-			bool completed = battleGoal.Progress == battleGoal.Model.MaxProgress;
-
 			_battleGoalTextLabel.SetText(battleGoal.Model.Description);
 
 			this.DelayedCall(() =>
 			{
-				_battleGoalProgressBar.Update(normalizedProgress, $"{battleGoal.Progress}/{battleGoal.Model.MaxProgress}");
+				_battleGoalProgressBar.Update(battleGoal.NormalizedProgress, $"{battleGoal.Progress}/{battleGoal.Model.MaxProgress}");
 			});
 
-			if(completed)
+			if(battleGoal.ProgressFull)
 			{
 				_battleGoalProgressBar.ProgressBarFill.SetSelfModulate(battleGoal.Model.FailIfProgressFull
 					? BattleGoal.FailedColor
