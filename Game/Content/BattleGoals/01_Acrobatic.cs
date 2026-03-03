@@ -7,7 +7,18 @@ public class Acrobatic : TheCrimsonScalesBattleGoal
 
 	public override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoal battleGoal)
 	{
-		//TODO: Implement
+		ScenarioEvents.LosingCardToNegateDamageEvent.Subscribe(this,
+			parameters =>
+				parameters.Character == character &&
+				parameters.SufferDamageParameters.CalculatedCurrentDamage >= 5,
+			async parameters =>
+			{
+				battleGoal.AdjustProgress(1);
+
+				await GDTask.CompletedTask;
+			}
+		);
+
 		await GDTask.CompletedTask;
 	}
 }

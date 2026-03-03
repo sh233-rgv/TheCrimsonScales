@@ -564,6 +564,10 @@ public partial class Character : Figure
 	{
 		AbilityCard card = await AbilityCmd.SelectAbilityCard(this, CardState.Hand, true, card => card.OriginalOwner == this,
 			hintText: "Select a card to lose");
+
+		await ScenarioEvents.LosingCardToNegateDamageEvent.CreatePrompt(
+			new ScenarioEvents.LosingCardToNegateDamage.Parameters(this, card, parameters));
+
 		await AbilityCmd.LoseCard(card);
 
 		parameters.SetDamagePrevented();
@@ -574,6 +578,9 @@ public partial class Character : Figure
 		foreach(AbilityCard card in await AbilityCmd.SelectAbilityCards(this, CardState.Discarded, 2, 2,
 			        card => card.OriginalOwner == this, hintText: "Select two discarded cards to lose"))
 		{
+			await ScenarioEvents.LosingCardToNegateDamageEvent.CreatePrompt(
+				new ScenarioEvents.LosingCardToNegateDamage.Parameters(this, card, parameters));
+
 			await AbilityCmd.LoseCard(card);
 		}
 

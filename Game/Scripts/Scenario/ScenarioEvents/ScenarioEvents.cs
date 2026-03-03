@@ -475,6 +475,26 @@ public partial class ScenarioEvents
 	private readonly AfterSufferDamage _afterSufferDamage = new AfterSufferDamage();
 	public static AfterSufferDamage AfterSufferDamageEvent => GameController.Instance.ScenarioEvents._afterSufferDamage;
 
+	public class LosingCardToNegateDamage : ScenarioEvent<LosingCardToNegateDamage.Parameters>
+	{
+		public class Parameters(Character character, AbilityCard abilityCard, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
+		{
+			public Character Character { get; } = character;
+			public AbilityCard AbilityCard { get; } = abilityCard;
+			public SufferDamage.Parameters SufferDamageParameters { get; } = sufferDamageParameters;
+
+			public bool Prevented { get; private set; }
+
+			public void SetPrevented()
+			{
+				Prevented = true;
+			}
+		}
+	}
+
+	private readonly LosingCardToNegateDamage _losingCardToNegateDamage = new LosingCardToNegateDamage();
+	public static LosingCardToNegateDamage LosingCardToNegateDamageEvent => GameController.Instance.ScenarioEvents._losingCardToNegateDamage;
+
 	public class BeforeFigureKilled : ScenarioEvent<BeforeFigureKilled.Parameters>
 	{
 		public class Parameters(AbilityState potentialAbilityState, Figure figure) : ParametersBase
