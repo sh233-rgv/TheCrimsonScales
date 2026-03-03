@@ -72,7 +72,6 @@ TreasureNumber = 11
 position = Vector2(-327.358, 189)
 
 [node name="BearTrap1H" parent="Map/Rooms/Room" index="14" instance=ExtResource("10_5r4do")]
-position = Vector2(-436.477, 378)
 
 [node name="Boulder3H" parent="Map/Rooms/Room" index="15" instance=ExtResource("11_rv36e")]
 position = Vector2(436.477, -378)

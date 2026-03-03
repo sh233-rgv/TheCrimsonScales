@@ -479,7 +479,7 @@ public static class AbilityCmd
 		Action<List<Hex>> customSelectHexes = null, int range = 1, int trapCount = 1, ConditionModel[] conditions = null,
 		bool mandatory = false, string assetPath = null)
 	{
-		List<Hex> targetHexes = await SelectHexes(authority?? performer, list =>
+		List<Hex> targetHexes = await SelectHexes(authority ?? performer, list =>
 			{
 				if(customSelectHexes != null)
 				{
@@ -497,7 +497,7 @@ public static class AbilityCmd
 			hintText: (trapCount == 1) ? $"Select a hex to place the trap" : $"Select up to {trapCount} hexes to place the traps");
 
 		List<Trap> createdTraps = [];
-		
+
 		if(targetHexes.Count > 0)
 		{
 			foreach(Hex hex in targetHexes)
