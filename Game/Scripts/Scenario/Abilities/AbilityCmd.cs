@@ -49,12 +49,10 @@ public static class AbilityCmd
 
 	public static OtherActiveAbility AllOpposingAttacksGainDisadvantageActiveAbility()
 	{
-		object subscriber = new object();
-
 		return OtherActiveAbility.Builder()
-			.WithOnActivate(state =>
+			.WithOnActivate(async state =>
 			{
-				ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, subscriber,
+				ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, state.Performer,
 					parameters => parameters.AbilityState.Target == state.Performer,
 					async parameters =>
 					{
@@ -64,28 +62,27 @@ public static class AbilityCmd
 					}
 				);
 
-				ScenarioCheckEvents.DisadvantageCheckEvent.Subscribe(state, subscriber,
+				ScenarioCheckEvents.DisadvantageCheckEvent.Subscribe(state, state.Performer,
 					parameters => parameters.Target == state.Performer,
 					parameters => parameters.SetDisadvantage(true)
 				);
 
-				ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(state, subscriber,
+				ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(state, state.Performer,
 					parameters => state.Performer == parameters.Figure,
 					parameters => parameters.Add(
 						new InfoTextExtraEffect.Parameters("All attacks targeting this figure this round gain disadvantage."))
 				);
 
-				return GDTask.CompletedTask;
+				await GDTask.CompletedTask;
 			})
-			.WithOnDeactivate(state =>
-				{
-					ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, subscriber);
-					ScenarioCheckEvents.DisadvantageCheckEvent.Unsubscribe(state, subscriber);
-					ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(state, subscriber);
+			.WithOnDeactivate(async state =>
+			{
+				ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, state.Performer);
+				ScenarioCheckEvents.DisadvantageCheckEvent.Unsubscribe(state, state.Performer);
+				ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(state, state.Performer);
 
-					return GDTask.CompletedTask;
-				}
-			)
+				await GDTask.CompletedTask;
+			})
 			.Build();
 	}
 
@@ -512,10 +509,10 @@ public static class AbilityCmd
 		return createdTraps;
 	}
 
-	private static async GDTask<Trap> PlaceTrap(Hex hex, string assetPath = "res://Content/OverlayTiles/Traps/BearTrap1H.tscn",
+	private static async GDTask<Trap> PlaceTrap(Hex hex, string assetPath = null,
 		int damage = 0, ConditionModel[] conditions = null)
 	{
-		PackedScene scene = ResourceLoader.Load<PackedScene>(assetPath);
+		PackedScene scene = ResourceLoader.Load<PackedScene>(assetPath ?? "res://Content/OverlayTiles/Traps/BearTrap1H.tscn");
 
 		return await CreateOverlayTile<Trap>(hex, scene, trap => ((Trap)trap).SetTrapValues(damage, conditions ?? []));
 	}
