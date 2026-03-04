@@ -1,15 +1,15 @@
 using Fractural.Tasks;
 
-public class ComfortableShoes : Prosperity4Item
+public class BalancedBlade : Prosperity9Item
 {
-	public override string Name => "Comfortable Shoes";
-	public override int ItemNumber => 29;
+	public override string Name => "Balanced Blade";
+	public override int ItemNumber => 67;
 	public override int ShopCount => 2;
-	public override int Cost => 30;
-	public override ItemType ItemType => ItemType.Feet;
+	public override int Cost => 60;
+	public override ItemType ItemType => ItemType.OneHand;
 	public override ItemUseType ItemUseType => ItemUseType.Always;
 
-	protected override int AtlasIndex => 0;
+	protected override int AtlasIndex => 6;
 
 	private object _subscriber;
 
@@ -27,15 +27,15 @@ public class ComfortableShoes : Prosperity4Item
 		ScenarioEvents.AbilityStartedEvent.Subscribe(this, _subscriber,
 			parameters =>
 				parameters.Performer == Owner &&
-				parameters.AbilityState is MoveAbility.State moveAbilityState &&
-				moveAbilityState.ActionState.ActionSource is AbilityCardSide abilityCardSide &&
-				abilityCardSide.AbilityCardSideType == AbilityCardSideType.BasicBottom,
+				parameters.AbilityState is AttackAbility.State attackAbilityState &&
+				attackAbilityState.ActionState.ActionSource is AbilityCardSide abilityCardSide &&
+				abilityCardSide.AbilityCardSideType == AbilityCardSideType.BasicTop,
 			async parameters =>
 			{
 				await Use(async user =>
 				{
-					MoveAbility.State moveAbilityState = ((MoveAbility.State)parameters.AbilityState);
-					moveAbilityState.AdjustMoveValue(1);
+					AttackAbility.State moveAbilityState = ((AttackAbility.State)parameters.AbilityState);
+					moveAbilityState.AbilityAdjustAttackValue(2);
 
 					await GDTask.CompletedTask;
 				});
