@@ -9,7 +9,42 @@ public class Covetous : TheCrimsonScalesBattleGoal
 
 	public override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoal battleGoal)
 	{
-		//TODO: Implement
+		bool endOfTurnLooting = false;
+
+		ScenarioEvents.FigureTurnEndingEvent.Subscribe(this,
+			parameters =>
+				parameters.Figure == character,
+			async parameters =>
+			{
+				endOfTurnLooting = true;
+
+				await GDTask.CompletedTask;
+			}
+		);
+
+		ScenarioEvents.FigureTurnEndedEvent.Subscribe(this,
+			parameters =>
+				parameters.Figure == character,
+			async parameters =>
+			{
+				endOfTurnLooting = false;
+
+				await GDTask.CompletedTask;
+			}
+		);
+
+		ScenarioEvents.CoinLootedEvent.Subscribe(this,
+			parameters =>
+				endOfTurnLooting &&
+				parameters.LootObtainer == character,
+			async parameters =>
+			{
+				battleGoal.AdjustProgress(1);
+
+				await GDTask.CompletedTask;
+			}
+		);
+
 		await GDTask.CompletedTask;
 	}
 }

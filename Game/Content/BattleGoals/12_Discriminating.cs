@@ -9,7 +9,20 @@ public class Discriminating : TheCrimsonScalesBattleGoal
 
 	public override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoal battleGoal)
 	{
-		//TODO: Implement
+		ScenarioEvents.FigureKilledEvent.Subscribe(this,
+			parameters =>
+				parameters.PotentialKiller == character &&
+				character.EnemiesWith(parameters.Figure) &&
+				parameters.Figure is Monster monster &&
+				monster.MonsterType is MonsterType.Elite or MonsterType.Named or MonsterType.Boss,
+			async parameters =>
+			{
+				battleGoal.AdjustProgress(1);
+
+				await GDTask.CompletedTask;
+			}
+		);
+
 		await GDTask.CompletedTask;
 	}
 }

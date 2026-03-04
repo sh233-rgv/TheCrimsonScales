@@ -18,6 +18,9 @@ text = "Battle Goal Selection"
 layout_mode = 2
 theme_override_constants/separation = 20
 
+[node name="Buttons" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer" index="1"]
+visible = false
+
 [node name="CancelButton" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Buttons" index="0" instance=ExtResource("3_6la3q")]
 visible = false
 layout_mode = 2
