@@ -1,4 +1,5 @@
-﻿using Fractural.Tasks;
+﻿using System.Linq;
+using Fractural.Tasks;
 
 public class Aggressor : TheCrimsonScalesBattleGoal
 {
@@ -11,7 +12,17 @@ public class Aggressor : TheCrimsonScalesBattleGoal
 
 	public override async GDTask OnScenarioSetupPhaseCompleted(Character character, BattleGoal battleGoal)
 	{
-		//TODO: Implement
+		ScenarioEvents.RoundStartBeforeCardSelectionEvent.Subscribe(this,
+			parameters =>
+				!GameController.Instance.Map.Figures.Any(figure => figure is Monster),
+			async parameters =>
+			{
+				battleGoal.AdjustProgress(1);
+
+				await GDTask.CompletedTask;
+			}
+		);
+
 		await GDTask.CompletedTask;
 	}
 }
