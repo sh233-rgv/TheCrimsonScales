@@ -4,7 +4,7 @@ using Fractural.Tasks;
 public class Bastion : TheCrimsonScalesBattleGoal
 {
 	public override string Title => "Bastion";
-	public override string Description => "At the end of any round, be adjacent to at least two monsters while standing on a door hex.";
+	public override string Description => "Occupy a door hex adjacent to two or more enemies at the end of a round.";
 
 	public override BattleGoalCheckmarkCount CheckmarkCount => BattleGoalCheckmarkCount.Two;
 

@@ -3,7 +3,7 @@
 public class Bully : TheCrimsonScalesBattleGoal
 {
 	public override string Title => "Bully";
-	public override string Description => "Kill a monster afflicted by a negative condition.";
+	public override string Description => "Kill an enemy afflicted by a negative condition.";
 
 	public override int MaxProgress => 1;
 
@@ -12,7 +12,6 @@ public class Bully : TheCrimsonScalesBattleGoal
 		ScenarioEvents.FigureKilledEvent.Subscribe(this,
 			parameters =>
 				parameters.PotentialKiller == character &&
-				parameters.Figure is Monster &&
 				parameters.Figure.Conditions.Count > 0,
 			async parameters =>
 			{

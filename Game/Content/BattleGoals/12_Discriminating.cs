@@ -2,8 +2,8 @@
 
 public class Discriminating : TheCrimsonScalesBattleGoal
 {
-	public override string Title => "Discriminating";
-	public override string Description => "Kill no elite, named or boss monsters during the scenario.";
+	public override string Title => "Discriminating"; // Plebeian in GH2
+	public override string Description => "Never kill an elite enemy, named enemy, or boss.";
 
 	public override bool FailIfProgressFull => true;
 
