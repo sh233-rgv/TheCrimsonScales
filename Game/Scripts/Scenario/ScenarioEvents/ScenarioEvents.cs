@@ -287,12 +287,20 @@ public partial class ScenarioEvents
 	public static InflictConditionDuplicatesCheck InflictConditionDuplicatesCheckEvent =>
 		GameController.Instance.ScenarioEvents._inflictConditionDuplicatesCheck;
 
-	public class DuringGrant : ScenarioEvent<DuringGrant.Parameters>
+	public class ConditionAdded : ScenarioEvent<ConditionAdded.Parameters>
 	{
-		public class Parameters(GrantAbility.State abilityState) : ParametersBase<GrantAbility.State>(abilityState)
+		public class Parameters(AbilityState potentialAbilityState, Figure target, Figure potentialConditionGiver, ConditionModel conditionModel)
+			: ParametersBase
 		{
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
+			public Figure Target { get; } = target;
+			public Figure PotentialConditionGiver { get; } = potentialConditionGiver;
+			public ConditionModel ConditionModel { get; } = conditionModel;
 		}
 	}
+
+	private readonly ConditionAdded _conditionAdded = new ConditionAdded();
+	public static ConditionAdded ConditionAddedEvent => GameController.Instance.ScenarioEvents._conditionAdded;
 
 	public class RemoveCondition : ScenarioEvent<RemoveCondition.Parameters>
 	{
@@ -320,6 +328,12 @@ public partial class ScenarioEvents
 	private readonly AfterRemoveCondition _afterRemoveCondition = new AfterRemoveCondition();
 	public static AfterRemoveCondition AfterRemoveConditionEvent => GameController.Instance.ScenarioEvents._afterRemoveCondition;
 
+	public class DuringGrant : ScenarioEvent<DuringGrant.Parameters>
+	{
+		public class Parameters(GrantAbility.State abilityState) : ParametersBase<GrantAbility.State>(abilityState)
+		{
+		}
+	}
 
 	private readonly DuringGrant _duringGrant = new DuringGrant();
 	public static DuringGrant DuringGrantEvent => GameController.Instance.ScenarioEvents._duringGrant;

@@ -206,6 +206,9 @@ public static class AbilityCmd
 					{
 						await target.AddCondition(conditionModel, potentialAbilityState?.Performer);
 					}
+
+					await ScenarioEvents.ConditionAddedEvent.CreatePrompt(
+						new ScenarioEvents.ConditionAdded.Parameters(potentialAbilityState, target, potentialConditionGiver, conditionModel), target);
 				}
 			}
 		}
