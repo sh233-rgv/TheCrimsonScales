@@ -27,7 +27,6 @@ public class ProjectileAbility : ActiveAbility<ProjectileAbility.State>
 
 		public async GDTask PerformAbilities()
 		{
-			
 			foreach(BombardProjectileToken token in Tokens)
 			{
 				bool targetFound = false;

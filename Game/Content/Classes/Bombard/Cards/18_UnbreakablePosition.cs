@@ -46,6 +46,7 @@ public class UnbreakablePosition : BombardCardModel<UnbreakablePosition.CardTop,
 					ScenarioEvents.SufferDamageEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})
+				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 1))
 				.WithMandatory(true)
 				.Build())
 		];
