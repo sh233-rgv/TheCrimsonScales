@@ -100,19 +100,7 @@ custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 script = null
 
-[node name="BetterButton" parent="CanvasLayer/UI/VBoxContainer/ContinueButton" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = Array[NodePath]([])
-accessibility_described_by_nodes = Array[NodePath]([])
-accessibility_labeled_by_nodes = Array[NodePath]([])
-accessibility_flow_to_nodes = Array[NodePath]([])
-
-[node name="Label" parent="CanvasLayer/UI/VBoxContainer/ContinueButton/BetterButton/Panel" index="0"]
+[node name="Label" parent="CanvasLayer/UI/VBoxContainer/ContinueButton/BetterButton/Panel" parent_id_path=PackedInt32Array(810399806, 1664087955) index="0" unique_id=1161890966]
 text = "Continue"
 
 [node name="NewGameButton" parent="CanvasLayer/UI/VBoxContainer" unique_id=1011399412 instance=ExtResource("3_o2b56")]
@@ -120,19 +108,7 @@ custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 script = null
 
-[node name="BetterButton" parent="CanvasLayer/UI/VBoxContainer/NewGameButton" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = Array[NodePath]([])
-accessibility_described_by_nodes = Array[NodePath]([])
-accessibility_labeled_by_nodes = Array[NodePath]([])
-accessibility_flow_to_nodes = Array[NodePath]([])
-
-[node name="Label" parent="CanvasLayer/UI/VBoxContainer/NewGameButton/BetterButton/Panel" index="0"]
+[node name="Label" parent="CanvasLayer/UI/VBoxContainer/NewGameButton/BetterButton/Panel" parent_id_path=PackedInt32Array(1011399412, 1664087955) index="0" unique_id=1161890966]
 text = "New Campaign"
 
 [node name="OptionsButton" parent="CanvasLayer/UI/VBoxContainer" unique_id=1013233185 instance=ExtResource("3_o2b56")]
@@ -140,19 +116,7 @@ custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 script = null
 
-[node name="BetterButton" parent="CanvasLayer/UI/VBoxContainer/OptionsButton" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = Array[NodePath]([])
-accessibility_described_by_nodes = Array[NodePath]([])
-accessibility_labeled_by_nodes = Array[NodePath]([])
-accessibility_flow_to_nodes = Array[NodePath]([])
-
-[node name="Label" parent="CanvasLayer/UI/VBoxContainer/OptionsButton/BetterButton/Panel" index="0"]
+[node name="Label" parent="CanvasLayer/UI/VBoxContainer/OptionsButton/BetterButton/Panel" parent_id_path=PackedInt32Array(1013233185, 1664087955) index="0" unique_id=1161890966]
 text = "Options"
 
 [node name="ExitButton" parent="CanvasLayer/UI/VBoxContainer" unique_id=1790228055 instance=ExtResource("3_o2b56")]
@@ -160,19 +124,7 @@ custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 script = null
 
-[node name="BetterButton" parent="CanvasLayer/UI/VBoxContainer/ExitButton" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = Array[NodePath]([])
-accessibility_described_by_nodes = Array[NodePath]([])
-accessibility_labeled_by_nodes = Array[NodePath]([])
-accessibility_flow_to_nodes = Array[NodePath]([])
-
-[node name="Label" parent="CanvasLayer/UI/VBoxContainer/ExitButton/BetterButton/Panel" index="0"]
+[node name="Label" parent="CanvasLayer/UI/VBoxContainer/ExitButton/BetterButton/Panel" parent_id_path=PackedInt32Array(1790228055, 1664087955) index="0" unique_id=1161890966]
 text = "Exit"
 
 [editable path="CanvasLayer/UI/VBoxContainer/ContinueButton"]

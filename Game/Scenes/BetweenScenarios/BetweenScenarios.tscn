@@ -139,7 +139,7 @@ outline_size = 3
 outline_color = Color(0.693772, 0.508051, 0.168401, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_sfc7v"]
-viewport_path = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/FrontSubViewport")
+viewport_path = NodePath("../../../../../FrontSubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n4mfb"]
 resource_local_to_scene = true
@@ -150,7 +150,7 @@ albedo_texture = SubResource("ViewportTexture_sfc7v")
 metallic_specular = 0.0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_dbqlu"]
-viewport_path = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/BackSubViewport")
+viewport_path = NodePath("../../../../../BackSubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r1npy"]
 resource_local_to_scene = true
@@ -945,7 +945,6 @@ layers = 2
 light_cull_mask = 4293918722
 
 [node name="ItemShop" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=2022808695 node_paths=PackedStringArray("_animationPlayer", "_frontSubViewport", "_backSubViewport", "_bookSubViewportContainer", "_leftPageParent", "_rightPageParent", "_frontPageParent", "_backPageParent", "_flipLeftButton", "_flipRightButton", "_bookContainer", "_bookCover", "_frontBookCover", "_leftPageCoverInside", "_backPageCoverInside", "_3dRoot", "Button")]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1140,7 +1139,7 @@ stretch = true
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1920, 1300)
-render_target_update_mode = 0
+render_target_update_mode = 4
 
 [node name="Root" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport" unique_id=74201994]
 visible = false
@@ -1257,23 +1256,11 @@ offset_right = -620.0
 offset_bottom = -18.5
 grow_vertical = 2
 
-[node name="BetterButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipLeftButton" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = []
-accessibility_described_by_nodes = []
-accessibility_labeled_by_nodes = []
-accessibility_flow_to_nodes = []
-
-[node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipLeftButton/BetterButton/Panel" index="0"]
+[node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipLeftButton/BetterButton/Panel" parent_id_path=PackedInt32Array(1509611123, 1664087955) index="0" unique_id=1161890966]
 visible = false
 text = "->"
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipLeftButton/BetterButton/Panel" index="1" unique_id=1292261812]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipLeftButton/BetterButton/Panel" parent_id_path=PackedInt32Array(1509611123, 1664087955) index="1" unique_id=1292261812]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1302,23 +1289,11 @@ offset_right = 700.0
 offset_bottom = -18.5
 grow_vertical = 2
 
-[node name="BetterButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = []
-accessibility_described_by_nodes = []
-accessibility_labeled_by_nodes = []
-accessibility_flow_to_nodes = []
-
-[node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton/BetterButton/Panel" index="0"]
+[node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton/BetterButton/Panel" parent_id_path=PackedInt32Array(836931997, 1664087955) index="0" unique_id=1161890966]
 visible = false
 text = "->"
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton/BetterButton/Panel" index="1" unique_id=1083488275]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton/BetterButton/Panel" parent_id_path=PackedInt32Array(836931997, 1664087955) index="1" unique_id=1083488275]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1368,19 +1343,7 @@ offset_top = 250.0
 offset_bottom = 350.0
 grow_vertical = 2
 
-[node name="BetterButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/DonationButton" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = []
-accessibility_described_by_nodes = []
-accessibility_labeled_by_nodes = []
-accessibility_flow_to_nodes = []
-
-[node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/DonationButton/BetterButton/Panel" index="0"]
+[node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/DonationButton/BetterButton/Panel" parent_id_path=PackedInt32Array(2040170442, 1664087955) index="0" unique_id=1161890966]
 text = "Donate"
 
 [node name="EnvelopeB" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak" unique_id=2014874781 node_paths=PackedStringArray("_circleParent", "EnvelopeB3DRoot", "SubViewport", "_animationContainer")]
@@ -1446,6 +1409,7 @@ theme_override_constants/v_separation = 0
 columns = 5
 
 [node name="Shared3D" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=625849377]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1478,7 +1442,7 @@ transparent_bg = true
 handle_input_locally = false
 msaa_3d = 1
 size = Vector2i(1920, 1080)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="Root" type="Node3D" parent="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport" unique_id=1282304267]
 
@@ -1655,6 +1619,7 @@ material_override = SubResource("ShaderMaterial_gyc5w")
 mesh = SubResource("PlaneMesh_j84ia")
 
 [node name="Enhancer" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=1399130939 node_paths=PackedStringArray("_3dRoot", "_crystalBall", "_cardContainer", "_cardRotationContainer", "_cardView", "_cardListContainer", "_cardSelectionList", "_optionsContainer", "_enhancementOptionParent", "_confirmButton", "Button")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1823,18 +1788,6 @@ theme_override_constants/separation = 5
 [node name="PanelButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsAnchor/EnhancementOptionsContainer/MarginContainer/VBoxContainer" unique_id=520732460 instance=ExtResource("27_hkul8")]
 layout_mode = 2
 
-[node name="BetterButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsAnchor/EnhancementOptionsContainer/MarginContainer/VBoxContainer/PanelButton" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = []
-accessibility_described_by_nodes = []
-accessibility_labeled_by_nodes = []
-accessibility_flow_to_nodes = []
-
 [node name="ActionButtons" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=1904352722]
 layout_mode = 1
 anchors_preset = 12
@@ -1860,19 +1813,7 @@ alignment = 1
 modulate = Color(0.331482, 0.996455, 1, 1)
 layout_mode = 2
 
-[node name="BetterButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/ScenarioFlowchartButton/Container" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = []
-accessibility_described_by_nodes = []
-accessibility_labeled_by_nodes = []
-accessibility_flow_to_nodes = []
-
-[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/ScenarioFlowchartButton/Container/BetterButton/Panel" index="0"]
+[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/ScenarioFlowchartButton/Container/BetterButton/Panel" parent_id_path=PackedInt32Array(512763406, 436553962) index="0" unique_id=950733184]
 texture = ExtResource("18_nmjfa")
 
 [node name="ItemShopButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" unique_id=504848750 instance=ExtResource("17_3hv00")]
@@ -1883,38 +1824,14 @@ layout_mode = 2
 modulate = Color(1, 1, 0.647059, 1)
 layout_mode = 2
 
-[node name="BetterButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton/Container" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = []
-accessibility_described_by_nodes = []
-accessibility_labeled_by_nodes = []
-accessibility_flow_to_nodes = []
-
-[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton/Container/BetterButton/Panel" index="0"]
+[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton/Container/BetterButton/Panel" parent_id_path=PackedInt32Array(2111888560, 436553962) index="0" unique_id=950733184]
 texture = ExtResource("19_ywvcx")
 
 [node name="EnhancerButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" unique_id=1579014179 instance=ExtResource("17_3hv00")]
 modulate = Color(0.994686, 0.586915, 1, 1)
 layout_mode = 2
 
-[node name="BetterButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnhancerButton/Container" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = []
-accessibility_described_by_nodes = []
-accessibility_labeled_by_nodes = []
-accessibility_flow_to_nodes = []
-
-[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnhancerButton/Container/BetterButton/Panel" index="0"]
+[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnhancerButton/Container/BetterButton/Panel" parent_id_path=PackedInt32Array(1579014179, 436553962) index="0" unique_id=950733184]
 texture = ExtResource("20_1ehwm")
 
 [node name="EventButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" unique_id=45367861 instance=ExtResource("17_3hv00")]
@@ -1922,19 +1839,7 @@ visible = false
 modulate = Color(1, 0.671158, 0.532482, 1)
 layout_mode = 2
 
-[node name="BetterButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EventButton/Container" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = []
-accessibility_described_by_nodes = []
-accessibility_labeled_by_nodes = []
-accessibility_flow_to_nodes = []
-
-[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EventButton/Container/BetterButton/Panel" index="0"]
+[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EventButton/Container/BetterButton/Panel" parent_id_path=PackedInt32Array(45367861, 436553962) index="0" unique_id=950733184]
 texture = ExtResource("22_ywvcx")
 
 [node name="SidePanel" type="Control" parent="CanvasLayer/UI" unique_id=1236198675 node_paths=PackedStringArray("_partyNameLabel", "_newCharacterButtonContainer", "_newCharacterButton", "_prosperityStat", "_reputationStat")]
@@ -2006,10 +1911,10 @@ layout_mode = 2
 [node name="Reputation" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats" unique_id=445715573 instance=ExtResource("45_rtdf2")]
 layout_mode = 2
 
-[node name="ProgressBar" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation" index="1"]
+[node name="ProgressBar" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation" index="1" unique_id=1418968114]
 self_modulate = Color(0.654877, 0.413723, 0.787502, 1)
 
-[node name="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation" index="2"]
+[node name="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation" index="2" unique_id=610432765]
 text = "Reputation"
 
 [node name="OldReputation" type="Control" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats" unique_id=890268473]
@@ -2078,19 +1983,7 @@ _portraitScene = ExtResource("24_cdfbw")
 [node name="NewCharacterButton" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer" unique_id=653129271 instance=ExtResource("27_hkul8")]
 layout_mode = 2
 
-[node name="BetterButton" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/NewCharacterButton" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = []
-accessibility_described_by_nodes = []
-accessibility_labeled_by_nodes = []
-accessibility_flow_to_nodes = []
-
-[node name="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/NewCharacterButton/BetterButton/Panel" index="0"]
+[node name="Label" parent="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/NewCharacterButton/BetterButton/Panel" parent_id_path=PackedInt32Array(653129271, 62362509) index="0" unique_id=188245078]
 text = "New Character"
 label_settings = SubResource("LabelSettings_f340v")
 
@@ -2576,19 +2469,7 @@ offset_top = 250.0
 offset_bottom = 350.0
 grow_vertical = 2
 
-[node name="BetterButton" parent="CanvasLayer/UI/EventOverlay/ContinueButton" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = []
-accessibility_described_by_nodes = []
-accessibility_labeled_by_nodes = []
-accessibility_flow_to_nodes = []
-
-[node name="Label" parent="CanvasLayer/UI/EventOverlay/ContinueButton/BetterButton/Panel" index="0"]
+[node name="Label" parent="CanvasLayer/UI/EventOverlay/ContinueButton/BetterButton/Panel" parent_id_path=PackedInt32Array(1107262915, 1664087955) index="0" unique_id=1161890966]
 text = "Continue"
 
 [node name="CharacterCreationOverlay" type="Control" parent="CanvasLayer/UI" unique_id=1134572089 node_paths=PackedStringArray("_steps", "_backButton", "_confirmButton")]
@@ -2882,19 +2763,7 @@ script = ExtResource("67_0un3t")
 BetterButton = NodePath("BetterButton")
 _startActive = true
 
-[node name="BetterButton" parent="CanvasLayer/UI/CharacterCreationOverlay/BackButton" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = []
-accessibility_described_by_nodes = []
-accessibility_labeled_by_nodes = []
-accessibility_flow_to_nodes = []
-
-[node name="Label" parent="CanvasLayer/UI/CharacterCreationOverlay/BackButton/BetterButton/Panel" index="0"]
+[node name="Label" parent="CanvasLayer/UI/CharacterCreationOverlay/BackButton/BetterButton/Panel" parent_id_path=PackedInt32Array(112072908, 62362509) index="0" unique_id=188245078]
 text = "Back"
 
 [node name="ConfirmButton" parent="CanvasLayer/UI/CharacterCreationOverlay" unique_id=876028160 node_paths=PackedStringArray("BetterButton") instance=ExtResource("27_hkul8")]
@@ -2914,18 +2783,6 @@ grow_vertical = 0
 script = ExtResource("67_0un3t")
 BetterButton = NodePath("BetterButton")
 _startActive = false
-
-[node name="BetterButton" parent="CanvasLayer/UI/CharacterCreationOverlay/ConfirmButton" index="0"]
-pivot_offset_ratio = Vector2(0, 0)
-focus_behavior_recursive = 0
-mouse_behavior_recursive = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = []
-accessibility_described_by_nodes = []
-accessibility_labeled_by_nodes = []
-accessibility_flow_to_nodes = []
 
 [node name="ClassUnlockOverlay" type="Control" parent="CanvasLayer/UI" unique_id=1374115008 node_paths=PackedStringArray("_unlockCharacterView")]
 visible = false
