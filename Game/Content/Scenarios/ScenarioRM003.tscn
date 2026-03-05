@@ -1,12 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://dpyp4pqterwr7"]
+[gd_scene load_steps=15 format=3 uid="uid://c3f5xajclkl1f"]
 
 [ext_resource type="PackedScene" uid="uid://cifjwk1lx2x1h" path="res://Scenes/Scenario/Scenario.tscn" id="1_u1soc"]
 [ext_resource type="Script" uid="uid://bbtc25ohouat7" path="res://Scripts/Scenario/Room.cs" id="2_638f1"]
 [ext_resource type="PackedScene" uid="uid://b3brvq4kon6jd" path="res://Content/MapTiles/L1b.tscn" id="3_6llpw"]
 [ext_resource type="PackedScene" uid="uid://b3k6b60tknt8o" path="res://Content/MapTiles/L3a.tscn" id="4_5rnp3"]
 [ext_resource type="PackedScene" uid="uid://df0xuqelyjmy1" path="res://Content/MapTiles/M1b.tscn" id="5_xhvdx"]
+[ext_resource type="PackedScene" uid="uid://ysmgoyx1yw1d" path="res://Content/OverlayTiles/Corridors/Earth2H.tscn" id="5_yyocx"]
+[ext_resource type="PackedScene" uid="uid://nm1hasddlxs" path="res://Content/OverlayTiles/Corridors/Earth1H.tscn" id="6_by58l"]
+[ext_resource type="PackedScene" uid="uid://dlqet8t2xgyh" path="res://Scenes/Scenario/CharacterStartHex.tscn" id="6_frgul"]
 [ext_resource type="PackedScene" uid="uid://cqoskah3wof2k" path="res://Content/MapTiles/L2a.tscn" id="6_keald"]
 [ext_resource type="PackedScene" uid="uid://db0m5wq2g1vo" path="res://Content/MapTiles/C2a.tscn" id="7_tc7mn"]
+[ext_resource type="PackedScene" path="res://Content/OverlayTiles/Obstacles/Tree3H.tscn" id="8_pf04w"]
+[ext_resource type="PackedScene" uid="uid://dgovtiuaxinv" path="res://Content/OverlayTiles/Obstacles/Bush1H.tscn" id="9_uskug"]
+[ext_resource type="PackedScene" path="res://Content/OverlayTiles/DifficultTerrain/Log2H.tscn" id="10_bxluk"]
+[ext_resource type="PackedScene" uid="uid://nc1epxsho0mr" path="res://Content/OverlayTiles/DifficultTerrain/Water1H.tscn" id="11_jo0be"]
 
 [node name="Scenario" instance=ExtResource("1_u1soc")]
 
@@ -20,6 +27,121 @@ rotation = 3.14159
 [node name="L3a" parent="Map/Rooms/Room" index="1" instance=ExtResource("4_5rnp3")]
 position = Vector2(-1091.19, 0)
 rotation = 3.14159
+
+[node name="Earth2H" parent="Map/Rooms/Room" index="2" instance=ExtResource("5_yyocx")]
+position = Vector2(-763.834, -567)
+
+[node name="Earth2H2" parent="Map/Rooms/Room" index="3" instance=ExtResource("5_yyocx")]
+position = Vector2(-763.834, -189)
+rotation = -1.0472
+
+[node name="Earth2H3" parent="Map/Rooms/Room" index="4" instance=ExtResource("5_yyocx")]
+position = Vector2(-654.715, 0)
+rotation = -1.0472
+
+[node name="Earth2H4" parent="Map/Rooms/Room" index="5" instance=ExtResource("5_yyocx")]
+position = Vector2(-763.834, 567)
+
+[node name="Earth1H" parent="Map/Rooms/Room" index="6" instance=ExtResource("6_by58l")]
+position = Vector2(-654.715, 378)
+
+[node name="Earth2H5" parent="Map/Rooms/Room" index="7" instance=ExtResource("5_yyocx")]
+position = Vector2(-763.834, 189)
+
+[node name="CharacterStartHex" parent="Map/Rooms/Room" index="8" instance=ExtResource("6_frgul")]
+position = Vector2(-1636.79, -189)
+
+[node name="CharacterStartHex2" parent="Map/Rooms/Room" index="9" instance=ExtResource("6_frgul")]
+position = Vector2(-1527.67, 0)
+
+[node name="CharacterStartHex3" parent="Map/Rooms/Room" index="10" instance=ExtResource("6_frgul")]
+position = Vector2(-1636.79, 189)
+
+[node name="CharacterStartHex4" parent="Map/Rooms/Room" index="11" instance=ExtResource("6_frgul")]
+position = Vector2(-1527.67, 378)
+
+[node name="CharacterStartHex5" parent="Map/Rooms/Room" index="12" instance=ExtResource("6_frgul")]
+position = Vector2(-1527.67, -378)
+
+[node name="Tree3H" parent="Map/Rooms/Room" index="13" instance=ExtResource("8_pf04w")]
+position = Vector2(-1418.55, -567)
+rotation = 1.0472
+
+[node name="Tree3H2" parent="Map/Rooms/Room" index="14" instance=ExtResource("8_pf04w")]
+position = Vector2(-1309.43, 0)
+rotation = 1.0472
+
+[node name="Bush1H" parent="Map/Rooms/Room" index="15" instance=ExtResource("9_uskug")]
+position = Vector2(218.238, -378)
+rotation = 3.14159
+
+[node name="Bush1H2" parent="Map/Rooms/Room" index="16" instance=ExtResource("9_uskug")]
+position = Vector2(-872.954, 378)
+rotation = 3.14159
+
+[node name="Log2H" parent="Map/Rooms/Room" index="17" instance=ExtResource("10_bxluk")]
+position = Vector2(-327.358, -567)
+rotation = 2.0944
+
+[node name="Log2H2" parent="Map/Rooms/Room" index="18" instance=ExtResource("10_bxluk")]
+position = Vector2(-109.119, 189)
+rotation = 2.0944
+
+[node name="Water1H" parent="Map/Rooms/Room" index="19" instance=ExtResource("11_jo0be")]
+position = Vector2(-1200.31, 567)
+
+[node name="Water1H2" parent="Map/Rooms/Room" index="20" instance=ExtResource("11_jo0be")]
+position = Vector2(-982.073, 567)
+
+[node name="Water1H3" parent="Map/Rooms/Room" index="21" instance=ExtResource("11_jo0be")]
+position = Vector2(-763.834, 567)
+
+[node name="Water1H4" parent="Map/Rooms/Room" index="22" instance=ExtResource("11_jo0be")]
+position = Vector2(-545.596, 567)
+
+[node name="Water1H5" parent="Map/Rooms/Room" index="23" instance=ExtResource("11_jo0be")]
+position = Vector2(-654.715, 378)
+
+[node name="Water1H6" parent="Map/Rooms/Room" index="24" instance=ExtResource("11_jo0be")]
+position = Vector2(-436.477, 378)
+
+[node name="Water1H7" parent="Map/Rooms/Room" index="25" instance=ExtResource("11_jo0be")]
+position = Vector2(-545.596, 189)
+
+[node name="Water1H8" parent="Map/Rooms/Room" index="26" instance=ExtResource("11_jo0be")]
+position = Vector2(-327.358, 189)
+
+[node name="Water1H9" parent="Map/Rooms/Room" index="27" instance=ExtResource("11_jo0be")]
+position = Vector2(-436.477, 0)
+
+[node name="Water1H10" parent="Map/Rooms/Room" index="28" instance=ExtResource("11_jo0be")]
+position = Vector2(-218.238, 0)
+
+[node name="Water1H11" parent="Map/Rooms/Room" index="29" instance=ExtResource("11_jo0be")]
+
+[node name="Water1H12" parent="Map/Rooms/Room" index="30" instance=ExtResource("11_jo0be")]
+position = Vector2(-109.119, -189)
+
+[node name="Water1H13" parent="Map/Rooms/Room" index="31" instance=ExtResource("11_jo0be")]
+position = Vector2(-218.238, -378)
+
+[node name="Water1H14" parent="Map/Rooms/Room" index="32" instance=ExtResource("11_jo0be")]
+position = Vector2(-327.358, -189)
+
+[node name="Water1H15" parent="Map/Rooms/Room" index="33" instance=ExtResource("11_jo0be")]
+position = Vector2(-545.596, -189)
+
+[node name="Water1H16" parent="Map/Rooms/Room" index="34" instance=ExtResource("11_jo0be")]
+position = Vector2(0, -378)
+
+[node name="Water1H17" parent="Map/Rooms/Room" index="35" instance=ExtResource("11_jo0be")]
+position = Vector2(-109.119, -567)
+
+[node name="Water1H18" parent="Map/Rooms/Room" index="36" instance=ExtResource("11_jo0be")]
+position = Vector2(109.119, -567)
+
+[node name="Water1H19" parent="Map/Rooms/Room" index="37" instance=ExtResource("11_jo0be")]
+position = Vector2(327.358, -567)
 
 [node name="Room2" type="Node2D" parent="Map/Rooms" index="1"]
 script = ExtResource("2_638f1")
