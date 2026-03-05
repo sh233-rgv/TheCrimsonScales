@@ -7,5 +7,7 @@ public struct MonsterStats()
 
 	public FigureTrait[] Traits { get; init; } = null;
 
+	public int? CustomValue { get; init; } = null;
+
 	public RangeType RangeType => Range.HasValue ? RangeType.Range : RangeType.Melee; //{ get; init; } = RangeType.Melee;
 }

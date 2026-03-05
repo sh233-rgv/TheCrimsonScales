@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://ci3ew148sjosn"]
+
+[ext_resource type="Texture2D" uid="uid://d3767y7c07f60" path="res://Content/Monsters/Boss/InoxBloodguard/InoxBloodguard.jpg" id="1_ukbjv"]
+
+[resource]
+atlas = ExtResource("1_ukbjv")
+region = Rect2(0, 0, 195, 195)

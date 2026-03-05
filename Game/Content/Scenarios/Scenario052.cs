@@ -12,6 +12,7 @@ public class Scenario052 : ScenarioModel
 	protected override ScenarioGoals CreateScenarioGoals() =>
 		new CustomScenarioGoals(
 			$"Have both pressure plates {Icons.InlineMarker(Marker.Type.b)} be occupied at the end of any round to win this scenario.");
+
 	protected override List<MonsterModel> SpawnedMonsterModels { get; } =
 		[ModelDB.Monster<SpittingDrake>()];
 
@@ -33,7 +34,6 @@ public class Scenario052 : ScenarioModel
 		ScenarioCheckEvents.CanEnterCheckEvent.Subscribe(this,
 			parameters =>
 			{
-				GD.Print(parameters.Hex.HasHexObjectOfType<DarkPitObstacle>());
 				return parameters.Figure is Character or Summon && (parameters.Hex.MapTile == GameController.Instance.Map.Rooms[0].MapTiles[1] ||
 				                                                    parameters.Hex.HasHexObjectOfType<DarkPitObstacle>());
 			},

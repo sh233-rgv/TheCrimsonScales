@@ -108,13 +108,25 @@ public class RogueHollowpact : MonsterModel, IBossMonsterModel
 
 	public override string AssetPath => "res://Content/Monsters/Boss/RogueHollowpact";
 	public override string PortraitTexturePath => $"{AssetPath}/Portrait.tres";
-	public override string MapIconTexturePath => $"{AssetPath}/Icon.tres";
+	public override string MapIconTexturePath => $"{AssetPath}/MapIcon.tres";
 
 	public override int MaxStandeeCount => 1;
 
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
 	// IBossMonsterModel
+	public string GetSpecial1Description(Monster monster) => $"""
+	                                                          {Icons.Inline(Icons.Move)}{monster.Stats.Move}, {Icons.Inline(Icons.Jump)}
+	                                                          {Icons.Inline(Icons.Attack)}{monster.Stats.Attack + 2}
+	                                                          {Icons.Inline(Icons.Heal)}X, self, where X is the number of Void Pit obstacles.
+	                                                          """;
+
+	public string GetSpecial2Description(Monster monster) => $"""
+	                                                          Jump to an empty hex adjacent to a Void Pit obstacle furthest away from a character within {Icons.Inline(Icons.Range)}4.
+	                                                          {Icons.Inline(Icons.Attack)}{monster.Stats.Attack + 2}, {Icons.Inline(Icons.Range)}4
+	                                                          All enemies adjacent to a Void Pit obstacle suffer {Icons.Inline(Icons.Damage)}2.
+	                                                          """;
+
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MonsterAbilityCardModel.MoveAbility(monster, +0).WithMoveType(MoveType.Jump)),

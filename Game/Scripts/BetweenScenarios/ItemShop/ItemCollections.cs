@@ -171,5 +171,8 @@
 		// ModelDB.Item<HeartOfTheBetrayer>(),
 		// ModelDB.Item<PowerCore>(),
 		// ModelDB.Item<ResonantCrystal>(),
+
+		ModelDB.Item<SpiderClimbGloves>(),
+		ModelDB.Item<SteamPistonHammer>()
 	];
 }

@@ -7,13 +7,13 @@ public abstract class BossAbilityCard : MonsterAbilityCardModel
 	public static IEnumerable<MonsterAbilityCardModel> Deck { get; } =
 	[
 		ModelDB.MonsterAbilityCard<BossAbilityCard0>(),
-		ModelDB.MonsterAbilityCard<BossAbilityCard1>(),
-		ModelDB.MonsterAbilityCard<BossAbilityCard2>(),
-		ModelDB.MonsterAbilityCard<BossAbilityCard3>(),
-		ModelDB.MonsterAbilityCard<BossAbilityCard4>(),
-		ModelDB.MonsterAbilityCard<BossAbilityCard5>(),
-		ModelDB.MonsterAbilityCard<BossAbilityCard6>(),
-		ModelDB.MonsterAbilityCard<BossAbilityCard7>(),
+		ModelDB.MonsterAbilityCard<BossAbilityCard0>(),
+		ModelDB.MonsterAbilityCard<BossAbilityCard0>(),
+		ModelDB.MonsterAbilityCard<BossAbilityCard0>(),
+		ModelDB.MonsterAbilityCard<BossAbilityCard0>(),
+		ModelDB.MonsterAbilityCard<BossAbilityCard0>(),
+		ModelDB.MonsterAbilityCard<BossAbilityCard0>(),
+		ModelDB.MonsterAbilityCard<BossAbilityCard0>(),
 	];
 }
 

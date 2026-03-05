@@ -23,7 +23,7 @@ public class Scenario037 : ScenarioModel
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<IronSnare>());
 
-		int burningStoneHealth = GameController.Instance.SavedScenario.ScenarioLevel + GameController.Instance.SavedCampaign.Characters.Count + 2;
+		int burningStoneHealth = ScenarioLevel + CharacterCount + 2;
 
 		_radiantStone = GameController.Instance.Map.GetMarker(Marker.Type.a).GetHexObject<Objective>();
 		_radiantStone.Init(burningStoneHealth, "Radiant Stone");

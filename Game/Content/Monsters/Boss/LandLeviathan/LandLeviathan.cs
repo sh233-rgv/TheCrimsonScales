@@ -26,6 +26,19 @@ public class LandLeviathan : DeepTerror, IBossMonsterModel
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
 	// IBossMonsterModel
+	public string GetSpecial1Description(Monster monster) => $"""
+	                                                          {Icons.Inline(Icons.Attack)}{monster.Stats.Attack - 1}, {Icons.Inline(Icons.Range)}5, {Icons.Inline(Icons.Targets)}2.
+	                                                          Increase the Land Leviathan's maximum hit point value by 2.
+	                                                          {Icons.Inline(Icons.Heal)}2, self.
+	                                                          """;
+
+	public string GetSpecial2Description(Monster monster) => $"""
+	                                                          Summon one Imp in the closest empty hex within {Icons.Inline(Icons.Range)}2.
+	                                                          Grant all Imps within {Icons.Inline(Icons.Range)}5:
+	                                                          {Icons.Inline(Icons.Heal)}1, self
+	                                                          The type of Imp that is summoned cycles in the order of Black Imp, then Forest Imp. All summons are normal for two characters. Black Imp summons are elite for three characters. All summons are elite for four characters.
+	                                                          """;
+
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, -1).WithTargets(2).WithRange(5)),

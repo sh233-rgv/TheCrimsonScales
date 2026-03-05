@@ -126,7 +126,7 @@ public class HarrowerAegis : MonsterModel
 
 	public override string AssetPath => "res://Content/Monsters/HarrowerAegis";
 	public override string PortraitTexturePath => $"{AssetPath}/Portrait.tres";
-	public override string MapIconTexturePath => $"{AssetPath}/Icon.tres";
+	public override string MapIconTexturePath => $"{AssetPath}/MapIcon.tres";
 
 	public override int MaxStandeeCount => 4;
 

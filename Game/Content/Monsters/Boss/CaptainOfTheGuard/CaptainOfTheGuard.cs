@@ -12,7 +12,7 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 			Attack = 3,
 			Traits =
 			[
-				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
 			]
 		},
@@ -23,7 +23,7 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 			Attack = 3,
 			Traits =
 			[
-				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
 			]
 		},
@@ -34,7 +34,7 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 			Attack = 4,
 			Traits =
 			[
-				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
 			]
 		},
@@ -45,7 +45,7 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 			Attack = 4,
 			Traits =
 			[
-				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
 			]
 		},
@@ -56,7 +56,7 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 			Attack = 5,
 			Traits =
 			[
-				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
 			]
 		},
@@ -67,7 +67,7 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 			Attack = 5,
 			Traits =
 			[
-				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
 			]
 		},
@@ -78,7 +78,7 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 			Attack = 6,
 			Traits =
 			[
-				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
 			]
 		},
@@ -89,7 +89,7 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 			Attack = 6,
 			Traits =
 			[
-				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
+				new ConditionImmunityTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.WoundImmunityTrait()
 			]
 		},
@@ -99,13 +99,22 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 
 	public override string AssetPath => "res://Content/Monsters/Boss/CaptainOfTheGuard";
 	public override string PortraitTexturePath => $"{AssetPath}/Portrait.tres";
-	public override string MapIconTexturePath => $"{AssetPath}/Icon.tres";
+	public override string MapIconTexturePath => $"{AssetPath}/MapIcon.tres";
 
 	public override int MaxStandeeCount => 1;
 
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
 	// IBossMonsterModel
+	public string GetSpecial1Description(Monster monster) => $"""
+	                                                          {Icons.Inline(Icons.Heal)}2, {Icons.Inline(Icons.Targets)}all
+	                                                          """;
+
+	public string GetSpecial2Description(Monster monster) => $"""
+	                                                          All allies add +1{Icons.Inline(Icons.Attack)} to all their attacks this round.
+	                                                          {Icons.Inline(Icons.Attack)}{monster.Stats.Attack + 1}
+	                                                          """;
+
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.TargetAll | Target.SelfOrAllies))

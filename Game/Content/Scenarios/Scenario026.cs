@@ -23,8 +23,8 @@ public class Scenario026 : ScenarioModel
 		List<Objective> coldThermalStones = GameController.Instance.Map.Rooms[0].GetChildrenOfType<Objective>();
 		List<Objective> hotThermalStones = GameController.Instance.Map.Rooms[1].GetChildrenOfType<Objective>();
 		Objective icyFireThermalStone = GameController.Instance.Map.Rooms[2].GetChildrenOfType<Objective>()[0];
-		int thermalStoneHealth = GameController.Instance.SavedCampaign.Characters.Count + 3;
-		int icyFireThermalStoneHealth = GameController.Instance.SavedCampaign.Characters.Count * 6;
+		int thermalStoneHealth = CharacterCount + 3;
+		int icyFireThermalStoneHealth = CharacterCount * 6;
 
 		foreach(Objective objective in coldThermalStones)
 		{
@@ -173,7 +173,7 @@ public class Scenario026 : ScenarioModel
 
 		if(parameters.Room == GameController.Instance.Map.Rooms[1])
 		{
-			int thermalStoneHealth = GameController.Instance.SavedCampaign.Characters.Count + 3;
+			int thermalStoneHealth = CharacterCount + 3;
 			_text = $"""
 			         Each boulder on G2A represents a Hot thermal stone and has {thermalStoneHealth} hit points. Each time a character or character summon attacks a Hot thermal stone, they immediately suffer {Icons.Inline(Icons.Damage)} 1 following the attack.
 

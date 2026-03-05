@@ -126,7 +126,7 @@ public class RavenousGharial : MonsterModel
 
 	public override string AssetPath => "res://Content/Monsters/RavenousGharial";
 	public override string PortraitTexturePath => $"{AssetPath}/Portrait.tres";
-	public override string MapIconTexturePath => $"{AssetPath}/Icon.tres";
+	public override string MapIconTexturePath => $"{AssetPath}/MapIcon.tres";
 
 	public override int MaxStandeeCount => 6;
 

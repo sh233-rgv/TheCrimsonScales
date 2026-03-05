@@ -55,14 +55,7 @@ public class Scenario027 : ScenarioModel
 
 			                    The character holding the Orb of Embers adds +1{Icons.Inline(Icons.Attack)} to all attacks targeting the Icebound.
 
-			                    The Savvas Icestorm is the Icebound. The Icebound uses the Boss monster ability deck, performing the following specials:
-
-			                    Special 1: If the Icebound is occupying Room 1 (A2b tile), summon one Wind Demon in an empty hex closest to the hex marked {Icons.InlineMarker(Marker.Type.c)}. If the Icebound is occupying Room 2 (A3a tile), summon one Frost Demon in an empty hex closest to the hex marked {Icons.InlineMarker(Marker.Type.a)}. If the Icebound is occupying the G2a tile, summon one Stone Golem in an empty hex closest to the hex marked {Icons.InlineMarker(Marker.Type.b)}. Summons are normal for two characters, every other summon is elite for three characters, and all summons are elite for four characters.
-			                    The Icebound then performs ”{Icons.Inline(Icons.Heal)}3, Self”.
-
-			                    Special 2: {Icons.Inline(Icons.Attack)}+0, {Icons.Inline(Icons.Targets)} all, {Icons.Inline(Icons.Range)}3.
-			                    If the Icebound is occupying Room 1 (A2b tile), it immediately jumps into the nearest unoccupied hex adjacent to {Icons.InlineMarker(Marker.Type.e)}. If the Icebound is occupying Room 2 (A3a tile), it immediately jumps into the nearest unoccupied hex adjacent to {Icons.InlineMarker(Marker.Type.d)}.
-			                    {Icons.Inline(Icons.Attack)}+0, {Icons.Inline(Icons.Targets)} all, {Icons.Inline(Icons.Range)}3
+			                    The Savvas Icestorm is the Icebound and uses the Boss monster ability deck.
 			                    """);
 		}
 	}

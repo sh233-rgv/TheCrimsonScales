@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://dtfefh22267rj"]
+
+[ext_resource type="Texture2D" uid="uid://bir63k818yu8f" path="res://Content/Monsters/Boss/GoremyonShatterMind/goremyon-shatter-mind.jpg" id="1_frgue"]
+
+[resource]
+atlas = ExtResource("1_frgue")
+region = Rect2(240, 280, 300, 450)

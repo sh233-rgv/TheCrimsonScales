@@ -176,7 +176,7 @@ public class ScenarioAA001 : ScenarioModel
 				}
 
 				Monster gildedOne = await SpawnMonster(null, ModelDB.Monster<GildedOne>(), MonsterType.Named, spawnHex,
-					monsterLevel: GameController.Instance.SavedScenario.ScenarioLevel + 1);
+					monsterLevel: ScenarioLevel + 1);
 				ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
 
 				ScenarioEvents.RoundEndedEvent.Subscribe(this,

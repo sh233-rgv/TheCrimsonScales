@@ -15,7 +15,7 @@ public class Scenario041 : ScenarioModel
 		await base.StartAfterFirstRoomRevealed();
 
 		List<Objective> objectives = GameController.Instance.Map.GetChildrenOfType<Objective>();
-		int objectiveHealth = GameController.Instance.SavedCampaign.Characters.Count + GameController.Instance.SavedScenario.ScenarioLevel;
+		int objectiveHealth = CharacterCount + ScenarioLevel;
 		foreach(Objective objective in objectives)
 		{
 			objective.Init(objectiveHealth, "Void Pit");
@@ -45,10 +45,6 @@ public class Scenario041 : ScenarioModel
 
 		UpdateScenarioText($"""
 		                    The Dark Pit obstacles represent Void Pit objectives and have C+L hitpoints.
-
-		                    The Rogue Hollowpact performs the following specials:
-		                    Special 1: {Icons.Inline(Icons.Move)}+0, {Icons.Inline(Icons.Jump)}, {Icons.Inline(Icons.Attack)}+2, {Icons.Inline(Icons.Heal)}X, Self, where X is the number of Void Pit obstacles.
-		                    Special 2: Jump to an empty hex adjacent to a Void Pit obstacle furthest away from a character within {Icons.Inline(Icons.Range)}4. {Icons.Inline(Icons.Attack)}+2, {Icons.Inline(Icons.Range)}4. All enemies adjacent to a Void Pit obstacle suffer {Icons.Inline(Icons.Damage)}2.
 
 		                    The Rogue Hollowpact will not leave the N1B tile. The Rogue Hollowpact cannot be targeted by any figures that are not occupying the N1b tile.
 		                    """);

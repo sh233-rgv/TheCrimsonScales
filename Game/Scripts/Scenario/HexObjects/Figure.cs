@@ -42,6 +42,7 @@ public abstract partial class Figure : HexObject, IActionSource
 
 	public List<Hex> TurnMovedHexes { get; private set; } = new List<Hex>();
 	public List<ActionState> TurnPerformedActionStates { get; } = new List<ActionState>();
+	public List<Hex> RoundMovedHexes { get; private set; } = new List<Hex>();
 	public List<ActionState> RoundPerformedActionStates { get; } = new List<ActionState>();
 
 	public abstract string DisplayName { get; }
@@ -91,6 +92,7 @@ public abstract partial class Figure : HexObject, IActionSource
 			async enteredHexParameters =>
 			{
 				TurnMovedHexes.Add(enteredHexParameters.Hex);
+				RoundMovedHexes.Add(enteredHexParameters.Hex);
 
 				await GDTask.CompletedTask;
 			}
@@ -430,6 +432,7 @@ public abstract partial class Figure : HexObject, IActionSource
 	{
 		CanTakeTurn = true;
 		RoundPerformedActionStates.Clear();
+		RoundMovedHexes.Clear();
 
 		await DeactivateOtherRoundActionStates();
 	}

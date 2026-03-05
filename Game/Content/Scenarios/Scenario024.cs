@@ -10,7 +10,7 @@ public class Scenario024 : ScenarioModel
 	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario026>(true)];
 
 	protected override ScenarioGoals CreateScenarioGoals() =>
-		new CustomScenarioGoals("Place " + GameController.Instance.SavedCampaign.Characters.Count + " orbs in the dome to win this scenario." +
+		new CustomScenarioGoals("Place " + CharacterCount + " orbs in the dome to win this scenario." +
 		                        System.Environment.NewLine + System.Environment.NewLine +
 		                        "Any character may forgo the top or bottom action of their turn to remove all " +
 		                        $"{Icons.Inline(Icons.GetCondition(Conditions.Chill))} from self or one summon they own within {Icons.Inline(Icons.Range)} 2.");
@@ -64,7 +64,7 @@ public class Scenario024 : ScenarioModel
 
 		//Scenario Win Condition
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
-			parameters => _orbsPlaced == GameController.Instance.SavedCampaign.Characters.Count,
+			parameters => _orbsPlaced == CharacterCount,
 			async parameters =>
 			{
 				await ((CustomScenarioGoals)ScenarioGoals).Win();

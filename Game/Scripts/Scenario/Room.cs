@@ -56,8 +56,7 @@ public partial class Room : Node2D
 			{
 				if(Map.SimpleDistance(hex.Coords, otherHex.Coords) == 1)
 				{
-					hex.AddNeighbour(otherHex);
-					otherHex.AddNeighbour(hex);
+					AbilityCmd.LinkHexes(hex, otherHex);
 				}
 			}
 		}
@@ -89,8 +88,7 @@ public partial class Room : Node2D
 						addedDoor = true;
 					}
 
-					hex.AddNeighbour(doorHex);
-					doorHex.AddNeighbour(hex);
+					AbilityCmd.LinkHexes(hex, doorHex);
 				}
 			}
 		}

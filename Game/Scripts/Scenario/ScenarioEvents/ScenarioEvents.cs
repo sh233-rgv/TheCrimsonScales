@@ -355,6 +355,8 @@ public partial class ScenarioEvents
 
 			public bool FromAttack { get; }
 
+			public Func<int, int> AdjustFinalDamage { get; private set; } = damage => damage;
+
 			public bool WouldSufferDamage => CalculatedCurrentDamage > 0 && !DamagePrevented;
 
 			public Parameters(AbilityState abilityState, Figure figure, Figure potentialDamageDealer, int initialDamage, bool fromAttack)
@@ -364,6 +366,13 @@ public partial class ScenarioEvents
 				PotentialDamageDealer = potentialDamageDealer;
 				InitialDamage = initialDamage;
 				FromAttack = fromAttack;
+
+				CalculateCurrentDamage();
+			}
+
+			public void AddAdjustFinalDamage(Func<int, int> adjustment)
+			{
+				AdjustFinalDamage += adjustment;
 
 				CalculateCurrentDamage();
 			}
@@ -432,7 +441,7 @@ public partial class ScenarioEvents
 					finalDamage /= 2;
 				}
 
-				CalculatedCurrentDamage = finalDamage;
+				CalculatedCurrentDamage = AdjustFinalDamage(finalDamage);
 			}
 		}
 	}
@@ -445,7 +454,7 @@ public partial class ScenarioEvents
 		public class Parameters(Figure figure, int damage, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
 		{
 			public Figure Figure { get; } = figure;
-			public int Damage { get; } = damage;
+			public int Damage { get; private set; } = damage;
 			public AbilityState PotentialAbilityState { get; } = abilityState;
 			public SufferDamage.Parameters SufferDamageParameters { get; } = sufferDamageParameters;
 
@@ -454,6 +463,11 @@ public partial class ScenarioEvents
 			public void SetPrevented()
 			{
 				Prevented = true;
+			}
+
+			public void AdjustDamage(int amount)
+			{
+				Damage += amount;
 			}
 		}
 	}
@@ -791,6 +805,27 @@ public partial class ScenarioEvents
 
 	private readonly AbilityPerformed _abilityPerformed = new AbilityPerformed();
 	public static AbilityPerformed AbilityPerformedEvent => GameController.Instance.ScenarioEvents._abilityPerformed;
+
+	public class BeforeAbilityCardStateChanged : ScenarioEvent<BeforeAbilityCardStateChanged.Parameters>
+	{
+		public class Parameters(AbilityCard abilityCard, CardState newCardState, bool fromSufferDamage)
+			: ParametersBase
+		{
+			public AbilityCard AbilityCard { get; } = abilityCard;
+			public CardState NewCardState { get; private set; } = newCardState;
+			public bool FromSufferDamage { get; } = fromSufferDamage;
+
+			public void SetNewCardState(CardState newCardState)
+			{
+				NewCardState = newCardState;
+			}
+		}
+	}
+
+	private readonly BeforeAbilityCardStateChanged _beforeAbilityCardStateChanged = new BeforeAbilityCardStateChanged();
+
+	public static BeforeAbilityCardStateChanged BeforeAbilityCardStateChangedEvent =>
+		GameController.Instance.ScenarioEvents._beforeAbilityCardStateChanged;
 
 	public class AbilityCardStateChanged : ScenarioEvent<AbilityCardStateChanged.Parameters>
 	{

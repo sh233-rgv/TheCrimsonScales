@@ -24,7 +24,7 @@ public class Scenario020 : ScenarioModel
 
 		foreach(Objective altar in _altars)
 		{
-			altar.Init((GameController.Instance.SavedCampaign.Characters.Count + GameController.Instance.SavedScenario.ScenarioLevel) * 3,
+			altar.Init((CharacterCount + ScenarioLevel) * 3,
 				"Altar");
 		}
 

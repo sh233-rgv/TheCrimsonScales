@@ -124,7 +124,7 @@ public class MonsterMovePrompt(
 							continue;
 						}
 
-						if(!performer.EnemiesWith(potentialTarget))
+						if(!moveAbilityState.Authority.EnemiesWith(potentialTarget))
 						{
 							continue;
 						}
@@ -237,7 +237,7 @@ public class MonsterMovePrompt(
 										continue;
 									}
 
-									if(!performer.EnemiesWith(potentialTarget))
+									if(!moveAbilityState.Authority.EnemiesWith(potentialTarget))
 									{
 										continue;
 									}

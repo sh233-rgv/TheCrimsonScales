@@ -32,7 +32,7 @@ public class Scenario055 : ScenarioModel
 		_doors2 = GameController.Instance.Map.GetMarkers(Marker.Type._2).Select(hex => hex.GetHexObject<Door>()).ToList();
 
 		_springGuns = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.GetHexObject<Objective>()).ToList();
-		int springGunHealth = GameController.Instance.SavedCampaign.Characters.Count + GameController.Instance.SavedScenario.ScenarioLevel;
+		int springGunHealth = GameController.Instance.SavedCampaign.Characters.Count + ScenarioLevel;
 		foreach(Objective springGun in _springGuns)
 		{
 			springGun.Init(springGunHealth, "Spring Gun");

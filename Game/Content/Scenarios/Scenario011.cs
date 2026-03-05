@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public class Scenario011 : ScenarioModel
 {
@@ -59,7 +58,6 @@ public class Scenario011 : ScenarioModel
 			{
 				await parameters.AbilityState.SetPerformHex(hexes =>
 				{
-					GD.Print(BarrelHexes.Count);
 					hexes.AddRange(BarrelHexes);
 				});
 			}, EffectType.Selectable,

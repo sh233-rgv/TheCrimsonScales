@@ -111,9 +111,8 @@ public class ControlAbility : TargetedAbility<ControlAbility.State, SingleTarget
 	{
 		await base.AfterTargetConfirmedBeforeConditionsApplied(abilityState, target);
 		// Perform the actual abilities
-		ActionState actionState = new ActionState(abilityState.ActionState.ActionSource, target,
-			target is Character ? target : abilityState.Performer, _abilities ?? _getAbilities(abilityState),
-			abilityState.ActionState);
+		ActionState actionState = new ActionState(abilityState.ActionState.ActionSource, target, abilityState.Performer,
+			_abilities ?? _getAbilities(abilityState), abilityState.ActionState);
 		abilityState.ControlAbilityActionStates.Add(actionState);
 		await actionState.Perform();
 	}

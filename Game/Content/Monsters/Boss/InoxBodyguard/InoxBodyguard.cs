@@ -14,7 +14,8 @@ public class InoxBodyguard : MonsterModel, IBossMonsterModel
 			[
 				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.PoisonImmunityTrait()
-			]
+			],
+			CustomValue = 3
 		},
 		new MonsterStats()
 		{
@@ -25,7 +26,8 @@ public class InoxBodyguard : MonsterModel, IBossMonsterModel
 			[
 				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.PoisonImmunityTrait()
-			]
+			],
+			CustomValue = 3
 		},
 		new MonsterStats()
 		{
@@ -36,7 +38,8 @@ public class InoxBodyguard : MonsterModel, IBossMonsterModel
 			[
 				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.PoisonImmunityTrait()
-			]
+			],
+			CustomValue = 3
 		},
 		new MonsterStats()
 		{
@@ -47,7 +50,8 @@ public class InoxBodyguard : MonsterModel, IBossMonsterModel
 			[
 				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.PoisonImmunityTrait()
-			]
+			],
+			CustomValue = 4
 		},
 		new MonsterStats()
 		{
@@ -58,7 +62,8 @@ public class InoxBodyguard : MonsterModel, IBossMonsterModel
 			[
 				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.PoisonImmunityTrait()
-			]
+			],
+			CustomValue = 4
 		},
 		new MonsterStats()
 		{
@@ -69,7 +74,8 @@ public class InoxBodyguard : MonsterModel, IBossMonsterModel
 			[
 				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.PoisonImmunityTrait()
-			]
+			],
+			CustomValue = 5
 		},
 		new MonsterStats()
 		{
@@ -80,7 +86,8 @@ public class InoxBodyguard : MonsterModel, IBossMonsterModel
 			[
 				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.PoisonImmunityTrait()
-			]
+			],
+			CustomValue = 5
 		},
 		new MonsterStats()
 		{
@@ -91,7 +98,8 @@ public class InoxBodyguard : MonsterModel, IBossMonsterModel
 			[
 				new ApplyConditionTrait(Conditions.Disarm), new ConditionImmunityTrait(Conditions.Stun),
 				new ConditionImmunityTrait(Conditions.Muddle), ConditionImmunityTrait.PoisonImmunityTrait()
-			]
+			],
+			CustomValue = 5
 		},
 	];
 
@@ -104,7 +112,18 @@ public class InoxBodyguard : MonsterModel, IBossMonsterModel
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
 	// IBossMonsterModel
-	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
+	public string GetSpecial1Description(Monster monster) => $"""
+	                                                          {Icons.Inline(Icons.Move)}{monster.Stats.Move - 1}
+	                                                          {Icons.Inline(Icons.Attack)}{monster.Stats.Attack - 1}, area of effect
+	                                                          """;
+
+	public string GetSpecial2Description(Monster monster) => $"""
+	                                                          {Icons.Inline(Icons.Move)}{monster.Stats.Move}
+	                                                          {Icons.Inline(Icons.Attack)}{monster.Stats.Attack}
+	                                                          {Icons.Inline(Icons.Retaliate)}{monster.Stats.CustomValue}
+	                                                          """;
+
+	public virtual IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MonsterAbilityCardModel.MoveAbility(monster, -1)),
 		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, -1).WithAOEPattern(new AOEPattern(
@@ -119,12 +138,10 @@ public class InoxBodyguard : MonsterModel, IBossMonsterModel
 		)))
 	];
 
-	public IEnumerable<MonsterAbilityCardAbility> GetSpecial2Abilities(Monster monster) =>
+	public virtual IEnumerable<MonsterAbilityCardAbility> GetSpecial2Abilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MonsterAbilityCardModel.MoveAbility(monster, +0)),
 		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, +0)),
-		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue((GameController.Instance.SavedScenario.ScenarioLevel < 3)
-			? 3
-			: ((GameController.Instance.SavedScenario.ScenarioLevel < 5) ? 4 : 5)))
+		new MonsterAbilityCardAbility(RetaliateAbility.Builder().WithRetaliateValue(monster.Stats.CustomValue))
 	];
 }

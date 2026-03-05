@@ -2,16 +2,15 @@ using System.Linq;
 
 public class Echo : LivingSpirit
 {
-	public override MonsterStats[] EliteLevelStats =>
+	public override MonsterStats[] NamedLevelStats =>
 		base.EliteLevelStats
 			.Select(stats => stats with
 			{
-				Health = stats.Health * CharacterCount,
+				Health = 6 * CharacterCount,
 				Traits = (stats.Traits ?? [])
-				.Append(new ConditionImmunityTrait(Conditions.Stun))
-				.Append(new ConditionImmunityTrait(Conditions.Disarm))
-				.Append(new ConditionImmunityTrait(Conditions.Immobilize))
-				.Append(new ConditionImmunityTrait(Conditions.Curse))
+				.Append(new AllDamageImmunityTrait())
+				.Append(new AllNegativeConditionImmunityTrait())
+				.Append(new PermanentConditionTrait(Conditions.Invisible))
 				.ToArray()
 			})
 			.ToArray();

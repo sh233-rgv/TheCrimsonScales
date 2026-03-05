@@ -60,7 +60,7 @@ public partial class Marker : Node2D
 	[Export]
 	private bool _hideDuringPlay;
 
-	public Hex Hex => GetHexObject<HexObject>()?.Hex ?? GameController.Instance.Map.GetHex(Map.GlobalPositionToCoords(GlobalPosition));
+	public Hex Hex => GetHexObject<HexObject>()?.Hex ?? GameController.Instance.Map.GetHex(Map.GlobalPositionToCoords(GlobalPosition), false);
 
 	public override void _Ready()
 	{

@@ -38,7 +38,7 @@ public class Scenario030 : ScenarioModel
 
 			UpdateScenarioText($"""
 			                    The Living Corpses are the Twin Corpses.
-			                    Whenever a Twin Corpse is killed, summon {GameController.Instance.SavedCampaign.Characters.Count + 2} normal Living Corpses in unoccupied hexes nearest to the hex in which it was killed.
+			                    Whenever a Twin Corpse is killed, summon {CharacterCount + 2} normal Living Corpses in unoccupied hexes nearest to the hex in which it was killed.
 			                    """);
 
 			ScenarioEvents.FigureKilledEvent.Subscribe(this,

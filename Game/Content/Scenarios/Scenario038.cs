@@ -29,8 +29,8 @@ public class Scenario038 : ScenarioModel
 		_altarOfPerplexity = GameController.Instance.Map.GetMarker(Marker.Type.c).GetHexObject<Objective>();
 
 		int firstThirdAltarHealth =
-			(GameController.Instance.SavedScenario.ScenarioLevel + 3) * GameController.Instance.SavedCampaign.Characters.Count;
-		int secondAltarHealth = (GameController.Instance.SavedScenario.ScenarioLevel + 4) * GameController.Instance.SavedCampaign.Characters.Count;
+			(ScenarioLevel + 3) * CharacterCount;
+		int secondAltarHealth = (ScenarioLevel + 4) * CharacterCount;
 		_altarOfMystification.Init(firstThirdAltarHealth, "Altar of Mystification");
 		_altarOfPerplexity.Init(firstThirdAltarHealth, "Altar of Perplexity");
 		_altarOfDisorientation.Init(secondAltarHealth, "Altar of Disorientation");

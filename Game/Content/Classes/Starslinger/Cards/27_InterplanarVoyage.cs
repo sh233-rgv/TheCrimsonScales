@@ -51,7 +51,6 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 					Figure swapped = await AbilityCmd.SelectFigure(state, list =>
 					{
-						GD.Print(attackAbilityState.UniqueTargetedFigures.Count);
 						list.AddRange(attackAbilityState.UniqueTargetedFigures.Where(figure =>
 							!figure.IsDead &&
 							AbilityCmd.CanSwap(state.Performer, figure)));
@@ -73,7 +72,7 @@ public class InterplanarVoyage : StarslingerCardModel<InterplanarVoyage.CardTop,
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					Room performerRoom = state.Performer.Hex.Room;
+					Room performerRoom = state.Performer.Hex.GetRoom();
 
 					if(performerRoom == null)
 					{

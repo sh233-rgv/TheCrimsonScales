@@ -22,6 +22,17 @@ public class GelatinousGiant : BloodOoze, IBossMonsterModel
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
 	// IBossMonsterModel
+	public string GetSpecial1Description(Monster monster) => $"""
+	                                                          {Icons.Inline(Icons.Move)}{monster.Stats.Move}
+	                                                          Grant all Blood Oozes:
+	                                                          {Icons.Inline(Icons.Attack)}{monster.Stats.Attack - 1}, {Icons.Inline(Icons.Targets)}1 adjacent enemy
+	                                                          """;
+
+	public string GetSpecial2Description(Monster monster) => $"""
+	                                                          {Icons.Inline(Icons.Attack)}{monster.Stats.Attack - 1}, {Icons.Inline(Icons.Targets)}all enemies within {Icons.Inline(Icons.Range)}3
+	                                                          All normal Blood Oozes suffer {Icons.Inline(Icons.Damage)}1 and all elite Blood oozes suffer {Icons.Inline(Icons.Damage)}2. Increase the Gelatinous Giant's current and maximum hit point value by X, where X is the total damage suffered by Blood Oozes this way.
+	                                                          """;
+
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MonsterAbilityCardModel.MoveAbility(monster, +0)),

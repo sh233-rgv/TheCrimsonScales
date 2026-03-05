@@ -15,17 +15,17 @@ public static class AbilityCmd
 		await card.SetCardState(CardState.Discarded);
 	}
 
-	public static async GDTask LoseCard(AbilityCard card)
+	public static async GDTask LoseCard(AbilityCard card, bool fromSufferDamage = false)
 	{
 		await card.RemoveFromActive();
 
 		if(card.Unrecoverable)
 		{
-			await card.SetCardState(CardState.UnrecoverablyLost);
+			await card.SetCardState(CardState.UnrecoverablyLost, fromSufferDamage);
 		}
 		else
 		{
-			await card.SetCardState(CardState.Lost);
+			await card.SetCardState(CardState.Lost, fromSufferDamage);
 		}
 	}
 
@@ -1428,5 +1428,11 @@ public static class AbilityCmd
 		}
 
 		return true;
+	}
+
+	public static void LinkHexes(Hex hex1, Hex hex2)
+	{
+		hex1.Neighbours.AddIfNew(hex2);
+		hex2.Neighbours.AddIfNew(hex1);
 	}
 }

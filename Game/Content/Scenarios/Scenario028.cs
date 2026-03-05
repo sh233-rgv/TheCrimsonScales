@@ -22,7 +22,7 @@ public class Scenario028 : ScenarioModel
 
 		_door2 = GameController.Instance.Map.GetMarker(Marker.Type._2).GetHexObject<Door>();
 		_fountainOfBones = GameController.Instance.Map.GetMarker(Marker.Type.a).GetHexObject<Objective>();
-		_fountainOfBones.Init(GameController.Instance.SavedCampaign.Characters.Count * (GameController.Instance.SavedScenario.ScenarioLevel + 8),
+		_fountainOfBones.Init(CharacterCount * (ScenarioLevel + 8),
 			"Fountain of Bones");
 	}
 

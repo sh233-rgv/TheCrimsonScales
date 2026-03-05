@@ -13,6 +13,7 @@ public partial class Monster : Figure
 	private Sprite2D _staticSprite;
 	private MonsterViewComponent _monsterViewComponent;
 	private AMDCardDeck _amdCardDeckOverride;
+	private object _bossSpecialSubscriber;
 
 	public MonsterModel MonsterModel { get; private set; }
 	public MonsterGroup MonsterGroup { get; private set; }
@@ -120,6 +121,18 @@ public partial class Monster : Figure
 			CanTakeTurn = false;
 		}
 
+		if(MonsterModel is IBossMonsterModel bossMonsterModel)
+		{
+			_bossSpecialSubscriber = new object();
+			ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(this, _bossSpecialSubscriber,
+				parameters => parameters.Figure == this,
+				parameters =>
+				{
+					parameters.Add(new InfoTextExtraEffect.Parameters("Special 1: " + bossMonsterModel.GetSpecial1Description(this)));
+					parameters.Add(new InfoTextExtraEffect.Parameters("Special 2: " + bossMonsterModel.GetSpecial2Description(this)));
+				});
+		}
+
 		MonsterGroup.RegisterMonster(this);
 		GameController.Instance.Map.RegisterFigure(this);
 
@@ -143,6 +156,11 @@ public partial class Monster : Figure
 		if(MonsterGroup.ActiveMonsterAbilityCard != null)
 		{
 			await MonsterGroup.ActiveMonsterAbilityCard.RemoveFromActive(this);
+		}
+
+		if(MonsterModel is IBossMonsterModel bossMonsterModel)
+		{
+			ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(this, _bossSpecialSubscriber);
 		}
 
 		MonsterGroup.DeregisterMonster(this);

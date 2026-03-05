@@ -26,6 +26,17 @@ public class Icebound : SavvasIceStorm, IBossMonsterModel
 
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
+	public string GetSpecial1Description(Monster monster) => $"""
+	                                                          If the Icebound is occupying Room 1 (A2b tile), summon one Wind Demon in an empty hex closest to the hex marked {Icons.InlineMarker(Marker.Type.c)}. If the Icebound is occupying Room 2 (A3a tile), summon one Frost Demon in an empty hex closest to the hex marked {Icons.InlineMarker(Marker.Type.a)}. If the Icebound is occupying the G2a tile, summon one Stone Golem in an empty hex closest to the hex marked {Icons.InlineMarker(Marker.Type.b)}. Summons are normal for two characters, every other summon is elite for three characters, and all summons are elite for four characters.
+	                                                          ”{Icons.Inline(Icons.Heal)}3, Self”.
+	                                                          """;
+
+	public string GetSpecial2Description(Monster monster) => $"""
+	                                                          {Icons.Inline(Icons.Attack)}+0, {Icons.Inline(Icons.Targets)} all, {Icons.Inline(Icons.Range)}3.
+	                                                          If the Icebound is occupying Room 1 (A2b tile), it immediately jumps into the nearest unoccupied hex adjacent to {Icons.InlineMarker(Marker.Type.e)}. If the Icebound is occupying Room 2 (A3a tile), it immediately jumps into the nearest unoccupied hex adjacent to {Icons.InlineMarker(Marker.Type.d)}.
+	                                                          {Icons.Inline(Icons.Attack)}+0, {Icons.Inline(Icons.Targets)} all, {Icons.Inline(Icons.Range)}3
+	                                                          """;
+
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()

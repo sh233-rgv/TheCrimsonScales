@@ -25,7 +25,7 @@ public class Scenario010 : ScenarioModel
 
 		List<Objective> objectives = GameController.Instance.Map.GetChildrenOfType<Objective>();
 		int objectiveHealth =
-			2 * (GameController.Instance.SavedCampaign.Characters.Count + GameController.Instance.SavedScenario.ScenarioLevel + 1);
+			2 * (CharacterCount + ScenarioLevel + 1);
 		foreach(Objective objective in objectives)
 		{
 			objective.Init(objectiveHealth, "Supply Crate");

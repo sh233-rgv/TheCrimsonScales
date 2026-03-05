@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public class Scenario033 : ScenarioModel
 {
@@ -40,8 +39,6 @@ public class Scenario033 : ScenarioModel
 		_markerCHex = GameController.Instance.Map.GetMarkers(Marker.Type.c)[1].Hex;
 		_markerDHex = GameController.Instance.Map.GetMarkers(Marker.Type.d)[0].Hex;
 		_markerEHex = GameController.Instance.Map.GetMarkers(Marker.Type.e)[0].Hex;
-
-		GD.Print(_markerAPressurePlate);
 
 		ScenarioCheckEvents.CanEnterCheckEvent.Subscribe(this,
 			parameters => parameters.Figure is Character && _hexesLeftOfStaircase.Contains(parameters.Hex) &&
@@ -83,7 +80,7 @@ public class Scenario033 : ScenarioModel
 				UpdateScenarioText("Something will happen when all enemies are dead");
 				await SpawnMonster(null, ModelDB.Monster<Hound>(), MonsterType.Elite, _markerEHex);
 				await SpawnMonster(null, ModelDB.Monster<Hound>(), MonsterType.Elite, _markerEHex);
-				int characterCount = GameController.Instance.SavedCampaign.Characters.Count;
+				int characterCount = CharacterCount;
 				switch(characterCount)
 				{
 					case 2:
@@ -131,7 +128,7 @@ public class Scenario033 : ScenarioModel
 		List<Figure> figures = RangeHelper.GetFiguresInRange(hex, 1).ToList();
 		foreach(Figure figure in figures)
 		{
-			await AbilityCmd.SufferDamage(figure, (GameController.Instance.SavedScenario.ScenarioLevel + 1) / 2 + 1, character);
+			await AbilityCmd.SufferDamage(figure, (ScenarioLevel + 1) / 2 + 1, character);
 		}
 
 		if(figures.Any(figure => figure.EnemiesWith(character)))
@@ -158,7 +155,7 @@ public class Scenario033 : ScenarioModel
 
 		                                Only one character may occupy the walled area to the left of the staircase hex at any time.
 
-		                                If a character ends its turn on a pressure plate, all figures within {Icons.Inline(Icons.Range)}1 of the corresponding letter on the board immediately suffer {Icons.Inline(Icons.Damage)}{(GameController.Instance.SavedScenario.ScenarioLevel + 1) / 2 + 1}. If at least one enemy suffers damage this way, the character gains 1 {Icons.Inline(Icons.XP)}.
+		                                If a character ends its turn on a pressure plate, all figures within {Icons.Inline(Icons.Range)}1 of the corresponding letter on the board immediately suffer {Icons.Inline(Icons.Damage)}{(ScenarioLevel + 1) / 2 + 1}. If at least one enemy suffers damage this way, the character gains 1 {Icons.Inline(Icons.XP)}.
 
 		                                The same pressure plate cannot be activated twice in a row.
 		                                """);

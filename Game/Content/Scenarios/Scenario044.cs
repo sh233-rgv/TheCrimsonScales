@@ -22,8 +22,8 @@ public class Scenario044 : ScenarioModel
 
 		//TODO: Scenario Effects: 3 Curses
 
-		_remainingLivingSpiritKills = GameController.Instance.SavedCampaign.Characters.Count * 2;
-		UpdateScenarioText(); 
+		_remainingLivingSpiritKills = CharacterCount * 2;
+		UpdateScenarioText();
 
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
 			parameters => _remainingLivingSpiritKills == 0,
@@ -34,10 +34,10 @@ public class Scenario044 : ScenarioModel
 		);
 
 		ScenarioEvents.FigureKilledEvent.Subscribe(this,
-			parameters => parameters.Figure is Monster monster && monster.MonsterModel == ModelDB.Monster<LivingSpirit>() && _remainingLivingSpiritKills > 0,
+			parameters => parameters.Figure is Monster monster && monster.MonsterModel == ModelDB.Monster<LivingSpirit>() &&
+			              _remainingLivingSpiritKills > 0,
 			async parameters =>
 			{
-				
 				_remainingLivingSpiritKills--;
 				UpdateScenarioText();
 				await GDTask.CompletedTask;
@@ -46,7 +46,7 @@ public class Scenario044 : ScenarioModel
 	}
 
 	private void UpdateScenarioText()
-    {
-        GameController.Instance.SpecialRulesView.SetText($"Kill {_remainingLivingSpiritKills} more Living Spirits to win this scenario.");
-    }
+	{
+		GameController.Instance.SpecialRulesView.SetText($"Kill {_remainingLivingSpiritKills} more Living Spirits to win this scenario.");
+	}
 }

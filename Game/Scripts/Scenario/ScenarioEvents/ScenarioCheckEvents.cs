@@ -52,11 +52,17 @@ public partial class ScenarioCheckEvents
 			public AbilityState AbilityState { get; } = abilityState;
 			public ActionState ActionState { get; } = abilityState.ActionState;
 
-			public bool FocusFarthest { get; private set; } = false;
+			public bool FocusFarthest { get; private set; }
+			public Figure FocusFigure { get; private set; }
 
 			public void SetFocusFarthest()
 			{
 				FocusFarthest = true;
+			}
+
+			public void SetFocusFigure(Figure figure)
+			{
+				FocusFigure = figure;
 			}
 		}
 	}

@@ -21,7 +21,7 @@ public class Scenario047 : ScenarioModel
 			await GDTask.CompletedTask;
 		});
 
-		_remainingGhostViperKills = GameController.Instance.SavedCampaign.Characters.Count + 4;
+		_remainingGhostViperKills = CharacterCount + 4;
 		UpdateScenarioText();
 
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,

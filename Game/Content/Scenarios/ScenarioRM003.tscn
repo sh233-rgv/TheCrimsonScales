@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3 uid="uid://dpyp4pqterwr7"]
+
+[ext_resource type="PackedScene" uid="uid://cifjwk1lx2x1h" path="res://Scenes/Scenario/Scenario.tscn" id="1_u1soc"]
+[ext_resource type="Script" uid="uid://bbtc25ohouat7" path="res://Scripts/Scenario/Room.cs" id="2_638f1"]
+[ext_resource type="PackedScene" uid="uid://b3brvq4kon6jd" path="res://Content/MapTiles/L1b.tscn" id="3_6llpw"]
+[ext_resource type="PackedScene" uid="uid://b3k6b60tknt8o" path="res://Content/MapTiles/L3a.tscn" id="4_5rnp3"]
+[ext_resource type="PackedScene" uid="uid://df0xuqelyjmy1" path="res://Content/MapTiles/M1b.tscn" id="5_xhvdx"]
+[ext_resource type="PackedScene" uid="uid://cqoskah3wof2k" path="res://Content/MapTiles/L2a.tscn" id="6_keald"]
+[ext_resource type="PackedScene" uid="uid://db0m5wq2g1vo" path="res://Content/MapTiles/C2a.tscn" id="7_tc7mn"]
+
+[node name="Scenario" instance=ExtResource("1_u1soc")]
+
+[node name="Room" type="Node2D" parent="Map/Rooms" index="0"]
+script = ExtResource("2_638f1")
+StartsRevealed = true
+
+[node name="L1b" parent="Map/Rooms/Room" index="0" instance=ExtResource("3_6llpw")]
+rotation = 3.14159
+
+[node name="L3a" parent="Map/Rooms/Room" index="1" instance=ExtResource("4_5rnp3")]
+position = Vector2(-1091.19, 0)
+rotation = 3.14159
+
+[node name="Room2" type="Node2D" parent="Map/Rooms" index="1"]
+script = ExtResource("2_638f1")
+
+[node name="M1b" parent="Map/Rooms/Room2" index="0" instance=ExtResource("5_xhvdx")]
+position = Vector2(1091.19, 0)
+rotation = 3.14159
+
+[node name="Room3" type="Node2D" parent="Map/Rooms" index="2"]
+script = ExtResource("2_638f1")
+
+[node name="L2a" parent="Map/Rooms/Room3" index="0" instance=ExtResource("6_keald")]
+position = Vector2(2182.38, 0)
+
+[node name="Room4" type="Node2D" parent="Map/Rooms" index="3"]
+script = ExtResource("2_638f1")
+
+[node name="C2a" parent="Map/Rooms/Room4" index="0" instance=ExtResource("7_tc7mn")]
+position = Vector2(982.073, 1323)
+rotation = 5.23599

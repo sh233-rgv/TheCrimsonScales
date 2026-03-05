@@ -20,6 +20,8 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	public virtual string BGMPath => "res://Audio/BGM/Floral-Woods.ogg";
 	public virtual string BGSPath => null;
 	public string ScenarioString => ScenarioPrefix + ScenarioNumber;
+	protected int ScenarioLevel => GameController.Instance.SavedScenario.ScenarioLevel;
+	protected int CharacterCount => GameController.Instance.SavedCampaign.Characters.Count;
 
 	public virtual async GDTask StartBeforeFirstRoomRevealed()
 	{

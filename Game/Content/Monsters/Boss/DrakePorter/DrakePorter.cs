@@ -22,6 +22,16 @@ public class DrakePorter : VermlingShaman, IBossMonsterModel
 
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
+	public string GetSpecial1Description(Monster monster) => $"""
+	                                                          {Icons.Inline(Icons.Heal)}1, self
+	                                                          Summon one {(CharacterCount > 2 ? "elite" : "normal")} Rending Drake.
+	                                                          """;
+
+	public string GetSpecial2Description(Monster monster) => $"""
+	                                                          {Icons.Inline(Icons.Shield)}1
+	                                                          Summon one {(CharacterCount > 3 ? "elite" : "normal")} Spitting Drake.
+	                                                          """;
+
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self)),
