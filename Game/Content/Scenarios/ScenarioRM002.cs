@@ -94,15 +94,19 @@ public class ScenarioRM002 : ScenarioModel
 				GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is GoremyonShatterMind);
 			Monster inoxBloodguard =
 				(Monster)GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is InoxBloodguard);
+			Hex markerCHex = GameController.Instance.Map.GetMarker(Marker.Type.c).Hex;
+			Hex markerDHex = GameController.Instance.Map.GetMarker(Marker.Type.d).Hex;
+			Hex markerEHex = GameController.Instance.Map.GetMarker(Marker.Type.e).Hex;
+			Hex markerFHex = GameController.Instance.Map.GetMarker(Marker.Type.f).Hex;
 
 			ScenarioEvents.RoundStartBeforeCardSelectionEvent.Subscribe(this,
 				_ => true,
 				async _ =>
 				{
-					await StartRoundSpawn<BanditGuard>(GameController.Instance.Map.GetMarker(Marker.Type.c).Hex);
-					await StartRoundSpawn<BanditArcher>(GameController.Instance.Map.GetMarker(Marker.Type.d).Hex);
-					await StartRoundSpawn<InoxGuard>(GameController.Instance.Map.GetMarker(Marker.Type.e).Hex, 3);
-					await StartRoundSpawn<InoxArcher>(GameController.Instance.Map.GetMarker(Marker.Type.f).Hex, 4);
+					await StartRoundSpawn<BanditGuard>(markerCHex);
+					await StartRoundSpawn<BanditArcher>(markerDHex);
+					await StartRoundSpawn<InoxGuard>(markerEHex, 3);
+					await StartRoundSpawn<InoxArcher>(markerFHex, 4);
 				});
 
 			//TODO: Draw two boss cards, one for each boss

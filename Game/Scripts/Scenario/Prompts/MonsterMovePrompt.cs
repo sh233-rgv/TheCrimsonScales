@@ -188,6 +188,11 @@ public class MonsterMovePrompt(
 					finalDisadvantageCount = Math.Max(finalDisadvantageCount, 1);
 				}
 
+				if(attackableFocus == null)
+				{
+					finalTargetCount = 0;
+					finalDisadvantageCount = 0;
+				}
 				AIAttackNode newAIAttackNode = new AIAttackNode(node, attackableFocus, finalTargetCount, finalDisadvantageCount, node.MoveSpent);
 
 				CompareAttackNode(newAIAttackNode);
@@ -490,6 +495,7 @@ public class MonsterMovePrompt(
 		if(_bestAIMoveNodes.Count == 0 || _bestAIMoveNodes[0].Hex == _currentNode.Hex)
 		{
 			// This figure is already at the optimal position
+
 			Skip();
 			return;
 		}

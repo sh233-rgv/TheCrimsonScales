@@ -9,65 +9,85 @@ public class ScenarioRM003 : ScenarioModel
 	public override int ScenarioNumber => 3;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<RMScenarioChain>();
 
-	protected override ScenarioGoals CreateScenarioGoals() => new KillSpecificEnemiesTypeGoals(ModelDB.Monster<GoremyonShatterMind>(),
-		"Kill the Goremyon Shatter-Mind to win this scenario.");
+	protected override ScenarioGoals CreateScenarioGoals() => new CustomScenarioGoals(
+		$"Have all characters occupy hexes {Icons.InlineMarker(Marker.Type.a)} or exhaust on a hex {Icons.InlineMarker(Marker.Type.a)} to win this scenario.");
 
+	private string _text;
 
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
+		
+		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<SerratedEdge>());
 
-		ScenarioEvents.FigureKilledEvent.Subscribe(this,
-			parameters => parameters.PotentialKiller is Character && parameters.PotentialKiller.EnemiesWith(parameters.Figure),
-			async parameters =>
-			{
-				//TODO: Scenario Effects Check
-				await AbilityCmd.AddConditions(null, parameters.PotentialKiller, [Conditions.Muddle, Conditions.Curse]);
-			});
-
-		ScenarioEvents.InflictConditionEvent.Subscribe(this,
-			parameters =>
-				parameters.Target.Alignment is Alignment.Enemies &&
-				(AbilityCmd.CheckImmunity(parameters.ConditionModel, Conditions.Immobilize) ||
-				 AbilityCmd.CheckImmunity(parameters.ConditionModel, Conditions.Disarm) ||
-				 AbilityCmd.CheckImmunity(parameters.ConditionModel, Conditions.Stun)),
-			async parameters =>
-			{
-				parameters.SetPrevented(true);
-
-				await GDTask.CompletedTask;
-			}
-		);
-
-		ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Subscribe(this,
-			parameters => parameters.Figure.Alignment is Alignment.Enemies,
-			parameters =>
-			{
-				parameters.AddImmunity(Conditions.Immobilize);
-				parameters.AddImmunity(Conditions.Disarm);
-				parameters.AddImmunity(Conditions.Stun);
-			}
-		);
-
-		List<Hex> markerAHexes = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.Hex).ToList();
-		Hex markerAHexRoom0 = markerAHexes.First(hex => hex.GetRoom() == GameController.Instance.Map.Rooms[0]);
-		markerAHexes.Remove(markerAHexRoom0);
-		foreach(Hex hex in markerAHexes)
+		IEnumerable<Hex> markerAHexes = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.Hex);
+		
+		List<Objective> objectives = GameController.Instance.Map.GetChildrenOfType<Objective>();
+		foreach(Objective objective in objectives)
 		{
-			AbilityCmd.LinkHexes(markerAHexRoom0, hex);
-			hex.Reveal();
+			objective.Init(1, "Crate");
 		}
 
-		ScenarioEvents.FigureEnteredHexEvent.Subscribe(this,
-			parameters => markerAHexes.Contains(parameters.Hex),
-			async parameters =>
+		ScenarioEvents.RoundEndedEvent.Subscribe(this,
+			_ => GameController.Instance.Map.Figures.Where(figure => figure is Character)
+				.All(character => markerAHexes.Contains(character.Hex)),
+			async _ =>
 			{
-				await GameController.Instance.Map.Rooms[1].Reveal(null, parameters.Figure, false);
-				ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this);
+				await ((CustomScenarioGoals)ScenarioGoals).Win();
 			});
 
-		UpdateScenarioText(
-			$"Side Passage: Stairs {Icons.InlineMarker(Marker.Type.a)} lead further into Goremyon's mansion. Non-adjacent hexes {Icons.InlineMarker(Marker.Type.a)} are linked.");
+		ScenarioEvents.FigureKilledEvent.Subscribe(this,
+			parameters => parameters.Figure is Character && !markerAHexes.Contains(parameters.Figure.Hex),
+			async _ =>
+			{
+				await ((CustomScenarioGoals)ScenarioGoals).Lose();
+			}
+		);
+
+		ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(this,
+			parameters => parameters.Performer.Alignment == Alignment.Enemies && parameters.AbilityState.Target is Character character &&
+			              character.Conditions.Any(condition => condition.ConditionModel.IsNegative) /*TODO: && Scenario Effects Check,*/,
+			async parameters =>
+			{
+				parameters.AbilityState.SingleTargetSetHasAdvantage();
+				await GDTask.CompletedTask;
+			});
+
+		ScenarioCheckEvents.MoveCheckEvent.Subscribe(this,
+			canApplyParameters => canApplyParameters.Performer is Monster monster && monster.MonsterModel is Ooze &&
+			                      canApplyParameters.Hex.HasHexObjectOfType<Water>(),
+			applyParameters =>
+			{
+				applyParameters.SetMoveCost(1);
+			}
+		);
+
+		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(this,
+			parameters => parameters.Figure is Monster monster && monster.MonsterModel is Ooze,
+			parameters =>
+			{
+				parameters.Add(new InfoTextExtraEffect.Parameters("This figure treats water tiles as corridors."));
+			}
+		);
+
+		ScenarioEvents.AbilityStartedEvent.Subscribe(this,
+			parameters => parameters.AbilityState is SummonAbility.State && parameters.Performer is Monster monster && monster.MonsterModel is Ooze,
+			async parameters =>
+			{
+				((MonsterSummonAbility.State)parameters.AbilityState).SetGetValidHexes((state, figures) =>
+				{
+					figures.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 1)
+						.Where(hex => hex.IsEmpty() || (hex.IsUnoccupied() && hex.HasHexObjectOfType<Water>())));
+				});
+				await GDTask.CompletedTask;
+			});
+
+		_text = $"""
+		         If any character becomes exhausted while not occupying a hex {Icons.InlineMarker(Marker.Type.a)}, the scenario is lost.
+
+		         Hungry Predators: All enemies gain advantage on all attacks targeting characters with one or more negative conditions, as a scenario effect.
+		         """;
+		UpdateScenarioText("River of Decay: Scavenging Oozes have been attracted to the Vermling corpses floating down the river and treat hexes with water as corridors for the purposes of movement and summon abilities.");
 	}
 
 	protected override async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters roomRevealedParameters)
@@ -76,117 +96,77 @@ public class ScenarioRM003 : ScenarioModel
 
 		if(roomRevealedParameters.Room == GameController.Instance.Map.Rooms[1])
 		{
-			List<Hex> markerBHexes = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.Hex).ToList();
-			Hex markerBHexRoom1 = markerBHexes.First(hex => hex.GetRoom() == GameController.Instance.Map.Rooms[1]);
-			markerBHexes.Remove(markerBHexRoom1);
-			foreach(Hex hex in markerBHexes)
-			{
-				AbilityCmd.LinkHexes(markerBHexRoom1, hex);
-				hex.Reveal();
-			}
-
-			UpdateScenarioText(
-				$"Corner Staircase: Stairs {Icons.InlineMarker(Marker.Type.b)} lead further into the mansion. Non-adjacent hexes {Icons.InlineMarker(Marker.Type.b)} are linked.");
-		}
-		else if(roomRevealedParameters.Room == GameController.Instance.Map.Rooms[2])
-		{
-			Figure goremyonShatterMind =
-				GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is GoremyonShatterMind);
-			Monster inoxBloodguard =
-				(Monster)GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is InoxBloodguard);
-
-			ScenarioEvents.RoundStartBeforeCardSelectionEvent.Subscribe(this,
-				_ => true,
-				async _ =>
+			Hex markerBHex = GameController.Instance.Map.GetMarker(Marker.Type.a).Hex;
+			ScenarioEvents.ActionStartedEvent.Subscribe(this,
+				actionStartedParameters =>
+					actionStartedParameters.ActionState.Performer is Character character && character.Hex == markerBHex &&
+					((actionStartedParameters.ActionState.ActionSource is AbilityCardSide cardSide && cardSide.Model.Loss) ||
+					 (actionStartedParameters.ActionState.ActionSource is ItemModel itemModel && itemModel.ItemUseType is ItemUseType.Consume)),
+				async actionStartedParameters =>
 				{
-					await StartRoundSpawn<BanditGuard>(GameController.Instance.Map.GetMarker(Marker.Type.c).Hex);
-					await StartRoundSpawn<BanditArcher>(GameController.Instance.Map.GetMarker(Marker.Type.d).Hex);
-					await StartRoundSpawn<InoxGuard>(GameController.Instance.Map.GetMarker(Marker.Type.e).Hex, 3);
-					await StartRoundSpawn<InoxArcher>(GameController.Instance.Map.GetMarker(Marker.Type.f).Hex, 4);
-				});
-
-			//TODO: Draw two boss cards, one for each boss
-
-			ScenarioEvents.FigureKilledEvent.Subscribe(this, new object(),
-				parameters => parameters.Figure is Monster monster && monster.MonsterType is MonsterType.Normal &&
-				              parameters.PotentialKiller != goremyonShatterMind && !goremyonShatterMind.IsDead,
-				async _ =>
-				{
-					await AbilityCmd.SufferDamage(goremyonShatterMind, ScenarioLevel + 1, null);
-				});
-
-			ScenarioEvents.JustBeforeSufferDamageEvent.Subscribe(this,
-				parameters => parameters.Figure == goremyonShatterMind && parameters.Damage >= goremyonShatterMind.Health,
-				async parameters =>
-				{
-					parameters.AdjustDamage(goremyonShatterMind.Health);
-					await GDTask.CompletedTask;
-				});
-
-			ScenarioEvents.RoundEndedEvent.Subscribe(this,
-				_ => goremyonShatterMind.Health == 1,
-				async _ =>
-				{
-					await AbilityCmd.KillOrExhaust(goremyonShatterMind, null);
-				}, order: -1);
-
-			ScenarioEvents.SufferDamageEvent.Subscribe(this,
-				parameters => parameters.Figure == goremyonShatterMind && !inoxBloodguard.IsDead && parameters.FromAttack,
-				async parameters =>
-				{
-					parameters.AddAdjustFinalDamage(damage => (damage + 1) / 2);
-					await GDTask.CompletedTask;
-				},
-				EffectType.MandatoryBeforeOptionals, 100);
-
-			ScenarioEvents.FigureTurnEndedEvent.Subscribe(this,
-				parameters => parameters.Figure == inoxBloodguard && inoxBloodguard.Hex.GetRoom() != GameController.Instance.Map.Rooms[2],
-				async _ =>
-				{
-					ActionState actionState = new ActionState(inoxBloodguard,
-						[MonsterAbilityCardModel.MoveAbility(inoxBloodguard, +3).WithMoveType(MoveType.Jump)]);
-					ScenarioCheckEvents.FigureFocusCheckEvent.Subscribe(this,
-						parameters => parameters.ActionState == actionState,
-						parameters =>
+					ScenarioEvents.AbilityStartedEvent.Subscribe(this, actionStartedParameters.ActionState,
+						parameters => parameters.AbilityState.ActionState == actionStartedParameters.ActionState &&
+						              parameters.AbilityState is HealAbility.State or AttackAbility.State or MoveAbility.State,
+						async parameters =>
 						{
-							parameters.SetFocusFigure(goremyonShatterMind);
+							switch(parameters.AbilityState)
+							{
+								case HealAbility.State healAbilityState:
+									healAbilityState.AbilityAdjustHealValue(2);
+									break;
+								case AttackAbility.State attackAbilityState:
+									attackAbilityState.AbilityAdjustAttackValue(2);
+									break;
+								case MoveAbility.State moveAbilityState:
+									moveAbilityState.AdjustMoveValue(2);
+									break;
+							}
+
+							await GDTask.CompletedTask;
 						});
-					await actionState.Perform();
-					ScenarioCheckEvents.FigureFocusCheckEvent.Unsubscribe(this);
+					ScenarioEvents.ActionEndedEvent.Subscribe(this, actionStartedParameters.ActionState,
+						parameters => parameters.ActionState == actionStartedParameters.ActionState,
+						async _ =>
+						{
+							ScenarioEvents.AbilityStartedEvent.Unsubscribe(this, actionStartedParameters.ActionState);
+							ScenarioEvents.ActionEndedEvent.Unsubscribe(this, actionStartedParameters.ActionState);
+							await GDTask.CompletedTask;
+						});
+					await GDTask.CompletedTask;
 				});
 
-			UpdateScenarioText($"""
-			                    Many as One: At the start of each round:
-			                    If there are no Bandit Gaurds, spawn one normal Bandit Guard at hex {Icons.InlineMarker(Marker.Type.c)}. If there are no Bandit Archers, spawn one normal Bandit Archer at hex {Icons.InlineMarker(Marker.Type.d)}.{(CharacterCount >= 3 ? $"\n\nIf there are no Inox Guards, spawn one normal Inox Guard at hex {Icons.InlineMarker(Marker.Type.e)}." : "")}{(CharacterCount >= 4 ? $"\n\nIf there are no Inox Archers, spawn one normal Inox Archer at hex {Icons.InlineMarker(Marker.Type.f)}." : "")}
+			_text += $"""
 
-			                    The Sinking Kingpin: The Goremyon Shatter-Mind and Inox Bloodguard draw two separate cards from the boss ability deck each round.
-
-			                    Whenever a normal enemy is killed by any source other than Goremyon’s Cranium Overload, Goremyon suﬀers {ScenarioLevel + 1} damage.
-
-			                    Goremyon Shatter-Mind cannot be reduced below 1 hit point.
-
-			                    If the Inox Bloodguard ends their turn outside the Great Hall (tiles I1A and I2A), they immediately perform {Icons.Inline(Icons.Move)}{inoxBloodguard.Stats.Move + 3}, {Icons.Inline(Icons.Jump)}
-			                    """);
+			          Vermling Ritual Site: It’s hard to tell what magics the rodents were working, but some of its power lingers.
+			          When any character performs an action with {Icons.Inline(Icons.LoseCard)} while occupying hex {Icons.InlineMarker(Marker.Type.b)}, that character adds +2{Icons.Inline(Icons.Attack)} to all their attacks, +2{Icons.Inline(Icons.Move)} to all their moves, and +2{Icons.Inline(Icons.Heal)} to all their heals for that action.
+			          """;
+			UpdateScenarioText("");
 		}
-	}
-
-	private async GDTask StartRoundSpawn<T>(Hex spawnHex, int minCharacterCount = 0) where T : MonsterModel
-	{
-		if(GameController.Instance.SavedCampaign.Characters.Count >= minCharacterCount &&
-		   GameController.Instance.Map.Figures.Any(figure => figure is Monster monster && monster.MonsterModel is T))
+		else if(roomRevealedParameters.Room == GameController.Instance.Map.Rooms[3])
 		{
-			await SpawnMonster(null, ModelDB.Monster<T>(), MonsterType.Normal, spawnHex);
+			ScenarioEvents.FigureKilledEvent.Subscribe(this, new object(),
+				parameters => parameters.Figure is Objective,
+				async parameters =>
+				{
+					await AbilityCmd.SpawnCoin(parameters.Figure.Hex, parameters.Figure);
+					await AbilityCmd.SpawnCoin(parameters.Figure.Hex, parameters.Figure);
+				});
+
+			_text += """
+
+			         Crates are objectives with 1 hit point. When destroyed, they drop 2 money tokens.
+			         """;
+			UpdateScenarioText("");
 		}
 	}
 
 	protected override void UpdateScenarioText(string text)
 	{
-		base.UpdateScenarioText($"""
-		                         Pervasive Mind: Whenever a character kills an enemy, that character gains {Icons.Inline(Icons.GetCondition(Conditions.Muddle))} and {Icons.Inline(Icons.GetCondition(Conditions.Curse))} as a scenario effect. 
+		if(string.IsNullOrEmpty(text))
+		{
+			text = "\n\n" + text;
+		}
 
-		                         Parasitic Influence: All enemies are immune to {Icons.Inline(Icons.GetCondition(Conditions.Immobilize))}, {Icons.Inline(Icons.GetCondition(Conditions.Disarm))}, and {Icons.Inline(Icons.GetCondition(Conditions.Stun))}.
-
-
-		                         """ + text);
+		base.UpdateScenarioText(_text + text);
 	}
 }

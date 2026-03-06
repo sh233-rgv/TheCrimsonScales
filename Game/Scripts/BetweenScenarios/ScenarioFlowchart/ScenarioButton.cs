@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
 using GTweensGodot.Extensions;
 
@@ -8,6 +6,9 @@ public partial class ScenarioButton : Control
 {
 	[Export]
 	public int ScenarioNumber { get; private set; }
+
+	[Export]
+	public string ScenarioPrefix { get; private set; }
 
 	[Export]
 	private BetterButton _betterButton;
@@ -28,7 +29,7 @@ public partial class ScenarioButton : Control
 	public SavedScenarioProgress SavedScenarioProgress { get; private set; }
 	public ScenarioButtonOutline ScenarioButtonOutline { get; private set; }
 
-	public string ModelId => $"SCENARIO_MODEL.SCENARIO{Model.ScenarioPrefix}{ScenarioNumber:D3}";
+	public string ModelId => $"SCENARIO_MODEL.SCENARIO{ScenarioPrefix}{ScenarioNumber:D3}";
 	public ScenarioModel Model => ModelDB.GetById<ScenarioModel>(ModelId);
 
 	public override void _Ready()

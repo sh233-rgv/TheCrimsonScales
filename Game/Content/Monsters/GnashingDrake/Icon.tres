@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://cnxdko6sdioax"]
+
+[ext_resource type="Texture2D" uid="uid://c8vppo0davy7g" path="res://Content/Monsters/GnashingDrake/gnashing-drake.jpg" id="1_fr4w6"]
+
+[resource]
+atlas = ExtResource("1_fr4w6")
+region = Rect2(75, 320, 600, 600)

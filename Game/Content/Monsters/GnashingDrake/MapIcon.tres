@@ -1,7 +1,7 @@
-[gd_resource type="AtlasTexture" format=3 uid="uid://cksf8ha0khd70"]
+[gd_resource type="AtlasTexture" format=3 uid="uid://b1g2ri58rxo0o"]
 
-[ext_resource type="Texture2D" uid="uid://dhme1mk5irkhc" path="res://Content/Monsters/AncientArtillery/Icon.jpg" id="1_i1uui"]
+[ext_resource type="Texture2D" uid="uid://c8vppo0davy7g" path="res://Content/Monsters/GnashingDrake/gnashing-drake.jpg" id="1_v0403"]
 
 [resource]
-atlas = ExtResource("1_i1uui")
-region = Rect2(65, 65, 370, 370)
+atlas = ExtResource("1_v0403")
+region = Rect2(250, 560, 400, 400)

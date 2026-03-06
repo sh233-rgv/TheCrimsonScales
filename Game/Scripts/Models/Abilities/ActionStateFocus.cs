@@ -222,4 +222,10 @@ public partial class ActionState
 
 		return bestFocusNodes.Count > 0 ? bestFocusNodes[0].Focus : null;
 	}
+
+	public void ClearFocus()
+	{
+		_focusDetermined = false;
+		_cachedFocus = null;
+	}
 }

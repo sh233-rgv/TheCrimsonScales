@@ -20,8 +20,5 @@ public class TestScenario : ScenarioModel
 		{
 			objective.Init(objectiveHealth, "Dark Pit of Super Doom");
 		}
-
-		List<Marker> markers = GameController.Instance.Map.GetMarkers(Marker.Type.a);
-		AbilityCmd.LinkHexes(markers[0].Hex, markers[1].Hex);
 	}
 }

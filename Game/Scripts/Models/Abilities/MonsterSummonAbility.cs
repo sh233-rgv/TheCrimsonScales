@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 
 /// <summary>
@@ -13,6 +14,7 @@ public class MonsterSummonAbility : Ability<MonsterSummonAbility.State>
 		public MonsterType MonsterType { get; private set; }
 		public Monster SummonedMonster { get; private set; }
 		public int? ForcedHitPoints { get; private set; }
+		public Action<State, List<Hex>> GetValidHexes { get; private set; }
 
 		public void SetMonsterModel(MonsterModel monsterModel)
 		{
@@ -32,6 +34,11 @@ public class MonsterSummonAbility : Ability<MonsterSummonAbility.State>
 		public void SetForcedHitPoints(int hitPoints)
 		{
 			ForcedHitPoints = hitPoints;
+		}
+
+		public void SetGetValidHexes(Action<State, List<Hex>> getValidHexes)
+		{
+			GetValidHexes = getValidHexes;
 		}
 	}
 
@@ -107,6 +114,7 @@ public class MonsterSummonAbility : Ability<MonsterSummonAbility.State>
 
 		abilityState.SetMonsterModel(_monsterModel);
 		abilityState.SetMonsterType(_monsterType);
+		abilityState.SetGetValidHexes(_getValidHexes);
 	}
 
 	protected override async GDTask Perform(State abilityState)
@@ -116,23 +124,13 @@ public class MonsterSummonAbility : Ability<MonsterSummonAbility.State>
 			{
 				List<Hex> possibleHexes = new List<Hex>();
 
-				if(_getValidHexes == null)
+				if(abilityState.GetValidHexes == null)
 				{
-					RangeHelper.FindHexesInRange(abilityState.Performer.Hex, 1, true, possibleHexes);
-
-					for(int i = possibleHexes.Count - 1; i >= 0; i--)
-					{
-						Hex hex = possibleHexes[i];
-
-						if(!hex.IsEmpty())
-						{
-							possibleHexes.RemoveAt(i);
-						}
-					}
+					possibleHexes.AddRange(RangeHelper.GetHexesInRange(abilityState.Performer.Hex, 1).Where(hex => hex.IsEmpty()));
 				}
 				else
 				{
-					_getValidHexes(abilityState, possibleHexes);
+					abilityState.GetValidHexes(abilityState, possibleHexes);
 				}
 
 				int closestRange = int.MaxValue;

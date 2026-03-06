@@ -55,6 +55,8 @@ public partial class ScenarioCheckEvents
 			public bool FocusFarthest { get; private set; }
 			public Figure FocusFigure { get; private set; }
 
+			public bool IsGeneralFocus => FocusFigure == null && !FocusFarthest;
+
 			public void SetFocusFarthest()
 			{
 				FocusFarthest = true;
