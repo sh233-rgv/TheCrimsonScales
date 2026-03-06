@@ -50,7 +50,7 @@ public class LatchAndTow : ChainguardLevelUpCardModel<LatchAndTow.CardTop, Latch
 			new AbilityCardAbility(PullSelfAbility.Builder()
 				.WithPullSelfValue(4)
 				.WithRange(5)
-				.WithOnAbilityEnded(async state =>
+				.WithOnAbilityEndedPerformed(async state =>
 				{
 					if(RangeHelper.Distance(state.Performer.Hex, state.Target.Hex) == 1)
 					{

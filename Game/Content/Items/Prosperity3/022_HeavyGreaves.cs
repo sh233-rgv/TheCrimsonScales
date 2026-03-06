@@ -1,7 +1,7 @@
 public class HeavyGreaves : Prosperity3Item
 {
 	public override string Name => "Heavy Greaves";
-	public override int ItemNumber => 21;
+	public override int ItemNumber => 22;
 	public override int ShopCount => 2;
 	public override int Cost => 20;
 	public override ItemType ItemType => ItemType.Feet;

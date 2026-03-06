@@ -358,8 +358,6 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 
 			if(finalDamage > 0)
 			{
-				abilityState.DamageDealt += finalDamage;
-				abilityState.DamagedTargets.AddIfNew(target);
 				GTweenSequenceBuilder.New()
 					.AppendTime(0.25f)
 					.Append(target.TweenGlobalPosition(targetOrigin + normal * Map.HexSize * 0.2f, 0.15f).SetEasing(Easing.OutQuart))
@@ -369,6 +367,12 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 			}
 
 			await GDTask.DelayFastForwardable(0.6f);
+		}
+
+		if(finalDamage > 0)
+		{
+			abilityState.DamageDealt += finalDamage;
+			abilityState.DamagedTargets.AddIfNew(target);
 		}
 
 		if(target.IsDead)

@@ -50,7 +50,7 @@ public class WeakenedWill : HierophantLevelUpCardModel<WeakenedWill.CardTop, Wea
 				.WithDistance(1, new MoveCircle(this, new Vector2(0.62072915f, 0.71336424f)))),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
-				.WithOnActivate(state =>
+				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
 						parameters => state.Performer.AlliedWith(parameters.AbilityState.Target),
@@ -73,15 +73,15 @@ public class WeakenedWill : HierophantLevelUpCardModel<WeakenedWill.CardTop, Wea
 							new InfoTextExtraEffect.Parameters("All attacks targeting this figure this round gain disadvantage."))
 					);
 
-					return GDTask.CompletedTask;
+					await GDTask.CompletedTask;
 				})
-				.WithOnDeactivate(state =>
+				.WithOnDeactivate(async state =>
 					{
 						ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, this);
 						ScenarioCheckEvents.DisadvantageCheckEvent.Unsubscribe(state, this);
 						ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(state, this);
 
-						return GDTask.CompletedTask;
+						await GDTask.CompletedTask;
 					}
 				))
 		];
