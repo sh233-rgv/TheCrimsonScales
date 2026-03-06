@@ -15,17 +15,17 @@ public static class AbilityCmd
 		await card.SetCardState(CardState.Discarded);
 	}
 
-	public static async GDTask LoseCard(AbilityCard card, bool fromSufferDamage = false)
+	public static async GDTask LoseCard(AbilityCard card)
 	{
 		await card.RemoveFromActive();
 
 		if(card.Unrecoverable)
 		{
-			await card.SetCardState(CardState.UnrecoverablyLost, fromSufferDamage);
+			await card.SetCardState(CardState.UnrecoverablyLost);
 		}
 		else
 		{
-			await card.SetCardState(CardState.Lost, fromSufferDamage);
+			await card.SetCardState(CardState.Lost);
 		}
 	}
 

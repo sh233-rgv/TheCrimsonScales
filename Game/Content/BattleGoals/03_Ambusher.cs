@@ -28,7 +28,7 @@ public class Ambusher : TheCrimsonScalesBattleGoal
 				parameters.AbilityState is MoveAbility.State moveAbilityState &&
 				moveAbilityState.Performer == character &&
 				moveAbilityState.Hexes.Count > 0 && RangeHelper.GetFiguresInRange(moveAbilityState.Hexes[^1], 1, false, false)
-					.Any(figure => character.EnemiesWith(figure) && figure.Hex.Room == revealedRoom),
+					.Any(figure => character.EnemiesWith(figure) && figure.Hex.GetRoom() == revealedRoom),
 			async parameters =>
 			{
 				battleGoal.AdjustProgress(1);

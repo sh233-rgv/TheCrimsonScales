@@ -44,13 +44,8 @@ public class AbilityCard : IReferenced
 		CardState = CardState.Hand;
 	}
 
-	public async GDTask SetCardState(CardState cardState, bool fromSufferDamage = false)
+	public async GDTask SetCardState(CardState cardState)
 	{
-		ScenarioEvents.BeforeAbilityCardStateChanged.Parameters justBeforeSufferDamageParameters =
-			await ScenarioEvents.BeforeAbilityCardStateChangedEvent.CreatePrompt(
-				new ScenarioEvents.BeforeAbilityCardStateChanged.Parameters(this, cardState, fromSufferDamage));
-		CardState = cardState;
-
 		await ScenarioEvents.AbilityCardStateChangedEvent.CreatePrompt(
 			new ScenarioEvents.AbilityCardStateChanged.Parameters(this));
 

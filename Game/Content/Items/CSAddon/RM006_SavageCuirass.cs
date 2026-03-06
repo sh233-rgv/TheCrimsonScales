@@ -31,22 +31,23 @@ public class SavageCuirass : CSAddonRM
 	{
 		base.Subscribe();
 
-		ScenarioEvents.BeforeAbilityCardStateChangedEvent.Subscribe(this, _subscriber,
-			parameters => parameters.AbilityCard.Owner == Owner && parameters.FromSufferDamage && parameters.AbilityCard.CardState is CardState.Hand,
+
+		ScenarioEvents.LosingCardToNegateDamageEvent.Subscribe(this, _subscriber,
+			parameters => parameters.AbilityCard.CardState == CardState.Hand && parameters.Character == Owner,
 			async parameters =>
 			{
 				await Use(async user =>
 				{
-					parameters.SetNewCardState(CardState.Discarded);
+					parameters.SetResultingCardState(CardState.Discarded);
 					await AbilityCmd.AddCondition(null, user, Conditions.Wound1);
 				});
-			});
+			}, order: -10);
 	}
 
 	protected override void Unsubscribe()
 	{
 		base.Unsubscribe();
 
-		ScenarioEvents.BeforeAbilityCardStateChangedEvent.Unsubscribe(this, _subscriber);
+		ScenarioEvents.LosingCardToNegateDamageEvent.Unsubscribe(this, _subscriber);
 	}
 }

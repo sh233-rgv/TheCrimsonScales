@@ -511,12 +511,18 @@ public partial class ScenarioEvents
 			public Character Character { get; } = character;
 			public AbilityCard AbilityCard { get; } = abilityCard;
 			public SufferDamage.Parameters SufferDamageParameters { get; } = sufferDamageParameters;
+			public CardState ResultingCardState = CardState.Lost;
 
 			public bool Prevented { get; private set; }
 
 			public void SetPrevented()
 			{
 				Prevented = true;
+			}
+
+			public void SetResultingCardState(CardState cardState)
+			{
+				ResultingCardState = cardState;
 			}
 		}
 	}
@@ -840,27 +846,6 @@ public partial class ScenarioEvents
 
 	private readonly AbilityPerformed _abilityPerformed = new AbilityPerformed();
 	public static AbilityPerformed AbilityPerformedEvent => GameController.Instance.ScenarioEvents._abilityPerformed;
-
-	public class BeforeAbilityCardStateChanged : ScenarioEvent<BeforeAbilityCardStateChanged.Parameters>
-	{
-		public class Parameters(AbilityCard abilityCard, CardState newCardState, bool fromSufferDamage)
-			: ParametersBase
-		{
-			public AbilityCard AbilityCard { get; } = abilityCard;
-			public CardState NewCardState { get; private set; } = newCardState;
-			public bool FromSufferDamage { get; } = fromSufferDamage;
-
-			public void SetNewCardState(CardState newCardState)
-			{
-				NewCardState = newCardState;
-			}
-		}
-	}
-
-	private readonly BeforeAbilityCardStateChanged _beforeAbilityCardStateChanged = new BeforeAbilityCardStateChanged();
-
-	public static BeforeAbilityCardStateChanged BeforeAbilityCardStateChangedEvent =>
-		GameController.Instance.ScenarioEvents._beforeAbilityCardStateChanged;
 
 	public class AbilityCardStateChanged : ScenarioEvent<AbilityCardStateChanged.Parameters>
 	{
