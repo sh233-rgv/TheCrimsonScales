@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -44,6 +45,7 @@ public partial class ActionState
 					aiMoveParameters.Targets = attackAbility.Target.HasFlag(Target.MustTargetSameWithAllTargets) ? 1 : attackAbility.Targets;
 					aiMoveParameters.TargetAll = attackAbility.Target.HasFlag(Target.TargetAll);
 					aiMoveParameters.Range = attackAbility.Range;
+					aiMoveParameters.MinRange = attackAbility.MinRange;
 					aiMoveParameters.RangeType = attackAbility.RangeType;
 					aiMoveParameters.AOEPattern = attackAbility.AOEPattern;
 
@@ -120,6 +122,11 @@ public partial class ActionState
 
 			rangeCache.Clear();
 			RangeHelper.FindHexesInRange(moveHex, range, false, rangeCache);
+			if(aiMoveParameters.MinRange != 0)
+			{
+				IEnumerable<Hex> closeHexes = RangeHelper.GetHexesInRange(moveHex, aiMoveParameters.MinRange - 1);
+				rangeCache.RemoveAll(hex => closeHexes.Contains(hex));
+			}
 
 			void HandlePotentialTargetHex(Hex potentialTargetHex)
 			{

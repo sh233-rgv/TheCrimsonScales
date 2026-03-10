@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://dotj0l45hut8c"]
+
+[ext_resource type="Texture2D" uid="uid://5e8lwa2fidqc" path="res://Content/Monsters/Boss/TerrorscaleDrake/terrorscale-drake.jpg" id="1_fmicb"]
+
+[resource]
+atlas = ExtResource("1_fmicb")
+region = Rect2(75, 150, 600, 600)

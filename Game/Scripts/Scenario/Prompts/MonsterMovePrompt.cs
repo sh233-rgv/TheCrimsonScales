@@ -76,6 +76,12 @@ public class MonsterMovePrompt(
 
 			rangeCache.Clear();
 			RangeHelper.FindHexesInRange(moveHex, aiMoveParameters.Range, true, rangeCache);
+			if(aiMoveParameters.MinRange != 0)
+			{
+				IEnumerable<Hex> closeHexes = RangeHelper.GetHexesInRange(moveHex, aiMoveParameters.MinRange - 1);
+				rangeCache.RemoveAll(hex => closeHexes.Contains(hex));
+			}
+
 
 			void CompareAttackNode(AIAttackNode newAIAttackNode)
 			{
@@ -193,6 +199,7 @@ public class MonsterMovePrompt(
 					finalTargetCount = 0;
 					finalDisadvantageCount = 0;
 				}
+
 				AIAttackNode newAIAttackNode = new AIAttackNode(node, attackableFocus, finalTargetCount, finalDisadvantageCount, node.MoveSpent);
 
 				CompareAttackNode(newAIAttackNode);
@@ -322,6 +329,11 @@ public class MonsterMovePrompt(
 
 			rangeCache.Clear();
 			RangeHelper.FindHexesInRange(moveHex, range, false, rangeCache);
+			if(aiMoveParameters.MinRange != 0)
+			{
+				IEnumerable<Hex> closeHexes = RangeHelper.GetHexesInRange(moveHex, aiMoveParameters.MinRange - 1);
+				rangeCache.RemoveAll(hex => closeHexes.Contains(hex));
+			}
 
 			void HandlePotentialTargetHex(Hex potentialTargetHex)
 			{
