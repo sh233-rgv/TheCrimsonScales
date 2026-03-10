@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bwylrkavskiiu"]
+[gd_scene format=3 uid="uid://bwylrkavskiiu"]
 
 [ext_resource type="PackedScene" uid="uid://drsppepfslnis" path="res://Scenes/Scenario/Character.tscn" id="1_rd461"]
 [ext_resource type="Texture2D" uid="uid://dgskegyukgbi1" path="res://Content/Classes/Brightspark/Artwork.jpg" id="2_jnfwe"]
