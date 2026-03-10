@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
-public class ScenarioRM003 : ScenarioModel
+public class ScenarioRM004 : ScenarioModel
 {
-	public override string ScenePath => "res://Content/Scenarios/ScenarioRM003.tscn";
+	public override string ScenePath => "res://Content/Scenarios/ScenarioRM004.tscn";
 	public override string ScenarioPrefix => "RM";
-	public override int ScenarioNumber => 3;
+	public override int ScenarioNumber => 4;
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<RMScenarioChain>();
 
 	protected override ScenarioGoals CreateScenarioGoals() => new CustomScenarioGoals(

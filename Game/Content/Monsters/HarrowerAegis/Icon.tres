@@ -1,4 +1,4 @@
-[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://dpamupxdwkpja"]
+[gd_resource type="AtlasTexture" format=3 uid="uid://dpamupxdwkpja"]
 
 [ext_resource type="Texture2D" uid="uid://b8ipg3scucg1g" path="res://Content/Monsters/HarrowerAegis/harrower-aegis.jpeg" id="1_gpiuf"]
 
