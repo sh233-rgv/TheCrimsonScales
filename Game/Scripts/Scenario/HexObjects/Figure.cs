@@ -29,6 +29,7 @@ public abstract partial class Figure : HexObject, IActionSource
 
 	public List<HexObjectEffectViewBase> Effects { get; } = new List<HexObjectEffectViewBase>();
 	public List<Condition> Conditions { get; } = new List<Condition>();
+	public List<FigureTrait> Traits { get; } = new List<FigureTrait>();
 
 	public Alignment Alignment { get; private set; }
 	public Alignment Enemies { get; private set; }
@@ -112,6 +113,11 @@ public abstract partial class Figure : HexObject, IActionSource
 		await base.Destroy(immediately, forceDestroy);
 
 		await DeactivateOtherRoundActionStates();
+
+		foreach(FigureTrait trait in Traits)
+		{
+			await trait.Deactivate(this);
+		}
 
 		GameController.Instance.Map.DeregisterFigure(this);
 
@@ -349,6 +355,13 @@ public abstract partial class Figure : HexObject, IActionSource
 		Conditions.Remove(condition);
 
 		ReorderEffects();
+	}
+
+	protected async GDTask AddTrait(FigureTrait trait)
+	{
+		FigureTrait mutableTrait = trait.ToMutable();
+		Traits.Add(mutableTrait);
+		await mutableTrait.Activate(this);
 	}
 
 	public T AddEffectView<T>(HexObjectEffectViewParameters parameters)

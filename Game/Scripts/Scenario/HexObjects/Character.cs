@@ -17,6 +17,10 @@ public partial class Character : Figure
 
 	public int PlayableAbilityCardCount { get; private set; }
 
+	public List<BattleGoalModel> AvailableBattleGoals { get; } = new List<BattleGoalModel>();
+	public BattleGoalModel SelectedBattleGoalModel { get; private set; }
+	public BattleGoal BattleGoal { get; private set; }
+
 	public List<AbilityCard> Cards { get; } = new List<AbilityCard>();
 	public List<ItemModel> Items { get; } = new List<ItemModel>();
 
@@ -44,6 +48,8 @@ public partial class Character : Figure
 	public override Node2D Visual =>
 		AppController.Instance.Options.AnimatedCharacters.Value && ClassModel.HasAnimatedSprite ? _animatedSprite : _staticSprite;
 
+	public event Action<Character> BattleGoalChangedEvent;
+	public event Action<Character> BattleGoalProgressChangedEvent;
 	public event Action<Character> ShortRestedEvent;
 	public event Action<Character> CoinsChangedEvent;
 	public event Action<Character> XPChangedEvent;
@@ -170,6 +176,23 @@ public partial class Character : Figure
 		{
 			AppController.Instance.Options.AnimatedCharacters.ValueChangedEvent -= OnAnimatedCharactersChanged;
 		}
+	}
+
+	public void AddAvailableBattleGoal(BattleGoalModel battleGoal)
+	{
+		AvailableBattleGoals.Add(battleGoal);
+	}
+
+	public void SetBattleGoal(BattleGoalModel battleGoal)
+	{
+		if(battleGoal == SelectedBattleGoalModel)
+		{
+			return;
+		}
+
+		SelectedBattleGoalModel = battleGoal;
+
+		BattleGoalChangedEvent?.Invoke(this);
 	}
 
 	public void OnRoundCardsChanged()
@@ -551,6 +574,10 @@ public partial class Character : Figure
 	{
 		AbilityCard card = await AbilityCmd.SelectAbilityCard(this, CardState.Hand, true, card => card.OriginalOwner == this,
 			hintText: "Select a card to lose");
+
+		await ScenarioEvents.LosingCardToNegateDamageEvent.CreatePrompt(
+			new ScenarioEvents.LosingCardToNegateDamage.Parameters(this, card, parameters));
+
 		await AbilityCmd.LoseCard(card);
 
 		parameters.SetDamagePrevented();
@@ -561,6 +588,9 @@ public partial class Character : Figure
 		foreach(AbilityCard card in await AbilityCmd.SelectAbilityCards(this, CardState.Discarded, 2, 2,
 			        card => card.OriginalOwner == this, hintText: "Select two discarded cards to lose"))
 		{
+			await ScenarioEvents.LosingCardToNegateDamageEvent.CreatePrompt(
+				new ScenarioEvents.LosingCardToNegateDamage.Parameters(this, card, parameters));
+
 			await AbilityCmd.LoseCard(card);
 		}
 
@@ -633,7 +663,7 @@ public partial class Character : Figure
 			PerkModel perkModel = ClassModel.Perks[i];
 			if(SavedCharacter.GetPerkAcquired(i))
 			{
-				await perkModel.OnScenarioSetupPhaseCompleted();
+				await perkModel.OnScenarioSetupPhaseCompleted(this);
 			}
 		}
 
@@ -659,6 +689,13 @@ public partial class Character : Figure
 			await SavedCharacter.SavedPersonalQuest.Model.OnScenarioSetupPhaseCompleted(this);
 		}
 
+		if(SelectedBattleGoalModel != null)
+		{
+			BattleGoal = new BattleGoal(this, SelectedBattleGoalModel);
+			BattleGoal.ProgressChangedEvent += OnBattleGoalProgressChanged;
+			await BattleGoal.OnScenarioSetupPhaseCompleted();
+		}
+
 		await GDTask.CompletedTask;
 	}
 
@@ -666,6 +703,11 @@ public partial class Character : Figure
 	{
 		_staticSprite.SetVisible(!ClassModel.HasAnimatedSprite || !animatedCharacters);
 		_animatedSprite.SetVisible(ClassModel.HasAnimatedSprite && animatedCharacters);
+	}
+
+	private void OnBattleGoalProgressChanged(BattleGoal battleGoal)
+	{
+		BattleGoalProgressChangedEvent?.Invoke(this);
 	}
 
 	public override void AddInfoItemParameters(List<InfoItemParameters> parametersList)
