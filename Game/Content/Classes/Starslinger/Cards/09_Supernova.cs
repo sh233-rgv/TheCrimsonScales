@@ -28,7 +28,7 @@ public class Supernova : StarslingerCardModel<Supernova.CardTop, Supernova.CardB
 					)
 				)
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Light,
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AdjustTargets(1);

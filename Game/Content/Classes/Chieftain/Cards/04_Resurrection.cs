@@ -14,7 +14,7 @@ public class Resurrection : ChieftainCardModel<Resurrection.CardTop, Resurrectio
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Earth)],
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Earth,
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);

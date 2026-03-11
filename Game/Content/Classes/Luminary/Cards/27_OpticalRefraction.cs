@@ -29,7 +29,7 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 				))
 				.WithDuringAttackSubscriptions(
 				[
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Dark)],
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Dark,
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustPierce(3);

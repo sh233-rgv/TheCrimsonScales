@@ -16,7 +16,7 @@ public class MedicineShield : ChieftainCardModel<MedicineShield.CardTop, Medicin
 				.WithHealValue(3, new HealDiamondPlus(this, new Vector2(0.4407086f, 0.23097177f)))
 				.WithRange(3, new RangeSquare(this, new Vector2(0.6508312f, 0.22997175f)))
 				.WithDuringHealSubscription(
-					ScenarioEvents.DuringHeal.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Earth)],
+					ScenarioEvents.DuringHeal.Subscription.ConsumeElement(Element.Earth,
 						applyFunction: async applyParameters =>
 						{
 							applyParameters.AbilityState.AbilityAdjustHealValue(2);

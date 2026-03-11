@@ -27,7 +27,7 @@ public class FrozenExplosion : BrightsparkCardModel<FrozenExplosion.CardTop, Fro
 					]
 				))
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Ice)],
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Ice,
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAddCondition(Conditions.Immobilize);

@@ -17,7 +17,7 @@ public class CellRegeneration : BrightsparkCardModel<CellRegeneration.CardTop, C
 				.WithHealValue(3, new HealDiamondPlus(this, new Vector2(0.49459255f, 0.23310421f), EnhancementCostType.MultiTarget))
 				.WithTarget(Target.Self)
 				.WithDuringHealSubscription(
-					ScenarioEvents.DuringHeal.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
+					ScenarioEvents.DuringHeal.Subscription.ConsumeElement(Element.Light,
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AdjustTargets(1);

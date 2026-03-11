@@ -25,7 +25,7 @@ public class FireKnightExplosiveTonic : FireKnightItem
 								.WithRange(3)
 								.WithConditions(Conditions.Wound1)
 								.WithDuringAttackSubscription(
-									ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
+									ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
 										applyFunction: async parameters =>
 										{
 											parameters.AbilityState.AbilityAdjustAttackValue(1);

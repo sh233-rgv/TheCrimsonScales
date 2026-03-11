@@ -53,7 +53,7 @@ public class Luminescence : LuminaryCardModel<Luminescence.CardTop, Luminescence
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3, new MoveCircle(this, new Vector2(0.62133586f, 0.6296019f)))
 				.WithDuringMovementSubscription(
-					ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Ice)],
+					ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Ice,
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AdjustMoveValue(1);

@@ -100,7 +100,7 @@ public class ProsperousConcord : HierophantCardModel<ProsperousConcord.CardTop, 
 							effectType: EffectType.Selectable
 						),
 
-						ScenarioEvents.HealAfterTargetConfirmed.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
+						ScenarioEvents.HealAfterTargetConfirmed.Subscription.ConsumeElement(Element.Light,
 							canApplyFunction: canApplyParameters => canApplyParameters.AbilityState.GetCustomValue<bool>(this, "StrengthenAdded"),
 							applyFunction: async applyParameters =>
 							{

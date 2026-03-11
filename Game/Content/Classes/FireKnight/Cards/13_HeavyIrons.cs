@@ -36,7 +36,7 @@ public class HeavyIrons : FireKnightLevelUpCardModel<HeavyIrons.CardTop, HeavyIr
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2, new MoveCircle(this, new Vector2(0.61811316f, 0.63576794f)))
 				.WithDuringMovementSubscription(
-					ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
+					ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Fire,
 						applyFunction: async applyParameters =>
 						{
 							applyParameters.AbilityState.AdjustMoveValue(2);

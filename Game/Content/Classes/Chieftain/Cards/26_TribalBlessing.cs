@@ -19,7 +19,7 @@ public class TribalBlessing : ChieftainCardModel<TribalBlessing.CardTop, TribalB
 				.WithTarget(Target.Self)
 				.WithConditions(Conditions.Bless)
 				.WithDuringHealSubscription(
-					ScenarioEvents.DuringHeal.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Earth)],
+					ScenarioEvents.DuringHeal.Subscription.ConsumeElement(Element.Earth,
 						applyFunction: async applyParameters =>
 						{
 							applyParameters.AbilityState.AdjustTarget(Target.Allies | Target.MustTargetCharacters | Target.SelfCountsForTargets);

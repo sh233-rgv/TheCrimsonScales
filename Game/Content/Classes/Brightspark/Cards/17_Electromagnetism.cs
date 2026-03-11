@@ -42,7 +42,7 @@ public class Electromagnetism : BrightsparkCardModel<Electromagnetism.CardTop, E
 				.WithPull(2, new PullCircle(this, new Vector2(0.46054077f, 0.6676248f)))
 				.WithRange(3, new RangeSquare(this, new Vector2(0.6696296f, 0.6656084f)))
 				.WithAbilityStartedSubscription(
-					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Air)],
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(Element.Air,
 						applyFunction: async applyParameters =>
 						{
 							((PullAbility.State)applyParameters.AbilityState).AbilityAdjustRange(1);

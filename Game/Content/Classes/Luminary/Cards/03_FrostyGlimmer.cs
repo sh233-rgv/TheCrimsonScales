@@ -19,7 +19,7 @@ public class FrostyGlimmer : LuminaryCardModel<FrostyGlimmer.CardTop, FrostyGlim
 				.WithRange(3, new RangeSquare(this, new Vector2(0.6074004f, 0.19765684f)))
 				.WithDuringHealSubscriptions(
 				[
-					ScenarioEvents.DuringHeal.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Ice)],
+					ScenarioEvents.DuringHeal.Subscription.ConsumeElement(Element.Ice,
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustHealValue(1);
@@ -29,7 +29,7 @@ public class FrostyGlimmer : LuminaryCardModel<FrostyGlimmer.CardTop, FrostyGlim
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Heal)}, +1{Icons.Inline(Icons.Range)}")
 					),
-					ScenarioEvents.DuringHeal.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Dark)],
+					ScenarioEvents.DuringHeal.Subscription.ConsumeElement(Element.Dark,
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AdjustTargets(1);
@@ -53,7 +53,7 @@ public class FrostyGlimmer : LuminaryCardModel<FrostyGlimmer.CardTop, FrostyGlim
 				.WithDistance(3, new MoveCircle(this, new Vector2(0.6215844f, 0.6384345f)))
 				.WithDuringMovementSubscriptions(
 				[
-					ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
+					ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Fire,
 						applyFunction: async parameters =>
 						{
 							ScenarioCheckEvents.MoveCheckEvent.Subscribe(parameters.AbilityState, this,
@@ -100,7 +100,7 @@ public class FrostyGlimmer : LuminaryCardModel<FrostyGlimmer.CardTop, FrostyGlim
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters("Ignore traps, destroy one moved through")
 					),
-					ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Dark)],
+					ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Dark,
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AdjustMoveValue(1);

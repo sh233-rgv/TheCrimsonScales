@@ -15,7 +15,7 @@ public class OneWithNature : ChieftainCardModel<OneWithNature.CardTop, OneWithNa
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(4, new AttackDiamond(this, new Vector2(0.6164321f, 0.23193833f)))
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Earth)],
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Earth,
 						applyFunction: async applyParameters =>
 						{
 							applyParameters.AbilityState.AbilityAdjustAttackValue(2);

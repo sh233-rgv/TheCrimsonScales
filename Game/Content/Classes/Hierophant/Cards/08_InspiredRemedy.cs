@@ -17,7 +17,7 @@ public class InspiredRemedy : HierophantCardModel<InspiredRemedy.CardTop, Inspir
 				.WithHealValue(3)
 				.WithRange(2, new RangeSquare(this, new Vector2(0.6105665f, 0.16249998f)))
 				.WithDuringHealSubscription(
-					ScenarioEvents.DuringHeal.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
+					ScenarioEvents.DuringHeal.Subscription.ConsumeElement(Element.Light,
 						applyFunction: async applyParameters =>
 						{
 							applyParameters.AbilityState.AbilityAdjustHealValue(1);

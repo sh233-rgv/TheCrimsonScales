@@ -20,7 +20,7 @@ public class EncouragedConviction : HierophantLevelUpCardModel<EncouragedConvict
 						RetaliateAbility.Builder()
 							.WithRetaliateValue(1)
 							.WithAbilityStartedSubscription(
-								ScenarioEvents.AbilityStarted.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Earth)],
+								ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(Element.Earth,
 									parameters => true,
 									async parameters =>
 									{

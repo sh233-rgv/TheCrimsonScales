@@ -28,7 +28,7 @@ public class JackOfAllTrades : FireKnightLevelUpCardModel<JackOfAllTrades.CardTo
 				.WithDamage(3, new AttackDiamond(this, new Vector2(0.5020886f, 0.30106834f), EnhancementCostType.MultiTarget))
 				.WithConditions(Conditions.Wound1)
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Fire)],
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
 						parameters => true,
 						async parameters =>
 						{

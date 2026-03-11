@@ -18,7 +18,7 @@ public class MolecularHydroblast : BrightsparkCardModel<MolecularHydroblast.Card
 				.WithDamage(5, new AttackDiamond(this, new Vector2(0.44888887f, 0.23915341f)))
 				.WithRange(3, new RangeSquare(this, new Vector2(0.65925926f, 0.23809522f)))
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Ice)],
+					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Ice,
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AbilityAddCondition(Conditions.Immobilize);

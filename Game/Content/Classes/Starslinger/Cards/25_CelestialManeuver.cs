@@ -68,7 +68,7 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 					MoveAbility.Builder()
 						.WithDistance(3, _enhancementMark)
 						.WithDuringMovementSubscription(
-							ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Dark)],
+							ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Dark,
 								applyFunction: async parameters =>
 								{
 									parameters.AbilityState.AdjustMoveValue(2);
@@ -116,7 +116,7 @@ public class CelestialManeuver : StarslingerCardModel<CelestialManeuver.CardTop,
 					MoveAbility.Builder()
 						.WithDistance(3, _enhancementMark)
 						.WithDuringMovementSubscription(
-							ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Dark)],
+							ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Dark,
 								applyFunction: async parameters =>
 								{
 									parameters.AbilityState.AdjustMoveValue(2);

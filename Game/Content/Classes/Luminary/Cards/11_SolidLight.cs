@@ -56,7 +56,7 @@ public class SolidLight : LuminaryCardModel<SolidLight.CardTop, SolidLight.CardB
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3, new MoveCircle(this, new Vector2(0.62128437f, 0.6504817f)))
 				.WithDuringMovementSubscription(
-					ScenarioEvents.DuringMovement.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Light)],
+					ScenarioEvents.DuringMovement.Subscription.ConsumeElement(Element.Light,
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.AdjustMoveValue(1);

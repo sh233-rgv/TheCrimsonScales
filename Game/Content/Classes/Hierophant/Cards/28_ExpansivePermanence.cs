@@ -18,7 +18,7 @@ public class ExpansivePermanence : HierophantLevelUpCardModel<ExpansivePermanenc
 						ShieldAbility.Builder()
 							.WithShieldValue(2)
 							.WithAbilityStartedSubscription(
-								ScenarioEvents.AbilityStarted.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Earth)],
+								ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(Element.Earth,
 									canApplyParameters => true,
 									async applyParameters =>
 									{

@@ -35,7 +35,7 @@ public class EncompassingAura : LuminaryCardModel<EncompassingAura.CardTop, Enco
 				))
 				.WithDuringGrantSubscriptions(
 				[
-					ScenarioEvents.DuringGrant.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Ice)],
+					ScenarioEvents.DuringGrant.Subscription.ConsumeElement(Element.Ice,
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.SetCustomValue(this, "IceConsumed", 1);
@@ -44,7 +44,7 @@ public class EncompassingAura : LuminaryCardModel<EncompassingAura.CardTop, Enco
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Shield)}")
 					),
-					ScenarioEvents.DuringGrant.Subscription.ConsumeElement([CardElementConsumption.Consume(Element.Dark)],
+					ScenarioEvents.DuringGrant.Subscription.ConsumeElement(Element.Dark,
 						applyFunction: async parameters =>
 						{
 							parameters.AbilityState.SetCustomValue(this, "DarkConsumed", 1);
