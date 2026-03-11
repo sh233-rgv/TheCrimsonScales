@@ -83,7 +83,7 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 			EffectButtonParameters effectButtonParameters = null, EffectInfoViewParameters effectInfoViewParameters = null)
 		{
 			return ConsumeElement([CardElementConsumption.Consume(element)], canApplyFunction, applyFunction, effectType, order,
-				canApplyMultipleTimesDuringSubscription, canApplyMultipleTimesInEffectCollection, effectButtonParameters, effectInfoViewParameters)
+				canApplyMultipleTimesDuringSubscription, canApplyMultipleTimesInEffectCollection, effectButtonParameters, effectInfoViewParameters);
 		}
 
 		public override bool CanApply(ParametersBase parameters)
