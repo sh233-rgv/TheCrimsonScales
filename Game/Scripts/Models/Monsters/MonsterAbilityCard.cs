@@ -3,7 +3,7 @@ using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
-public class MonsterAbilityCard : IDeckCard
+public class MonsterAbilityCard : IDeckCard, IActionSource
 {
 	private readonly List<ActionState> _actionStates = new List<ActionState>();
 
@@ -41,7 +41,7 @@ public class MonsterAbilityCard : IDeckCard
 		// 	}, EffectType.MandatoryAfterOptionals
 		// );
 		IEnumerable<MonsterAbilityCardAbility> abilities = Model.GetAbilities(performer);
-		ActionState actionState = new ActionState(performer, abilities.Select(ability => ability.Ability).ToList());
+		ActionState actionState = new ActionState(this, performer, abilities.Select(ability => ability.Ability).ToList());
 
 		if(Model.AdjustFocus != null)
 		{

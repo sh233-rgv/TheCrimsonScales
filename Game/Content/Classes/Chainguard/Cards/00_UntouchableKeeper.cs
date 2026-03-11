@@ -22,6 +22,8 @@ public class UntouchableKeeper : ChainguardCardModel<UntouchableKeeper.CardTop, 
 							canApplyParameters =>
 								canApplyParameters.PotentialTarget == state.Performer &&
 								canApplyParameters.Performer.EnemiesWith(state.Performer) &&
+								!ScenarioCheckEvents.CanTargetInvisibleCheckEvent.Fire(
+									new ScenarioCheckEvents.CanTargetInvisibleCheck.Parameters(canApplyParameters.Performer)).CanTargetInvisible &&
 								canApplyParameters.Performer.HasCondition(Chainguard.Shackle),
 							applyParameters =>
 							{
@@ -32,6 +34,8 @@ public class UntouchableKeeper : ChainguardCardModel<UntouchableKeeper.CardTop, 
 							canApplyParameters =>
 								canApplyParameters.PotentialTarget == state.Performer &&
 								canApplyParameters.Performer.EnemiesWith(state.Performer) &&
+								!ScenarioCheckEvents.CanTargetInvisibleCheckEvent.Fire(
+									new ScenarioCheckEvents.CanTargetInvisibleCheck.Parameters(canApplyParameters.Performer)).CanTargetInvisible &&
 								canApplyParameters.Performer.HasCondition(Chainguard.Shackle),
 							applyParameters =>
 							{

@@ -471,6 +471,23 @@ public partial class ScenarioCheckEvents
 	private readonly CanBeTargetedCheck _canBeTargetedCheck = new CanBeTargetedCheck();
 	public static CanBeTargetedCheck CanBeTargetedCheckEvent => GameController.Instance.ScenarioCheckEvents._canBeTargetedCheck;
 
+	public class CanTargetInvisibleCheck : ScenarioCheckEvent<CanTargetInvisibleCheck.Parameters>
+	{
+		public class Parameters(Figure figure) : ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+			public bool CanTargetInvisible { get; private set; } = false;
+
+			public void SetCanTargetInvisible()
+			{
+				CanTargetInvisible = true;
+			}
+		}
+	}
+
+	private readonly CanTargetInvisibleCheck _canTargetInvisibleCheck = new CanTargetInvisibleCheck();
+	public static CanTargetInvisibleCheck CanTargetInvisibleCheckEvent => GameController.Instance.ScenarioCheckEvents._canTargetInvisibleCheck;
+
 	public class ImmuneToForcedMovementCheck : ScenarioCheckEvent<ImmuneToForcedMovementCheck.Parameters>
 	{
 		public class Parameters(Figure figure)
