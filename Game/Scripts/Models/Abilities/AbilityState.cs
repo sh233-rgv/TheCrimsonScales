@@ -28,11 +28,6 @@ public abstract class AbilityState
 		Performed = true;
 	}
 
-	public void SetNotPerformed()
-	{
-		Performed = false;
-	}
-
 	public void SetBlocked()
 	{
 		_blocked = true;

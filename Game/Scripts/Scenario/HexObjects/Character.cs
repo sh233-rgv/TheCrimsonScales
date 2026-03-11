@@ -25,8 +25,8 @@ public partial class Character : Figure
 	public List<ItemModel> Items { get; } = new List<ItemModel>();
 
 	public List<AbilityCard> RoundCards { get; } = new List<AbilityCard>();
-	public List<CardPlayCardData> RoundCardData = new List<CardPlayCardData>();
-	public List<ItemModel> TurnItemsUsed = [];
+	public List<CardPlayCardData> RoundCardData { get; } = new List<CardPlayCardData>();
+	public List<ItemModel> TurnItemsUsed { get; } = [];
 	public bool LongResting { get; private set; }
 
 	public int ShortRestSeed { get; private set; }
@@ -347,7 +347,7 @@ public partial class Character : Figure
 		{
 			bool topPlayed = false;
 			bool bottomPlayed = false;
-			RoundCardData = new List<CardPlayCardData>();
+			RoundCardData.Clear();
 
 			foreach(AbilityCard card in RoundCards)
 			{

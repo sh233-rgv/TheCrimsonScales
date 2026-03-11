@@ -516,6 +516,12 @@ public partial class ScenarioEvents
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Figure Figure { get; } = figure;
+			public bool Prevented { get; private set; } = false;
+
+			public void SetPrevented()
+			{
+				Prevented = true;
+			}
 		}
 	}
 

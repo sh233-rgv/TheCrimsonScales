@@ -25,7 +25,7 @@ public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, Dynam
 								await GDTask.CompletedTask;
 							},
 							effectButtonParameters: new IconEffectButton.Parameters(Icons.Attack),
-							effectInfoViewParameters: new TextEffectInfoView.Parameters($"Perform {Icons.Inline(Icons.Attack)} ability"),
+							effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Attack)}3"),
 							effectType: EffectType.SelectableMandatory
 						),
 						ScenarioEvents.GenericChoice.Subscription.New(
@@ -36,7 +36,7 @@ public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, Dynam
 								await GDTask.CompletedTask;
 							},
 							effectButtonParameters: new IconEffectButton.Parameters(Icons.Move),
-							effectInfoViewParameters: new TextEffectInfoView.Parameters($"Perform {Icons.Inline(Icons.Move)} ability"),
+							effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Move)}3"),
 							effectType: EffectType.SelectableMandatory
 						),
 						ScenarioEvents.GenericChoice.Subscription.New(
@@ -47,7 +47,7 @@ public class DynamicBalance : BrightsparkCardModel<DynamicBalance.CardTop, Dynam
 								await GDTask.CompletedTask;
 							},
 							effectButtonParameters: new IconEffectButton.Parameters(Icons.Heal),
-							effectInfoViewParameters: new TextEffectInfoView.Parameters($"Perform {Icons.Inline(Icons.Heal)} ability"),
+							effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Heal)}3, {Icons.Inline(Icons.Range)}1"),
 							effectType: EffectType.SelectableMandatory
 						)
 					], hintText: "Select an ability to perform:");

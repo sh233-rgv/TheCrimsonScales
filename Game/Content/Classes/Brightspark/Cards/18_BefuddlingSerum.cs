@@ -45,11 +45,20 @@ public class BefuddlingSerum : BrightsparkCardModel<BefuddlingSerum.CardTop, Bef
 						{
 							switch(state.UseSlotIndex)
 							{
-								case 0: parameters.AbilityState.SingleTargetAdjustPush(3); break;
-								case 1: parameters.AbilityState.SingleTargetAdjustPierce(3); break;
-								case 2: parameters.AbilityState.SingleTargetAdjustAttackValue(3); break;
-								case 3: parameters.AbilityState.AdjustTargets(1); break;
-								default: throw new ArgumentOutOfRangeException();
+								case 0:
+									parameters.AbilityState.SingleTargetAdjustPush(3);
+									break;
+								case 1:
+									parameters.AbilityState.SingleTargetAdjustPierce(3);
+									break;
+								case 2:
+									parameters.AbilityState.SingleTargetAdjustAttackValue(3);
+									break;
+								case 3:
+									parameters.AbilityState.AdjustTargets(1);
+									break;
+								default:
+									throw new ArgumentOutOfRangeException();
 							}
 
 							await state.AdvanceUseSlot();

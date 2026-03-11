@@ -17,18 +17,12 @@ public class TransformationLibation : BrightsparkCardModel<TransformationLibatio
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					Monster monster = (Monster)await AbilityCmd.SelectFigure(state, list =>
-						list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1).Where(figure =>
-							figure.EnemiesWith(state.Performer) && figure.Health <= 4 && figure is Monster monster &&
-							monster.MonsterType is MonsterType.Normal)));
-					if(monster == null)
-					{
-						state.SetNotPerformed();
-						return;
-					}
+					Monster monster = state.GetCustomValue<Monster>(this, "Monster");
 
-					monster.SetEnemies(Alignment.Enemies);
-					monster.SetAlignment(Alignment.Characters);
+					state.SetCustomValue(this, "OriginalAlignment", monster.Alignment);
+					state.SetCustomValue(this, "OriginalEnemies", monster.Enemies);
+					monster.SetEnemies(state.Performer.Enemies);
+					monster.SetAlignment(state.Performer.Alignment);
 					await AbilityCmd.AddCharacterToken(state, monster,
 						$"This monster is an ally to you, suffers {Icons.Inline(Icons.Damage)}1 at the start of each of its turns, and cannot be healed");
 					ScenarioEvents.FigureTurnStartedEvent.Subscribe(state, this,
@@ -52,11 +46,33 @@ public class TransformationLibation : BrightsparkCardModel<TransformationLibatio
 				})
 				.WithOnDeactivate(async state =>
 				{
+					Monster monster = state.GetCustomValue<Monster>(this, "Monster");
+
+					await AbilityCmd.RemoveCharacterToken(state, monster);
+					monster.SetAlignment(state.GetCustomValue<Alignment>(this, "OriginalAlignment"));
+					monster.SetEnemies(state.GetCustomValue<Alignment>(this, "OriginalEnemies"));
+
 					ScenarioEvents.FigureTurnStartedEvent.Unsubscribe(state, this);
 					ScenarioCheckEvents.CanBeTargetedCheckEvent.Unsubscribe(state, this);
 					ScenarioEvents.FigureKilledEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})
+				.WithConditionalAbilityCheck(async state =>
+				{
+					Monster monster = (Monster)await AbilityCmd.SelectFigure(state, list =>
+						list.AddRange(RangeHelper.GetFiguresInRange(state.Performer.Hex, 1).Where(figure =>
+							figure.EnemiesWith(state.Performer) && figure.Health <= 4 && figure is Monster monster &&
+							monster.MonsterType is MonsterType.Normal)));
+
+					if(monster == null)
+					{
+						return false;
+					}
+
+					state.SetCustomValue(this, "Monster", monster);
+					return true;
+				})
+				.WithSkipConfirmation()
 				.Build())
 		];
 

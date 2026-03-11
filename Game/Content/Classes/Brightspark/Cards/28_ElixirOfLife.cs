@@ -29,14 +29,30 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 				{
 					Figure target = state.ActionState.GetAbilityState<GiveAbilityCardAbility.State>(0).UniqueTargetedFigures[0];
 
-					//TODO: Before Killed Event (needs mirefoot L9)
+					ScenarioEvents.BeforeFigureKilledEvent.Subscribe(state, this,
+						parameters => parameters.Figure == target,
+						async parameters =>
+						{
+							parameters.SetPrevented();
+							target.SetHealth((target.MaxHealth + 1) / 2);
+							List<AbilityCard> selectedAbilityCards =
+								await AbilityCmd.SelectAbilityCards(state.Performer as Character, CardState.Lost, 0, 4,
+									hintText: "Select up to four lost cards to recover");
+
+							foreach(AbilityCard selectedAbilityCard in selectedAbilityCards)
+							{
+								await AbilityCmd.ReturnToHand(selectedAbilityCard);
+							}
+
+							await state.AdvanceUseSlot();
+						});
 
 
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
 				{
-					//TODO: ScenarioEvents.BeforeKilledEvent.Unsubscribe(state, this);
+					ScenarioEvents.BeforeFigureKilledEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
 				})
@@ -95,16 +111,16 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
+					int[] moveValues = [2, 1, 2];
+					int[] healValues = [1, 2, 2];
 					ScenarioEvents.FigureTurnEndingEvent.Subscribe(state, this,
 						parameters => parameters.Figure == state.Performer,
 						async parameters =>
 						{
-							int healValue = (state.UseSlotIndex + 3) / 2;
-							int moveValue = 2 - state.UseSlotIndex % 2;
 							ActionState actionState = new ActionState(parameters.Figure,
 							[
-								MoveAbility.Builder().WithDistance(moveValue).Build(),
-								HealAbility.Builder().WithHealValue(healValue).WithTarget(Target.Self).Build()
+								MoveAbility.Builder().WithDistance(moveValues[state.UseSlotIndex]).Build(),
+								HealAbility.Builder().WithHealValue(healValues[state.UseSlotIndex]).WithTarget(Target.Self).Build()
 							]);
 							await actionState.Perform();
 

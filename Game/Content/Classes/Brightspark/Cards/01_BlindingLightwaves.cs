@@ -28,16 +28,11 @@ public class BlindingLightwaves : BrightsparkCardModel<BlindingLightwaves.CardTo
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(OtherAbility.Builder()
-				.WithPerformAbility(async state =>
-				{
-					foreach(Figure figure in RangeHelper.GetFiguresInRange(state.Performer.Hex, 1)
-						        .Where(figure => figure.EnemiesWith(state.Performer)))
-					{
-						await AbilityCmd.SufferDamage(state, figure, 1);
-						state.SetPerformed();
-					}
-				}).Build()),
+			new AbilityCardAbility(SufferDamageAbility.Builder()
+				.WithDamage(1)
+				.WithRange(1)
+				.WithTarget(Target.Enemies | Target.TargetAll)
+				.Build()),
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(1)
 				.WithAbilityStartedSubscription(

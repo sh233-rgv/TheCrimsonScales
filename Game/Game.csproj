@@ -2,12 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <EnableDynamicLoading>true</EnableDynamicLoading>
-        <RootNamespace />
+        <RootNamespace/>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="Content\Classes\Brightspark\Portrait.tres"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     </ItemGroup>
 </Project>

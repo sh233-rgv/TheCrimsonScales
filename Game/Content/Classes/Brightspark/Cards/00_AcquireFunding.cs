@@ -28,7 +28,7 @@ public class AcquireFunding : BrightsparkCardModel<AcquireFunding.CardTop, Acqui
 						}, order: 100
 					);
 					ScenarioEvents.AfterAttackPerformedEvent.Subscribe(abilityState, this,
-						parameters => parameters.AbilityState.Target.IsDead && coinsToLoot > 0,
+						parameters => parameters.AbilityState == abilityState && parameters.AbilityState.Target.IsDead && coinsToLoot > 0,
 						async parameters =>
 						{
 							List<Coin> coins = [];

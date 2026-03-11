@@ -147,12 +147,17 @@ public static class AbilityCmd
 
 	public static async GDTask KillOrExhaust(AbilityState potentialAbilityState, Figure target, Figure potentialKiller)
 	{
-		await ScenarioEvents.BeforeFigureKilledEvent.CreatePrompt(
-			new ScenarioEvents.BeforeFigureKilled.Parameters(potentialAbilityState, target), potentialKiller);
-		await target.Destroy();
+		ScenarioEvents.BeforeFigureKilled.Parameters beforeFigureKilledParameters =
+			await ScenarioEvents.BeforeFigureKilledEvent.CreatePrompt(
+				new ScenarioEvents.BeforeFigureKilled.Parameters(potentialAbilityState, target), potentialKiller);
 
-		await ScenarioEvents.FigureKilledEvent.CreatePrompt(
-			new ScenarioEvents.FigureKilled.Parameters(potentialAbilityState, target, potentialKiller), target);
+		if(!beforeFigureKilledParameters.Prevented)
+		{
+			await target.Destroy();
+
+			await ScenarioEvents.FigureKilledEvent.CreatePrompt(
+				new ScenarioEvents.FigureKilled.Parameters(potentialAbilityState, target, potentialKiller), target);
+		}
 	}
 
 	public static async GDTask KillOrExhaust(Figure target, Figure potentialKiller)
@@ -967,7 +972,7 @@ public static class AbilityCmd
 				));
 			}
 
-			await GenericChoice(authority, subscriptions,
+			await GenericChoice(authority ?? GameController.Instance.CharacterManager.FirstAlive(), subscriptions,
 				hintText: consumptions.Count == 1 ? "Select an element to consume" : "Select a set of elements to consume");
 
 			if(chosenConsumption == null)

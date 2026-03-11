@@ -66,7 +66,7 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 						potentialConsumer = parametersBase.BaseAbilityState.Performer;
 					}
 
-					await AbilityCmd.ConsumeElements(potentialConsumer ?? new Character(), elements);
+					await AbilityCmd.ConsumeElements(potentialConsumer, elements);
 					if(applyFunction != null)
 					{
 						await applyFunction.Invoke(parameters);
@@ -74,6 +74,16 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 				}, effectType, order, canApplyMultipleTimesDuringSubscription, canApplyMultipleTimesInEffectCollection,
 				effectButtonParameters ?? new ConsumeElementEffectButton.Parameters(elements),
 				effectInfoViewParameters ?? new TextEffectInfoView.Parameters("TODO"));
+		}
+
+		public static Subscription ConsumeElement(Element element, CanApplyFunction canApplyFunction = null,
+			ApplyFunction applyFunction = null,
+			EffectType effectType = EffectType.Selectable,
+			int order = 0, bool canApplyMultipleTimesDuringSubscription = false, bool canApplyMultipleTimesInEffectCollection = false,
+			EffectButtonParameters effectButtonParameters = null, EffectInfoViewParameters effectInfoViewParameters = null)
+		{
+			return ConsumeElement([CardElementConsumption.Consume(element)], canApplyFunction, applyFunction, effectType, order,
+				canApplyMultipleTimesDuringSubscription, canApplyMultipleTimesInEffectCollection, effectButtonParameters, effectInfoViewParameters)
 		}
 
 		public override bool CanApply(ParametersBase parameters)
