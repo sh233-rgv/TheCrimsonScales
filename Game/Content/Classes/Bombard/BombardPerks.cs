@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 
 public class BombardPerks
@@ -147,7 +148,7 @@ public class BombardPerks
 		public override bool IgnoreItemMinusOneEffects => true;
 	}
 
-	public class EmergencyEmplacement : BombardPerk
+	public class EmergencyEmplacement : BombardPerk, IEventSubscriber
 	{
 		protected override string Title => "Emergency Emplacement";
 
@@ -158,7 +159,17 @@ public class BombardPerks
 		{
 			await base.OnScenarioSetupPhaseCompleted(character);
 
-			//TODO: Implement
+			ScenarioEvents.ShortRestStartedEvent.Subscribe(this,
+				parameters => parameters.Character == character,
+				async parameters =>
+				{
+					await AbilityCmd.AddCondition(null, character, Conditions.Immobilize);
+					foreach(AbilityState abilityState in character.Cards.SelectMany(card => card.ActiveActionStates).SelectMany(actionState => actionState.AbilityStates.Where(abilityState => abilityState is ProjectileAbility.State)))
+					{
+						ProjectileAbility.State projectileState = (ProjectileAbility.State)abilityState;
+						await projectileState.PerformAbilities();
+					}
+				});
 		}
 	}
 }

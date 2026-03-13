@@ -287,12 +287,20 @@ public partial class ScenarioEvents
 	public static InflictConditionDuplicatesCheck InflictConditionDuplicatesCheckEvent =>
 		GameController.Instance.ScenarioEvents._inflictConditionDuplicatesCheck;
 
-	public class DuringGrant : ScenarioEvent<DuringGrant.Parameters>
+	public class ConditionAdded : ScenarioEvent<ConditionAdded.Parameters>
 	{
-		public class Parameters(GrantAbility.State abilityState) : ParametersBase<GrantAbility.State>(abilityState)
+		public class Parameters(AbilityState potentialAbilityState, Figure target, Figure potentialConditionGiver, ConditionModel conditionModel)
+			: ParametersBase
 		{
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
+			public Figure Target { get; } = target;
+			public Figure PotentialConditionGiver { get; } = potentialConditionGiver;
+			public ConditionModel ConditionModel { get; } = conditionModel;
 		}
 	}
+
+	private readonly ConditionAdded _conditionAdded = new ConditionAdded();
+	public static ConditionAdded ConditionAddedEvent => GameController.Instance.ScenarioEvents._conditionAdded;
 
 	public class RemoveCondition : ScenarioEvent<RemoveCondition.Parameters>
 	{
@@ -320,6 +328,12 @@ public partial class ScenarioEvents
 	private readonly AfterRemoveCondition _afterRemoveCondition = new AfterRemoveCondition();
 	public static AfterRemoveCondition AfterRemoveConditionEvent => GameController.Instance.ScenarioEvents._afterRemoveCondition;
 
+	public class DuringGrant : ScenarioEvent<DuringGrant.Parameters>
+	{
+		public class Parameters(GrantAbility.State abilityState) : ParametersBase<GrantAbility.State>(abilityState)
+		{
+		}
+	}
 
 	private readonly DuringGrant _duringGrant = new DuringGrant();
 	public static DuringGrant DuringGrantEvent => GameController.Instance.ScenarioEvents._duringGrant;
@@ -356,6 +370,7 @@ public partial class ScenarioEvents
 			public bool FromAttack { get; }
 
 			public bool WouldSufferDamage => CalculatedCurrentDamage > 0 && !DamagePrevented;
+			public int TotalShield => Shield + UnpierceableShield;
 
 			public Parameters(AbilityState abilityState, Figure figure, Figure potentialDamageDealer, int initialDamage, bool fromAttack)
 			{
@@ -474,6 +489,26 @@ public partial class ScenarioEvents
 
 	private readonly AfterSufferDamage _afterSufferDamage = new AfterSufferDamage();
 	public static AfterSufferDamage AfterSufferDamageEvent => GameController.Instance.ScenarioEvents._afterSufferDamage;
+
+	public class LosingCardToNegateDamage : ScenarioEvent<LosingCardToNegateDamage.Parameters>
+	{
+		public class Parameters(Character character, AbilityCard abilityCard, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
+		{
+			public Character Character { get; } = character;
+			public AbilityCard AbilityCard { get; } = abilityCard;
+			public SufferDamage.Parameters SufferDamageParameters { get; } = sufferDamageParameters;
+
+			public bool Prevented { get; private set; }
+
+			public void SetPrevented()
+			{
+				Prevented = true;
+			}
+		}
+	}
+
+	private readonly LosingCardToNegateDamage _losingCardToNegateDamage = new LosingCardToNegateDamage();
+	public static LosingCardToNegateDamage LosingCardToNegateDamageEvent => GameController.Instance.ScenarioEvents._losingCardToNegateDamage;
 
 	public class BeforeFigureKilled : ScenarioEvent<BeforeFigureKilled.Parameters>
 	{
