@@ -80,7 +80,7 @@ public class HierophantAMDCards
 				[
 					ShieldAbility.Builder().WithShieldValue(1).Build()
 				])
-				.WithRange(100)
+				.WithInfiniteRange()
 				.Build()
 		];
 	}
@@ -113,7 +113,7 @@ public class HierophantAMDCards
 		[
 			HealAbility.Builder()
 				.WithHealValue(1)
-				.WithRange(100)
+				.WithInfiniteRange()
 				.Build()
 		];
 	}

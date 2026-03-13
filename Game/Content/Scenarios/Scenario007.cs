@@ -182,7 +182,7 @@ public class Scenario007 : ScenarioModel
 		}
 
 		Hex hex = water.Hex;
-		List<Hex> hexes = RangeHelper.GetHexesInRange(hex, 100, requiresLineOfSight: false).ToList();
+		List<Hex> hexes = RangeHelper.GetHexesInRange(hex, RangeHelper.InfiniteRange, requiresLineOfSight: false).ToList();
 		hexes.Shuffle(GameController.Instance.StateRNG);
 		hexes.Sort((otherHexA, otherHexB) => RangeHelper.Distance(hex, otherHexA).CompareTo(RangeHelper.Distance(hex, otherHexB)));
 

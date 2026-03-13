@@ -12,26 +12,3 @@
 	Lost = 2,
 	UnrecoverablyLost = 3
 }
-
-public class CardStates
-{
-	public static bool IsLoss(CardState cardState)
-	{
-		return cardState is CardState.PersistentLoss or CardState.RoundLoss or CardState.Lost or CardState.UnrecoverablyLost;
-	}
-
-	public static bool IsRound(CardState cardState)
-	{
-		return cardState is CardState.RoundLoss or CardState.Round;
-	}
-
-	public static bool IsPersistent(CardState cardState)
-	{
-		return cardState is CardState.PersistentLoss or CardState.Persistent or CardState.PersistentNoDeactivate;
-	}
-
-	public static bool IsActive(CardState cardState)
-	{
-		return IsRound(cardState) || IsPersistent(cardState);
-	}
-}

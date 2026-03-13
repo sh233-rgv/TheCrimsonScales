@@ -349,6 +349,12 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 			return (TBuilder)this;
 		}
 
+		public TBuilder WithInfiniteRange()
+		{
+			Obj.Range = RangeHelper.InfiniteRange;
+			return (TBuilder)this;
+		}
+
 		public TBuilder WithRangeType(RangeType rangeType)
 		{
 			_rangeType = rangeType;

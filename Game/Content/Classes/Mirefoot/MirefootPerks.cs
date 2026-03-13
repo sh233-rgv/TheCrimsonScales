@@ -167,7 +167,7 @@ public class MirefootPerks
 		protected override string Title => "Hidden Blade";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
-			$"Gain Item 011 Poison Dagger. You may bring one additional Dagger {Icons.Inline(Icons.GetItem(ItemType.OneHand), richTextParameters)} item into each scenario.";
+			$"Gain a 'Poison Dagger' item. At the start of each scenario, you may select an additional Dagger {Icons.Inline(Icons.GetItem(ItemType.OneHand), richTextParameters)} item to equip.";
 
 		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 		{

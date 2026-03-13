@@ -130,7 +130,7 @@ public class StarslingerPerks
 								[
 									MoveAbility.Builder().WithDistance(2).Build()
 								])
-								.WithRange(100)
+								.WithRange(RangeHelper.InfiniteRange)
 								.Build()
 						]).Perform();
 					}

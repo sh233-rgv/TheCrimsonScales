@@ -104,7 +104,7 @@ public class RoundPhase : ScenarioPhase
 			for(int i = character.Cards.Count - 1; i >= 0; i--)
 			{
 				AbilityCard card = character.Cards[i];
-				if(CardStates.IsRound(card.CardState))
+				if(card.CardState.IsRound())
 				{
 					await AbilityCmd.DiscardOrLose(card);
 				}

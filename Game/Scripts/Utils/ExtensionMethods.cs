@@ -94,4 +94,24 @@ public static class ExtensionMethods
 	{
 		return coords + Map.NeighbourOffsets[(int)direction];
 	}
+
+	public static bool IsLoss(this CardState cardState)
+	{
+		return cardState is CardState.PersistentLoss or CardState.RoundLoss or CardState.Lost or CardState.UnrecoverablyLost;
+	}
+
+	public static bool IsRound(this CardState cardState)
+	{
+		return cardState is CardState.RoundLoss or CardState.Round;
+	}
+
+	public static bool IsPersistent(this CardState cardState)
+	{
+		return cardState is CardState.PersistentLoss or CardState.Persistent or CardState.PersistentNoDeactivate;
+	}
+
+	public static bool IsActive(this CardState cardState)
+	{
+		return IsRound(cardState) || IsPersistent(cardState);
+	}
 }

@@ -145,7 +145,8 @@ public class ChieftainPerks
 			await base.OnScenarioSetupPhaseCompleted(character);
 
 			ScenarioEvents.RetaliateEvent.Subscribe(this,
-				parameters => Chieftain.GetIsMounted(character) && parameters.Performer is Summon summon && character.Summons.Contains(summon),
+				parameters => Chieftain.GetIsMounted(character) && parameters.Performer is Summon summon && summon.CharacterOwner == character &&
+				              RangeHelper.Distance(summon.Hex, character.Hex) <= 1,
 				async parameters =>
 				{
 					parameters.SetRetaliateBlocked();

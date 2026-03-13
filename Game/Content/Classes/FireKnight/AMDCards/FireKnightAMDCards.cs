@@ -17,7 +17,7 @@ public class FireKnightAMDCards
 			ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)
 				.WithTarget(Target.Allies)
-				.WithRange(100)
+				.WithInfiniteRange()
 				.Build()
 		];
 	}
@@ -97,7 +97,7 @@ public class FireKnightAMDCards
 			ConditionAbility.Builder()
 				.WithConditions(Conditions.Strengthen)
 				.WithTarget(Target.Allies)
-				.WithRange(100)
+				.WithInfiniteRange()
 				.Build()
 		];
 	}

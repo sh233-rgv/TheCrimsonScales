@@ -151,7 +151,7 @@ public class LuminaryPerks
 			await base.OnScenarioSetupPhaseCompleted(character);
 
 			ScenarioEvents.AbilityCardSideEndedEvent.Subscribe(this,
-				parameters => parameters.Performer == character && CardStates.IsLoss(parameters.ResultingState),
+				parameters => parameters.Performer == character && parameters.ResultingState.IsLoss(),
 				async _ =>
 				{
 					AbilityCard selectedAbilityCard = await AbilityCmd.SelectAbilityCard(character, CardState.Hand,

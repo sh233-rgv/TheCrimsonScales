@@ -6,7 +6,6 @@ public partial class PerkConfirmationPopup : Popup<PerkConfirmationPopup.Request
 	public class Request : PopupRequest
 	{
 		public SavedCharacter SavedCharacter { get; init; }
-		public PerkModel PerkModel { get; init; }
 		public int PerkIndex { get; init; }
 	}
 
@@ -49,7 +48,7 @@ public partial class PerkConfirmationPopup : Popup<PerkConfirmationPopup.Request
 	{
 		base.OnOpen();
 
-		PerkModel perkModel = PopupRequest.PerkModel;
+		PerkModel perkModel = PopupRequest.SavedCharacter.ClassModel.Perks[PopupRequest.PerkIndex];
 
 		string effectsText = string.Empty;
 
@@ -58,6 +57,7 @@ public partial class PerkConfirmationPopup : Popup<PerkConfirmationPopup.Request
 			effectsText += "Ignore scenario effects.";
 		}
 
+		RichTextParameters richTextParameters = _effectsLabel.GetRichTextParameters();
 		if(perkModel.IgnoreItemMinusOneEffects)
 		{
 			if(!string.IsNullOrEmpty(effectsText))
@@ -65,10 +65,10 @@ public partial class PerkConfirmationPopup : Popup<PerkConfirmationPopup.Request
 				effectsText += "\n";
 			}
 
-			effectsText += $"Ignore item {Icons.Inline(Icons.MinusOneCard, _effectsLabel.GetRichTextParameters())} effects.";
+			effectsText += $"Ignore item {Icons.Inline(Icons.MinusOneCard, richTextParameters)} effects.";
 		}
 
-		string nonAMDDescription = perkModel.GetNonAMDDescription(_effectsLabel.GetRichTextParameters());
+		string nonAMDDescription = perkModel.GetNonAMDDescription(richTextParameters);
 		if(!string.IsNullOrEmpty(nonAMDDescription))
 		{
 			if(!string.IsNullOrEmpty(effectsText))
@@ -127,7 +127,7 @@ public partial class PerkConfirmationPopup : Popup<PerkConfirmationPopup.Request
 
 	private void OnConfirmPressed()
 	{
-		PopupRequest.SavedCharacter.AcquirePerk(PopupRequest.PerkIndex, PopupRequest.PerkModel);
+		PopupRequest.SavedCharacter.AcquirePerk(PopupRequest.PerkIndex);
 
 		AppController.Instance.SaveFile.Save();
 

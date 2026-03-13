@@ -1,7 +1,0 @@
-[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://bbqho4j6mo34m"]
-
-[ext_resource type="Texture2D" uid="uid://c81yrpljk10uc" path="res://Content/Classes/Artificer/Artwork.jpg" id="1_mb6l5"]
-
-[resource]
-atlas = ExtResource("1_mb6l5")
-region = Rect2(240, 260, 400, 600)

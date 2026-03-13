@@ -6,7 +6,7 @@ using Godot;
 public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.CardBottom>
 {
 	public override string Name => "Regal Beast";
-	public override int Level => 1;
+	public override int Level => 9;
 	public override int Initiative => 81;
 	protected override int AtlasIndex => 28;
 
@@ -96,7 +96,7 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 					foreach(AbilityCardSide abilitySide in abilitySides)
 					{
 						await abilitySide.Perform(state.Performer);
-						if(!CardStates.IsPersistent(abilitySide.AbilityCard.CardState))
+						if(!abilitySide.AbilityCard.CardState.IsPersistent())
 						{
 							await abilitySide.AbilityCard.SetCardState(CardState.Lost);
 						}

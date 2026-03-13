@@ -21,7 +21,7 @@ public class SpiritualGains : HierophantLevelUpCardModel<SpiritualGains.CardTop,
 					//TODO: Add visual for character tokens
 					ScenarioEvents.AbilityCardSideEndedEvent.Subscribe(state, this,
 						parameters => parameters.Performer == state.Performer &&
-						              CardStates.IsLoss(parameters.AbilityCardSide.AbilityCard.CardState) &&
+						              parameters.AbilityCardSide.AbilityCard.CardState.IsLoss() &&
 						              parameters.AbilityCardSide.Model != this,
 						async parameters =>
 						{

@@ -14,7 +14,7 @@ public class Experimentation : TheCrimsonScalesPersonalQuest<PersonalQuestData>
 		ScenarioEvents.AbilityCardSideEndedEvent.Subscribe(character, this,
 			parameters =>
 				parameters.Performer == character &&
-				CardStates.IsLoss(parameters.ResultingState),
+				parameters.ResultingState.IsLoss(),
 			async parameters =>
 			{
 				personalQuestData.AdjustProgress(1, character);
