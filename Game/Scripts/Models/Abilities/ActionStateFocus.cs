@@ -142,6 +142,11 @@ public partial class ActionState
 						continue;
 					}
 
+					if(figureFocusCheckParameters.FocusGenericCriteria?.Invoke(potentialTarget) == true)
+					{
+						continue;
+					}
+
 					ScenarioCheckEvents.CanBeFocusedCheck.Parameters canBeFocusedParameters =
 						ScenarioCheckEvents.CanBeFocusedCheckEvent.Fire(
 							new ScenarioCheckEvents.CanBeFocusedCheck.Parameters(Performer, potentialTarget));

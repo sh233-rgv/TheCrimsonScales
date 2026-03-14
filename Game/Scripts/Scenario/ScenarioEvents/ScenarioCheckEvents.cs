@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public partial class ScenarioCheckEvents
 {
@@ -51,11 +52,15 @@ public partial class ScenarioCheckEvents
 		{
 			public AbilityState AbilityState { get; } = abilityState;
 			public ActionState ActionState { get; } = abilityState.ActionState;
-
+			
 			public bool FocusFarthest { get; private set; }
 			public Figure FocusFigure { get; private set; }
+			public Func<Figure, bool> FocusGenericCriteria { get; private set; }
 
-			public bool IsGeneralFocus => FocusFigure == null && !FocusFarthest;
+			public void SetFocusGenericCriteria(Func<Figure, bool> genericCriteria)
+			{
+				FocusGenericCriteria = genericCriteria;
+			}
 
 			public void SetFocusFarthest()
 			{

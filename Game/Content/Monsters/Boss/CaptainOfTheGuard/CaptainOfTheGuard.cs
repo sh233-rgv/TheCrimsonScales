@@ -105,7 +105,6 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
-	// IBossMonsterModel
 	public string GetSpecial1Description(Monster monster) => $"""
 	                                                          {Icons.Inline(Icons.Heal)}2, {Icons.Inline(Icons.Targets)}all
 	                                                          """;

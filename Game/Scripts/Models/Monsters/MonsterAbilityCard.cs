@@ -49,7 +49,7 @@ public class MonsterAbilityCard : IDeckCard, IActionSource
 				parameters => parameters.ActionState == actionState,
 				parameters =>
 				{
-					Model.AdjustFocus(parameters);
+					Model.AdjustFocus(parameters, performer);
 				});
 		}
 

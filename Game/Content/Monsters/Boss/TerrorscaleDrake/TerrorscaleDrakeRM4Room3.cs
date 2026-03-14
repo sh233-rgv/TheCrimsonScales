@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 
-public class TerrorscaleDrakeRM4Room3 : TerrorscaleDrake, IBossMonsterModel
+public class TerrorscaleDrakeRM4Room3 : TerrorscaleDrake
 {
 	public override string GetSpecial1Description(Monster monster) =>
 		$"""
+		 Brood Mother's Call -
 		 {Icons.Inline(Icons.Move)}{monster.Stats.Move + 1}, {Icons.Inline(Icons.Jump)}
 		 {Icons.Inline(Icons.Attack)}{monster.Stats.Attack}, only {Icons.Inline(Icons.Range)}4/5, {Icons.Inline(Icons.GetCondition(Conditions.Poison1))}
 		 """;
 
 	public override string GetSpecial2Description(Monster monster) =>
 		$"""
+		 Desperate Roar -
 		 {Icons.Inline(Icons.Move)}{monster.Stats.Move - 2}, {Icons.Inline(Icons.Jump)}
 		 {Icons.Inline(Icons.Attack)}{monster.Stats.Attack}, {Icons.Inline(Icons.Targets)}all enemies within 3 hexes, {Icons.Inline(Icons.Push)}2, {Icons.Inline(Icons.GetCondition(Conditions.Muddle))}
 		 """;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public abstract class BossAbilityCard : MonsterAbilityCardModel
 {
@@ -22,6 +23,9 @@ public class BossAbilityCard0 : BossAbilityCard
 	public override int Initiative => 11;
 	public override int CardIndex => 0;
 
+	public override Action<ScenarioCheckEvents.FigureFocusCheck.Parameters, Monster> AdjustFocus => (parameters, monster) =>
+		((IBossMonsterModel)monster.MonsterModel).AdjustFocusSpecial2?.Invoke(parameters);
+
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 		((IBossMonsterModel)monster.MonsterModel).GetSpecial2Abilities(monster);
 }
@@ -30,6 +34,9 @@ public class BossAbilityCard1 : BossAbilityCard
 {
 	public override int Initiative => 14;
 	public override int CardIndex => 1;
+
+	public override Action<ScenarioCheckEvents.FigureFocusCheck.Parameters, Monster> AdjustFocus => (parameters, monster) =>
+		((IBossMonsterModel)monster.MonsterModel).AdjustFocusSpecial2?.Invoke(parameters);
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 		((IBossMonsterModel)monster.MonsterModel).GetSpecial2Abilities(monster);
@@ -41,6 +48,9 @@ public class BossAbilityCard2 : BossAbilityCard
 	public override int CardIndex => 2;
 	public override bool Reshuffles => true;
 
+	public override Action<ScenarioCheckEvents.FigureFocusCheck.Parameters, Monster> AdjustFocus => (parameters, monster) =>
+		((IBossMonsterModel)monster.MonsterModel).AdjustFocusSpecial2?.Invoke(parameters);
+
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 		((IBossMonsterModel)monster.MonsterModel).GetSpecial2Abilities(monster);
 }
@@ -51,6 +61,9 @@ public class BossAbilityCard3 : BossAbilityCard
 	public override int CardIndex => 3;
 	public override bool Reshuffles => true;
 
+	public override Action<ScenarioCheckEvents.FigureFocusCheck.Parameters, Monster> AdjustFocus => (parameters, monster) =>
+		((IBossMonsterModel)monster.MonsterModel).AdjustFocusSpecial1?.Invoke(parameters);
+
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 		((IBossMonsterModel)monster.MonsterModel).GetSpecial1Abilities(monster);
 }
@@ -60,6 +73,9 @@ public class BossAbilityCard4 : BossAbilityCard
 	public override int Initiative => 79;
 	public override int CardIndex => 4;
 
+	public override Action<ScenarioCheckEvents.FigureFocusCheck.Parameters, Monster> AdjustFocus => (parameters, monster) =>
+		((IBossMonsterModel)monster.MonsterModel).AdjustFocusSpecial1?.Invoke(parameters);
+
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 		((IBossMonsterModel)monster.MonsterModel).GetSpecial1Abilities(monster);
 }
@@ -68,6 +84,9 @@ public class BossAbilityCard5 : BossAbilityCard
 {
 	public override int Initiative => 73;
 	public override int CardIndex => 5;
+
+	public override Action<ScenarioCheckEvents.FigureFocusCheck.Parameters, Monster> AdjustFocus => (parameters, monster) =>
+		((IBossMonsterModel)monster.MonsterModel).AdjustFocusSpecial1?.Invoke(parameters);
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 		((IBossMonsterModel)monster.MonsterModel).GetSpecial1Abilities(monster);

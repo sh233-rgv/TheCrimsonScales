@@ -206,7 +206,7 @@ public class HarrowerAegisAbilityCard7 : HarrowerAegisAbilityCard
 	public override bool Reshuffles => true;
 
 	//TODO: Allow for choosing path
-	public override Action<ScenarioCheckEvents.FigureFocusCheck.Parameters> AdjustFocus => parameters => parameters.SetFocusFarthest();
+	public override Action<ScenarioCheckEvents.FigureFocusCheck.Parameters, Monster> AdjustFocus => (parameters, _) => parameters.SetFocusFarthest();
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[

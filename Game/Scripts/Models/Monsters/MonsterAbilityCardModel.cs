@@ -11,7 +11,7 @@ public abstract class MonsterAbilityCardModel : AbstractModel //, IDeckCard
 	public virtual int RowCount => 3;
 
 	public virtual bool Reshuffles => false;
-	public virtual Action<ScenarioCheckEvents.FigureFocusCheck.Parameters> AdjustFocus => null;
+	public virtual Action<ScenarioCheckEvents.FigureFocusCheck.Parameters, Monster> AdjustFocus => null;
 	public virtual IEnumerable<CardElementInfusion> ElementInfusions { get; } = [];
 	public virtual IEnumerable<CardElementConsumption> ElementConsumptions { get; } = [];
 

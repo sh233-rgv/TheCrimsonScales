@@ -13,6 +13,7 @@ public class TerrorscaleDrakeRM4Room1 : TerrorscaleDrake
 
 	public override string GetSpecial2Description(Monster monster) =>
 		$"""
+		 Scales like Tenfold Shields - 
 		 {Icons.Inline(Icons.Attack)}{monster.Stats.Attack - 2}
 		 {Icons.Inline(Icons.Shield)}{monster.Stats.CustomValue}
 		 {Icons.Inline(Icons.Retaliate)}{monster.Stats.CustomValue}
