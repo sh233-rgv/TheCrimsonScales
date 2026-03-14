@@ -18,19 +18,22 @@ public class BrightsparkAMDCards
 		public override Func<AttackAbility.State, Character, GDTask> GetExtraEffects() =>
 			async (_, potentialDeckOwner) =>
 			{
-				List<AbilityCard> discardedCards = potentialDeckOwner.Cards.Where(card => card.CardState is CardState.Discarded).ToList();
-				if(!discardedCards.Any())
+				if(potentialDeckOwner != null)
 				{
-					return;
-				}
+					List<AbilityCard> discardedCards = potentialDeckOwner.Cards.Where(card => card.CardState is CardState.Discarded).ToList();
+					if(!discardedCards.Any())
+					{
+						return;
+					}
 
-				AbilityCard card = discardedCards.PickRandom(GameController.Instance.StateRNG);
-				if(card == null)
-				{
-					return;
-				}
+					AbilityCard card = discardedCards.PickRandom(GameController.Instance.StateRNG);
+					if(card == null)
+					{
+						return;
+					}
 
-				await AbilityCmd.ReturnToHand(card);
+					await AbilityCmd.ReturnToHand(card);
+				}
 			};
 	}
 
