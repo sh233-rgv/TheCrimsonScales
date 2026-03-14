@@ -96,9 +96,9 @@ public class ChainguardAMDCards
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 
 		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
-			async (_, figure) =>
+			async (state, _) =>
 			{
-				await AbilityCmd.CreateTraps(damage: 2, range: 2, performer: figure, assetPath: "res://Content/Classes/Chainguard/Traps/cs-trap.png");
+				await AbilityCmd.CreateTraps(damage: 2, range: 2, performer: state.Performer, assetPath: "res://Content/Classes/Chainguard/Traps/cs-trap.png");
 			};
 	}
 

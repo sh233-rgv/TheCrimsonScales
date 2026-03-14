@@ -13,12 +13,11 @@ public class HierophantAMDCards
 
 		protected override int AtlasIndex => 0;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => -1;
-		public override bool CharacterSpecific => true;
 
 		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
-			async (state, figure) =>
+			async (state, potentialDeckOwner) =>
 			{
-				if(figure is Hierophant hierophant)
+				if(potentialDeckOwner is Hierophant hierophant)
 				{
 					Figure chosenFigure = await AbilityCmd.SelectFigure(hierophant,
 						figures => figures.AddRange(

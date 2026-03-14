@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Fractural.Tasks;
-using Godot;
 
 public class RuinmawAMDCards
 {
@@ -59,7 +58,7 @@ public class RuinmawAMDCards
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +2;
 
 		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
-			async (state, figure) =>
+			async (state, _) =>
 			{
 				Figure target = state.Target;
 				int coinsToLoot = 0;
@@ -84,7 +83,7 @@ public class RuinmawAMDCards
 
 						foreach(Coin coin in coins)
 						{
-							await coin.Loot(figure);
+							await coin.Loot(state.Performer);
 						}
 
 						coinsToLoot = 0;

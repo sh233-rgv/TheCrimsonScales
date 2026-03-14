@@ -28,13 +28,12 @@ public abstract class AMDCardModel : AbstractModel
 	public virtual int? Pull => null;
 	public virtual int? Swing => null;
 	public virtual int? AddedTargets => null;
-	public virtual bool CharacterSpecific => false;
 
 	public virtual List<CardElementInfusion> ElementInfusions => [];
 	public virtual List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) => [];
 	public virtual List<Ability> GetAbilities(AttackAbility.State attackAbilityState) => [];
 
-	public virtual Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() => null;
+	public virtual Func<AttackAbility.State, Character, GDTask> GetExtraEffects() => null;
 
 	public Texture2D GetTexture(AMDCardOwner owner)
 	{

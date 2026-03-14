@@ -29,7 +29,7 @@ public class AMDCard : IDeckCard
 				new ScenarioEvents.AMDCardDrawn.Parameters(attackAbilityState, this));
 
 		return new AMDCardValue(PotentialDeckOwner, Model.GetRolling(attackAbilityState), amdCardDrawnParameters.Type, amdCardDrawnParameters.Value,
-			Model.Pierce, Model.Push, Model.Pull, Model.Swing, Model.AddedTargets, Model.CharacterSpecific, Model.ElementInfusions,
+			Model.Pierce, Model.Push, Model.Pull, Model.Swing, Model.AddedTargets, Model.ElementInfusions,
 			Model.GetConditionModels(attackAbilityState),
 			Model.GetAbilities(attackAbilityState), Model.GetExtraEffects());
 	}

@@ -14,12 +14,11 @@ public class BrightsparkAMDCards
 
 		protected override int AtlasIndex => 0;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => -2;
-		public override bool CharacterSpecific => true;
 
-		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
-			async (_, figure) =>
+		public override Func<AttackAbility.State, Character, GDTask> GetExtraEffects() =>
+			async (_, potentialDeckOwner) =>
 			{
-				List<AbilityCard> discardedCards = ((Character)figure).Cards.Where(card => card.CardState is CardState.Discarded).ToList();
+				List<AbilityCard> discardedCards = potentialDeckOwner.Cards.Where(card => card.CardState is CardState.Discarded).ToList();
 				if(!discardedCards.Any())
 				{
 					return;
@@ -46,7 +45,7 @@ public class BrightsparkAMDCards
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 
 		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
-			async (state, figure) =>
+			async (state, _) =>
 			{
 				await AbilityCmd.GenericChoice(state.Authority,
 				[
@@ -55,7 +54,7 @@ public class BrightsparkAMDCards
 							state.SingleTargetAdjustAttackValue(2);
 							await GDTask.CompletedTask;
 						}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Attack)}"),
-						potentialConsumer: figure)
+						potentialConsumer: state.Performer)
 				]);
 			};
 	}

@@ -11,11 +11,11 @@ public class AdjacentEnemiesSufferSanctuaryCritAMDCard : SanctuaryCritAMDCardMod
 	protected override int AtlasIndex => 6;
 
 	public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
-		async (state, figure) =>
+		async (state, _) =>
 		{
 			foreach(Figure adjacentFigure in RangeHelper.GetFiguresInRange(state.Target.Hex, 1))
 			{
-				if(figure.EnemiesWith(adjacentFigure) && adjacentFigure != state.Target)
+				if(state.Performer.EnemiesWith(adjacentFigure) && adjacentFigure != state.Target)
 				{
 					await AbilityCmd.SufferDamage(state, adjacentFigure, 1);
 				}

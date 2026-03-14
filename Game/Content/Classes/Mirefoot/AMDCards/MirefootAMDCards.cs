@@ -106,11 +106,11 @@ public class MirefootAMDCards
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 
 		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
-			async (state, figure) =>
+			async (state, _) =>
 			{
 				if(state.Performer.Hex.HasHexObjectOfType<DifficultTerrain>())
 				{
-					await AbilityCmd.AddCondition(state, figure, Conditions.Invisible);
+					await AbilityCmd.AddCondition(state, state.Performer, Conditions.Invisible);
 				}
 			};
 	}
