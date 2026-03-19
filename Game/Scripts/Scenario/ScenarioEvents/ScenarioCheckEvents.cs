@@ -52,14 +52,20 @@ public partial class ScenarioCheckEvents
 		{
 			public AbilityState AbilityState { get; } = abilityState;
 			public ActionState ActionState { get; } = abilityState.ActionState;
-			
+
 			public bool FocusFarthest { get; private set; }
 			public Figure FocusFigure { get; private set; }
-			public Func<Figure, bool> FocusGenericCriteria { get; private set; }
+			public ConditionModel FocusCondition { get; private set; }
+			public bool FocusMostDamage { get; private set; }
 
-			public void SetFocusGenericCriteria(Func<Figure, bool> genericCriteria)
+			public void SetFocusCondition(ConditionModel conditionModel)
 			{
-				FocusGenericCriteria = genericCriteria;
+				FocusCondition = conditionModel;
+			}
+
+			public void SetFocusMostDamage()
+			{
+				FocusMostDamage = true;
 			}
 
 			public void SetFocusFarthest()

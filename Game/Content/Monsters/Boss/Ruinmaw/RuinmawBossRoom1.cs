@@ -20,7 +20,7 @@ public class RuinmawBossRoom1 : RuinmawBoss, IBossMonsterModel
 		 """;
 
 	public Action<ScenarioCheckEvents.FigureFocusCheck.Parameters> AdjustFocusSpecial1 =>
-		parameters => parameters.SetFocusGenericCriteria(figure => figure.HasCondition(Conditions.Rupture));
+		parameters => parameters.SetFocusCondition(Conditions.Rupture);
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
 
-public class RuinmawBossRoom2 : RuinmawBoss
+public class RuinmawBossRoom3 : RuinmawBoss
 {
 	public override string GetSpecial1Description(Monster monster) =>
 		$"""

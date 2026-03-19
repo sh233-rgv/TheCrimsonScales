@@ -104,7 +104,7 @@ public abstract class RuinmawBoss : MonsterModel, IBossMonsterModel
 
 	public override string Name => "Ruinmaw";
 
-	public override string AssetPath => "res://Content/Monsters/Boss/Ruinmaw";
+	public override string AssetPath => "res://Content/Classes/Ruinmaw";
 	public override string PortraitTexturePath => $"{AssetPath}/Portrait.tres";
 	public override string MapIconTexturePath => $"{AssetPath}/MapIcon.tres";
 

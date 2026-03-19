@@ -86,6 +86,12 @@ public partial class ActionState
 			return figureFocusCheckParameters.FocusFigure;
 		}
 
+		List<Figure> mostDamaged = null;
+		if(figureFocusCheckParameters.FocusMostDamage)
+		{
+			mostDamaged = GameController.Instance.Map.Figures.GroupBy(figure => figure.MaxHealth - figure.Health).MaxBy(group => group.Key).ToList();
+		}
+
 		AIMoveParameters aiMoveParameters = GetAIMoveParameters();
 
 		int range = aiMoveParameters.Range; // focusParameters.Range ?? ((Stats.Range ?? 1) + focusParameters.ExtraRange);
@@ -142,7 +148,12 @@ public partial class ActionState
 						continue;
 					}
 
-					if(figureFocusCheckParameters.FocusGenericCriteria?.Invoke(potentialTarget) == true)
+					if(figureFocusCheckParameters.FocusCondition != null && potentialTarget.HasCondition(figureFocusCheckParameters.FocusCondition))
+					{
+						continue;
+					}
+
+					if(mostDamaged != null && !mostDamaged.Contains(potentialTarget))
 					{
 						continue;
 					}
