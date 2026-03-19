@@ -47,7 +47,7 @@ public class Scenario002 : ScenarioModel
 				{
 					foreach(Figure figure in hex.GetHexObjectsOfType<Figure>())
 					{
-						if(figure.Alignment == Alignment.Enemies)
+						if(figure.Alignment == "Enemies")
 						{
 							await AbilityCmd.AddCondition(null, figure, Conditions.Strengthen);
 						}

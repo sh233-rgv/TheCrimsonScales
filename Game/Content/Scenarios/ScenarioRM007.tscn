@@ -163,6 +163,7 @@ MonsterModelId = "RUINMAW_BOSS.RUINMAW_BOSS_ROOM1"
 MonsterType2Characters = 2
 MonsterType3Characters = 2
 MonsterType4Characters = 2
+Alignment = "2"
 
 [node name="MonsterSpawner3" parent="Map/Rooms/Room" index="36" unique_id=828851517 instance=ExtResource("12_afn7y")]
 position = Vector2(-109.11921, 567)
@@ -236,8 +237,7 @@ MonsterModelId = "MONSTER_MODEL.GIANT_VIPER"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 MonsterType4Characters = 0
-Alignment = 4
-Enemies = 0
+Alignment = "OtherScenarioRM7"
 
 [node name="MonsterSpawner2" parent="Map/Rooms/Room3" index="11" unique_id=1056878523 instance=ExtResource("12_afn7y")]
 position = Vector2(2182.384, -1134)
@@ -245,8 +245,7 @@ MonsterModelId = "MONSTER_MODEL.GIANT_VIPER"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 MonsterType4Characters = 0
-Alignment = 4
-Enemies = 0
+Alignment = "OtherScenarioRM7"
 
 [node name="MonsterSpawner3" parent="Map/Rooms/Room3" index="12" unique_id=858002391 instance=ExtResource("12_afn7y")]
 position = Vector2(1309.4304, -1134)
@@ -254,23 +253,20 @@ MonsterModelId = "MONSTER_MODEL.GIANT_VIPER"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 MonsterType4Characters = 0
-Alignment = 4
-Enemies = 0
+Alignment = "OtherScenarioRM7"
 
 [node name="MonsterSpawner4" parent="Map/Rooms/Room3" index="13" unique_id=989670072 instance=ExtResource("12_afn7y")]
 position = Vector2(1527.6688, 0)
 MonsterModelId = "MONSTER_MODEL.HOUND"
 MonsterType3Characters = 1
 MonsterType4Characters = 0
-Alignment = 4
-Enemies = 0
+Alignment = "OtherScenarioRM7"
 
 [node name="MonsterSpawner6" parent="Map/Rooms/Room3" index="14" unique_id=1216426498 instance=ExtResource("12_afn7y")]
 position = Vector2(654.7151, -756)
 MonsterModelId = "MONSTER_MODEL.HOUND"
 MonsterType4Characters = 0
-Alignment = 4
-Enemies = 0
+Alignment = "OtherScenarioRM7"
 
 [node name="MonsterSpawner5" parent="Map/Rooms/Room3" index="15" unique_id=756416693 instance=ExtResource("12_afn7y")]
 position = Vector2(1200.3112, -567)
@@ -278,8 +274,7 @@ MonsterModelId = "MONSTER_MODEL.HOUND"
 MonsterType2Characters = 1
 MonsterType3Characters = 0
 MonsterType4Characters = 1
-Alignment = 4
-Enemies = 0
+Alignment = "OtherScenarioRM7"
 
 [node name="MonsterSpawner8" parent="Map/Rooms/Room3" index="16" unique_id=25795276 instance=ExtResource("12_afn7y")]
 position = Vector2(1745.9071, -756)
@@ -294,8 +289,7 @@ MonsterModelId = "MONSTER_MODEL.HOUND"
 MonsterType2Characters = 0
 MonsterType3Characters = 1
 MonsterType4Characters = 1
-Alignment = 4
-Enemies = 0
+Alignment = "OtherScenarioRM7"
 
 [node name="Room4" type="Node2D" parent="Map/Rooms" parent_id_path=PackedInt32Array(1508226184) index="3" unique_id=1584854637]
 script = ExtResource("2_6el0o")

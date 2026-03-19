@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Fractural.Tasks;
 using Godot;
 using GTweens.Easings;
@@ -31,8 +30,7 @@ public abstract partial class Figure : HexObject, IActionSource
 	public List<Condition> Conditions { get; } = new List<Condition>();
 	public List<FigureTrait> Traits { get; } = new List<FigureTrait>();
 
-	public Alignment Alignment { get; private set; }
-	public Alignment Enemies { get; private set; }
+	public string Alignment { get; private set; }
 
 	public bool TakingTurn { get; private set; }
 
@@ -383,14 +381,9 @@ public abstract partial class Figure : HexObject, IActionSource
 		effectView.Destroy();
 	}
 
-	public void SetAlignment(Alignment alignment)
+	public void SetAlignment(string alignment)
 	{
 		Alignment = alignment;
-	}
-
-	public void SetEnemies(Alignment alignment)
-	{
-		Enemies = alignment;
 	}
 
 	public bool AlliedWith(Figure figure, bool canBeSelf = false)
@@ -405,17 +398,12 @@ public abstract partial class Figure : HexObject, IActionSource
 			return false;
 		}
 
-		return Alignment.HasFlag(figure.Alignment);
+		return Alignment == figure.Alignment;
 	}
 
 	public bool EnemiesWith(Figure figure)
 	{
-		if(figure == null)
-		{
-			return false;
-		}
-
-		return Enemies.HasFlag(figure.Alignment);
+		return !AlliedWith(figure, true);
 	}
 
 	public virtual void AddCoin()

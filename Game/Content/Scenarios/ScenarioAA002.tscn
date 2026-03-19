@@ -350,24 +350,21 @@ position = Vector2(2946.22, 567)
 MonsterModelId = "MONSTER_MODEL.HARROWER_INFESTER"
 MonsterType3Characters = 0
 MonsterType4Characters = 0
-Alignment = 1
-Enemies = 2
+Alignment = "Characters"
 
 [node name="MonsterSpawner8" parent="Map/Rooms/Room3" index="25" instance=ExtResource("25_jcig3")]
 position = Vector2(2291.5, 1323)
 MonsterModelId = "MONSTER_MODEL.HARROWER_INFESTER"
 MonsterType3Characters = 0
 MonsterType4Characters = 0
-Alignment = 1
-Enemies = 2
+Alignment = "Characters"
 
 [node name="MonsterSpawner7" parent="Map/Rooms/Room3" index="26" instance=ExtResource("25_jcig3")]
 position = Vector2(2727.98, 1323)
 MonsterModelId = "MONSTER_MODEL.HARROWER_INFESTER"
 MonsterType2Characters = 0
 MonsterType4Characters = 0
-Alignment = 1
-Enemies = 2
+Alignment = "Characters"
 
 [node name="MonsterSpawner6" parent="Map/Rooms/Room3" index="27" instance=ExtResource("25_jcig3")]
 position = Vector2(2509.74, 945)
@@ -375,8 +372,7 @@ MonsterModelId = "MONSTER_MODEL.HARROWER_AEGIS"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 MonsterType4Characters = 0
-Alignment = 1
-Enemies = 2
+Alignment = "Characters"
 
 [node name="LightFog1H" parent="Map/Doors" index="0" instance=ExtResource("9_5opr2")]
 position = Vector2(654.715, 0)

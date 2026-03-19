@@ -49,11 +49,7 @@ public class Road32 : RoadEventModel<Road32.ChoiceA, Road32.ChoiceB>
 					if(hex != null)
 					{
 						Monster monster = await AbilityCmd.SpawnMonster(ModelDB.Monster<VermlingScout>(), MonsterType.Elite, hex);
-						if(monster != null)
-						{
-							monster.SetAlignment(Alignment.Other);
-							monster.SetEnemies(Alignment.Characters | Alignment.Enemies | Alignment.Other);
-						}
+						monster?.SetAlignment("OtherRoad32");
 					}
 				},
 				color =>

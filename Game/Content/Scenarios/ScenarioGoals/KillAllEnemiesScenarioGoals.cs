@@ -26,7 +26,7 @@
 
 		foreach(Figure figure in GameController.Instance.Map.Figures)
 		{
-			if(figure.Alignment == Alignment.Enemies && (figure is not Objective || countObjectives))
+			if(figure.Alignment == "Enemies" && (figure is not Objective || countObjectives))
 			{
 				return false;
 			}

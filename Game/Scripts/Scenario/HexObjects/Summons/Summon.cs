@@ -44,13 +44,12 @@ public partial class Summon : Figure
 		Texture2D mapIconTexture = ResourceLoader.Load<Texture2D>(mapIconTexturePath);
 		_summonViewComponent.Sprite.SetTexture(mapIconTexture);
 		float textureWidth = mapIconTexture.GetWidth();
-		_summonViewComponent.Sprite.SetScale((250f / textureWidth) * Vector2.One);
+		_summonViewComponent.Sprite.SetScale(250f / textureWidth * Vector2.One);
 
 		SetMaxHealth(Stats.Health);
 		SetHealth(Stats.Health);
 
 		SetAlignment(characterOwner.Alignment);
-		SetEnemies(characterOwner.Enemies);
 
 		if(Stats.Traits != null)
 		{

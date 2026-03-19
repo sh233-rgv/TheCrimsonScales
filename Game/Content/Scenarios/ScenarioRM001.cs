@@ -33,7 +33,7 @@ public class ScenarioRM001 : ScenarioModel
 
 		ScenarioEvents.InflictConditionEvent.Subscribe(this,
 			parameters =>
-				parameters.Target.Alignment is Alignment.Enemies &&
+				parameters.Target.Alignment is "Enemies" &&
 				AbilityCmd.CheckImmunity(parameters.ConditionModel, Conditions.Immobilize),
 			async parameters =>
 			{
@@ -44,7 +44,7 @@ public class ScenarioRM001 : ScenarioModel
 		);
 
 		ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Subscribe(this,
-			parameters => parameters.Figure.Alignment is Alignment.Enemies,
+			parameters => parameters.Figure.Alignment is "Enemies",
 			parameters =>
 			{
 				parameters.AddImmunity(Conditions.Immobilize);
@@ -91,7 +91,7 @@ public class ScenarioRM001 : ScenarioModel
 
 			ScenarioEvents.InflictConditionEvent.Subscribe(this, new object(),
 				parameters =>
-					parameters.Target.Alignment is Alignment.Enemies &&
+					parameters.Target.Alignment is "Enemies" &&
 					AbilityCmd.CheckImmunity(parameters.ConditionModel, Conditions.Disarm),
 				async parameters =>
 				{
@@ -102,7 +102,7 @@ public class ScenarioRM001 : ScenarioModel
 			);
 
 			ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Subscribe(this, new object(),
-				parameters => parameters.Figure.Alignment is Alignment.Enemies,
+				parameters => parameters.Figure.Alignment is "Enemies",
 				parameters =>
 				{
 					parameters.AddImmunity(Conditions.Disarm);
@@ -144,7 +144,7 @@ public class ScenarioRM001 : ScenarioModel
 
 			ScenarioEvents.InflictConditionEvent.Subscribe(this, new object(),
 				parameters =>
-					parameters.Target.Alignment is Alignment.Enemies &&
+					parameters.Target.Alignment is "Enemies" &&
 					AbilityCmd.CheckImmunity(parameters.ConditionModel, Conditions.Stun),
 				async parameters =>
 				{
@@ -155,7 +155,7 @@ public class ScenarioRM001 : ScenarioModel
 			);
 
 			ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Subscribe(this, new object(),
-				parameters => parameters.Figure.Alignment is Alignment.Enemies,
+				parameters => parameters.Figure.Alignment is "Enemies",
 				parameters =>
 				{
 					parameters.AddImmunity(Conditions.Stun);

@@ -45,7 +45,7 @@ public class ScenarioRM003 : ScenarioModel
 		);
 
 		ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(this,
-			parameters => parameters.Performer.Alignment == Alignment.Enemies && parameters.AbilityState.Target is Character character &&
+			parameters => parameters.Performer.Alignment == "Enemies" && parameters.AbilityState.Target is Character character &&
 			              character.Conditions.Any(condition => condition.ConditionModel.IsNegative) /*TODO: && Scenario Effects Check,*/,
 			async parameters =>
 			{

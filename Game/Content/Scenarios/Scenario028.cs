@@ -33,7 +33,7 @@ public class Scenario028 : ScenarioModel
 		if(parameters.Room == GameController.Instance.Map.Rooms[1])
 		{
 			ScenarioEvents.FigureKilledEvent.Subscribe(this,
-				canApplyParameters => GameController.Instance.Map.Figures.All(figure => figure.Alignment != Alignment.Enemies),
+				canApplyParameters => GameController.Instance.Map.Figures.All(figure => figure.Alignment != "Enemies"),
 				async applyParameters =>
 				{
 					await _door2.Unlock();

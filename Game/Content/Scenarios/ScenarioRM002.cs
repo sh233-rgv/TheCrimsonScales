@@ -27,7 +27,7 @@ public class ScenarioRM002 : ScenarioModel
 
 		ScenarioEvents.InflictConditionEvent.Subscribe(this,
 			parameters =>
-				parameters.Target.Alignment is Alignment.Enemies &&
+				parameters.Target.Alignment is "Enemies" &&
 				(AbilityCmd.CheckImmunity(parameters.ConditionModel, Conditions.Immobilize) ||
 				 AbilityCmd.CheckImmunity(parameters.ConditionModel, Conditions.Disarm) ||
 				 AbilityCmd.CheckImmunity(parameters.ConditionModel, Conditions.Stun)),
@@ -40,7 +40,7 @@ public class ScenarioRM002 : ScenarioModel
 		);
 
 		ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Subscribe(this,
-			parameters => parameters.Figure.Alignment is Alignment.Enemies,
+			parameters => parameters.Figure.Alignment is "Enemies",
 			parameters =>
 			{
 				parameters.AddImmunity(Conditions.Immobilize);

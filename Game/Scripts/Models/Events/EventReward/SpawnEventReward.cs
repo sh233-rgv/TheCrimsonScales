@@ -33,8 +33,7 @@ public class SpawnEventReward(MonsterModel monsterModel, int maxHP) : EventRewar
 			Monster monster = await AbilityCmd.SpawnMonster(monsterModel, MonsterType.Normal, hex);
 			if(monster != null)
 			{
-				monster.SetAlignment(Alignment.Characters);
-				monster.SetEnemies(Alignment.Enemies);
+				monster.SetAlignment("Characters");
 				monster.SetMaxHealth(maxHP);
 				monster.SetHealth(maxHP);
 			}

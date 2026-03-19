@@ -247,8 +247,7 @@ MonsterType2Characters = 0
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 AdjustMonsterLevel = -1
-Alignment = 1
-Enemies = 2
+Alignment = "Characters"
 
 [node name="MonsterSpawner9" parent="Map/Rooms/Room2" index="30" unique_id=1012742080 instance=ExtResource("7_vfe2g")]
 position = Vector2(654.715, -756)
@@ -256,8 +255,7 @@ MonsterModelId = "MONSTER_MODEL.INOX_ARCHER"
 MonsterType3Characters = 0
 MonsterType4Characters = 0
 AdjustMonsterLevel = -1
-Alignment = 1
-Enemies = 2
+Alignment = "Characters"
 
 [node name="MonsterSpawner10" parent="Map/Rooms/Room2" index="31" unique_id=1754321431 instance=ExtResource("7_vfe2g")]
 position = Vector2(327.358, -1701)
@@ -266,8 +264,7 @@ MonsterType2Characters = 0
 MonsterType3Characters = 0
 MonsterType4Characters = 0
 AdjustMonsterLevel = -1
-Alignment = 1
-Enemies = 2
+Alignment = "Characters"
 
 [node name="MonsterSpawner8" parent="Map/Rooms/Room2" index="32" unique_id=1263138845 instance=ExtResource("7_vfe2g")]
 position = Vector2(109.119, -1323)
@@ -276,8 +273,7 @@ MonsterType2Characters = 0
 MonsterType3Characters = 1
 MonsterType4Characters = 1
 AdjustMonsterLevel = -1
-Alignment = 1
-Enemies = 2
+Alignment = "Characters"
 
 [node name="LightFog1H" parent="Map/Doors" index="0" unique_id=1806512806 instance=ExtResource("17_3rw0n")]
 position = Vector2(327.358, -567)

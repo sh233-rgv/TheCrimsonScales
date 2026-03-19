@@ -79,7 +79,7 @@ public class Scenario011 : ScenarioModel
 				ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
 
 				ScenarioEvents.FigureKilledEvent.Subscribe(this,
-					_ => GameController.Instance.Map.Figures.All(figure => figure.Alignment != Alignment.Enemies),
+					_ => GameController.Instance.Map.Figures.All(figure => figure.Alignment != "Enemies"),
 					async _ =>
 					{
 						foreach(Room room in GameController.Instance.Map.Rooms.Where(room => room.Figures.Any(figure => figure is Character)))
@@ -91,7 +91,7 @@ public class Scenario011 : ScenarioModel
 						ScenarioEvents.FigureKilledEvent.Unsubscribe(this);
 
 						ScenarioEvents.FigureKilledEvent.Subscribe(this,
-							_ => GameController.Instance.Map.Figures.All(figure => figure.Alignment != Alignment.Enemies),
+							_ => GameController.Instance.Map.Figures.All(figure => figure.Alignment != "Enemies"),
 							async _ =>
 							{
 								UpdateScenarioText("");

@@ -68,13 +68,13 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	}
 
 	protected async GDTask<Monster> SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, Hex spawnHex,
-		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters, bool canHaveFeatures = false)
+		int? monsterLevel = null, string alignment = "Enemies", bool canHaveFeatures = false)
 	{
-		return await SpawnMonster(authority, monsterModel, monsterType, [spawnHex], monsterLevel, alignment, enemies, canHaveFeatures);
+		return await SpawnMonster(authority, monsterModel, monsterType, [spawnHex], monsterLevel, alignment, canHaveFeatures);
 	}
 
 	protected async GDTask<Monster> SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, IEnumerable<Hex> spawnHexes,
-		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters, bool canHaveFeatures = false)
+		int? monsterLevel = null, string alignment = "Enemies", bool canHaveFeatures = false)
 	{
 		spawnHexes = spawnHexes.ToList();
 		authority ??= GameController.Instance.CharacterManager.FirstAlive();
@@ -123,11 +123,11 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 			return null;
 		}
 
-		return await AbilityCmd.SpawnMonster(monsterModel, monsterType, chosenHex, monsterLevel, alignment, enemies);
+		return await AbilityCmd.SpawnMonster(monsterModel, monsterType, chosenHex, monsterLevel, alignment);
 	}
 
 	protected async GDTask SummonMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, Hex summonHex,
-		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
+		int? monsterLevel = null, string alignment = "Enemies")
 	{
 		authority ??= GameController.Instance.CharacterManager.FirstAlive();
 
@@ -145,6 +145,6 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 			return;
 		}
 
-		await AbilityCmd.SummonMonster(monsterModel, monsterType, chosenHex, monsterLevel, alignment, enemies);
+		await AbilityCmd.SummonMonster(monsterModel, monsterType, chosenHex, monsterLevel, alignment);
 	}
 }

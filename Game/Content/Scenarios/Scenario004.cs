@@ -96,7 +96,7 @@ public class Scenario004 : ScenarioModel
 
 				foreach(Figure figure in GameController.Instance.Map.Figures)
 				{
-					if(figure.Alignment == Alignment.Enemies)
+					if(figure.Alignment == "Enemies")
 					{
 						return false;
 					}
@@ -140,7 +140,7 @@ public class Scenario004 : ScenarioModel
 	{
 		MonsterModel monsterModel = marker.MarkerType == Marker.Type.a ? ModelDB.Monster<CityArcher>() : ModelDB.Monster<CityGuard>();
 		Monster monster =
-			await AbilityCmd.SpawnMonster(monsterModel, MonsterType.Normal, marker.Hex, ScenarioLevel - 1, Alignment.Other, Alignment.Other);
+			await AbilityCmd.SpawnMonster(monsterModel, MonsterType.Normal, marker.Hex, ScenarioLevel - 1, "OtherScenario4");
 
 		monster.SetHealth(4);
 		monster.SetMaxHealth(4);
@@ -219,8 +219,7 @@ public class Scenario004 : ScenarioModel
 				parameters => parameters.Figure == monster && parameters.ConditionModel == Conditions.Infect,
 				async parameters =>
 				{
-					monster.SetAlignment(Alignment.Characters);
-					monster.SetEnemies(Alignment.Enemies);
+					monster.SetAlignment("Characters");
 
 					await Unsubscribe(monster);
 
@@ -232,8 +231,7 @@ public class Scenario004 : ScenarioModel
 				parameters => parameters.AbilityState.Target == monster,
 				async parameters =>
 				{
-					monster.SetAlignment(Alignment.Characters);
-					monster.SetEnemies(Alignment.Enemies);
+					monster.SetAlignment("Characters");
 
 					await Unsubscribe(monster);
 

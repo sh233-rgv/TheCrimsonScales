@@ -44,11 +44,7 @@ public class Road08 : RoadEventModel<Road08.ChoiceA, Road08.ChoiceB>
 					if(hex != null)
 					{
 						Monster monster = await AbilityCmd.SpawnMonster(ModelDB.Monster<VermlingScout>(), MonsterType.Normal, hex);
-						if(monster != null)
-						{
-							monster.SetAlignment(Alignment.Characters);
-							monster.SetEnemies(Alignment.Enemies);
-						}
+						monster?.SetAlignment("Characters");
 					}
 				},
 				color => "At the start of the next scenario, an allied Vermling Scout will spawn next to any character."

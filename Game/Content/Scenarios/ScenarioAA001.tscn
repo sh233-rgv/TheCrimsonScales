@@ -251,8 +251,7 @@ MonsterModelId = "MONSTER_MODEL.HARROWER_AEGIS"
 MonsterType2Characters = 1
 MonsterType3Characters = 1
 MonsterType4Characters = 1
-Alignment = 1
-Enemies = 2
+Alignment = "Characters"
 
 [node name="MonsterSpawner2" parent="Map/Rooms/Room" index="57" instance=ExtResource("8_u456i")]
 position = Vector2(327.358, -567)

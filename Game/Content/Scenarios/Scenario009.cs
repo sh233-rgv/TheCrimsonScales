@@ -54,7 +54,7 @@ public class Scenario009 : ScenarioModel
 			{
 				foreach(Figure figure in GameController.Instance.Map.Figures)
 				{
-					if(figure.Alignment == Alignment.Enemies)
+					if(figure.Alignment == "Enemies")
 					{
 						return false;
 					}

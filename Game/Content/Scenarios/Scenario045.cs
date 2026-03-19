@@ -110,7 +110,6 @@ public class Scenario045 : ScenarioModel
 
 	private async GDTask SpawnMonster(MonsterModel monsterModel, MonsterType monsterType)
 	{
-		await SpawnMonster(null, monsterModel, monsterType, _markerAHexes, ScenarioLevel - 1,
-			Alignment.Characters, Alignment.Enemies);
+		await SpawnMonster(null, monsterModel, monsterType, _markerAHexes, ScenarioLevel - 1, "Characters");
 	}
 }

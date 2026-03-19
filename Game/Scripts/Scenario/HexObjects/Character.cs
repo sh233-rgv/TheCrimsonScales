@@ -74,8 +74,7 @@ public partial class Character : Figure
 		SetMaxHealth(health);
 		SetHealth(health);
 
-		SetAlignment(Alignment.Characters);
-		SetEnemies(Alignment.Enemies);
+		SetAlignment("Characters");
 
 		// Create AMD
 		AMDCardOwner amdCardOwner = (AMDCardOwner)(Index + 1);
