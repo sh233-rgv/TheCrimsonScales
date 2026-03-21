@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
 
-public partial class Treasure : LootableObject
+public partial class Treasure : LootableObject, IDamageSource
 {
 	[Export]
 	public int TreasureNumber = -1;
@@ -38,7 +38,7 @@ public partial class Treasure : LootableObject
 			}
 		);
 	}
-	
+
 	public void SetItemDesignLoot(ItemModel itemModel)
 	{
 		SetObtainLootFunction(async character =>

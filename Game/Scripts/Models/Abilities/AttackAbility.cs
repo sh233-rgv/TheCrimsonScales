@@ -374,11 +374,6 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 			abilityState.DamageDealt += finalDamage;
 			abilityState.DamagedTargets.AddIfNew(target);
 		}
-
-		if(target.IsDead)
-		{
-			abilityState.KilledTargets.Add(target);
-		}
 	}
 
 	protected override async GDTask AfterEffects(State abilityState, Figure target)
@@ -390,7 +385,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		if(!retaliateParameters.RetaliateBlocked && retaliateParameters.Retaliate > 0)
 		{
 			await AbilityCmd.SufferDamage(abilityState.Performer, retaliateParameters.Retaliate,
-				potentialDamageDealer: retaliateParameters.RetaliatingFigure);
+				potentialDamageSource: retaliateParameters.RetaliatingFigure);
 		}
 
 		await ScenarioEvents.AfterAttackPerformedEvent.CreatePrompt(

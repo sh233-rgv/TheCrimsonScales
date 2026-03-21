@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Fractural.Tasks;
 
-public class Rupture : ConditionModel
+public class Rupture : ConditionModel, IDamageSource
 {
 	public override string Name => "Rupture";
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Rupture.svg";
@@ -24,7 +24,7 @@ public class Rupture : ConditionModel
 				 parameters.AbilityState is MoveAbility.State moveState && moveState.Hexes.Count > 0),
 			async parameters =>
 			{
-				await AbilityCmd.SufferDamage(parameters.AbilityState, condition.Owner, 1);
+				await AbilityCmd.SufferDamage(condition.Owner, 1, this);
 			}
 		);
 	}

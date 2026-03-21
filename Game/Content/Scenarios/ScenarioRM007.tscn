@@ -18,9 +18,13 @@
 [ext_resource type="PackedScene" uid="uid://cvu7ik35eywq1" path="res://Content/MapTiles/A2b.tscn" id="13_smi4s"]
 [ext_resource type="PackedScene" uid="uid://c2qnecpd1tikx" path="res://Content/MapTiles/A4a.tscn" id="17_4c64x"]
 [ext_resource type="PackedScene" uid="uid://df0xuqelyjmy1" path="res://Content/MapTiles/M1b.tscn" id="18_ka85u"]
+[ext_resource type="PackedScene" uid="uid://dgovtiuaxinv" path="res://Content/OverlayTiles/Obstacles/Bush1H.tscn" id="19_xlj1v"]
+[ext_resource type="PackedScene" uid="uid://c7rpsenxfohuf" path="res://Content/OverlayTiles/Obstacles/Stump1H.tscn" id="20_vmyea"]
 [ext_resource type="Texture2D" uid="uid://cy8m2m242yydo" path="res://Art/Markers/1.png" id="21_eldsl"]
+[ext_resource type="PackedScene" uid="uid://nc1epxsho0mr" path="res://Content/OverlayTiles/DifficultTerrain/Water1H.tscn" id="21_vftdw"]
 [ext_resource type="PackedScene" uid="uid://d2lfw1iih6tw5" path="res://Content/OverlayTiles/Obstacles/RockColumn1H.tscn" id="22_vffy0"]
 [ext_resource type="Texture2D" uid="uid://7gdvkqakpe" path="res://Art/Markers/3.png" id="22_vwwv4"]
+[ext_resource type="PackedScene" uid="uid://c6ft30fynyoga" path="res://Content/OverlayTiles/Doors/LightFog1H.tscn" id="26_jh66i"]
 [ext_resource type="PackedScene" uid="uid://dsngfvtg84jtq" path="res://Content/OverlayTiles/Doors/DarkFog1H.tscn" id="28_r3a8y"]
 
 [node name="Scenario" unique_id=1776089170 instance=ExtResource("1_1bo5x")]
@@ -298,11 +302,111 @@ script = ExtResource("2_6el0o")
 position = Vector2(2837.0994, -756)
 rotation = 3.1415927
 
+[node name="MonsterSpawner" parent="Map/Rooms/Room4" index="1" unique_id=572541927 instance=ExtResource("12_afn7y")]
+position = Vector2(2837.0994, -756)
+MonsterModelId = "MONSTER_MODEL.VERMLING_SCOUT"
+MonsterType2Characters = 0
+MonsterType3Characters = 0
+MonsterType4Characters = 1
+
+[node name="MonsterSpawner2" parent="Map/Rooms/Room4" index="2" unique_id=274080448 instance=ExtResource("12_afn7y")]
+position = Vector2(3273.576, -756)
+MonsterModelId = "MONSTER_MODEL.VERMLING_SCOUT"
+MonsterType3Characters = 0
+MonsterType4Characters = 0
+
+[node name="MonsterSpawner3" parent="Map/Rooms/Room4" index="3" unique_id=1284279926 instance=ExtResource("12_afn7y")]
+position = Vector2(3164.4568, -567)
+MonsterModelId = "MONSTER_MODEL.VERMLING_SCOUT"
+MonsterType2Characters = 0
+MonsterType3Characters = 0
+MonsterType4Characters = 0
+
 [node name="Room5" type="Node2D" parent="Map/Rooms" parent_id_path=PackedInt32Array(1508226184) index="4" unique_id=1636493670]
 script = ExtResource("2_6el0o")
 
 [node name="M1b" parent="Map/Rooms/Room5" index="0" unique_id=1218363468 instance=ExtResource("18_ka85u")]
 position = Vector2(3055.3376, 378)
+
+[node name="Bush1H" parent="Map/Rooms/Room5" index="1" unique_id=1800346984 instance=ExtResource("19_xlj1v")]
+position = Vector2(2509.7417, 189)
+
+[node name="Bush1H2" parent="Map/Rooms/Room5" index="2" unique_id=335497313 instance=ExtResource("19_xlj1v")]
+position = Vector2(2946.2185, 189)
+
+[node name="Bush1H3" parent="Map/Rooms/Room5" index="3" unique_id=221938528 instance=ExtResource("19_xlj1v")]
+position = Vector2(3382.6953, 189)
+
+[node name="Stump1H" parent="Map/Rooms/Room5" index="4" unique_id=1800574812 instance=ExtResource("20_vmyea")]
+position = Vector2(2946.2185, 945)
+
+[node name="Stump1H2" parent="Map/Rooms/Room5" index="5" unique_id=2077685419 instance=ExtResource("20_vmyea")]
+position = Vector2(3273.5762, 756)
+
+[node name="Stump1H3" parent="Map/Rooms/Room5" index="6" unique_id=1504349892 instance=ExtResource("20_vmyea")]
+position = Vector2(3600.9336, 567)
+
+[node name="Water1H" parent="Map/Rooms/Room5" index="7" unique_id=379592245 instance=ExtResource("21_vftdw")]
+position = Vector2(3382.695, -189)
+
+[node name="Water1H2" parent="Map/Rooms/Room5" index="8" unique_id=304183644 instance=ExtResource("21_vftdw")]
+position = Vector2(3491.8145, 0)
+
+[node name="Water1H3" parent="Map/Rooms/Room5" index="9" unique_id=1955819139 instance=ExtResource("21_vftdw")]
+position = Vector2(3273.5762, 0)
+
+[node name="Water1H4" parent="Map/Rooms/Room5" index="10" unique_id=1442020585 instance=ExtResource("21_vftdw")]
+position = Vector2(3164.4568, 189)
+
+[node name="Water1H5" parent="Map/Rooms/Room5" index="11" unique_id=101653116 instance=ExtResource("21_vftdw")]
+position = Vector2(2837.099, 378)
+
+[node name="Water1H10" parent="Map/Rooms/Room5" index="12" unique_id=1903292025 instance=ExtResource("21_vftdw")]
+position = Vector2(2618.8606, 756)
+
+[node name="Water1H11" parent="Map/Rooms/Room5" index="13" unique_id=1153906470 instance=ExtResource("21_vftdw")]
+position = Vector2(2509.7415, 567)
+
+[node name="Water1H8" parent="Map/Rooms/Room5" index="14" unique_id=932783561 instance=ExtResource("21_vftdw")]
+position = Vector2(2727.98, 567)
+
+[node name="Water1H9" parent="Map/Rooms/Room5" index="15" unique_id=309951428 instance=ExtResource("21_vftdw")]
+position = Vector2(2618.8606, 378)
+
+[node name="Water1H6" parent="Map/Rooms/Room5" index="16" unique_id=444384119 instance=ExtResource("21_vftdw")]
+position = Vector2(3055.3376, 378)
+
+[node name="MonsterSpawner" parent="Map/Rooms/Room5" index="17" unique_id=205447196 instance=ExtResource("12_afn7y")]
+position = Vector2(3491.8145, 756)
+MonsterModelId = "MONSTER_MODEL.VERMLING_SHAMAN"
+MonsterType2Characters = 1
+MonsterType3Characters = 1
+MonsterType4Characters = 1
+
+[node name="MonsterSpawner3" parent="Map/Rooms/Room5" index="18" unique_id=260671066 instance=ExtResource("12_afn7y")]
+position = Vector2(2727.98, 945)
+MonsterModelId = "MONSTER_MODEL.VERMLING_SHAMAN"
+MonsterType2Characters = 1
+MonsterType3Characters = 1
+MonsterType4Characters = 1
+
+[node name="MonsterSpawner4" parent="Map/Rooms/Room5" index="19" unique_id=668864278 instance=ExtResource("12_afn7y")]
+position = Vector2(3164.4565, 945)
+MonsterModelId = "MONSTER_MODEL.VERMLING_SHAMAN"
+MonsterType3Characters = 1
+MonsterType4Characters = 1
+
+[node name="MonsterSpawner5" parent="Map/Rooms/Room5" index="20" unique_id=1598066654 instance=ExtResource("12_afn7y")]
+position = Vector2(3055.3376, 756)
+MonsterModelId = "RUINMAW_BOSS.RUINMAW_BOSS_ROOM5"
+MonsterType2Characters = 2
+MonsterType3Characters = 2
+MonsterType4Characters = 2
+
+[node name="MonsterSpawner2" parent="Map/Rooms/Room5" index="21" unique_id=579997156 instance=ExtResource("12_afn7y")]
+position = Vector2(3382.695, 945)
+MonsterModelId = "MONSTER_MODEL.VERMLING_SHAMAN"
+MonsterType4Characters = 1
 
 [node name="DarkFog1H" parent="Map/Doors" parent_id_path=PackedInt32Array(1045544097) index="0" unique_id=1627895093 instance=ExtResource("28_r3a8y")]
 position = Vector2(218.2384, 378)
@@ -341,6 +445,13 @@ position = Vector2(-60, -36)
 
 [node name="Sprite2D" parent="Map/Doors/DarkFog1H4/Marker/Visual" index="0" unique_id=2033660287]
 texture = ExtResource("22_vwwv4")
+
+[node name="LightFog1H" parent="Map/Doors" parent_id_path=PackedInt32Array(1045544097) index="4" unique_id=976656958 instance=ExtResource("26_jh66i")]
+position = Vector2(3055.338, -378)
+
+[node name="Marker" parent="Map/Doors/LightFog1H" index="7" unique_id=1012646154 instance=ExtResource("13_nk8yg")]
+MarkerType = 28
+_hideDuringPlay = true
 
 [editable path="Map/Doors/DarkFog1H/Marker"]
 [editable path="Map/Doors/DarkFog1H4/Marker"]

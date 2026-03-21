@@ -86,12 +86,12 @@ public static class AbilityCmd
 	}
 
 	public static async GDTask<int> SufferDamage(AbilityState potentialAbilityState, Figure target, int damage,
-		Figure potentialDamageDealer = null, bool fromAttack = false)
+		IDamageSource potentialDamageSource = null, bool fromAttack = false)
 	{
-		potentialDamageDealer ??= potentialAbilityState?.Authority;
+		potentialDamageSource ??= potentialAbilityState?.Authority;
 
 		ScenarioEvents.SufferDamage.Parameters sufferDamageParameters =
-			new ScenarioEvents.SufferDamage.Parameters(potentialAbilityState, target, potentialDamageDealer, damage, fromAttack);
+			new ScenarioEvents.SufferDamage.Parameters(potentialAbilityState, target, potentialDamageSource, damage, fromAttack);
 		EffectCollection sufferDamageCollection = ScenarioEvents.SufferDamageEvent.CreateEffectCollection(sufferDamageParameters);
 		await PromptManager.Prompt(new SufferDamagePrompt(sufferDamageParameters, sufferDamageCollection,
 			() => $"Suffer {Icons.HintText(Icons.Damage)}{sufferDamageParameters.CalculatedCurrentDamage}?"), target);
@@ -122,7 +122,7 @@ public static class AbilityCmd
 		{
 			if(potentialAbilityState == null)
 			{
-				await KillOrExhaust(target, potentialDamageDealer);
+				await KillOrExhaust(target, potentialDamageSource);
 			}
 			else
 			{
@@ -139,24 +139,29 @@ public static class AbilityCmd
 		return finalDamage;
 	}
 
-	public static async GDTask<int> SufferDamage(Figure target, int damage, Figure potentialDamageDealer, bool fromAttack = false)
+	public static async GDTask<int> SufferDamage(Figure target, int damage, IDamageSource potentialDamageSource, bool fromAttack = false)
 	{
-		return await SufferDamage(null, target, damage, potentialDamageDealer, fromAttack);
+		return await SufferDamage(null, target, damage, potentialDamageSource, fromAttack);
 	}
 
-	public static async GDTask KillOrExhaust(AbilityState potentialAbilityState, Figure target, Figure potentialKiller)
+	private static async GDTask KillOrExhaust(AbilityState potentialAbilityState, Figure target, IDamageSource potentialKillSource)
 	{
 		await ScenarioEvents.BeforeFigureKilledEvent.CreatePrompt(
-			new ScenarioEvents.BeforeFigureKilled.Parameters(potentialAbilityState, target), potentialKiller);
+			new ScenarioEvents.BeforeFigureKilled.Parameters(potentialAbilityState, target), target);
 		await target.Destroy();
 
+		if(potentialAbilityState is AttackAbility.State attackAbilityState)
+		{
+			attackAbilityState.KilledTargets.Add(target);
+		}
+
 		await ScenarioEvents.FigureKilledEvent.CreatePrompt(
-			new ScenarioEvents.FigureKilled.Parameters(potentialAbilityState, target, potentialKiller), target);
+			new ScenarioEvents.FigureKilled.Parameters(potentialAbilityState, target, potentialKillSource), target);
 	}
 
-	public static async GDTask KillOrExhaust(Figure target, Figure potentialKiller)
+	public static async GDTask KillOrExhaust(Figure target, IDamageSource potentialKillSource)
 	{
-		await KillOrExhaust(null, target, potentialKiller);
+		await KillOrExhaust(null, target, potentialKillSource);
 	}
 
 	public static async GDTask KillOrExhaust(AbilityState state, Figure target)

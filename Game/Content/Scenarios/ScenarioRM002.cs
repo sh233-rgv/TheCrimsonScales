@@ -116,14 +116,14 @@ public class ScenarioRM002 : ScenarioModel
 				              parameters.PotentialKiller != goremyonShatterMind && !goremyonShatterMind.IsDead,
 				async _ =>
 				{
-					await AbilityCmd.SufferDamage(goremyonShatterMind, ScenarioLevel + 1, null);
+					await AbilityCmd.SufferDamage(goremyonShatterMind, ScenarioLevel + 1, this);
 				});
 
 			ScenarioEvents.JustBeforeSufferDamageEvent.Subscribe(this,
 				parameters => parameters.Figure == goremyonShatterMind && parameters.Damage >= goremyonShatterMind.Health,
 				async parameters =>
 				{
-					parameters.AdjustDamage(goremyonShatterMind.Health);
+					parameters.AdjustDamage(goremyonShatterMind.Health - 1);
 					await GDTask.CompletedTask;
 				});
 

@@ -26,9 +26,10 @@ public class AMDCard : IDeckCard
 			await ScenarioEvents.AMDCardDrawnEvent.CreatePrompt(
 				new ScenarioEvents.AMDCardDrawn.Parameters(attackAbilityState, this));
 
-		return new AMDCardValue(Model.GetRolling(attackAbilityState), amdCardDrawnParameters.Type, amdCardDrawnParameters.Value, Model.Pierce,
-			Model.Push, Model.Pull, Model.Swing, Model.AddedTargets, Model.ElementInfusions, Model.GetConditionModels(attackAbilityState),
-			Model.GetAbilities(attackAbilityState), Model.GetExtraEffects(attackAbilityState));
+		AMDCardModel model = amdCardDrawnParameters.OverrideAMDCardModel ?? Model;
+		return new AMDCardValue(model.GetRolling(attackAbilityState), amdCardDrawnParameters.Type, amdCardDrawnParameters.Value, model.Pierce,
+			model.Push, model.Pull, model.Swing, model.AddedTargets, model.ElementInfusions, model.GetConditionModels(attackAbilityState),
+			model.GetAbilities(attackAbilityState), model.GetExtraEffects(attackAbilityState));
 	}
 
 	public Texture2D GetTexture()

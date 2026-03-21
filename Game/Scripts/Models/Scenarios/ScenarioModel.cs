@@ -2,7 +2,7 @@
 using System.Linq;
 using Fractural.Tasks;
 
-public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscriber
+public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscriber, IDamageSource
 {
 	public ScenarioGoals ScenarioGoals { get; private set; }
 

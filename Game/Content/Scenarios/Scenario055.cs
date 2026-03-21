@@ -135,13 +135,11 @@ public class Scenario055 : ScenarioModel
 				parameters => !tombProtector.IsDead,
 				async parameters =>
 				{
-					await AbilityCmd.SufferDamage(tombProtector, quarterHealth, tombProtector);
+					await AbilityCmd.SufferDamage(tombProtector, quarterHealth, this);
 				});
 
 			ScenarioEvents.SufferDamageEvent.Subscribe(this,
-				parameters => parameters.Figure == tombProtector && parameters.WouldSufferDamage &&
-				              parameters.PotentialDamageDealer != tombProtector &&
-				              GameController.Instance.ScenarioPhaseManager.ActivePhase is not CardSelectionPhase,
+				parameters => parameters.Figure == tombProtector && parameters.WouldSufferDamage && parameters.PotentialDamageSource != this,
 				async parameters =>
 				{
 					parameters.SetDamagePrevented();

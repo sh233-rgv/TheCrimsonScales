@@ -201,7 +201,7 @@ public class Scenario039 : ScenarioModel
 							{
 								if(hex.IsOccupied())
 								{
-									await AbilityCmd.SufferDamage(null, hex.GetHexObjectOfType<Figure>(), 3);
+									await AbilityCmd.SufferDamage(hex.GetHexObjectOfType<Figure>(), 3, this);
 								}
 
 								await SpawnMonster(null, ModelDB.Monster<EarthDemon>(), MonsterType.Normal, hex);
@@ -210,7 +210,7 @@ public class Scenario039 : ScenarioModel
 							{
 								if(_markerCHex.IsOccupied())
 								{
-									await AbilityCmd.SufferDamage(null, _markerCHex.GetHexObjectOfType<Figure>(), 3);
+									await AbilityCmd.SufferDamage(_markerCHex.GetHexObjectOfType<Figure>(), 3, this);
 								}
 
 								await SpawnMonster(null, ModelDB.Monster<EarthDemon>(), MonsterType.Elite, _markerCHex);
@@ -229,7 +229,7 @@ public class Scenario039 : ScenarioModel
 		{
 			foreach(Figure figure in GameController.Instance.Map.Figures.Where(figure => figure is Character or Summon))
 			{
-				await AbilityCmd.SufferDamage(null, figure, 2);
+				await AbilityCmd.SufferDamage(figure, 2, this);
 			}
 		}
 	}

@@ -58,15 +58,15 @@ public class Scenario026 : ScenarioModel
 			objective.Init(thermalStoneHealth, "Hot Thermal Stone");
 			ScenarioEvents.AfterAttackPerformedEvent.Subscribe(this, objective,
 				canApplyParameters => canApplyParameters.AbilityState.Target == objective &&
-				                      (canApplyParameters.AbilityState.Performer is Character || canApplyParameters.AbilityState.Performer is Summon),
+				                      canApplyParameters.AbilityState.Performer is Character or Summon,
 				async applyParameters =>
 				{
 					await AbilityCmd.SufferDamage(applyParameters.AbilityState.Performer, 1, objective);
 				}
 			);
 			ScenarioEvents.FigureKilledEvent.Subscribe(this, objective,
-				canApplyParameters => canApplyParameters.Figure == objective && (canApplyParameters.PotentialAbilityState.Performer is Character ||
-				                                                                 canApplyParameters.PotentialAbilityState.Performer is Summon),
+				canApplyParameters =>
+					canApplyParameters.Figure == objective && canApplyParameters.PotentialAbilityState.Performer is Character or Summon,
 				async applyParameters =>
 				{
 					_thermalStonesDestroyed++;

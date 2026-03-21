@@ -97,7 +97,7 @@ public class Scenario007 : ScenarioModel
 					}
 					else
 					{
-						await AbilityCmd.SufferDamage(character, HazardousTerrain.DamageAmount, character);
+						await AbilityCmd.SufferDamage(character, HazardousTerrain.DamageAmount, this);
 					}
 
 					break;
@@ -514,11 +514,11 @@ public class Scenario007 : ScenarioModel
 			{
 				foreach(Character otherCharacter in GameController.Instance.CharacterManager.Characters)
 				{
-					await AbilityCmd.SufferDamage(otherCharacter, 2, otherCharacter);
+					await AbilityCmd.SufferDamage(otherCharacter, 2, this);
 
 					foreach(Summon summon in otherCharacter.Summons)
 					{
-						await AbilityCmd.SufferDamage(summon, 2, summon);
+						await AbilityCmd.SufferDamage(summon, 2, this);
 					}
 				}
 

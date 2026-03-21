@@ -88,8 +88,7 @@ public class Scenario042 : ScenarioModel
 				{
 					Figure slyWolf = GameController.Instance.Map.Figures
 						.First(figure => figure is Monster monster && monster.MonsterModel is SlyWolf);
-					await AbilityCmd.SufferDamage(slyWolf,
-						GameController.Instance.SavedCampaign.Characters.Count, slyWolf);
+					await AbilityCmd.SufferDamage(slyWolf, GameController.Instance.SavedCampaign.Characters.Count, this);
 					houndsToSpawn++;
 				});
 
@@ -213,7 +212,7 @@ public class Scenario042 : ScenarioModel
 				{
 					Figure kingCobra =
 						GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is KingCobra);
-					await AbilityCmd.SufferDamage(kingCobra, applyParameters.Damage, kingCobra);
+					await AbilityCmd.SufferDamage(kingCobra, applyParameters.Damage, this);
 
 					await GDTask.CompletedTask;
 				});

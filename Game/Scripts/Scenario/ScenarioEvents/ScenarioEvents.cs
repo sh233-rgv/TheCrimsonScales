@@ -101,6 +101,8 @@ public partial class ScenarioEvents
 			public AMDCard AMDCard = amdCard;
 			public AMDCardType Type { get; private set; } = amdCard.Model.Type;
 			public int? Value { get; private set; } = amdCard.Model.GetValue(abilityState);
+			public AMDCardModel OverrideAMDCardModel;
+
 
 			public void SetType(AMDCardType type)
 			{
@@ -110,6 +112,13 @@ public partial class ScenarioEvents
 			public void SetValue(int? value)
 			{
 				Value = value;
+			}
+
+			public void SetOverrideAMDCardModel(AMDCardModel model)
+			{
+				OverrideAMDCardModel = model;
+				Type = model.Type;
+				Value = model.GetValue(AbilityState);
 			}
 		}
 	}
@@ -354,6 +363,7 @@ public partial class ScenarioEvents
 		{
 			public AbilityState PotentialAbilityState { get; }
 			public Figure Figure { get; }
+			public IDamageSource PotentialDamageSource { get; }
 			public Figure PotentialDamageDealer { get; }
 			public int InitialDamage { get; }
 
@@ -374,11 +384,12 @@ public partial class ScenarioEvents
 			public bool WouldSufferDamage => CalculatedCurrentDamage > 0 && !DamagePrevented;
 			public int TotalShield => Shield + UnpierceableShield;
 
-			public Parameters(AbilityState abilityState, Figure figure, Figure potentialDamageDealer, int initialDamage, bool fromAttack)
+			public Parameters(AbilityState abilityState, Figure figure, IDamageSource potentialDamageSource, int initialDamage, bool fromAttack)
 			{
 				PotentialAbilityState = abilityState;
 				Figure = figure;
-				PotentialDamageDealer = potentialDamageDealer;
+				PotentialDamageSource = potentialDamageSource;
+				PotentialDamageDealer = potentialDamageSource as Figure;
 				InitialDamage = initialDamage;
 				FromAttack = fromAttack;
 
@@ -544,11 +555,12 @@ public partial class ScenarioEvents
 
 	public class FigureKilled : ScenarioEvent<FigureKilled.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, Figure figure, Figure potentialKiller) : ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, Figure figure, IDamageSource potentialKillSource) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Figure Figure { get; } = figure;
-			public Figure PotentialKiller { get; } = potentialKiller;
+			public IDamageSource PotentialKillSource { get; } = potentialKillSource;
+			public Figure PotentialKiller { get; } = potentialKillSource as Figure;
 		}
 	}
 

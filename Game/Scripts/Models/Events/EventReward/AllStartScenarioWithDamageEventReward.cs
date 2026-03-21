@@ -1,7 +1,7 @@
 ﻿using Fractural.Tasks;
 using Godot;
 
-public class AllStartScenarioWithDamageEventReward(int damage) : EventReward
+public class AllStartScenarioWithDamageEventReward(int damage) : EventReward, IDamageSource
 {
 	public override EventRewardType Type => EventRewardType.ScenarioStart;
 
@@ -14,7 +14,7 @@ public class AllStartScenarioWithDamageEventReward(int damage) : EventReward
 
 		foreach(Character character in GameController.Instance.CharacterManager.Characters)
 		{
-			await AbilityCmd.SufferDamage(character, damage, character);
+			await AbilityCmd.SufferDamage(character, damage, this);
 		}
 	}
 }

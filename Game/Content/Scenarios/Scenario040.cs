@@ -44,13 +44,12 @@ public class Scenario040 : ScenarioModel
 			GameController.Instance.Map.Figures.First(figure => figure is Monster monster && monster.MonsterModel is DrakePorter);
 		ScenarioEvents.FigureKilledEvent.Subscribe(this, _door1,
 			canApply: parameters =>
-				parameters.Figure is Monster monster && (monster.MonsterModel is RendingDrake || monster.MonsterModel is SpittingDrake),
+				parameters.Figure is Monster monster && monster.MonsterModel is RendingDrake or SpittingDrake,
 			apply: async parameters =>
 			{
 				if(!drakePorter.IsDead)
 				{
-					await AbilityCmd.SufferDamage(parameters.PotentialAbilityState, drakePorter, 2);
-					//TODO: add state
+					await AbilityCmd.SufferDamage(drakePorter, 2, this);
 				}
 
 				await GDTask.CompletedTask;

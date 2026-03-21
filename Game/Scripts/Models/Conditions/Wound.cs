@@ -1,6 +1,6 @@
 ﻿using Fractural.Tasks;
 
-public class Wound : ConditionModel
+public class Wound : ConditionModel, IDamageSource
 {
 	public override string Name => "Wound";
 	public override string IconPath => "res://Art/Icons/ConditionsAndEffects/Wound.svg";
@@ -19,7 +19,7 @@ public class Wound : ConditionModel
 			async parameters =>
 			{
 				condition.Flash();
-				await AbilityCmd.SufferDamage(condition.Owner, UpgradableLevel, condition.Owner);
+				await AbilityCmd.SufferDamage(condition.Owner, UpgradableLevel, this);
 			}
 		);
 	}

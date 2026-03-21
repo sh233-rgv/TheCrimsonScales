@@ -21,7 +21,7 @@ public class Scenario016 : ScenarioModel
 
 		GameController.Instance.Map.Treasures[0].SetObtainLootFunction(async character =>
 		{
-			await AbilityCmd.SufferDamage(character, HazardousTerrain.DamageAmount, character);
+			await AbilityCmd.SufferDamage(character, HazardousTerrain.DamageAmount, GameController.Instance.Map.Treasures[0]);
 			await AbilityCmd.AddCondition(null, character, Conditions.Invisible);
 		});
 		GameController.Instance.Map.Treasures[1].SetObtainLootFunction(async character =>

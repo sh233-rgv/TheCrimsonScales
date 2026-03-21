@@ -50,7 +50,7 @@ public class Scenario028 : ScenarioModel
 				canApplyParameters => canApplyParameters.Figure is Monster monster && monster.MonsterModel is LivingBones,
 				async applyParameters =>
 				{
-					await AbilityCmd.SufferDamage(null, _fountainOfBones, GameController.Instance.SavedCampaign.Characters.Count + 1);
+					await AbilityCmd.SufferDamage(_fountainOfBones, GameController.Instance.SavedCampaign.Characters.Count + 1, this);
 				});
 		}
 	}
