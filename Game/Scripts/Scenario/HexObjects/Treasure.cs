@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
 
-public partial class Treasure : LootableObject
+public partial class Treasure : LootableObject, IEventSubscriber
 {
 	[Export]
 	public int TreasureNumber = -1;
@@ -23,6 +23,17 @@ public partial class Treasure : LootableObject
 		{
 			await Destroy(true);
 		}
+
+		if(TreasureNumber == -1)
+		{
+			ScenarioCheckEvents.GenericInfoItemExtraEffectsCheckEvent.Subscribe(this,
+				parameters => parameters.HexObject == this,
+				parameters =>
+				{
+					parameters.Add(new InfoTextExtraEffect.Parameters("This treasure tile is a Goal tile, see special rules."));
+				}
+			);
+		}
 	}
 
 	public void SetObtainLootFunction(Func<Character, GDTask> obtainLootFunction)
@@ -38,7 +49,7 @@ public partial class Treasure : LootableObject
 			}
 		);
 	}
-	
+
 	public void SetItemDesignLoot(ItemModel itemModel)
 	{
 		SetObtainLootFunction(async character =>

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscriber
 {
@@ -142,5 +143,11 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		}
 
 		await AbilityCmd.SummonMonster(monsterModel, monsterType, chosenHex, monsterLevel, alignment, enemies);
+	}
+
+	public static async GDTask<NPC> SpawnNPC(Hex hex, int health, string name, string assetPath, List<Ability> abilities, int initiative,
+		Alignment alignment = Alignment.Characters, Alignment enemies = Alignment.Enemies)
+	{
+		return await GameController.Instance.Map.CreateNPC(hex.Coords, health, name, assetPath, abilities, initiative, alignment, enemies);
 	}
 }

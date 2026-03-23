@@ -10,7 +10,7 @@ public class Scenario019 : ScenarioModel
 
 	public override IEnumerable<ScenarioConnection> Connections =>
 	[
-		new ScenarioConnection<Scenario023>(), new ScenarioConnection<Scenario024>(), /*new ScenarioConnection<Scenario025>()*/
+		new ScenarioConnection<Scenario023>(), new ScenarioConnection<Scenario024>(), new ScenarioConnection<Scenario025>()
 	];
 
 	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals();
