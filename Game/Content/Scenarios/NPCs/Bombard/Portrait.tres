@@ -1,7 +1,7 @@
-[gd_resource type="AtlasTexture" format=3 uid="uid://dhiyn6y6ywtek"]
+[gd_resource type="AtlasTexture" format=3 uid="uid://bdpxdymdxd5i5"]
 
-[ext_resource type="Texture2D" uid="uid://bovaj5jfuqg7r" path="res://Content/Classes/Bombard/Artwork.png" id="1_kh5sh"]
+[ext_resource type="Texture2D" uid="uid://0u3raq5whf7p" path="res://Content/Scenarios/NPCs/Bombard/Artwork.jpg" id="1_0hcu1"]
 
 [resource]
-atlas = ExtResource("1_kh5sh")
+atlas = ExtResource("1_0hcu1")
 region = Rect2(240, 260, 400, 600)

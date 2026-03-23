@@ -19,7 +19,7 @@ public partial class NPC : Figure
 	public override string DisplayName => _name;
 	public override string DebugName => _name;
 	public override AMDCardDeck AMDCardDeck => _amdCardDeckOverride ?? GameController.Instance.MonsterAMDCardDeck;
-	public virtual Texture2D Texture => ResourceLoader.Load<Texture2D>($"{AssetPath}/Artwork.png");
+	public virtual Texture2D Texture => ResourceLoader.Load<Texture2D>($"{AssetPath}/Artwork.jpg");
 	public virtual Texture2D PortraitTexture => ResourceLoader.Load<Texture2D>($"{AssetPath}/Portrait.tres");
 	public override Texture2D MapIconTexture => ResourceLoader.Load<Texture2D>($"{AssetPath}/MapIcon.tres");
 	public override Node2D Visual => _npcViewComponent.Sprite;

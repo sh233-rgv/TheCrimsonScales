@@ -17,6 +17,6 @@ public class Scenario025 : ScenarioModel
 	{
 		await base.StartAfterFirstRoomRevealed();
 
-		await SpawnNPC(GameController.Instance.Map.GetMarker(Marker.Type.b).Hex)
+		//await SpawnNPC(GameController.Instance.Map.GetMarker(Marker.Type.b).Hex, CharacterCount + ScenarioLevel * 3, "Brightspark", )
 	}
 }

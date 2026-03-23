@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bovaj5jfuqg7r"
-path.s3tc="res://.godot/imported/Artwork.png-0822c67c6a06c62c3c9ec02d495b5808.s3tc.ctex"
-path.etc2="res://.godot/imported/Artwork.png-0822c67c6a06c62c3c9ec02d495b5808.etc2.ctex"
+uid="uid://dgskegyukgbi1"
+path.s3tc="res://.godot/imported/Artwork.jpg-da7d0fba3d681373b4fa7422613811d0.s3tc.ctex"
+path.etc2="res://.godot/imported/Artwork.jpg-da7d0fba3d681373b4fa7422613811d0.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://Content/Scenarios/NPCs/Bombard/Artwork.png"
-dest_files=["res://.godot/imported/Artwork.png-0822c67c6a06c62c3c9ec02d495b5808.s3tc.ctex", "res://.godot/imported/Artwork.png-0822c67c6a06c62c3c9ec02d495b5808.etc2.ctex"]
+source_file="res://Content/Scenarios/NPCs/Brightspark/Artwork.jpg"
+dest_files=["res://.godot/imported/Artwork.jpg-da7d0fba3d681373b4fa7422613811d0.s3tc.ctex", "res://.godot/imported/Artwork.jpg-da7d0fba3d681373b4fa7422613811d0.etc2.ctex"]
 
 [params]
 
