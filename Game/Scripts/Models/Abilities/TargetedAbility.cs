@@ -509,7 +509,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 			}
 			else
 			{
-				Figure focus = await abilityState.ActionState.GetFocus(abilityState);
+				Figure focus = (await abilityState.ActionState.GetFocus(abilityState)).Item1;
 
 				MonsterAOEPrompt.Answer aoeAnswer =
 					await PromptManager.Prompt(
@@ -557,7 +557,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 			}
 			else
 			{
-				Figure focus = await abilityState.ActionState.GetFocus(abilityState);
+				Figure focus = (await abilityState.ActionState.GetFocus(abilityState)).Item1;
 
 				MonsterTargetSelectionPrompt.Answer targetAnswer = await PromptManager.Prompt(
 					new MonsterTargetSelectionPrompt(getValidTargets, true, focus, duringTargetedAbilityEffectCollection,

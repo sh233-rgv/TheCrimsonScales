@@ -15,7 +15,7 @@
 
 		_npc = parameters.NPC;
 
-		_portraitTexture.SetTexture(_npc.Texture);
+		_portraitTexture.SetTexture(_npc.PortraitTexture);
 		_portraitBorder.SetSelfModulate(_npc.OutlineColor);
 	}
 }

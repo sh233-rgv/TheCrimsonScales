@@ -2,7 +2,7 @@
 using Fractural.Tasks;
 using Godot;
 
-public partial class NPC : Figure
+public partial class NPC : Figure, IEventSubscriber
 {
 	private NPCViewComponent _npcViewComponent;
 	private string _name;
@@ -13,13 +13,11 @@ public partial class NPC : Figure
 
 
 	public string AssetPath { get; private set; }
-	public List<Ability> Abilities => _abilities;
 	public Initiative PermanentInitiative { get; private set; }
 
 	public override string DisplayName => _name;
 	public override string DebugName => _name;
 	public override AMDCardDeck AMDCardDeck => _amdCardDeckOverride ?? GameController.Instance.MonsterAMDCardDeck;
-	public virtual Texture2D Texture => ResourceLoader.Load<Texture2D>($"{AssetPath}/Artwork.jpg");
 	public virtual Texture2D PortraitTexture => ResourceLoader.Load<Texture2D>($"{AssetPath}/Portrait.tres");
 	public override Texture2D MapIconTexture => ResourceLoader.Load<Texture2D>($"{AssetPath}/MapIcon.tres");
 	public override Node2D Visual => _npcViewComponent.Sprite;
@@ -31,7 +29,8 @@ public partial class NPC : Figure
 		_npcViewComponent = GetViewComponent<NPCViewComponent>();
 	}
 
-	public void Spawn(int health, string name, string assetPath, List<Ability> abilities, int initiative, Alignment alignment, Alignment enemies)
+	public void Spawn(int health, string name, string assetPath, int initiative, List<Ability> abilities, string actionText, Alignment alignment,
+		Alignment enemies)
 	{
 		_name = $"{name} - NPC";
 		PermanentInitiative = new Initiative()
@@ -60,6 +59,17 @@ public partial class NPC : Figure
 		UpdateInitiative();
 
 		_abilities.AddRange(abilities);
+
+		if(actionText != null)
+		{
+			ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(this,
+				parameters => parameters.Figure == this,
+				parameters =>
+				{
+					parameters.Add(new InfoTextExtraEffect.Parameters($"Performs:\n{actionText}"));
+				}
+			);
+		}
 	}
 
 	protected override async GDTask TakeTurn()
@@ -81,6 +91,7 @@ public partial class NPC : Figure
 	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
 	{
 		await RemoveTurnActionFromActive();
+		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(this);
 
 		await base.Destroy(immediately, forceDestroy);
 	}

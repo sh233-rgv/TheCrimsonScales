@@ -51,11 +51,11 @@ position = Vector2(218.2384, 378)
 
 [node name="Marker" parent="Map/Rooms/Room" index="5" unique_id=472443651 instance=ExtResource("13_uq48l")]
 position = Vector2(654.71515, 378)
+MarkerType = 1
 _hideDuringPlay = true
 
 [node name="Marker2" parent="Map/Rooms/Room" index="6" unique_id=101650492 instance=ExtResource("13_uq48l")]
 position = Vector2(109.1192, -189)
-MarkerType = 1
 
 [node name="Shelf2H" parent="Map/Rooms/Room" index="7" unique_id=218910856 instance=ExtResource("6_4h8si")]
 position = Vector2(436.4768, 0)

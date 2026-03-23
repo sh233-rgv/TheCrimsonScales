@@ -11,7 +11,7 @@ public class TestScenario : ScenarioModel
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
-		
+
 		GameController.Instance.Map.Treasures[0].SetItemDesignLoot(ModelDB.Item<VipertoothDagger>());
 
 		List<Objective> objectives = GameController.Instance.Map.GetChildrenOfType<Objective>();
@@ -20,5 +20,55 @@ public class TestScenario : ScenarioModel
 		{
 			objective.Init(objectiveHealth, "Dark Pit of Super Doom");
 		}
+
+		NPC brightspark = await SpawnNPC(GameController.Instance.Map.GetMarker(Marker.Type.b).Hex, CharacterCount + ScenarioLevel * 3, "Brightspark",
+			"res://Content/Scenarios/NPCs/Brightspark", 50, [
+				MoveAbility.Builder().WithDistance(2).Build(),
+				AttackAbility.Builder().WithDamage(1).Build()
+			], $"{Icons.Inline(Icons.Move)}2\n{Icons.Inline(Icons.Attack)}1");
+
+		ScenarioEvents.FigureFoundFocusEvent.Subscribe(this,
+			parameters =>
+				parameters.Performer == brightspark &&
+				parameters.AbilityState is MoveAbility.State &&
+				parameters.Focus == null,
+			async parameters =>
+			{
+				parameters.SetFocusHex(GameController.Instance.Map.GetMarker(Marker.Type.a).Hex);
+
+				ScenarioCheckEvents.AIMoveParametersCheckEvent.Subscribe(this,
+					moveParameters => moveParameters.Performer == brightspark,
+					moveParameters =>
+					{
+						moveParameters.SetRange(0);
+						moveParameters.SetRangeType(RangeType.Melee);
+						moveParameters.SetTargets(1);
+						moveParameters.SetAOEPattern(null);
+					}
+				);
+
+				ScenarioEvents.AbilityEndedEvent.Subscribe(this,
+					abilityEndedParameters => abilityEndedParameters.Performer == brightspark,
+					async _ =>
+					{
+						ScenarioEvents.AbilityEndedEvent.Unsubscribe(this);
+						ScenarioCheckEvents.AIMoveParametersCheckEvent.Unsubscribe(this);
+
+						await GDTask.CompletedTask;
+					}
+				);
+
+				await GDTask.CompletedTask;
+			});
+
+
+		ScenarioEvents.FigureTurnEndingEvent.Subscribe(this,
+			ScenarioEvents.FigureTurnEnding.Subscription.ConsumeWildElement(
+				parameters => parameters.Figure == brightspark,
+				async _ =>
+				{
+					await new ActionState(brightspark, [HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()]).Perform();
+				}, EffectType.Selectable,
+				effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Heal)}2, self")));
 	}
 }
