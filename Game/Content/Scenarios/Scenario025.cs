@@ -139,6 +139,19 @@ public class Scenario025 : ScenarioModel
 			{
 				await ((CustomScenarioGoals)ScenarioGoals).Win();
 			});
+		
+		foreach(Character character in GameController.Instance.CharacterManager.Characters)
+		{
+			ScenarioEvents.DuringAttackEvent.Subscribe(this, character,
+				parameters => parameters.Performer == brightspark && !character.IsDead,
+				async _ =>
+				{
+					brightspark.SetAMDCardDeck(character.AMDCardDeck);
+					await GDTask.CompletedTask;
+				}, EffectType.Selectable,
+				effectButtonParameters: new IconEffectButton.Parameters(character.ClassModel.IconPath),
+				effectInfoViewParameters: new TextEffectInfoView.Parameters($"Use {character.DebugName}'s attack modifier deck"));
+		}
 
 		UpdateScenarioText();
 	}
