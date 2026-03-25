@@ -25,6 +25,8 @@ public partial class Character : Figure
 	public List<ItemModel> Items { get; } = new List<ItemModel>();
 
 	public List<AbilityCard> RoundCards { get; } = new List<AbilityCard>();
+	public List<CardPlayCardData> RoundCardData { get; } = new List<CardPlayCardData>();
+	public List<ItemModel> TurnItemsUsed { get; } = [];
 	public bool LongResting { get; private set; }
 
 	public int ShortRestSeed { get; private set; }
@@ -345,11 +347,11 @@ public partial class Character : Figure
 		{
 			bool topPlayed = false;
 			bool bottomPlayed = false;
-			List<CardPlayCardData> cardDatas = new List<CardPlayCardData>();
+			RoundCardData.Clear();
 
 			foreach(AbilityCard card in RoundCards)
 			{
-				cardDatas.Add(new CardPlayCardData()
+				RoundCardData.Add(new CardPlayCardData()
 				{
 					AbilityCard = card,
 					CanPlayTop = true,
@@ -359,9 +361,10 @@ public partial class Character : Figure
 				});
 			}
 
-			for(int i = 0; i < cardDatas.Count; i++)
+			for(int i = 0; i < RoundCardData.Count; i++)
 			{
-				if(IsDead || !TakingTurn)
+				if(IsDead || !TakingTurn || RoundCardData.All(data =>
+					   !data.CanPlayBasicBottom && !data.CanPlayBottom && !data.CanPlayBasicTop && !data.CanPlayTop))
 				{
 					break;
 				}
@@ -370,7 +373,7 @@ public partial class Character : Figure
 					ScenarioEvents.CardSideSelectionEvent.CreateEffectCollection(new ScenarioEvents.CardSideSelection.Parameters(this));
 
 				AbilityCardSectionSelectionPrompt.Answer cardSectionAnswer = await PromptManager.Prompt(
-					new AbilityCardSectionSelectionPrompt(cardDatas, cardSideSelectionEffectCollection, () => "Select card side to play"), this);
+					new AbilityCardSectionSelectionPrompt(RoundCardData, cardSideSelectionEffectCollection, () => "Select card side to play"), this);
 
 				AbilityCard card = GameController.Instance.ReferenceManager.Get<AbilityCard>(cardSectionAnswer.CardReferenceId);
 				AbilityCardSection section = cardSectionAnswer.AbilityCardSection;
@@ -402,7 +405,7 @@ public partial class Character : Figure
 						throw new ArgumentOutOfRangeException();
 				}
 
-				foreach(CardPlayCardData cardData in cardDatas)
+				foreach(CardPlayCardData cardData in RoundCardData)
 				{
 					if(cardData.AbilityCard == card)
 					{
@@ -413,13 +416,13 @@ public partial class Character : Figure
 					}
 				}
 
-				if(i == cardDatas.Count - 2)
+				if(i == RoundCardData.Count - 2)
 				{
 					// Only one card left, make sure both a top and bottom are played
 
 					if(!topPlayed)
 					{
-						foreach(CardPlayCardData cardData in cardDatas)
+						foreach(CardPlayCardData cardData in RoundCardData)
 						{
 							cardData.CanPlayBottom = false;
 							cardData.CanPlayBasicBottom = false;
@@ -428,7 +431,7 @@ public partial class Character : Figure
 
 					if(!bottomPlayed)
 					{
-						foreach(CardPlayCardData cardData in cardDatas)
+						foreach(CardPlayCardData cardData in RoundCardData)
 						{
 							cardData.CanPlayTop = false;
 							cardData.CanPlayBasicTop = false;
@@ -442,6 +445,13 @@ public partial class Character : Figure
 				await ScenarioEvents.AfterCardsPlayedEvent.CreatePrompt(new ScenarioEvents.AfterCardsPlayed.Parameters(this), this, "End turn?");
 			}
 		}
+	}
+
+	protected override async GDTask EndTurn()
+	{
+		await base.EndTurn();
+
+		TurnItemsUsed.Clear();
 	}
 
 	protected override async GDTask EndOfTurnLooting()
