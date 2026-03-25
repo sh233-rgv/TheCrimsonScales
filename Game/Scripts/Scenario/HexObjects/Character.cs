@@ -605,16 +605,6 @@ public partial class Character : Figure
 			{
 				ignoreNegativeItemEffects = true;
 			}
-
-			if(perkModel.IgnoreNegativeScenarioEffects && SavedCharacter.GetPerkAcquired(i))
-			{
-				ScenarioCheckEvents.ApplyScenarioEffectsCheckEvent.Subscribe(this, new object(),
-					parameters => parameters.Character == this,
-					parameters =>
-					{
-						parameters.SetIgnoreScenarioEffects();
-					});
-			}
 		}
 
 		if(!ignoreNegativeItemEffects)
@@ -628,13 +618,12 @@ public partial class Character : Figure
 			}
 		}
 
-
 		for(int i = 0; i < ClassModel.Perks.Count; i++)
 		{
 			PerkModel perkModel = ClassModel.Perks[i];
 			if(SavedCharacter.GetPerkAcquired(i))
 			{
-				await perkModel.OnScenarioSetupPhaseCompleted();
+				await perkModel.OnScenarioSetupPhaseCompleted(this);
 			}
 		}
 

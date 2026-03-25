@@ -10,7 +10,7 @@ public class GelatinousGiantSecondStage : GelatinousGiant
 			{
 				Health = stats.Health * CharacterCount,
 				Traits = (stats.Traits ?? [])
-				.ToArray()
+					.ToArray()
 			})
 			.ToArray();
 

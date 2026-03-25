@@ -10,9 +10,9 @@ public class GelatinousGiant : BloodOoze, IBossMonsterModel
 			{
 				Health = stats.Health * CharacterCount,
 				Traits = (stats.Traits ?? [])
-				.Append(new AllDamageImmunityTrait())
-				.Append(new AllNegativeConditionImmunityTrait())
-				.ToArray()
+					.Append(new AllDamageImmunityTrait())
+					.Append(new AllNegativeConditionImmunityTrait())
+					.ToArray()
 			})
 			.ToArray();
 
