@@ -52,7 +52,8 @@ public class BrightsparkAMDCards
 			{
 				await AbilityCmd.GenericChoice(state.Authority,
 				[
-					ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.ConsumeWildElement(applyFunction: async _ =>
+					ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
+						applyFunction: async _ =>
 						{
 							state.SingleTargetAdjustAttackValue(2);
 							await GDTask.CompletedTask;

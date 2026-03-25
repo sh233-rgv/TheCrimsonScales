@@ -357,7 +357,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithRangeType(RangeType rangeType)
+		public TBuilder WithRangeType(DynamicRangeType rangeType)
 		{
 			_rangeType = rangeType;
 			Obj.TypeOfRange = rangeType;
