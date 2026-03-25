@@ -1,4 +1,5 @@
-﻿using Fractural.Tasks;
+﻿using System;
+using Fractural.Tasks;
 using Godot;
 using GTweensGodot.Extensions;
 
@@ -48,7 +49,7 @@ public class ScenarioSetupPhase : ScenarioPhase
 				portrait.PressedEvent += OnPortraitPressed;
 			}
 
-			GameController.Instance.ScenarioSetupButtonsView.Open(OnContinuePressed);
+			GameController.Instance.ScenarioSetupButtonsView.Open(OnContinuePressed, OnBattleGoalSelected);
 			GameController.Instance.ScenarioSetupButtonsView.SetButtons(true);
 			GameController.Instance.UndoView.Open(this);
 		}
@@ -121,7 +122,8 @@ public class ScenarioSetupPhase : ScenarioPhase
 		{
 			fullState.CharacterScenarioSetupStates[i] = new CharacterScenarioSetupState
 			{
-				StartHexCoords = GameController.Instance.CharacterManager.GetCharacter(i).Hex.Coords
+				StartHexCoords = GameController.Instance.CharacterManager.GetCharacter(i).Hex.Coords,
+				SelectedBattleGoalIndex = -1,
 			};
 		}
 
@@ -139,9 +141,10 @@ public class ScenarioSetupPhase : ScenarioPhase
 
 	private void SyncCharacterWithState(Character character)
 	{
-		CharacterScenarioSetupState state = _scenarioSetupState.CharacterScenarioSetupStates[character.Index];
+		CharacterScenarioSetupState state = GetCharacterCardSelectionState(character);
 
 		character.SetOriginHexAndRotation(GameController.Instance.Map.GetHex(state.StartHexCoords));
+		character.SetBattleGoal(state.SelectedBattleGoalIndex == -1 ? null : character.AvailableBattleGoals[state.SelectedBattleGoalIndex]);
 
 		UpdateHexIndicators();
 
@@ -195,6 +198,11 @@ public class ScenarioSetupPhase : ScenarioPhase
 			if(!character.IsLocal || character.IsDestroyed)
 			{
 				continue;
+			}
+
+			if(character.SelectedBattleGoalModel == null)
+			{
+				hasUnfinishedCharacter = true;
 			}
 		}
 
@@ -280,6 +288,13 @@ public class ScenarioSetupPhase : ScenarioPhase
 		{
 			SetSelectedCharacter(otherCharacter);
 		}
+	}
+
+	private void OnBattleGoalSelected(Character character, int index)
+	{
+		GetCharacterCardSelectionState(character).SelectedBattleGoalIndex = index;
+
+		SyncGameWithState();
 	}
 
 	private void OnContinuePressed()
