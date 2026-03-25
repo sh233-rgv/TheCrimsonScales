@@ -96,6 +96,9 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 
 	public class CardBottom : BrightsparkCardSide
 	{
+		private static readonly int[] MoveValues = [2, 1, 2];
+		private static readonly int[] HealValues = [1, 2, 2];
+
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
@@ -111,16 +114,14 @@ public class ElixirOfLife : BrightsparkCardModel<ElixirOfLife.CardTop, ElixirOfL
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					int[] moveValues = [2, 1, 2];
-					int[] healValues = [1, 2, 2];
 					ScenarioEvents.FigureTurnEndingEvent.Subscribe(state, this,
 						parameters => parameters.Figure == state.Performer,
 						async parameters =>
 						{
 							ActionState actionState = new ActionState(parameters.Figure,
 							[
-								MoveAbility.Builder().WithDistance(moveValues[state.UseSlotIndex]).Build(),
-								HealAbility.Builder().WithHealValue(healValues[state.UseSlotIndex]).WithTarget(Target.Self).Build()
+								MoveAbility.Builder().WithDistance(MoveValues[state.UseSlotIndex]).Build(),
+								HealAbility.Builder().WithHealValue(HealValues[state.UseSlotIndex]).WithTarget(Target.Self).Build()
 							]);
 							await actionState.Perform();
 
