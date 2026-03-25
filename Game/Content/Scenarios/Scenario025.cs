@@ -139,7 +139,7 @@ public class Scenario025 : ScenarioModel
 			{
 				await ((CustomScenarioGoals)ScenarioGoals).Win();
 			});
-		
+
 		foreach(Character character in GameController.Instance.CharacterManager.Characters)
 		{
 			ScenarioEvents.DuringAttackEvent.Subscribe(this, character,
@@ -159,7 +159,7 @@ public class Scenario025 : ScenarioModel
 	private void UpdateScenarioText()
 	{
 		string text = $"""
-		               Loot {4 - _treasuresLooted} more Goal treasure tiles to win this scenario.
+		               Loot {4 - _treasuresLooted} more Goal treasure tiles and keep the Brightspark alive to win this scenario.
 
 		               The Brightspark acts on Initiative 50 every turn, performing “{Icons.Inline(Icons.Move)}2, {Icons.Inline(Icons.Attack)}1” (using whichever modifier deck you prefer). For each Goal treasure tile you loot, the Brightspark gains the following benefit:
 		               First tile: Add +1{Icons.Inline(Icons.Move)} to all moves
