@@ -24,6 +24,22 @@ corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 anti_aliasing = false
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cnbgs"]
+bg_color = Color(0, 0, 0, 0.588235)
+anti_aliasing = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_yeabb"]
+font = ExtResource("7_fae8n")
+font_size = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eruca"]
+bg_color = Color(1, 1, 1, 0.784314)
+anti_aliasing = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_fotvg"]
+font = ExtResource("7_fae8n")
+font_size = 25
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k7dxu"]
 bg_color = Color(0.105882, 0.105882, 0.12549, 0.478431)
 draw_center = false
@@ -41,22 +57,6 @@ anti_aliasing = false
 [sub_resource type="LabelSettings" id="LabelSettings_0oj1h"]
 font = ExtResource("5_eruca")
 font_size = 30
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cnbgs"]
-bg_color = Color(0, 0, 0, 0.588235)
-anti_aliasing = false
-
-[sub_resource type="LabelSettings" id="LabelSettings_yeabb"]
-font = ExtResource("7_fae8n")
-font_size = 25
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eruca"]
-bg_color = Color(1, 1, 1, 0.784314)
-anti_aliasing = false
-
-[sub_resource type="LabelSettings" id="LabelSettings_fotvg"]
-font = ExtResource("7_fae8n")
-font_size = 25
 
 [node name="BetweenScenariosCharacterPortrait" type="Control" unique_id=575713275 node_paths=PackedStringArray("BetterButton", "_container", "_textureRect", "_colorOutline", "_inactiveOverlay", "_levelBackground", "_levelLabel", "_xpLabel", "_xpProgressBar", "_goldLabel", "_buttonContainer", "_infoButton", "_equipmentButton", "_cardsButton", "_perksButton", "_cardsExclamationMark", "_perksExclamationMark", "_infoButtonTextureRect", "_levelUpExclamationMark", "_levelUpButton")]
 layout_mode = 3
@@ -213,6 +213,114 @@ texture = ExtResource("1_m8ida")
 expand_mode = 1
 stretch_mode = 6
 
+[node name="Gold" type="Control" parent="Container/BetterButton" unique_id=661911852]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -71.0
+offset_bottom = -41.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="Container/BetterButton/Gold" unique_id=9125461]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cnbgs")
+
+[node name="TextureRect" type="TextureRect" parent="Container/BetterButton/Gold" unique_id=8155086]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 18.0
+offset_top = -14.0
+offset_right = 46.0
+offset_bottom = 14.0
+grow_vertical = 2
+pivot_offset = Vector2(17, 17)
+mouse_filter = 2
+texture = ExtResource("4_cnbgs")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Container/BetterButton/Gold" unique_id=29601333]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 60.0
+offset_right = 95.0
+grow_vertical = 2
+text = "123"
+label_settings = SubResource("LabelSettings_yeabb")
+vertical_alignment = 1
+
+[node name="XP" type="Control" parent="Container/BetterButton" unique_id=1411544674]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -34.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="Container/BetterButton/XP" unique_id=497541236]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cnbgs")
+
+[node name="ProgressBar" type="Panel" parent="Container/BetterButton/XP" unique_id=1299789178]
+self_modulate = Color(0.72549, 0.6, 0.105882, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.615, 1)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_eruca")
+
+[node name="TextureRect" type="TextureRect" parent="Container/BetterButton/XP" unique_id=161554460]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 19.0
+offset_top = -13.0
+offset_right = 45.0
+offset_bottom = 13.0
+grow_vertical = 2
+pivot_offset = Vector2(17, 17)
+mouse_filter = 2
+texture = ExtResource("6_eruca")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Container/BetterButton/XP" unique_id=823444511]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 60.0
+offset_right = 145.0
+grow_vertical = 2
+text = "200/200"
+label_settings = SubResource("LabelSettings_fotvg")
+vertical_alignment = 1
+
 [node name="Outline" type="Panel" parent="Container/BetterButton" unique_id=1077376134]
 layout_mode = 1
 anchors_preset = 15
@@ -348,114 +456,6 @@ offset_left = 35.0
 offset_top = 2.0
 offset_right = 67.0
 offset_bottom = 34.0
-
-[node name="Gold" type="Control" parent="Container/BetterButton" unique_id=661911852]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -71.0
-offset_bottom = -41.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 2
-
-[node name="Panel" type="Panel" parent="Container/BetterButton/Gold" unique_id=9125461]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_cnbgs")
-
-[node name="TextureRect" type="TextureRect" parent="Container/BetterButton/Gold" unique_id=8155086]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 18.0
-offset_top = -14.0
-offset_right = 46.0
-offset_bottom = 14.0
-grow_vertical = 2
-pivot_offset = Vector2(17, 17)
-mouse_filter = 2
-texture = ExtResource("4_cnbgs")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="Container/BetterButton/Gold" unique_id=29601333]
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_left = 60.0
-offset_right = 95.0
-grow_vertical = 2
-text = "123"
-label_settings = SubResource("LabelSettings_yeabb")
-vertical_alignment = 1
-
-[node name="XP" type="Control" parent="Container/BetterButton" unique_id=1411544674]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -34.0
-offset_bottom = -4.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 2
-
-[node name="Panel" type="Panel" parent="Container/BetterButton/XP" unique_id=497541236]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_cnbgs")
-
-[node name="ProgressBar" type="Panel" parent="Container/BetterButton/XP" unique_id=1299789178]
-self_modulate = Color(0.72549, 0.6, 0.105882, 1)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.615, 1)
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_eruca")
-
-[node name="TextureRect" type="TextureRect" parent="Container/BetterButton/XP" unique_id=161554460]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 19.0
-offset_top = -13.0
-offset_right = 45.0
-offset_bottom = 13.0
-grow_vertical = 2
-pivot_offset = Vector2(17, 17)
-mouse_filter = 2
-texture = ExtResource("6_eruca")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="Container/BetterButton/XP" unique_id=823444511]
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_left = 60.0
-offset_right = 145.0
-grow_vertical = 2
-text = "200/200"
-label_settings = SubResource("LabelSettings_fotvg")
-vertical_alignment = 1
 
 [node name="InactiveOverlay" type="Panel" parent="Container/BetterButton" unique_id=290859912]
 modulate = Color(1, 1, 1, 0)
