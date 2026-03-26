@@ -84,13 +84,16 @@ public abstract class PerkModel : AbstractModel, IEventSubscriber
 
 	public virtual async GDTask OnScenarioSetupPhaseCompleted(Character character)
 	{
-		ScenarioCheckEvents.ApplyScenarioEffectsCheckEvent.Subscribe(this,
-			parameters => parameters.Character == character,
-			parameters =>
-			{
-				parameters.SetIgnoreScenarioEffects();
-			});
-		
+		if(IgnoreNegativeScenarioEffects)
+		{
+			ScenarioCheckEvents.ApplyScenarioEffectsCheckEvent.Subscribe(this,
+				parameters => parameters.Character == character,
+				parameters =>
+				{
+					parameters.SetIgnoreScenarioEffects();
+				});
+		}
+
 		await GDTask.CompletedTask;
 	}
 
