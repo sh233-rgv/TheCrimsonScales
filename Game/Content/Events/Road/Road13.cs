@@ -25,19 +25,7 @@ public class Road13 : RoadEventModel<Road13.ChoiceA, Road13.ChoiceB>
 
 		public override List<EventReward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
-				async () =>
-				{
-					foreach(Character character in GameController.Instance.CharacterManager.Characters)
-					{
-						character.AMDCardDeck.AddMinusOne();
-						character.AMDCardDeck.AddMinusOne();
-					}
-
-					await GDTask.CompletedTask;
-				},
-				color => $"All characters start the next scenario with two extra “-1” AMD cards."
-			)
+			new AllStartScenarioWithMinusOnesReward(2),
 		];
 	}
 

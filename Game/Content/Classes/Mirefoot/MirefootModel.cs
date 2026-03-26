@@ -51,5 +51,30 @@ public class MirefootModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<MirefootPerks.ReplaceOneMinusTwoWithOnePlusZero>(),
+		
+		ModelDB.Perk<MirefootPerks.ReplaceOneMinusOneWithOnePlusOne>(),
+		ModelDB.Perk<MirefootPerks.ReplaceOneMinusOneWithOnePlusOne>(),
+		
+		ModelDB.Perk<MirefootPerks.ReplaceTwoPlusZeroWithTwoPlusZeroPlusXWhereXIsTargetPoisonValue>(),
+		ModelDB.Perk<MirefootPerks.ReplaceTwoPlusZeroWithTwoPlusZeroPlusXWhereXIsTargetPoisonValue>(),
+		
+		ModelDB.Perk<MirefootPerks.ReplaceOnePlusZeroWithTwoPlusZeroCreateDifficultTerrainRolling>(),
+		ModelDB.Perk<MirefootPerks.ReplaceOnePlusZeroWithTwoPlusZeroCreateDifficultTerrainRolling>(),
+		
+		ModelDB.Perk<MirefootPerks.ReplaceTwoPlusOneWithTwoPlusTwo>(),
+		
+		ModelDB.Perk<MirefootPerks.ReplaceOnePlusOneWithOnePlusZeroWoundTwo>(),
+		ModelDB.Perk<MirefootPerks.ReplaceOnePlusOneWithOnePlusZeroWoundTwo>(),
+		
+		ModelDB.Perk<MirefootPerks.AddTwoPlusZeroIfOccupyingDifficultTerrainGainInvisibleRolling>(),
+		
+		ModelDB.Perk<MirefootPerks.AddFourPlusZeroIfOccupyingDifficultTerrainPlusOneInsteadRolling>(),
+		
+		ModelDB.Perk<MirefootPerks.IgnoreScenarioEffectsRemoveOneMinusOne>(),
+		
+		ModelDB.Perk<MirefootPerks.SilentStepOfTheBogWraith>(),
+		
+		ModelDB.Perk<MirefootPerks.HiddenBlade>()
 	];
 }

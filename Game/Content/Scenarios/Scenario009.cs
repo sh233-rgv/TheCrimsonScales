@@ -94,7 +94,8 @@ public class Scenario009 : ScenarioModel
 			list =>
 			{
 				// Find the hexes closest to the doors
-				List<Hex> hexes = RangeHelper.GetHexesInRange(_firstDoors[0].Hex, 100, false, false).Where(hex => hex.IsEmpty()).ToList();
+				List<Hex> hexes = RangeHelper.GetHexesInRange(_firstDoors[0].Hex, RangeHelper.InfiniteRange, false, false).Where(hex => hex.IsEmpty())
+					.ToList();
 				hexes.Sort((hexA, hexB) => GetMinDistanceToDoor(hexA).CompareTo(GetMinDistanceToDoor(hexB)));
 
 				if(hexes.Count == 0)

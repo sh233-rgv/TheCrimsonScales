@@ -51,5 +51,31 @@ public class RuinmawModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<RuinmawPerks.RemoveOneMinusTwo>(),
+
+		ModelDB.Perk<RuinmawPerks.ReplaceOneMinusOneWithOnePlusZeroRupture>(),
+		ModelDB.Perk<RuinmawPerks.ReplaceOneMinusOneWithOnePlusZeroRupture>(),
+
+		ModelDB.Perk<RuinmawPerks.ReplaceOneMinusOneWithOnePlusZeroWound>(),
+		ModelDB.Perk<RuinmawPerks.ReplaceOneMinusOneWithOnePlusZeroWound>(),
+
+		ModelDB.Perk<RuinmawPerks.ReplaceOnePlusZeroWithOnePlusOnePlusThreeInsteadIfTargetHasRuptureOrWound>(),
+		ModelDB.Perk<RuinmawPerks.ReplaceOnePlusZeroWithOnePlusOnePlusThreeInsteadIfTargetHasRuptureOrWound>(),
+		ModelDB.Perk<RuinmawPerks.ReplaceOnePlusZeroWithOnePlusOnePlusThreeInsteadIfTargetHasRuptureOrWound>(),
+
+		ModelDB.Perk<RuinmawPerks.ReplaceOnePlusZeroWithOnePlusZeroHealOneEmpowerSelfRolling>(),
+		ModelDB.Perk<RuinmawPerks.ReplaceOnePlusZeroWithOnePlusZeroHealOneEmpowerSelfRolling>(),
+		ModelDB.Perk<RuinmawPerks.ReplaceOnePlusZeroWithOnePlusZeroHealOneEmpowerSelfRolling>(),
+
+		ModelDB.Perk<RuinmawPerks.AddOnePlusTwoIfThisAttackKillsTargetGainMoneyTokenDirectly>(),
+		ModelDB.Perk<RuinmawPerks.AddOnePlusTwoIfThisAttackKillsTargetGainMoneyTokenDirectly>(),
+
+		ModelDB.Perk<RuinmawPerks.IgnoreScenarioEffectsRemoveOneMinusOne>(),
+
+		ModelDB.Perk<RuinmawPerks.FollowTheScent>(),
+
+		ModelDB.Perk<RuinmawPerks.ALullInHunger>(),
+
+		ModelDB.Perk<RuinmawPerks.AdrenalineRush>(),
 	];
 }

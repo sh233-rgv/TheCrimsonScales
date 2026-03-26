@@ -52,6 +52,31 @@ public class HierophantModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<HierophantPerks.RemoveTwoMinusOne>(),
+
+		ModelDB.Perk<HierophantPerks.ReplaceOneMinusTwoWithOneMinusOneGivePrayerCardAndOnePlusZero>(),
+
+		ModelDB.Perk<HierophantPerks.ReplaceOneMinusOneWithOnePlusZeroCurse>(),
+		ModelDB.Perk<HierophantPerks.ReplaceOneMinusOneWithOnePlusZeroCurse>(),
+
+		ModelDB.Perk<HierophantPerks.ReplaceTwoPlusZeroWithOnePlusZeroLightRolling>(),
+
+		ModelDB.Perk<HierophantPerks.ReplaceTwoPlusZeroWithOnePlusZeroEarthRolling>(),
+
+		ModelDB.Perk<HierophantPerks.ReplaceOnePlusZeroWithOnePlusOneGrantOneAllyShieldOne>(),
+
+		ModelDB.Perk<HierophantPerks.ReplaceOnePlusOneWithOnePlusThree>(),
+		ModelDB.Perk<HierophantPerks.ReplaceOnePlusOneWithOnePlusThree>(),
+
+		ModelDB.Perk<HierophantPerks.AddOnePlusOneWoundMuddle>(),
+		ModelDB.Perk<HierophantPerks.AddOnePlusOneWoundMuddle>(),
+
+		ModelDB.Perk<HierophantPerks.AddTwoPlusZeroHealOneAllyOrSelfRolling>(),
+		ModelDB.Perk<HierophantPerks.AddTwoPlusZeroHealOneAllyOrSelfRolling>(),
+
+		ModelDB.Perk<HierophantPerks.IgnoreScenarioEffectsRemoveOnePlusZero>(),
+
+		ModelDB.Perk<HierophantPerks.GiftOfTheOak>(),
 	];
 
 	public List<AbilityCardModel> AllPrayerCards { get; } =

@@ -51,5 +51,28 @@ public class ChainguardModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<ChainguardPerks.ReplaceOneMinusWithOnePlusOneShackle>(),
+		ModelDB.Perk<ChainguardPerks.ReplaceOneMinusWithOnePlusOneShackle>(),
+
+		ModelDB.Perk<ChainguardPerks.ReplaceOneMinusOneWithOnePlusZeroIfTargetHasShacklePlusTwo>(),
+		ModelDB.Perk<ChainguardPerks.ReplaceOneMinusOneWithOnePlusZeroIfTargetHasShacklePlusTwo>(),
+
+		ModelDB.Perk<ChainguardPerks.ReplaceTwoPlusZeroWithOnePlusZeroShieldOneRollingOnePlusZeroRetaliateOneRolling>(),
+		ModelDB.Perk<ChainguardPerks.ReplaceTwoPlusZeroWithOnePlusZeroShieldOneRollingOnePlusZeroRetaliateOneRolling>(),
+
+		ModelDB.Perk<ChainguardPerks.ReplaceTwoPlusZeroWithThreePlusZeroSwingThreeRolling>(),
+
+		ModelDB.Perk<ChainguardPerks.ReplaceOnePlusOneWithOnePlusTwoWound>(),
+
+		ModelDB.Perk<ChainguardPerks.AddOnePlusOneIfTargetHasShackleDisarm>(),
+
+		ModelDB.Perk<ChainguardPerks.AddTwoPlusZeroHealOneSelfRolling>(),
+
+		ModelDB.Perk<ChainguardPerks.AddOnePlusTwoShackle>(),
+		ModelDB.Perk<ChainguardPerks.AddOnePlusTwoShackle>(),
+
+		ModelDB.Perk<ChainguardPerks.IgnoreItemMinusOneEffectsAddPlusOneCreateDamageTwoTrap>(),
+
+		ModelDB.Perk<ChainguardPerks.UnyieldingJailer>(),
 	];
 }

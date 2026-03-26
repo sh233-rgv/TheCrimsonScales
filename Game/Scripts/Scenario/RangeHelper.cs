@@ -3,6 +3,8 @@ using Godot;
 
 public static class RangeHelper
 {
+	public const int InfiniteRange = 100;
+	
 	private static readonly List<Node> OpenList = new List<Node>();
 	private static readonly Dictionary<Hex, Node> ClosedList = new Dictionary<Hex, Node>();
 
@@ -11,7 +13,7 @@ public static class RangeHelper
 
 	public static int Distance(Hex origin, Hex destination)
 	{
-		return GameController.Instance.Map.Distance(origin, destination) ?? int.MaxValue;
+		return GameController.Instance.Map.Distance(origin, destination) ?? InfiniteRange;
 	}
 
 	public static void FindHexesInRange(Hex origin, int range, bool requiresLineOfSight, List<Hex> list, bool requiresHexesRevealed = true)

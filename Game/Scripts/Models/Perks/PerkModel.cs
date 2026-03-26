@@ -14,19 +14,19 @@ public abstract class PerkModel : AbstractModel
 
 		string returnValue = string.Empty;
 
-		if(IgnoreNegativeScenarioEffects)
+		if(IgnoreScenarioEffects)
 		{
-			returnValue += "ignore negative scenario effects";
+			returnValue += "ignore scenario effects";
 		}
 
-		if(IgnoreNegativeItemEffects)
+		if(IgnoreItemMinusOneEffects)
 		{
 			if(!string.IsNullOrEmpty(returnValue))
 			{
 				returnValue += " and ";
 			}
 
-			returnValue += "ignore negative item effects";
+			returnValue += $"ignore item {Icons.Inline(Icons.MinusOneCard, richTextParameters)} effects";
 		}
 
 		if(CardsToRemove.Count > 0)
@@ -79,12 +79,16 @@ public abstract class PerkModel : AbstractModel
 	public virtual List<AMDCardModel> CardsToRemove => [];
 	public virtual List<AMDCardModel> CardsToAdd => [];
 
-	public virtual bool IgnoreNegativeScenarioEffects => false;
-	public virtual bool IgnoreNegativeItemEffects => false;
+	public virtual bool IgnoreScenarioEffects => false;
+	public virtual bool IgnoreItemMinusOneEffects => false;
 
 	public virtual async GDTask OnScenarioSetupPhaseCompleted(Character character)
 	{
 		await GDTask.CompletedTask;
+	}
+
+	public virtual void OnPerkAcquired(SavedCharacter savedCharacter)
+	{
 	}
 
 	private string GetNonAMDString(RichTextParameters richTextParameters)
@@ -99,6 +103,11 @@ public abstract class PerkModel : AbstractModel
 		IEnumerable<IGrouping<AMDCardModel, AMDCardModel>> amdCardGroups = cards.GroupBy(perkModel => perkModel);
 		foreach(IGrouping<AMDCardModel, AMDCardModel> amdCardGroup in amdCardGroups)
 		{
+			if(!string.IsNullOrEmpty(returnValue))
+			{
+				returnValue += " and ";
+			}
+
 			int count = amdCardGroup.Count();
 			string number;
 			switch(count)

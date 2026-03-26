@@ -50,5 +50,31 @@ public class LuminaryModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<LuminaryPerks.ReplaceOneMinusTwoWithOneMinusTwoPerformGlowAbilityWithoutConsumingElement>(),
+		
+		ModelDB.Perk<LuminaryPerks.ReplaceOneMinusOneWithOnePlusZeroFire>(),
+		
+		ModelDB.Perk<LuminaryPerks.ReplaceOneMinusOneWithOnePlusZeroIce>(),
+		
+		ModelDB.Perk<LuminaryPerks.ReplaceOneMinusOneWithOnePlusZeroLight>(),
+		
+		ModelDB.Perk<LuminaryPerks.ReplaceOneMinusOneWithOnePlusZeroDark>(),
+		
+		ModelDB.Perk<LuminaryPerks.ReplaceTwoPlusZeroWithOnePlusZeroWild>(),
+		ModelDB.Perk<LuminaryPerks.ReplaceTwoPlusZeroWithOnePlusZeroWild>(),
+		
+		ModelDB.Perk<LuminaryPerks.ReplaceOnePlusZeroWithOnePlusTwo>(),
+		
+		ModelDB.Perk<LuminaryPerks.AddOnePlusZeroPerformPoisonAbility>(),
+		ModelDB.Perk<LuminaryPerks.AddOnePlusZeroPerformPoisonAbility>(),
+		
+		ModelDB.Perk<LuminaryPerks.AddOnePlusOneHealOneSelfRolling>(),
+		ModelDB.Perk<LuminaryPerks.AddOnePlusOneHealOneSelfRolling>(),
+		
+		ModelDB.Perk<LuminaryPerks.IgnoreScenarioEffectsAddOnePlusZeroConsumeElementToInfuseElementRolling>(),
+		
+		ModelDB.Perk<LuminaryPerks.IgnoreItemEffectsRemoveOnePlusZero>(),
+		
+		ModelDB.Perk<LuminaryPerks.IgnitedPower>(),
 	];
 }

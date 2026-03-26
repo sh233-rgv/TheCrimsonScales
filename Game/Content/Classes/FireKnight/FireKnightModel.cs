@@ -51,6 +51,32 @@ public class FireKnightModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<FireKnightPerks.ReplaceOneMinusOneWithOnePlusOneStrengthenAlly>(),
+		ModelDB.Perk<FireKnightPerks.ReplaceOneMinusOneWithOnePlusOneStrengthenAlly>(),
+
+		ModelDB.Perk<FireKnightPerks.ReplaceOneMinusOneWithOnePlusZeroHealOneRangeOneRolling>(),
+		ModelDB.Perk<FireKnightPerks.ReplaceOneMinusOneWithOnePlusZeroHealOneRangeOneRolling>(),
+
+		ModelDB.Perk<FireKnightPerks.ReplaceTwoPlusZeroWithTwoPlusZeroIfYouAreOnLadderPlusTwoInstead>(),
+		ModelDB.Perk<FireKnightPerks.ReplaceTwoPlusZeroWithTwoPlusZeroIfYouAreOnLadderPlusTwoInstead>(),
+
+		ModelDB.Perk<FireKnightPerks.ReplacePlusZeroWithOnePlusOneFire>(),
+
+		ModelDB.Perk<FireKnightPerks.ReplaceOnePlusZeroWithOnePlusOneWound>(),
+
+		ModelDB.Perk<FireKnightPerks.ReplaceOnePlusOneWithOnePlusTwoWound>(),
+
+		ModelDB.Perk<FireKnightPerks.AddOnePlusTwoFire>(),
+
+		ModelDB.Perk<FireKnightPerks.AddOnePlusOneStrengthenAlly>(),
+
+		ModelDB.Perk<FireKnightPerks.AddTwoPlusZeroWoundRolling>(),
+
+		ModelDB.Perk<FireKnightPerks.IgnoreScenarioEffectsAddOnePlusZeroFireRolling>(),
+
+		ModelDB.Perk<FireKnightPerks.IgnoreItemMinusOneEffectsAddOnePlusZeroFireRolling>(),
+
+		ModelDB.Perk<FireKnightPerks.FearlessLeader>()
 	];
 
 	public List<ItemModel> AllItems { get; } =

@@ -52,5 +52,30 @@ public class BrightsparkModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<BrightsparkPerks.ReplaceOneMinusTwoWithOneMinusTwoRecoverRandomCardFromDiscard>(),
+
+		ModelDB.Perk<BrightsparkPerks.ReplaceOneMinusOneWithOnePlusZeroConsumeElementForPlusTwo>(),
+		ModelDB.Perk<BrightsparkPerks.ReplaceOneMinusOneWithOnePlusZeroConsumeElementForPlusTwo>(),
+		ModelDB.Perk<BrightsparkPerks.ReplaceOneMinusOneWithOnePlusZeroConsumeElementForPlusTwo>(),
+
+		ModelDB.Perk<BrightsparkPerks.ReplaceOnePlusZeroWithOnePlusOneHealOneAllyRangeTwo>(),
+		ModelDB.Perk<BrightsparkPerks.ReplaceOnePlusZeroWithOnePlusOneHealOneAllyRangeTwo>(),
+
+		ModelDB.Perk<BrightsparkPerks.ReplaceTwoPlusZeroWithOnePlusOneGrantOneAllyWithinRangeTwoShieldOne>(),
+
+		ModelDB.Perk<BrightsparkPerks.ReplaceTwoPlusZeroWithThreePlusZeroConsumeElementToInfuseElementRolling>(),
+
+		ModelDB.Perk<BrightsparkPerks.ReplaceOnePlusOneWithOnePlusTwoWildElement>(),
+		ModelDB.Perk<BrightsparkPerks.ReplaceOnePlusOneWithOnePlusTwoWildElement>(),
+
+		ModelDB.Perk<BrightsparkPerks.ReplaceTwoPlusOneWithTwoPlusOneStrengthenAllyRangeTwo>(),
+
+		ModelDB.Perk<BrightsparkPerks.AddOnePlusZeroImmobilizeIceRollingOnePlusZeroPushOneOrPullOneAirRolling>(),
+
+		ModelDB.Perk<BrightsparkPerks.AddOnePlusZeroPierceTwoFireRollingOnePlusZeroHealOneRangeThreeLightRolling>(),
+
+		ModelDB.Perk<BrightsparkPerks.IgnoreScenarioEffectsRemoveOneMinusOne>(),
+
+		ModelDB.Perk<BrightsparkPerks.SparkOfInspiration>(),
 	];
 }

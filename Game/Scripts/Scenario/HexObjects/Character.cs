@@ -107,7 +107,7 @@ public partial class Character : Figure
 				{
 					foreach(AMDCardModel amdCardModel in perk.CardsToAdd)
 					{
-						_amdCardDeck.AddCard(new AMDCard(amdCardModel, amdCardOwner), true);
+						_amdCardDeck.AddCard(new AMDCard(amdCardModel, amdCardOwner, potentialDeckOwner: this), true);
 					}
 				}
 			}
@@ -318,6 +318,12 @@ public partial class Character : Figure
 		item.SetOwner(null);
 	}
 
+	public void EquipItem(ItemModel itemModel)
+	{
+		itemModel.Init(this);
+		Items.Add(itemModel);
+	}
+
 	public void RegisterSummon(Summon summon)
 	{
 		Summons.Add(summon);
@@ -505,6 +511,9 @@ public partial class Character : Figure
 				.Build()
 		]);
 		await actionState.Perform();
+
+		await ScenarioEvents.LongRestEndedEvent.CreatePrompt(
+			new ScenarioEvents.LongRestEnded.Parameters(this));
 	}
 
 	public async GDTask ShortRest()
@@ -621,8 +630,7 @@ public partial class Character : Figure
 			}
 
 			ItemModel item = ModelDB.GetById<ItemModel>(baseSlotItem).ToMutable();
-			item.Init(this);
-			Items.Add(item);
+			EquipItem(item);
 		}
 
 		foreach(string smallItem in SavedCharacter.EquippedSmallItems)
@@ -633,21 +641,20 @@ public partial class Character : Figure
 			}
 
 			ItemModel item = ModelDB.GetById<ItemModel>(smallItem).ToMutable();
-			item.Init(this);
-			Items.Add(item);
+			EquipItem(item);
 		}
 
-		bool ignoreNegativeItemEffects = false;
+		bool ignoreItemMinusOneEffects = false;
 		for(int i = 0; i < ClassModel.Perks.Count; i++)
 		{
 			PerkModel perkModel = ClassModel.Perks[i];
-			if(perkModel.IgnoreNegativeItemEffects && SavedCharacter.GetPerkAcquired(i))
+			if(perkModel.IgnoreItemMinusOneEffects && SavedCharacter.GetPerkAcquired(i))
 			{
-				ignoreNegativeItemEffects = true;
+				ignoreItemMinusOneEffects = true;
 			}
 		}
 
-		if(!ignoreNegativeItemEffects)
+		if(!ignoreItemMinusOneEffects)
 		{
 			foreach(ItemModel item in Items)
 			{
