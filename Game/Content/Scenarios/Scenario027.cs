@@ -13,11 +13,14 @@ public class Scenario027 : ScenarioModel
 
 	private Door _door2;
 
+	public override async GDTask StartOfScenarioEffects(Character character)
+	{
+		await AbilityCmd.AddCondition(null, character, Conditions.Immobilize);
+	}
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
-
-		//Scenario Effect
 
 		_door2 = GameController.Instance.Map.GetMarker(Marker.Type._2).GetHexObject<Door>();
 

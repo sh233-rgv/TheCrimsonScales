@@ -17,18 +17,14 @@ public class Scenario005 : ScenarioModel
 	private Dictionary<Marker, List<Hex>> _infectedWaterSources = [];
 	private Figure _gelatinousGiant = null;
 
+	public override async GDTask StartOfScenarioEffects(Character character)
+	{
+		await AbilityCmd.AddCondition(null, character, Conditions.Infect);
+	}
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
-
-		UpdateScenarioText(
-			$"All characters start with {Icons.Inline(Icons.GetCondition(Conditions.Infect))} as a scenario effect");
-
-		//TODO: Scenario effect
-		foreach(Character character in GameController.Instance.CharacterManager.Characters)
-		{
-			await AbilityCmd.AddCondition(null, character, Conditions.Infect);
-		}
 
 		GameController.Instance.EndEvent += (scenarioResult, savedScenarioProgress) =>
 		{
@@ -167,7 +163,7 @@ public class Scenario005 : ScenarioModel
 						break;
 					}
 				}
-			}, true, $"Select where to summon the Elite Bloode Ooze"
+			}, true, $"Select where to summon the Elite Blood Ooze"
 		);
 
 		if(chosenHex != null)

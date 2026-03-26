@@ -24,11 +24,14 @@ public class Scenario011 : ScenarioModel
 	private List<Obstacle> _barrels;
 	private List<Hex> BarrelHexes => _barrels.Select(hex => hex.Hex).ToList();
 
+	public override async GDTask StartOfScenarioEffects(Character character)
+	{
+		await AbilityCmd.AddCondition(null, character, Conditions.Muddle);
+	}
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
-
-		//TODO: Scenario Effect
 
 		_barrels = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.GetHexObject<Obstacle>()).ToList();
 

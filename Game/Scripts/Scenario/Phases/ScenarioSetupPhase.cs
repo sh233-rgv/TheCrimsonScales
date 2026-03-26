@@ -91,6 +91,11 @@ public class ScenarioSetupPhase : ScenarioPhase
 		foreach(Character character in GameController.Instance.CharacterManager.Characters)
 		{
 			await character.OnScenarioSetupCompleted();
+			if(ScenarioCheckEvents.ApplyScenarioEffectsCheckEvent.Fire(new ScenarioCheckEvents.ApplyScenarioEffectsCheck.Parameters(character))
+			   .CanApply)
+			{
+				await GameController.Instance.ScenarioModel.StartOfScenarioEffects(character);
+			}
 		}
 
 		foreach(SavedEventState savedEventState in GameController.Instance.SavedCampaign.SavedEvents.SavedEventStates)

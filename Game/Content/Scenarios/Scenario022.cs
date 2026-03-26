@@ -11,11 +11,14 @@ public class Scenario022 : ScenarioModel
 
 	private int _remainingImpKills;
 
+	public override async GDTask StartOfScenarioEffects(Character character)
+	{
+		await AbilityCmd.AddCondition(null, character, Conditions.Muddle);
+	}
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
-
-		//Scenario Effect
 
 		_remainingImpKills = GameController.Instance.SavedCampaign.Characters.Count * 4;
 

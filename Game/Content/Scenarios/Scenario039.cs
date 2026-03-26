@@ -19,13 +19,16 @@ public class Scenario039 : ScenarioModel
 	private Hex _markerCHex;
 	private string _text;
 
+	public override async GDTask StartOfScenarioEffects(Character character)
+	{
+		await AbilityCmd.SufferDamage(character, 1, character);
+	}
+
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
 
 		GameController.Instance.Map.Treasures[0].SetItemDesignLoot(ModelDB.Item<VipertoothDagger>());
-
-		//TODO: Scenario Effect
 
 		_markerAHexes = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.Hex).ToList();
 		_markerBHex = GameController.Instance.Map.GetMarker(Marker.Type.b).Hex;

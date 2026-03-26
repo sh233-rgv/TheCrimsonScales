@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
-public abstract class PerkModel : AbstractModel
+public abstract class PerkModel : AbstractModel, IEventSubscriber
 {
 	public virtual string ToString(RichTextParameters richTextParameters)
 	{
@@ -84,6 +84,16 @@ public abstract class PerkModel : AbstractModel
 
 	public virtual async GDTask OnScenarioSetupPhaseCompleted(Character character)
 	{
+		if(IgnoreNegativeScenarioEffects)
+		{
+			ScenarioCheckEvents.ApplyScenarioEffectsCheckEvent.Subscribe(this,
+				parameters => parameters.Character == character,
+				parameters =>
+				{
+					parameters.SetIgnoreScenarioEffects();
+				});
+		}
+
 		await GDTask.CompletedTask;
 	}
 

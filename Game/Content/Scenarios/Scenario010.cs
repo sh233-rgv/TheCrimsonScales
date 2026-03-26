@@ -19,6 +19,16 @@ public class Scenario010 : ScenarioModel
 
 	private int _crateKillCount = 0;
 
+	public override async GDTask StartOfScenarioEffects(Character character)
+	{
+		AbilityCard card = await AbilityCmd.SelectAbilityCard(character, CardState.Hand, true, hintText: "Select a card to discard");
+
+		if(card != null)
+		{
+			await card.SetCardState(CardState.Discarded);
+		}
+	}
+
 	public override async GDTask StartBeforeFirstRoomRevealed()
 	{
 		await base.StartBeforeFirstRoomRevealed();
@@ -34,8 +44,6 @@ public class Scenario010 : ScenarioModel
 		UpdateScenarioText();
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(AbilityCmd.GetRandomAvailableStone());
-
-		//TODO: Scenario effect
 
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
 			parameters => true,
