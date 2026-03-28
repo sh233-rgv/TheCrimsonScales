@@ -10,10 +10,10 @@ public class LandLeviathan : DeepTerror, IBossMonsterModel
 			{
 				Health = stats.Health * (CharacterCount * 2 - 1),
 				Traits = (stats.Traits ?? [])
-				.Append(ConditionImmunityTrait.PoisonImmunityTrait())
-				.Append(new ConditionImmunityTrait(Conditions.Stun))
-				.Append(new ConditionImmunityTrait(Conditions.Disarm))
-				.Append(new ForcedMovementImmunityTrait())
+					.Append(ConditionImmunityTrait.PoisonImmunityTrait())
+					.Append(new ConditionImmunityTrait(Conditions.Stun))
+					.Append(new ConditionImmunityTrait(Conditions.Disarm))
+					.Append(new ForcedMovementImmunityTrait())
 				.ToArray()
 			})
 			.ToArray();
