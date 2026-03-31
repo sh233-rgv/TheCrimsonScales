@@ -33,6 +33,8 @@ public class ScenarioInitializationPhase : ScenarioPhase
 			}
 		}
 
+		await GameController.Instance.OpenStoryViewIntroduction();
+
 		await GameController.Instance.ScenarioModel.StartAfterFirstRoomRevealed();
 	}
 }

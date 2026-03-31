@@ -8,9 +8,12 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 	public abstract string ScenePath { get; }
 	public abstract int ScenarioNumber { get; }
+	public virtual string Name => null;
 	public abstract ScenarioChain ScenarioChain { get; }
 	public virtual IEnumerable<ScenarioConnection> Connections { get; } = [];
 	public virtual int[] TreasureNumbers { get; } = [];
+	public virtual string IntroductionText => null;
+	public virtual string ConclusionText => null;
 
 	//TODO: Change to being abstract to force scenarios to override for view pre-scenario
 	protected virtual List<MonsterModel> SpawnedMonsterModels { get; } = [];

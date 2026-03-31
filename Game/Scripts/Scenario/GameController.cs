@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 public partial class GameController : SceneController<GameController>
 {
 	private static string DefaultSavedGame;
+	private static bool ShownIntroduction;
 
 	[Export]
 	public CameraController CameraController { get; private set; }
@@ -98,6 +99,9 @@ public partial class GameController : SceneController<GameController>
 	[Export]
 	public ScreenDistortion ScreenDistortion { get; private set; }
 
+	[Export]
+	public StoryView StoryView { get; private set; }
+
 	private readonly Stopwatch _fastForwardStopwatch = new Stopwatch();
 
 	public GameSceneRequest SceneRequest { get; private set; }
@@ -181,7 +185,7 @@ public partial class GameController : SceneController<GameController>
 				{
 					Id = Guid.NewGuid(),
 					AppVersion = AppController.Instance.SaveFile.SaveData.AppVersion,
-					ScenarioModelId = ModelDB.Scenario<TestScenario>().Id.ToString(),
+					ScenarioModelId = ModelDB.Scenario<Scenario001>().Id.ToString(),
 					//Seed = GD.RandRange(0, int.MaxValue),
 					Seed = 0,
 					ScenarioLevel =
@@ -404,6 +408,8 @@ public partial class GameController : SceneController<GameController>
 
 		AppController.Instance.SaveFile.Save();
 
+		ShownIntroduction = false;
+
 		if(scenarioResult == ScenarioResult.Retry)
 		{
 			AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(SavedCampaign));
@@ -412,6 +418,27 @@ public partial class GameController : SceneController<GameController>
 		{
 			AppController.Instance.SceneLoader.RequestSceneChange(new BetweenScenariosSceneRequest(SavedCampaign, scenarioModelId));
 		}
+	}
+
+	public async GDTask OpenStoryViewIntroduction()
+	{
+		if(string.IsNullOrEmpty(ScenarioModel.Name) || string.IsNullOrEmpty(ScenarioModel.IntroductionText))
+		{
+			return;
+		}
+
+		if(ShownIntroduction || (SavedScenario.ScenarioSetupState?.Completed ?? false))
+		{
+			return;
+		}
+
+		SetFastForward(false);
+		ShownIntroduction = true;
+
+		string title = $"{ScenarioModel.ScenarioNumber} - {ScenarioModel.Name}";
+		StoryView.Open(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.IntroductionText);
+
+		await GDTask.WaitWhile(() => StoryView.Opened);
 	}
 
 	private void EditorPrintSaveGame()

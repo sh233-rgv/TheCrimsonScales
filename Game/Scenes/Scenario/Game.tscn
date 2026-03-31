@@ -84,6 +84,11 @@
 [ext_resource type="Script" uid="uid://bdesfx5saafxe" path="res://Scripts/Scenario/UI/PartyButton.cs" id="68_7tbw1"]
 [ext_resource type="Texture2D" uid="uid://u3h3kga0ipcv" path="res://Art/Icons/Other/Party.svg" id="69_b2ul3"]
 [ext_resource type="Script" uid="uid://opd3xcxouwh5" path="res://Scripts/Scenario/UI/CurrentActionView/CurrentActionViewManager.cs" id="71_b23n0"]
+[ext_resource type="Script" uid="uid://sbmgh20yp0y4" path="res://Scripts/UI/StoryView.cs" id="85_2ab6n"]
+[ext_resource type="Texture2D" uid="uid://cw111i6yk01f1" path="res://Art/Backgrounds/ArtbookBackground.jpg" id="85_g11d3"]
+[ext_resource type="LabelSettings" uid="uid://co0cqpevlny13" path="res://Resources/PanelLabel.tres" id="86_2ab6n"]
+[ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="87_ambid"]
+[ext_resource type="Script" uid="uid://e1u4nmwejxw5" path="res://Scripts/Scenario/UI/ChoiceButtonsView/ChoiceButton.cs" id="88_jy8qd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fcllr"]
 shader = ExtResource("20_76yld")
@@ -152,7 +157,19 @@ font_size = 100
 font = ExtResource("39_namyh")
 font_size = 50
 
-[node name="Game" type="Node" unique_id=836903355 node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "SelectFigureView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "TeleportPath", "AOEView", "AOEButtonView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "SpecialRulesView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin", "ScreenDistortion")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g11d3"]
+shader = ExtResource("11_lqqm2")
+shader_parameter/inner_radius = 0.3
+shader_parameter/outer_radius = 1.0
+shader_parameter/vignette_strength = 0.8
+shader_parameter/dither_strength = 0.03
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_2ab6n"]
+font = ExtResource("61_2qf5q")
+font_size = 120
+
+[node name="Game" type="Node" unique_id=836903355 node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "SelectFigureView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "TeleportPath", "AOEView", "AOEButtonView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "SpecialRulesView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin", "ScreenDistortion", "StoryView")]
 script = ExtResource("1_arwlr")
 CameraController = NodePath("CameraController")
 CursorOverUIChecker = NodePath("CanvasLayer/UI/CursorOverUIChecker")
@@ -183,6 +200,7 @@ Selector = NodePath("Selector")
 CharacterStartHexMoveIndicator = NodePath("CanvasLayer/UI/CharacterStartHexMoveIndicator")
 HexPin = NodePath("HexPin")
 ScreenDistortion = NodePath("ScreenDistortion")
+StoryView = NodePath("CanvasLayer/UI/StoryView")
 
 [node name="CameraController" type="Node2D" parent="." unique_id=1572162011 node_paths=PackedStringArray("Camera", "_movePivot")]
 script = ExtResource("15_67ddq")
@@ -1710,6 +1728,137 @@ grow_vertical = 2
 text = "(2, 2)"
 label_settings = SubResource("LabelSettings_hctre")
 
+[node name="StoryView" type="Control" parent="CanvasLayer/UI" unique_id=520228844 node_paths=PackedStringArray("_title", "_subtitle", "_text", "_backButton", "_continueButton")]
+z_index = 1000
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("85_2ab6n")
+_title = NodePath("Header/Title")
+_subtitle = NodePath("Header/Subtitle")
+_text = NodePath("Text")
+_backButton = NodePath("BackButton")
+_continueButton = NodePath("ConfirmButton")
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/UI/StoryView" unique_id=1920086167]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("85_g11d3")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Vignette" type="ColorRect" parent="CanvasLayer/UI/StoryView" unique_id=1581484240]
+material = SubResource("ShaderMaterial_g11d3")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Header" type="Control" parent="CanvasLayer/UI/StoryView" unique_id=1839973760]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="CanvasLayer/UI/StoryView/Header" unique_id=1388454983]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -465.0
+offset_top = 50.0
+offset_right = 465.0
+offset_bottom = 187.0
+grow_horizontal = 2
+text = "1 - The Dark Lake"
+label_settings = SubResource("LabelSettings_2ab6n")
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="CanvasLayer/UI/StoryView/Header" unique_id=1701045861]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -565.0
+offset_top = 180.0
+offset_right = 565.0
+offset_bottom = 221.0
+grow_horizontal = 2
+text = "Main Campaign"
+label_settings = ExtResource("86_2ab6n")
+horizontal_alignment = 1
+
+[node name="Text" type="RichTextLabel" parent="CanvasLayer/UI/StoryView" unique_id=153007038]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -139.0
+offset_right = 600.0
+offset_bottom = 179.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("61_2qf5q")
+theme_override_font_sizes/normal_font_size = 50
+text = "Following the vague instructions you were given, you head to the Dark Lake. As you arrive at the shore you see... nothing. The shore, and the lake are deserted of all wildlife, let alone ‘strange creatures.’ You start to walk round the lake, growing slowly more dispirited as you go. You’ve clearly been tricked, and accusing looks pass between the party as you mutter about whose fault it was."
+fit_content = true
+horizontal_alignment = 3
+vertical_alignment = 1
+
+[node name="BackButton" parent="CanvasLayer/UI/StoryView" unique_id=1713316230 node_paths=PackedStringArray("BetterButton") instance=ExtResource("87_ambid")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_top = -180.0
+offset_right = 300.0
+offset_bottom = -100.0
+grow_vertical = 0
+script = ExtResource("88_jy8qd")
+BetterButton = NodePath("BetterButton")
+_startActive = false
+
+[node name="Label" parent="CanvasLayer/UI/StoryView/BackButton/BetterButton/Panel" parent_id_path=PackedInt32Array(1713316230, 62362509) index="0" unique_id=188245078]
+text = "Back"
+
+[node name="ConfirmButton" parent="CanvasLayer/UI/StoryView" unique_id=496017259 node_paths=PackedStringArray("BetterButton") instance=ExtResource("87_ambid")]
+modulate = Color(0.458824, 1, 0.372549, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -180.0
+offset_right = -100.0
+offset_bottom = -100.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("88_jy8qd")
+BetterButton = NodePath("BetterButton")
+_startActive = true
+
+[node name="Label" parent="CanvasLayer/UI/StoryView/ConfirmButton/BetterButton/Panel" parent_id_path=PackedInt32Array(496017259, 62362509) index="0" unique_id=188245078]
+text = "Continue"
+
 [editable path="HexPin/ScaleContainer/WorldButton"]
 [editable path="CanvasLayer/UI/ScenarioSetupButtonsView/StartScenario"]
 [editable path="CanvasLayer/UI/ScenarioSetupButtonsView/OptionsContainer/EquipmentButton"]
@@ -1732,3 +1881,5 @@ label_settings = SubResource("LabelSettings_hctre")
 [editable path="CanvasLayer/UI/ScenarioLostView/Retry"]
 [editable path="CanvasLayer/UI/ScenarioLostView/ReturnToTown"]
 [editable path="CanvasLayer/UI/ScenarioWonView/ContinueButton"]
+[editable path="CanvasLayer/UI/StoryView/BackButton"]
+[editable path="CanvasLayer/UI/StoryView/ConfirmButton"]
