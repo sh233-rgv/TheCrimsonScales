@@ -61,7 +61,7 @@ public class Road16 : RoadEventModel<Road16.ChoiceA, Road16.ChoiceB>
 					await GDTask.CompletedTask;
 				},
 				color =>
-					$"At the start of the next scenario, one character gains the following benefit: During your next two single-target melee attacks, add +1{Icons.Inline(Icons.Attack)} to the attack."
+					$"At the start of the next scenario, one character gains the following benefit: During your next two single-target melee attacks, add +1{Icons.Inline(Icons.Attack, color: color)} to the attack."
 			)
 		];
 	}
