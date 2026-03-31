@@ -47,8 +47,6 @@ public partial class StoryView : Control
 
 		SetIndex(0);
 
-		_backButton.SetActive(true);
-		_continueButton.SetActive(true);
 		SetVisible(true);
 
 		Opened = true;

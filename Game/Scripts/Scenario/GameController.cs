@@ -439,6 +439,8 @@ public partial class GameController : SceneController<GameController>
 		StoryView.Open(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.IntroductionText);
 
 		await GDTask.WaitWhile(() => StoryView.Opened);
+
+		await GDTask.Delay(0.5f);
 	}
 
 	private void EditorPrintSaveGame()
