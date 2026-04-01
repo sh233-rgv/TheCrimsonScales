@@ -31,6 +31,9 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 	[Export]
 	public BetweenScenariosClassUnlockOverlay UnlockOverlay { get; private set; }
 
+	[Export]
+	public StoryView StoryView { get; private set; }
+
 	private readonly List<EventReward> _duringDowntimeEventRewards = new List<EventReward>();
 
 	public BetweenScenariosSceneRequest SceneRequest { get; private set; }

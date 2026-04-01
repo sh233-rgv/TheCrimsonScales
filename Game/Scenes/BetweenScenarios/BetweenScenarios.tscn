@@ -81,6 +81,7 @@
 [ext_resource type="Script" uid="uid://1cmilwv1hjb3" path="res://Scripts/BetweenScenarios/CharacterCreation/PersonalQuestCharacterCreationStep.cs" id="70_sursi"]
 [ext_resource type="Script" uid="uid://b4khct4qavbbp" path="res://Scripts/BetweenScenarios/BetweenScenariosClassUnlockOverlay.cs" id="74_6t0vk"]
 [ext_resource type="PackedScene" uid="uid://d20kxebd41qbn" path="res://Scenes/CharacterUnlock/UnlockCharacterView.tscn" id="74_8tse7"]
+[ext_resource type="PackedScene" uid="uid://datb4w0nwrm8m" path="res://Scenes/UI/StoryView.tscn" id="82_n4mfb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5k12q"]
 shader = ExtResource("23_psaff")
@@ -567,7 +568,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 expand_margin_left = 8.0
 
-[node name="BetweenScenarios" type="Node" unique_id=871982570 node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay", "ActionManager", "ItemShop", "CharacterCreationOverlay", "UnlockOverlay")]
+[node name="BetweenScenarios" type="Node" unique_id=871982570 node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay", "ActionManager", "ItemShop", "CharacterCreationOverlay", "UnlockOverlay", "StoryView")]
 script = ExtResource("1_rtyjh")
 BetweenScenariosSidePanel = NodePath("CanvasLayer/UI/SidePanel")
 CharacterPortraitManager = NodePath("CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/Characters")
@@ -577,6 +578,7 @@ ActionManager = NodePath("CanvasLayer/UI/BetweenScenariosActionManager")
 ItemShop = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ItemShop")
 CharacterCreationOverlay = NodePath("CanvasLayer/UI/CharacterCreationOverlay")
 UnlockOverlay = NodePath("CanvasLayer/UI/ClassUnlockOverlay")
+StoryView = NodePath("CanvasLayer/UI/StoryView")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=631066556]
 
@@ -2915,6 +2917,10 @@ mouse_filter = 2
 layout_mode = 1
 
 [node name="MenuButton" parent="CanvasLayer/UI" unique_id=73570041 instance=ExtResource("32_5k12q")]
+layout_mode = 1
+
+[node name="StoryView" parent="CanvasLayer/UI" unique_id=297419416 instance=ExtResource("82_n4mfb")]
+visible = false
 layout_mode = 1
 
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation"]
