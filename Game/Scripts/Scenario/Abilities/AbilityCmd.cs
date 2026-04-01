@@ -749,15 +749,15 @@ public static class AbilityCmd
 			return false;
 		}
 
-		ScenarioCheckEvents.CanEnterCheck.Parameters canEnter =
+		ScenarioCheckEvents.CanEnterCheck.Parameters canEnterA =
 			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
 				new ScenarioCheckEvents.CanEnterCheck.Parameters(figureA, figureB.Hex));
 
-		ScenarioCheckEvents.CanEnterCheck.Parameters canEnter2 =
+		ScenarioCheckEvents.CanEnterCheck.Parameters canEnterB =
 			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
 				new ScenarioCheckEvents.CanEnterCheck.Parameters(figureB, figureA.Hex));
 
-		if(!canEnter.CanEnter || !canEnter.CanEnter)
+		if(!canEnterA.CanEnter || !canEnterB.CanEnter)
 		{
 			return false;
 		}
@@ -1198,6 +1198,36 @@ public static class AbilityCmd
 			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(itemModel);
 			savedItem.AddUnlocked(item.ShopCount);
 			savedItem.AddStock(item.ShopCount);
+		}
+
+		GameController.Instance.EndEvent += OnScenarioEnd;
+	}
+
+	public static async GDTask GainGold(Character character, int amount)
+	{
+		void OnScenarioEnd(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress)
+		{
+			character.SavedCharacter.AddGold(amount);
+		}
+
+		GameController.Instance.EndEvent += OnScenarioEnd;
+	}
+
+	public static async GDTask GainXP(Character character, int amount)
+	{
+		void OnScenarioEnd(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress)
+		{
+			character.SavedCharacter.AddXP(amount);
+		}
+
+		GameController.Instance.EndEvent += OnScenarioEnd;
+	}
+
+	public static async GDTask GainCheckmark(Character character)
+	{
+		void OnScenarioEnd(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress)
+		{
+			character.SavedCharacter.AddCheckmark();
 		}
 
 		GameController.Instance.EndEvent += OnScenarioEnd;
