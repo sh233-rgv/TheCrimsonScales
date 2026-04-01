@@ -2,7 +2,7 @@
 
 public class City31 : CityEventModel<City31.ChoiceA, City31.ChoiceB>
 {
-	public override int Number => 35;
+	public override int Number => 31;
 
 	public override string Text =>
 		"""

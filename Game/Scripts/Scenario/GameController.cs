@@ -436,11 +436,11 @@ public partial class GameController : SceneController<GameController>
 		ShownIntroduction = true;
 
 		string title = $"{ScenarioModel.ScenarioNumber} - {ScenarioModel.Name}";
-		StoryView.Open(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.IntroductionText);
+		StoryView.Open(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.IntroductionText, cancellationToken: CancellationToken);
 
-		await GDTask.WaitWhile(() => StoryView.Opened);
+		await GDTask.WaitWhile(() => StoryView.Opened, cancellationToken: CancellationToken);
 
-		await GDTask.Delay(0.5f);
+		await GDTask.DelayFastForwardable(0.5f);
 	}
 
 	private void EditorPrintSaveGame()

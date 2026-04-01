@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using Fractural.Tasks;
 using Godot;
 using GTweensGodot.Extensions;
 
@@ -14,6 +16,8 @@ public partial class StoryView : Control
 	private RichTextLabel _text;
 
 	[Export]
+	private BetterButton _skipTextButton;
+	[Export]
 	private ChoiceButton _backButton;
 	[Export]
 	private ChoiceButton _continueButton;
@@ -21,25 +25,31 @@ public partial class StoryView : Control
 	private readonly List<string> _texts = new List<string>();
 	private int _textIndex;
 
+	private CancellationToken _cancellationToken;
+	private bool _skipText;
+	private bool _transitioningText;
+
 	public bool Opened { get; private set; }
 
 	public override void _Ready()
 	{
 		base._Ready();
 
+		_skipTextButton.Pressed += OnSkipTextPressed;
 		_backButton.BetterButton.Pressed += OnBackPressed;
 		_continueButton.BetterButton.Pressed += OnContinuePressed;
 
 		SetVisible(false);
 	}
 
-	public void Open(string title, string subtitle, string text)
+	public void Open(string title, string subtitle, string text, CancellationToken cancellationToken)
 	{
+		_cancellationToken = cancellationToken;
+
 		_title.SetText(title);
 		_subtitle.SetText(subtitle);
 
 		_texts.Clear();
-		//_text.SetText(text);
 
 		string paragraphMarker = "\n";
 		string[] paragraphs = text.Split([paragraphMarker], StringSplitOptions.RemoveEmptyEntries);
@@ -48,6 +58,8 @@ public partial class StoryView : Control
 		SetIndex(0);
 
 		SetVisible(true);
+
+		_text.SetVisibleCharacters(0);
 
 		Opened = true;
 	}
@@ -66,9 +78,57 @@ public partial class StoryView : Control
 	{
 		_textIndex = index;
 
-		_text.SetText(_texts[index]);
+		AnimateText(TextHelper.Prettify(_texts[index])).Forget();
 
 		UpdateButtons();
+	}
+
+	private async GDTaskVoid AnimateText(string text)
+	{
+		await GDTask.Yield(_cancellationToken);
+		await GDTask.Yield(_cancellationToken);
+
+		_text.SetText(text);
+		_text.SetVisibleCharacters(0);
+
+		_skipText = false;
+		_transitioningText = false;
+		_skipTextButton.Show();
+
+		const float charactersPerSecond = 50f;
+		float charactersToDisplay = 0f;
+		bool waitedFrame = false;
+
+		int labelLength = _text.GetParsedText().Length;
+		while(!_transitioningText)
+		{
+			if(_skipText)
+			{
+				charactersToDisplay += Mathf.Inf;
+			}
+
+			if(waitedFrame)
+			{
+				charactersToDisplay += charactersPerSecond * (float)GetProcessDeltaTime();
+				waitedFrame = false;
+			}
+
+			_text.SetVisibleCharacters(Mathf.Min(Mathf.FloorToInt(charactersToDisplay), labelLength));
+
+			if(charactersToDisplay > labelLength)
+			{
+				charactersToDisplay -= labelLength;
+				break;
+			}
+
+			await GDTask.Yield(_cancellationToken);
+			waitedFrame = true;
+		}
+	}
+
+	private void SkipText()
+	{
+		_skipText = true;
 	}
 
 	private void UpdateButtons()
@@ -77,8 +137,16 @@ public partial class StoryView : Control
 		//_continueButton.SetActive(_textIndex < _texts.Count - 1);
 	}
 
+	private void OnSkipTextPressed()
+	{
+		SkipText();
+		_skipTextButton.Hide();
+	}
+
 	private void OnBackPressed()
 	{
+		_transitioningText = true;
+
 		SetIndex(_textIndex - 1);
 	}
 
@@ -90,6 +158,8 @@ public partial class StoryView : Control
 
 			return;
 		}
+
+		_transitioningText = true;
 
 		SetIndex(_textIndex + 1);
 	}

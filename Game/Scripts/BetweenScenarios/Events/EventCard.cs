@@ -38,7 +38,7 @@ public partial class EventCard : Control
 			ShowFront();
 		}
 
-		FrontEventText.SetText(eventModel.Text, showText);
+		FrontEventText.SetText(TextHelper.Prettify(eventModel.Text), showText);
 		NumberLabel.SetText(eventModel.Number.ToString());
 	}
 
@@ -49,7 +49,7 @@ public partial class EventCard : Control
 			ShowBack();
 		}
 
-		BackEventText.SetText(savedEventState.Choice.GetStoryText(savedEventState), showText);
+		BackEventText.SetText(TextHelper.Prettify(savedEventState.Choice.GetStoryText(savedEventState)), showText);
 
 		foreach(RichTextLabel rewardLabel in _rewardLabels)
 		{
