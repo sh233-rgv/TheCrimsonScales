@@ -394,7 +394,7 @@ public static class AbilityCmd
 	{
 		return await CreateOverlayTile<DifficultTerrain>(hex, scene);
 	}
-	
+
 	public static async GDTask<Obstacle> CreateObstacle(Hex hex, string assetPath)
 	{
 		PackedScene scene = ResourceLoader.Load<PackedScene>(assetPath);
@@ -1262,6 +1262,8 @@ public static class AbilityCmd
 	public static async GDTask Win()
 	{
 		await ScenarioEvents.ScenarioEndedEvent.CreatePrompt(new ScenarioEvents.ScenarioEnded.Parameters(true));
+
+		await GameController.Instance.OpenStoryViewConclusion();
 
 		GameController.Instance.MarkScenarioEnded();
 		GameController.Instance.ScenarioWonView.Open();

@@ -443,6 +443,21 @@ public partial class GameController : SceneController<GameController>
 		await GDTask.DelayFastForwardable(0.5f);
 	}
 
+	public async GDTask OpenStoryViewConclusion()
+	{
+		if(string.IsNullOrEmpty(ScenarioModel.Name) || string.IsNullOrEmpty(ScenarioModel.ConclusionText))
+		{
+			return;
+		}
+
+		string title = $"{ScenarioModel.ScenarioNumber} - {ScenarioModel.Name}";
+		StoryView.Open(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.ConclusionText, cancellationToken: CancellationToken);
+
+		await GDTask.WaitWhile(() => StoryView.Opened, cancellationToken: CancellationToken);
+
+		await GDTask.DelayFastForwardable(0.5f);
+	}
+
 	private void EditorPrintSaveGame()
 	{
 		string json = JsonConvert.SerializeObject(SavedCampaign, SaveFile.JsonSerializerSettings);

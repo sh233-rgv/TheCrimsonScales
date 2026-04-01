@@ -55,9 +55,11 @@ public partial class StoryView : Control
 		string[] paragraphs = text.Split([paragraphMarker], StringSplitOptions.RemoveEmptyEntries);
 		_texts.AddRange(paragraphs);
 
-		SetIndex(0);
+		SetIndex(0, 0.5f);
 
 		SetVisible(true);
+
+		this.TweenModulateAlpha(1f, 0.5f).Play();
 
 		_text.SetVisibleCharacters(0);
 
@@ -74,19 +76,21 @@ public partial class StoryView : Control
 		Opened = false;
 	}
 
-	private void SetIndex(int index)
+	private void SetIndex(int index, float initialDelay = 0f)
 	{
 		_textIndex = index;
 
-		AnimateText(TextHelper.Prettify(_texts[index])).Forget();
+		AnimateText(TextHelper.Prettify(_texts[index]), initialDelay).Forget();
 
 		UpdateButtons();
 	}
 
-	private async GDTaskVoid AnimateText(string text)
+	private async GDTaskVoid AnimateText(string text, float initialDelay)
 	{
 		await GDTask.Yield(_cancellationToken);
 		await GDTask.Yield(_cancellationToken);
+
+		await GDTask.Delay(initialDelay, cancellationToken: _cancellationToken);
 
 		_text.SetText(text);
 		_text.SetVisibleCharacters(0);
