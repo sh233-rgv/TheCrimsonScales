@@ -42,6 +42,16 @@ public partial class StoryView : Control
 		SetVisible(false);
 	}
 
+	public async GDTask OpenAsync(string title, string subtitle, string text, float fadeInDuration = 0.5f,
+		CancellationToken cancellationToken = default)
+	{
+		Open(title, subtitle, text, fadeInDuration, cancellationToken);
+
+		await GDTask.WaitWhile(() => Opened, cancellationToken: cancellationToken);
+
+		await GDTask.Delay(0.5f, cancellationToken: cancellationToken);
+	}
+
 	public void Open(string title, string subtitle, string text, float fadeInDuration = 0.5f, CancellationToken cancellationToken = default)
 	{
 		_cancellationToken = cancellationToken;

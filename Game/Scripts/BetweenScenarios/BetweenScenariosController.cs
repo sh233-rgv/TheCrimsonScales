@@ -213,6 +213,26 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 	{
 		CancellationToken cancellationToken = DestroyCancellationToken;
 
+		const string introductionSeenKey = "IntroductionSeen";
+		if(!SavedCampaign.GetCustomValue<bool>(introductionSeenKey))
+		{
+			await AppController.Instance.StoryView.OpenAsync("Introduction", null,
+				"""
+				Yet again you find yourselves in a tavern, but this time in a part of town most sane folk wouldn’t dream of entering. You do not frequent this area regularly, but truth be told, business has been slow and this inn is even cheaper and down-market than your normal haunts.
+
+				Despite being in this part of town, your reputation has clearly gone before you, as it doesn’t take long before a particularly shady-looking character sidles up to you. His hood half-obscures a dirty, scarred face, his grubby cloak seems to be heavily stained with dried blood, and he twitches lightly as he starts to speak.
+
+				“I hear you guys are open to adventure,” he mutters furtively, in a strangely-high voice. You shrug noncommittally, unsure where this is going. “I can make you rich and grant great influence if you can acquire a small trinket on my behalf?” Still dubious, you merely raise an eyebrow. But that, it seems, is enough.
+
+				“Very good. Go to the shore of the Dark Lake, near the Watcher Mountains. There are rumors of some strange creatures there which may lead you to what you are looking for. If you are successful, I will make the necessary introductions.” Simultaneously intrigued and confused, you can’t help but ask more questions. “What is it we’re actually looking for? And what do we do when we’ve got it?” The hooded stranger half smiles. “You don’t need to know what it is. You’ll either find it, or you won’t. Look for me here if you are successful...”
+
+				With that, the cloaked figure turns on his heel and sweeps out of the bar. You look at each other and shrug. You had no plans tomorrow anyway.
+				""",
+				fadeInDuration: 0f, cancellationToken: cancellationToken);
+
+			SavedCampaign.SetCustomValue(introductionSeenKey, true);
+		}
+
 		await GDTask.Yield(cancellationToken);
 		await GDTask.Delay(0.2f, cancellationToken: cancellationToken);
 

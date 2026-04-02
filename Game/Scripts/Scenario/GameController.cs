@@ -433,12 +433,8 @@ public partial class GameController : SceneController<GameController>
 		ShownIntroduction = true;
 
 		string title = $"{ScenarioModel.ScenarioNumber} - {ScenarioModel.Name}";
-		AppController.Instance.StoryView.Open(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.IntroductionText, fadeInDuration: 0f,
+		await AppController.Instance.StoryView.OpenAsync(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.IntroductionText, fadeInDuration: 0f,
 			cancellationToken: CancellationToken);
-
-		await GDTask.WaitWhile(() => AppController.Instance.StoryView.Opened, cancellationToken: CancellationToken);
-
-		await GDTask.DelayFastForwardable(0.5f);
 	}
 
 	public async GDTask OpenStoryViewConclusion()
@@ -449,11 +445,8 @@ public partial class GameController : SceneController<GameController>
 		}
 
 		string title = $"{ScenarioModel.ScenarioNumber} - {ScenarioModel.Name}";
-		AppController.Instance.StoryView.Open(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.ConclusionText, cancellationToken: CancellationToken);
-
-		await GDTask.WaitWhile(() => AppController.Instance.StoryView.Opened, cancellationToken: CancellationToken);
-
-		await GDTask.DelayFastForwardable(0.5f);
+		await AppController.Instance.StoryView.OpenAsync(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.ConclusionText,
+			cancellationToken: CancellationToken);
 	}
 
 	private void EditorPrintSaveGame()

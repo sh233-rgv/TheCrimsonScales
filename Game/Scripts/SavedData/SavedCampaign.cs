@@ -75,6 +75,9 @@ public class SavedCampaign
 	[JsonProperty]
 	public int Prosperity { get; private set; }
 
+	[JsonProperty]
+	public Dictionary<string, object> CustomValues { get; private set; } = new Dictionary<string, object>();
+
 	public event Action CharactersChangedEvent;
 	public event Action ProsperityChangedEvent;
 	public event Action ReputationChangedEvent;
@@ -338,6 +341,46 @@ public class SavedCampaign
 		}
 
 		return null;
+	}
+
+	public void SetCustomValue(string key, object value)
+	{
+		CustomValues[key] = value;
+	}
+
+	public T GetCustomValue<T>(string key)
+	{
+		if(!CustomValues.TryGetValue(key, out object value))
+		{
+			return default;
+		}
+
+		if(value is not T castValue)
+		{
+			Log.Error($"Could not cast custom value for: {key}");
+			return default;
+		}
+
+		return castValue;
+	}
+
+	public bool TryGetCustomValue<T>(string key, out T value)
+	{
+		if(!CustomValues.TryGetValue(key, out object retrievedValue))
+		{
+			value = default;
+			return false;
+		}
+
+		if(retrievedValue is not T castValue)
+		{
+			Log.Error($"Could not cast custom value for: {key}");
+			value = default;
+			return false;
+		}
+
+		value = castValue;
+		return true;
 	}
 
 	private void UnlockItems(int prosperityLevel)
