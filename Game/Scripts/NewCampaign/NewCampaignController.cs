@@ -18,7 +18,7 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 	private NewCampaignStep _currentStep;
 
 	public string PartyName { get; private set; }
-	public StartingGroup StartingGroup { get; private set; }
+	public StartingGroup? StartingGroup { get; private set; }
 
 	public override void _EnterTree()
 	{
@@ -66,7 +66,7 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 		PartyName = partyName;
 	}
 
-	public void SetStartingParty(StartingGroup startingGroup)
+	public void SetStartingGroup(StartingGroup? startingGroup)
 	{
 		StartingGroup = startingGroup;
 	}
@@ -97,7 +97,12 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 
 	private void StartCampaign()
 	{
-		SavedCampaign campaign = SavedCampaign.New(PartyName, StartingGroup);
+		if(!StartingGroup.HasValue)
+		{
+			return;
+		}
+
+		SavedCampaign campaign = SavedCampaign.New(PartyName, StartingGroup.Value);
 
 		AppController.Instance.SaveFile.SaveData.SavedCampaign = campaign;
 
