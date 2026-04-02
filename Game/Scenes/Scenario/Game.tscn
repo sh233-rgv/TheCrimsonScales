@@ -84,7 +84,6 @@
 [ext_resource type="Script" uid="uid://bdesfx5saafxe" path="res://Scripts/Scenario/UI/PartyButton.cs" id="68_7tbw1"]
 [ext_resource type="Texture2D" uid="uid://u3h3kga0ipcv" path="res://Art/Icons/Other/Party.svg" id="69_b2ul3"]
 [ext_resource type="Script" uid="uid://opd3xcxouwh5" path="res://Scripts/Scenario/UI/CurrentActionView/CurrentActionViewManager.cs" id="71_b23n0"]
-[ext_resource type="PackedScene" uid="uid://datb4w0nwrm8m" path="res://Scenes/UI/StoryView.tscn" id="85_dpg3j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fcllr"]
 shader = ExtResource("20_76yld")
@@ -184,7 +183,7 @@ Selector = NodePath("Selector")
 CharacterStartHexMoveIndicator = NodePath("CanvasLayer/UI/CharacterStartHexMoveIndicator")
 HexPin = NodePath("HexPin")
 ScreenDistortion = NodePath("ScreenDistortion")
-StoryView = NodePath("CanvasLayer/UI/StoryView")
+StoryView = NodePath("")
 
 [node name="CameraController" type="Node2D" parent="." unique_id=1572162011 node_paths=PackedStringArray("Camera", "_movePivot")]
 script = ExtResource("15_67ddq")
@@ -1711,9 +1710,6 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "(2, 2)"
 label_settings = SubResource("LabelSettings_hctre")
-
-[node name="StoryView" parent="CanvasLayer/UI" unique_id=297419416 instance=ExtResource("85_dpg3j")]
-layout_mode = 1
 
 [editable path="HexPin/ScaleContainer/WorldButton"]
 [editable path="CanvasLayer/UI/ScenarioSetupButtonsView/StartScenario"]

@@ -26,6 +26,9 @@ public partial class AppController : SingletonNode<AppController>
 	[Export]
 	public BattleGoalProgressUpdateView BattleGoalProgressUpdateView { get; private set; }
 
+	[Export]
+	public StoryView StoryView { get; private set; }
+
 	public SaveFile SaveFile { get; private set; }
 
 	public SavedOptions Options => SaveFile.SaveData.Options;

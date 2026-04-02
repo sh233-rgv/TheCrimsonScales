@@ -99,9 +99,6 @@ public partial class GameController : SceneController<GameController>
 	[Export]
 	public ScreenDistortion ScreenDistortion { get; private set; }
 
-	[Export]
-	public StoryView StoryView { get; private set; }
-
 	private readonly Stopwatch _fastForwardStopwatch = new Stopwatch();
 
 	public GameSceneRequest SceneRequest { get; private set; }
@@ -436,9 +433,10 @@ public partial class GameController : SceneController<GameController>
 		ShownIntroduction = true;
 
 		string title = $"{ScenarioModel.ScenarioNumber} - {ScenarioModel.Name}";
-		StoryView.Open(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.IntroductionText, cancellationToken: CancellationToken);
+		AppController.Instance.StoryView.Open(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.IntroductionText, fadeInDuration: 0f,
+			cancellationToken: CancellationToken);
 
-		await GDTask.WaitWhile(() => StoryView.Opened, cancellationToken: CancellationToken);
+		await GDTask.WaitWhile(() => AppController.Instance.StoryView.Opened, cancellationToken: CancellationToken);
 
 		await GDTask.DelayFastForwardable(0.5f);
 	}
@@ -451,9 +449,9 @@ public partial class GameController : SceneController<GameController>
 		}
 
 		string title = $"{ScenarioModel.ScenarioNumber} - {ScenarioModel.Name}";
-		StoryView.Open(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.ConclusionText, cancellationToken: CancellationToken);
+		AppController.Instance.StoryView.Open(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.ConclusionText, cancellationToken: CancellationToken);
 
-		await GDTask.WaitWhile(() => StoryView.Opened, cancellationToken: CancellationToken);
+		await GDTask.WaitWhile(() => AppController.Instance.StoryView.Opened, cancellationToken: CancellationToken);
 
 		await GDTask.DelayFastForwardable(0.5f);
 	}

@@ -42,12 +42,12 @@ public partial class StoryView : Control
 		SetVisible(false);
 	}
 
-	public void Open(string title, string subtitle, string text, CancellationToken cancellationToken)
+	public void Open(string title, string subtitle, string text, float fadeInDuration = 0.5f, CancellationToken cancellationToken = default)
 	{
 		_cancellationToken = cancellationToken;
 
 		_title.SetText(title);
-		_subtitle.SetText(subtitle);
+		_subtitle.SetText(subtitle ?? string.Empty);
 
 		_texts.Clear();
 
@@ -59,7 +59,7 @@ public partial class StoryView : Control
 
 		SetVisible(true);
 
-		this.TweenModulateAlpha(1f, 0.5f).Play();
+		this.TweenModulateAlpha(1f, fadeInDuration).Play();
 
 		_text.SetVisibleCharacters(0);
 
@@ -121,6 +121,7 @@ public partial class StoryView : Control
 
 			if(charactersToDisplay > labelLength)
 			{
+				_skipTextButton.Hide();
 				charactersToDisplay -= labelLength;
 				break;
 			}
