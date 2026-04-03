@@ -151,4 +151,21 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 		await AbilityCmd.SummonMonster(monsterModel, monsterType, chosenHex, monsterLevel, alignment, enemies);
 	}
+
+	protected async GDTask ShowText(string text)
+	{
+		await ShowText("Story", text);
+	}
+
+	protected async GDTask ShowText(string title, string text)
+	{
+		if(GameController.FastForward)
+		{
+			return;
+		}
+
+		PopupRequest popupRequest = new TextPopup.Request(title, text, new TextButton.Parameters("Continue", null));
+		AppController.Instance.PopupManager.RequestPopup(popupRequest);
+		await GDTask.WaitWhile(AppController.Instance.PopupManager.IsPopupOpen, cancellationToken: GameController.CancellationToken);
+	}
 }

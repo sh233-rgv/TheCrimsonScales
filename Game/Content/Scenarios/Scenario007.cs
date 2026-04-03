@@ -77,13 +77,7 @@ public class Scenario007 : ScenarioModel
 		{
 			// Looting a golden egg
 
-			if(!GameController.FastForward)
-			{
-				PopupRequest popupRequest = new TextPopup.Request("Found a Golden Egg", "You found a Golden Egg!");
-				AppController.Instance.PopupManager.RequestPopup(popupRequest);
-
-				await GDTask.WaitWhile(AppController.Instance.PopupManager.IsPopupOpen, cancellationToken: GameController.CancellationToken);
-			}
+			await ShowText("Found a Golden Egg", "You found a Golden Egg!");
 
 			switch(_waterTiles.Count)
 			{
