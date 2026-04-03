@@ -70,6 +70,9 @@ public class SavedCampaign
 	public SavedPersonalQuests SavedPersonalQuests { get; private set; } = new SavedPersonalQuests();
 
 	[JsonProperty]
+	public SavedPartyGoals SavedPartyGoals { get; private set; } = new SavedPartyGoals();
+
+	[JsonProperty]
 	public int Reputation { get; private set; }
 
 	[JsonProperty]
