@@ -1211,6 +1211,8 @@ public static class AbilityCmd
 		}
 
 		GameController.Instance.EndEvent += OnScenarioEnd;
+
+		await GDTask.CompletedTask;
 	}
 
 	public static async GDTask GainXP(Character character, int amount)
@@ -1221,6 +1223,8 @@ public static class AbilityCmd
 		}
 
 		GameController.Instance.EndEvent += OnScenarioEnd;
+
+		await GDTask.CompletedTask;
 	}
 
 	public static async GDTask GainCheckmark(Character character)
@@ -1231,6 +1235,8 @@ public static class AbilityCmd
 		}
 
 		GameController.Instance.EndEvent += OnScenarioEnd;
+
+		await GDTask.CompletedTask;
 	}
 
 	public static ItemModel GetRandomAvailableOrb()
