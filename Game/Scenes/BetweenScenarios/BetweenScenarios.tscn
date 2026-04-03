@@ -60,6 +60,7 @@
 [ext_resource type="PackedScene" uid="uid://dweuor8iwy2lm" path="res://Scenes/UI/AbilityCardView/AbilityCardView.tscn" id="37_6k6qu"]
 [ext_resource type="PackedScene" uid="uid://y2bfrxa1ebd5" path="res://Scenes/BetweenScenarios/Enhancer/EnhancementOptionToggleButton.tscn" id="39_3p1c5"]
 [ext_resource type="PackedScene" uid="uid://d0tqt5fvbsn2x" path="res://Scenes/UI/ProgressBar.tscn" id="45_rtdf2"]
+[ext_resource type="Texture2D" uid="uid://dq7i1fq5m4x3b" path="res://Art/Icons/BetweenScenariosActions/PartyGoals.svg" id="46_n4mfb"]
 [ext_resource type="Script" uid="uid://cc4ctr6004sg4" path="res://Scripts/BetweenScenarios/Events/EventOverlay.cs" id="49_dl2j2"]
 [ext_resource type="Material" uid="uid://gfilfltix5vm" path="res://Materials/RotatingCard.tres" id="51_rtdf2"]
 [ext_resource type="Script" uid="uid://b4tm7wjgmvnd2" path="res://Scripts/UI/RotatingCardView.cs" id="52_0un3t"]
@@ -138,19 +139,8 @@ font_color = Color(0.969748, 0.793137, 0.50993, 1)
 outline_size = 3
 outline_color = Color(0.693772, 0.508051, 0.168401, 1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_sfc7v"]
-viewport_path = NodePath("../../../../../FrontSubViewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n4mfb"]
-resource_local_to_scene = true
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
-albedo_texture = SubResource("ViewportTexture_sfc7v")
-metallic_specular = 0.0
-
 [sub_resource type="ViewportTexture" id="ViewportTexture_dbqlu"]
-viewport_path = NodePath("../../../../../BackSubViewport")
+viewport_path = NodePath("../../../../../FrontSubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r1npy"]
 resource_local_to_scene = true
@@ -158,6 +148,17 @@ transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 albedo_texture = SubResource("ViewportTexture_dbqlu")
+metallic_specular = 0.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_gkvnn"]
+viewport_path = NodePath("../../../../../BackSubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vlt2p"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = SubResource("ViewportTexture_gkvnn")
 metallic_specular = 0.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_807yg"]
@@ -567,7 +568,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 expand_margin_left = 8.0
 
-[node name="BetweenScenarios" type="Node" unique_id=871982570 node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay", "ActionManager", "ItemShop", "CharacterCreationOverlay", "UnlockOverlay", "StoryView")]
+[node name="BetweenScenarios" type="Node" unique_id=871982570 node_paths=PackedStringArray("BetweenScenariosSidePanel", "CharacterPortraitManager", "ScenarioFlowchart", "EventOverlay", "ActionManager", "ItemShop", "CharacterCreationOverlay", "UnlockOverlay")]
 script = ExtResource("1_rtyjh")
 BetweenScenariosSidePanel = NodePath("CanvasLayer/UI/SidePanel")
 CharacterPortraitManager = NodePath("CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/Characters")
@@ -577,7 +578,6 @@ ActionManager = NodePath("CanvasLayer/UI/BetweenScenariosActionManager")
 ItemShop = NodePath("CanvasLayer/UI/BetweenScenariosActionManager/ItemShop")
 CharacterCreationOverlay = NodePath("CanvasLayer/UI/CharacterCreationOverlay")
 UnlockOverlay = NodePath("CanvasLayer/UI/ClassUnlockOverlay")
-StoryView = NodePath("")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=631066556]
 
@@ -1249,10 +1249,10 @@ visible = false
 transform = Transform3D(68.9, 0, 0, 0, -4.37114e-06, 102.3, 0, -100, -4.47168e-06, 0, 0, 0)
 
 [node name="Front" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation/Page/Skeleton3D" parent_id_path=PackedInt32Array(1735437367, 859513443) index="0" unique_id=1572919683]
-material_override = SubResource("StandardMaterial3D_n4mfb")
+material_override = SubResource("StandardMaterial3D_r1npy")
 
 [node name="Back" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation/Page/Skeleton3D" parent_id_path=PackedInt32Array(1735437367, 859513443) index="1" unique_id=412232771]
-material_override = SubResource("StandardMaterial3D_r1npy")
+material_override = SubResource("StandardMaterial3D_vlt2p")
 
 [node name="AnimationPlayer" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation" index="1" unique_id=711269995]
 speed_scale = 1.4
@@ -1922,6 +1922,13 @@ layout_mode = 2
 
 [node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton/Container/BetterButton/Panel" parent_id_path=PackedInt32Array(2111888560, 436553962) index="0" unique_id=950733184]
 texture = ExtResource("19_ywvcx")
+
+[node name="PartyGoalsButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" unique_id=498428912 instance=ExtResource("17_3hv00")]
+modulate = Color(1, 0.67058825, 0.53333336, 1)
+layout_mode = 2
+
+[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/PartyGoalsButton/Container/BetterButton/Panel" parent_id_path=PackedInt32Array(498428912, 436553962) index="0" unique_id=950733184]
+texture = ExtResource("46_n4mfb")
 
 [node name="EnhancerButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" unique_id=1579014179 instance=ExtResource("17_3hv00")]
 modulate = Color(0.994686, 0.586915, 1, 1)
@@ -2927,6 +2934,7 @@ layout_mode = 1
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsAnchor/EnhancementOptionsContainer/MarginContainer/VBoxContainer/PanelButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/ScenarioFlowchartButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/PartyGoalsButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnhancerButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EventButton"]
 [editable path="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
