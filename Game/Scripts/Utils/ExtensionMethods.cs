@@ -114,4 +114,9 @@ public static class ExtensionMethods
 	{
 		return IsRound(cardState) || IsPersistent(cardState);
 	}
+
+	public static void SetModulateAlpha(this CanvasItem canvasItem, float alpha)
+	{
+		canvasItem.Modulate = new Color(canvasItem.Modulate.R, canvasItem.Modulate.G, canvasItem.Modulate.B, alpha);
+	}
 }

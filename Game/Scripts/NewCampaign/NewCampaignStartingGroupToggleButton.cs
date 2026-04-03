@@ -9,4 +9,9 @@ public partial class NewCampaignStartingGroupToggleButton : ToggleButton<NewCamp
 	{
 		base.Init();
 	}
+
+	protected override void ModulateInactiveAlpha(float value)
+	{
+		this.SetModulateAlpha(Mathf.Lerp(1f, 0.5f, value));
+	}
 }
