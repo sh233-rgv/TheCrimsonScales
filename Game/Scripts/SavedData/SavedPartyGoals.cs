@@ -9,6 +9,9 @@ public class SavedPartyGoals
 	[
 		ModelDB.PartyGoal<BattleGoalsPartyGoal>(),
 		ModelDB.PartyGoal<ExperiencePartyGoal>(),
+		ModelDB.PartyGoal<SpendGoldAtShopPartyGoal>(),
+		ModelDB.PartyGoal<TreasureTilePartyGoal>(),
+		ModelDB.PartyGoal<SideScenarioPartyGoal>(),
 	];
 
 	[JsonProperty]

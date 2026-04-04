@@ -11,7 +11,17 @@ public class PartyGoalData
 
 	public void AdjustProgress(int value)
 	{
-		Progress += value;
+		SetProgress(Progress + value);
+	}
+
+	public void SetProgress(int value)
+	{
+		if(Progress == value)
+		{
+			return;
+		}
+
+		Progress = value;
 
 		if(GameController.Instance == null || !GameController.FastForward)
 		{

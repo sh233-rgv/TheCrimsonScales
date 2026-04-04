@@ -2,7 +2,7 @@
 {
 	public override int MaxProgress => 100;
 
-	public override string GetText(int characterCount) => $"Gain 100 experience points with {characterCount} characters";
+	public override string GetText(int characterCount) => $"All party members gain 100 experience each";
 
 	protected override void SubscribeDuringDowntime(ScalesWithCharactersPartyGoalData partyGoalData)
 	{
