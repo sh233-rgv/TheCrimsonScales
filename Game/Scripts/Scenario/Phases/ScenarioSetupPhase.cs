@@ -98,6 +98,11 @@ public class ScenarioSetupPhase : ScenarioPhase
 			}
 		}
 
+		foreach(SavedPartyGoal savedPartyGoal in GameController.Instance.SavedCampaign.SavedPartyGoals.PartyGoals)
+		{
+			await savedPartyGoal.Model.OnBetweenScenariosStarted(savedPartyGoal);
+		}
+
 		foreach(SavedEventState savedEventState in GameController.Instance.SavedCampaign.SavedEvents.SavedEventStates)
 		{
 			foreach(EventReward eventReward in savedEventState.Choice.GetRewards(savedEventState))

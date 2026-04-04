@@ -9,12 +9,22 @@ public abstract class PartyGoalModel<T> : PartyGoalModel
 		return new T();
 	}
 
-	protected override void SubscribeDuringDowntime(SavedPartyGoal savedPartyGoal)
+	public sealed override int GetProgress(SavedPartyGoal savedPartyGoal)
+	{
+		return GetProgress((T)savedPartyGoal.PartyGoalData);
+	}
+
+	protected virtual int GetProgress(T partyGoalData)
+	{
+		return partyGoalData.Progress;
+	}
+
+	protected sealed override void SubscribeDuringDowntime(SavedPartyGoal savedPartyGoal)
 	{
 		SubscribeDuringDowntime((T)savedPartyGoal.PartyGoalData);
 	}
 
-	protected override void UnsubscribeDuringDowntime(SavedPartyGoal savedPartyGoal)
+	protected sealed override void UnsubscribeDuringDowntime(SavedPartyGoal savedPartyGoal)
 	{
 		UnsubscribeDuringDowntime((T)savedPartyGoal.PartyGoalData);
 	}
@@ -53,10 +63,13 @@ public abstract class PartyGoalModel<T> : PartyGoalModel
 public abstract class PartyGoalModel : AbstractModel
 {
 	public abstract bool ScalesWithCharacterCount { get; }
+	public abstract int MaxProgress { get; }
 
 	public abstract string GetText(int characterCount);
 
 	public abstract PartyGoalData CreateData();
+
+	public abstract int GetProgress(SavedPartyGoal savedPartyGoal);
 
 	public virtual async GDTask OnBetweenScenariosStarted(SavedPartyGoal savedPartyGoal)
 	{

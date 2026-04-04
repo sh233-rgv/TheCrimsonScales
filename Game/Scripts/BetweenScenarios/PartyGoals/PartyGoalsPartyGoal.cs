@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 
 public partial class PartyGoalsPartyGoal : Control
 {
@@ -11,6 +12,10 @@ public partial class PartyGoalsPartyGoal : Control
 
 	private SavedPartyGoal _savedPartyGoal;
 
+	public bool Completed { get; private set; }
+
+	public event Action<PartyGoalsPartyGoal> CompletedChangedEvent;
+
 	public void Init(SavedPartyGoal savedPartyGoal)
 	{
 		_savedPartyGoal = savedPartyGoal;
@@ -18,7 +23,7 @@ public partial class PartyGoalsPartyGoal : Control
 		_savedPartyGoal.PartyGoalData.ProgressChangedEvent += OnProgressChanged;
 		BetweenScenariosController.Instance.SavedCampaign.CharactersChangedEvent += OnCharactersChanged;
 
-		UpdateVisuals();
+		Update();
 	}
 
 	public override void _Notification(int what)
@@ -39,23 +44,44 @@ public partial class PartyGoalsPartyGoal : Control
 		}
 	}
 
-	private void UpdateVisuals()
+	private void Update()
 	{
-		_label.SetText(_savedPartyGoal.Model.GetText(BetweenScenariosController.Instance.SavedCampaign.Characters.Count));
+		int characterCount = Mathf.Max(BetweenScenariosController.Instance.SavedCampaign.Characters.Count, 2);
+		_label.SetText(_savedPartyGoal.Model.GetText(characterCount));
 
+		int maxProgress;
 		if(_savedPartyGoal.Model.ScalesWithCharacterCount)
 		{
-			//TODO
+			maxProgress = characterCount;
+		}
+		else
+		{
+			maxProgress = _savedPartyGoal.Model.MaxProgress;
+		}
+
+		int progress = _savedPartyGoal.Model.GetProgress(_savedPartyGoal);
+
+		float normalizedProgress = (float)progress / maxProgress;
+		_progressBar.Update(normalizedProgress, $"{progress}/{maxProgress}");
+
+		bool prevCompleted = Completed;
+		Completed = progress >= maxProgress;
+
+		_checkmark.SetVisible(progress >= maxProgress);
+
+		if(Completed != prevCompleted)
+		{
+			CompletedChangedEvent?.Invoke(this);
 		}
 	}
 
 	private void OnProgressChanged(PartyGoalData partyGoalData)
 	{
-		UpdateVisuals();
+		Update();
 	}
 
 	private void OnCharactersChanged()
 	{
-		UpdateVisuals();
+		Update();
 	}
 }

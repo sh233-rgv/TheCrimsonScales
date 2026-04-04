@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://do7n0wiqeo3tw"]
 
+[ext_resource type="Script" uid="uid://dsa74s52gsopg" path="res://Scripts/BetweenScenarios/PartyGoals/PartyGoalsPartyGoal.cs" id="1_rqoyy"]
 [ext_resource type="Texture2D" uid="uid://bj03vc6rpjr3f" path="res://Art/Icons/Other/CheckMark.svg" id="4_yobpj"]
 [ext_resource type="FontVariation" uid="uid://ciy2q5rti2m6m" path="res://Fonts/MarkaziVariation.tres" id="5_t4gdf"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="6_te63d"]
@@ -25,8 +26,12 @@ font_size = 30
 font = ExtResource("6_te63d")
 font_size = 30
 
-[node name="PartyGoalsPartyGoal" type="MarginContainer" unique_id=1877228202]
+[node name="PartyGoalsPartyGoal" type="MarginContainer" unique_id=1877228202 node_paths=PackedStringArray("_checkmark", "_label", "_progressBar")]
 mouse_filter = 2
+script = ExtResource("1_rqoyy")
+_checkmark = NodePath("HBoxContainer/PerkBoxes/CheckmarkBox/Outline/Checkmark")
+_label = NodePath("HBoxContainer/Description")
+_progressBar = NodePath("HBoxContainer/ProgressBar")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1828431441]
 layout_mode = 2

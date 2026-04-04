@@ -36,6 +36,9 @@ public partial class Enhancer : BetweenScenariosAction
 	[Export]
 	private BetterButton _confirmButton;
 
+	[Export]
+	private ExclamationMark _exclamationMark;
+
 	private readonly List<EnhancementMarkToggleButton> _enhancementMarkToggleButtons = new List<EnhancementMarkToggleButton>();
 	private readonly List<EnhancementOptionToggleButton> _enhancementOptionToggleButtons = new List<EnhancementOptionToggleButton>();
 

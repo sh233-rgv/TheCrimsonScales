@@ -1,9 +1,18 @@
-﻿using System;
-using Fractural.Tasks;
+﻿using Fractural.Tasks;
 
-public class BattleGoalsPartyGoal : PartyGoalModel<PartyGoalData>
+public class BattleGoalsPartyGoal : ScalesWithCharactersPartyGoalModel
 {
-	public override bool ScalesWithCharacterCount => true;
+	public override int MaxProgress => 5;
 
-	public override string GetText(int characterCount) => $"Complete 5 battle goals with at least {characterCount} characters";
+	public override string GetText(int characterCount) => $"Complete 5 battle goals with {characterCount} characters";
+
+	protected override async GDTask OnScenarioSetupPhaseCompleted(ScalesWithCharactersPartyGoalData partyGoalData)
+	{
+		await base.OnScenarioSetupPhaseCompleted(partyGoalData);
+
+		GameController.Instance.BattleGoalCompletedEvent += (character, model) =>
+		{
+			partyGoalData.AdjustProgress(1, character);
+		};
+	}
 }

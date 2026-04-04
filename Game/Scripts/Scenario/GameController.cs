@@ -153,6 +153,7 @@ public partial class GameController : SceneController<GameController>
 	public event Action ReadyEvent;
 	public event Action StartEvent;
 	public static event Action<bool> FastForwardChangedEvent;
+	public event Action<SavedCharacter, BattleGoalModel> BattleGoalCompletedEvent;
 
 	public delegate void EndEventHandler(ScenarioResult scenarioResult, SavedScenarioProgress savedScenarioProgress);
 
@@ -372,6 +373,8 @@ public partial class GameController : SceneController<GameController>
 					{
 						character.SavedCharacter.AddCheckmark();
 					}
+
+					BattleGoalCompletedEvent?.Invoke(character.SavedCharacter, battleGoal.Model);
 				}
 			}
 		}

@@ -79,12 +79,35 @@ public class SavedCampaign
 	public int Prosperity { get; private set; }
 
 	[JsonProperty]
+	public bool EnhancementsUnlocked { get; private set; }
+
+	[JsonProperty]
 	public Dictionary<string, object> CustomValues { get; private set; } = new Dictionary<string, object>();
+
+	// Collection of ALL characters, even retired and benched ones
+	public IEnumerable<SavedCharacter> AllCharacters
+	{
+		get
+		{
+			foreach(SavedCharacter character in Characters)
+			{
+				yield return character;
+			}
+
+			foreach(SavedCharacter retiredCharacter in RetiredCharacters)
+			{
+				yield return retiredCharacter;
+			}
+
+			//TODO: Benched characters
+		}
+	}
 
 	public event Action CharactersChangedEvent;
 	public event Action ProsperityChangedEvent;
 	public event Action ReputationChangedEvent;
 	public event Action<int> ProsperityLevelChangedEvent;
+	public event Action EnhancementsUnlockedChangedEvent;
 
 	public static SavedCampaign New(string partyName, StartingGroup startingGroup)
 	{
@@ -145,6 +168,8 @@ public class SavedCampaign
 		// SavedScenarioProgress testScenario = new SavedScenarioProgress();
 		// testScenario.Discover();
 		// savedCampaign.SavedScenarioProgresses.ScenarioProgresses.Add(ModelDB.GetId<Scenario029>().ToString(), testScenario);
+
+		savedCampaign.SetCustomValue("IntroductionSeen", true);
 
 		return savedCampaign;
 	}
@@ -344,6 +369,17 @@ public class SavedCampaign
 		}
 
 		return null;
+	}
+
+	public void UnlockEnhancements()
+	{
+		if(EnhancementsUnlocked)
+		{
+			return;
+		}
+
+		EnhancementsUnlocked = true;
+		EnhancementsUnlockedChangedEvent?.Invoke();
 	}
 
 	public void SetCustomValue(string key, object value)

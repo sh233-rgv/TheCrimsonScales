@@ -9,17 +9,7 @@ public class PartyGoalData
 
 	public event Action<PartyGoalData> ProgressChangedEvent;
 
-	public void AdjustProgress(int value, Character character)
-	{
-		AdjustProgress(value, character.SavedCharacter);
-	}
-
-	public void AdjustProgress(int value, SavedCharacter savedCharacter)
-	{
-		AdjustProgress(value, savedCharacter.ClassModel, savedCharacter.SavedPersonalQuest.Model);
-	}
-
-	private void AdjustProgress(int value, ClassModel classModel, PersonalQuestModel personalQuestModel)
+	public void AdjustProgress(int value)
 	{
 		Progress += value;
 
@@ -29,6 +19,11 @@ public class PartyGoalData
 			//AppController.Instance!.PartyGoalProgressUpdateView.AddItem(classModel, personalQuestModel, this);
 		}
 
+		FireProgressChangedEvent();
+	}
+
+	protected void FireProgressChangedEvent()
+	{
 		ProgressChangedEvent?.Invoke(this);
 	}
 }

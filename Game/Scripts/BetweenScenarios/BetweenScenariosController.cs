@@ -31,9 +31,6 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 	[Export]
 	public BetweenScenariosClassUnlockOverlay UnlockOverlay { get; private set; }
 
-	[Export]
-	public StoryView StoryView { get; private set; }
-
 	private readonly List<EventReward> _duringDowntimeEventRewards = new List<EventReward>();
 
 	public BetweenScenariosSceneRequest SceneRequest { get; private set; }
@@ -62,6 +59,9 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 
 		AppController.Instance.AudioController.SetBGM("res://Audio/BGM/old-tavern-cinematic-atmosphere-fairytale-273871.mp3");
 		AppController.Instance.AudioController.SetBGS(null);
+
+		SavedCampaign.CharactersChangedEvent += OnCharactersChanged;
+		SubscribeCharacters();
 	}
 
 	public override void _Ready()
@@ -83,6 +83,11 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			foreach(SavedCharacter savedCharacter in SavedCampaign.Characters)
 			{
 				savedCharacter.SavedPersonalQuest?.Model.OnBetweenScenariosEnded(savedCharacter);
+			}
+
+			foreach(SavedPartyGoal savedPartyGoal in SavedCampaign.SavedPartyGoals.PartyGoals)
+			{
+				savedPartyGoal.Model.OnBetweenScenariosEnded(savedPartyGoal);
 			}
 		}
 
@@ -244,6 +249,11 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			}
 		}
 
+		foreach(SavedPartyGoal savedPartyGoal in SavedCampaign.SavedPartyGoals.PartyGoals)
+		{
+			await savedPartyGoal.Model.OnBetweenScenariosStarted(savedPartyGoal);
+		}
+
 		if(SavedCampaign.SavedEvents.CanDrawCityEvent && SavedCampaign.SavedEvents.CityEventDeckIds.Count > 0)
 		{
 			await EventOverlay.DrawEventCard(EventType.City, cancellationToken);
@@ -265,8 +275,11 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		if(SceneRequest.SavedCampaign.Characters.Count == 0)
 		{
 			AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("Welcome!",
-				"Welcome to the very early access version of The Crimson Scales!\nPlease create a couple of characters to get started on this campaign. " +
-				"You can do so using the button in the bottom-left corner."
+				"""
+				Welcome to the very early access version of The Crimson Scales!\nPlease create a couple of characters to get started on this campaign.
+
+				You can do so using the button in the bottom-left corner."
+				"""
 			));
 		}
 
@@ -326,5 +339,32 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 				AppController.Instance.PopupManager.RequestPopup(new MenuPopup.Request());
 			}
 		});
+	}
+
+	private void SubscribeCharacters()
+	{
+		foreach(SavedCharacter savedCharacter in SavedCampaign.AllCharacters)
+		{
+			savedCharacter.XPChangedEvent += OnXPChanged;
+		}
+	}
+
+	private void UnsubscribeCharacters()
+	{
+		foreach(SavedCharacter savedCharacter in SavedCampaign.AllCharacters)
+		{
+			savedCharacter.XPChangedEvent -= OnXPChanged;
+		}
+	}
+
+	private void OnCharactersChanged()
+	{
+		UnsubscribeCharacters();
+		SubscribeCharacters();
+	}
+
+	private void OnXPChanged(SavedCharacter savedCharacter)
+	{
+		BetweenScenariosEvents.XPChangedEvent.Fire(new BetweenScenariosEvents.XPChanged.Parameters(savedCharacter));
 	}
 }
