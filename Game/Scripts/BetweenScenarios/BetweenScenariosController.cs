@@ -91,6 +91,8 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			}
 		}
 
+		UnsubscribeCharacters();
+
 		base._ExitTree();
 	}
 

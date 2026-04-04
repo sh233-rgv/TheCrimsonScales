@@ -69,6 +69,7 @@ public partial class StoryView : Control
 
 		SetVisible(true);
 
+		this.SetModulateAlpha(0f);
 		this.TweenModulateAlpha(1f, fadeInDuration).Play();
 
 		_text.SetVisibleCharacters(0);
@@ -114,7 +115,7 @@ public partial class StoryView : Control
 		bool waitedFrame = false;
 
 		int labelLength = _text.GetParsedText().Length;
-		while(!_transitioningText)
+		while(!_transitioningText && Opened)
 		{
 			if(_skipText)
 			{

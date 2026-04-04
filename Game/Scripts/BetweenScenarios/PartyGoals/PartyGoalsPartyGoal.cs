@@ -26,21 +26,18 @@ public partial class PartyGoalsPartyGoal : Control
 		Update();
 	}
 
-	public override void _Notification(int what)
+	public override void _ExitTree()
 	{
-		base._Notification(what);
+		base._ExitTree();
 
-		if(what == NotificationPredelete && AppController.Instance != null)
+		if(_savedPartyGoal != null)
 		{
-			if(_savedPartyGoal != null)
-			{
-				_savedPartyGoal.PartyGoalData.ProgressChangedEvent -= OnProgressChanged;
-			}
+			_savedPartyGoal.PartyGoalData.ProgressChangedEvent -= OnProgressChanged;
+		}
 
-			if(BetweenScenariosController.Instance != null)
-			{
-				BetweenScenariosController.Instance.SavedCampaign.CharactersChangedEvent -= OnCharactersChanged;
-			}
+		if(BetweenScenariosController.Instance != null)
+		{
+			BetweenScenariosController.Instance.SavedCampaign.CharactersChangedEvent -= OnCharactersChanged;
 		}
 	}
 

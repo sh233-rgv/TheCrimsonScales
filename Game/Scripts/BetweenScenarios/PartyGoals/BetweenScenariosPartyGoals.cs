@@ -30,24 +30,23 @@ public partial class BetweenScenariosPartyGoals : BetweenScenariosAction
 			_partyGoals.Add(goal);
 		}
 
+		Button.SetVisible(!BetweenScenariosController.Instance.SavedCampaign.HasPartyAchievement(PartyAchievement.AccomplishedMercenaries));
+
 		BetweenScenariosController.Instance.SavedCampaign.SavedPartyGoals.CompletedPartyGoalCountChangedEvent += OnCompletedPartyGoalCountChanged;
 		BetweenScenariosController.Instance.SavedCampaign.SavedPartyGoals.CompletedEnoughChanged += OnCompletedEnoughChanged;
 
 		UpdateCompleted();
 	}
 
-	public override void _Notification(int what)
+	public override void _ExitTree()
 	{
-		base._Notification(what);
+		base._ExitTree();
 
-		if(what == NotificationPredelete && AppController.Instance != null)
+		if(BetweenScenariosController.Instance != null)
 		{
-			if(BetweenScenariosController.Instance != null)
-			{
-				BetweenScenariosController.Instance.SavedCampaign.SavedPartyGoals.CompletedPartyGoalCountChangedEvent -=
-					OnCompletedPartyGoalCountChanged;
-				BetweenScenariosController.Instance.SavedCampaign.SavedPartyGoals.CompletedEnoughChanged -= OnCompletedEnoughChanged;
-			}
+			BetweenScenariosController.Instance.SavedCampaign.SavedPartyGoals.CompletedPartyGoalCountChangedEvent -=
+				OnCompletedPartyGoalCountChanged;
+			BetweenScenariosController.Instance.SavedCampaign.SavedPartyGoals.CompletedEnoughChanged -= OnCompletedEnoughChanged;
 		}
 	}
 
@@ -56,6 +55,11 @@ public partial class BetweenScenariosPartyGoals : BetweenScenariosAction
 		base.AnimateIn(sequenceBuilder, previousActiveAction);
 
 		_exclamationMark.SetActive(false);
+
+		if(BetweenScenariosController.Instance.SavedCampaign.SavedPartyGoals.CompletedEnough)
+		{
+			Complete().Forget();
+		}
 	}
 
 	private void UpdateCompleted()
@@ -75,6 +79,11 @@ public partial class BetweenScenariosPartyGoals : BetweenScenariosAction
 	private async GDTaskVoid Complete()
 	{
 		if(BetweenScenariosController.Instance == null)
+		{
+			return;
+		}
+
+		if(BetweenScenariosController.Instance.SavedCampaign.HasPartyAchievement(PartyAchievement.AccomplishedMercenaries))
 		{
 			return;
 		}
@@ -114,6 +123,8 @@ public partial class BetweenScenariosPartyGoals : BetweenScenariosAction
 
 		BetweenScenariosController.Instance.SavedCampaign.AddPartyAchievement(PartyAchievement.AccomplishedMercenaries);
 		BetweenScenariosController.Instance.SavedCampaign.UnlockEnhancements();
+
+		Button.SetVisible(false);
 
 		AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("Enhancements Unlocked",
 			"The Enhancer has now opened up their services to you!"));

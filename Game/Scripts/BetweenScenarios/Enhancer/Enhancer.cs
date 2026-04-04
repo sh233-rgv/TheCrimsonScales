@@ -62,12 +62,27 @@ public partial class Enhancer : BetweenScenariosAction
 
 		_confirmButton.Pressed += OnConfirmPressed;
 
+		Button.SetVisible(BetweenScenariosController.Instance.SavedCampaign.EnhancementsUnlocked);
+
 		BetweenScenariosController.Instance.CharacterPortraitManager.SelectedPortraitChangedEvent += OnSelectedPortraitChanged;
+		BetweenScenariosController.Instance.SavedCampaign.EnhancementsUnlockedChangedEvent += OnEnhancementsUnlocked;
+	}
+
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+
+		if(BetweenScenariosController.Instance != null)
+		{
+			BetweenScenariosController.Instance.SavedCampaign.EnhancementsUnlockedChangedEvent -= OnEnhancementsUnlocked;
+		}
 	}
 
 	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder, BetweenScenariosAction previousActiveAction)
 	{
 		base.AnimateIn(sequenceBuilder, previousActiveAction);
+
+		_exclamationMark.SetActive(false);
 
 		_3dRoot.SetVisible(true);
 		_crystalBall.SetVisible(false);
@@ -362,5 +377,11 @@ public partial class Enhancer : BetweenScenariosAction
 	private void OnSelectedPortraitChanged(BetweenScenariosCharacterPortrait portrait)
 	{
 		UpdateCardList();
+	}
+
+	private void OnEnhancementsUnlocked()
+	{
+		Button.SetVisible(true);
+		_exclamationMark.SetActive(true);
 	}
 }

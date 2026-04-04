@@ -287,6 +287,11 @@ public class SavedCampaign
 		CollectedPartyAchievements.AddIfNew(partyAchievement);
 	}
 
+	public bool HasPartyAchievement(PartyAchievement partyAchievement)
+	{
+		return CollectedPartyAchievements.Contains(partyAchievement);
+	}
+
 	public void AdjustReputation(int reputationAmount)
 	{
 		Reputation += reputationAmount;
