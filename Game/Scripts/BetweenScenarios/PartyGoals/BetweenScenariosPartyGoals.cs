@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Fractural.Tasks;
 using Godot;
@@ -151,9 +152,22 @@ public partial class BetweenScenariosPartyGoals : BetweenScenariosAction
 			"The Enhancer has now opened up their services to you!"));
 		await GDTask.WaitWhile(() => AppController.Instance.PopupManager.IsPopupOpen(), cancellationToken: cancellationToken);
 
+		ItemModel itemModel = BetweenScenariosController.Instance.SavedCampaign.StartingGroup switch
+		{
+			StartingGroup.Militants => ModelDB.Item<SlugCrossbow>(),
+			StartingGroup.Protectors => ModelDB.Item<BulwarkBanner>(),
+			StartingGroup.Explorers => ModelDB.Item<RemoteBeetle>(),
+			StartingGroup.Trailblazers => ModelDB.Item<BlazingBoots>(),
+			StartingGroup.Naturalists => ModelDB.Item<ViperBlowgun>(),
+			_ => throw new ArgumentOutOfRangeException()
+		};
+
+		SavedItem savedItem = BetweenScenariosController.Instance.SavedCampaign.GetSavedItem(itemModel);
+		savedItem.AddUnlocked(1);
+		savedItem.AddStock(1);
 		//TODO: Open rewards popup
 		//TODO: Free enhancement
-		//TODO: Give custom item
+		//TODO: Give custom item as a reward rather than adding it to the shop
 		//TODO: New party goal to use custom item 10 times
 	}
 
