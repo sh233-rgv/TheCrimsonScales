@@ -152,7 +152,7 @@ font_size = 100
 font = ExtResource("39_namyh")
 font_size = 50
 
-[node name="Game" type="Node" unique_id=836903355 node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "SelectFigureView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "TeleportPath", "AOEView", "AOEButtonView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "SpecialRulesView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin", "ScreenDistortion", "StoryView")]
+[node name="Game" type="Node" unique_id=836903355 node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "SelectFigureView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "TeleportPath", "AOEView", "AOEButtonView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "SpecialRulesView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin", "ScreenDistortion")]
 script = ExtResource("1_arwlr")
 CameraController = NodePath("CameraController")
 CursorOverUIChecker = NodePath("CanvasLayer/UI/CursorOverUIChecker")
@@ -183,7 +183,6 @@ Selector = NodePath("Selector")
 CharacterStartHexMoveIndicator = NodePath("CanvasLayer/UI/CharacterStartHexMoveIndicator")
 HexPin = NodePath("HexPin")
 ScreenDistortion = NodePath("ScreenDistortion")
-StoryView = NodePath("")
 
 [node name="CameraController" type="Node2D" parent="." unique_id=1572162011 node_paths=PackedStringArray("Camera", "_movePivot")]
 script = ExtResource("15_67ddq")
