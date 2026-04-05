@@ -3,13 +3,18 @@ using System.Threading;
 using Fractural.Tasks;
 using Godot;
 using GTweens.Builders;
+using GTweens.Easings;
+using GTweensGodot.Extensions;
 
 public partial class BetweenScenariosPartyGoals : BetweenScenariosAction
 {
 	[Export]
+	private Control _container;
+	[Export]
 	private PackedScene _partyGoalScene;
 	[Export]
 	private Control _partyGoalParent;
+
 	[Export]
 	private ExclamationMark _exclamationMark;
 
@@ -56,10 +61,26 @@ public partial class BetweenScenariosPartyGoals : BetweenScenariosAction
 
 		_exclamationMark.SetActive(false);
 
-		if(BetweenScenariosController.Instance.SavedCampaign.SavedPartyGoals.CompletedEnough)
-		{
-			Complete().Forget();
-		}
+		_container.SetPosition(new Vector2(0, -1000));
+
+		sequenceBuilder
+			.AppendTime(previousActiveAction is ItemShop ? 0.6f : 0.4f)
+			.Append(_container.TweenPosition(Vector2.Zero, 0.6f).SetEasing(Easing.OutBack))
+			.AppendCallback(() =>
+			{
+				if(BetweenScenariosController.Instance.SavedCampaign.SavedPartyGoals.CompletedEnough)
+				{
+					Complete().Forget();
+				}
+			});
+	}
+
+	protected override void AnimateOut(GTweenSequenceBuilder sequenceBuilder)
+	{
+		sequenceBuilder
+			.Append(_container.TweenPosition(new Vector2(0, -1000), 0.4f).SetEasing(Easing.InQuad));
+
+		base.AnimateOut(sequenceBuilder);
 	}
 
 	private void UpdateCompleted()

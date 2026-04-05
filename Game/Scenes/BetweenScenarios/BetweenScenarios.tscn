@@ -143,26 +143,26 @@ font_color = Color(0.969748, 0.793137, 0.50993, 1)
 outline_size = 3
 outline_color = Color(0.693772, 0.508051, 0.168401, 1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_gkvnn"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_vlt2p"]
 viewport_path = NodePath("../../../../../FrontSubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vlt2p"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_30ktq"]
 resource_local_to_scene = true
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
-albedo_texture = SubResource("ViewportTexture_gkvnn")
+albedo_texture = SubResource("ViewportTexture_vlt2p")
 metallic_specular = 0.0
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_30ktq"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_n2gp2"]
 viewport_path = NodePath("../../../../../BackSubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n2gp2"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2o0ty"]
 resource_local_to_scene = true
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
-albedo_texture = SubResource("ViewportTexture_30ktq")
+albedo_texture = SubResource("ViewportTexture_n2gp2")
 metallic_specular = 0.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_807yg"]
@@ -1269,10 +1269,10 @@ visible = false
 transform = Transform3D(68.9, 0, 0, 0, -4.37114e-06, 102.3, 0, -100, -4.47168e-06, 0, 0, 0)
 
 [node name="Front" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation/Page/Skeleton3D" parent_id_path=PackedInt32Array(1735437367, 859513443) index="0" unique_id=1572919683]
-material_override = SubResource("StandardMaterial3D_vlt2p")
+material_override = SubResource("StandardMaterial3D_30ktq")
 
 [node name="Back" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation/Page/Skeleton3D" parent_id_path=PackedInt32Array(1735437367, 859513443) index="1" unique_id=412232771]
-material_override = SubResource("StandardMaterial3D_n2gp2")
+material_override = SubResource("StandardMaterial3D_2o0ty")
 
 [node name="AnimationPlayer" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation" index="1" unique_id=711269995]
 speed_scale = 1.4
@@ -1525,7 +1525,7 @@ theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 5
 
-[node name="PartyGoals" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=1254709443 node_paths=PackedStringArray("_partyGoalParent", "_exclamationMark", "Button")]
+[node name="PartyGoals" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=1254709443 node_paths=PackedStringArray("_container", "_partyGoalParent", "_exclamationMark", "Button")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1534,28 +1534,35 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("24_gkvnn")
+_container = NodePath("Anchor/Container")
 _partyGoalScene = ExtResource("29_r1npy")
 _partyGoalParent = NodePath("Anchor/Container/MarginContainer/VBoxContainer/Goals")
 _exclamationMark = NodePath("../ActionButtons/VBoxContainer/PartyGoalsButton/ExclamationMark")
 Button = NodePath("../ActionButtons/VBoxContainer/PartyGoalsButton")
 
-[node name="Anchor" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/PartyGoals" unique_id=579741481]
+[node name="Anchor" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/PartyGoals" unique_id=1226348375]
+custom_minimum_size = Vector2(1026, 540)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -440.0
-offset_top = -91.0
-offset_right = 440.0
-offset_bottom = 91.0
+offset_left = -513.0
+offset_top = -270.0
+offset_right = 513.0
+offset_bottom = 270.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Container" type="PanelContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/PartyGoals/Anchor" unique_id=2094032375]
 material = ExtResource("23_1ehwm")
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = ExtResource("19_6k6qu")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/PartyGoals/Anchor/Container" unique_id=1974447131]
