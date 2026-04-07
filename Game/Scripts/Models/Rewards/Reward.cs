@@ -1,12 +1,11 @@
 ﻿using Fractural.Tasks;
-using Godot;
 
 public abstract class Reward
 {
 	public abstract RewardType Type { get; }
 	public abstract string GetLabelText(RichTextParameters parameters);
 
-	public virtual async GDTask ImmediateResolve()
+	public virtual async GDTask ImmediateResolve(SavedCampaign savedCampaign)
 	{
 		await GDTask.CompletedTask;
 	}

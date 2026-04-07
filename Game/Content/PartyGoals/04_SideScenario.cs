@@ -4,7 +4,7 @@
 	[
 		ModelDB.Scenario<Scenario051>(),
 		ModelDB.Scenario<Scenario052>(),
-		//ModelDB.Scenario<Scenario053>(), //TODO: Implement scenario 53
+		ModelDB.Scenario<Scenario053>(),
 		ModelDB.Scenario<Scenario054>(),
 		ModelDB.Scenario<Scenario055>(),
 	];

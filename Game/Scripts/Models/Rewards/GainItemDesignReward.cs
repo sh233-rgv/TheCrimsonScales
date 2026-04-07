@@ -6,11 +6,11 @@ public class GainItemDesignReward(ItemModel itemModel) : Reward
 	public override RewardType Type => RewardType.Immediate;
 	public override string GetLabelText(RichTextParameters parameters) => $"Gain '{itemModel.Name}' item design.";
 
-	public override async GDTask ImmediateResolve()
+	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign)
 	{
-		await base.ImmediateResolve();
+		await base.ImmediateResolve(savedCampaign);
 
-		SavedItem savedItem = BetweenScenariosController.Instance.SavedCampaign.GetSavedItem(itemModel);
+		SavedItem savedItem = savedCampaign.GetSavedItem(itemModel);
 		savedItem.AddUnlocked(1);
 		savedItem.AddStock(1);
 	}

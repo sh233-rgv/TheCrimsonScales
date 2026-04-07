@@ -6,10 +6,10 @@ public class UnlockScenarioReward(ScenarioModel scenarioModel) : Reward
 	public override RewardType Type => RewardType.Immediate;
 	public override string GetLabelText(RichTextParameters parameters) => $"Unlock Scenario {scenarioModel.ScenarioNumber}.";
 
-	public override async GDTask ImmediateResolve()
+	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign)
 	{
-		await base.ImmediateResolve();
+		await base.ImmediateResolve(savedCampaign);
 
-		BetweenScenariosController.Instance.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(scenarioModel).Discover();
+		savedCampaign.SavedScenarioProgresses.GetScenarioProgress(scenarioModel).Discover();
 	}
 }

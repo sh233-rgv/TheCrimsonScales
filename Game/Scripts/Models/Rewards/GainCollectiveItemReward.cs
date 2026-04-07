@@ -6,17 +6,17 @@ public class GainCollectiveItemReward(ItemModel itemModel) : Reward
 	public override RewardType Type => RewardType.Immediate;
 	public override string GetLabelText(RichTextParameters parameters) => $"Gain 1 collective '{itemModel.Name}'.";
 
-	public override async GDTask ImmediateResolve()
+	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign)
 	{
-		await base.ImmediateResolve();
+		await base.ImmediateResolve(savedCampaign);
 
 		AppController.Instance.PopupManager.RequestPopup(new ItemRewardCharacterSelectionPopup.Request()
 		{
 			ItemModel = itemModel,
-			Characters = BetweenScenariosController.Instance.SavedCampaign.Characters,
+			Characters = savedCampaign.Characters,
 			OnCharacterConfirmed = character =>
 			{
-				BetweenScenariosController.Instance.SavedCampaign.GetSavedItem(itemModel).AddUnlocked(1);
+				savedCampaign.GetSavedItem(itemModel).AddUnlocked(1);
 				character.AddItem(itemModel);
 			}
 		});

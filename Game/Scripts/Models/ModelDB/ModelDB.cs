@@ -166,7 +166,7 @@ public static class ModelDB
 		return GetOrCreate<T>();
 	}
 
-	public static T MerchantsGuildHallRewardModel<T>() where T : MerchantsGuildHallRewardModel
+	public static T MerchantsGuildHallReward<T>() where T : MerchantsGuildHallRewardModel
 	{
 		return GetOrCreate<T>();
 	}

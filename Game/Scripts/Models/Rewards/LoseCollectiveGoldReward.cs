@@ -9,16 +9,16 @@ public class LoseCollectiveGoldReward(int goldAmount) : Reward
 	public override string GetLabelText(RichTextParameters parameters) =>
 		$"Lose {goldAmount} collective {Icons.Inline(Icons.Coins, parameters)}.";
 
-	public override async GDTask ImmediateResolve()
+	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign)
 	{
-		await base.ImmediateResolve();
+		await base.ImmediateResolve(savedCampaign);
 
-		int adjustedGoldAmount = Mathf.Min(goldAmount, BetweenScenariosController.Instance.SavedCampaign.Characters.Sum(character => character.Gold));
+		int adjustedGoldAmount = Mathf.Min(goldAmount, savedCampaign.Characters.Sum(character => character.Gold));
 		AppController.Instance.PopupManager.RequestPopup(new GoldDistributionPopup.Request()
 		{
 			Gold = adjustedGoldAmount,
 			LoseGold = true,
-			Characters = BetweenScenariosController.Instance.SavedCampaign.Characters,
+			Characters = savedCampaign.Characters,
 		});
 
 		await GDTask.WaitWhile(() => AppController.Instance.PopupManager.IsPopupOpen<GoldDistributionPopup.Request>());

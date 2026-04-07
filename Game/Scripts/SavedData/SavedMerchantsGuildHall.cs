@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -7,6 +6,21 @@ public class SavedMerchantsGuildHall
 {
 	private static readonly MerchantsGuildHallRewardModel[] AllRewards =
 	[
+		ModelDB.MerchantsGuildHallReward<GainProsperityMerchantsGuildHallReward>(),
+		ModelDB.MerchantsGuildHallReward<GainProsperityMerchantsGuildHallReward>(),
+		ModelDB.MerchantsGuildHallReward<GainProsperityMerchantsGuildHallReward>(),
+		ModelDB.MerchantsGuildHallReward<GainProsperityMerchantsGuildHallReward>(),
+		ModelDB.MerchantsGuildHallReward<GainProsperityMerchantsGuildHallReward>(),
+		ModelDB.MerchantsGuildHallReward<GainProsperityMerchantsGuildHallReward>(),
+		ModelDB.MerchantsGuildHallReward<GainProsperityMerchantsGuildHallReward>(),
+
+		ModelDB.MerchantsGuildHallReward<AddCityAndRoad59MerchantsGuildHallReward>(),
+		ModelDB.MerchantsGuildHallReward<AddCityAndRoad60MerchantsGuildHallReward>(),
+		ModelDB.MerchantsGuildHallReward<UnlockScenario51MerchantsGuildHallReward>(),
+		ModelDB.MerchantsGuildHallReward<UnlockScenario52MerchantsGuildHallReward>(),
+		ModelDB.MerchantsGuildHallReward<UnlockScenario53MerchantsGuildHallReward>(),
+		ModelDB.MerchantsGuildHallReward<UnlockScenario54MerchantsGuildHallReward>(),
+		ModelDB.MerchantsGuildHallReward<UnlockScenario55MerchantsGuildHallReward>(),
 	];
 
 	[JsonProperty]

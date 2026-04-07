@@ -8,10 +8,10 @@ public class UnlockPartyAMDReward(AMDCardModel cardModel) : Reward
 	public override string GetLabelText(RichTextParameters parameters) =>
 		$"Unlocked a bonus card whenever a character makes a donation to the Sanctuary of the Great Oak.";
 
-	public override async GDTask ImmediateResolve()
+	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign)
 	{
-		await base.ImmediateResolve();
+		await base.ImmediateResolve(savedCampaign);
 
-		BetweenScenariosController.Instance.SavedCampaign.SanctuaryOfTheGreatOak.UnlockPartyAMD(cardModel);
+		savedCampaign.SanctuaryOfTheGreatOak.UnlockPartyAMD(cardModel);
 	}
 }

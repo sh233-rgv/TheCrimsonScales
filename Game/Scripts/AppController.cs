@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Fractural.Tasks;
 using Godot;
 
 public partial class AppController : SingletonNode<AppController>
@@ -45,8 +47,32 @@ public partial class AppController : SingletonNode<AppController>
 		if(SaveFile.RemovedSavedScenario)
 		{
 			PopupManager.RequestPopup(new TextPopup.Request("New Version",
-				"A new version of The Crimson Scales was installed. This unfortunately meant that the progress on the last scenario was incompatible with the new version." +
-				"\nPlease always make sure to finish up a scenario before installing a new version of the application!"));
+				"""
+				A new version of The Crimson Scales was installed. This unfortunately meant that the progress on the last scenario was incompatible with the new version.
+
+				Please always make sure to finish up a scenario before installing a new version of the application!
+				"""));
+		}
+	}
+
+	public async GDTask GiveRewards(SavedCampaign savedCampaign, List<Reward> rewards, bool showPopup = true)
+	{
+		if(showPopup)
+		{
+			PopupManager.RequestPopup(new RewardsPopup.Request()
+			{
+				Rewards = rewards,
+			});
+
+			await GDTask.WaitWhile(() => PopupManager.IsPopupOpen());
+		}
+
+		foreach(Reward reward in rewards)
+		{
+			if(reward.Type == RewardType.Immediate)
+			{
+				await reward.ImmediateResolve(savedCampaign);
+			}
 		}
 	}
 }

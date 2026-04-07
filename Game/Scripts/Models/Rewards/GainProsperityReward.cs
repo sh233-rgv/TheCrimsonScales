@@ -6,10 +6,10 @@ public class GainProsperityReward(int prosperity) : Reward
 	public override RewardType Type => RewardType.Immediate;
 	public override string GetLabelText(RichTextParameters parameters) => $"Gain {prosperity} prosperity.";
 
-	public override async GDTask ImmediateResolve()
+	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign)
 	{
-		await base.ImmediateResolve();
+		await base.ImmediateResolve(savedCampaign);
 
-		BetweenScenariosController.Instance.SavedCampaign.AdjustProsperity(prosperity);
+		savedCampaign.AdjustProsperity(prosperity);
 	}
 }

@@ -8,15 +8,15 @@ public class GainCollectiveGoldReward(int goldAmount) : Reward
 	public override string GetLabelText(RichTextParameters parameters) =>
 		$"Gain {goldAmount} collective {Icons.Inline(Icons.Coins, parameters)}.";
 
-	public override async GDTask ImmediateResolve()
+	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign)
 	{
-		await base.ImmediateResolve();
+		await base.ImmediateResolve(savedCampaign);
 
 		AppController.Instance.PopupManager.RequestPopup(new GoldDistributionPopup.Request()
 		{
 			Gold = goldAmount,
 			LoseGold = false,
-			Characters = BetweenScenariosController.Instance.SavedCampaign.Characters,
+			Characters = savedCampaign.Characters,
 		});
 
 		await GDTask.WaitWhile(() => AppController.Instance.PopupManager.IsPopupOpen<GoldDistributionPopup.Request>());
