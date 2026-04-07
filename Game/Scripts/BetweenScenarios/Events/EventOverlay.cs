@@ -137,10 +137,10 @@ public partial class EventOverlay : Control
 		_continueButton.SetActive(false);
 
 		bool hasNonImmediateReward = false;
-		List<EventReward> rewards = _chosenModel.GetRewards(savedEventState);
-		foreach(EventReward reward in rewards)
+		List<Reward> rewards = _chosenModel.GetRewards(savedEventState);
+		foreach(Reward reward in rewards)
 		{
-			if(reward.Type == EventRewardType.Immediate)
+			if(reward.Type == RewardType.Immediate)
 			{
 				await reward.ImmediateResolve();
 			}

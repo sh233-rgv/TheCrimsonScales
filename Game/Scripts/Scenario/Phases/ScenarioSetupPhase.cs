@@ -105,9 +105,9 @@ public class ScenarioSetupPhase : ScenarioPhase
 
 		foreach(SavedEventState savedEventState in GameController.Instance.SavedCampaign.SavedEvents.SavedEventStates)
 		{
-			foreach(EventReward eventReward in savedEventState.Choice.GetRewards(savedEventState))
+			foreach(Reward eventReward in savedEventState.Choice.GetRewards(savedEventState))
 			{
-				if(eventReward.Type == EventRewardType.ScenarioStart)
+				if(eventReward.Type == RewardType.ScenarioStart)
 				{
 					await eventReward.OnScenarioSetupPhaseCompleted();
 				}

@@ -20,9 +20,9 @@ public class City34 : CityEventModel<City34.ChoiceA, City34.ChoiceB>
 			You insist he interpret the dream at no charge and remind him of the time you rescued him from a bera. With an angry look on his face, he consents not to charge you. He pays little attention as you speak, and as you conclude his sour expression turns into a devilish smile as he proceeds to explain that your nightmare was meant to give you a glimpse of the impending misfortune you are due to experience.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new AllStartScenarioWithConditionEventReward(Conditions.Curse)
+			new AllStartScenarioWithConditionReward(Conditions.Curse)
 		];
 	}
 
@@ -36,17 +36,17 @@ public class City34 : CityEventModel<City34.ChoiceA, City34.ChoiceB>
 			""";
 
 		//TODO: Not enough gold
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new LoseCollectiveGoldEventReward(10),
-			new OnScenarioStartedEventReward(
+			new LoseCollectiveGoldReward(10),
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					await AbilityCmd.CurseMonsters();
 					await AbilityCmd.CurseMonsters();
 				},
-				color =>
-					$"Monsters start the scenario with {Icons.Inline(Icons.GetCondition(Conditions.Curse), color: color)}, {Icons.Inline(Icons.GetCondition(Conditions.Curse), color: color)}."
+				textParameters =>
+					$"Monsters start the scenario with {Icons.Inline(Icons.GetCondition(Conditions.Curse), textParameters)}, {Icons.Inline(Icons.GetCondition(Conditions.Curse), textParameters)}."
 			)
 		];
 	}

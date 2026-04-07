@@ -24,9 +24,9 @@ public class City26 : CityEventModel<City26.ChoiceA, City26.ChoiceB>
 			The human gratefully hands you a canister of poison gas used in his line of work and proceeds to enter the shop.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					ScenarioEvents.DuringAttackEvent.Subscribe(this,
@@ -43,7 +43,7 @@ public class City26 : CityEventModel<City26.ChoiceA, City26.ChoiceB>
 
 					await GDTask.CompletedTask;
 				},
-				color =>
+				textParameters =>
 					$"During the first round of the next scenario, all characters add {Icons.Inline(Icons.GetCondition(Conditions.Poison1))} to all their attacks."
 			)
 		];
@@ -58,9 +58,9 @@ public class City26 : CityEventModel<City26.ChoiceA, City26.ChoiceB>
 			You intervene on behalf of the Harrower and demand the Human leave it alone. Outnumbered, the Human curses under his breath as he turns around and enters the shop. The Harrower chitters gleefully and explains that it belongs to a sect of medically inclined Harrowers and is willing to aid you on your next journey.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					ScenarioEvents.InflictConditionEvent.Subscribe(this,
@@ -85,7 +85,7 @@ public class City26 : CityEventModel<City26.ChoiceA, City26.ChoiceB>
 
 					await GDTask.CompletedTask;
 				},
-				color =>
+				textParameters =>
 					$"During the next scenario, all characters are immune to {Icons.Inline(Icons.GetCondition(Conditions.Muddle))}."
 			)
 		];

@@ -18,9 +18,9 @@ public class City30 : CityEventModel<City30.ChoiceA, City30.ChoiceB>
 			You spend the day browsing the stalls and find a plethora of discounted merchandise. Today is a great day to shop for new supplies, and there are many great deals to take advantage of.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeShopPriceEventReward(
+			new DowntimeShopPriceReward(
 				eventReward =>
 					parameters =>
 					{
@@ -37,8 +37,8 @@ public class City30 : CityEventModel<City30.ChoiceA, City30.ChoiceB>
 							state.SetCustomValue(parameters.Buyer.Guid.ToString(), true);
 						}
 					},
-				color =>
-					$"During this City Phase, each character may buy one item from the shop for {Icons.Inline(Icons.Coins, color: color)}10 less."
+				textParameters =>
+					$"During this City Phase, each character may buy one item from the shop for {Icons.Inline(Icons.Coins, textParameters)}10 less."
 			)
 		];
 	}
@@ -52,9 +52,9 @@ public class City30 : CityEventModel<City30.ChoiceA, City30.ChoiceB>
 			You set up a stall and buyers pour in from all directions. With a bit of effort, you manage to persuade a few customers to agree to purchase your unwanted goods for the full asking price.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeShopSellPriceEventReward(
+			new DowntimeShopSellPriceReward(
 				eventReward =>
 					parameters =>
 					{
@@ -71,8 +71,8 @@ public class City30 : CityEventModel<City30.ChoiceA, City30.ChoiceB>
 							state.SetCustomValue(parameters.Seller.Guid.ToString(), true);
 						}
 					},
-				color =>
-					$"During this City Phase, each character may sell one item to the shop for {Icons.Inline(Icons.Coins, color: color)}10 more."
+				textParameters =>
+					$"During this City Phase, each character may sell one item to the shop for {Icons.Inline(Icons.Coins, textParameters)}10 more."
 			)
 		];
 	}

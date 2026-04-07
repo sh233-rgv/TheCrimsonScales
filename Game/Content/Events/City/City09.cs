@@ -20,9 +20,9 @@ public class City09 : CityEventModel<City09.ChoiceA, City09.ChoiceB>
 			They continue calling your name as you slink out the back door. Looks like they'll have to find another patron to fill the slot.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new LoseReputationEventReward(1)
+			new LoseReputationReward(1)
 		];
 	}
 
@@ -37,9 +37,9 @@ public class City09 : CityEventModel<City09.ChoiceA, City09.ChoiceB>
 			You're pleasantly surprised when you hear your name being called up as one of the winners of the show.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeEnhancementCostEventReward(
+			new DowntimeEnhancementCostReward(
 				eventReward =>
 					parameters =>
 					{
@@ -56,8 +56,8 @@ public class City09 : CityEventModel<City09.ChoiceA, City09.ChoiceB>
 							state.Complete(eventReward);
 						}
 					},
-				color =>
-					$"The next {Icons.Inline(Icons.PlusOneEnhancement, color: color)} enhancement for a level 1/X card purchased this City Phase will be free.")
+				textParameters =>
+					$"The next {Icons.Inline(Icons.PlusOneEnhancement, textParameters)} enhancement for a level 1/X card purchased this City Phase will be free.")
 		];
 	}
 }

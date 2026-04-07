@@ -25,9 +25,9 @@ public class Road32 : RoadEventModel<Road32.ChoiceA, Road32.ChoiceB>
 			You eventually outrun the Vermling and enjoy a hearty meal, but as you reach your destination you turn around and find the Vermling has caught up and is angrily charging toward you.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					Hex hex = await AbilityCmd.SelectHex(GameController.Instance.CharacterManager.GetCharacter(0),
@@ -56,7 +56,7 @@ public class Road32 : RoadEventModel<Road32.ChoiceA, Road32.ChoiceB>
 						}
 					}
 				},
-				color =>
+				textParameters =>
 					"At the start of the next scenario, an elite Vermling Scout will spawn next to any character. It is an enemy to all figures."
 			)
 		];
@@ -73,9 +73,9 @@ public class Road32 : RoadEventModel<Road32.ChoiceA, Road32.ChoiceB>
 			You continue on with your journey but have no luck finding more food. You manage to make it to your destination but feel sluggish and worn out from the lack of sustenance.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					ScenarioCheckEvents.InitiativeCheckEvent.Subscribe(this,
@@ -100,7 +100,7 @@ public class Road32 : RoadEventModel<Road32.ChoiceA, Road32.ChoiceB>
 
 					await GDTask.CompletedTask;
 				},
-				color =>
+				textParameters =>
 					"During the first round of the scenario, all characters act on Initiative 99 instead of their leading Initiative."
 			)
 		];

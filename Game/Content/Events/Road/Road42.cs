@@ -21,16 +21,16 @@ public class Road42 : RoadEventModel<Road42.ChoiceA, Road42.ChoiceB>
 			You answer that you are on the path of righteousness and the man smiles warmly. "Very well then. I shall pray for you to continue to walk the path of prosperity and good merit!"
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					await AbilityCmd.InfuseElement(null, Element.Light, immediately: true);
 				},
-				color => $"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Light), color: color)}."
+				textParameters => $"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Light), textParameters)}."
 			),
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					ScenarioEvents.AMDCardDrawnEvent.Subscribe(this,
@@ -59,7 +59,7 @@ public class Road42 : RoadEventModel<Road42.ChoiceA, Road42.ChoiceB>
 
 					await GDTask.CompletedTask;
 				},
-				color =>
+				textParameters =>
 					$"During the first round of the next scenario, any negative attack modifier cards drawn by players to be a +1 instead."
 			)
 		];
@@ -74,16 +74,16 @@ public class Road42 : RoadEventModel<Road42.ChoiceA, Road42.ChoiceB>
 			You answer that you are on the path of despair and the man instantly frowns. "Well, if that's the path you choose, I shall pray for you to continue to walk the path of anguish and dishearten your enemies!"
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					await AbilityCmd.InfuseElement(null, Element.Dark, immediately: true);
 				},
-				color => $"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Dark), color: color)}."
+				textParameters => $"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Dark), textParameters)}."
 			),
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					ScenarioEvents.AMDCardDrawnEvent.Subscribe(this,
@@ -112,7 +112,7 @@ public class Road42 : RoadEventModel<Road42.ChoiceA, Road42.ChoiceB>
 
 					await GDTask.CompletedTask;
 				},
-				color =>
+				textParameters =>
 					$"During the first round of the next scenario, any negative attack modifier cards drawn by players to be a -1 instead."
 			)
 		];

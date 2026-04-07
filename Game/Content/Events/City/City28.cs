@@ -23,9 +23,9 @@ public class City28 : CityEventModel<City28.ChoiceA, City28.ChoiceB>
 			You point to the amulet of security and a smile forms upon the Vermling's face. "You shall be blessed! Blessings upon you!"
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					ScenarioCheckEvents.MoneyTokenValueCheckEvent.Subscribe(this,
@@ -38,8 +38,8 @@ public class City28 : CityEventModel<City28.ChoiceA, City28.ChoiceB>
 
 					await GDTask.CompletedTask;
 				},
-				color =>
-					$"All money tokens acquired during the next scenario are worth {Icons.Inline(Icons.Coins, color: color)}1 more each."
+				textParameters =>
+					$"All money tokens acquired during the next scenario are worth {Icons.Inline(Icons.Coins, textParameters)}1 more each."
 			)
 		];
 	}
@@ -55,9 +55,9 @@ public class City28 : CityEventModel<City28.ChoiceA, City28.ChoiceB>
 			You point to the amulet of restoration and a frown falls upon the Vermling's face. "You have been warned! Curses upon you!"
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new AllStartScenarioWithConditionEventReward(Conditions.Curse)
+			new AllStartScenarioWithConditionReward(Conditions.Curse)
 		];
 	}
 }

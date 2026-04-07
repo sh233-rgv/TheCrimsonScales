@@ -67,13 +67,13 @@ public class SavedEventState
 		return true;
 	}
 
-	public void Complete(EventReward eventReward)
+	public void Complete(Reward reward)
 	{
 		Completed = true;
 
 		if(BetweenScenariosController.Instance != null)
 		{
-			BetweenScenariosController.Instance.UnsubscribeDuringDowntime(eventReward);
+			BetweenScenariosController.Instance.UnsubscribeDuringDowntime(reward);
 		}
 	}
 }

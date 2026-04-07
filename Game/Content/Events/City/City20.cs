@@ -20,9 +20,9 @@ public class City20 : CityEventModel<City20.ChoiceA, City20.ChoiceB>
 			You lift Shiela up over your shoulder and proceed to carry her all the way to the Mixed District. As you head up the stairs to her apartment, Shiela slurs a hearty thanks and promises to repay you the next time you visit her potion shop.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeShopPriceEventReward(
+			new DowntimeShopPriceReward(
 				eventReward =>
 					parameters =>
 					{
@@ -39,8 +39,8 @@ public class City20 : CityEventModel<City20.ChoiceA, City20.ChoiceB>
 							state.SetCustomValue(parameters.Buyer.Guid.ToString(), true);
 						}
 					},
-				color =>
-					$"During this City Phase, each character may buy one {Icons.Inline(Icons.GetItem(ItemType.Small), color: color)} item from the shop for {Icons.Inline(Icons.Coins, color: color)}10 less.")
+				textParameters =>
+					$"During this City Phase, each character may buy one {Icons.Inline(Icons.GetItem(ItemType.Small), textParameters)} item from the shop for {Icons.Inline(Icons.Coins, textParameters)}10 less.")
 		];
 	}
 
@@ -55,9 +55,9 @@ public class City20 : CityEventModel<City20.ChoiceA, City20.ChoiceB>
 			You head straight home with little regard for her wellbeing and proceed to get a full night's rest.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new AllStartScenarioWithConditionEventReward(Conditions.Strengthen)
+			new AllStartScenarioWithConditionReward(Conditions.Strengthen)
 		];
 	}
 }

@@ -20,9 +20,9 @@ public class Road08 : RoadEventModel<Road08.ChoiceA, Road08.ChoiceB>
 			You explain to the Vermling that it's harmless snow, and snowfall is natural this high up in the peaks. She thanks you for clearing up the confusion and offers to accompany you on your journey.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					Hex hex = await AbilityCmd.SelectHex(GameController.Instance.CharacterManager.GetCharacter(0),
@@ -51,7 +51,7 @@ public class Road08 : RoadEventModel<Road08.ChoiceA, Road08.ChoiceB>
 						}
 					}
 				},
-				color => "At the start of the next scenario, an allied Vermling Scout will spawn next to any character."
+				textParameters => "At the start of the next scenario, an allied Vermling Scout will spawn next to any character."
 			)
 		];
 	}
@@ -65,9 +65,9 @@ public class Road08 : RoadEventModel<Road08.ChoiceA, Road08.ChoiceB>
 			You agree to escort the Vermling out of the mountains and lead her out of the snowy mountains. She thanks you, pays you and vows never to return to what she calls the 'cursed powder mountains' again.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new GainCollectiveGoldEventReward(15)
+			new GainCollectiveGoldReward(15)
 		];
 	}
 }

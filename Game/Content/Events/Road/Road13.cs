@@ -23,7 +23,7 @@ public class Road13 : RoadEventModel<Road13.ChoiceA, Road13.ChoiceB>
 			You scoff at the Aesther and state your disbelief in the practice of fortune telling. She narrows her eyes and begins waving her hands over the crystal ball. "Bad fortune awaits!" she calls out as you proceed to exit her tent without payment.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
 			new AllStartScenarioWithMinusOnesReward(2),
 		];
@@ -40,10 +40,10 @@ public class Road13 : RoadEventModel<Road13.ChoiceA, Road13.ChoiceB>
 			You pay the Aesther her fee and she begins to wave her hands over the crystal ball while humming a quiet tune. "Good fortune awaits! Your enemies will be crippled and you will have the upper hand in battle."
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new LoseCollectiveGoldEventReward(5),
-			new OnScenarioStartedEventReward(
+			new LoseCollectiveGoldReward(5),
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					GameController.Instance.MonsterAMDCardDeck.AddMinusOne();
@@ -51,7 +51,7 @@ public class Road13 : RoadEventModel<Road13.ChoiceA, Road13.ChoiceB>
 
 					await GDTask.CompletedTask;
 				},
-				color => $"Monsters start the next scenario with two extra “-1” AMD cards."
+				textParameters => $"Monsters start the next scenario with two extra “-1” AMD cards."
 			)
 		];
 	}

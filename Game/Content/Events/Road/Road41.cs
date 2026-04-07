@@ -24,9 +24,9 @@ public class Road41 : RoadEventModel<Road41.ChoiceA, Road41.ChoiceB>
 			You asked to be blessed with longevity. The old man puts his hands over your head and mumbles, leaving a smear of dirt on your forehead. He kisses your cheek and then sits down and begins picking at the bread and licking the crumbs from his hand.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					ScenarioEvents.RoundEndedEvent.Subscribe(this,
@@ -51,8 +51,8 @@ public class Road41 : RoadEventModel<Road41.ChoiceA, Road41.ChoiceB>
 
 					await GDTask.CompletedTask;
 				},
-				color =>
-					$"At the end of the first round, each character may {Icons.Inline(Icons.RecoverCard, color: color)} one discarded card."
+				textParameters =>
+					$"At the end of the first round, each character may {Icons.Inline(Icons.RecoverCard, textParameters)} one discarded card."
 			)
 		];
 	}
@@ -66,9 +66,9 @@ public class Road41 : RoadEventModel<Road41.ChoiceA, Road41.ChoiceB>
 			You asked to be blessed with sustenance. The old man waves his hands over your head, dropping small bits of dirt in your eyes as he mumbles. He kisses your forehead and then sits down and waves you off.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					foreach(Character character in GameController.Instance.CharacterManager.Characters)
@@ -83,7 +83,7 @@ public class Road41 : RoadEventModel<Road41.ChoiceA, Road41.ChoiceB>
 						}
 					}
 				},
-				color =>
+				textParameters =>
 					$"At the start of the scenario, place one money token in an unoccupied hex adjacent to each character."
 			)
 		];

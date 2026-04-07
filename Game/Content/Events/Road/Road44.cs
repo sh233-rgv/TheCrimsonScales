@@ -22,18 +22,19 @@ public class Road44 : RoadEventModel<Road44.ChoiceA, Road44.ChoiceB>
 			"The rusty spikes trap! Great choice, use it wisely." The Chainguard hands you the trap and bids you farewell.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					Character user = GameController.Instance.CharacterManager.Characters[0];
 
 					await AbilityCmd.CreateTraps(damage: 4, conditions: [Conditions.Wound1], performer: user,
-						customSelectHexes: list => CustomSelectHexes(list, user), assetPath: "res://Content/Classes/Chainguard/Traps/ChainguardWoodSpikeTrap.tscn");
+						customSelectHexes: list => CustomSelectHexes(list, user),
+						assetPath: "res://Content/Classes/Chainguard/Traps/ChainguardWoodSpikeTrap.tscn");
 				},
-				color =>
-					$"At the start of the next scenario, place one {Icons.Inline(Icons.Damage, color: color)}4, {Icons.Inline(Icons.GetCondition(Conditions.Wound1), color: color)} trap in an empty hex adjacent to any enemy."
+				textParameters =>
+					$"At the start of the next scenario, place one {Icons.Inline(Icons.Damage, textParameters)}4, {Icons.Inline(Icons.GetCondition(Conditions.Wound1), textParameters)} trap in an empty hex adjacent to any enemy."
 			)
 		];
 	}
@@ -47,18 +48,19 @@ public class Road44 : RoadEventModel<Road44.ChoiceA, Road44.ChoiceB>
 			"The clamping snare. Great for stopping anything in its tracks!" The Chainguard hands you the trap and wishes you the best of luck on your journey.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					Character user = GameController.Instance.CharacterManager.Characters[0];
 
 					await AbilityCmd.CreateTraps(damage: 0, conditions: [Conditions.Stun], performer: user,
-						customSelectHexes: list => CustomSelectHexes(list, user), assetPath: "res://Content/Classes/Chainguard/Traps/ChainguardRopeTrap.tscn");
+						customSelectHexes: list => CustomSelectHexes(list, user),
+						assetPath: "res://Content/Classes/Chainguard/Traps/ChainguardRopeTrap.tscn");
 				},
-				color =>
-					$"At the start of the next scenario, place one {Icons.Inline(Icons.GetCondition(Conditions.Stun), color: color)} trap in an empty hex adjacent to any enemy."
+				textParameters =>
+					$"At the start of the next scenario, place one {Icons.Inline(Icons.GetCondition(Conditions.Stun), textParameters)} trap in an empty hex adjacent to any enemy."
 			)
 		];
 	}

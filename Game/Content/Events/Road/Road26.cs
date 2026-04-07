@@ -44,14 +44,14 @@ public class Road26 : RoadEventModel<Road26.ChoiceA, Road26.ChoiceB>
 			}
 		}
 
-		public override List<EventReward> GetRewards(SavedEventState state)
+		public override List<Reward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
 				return
 				[
-					new LoseCollectiveGoldEventReward(5),
-					new SummonEventReward(
+					new LoseCollectiveGoldReward(5),
+					new SummonReward(
 						SummonAbility.Builder()
 							.WithName("Slithering Viper")
 							.WithTexturePath("res://Content/Classes/Chieftain/Summons/cottonmouth_snake_AI.png") //TODO: Generic or AI summon visual?
@@ -79,9 +79,9 @@ public class Road26 : RoadEventModel<Road26.ChoiceA, Road26.ChoiceB>
 			You refuse to give the charmer any of your gold and turn away to continue with your journey. You feel a sharp sting running up your ankle and you turn around to see one of the vipers slithering away. The charmer smiles devilishly as he continues playing his pungi.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new AllStartScenarioWithConditionEventReward(Conditions.Poison1)
+			new AllStartScenarioWithConditionReward(Conditions.Poison1)
 		];
 	}
 }

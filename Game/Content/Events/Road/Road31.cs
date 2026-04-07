@@ -23,9 +23,9 @@ public class Road31 : RoadEventModel<Road31.ChoiceA, Road31.ChoiceB>
 			You explain you're not leaving without food and the Vermling insists he won't share. As you continue to argue with the Vermling he shines the light toward your face and stares for a few seconds, before smiling cheerfully and claiming to recognize you. He mentions something about you helping him unscrew a lightbulb from a tech lamp and sends you away feeling invigorated with a full stomach.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					foreach(Character character in GameController.Instance.CharacterManager.Characters)
@@ -68,7 +68,7 @@ public class Road31 : RoadEventModel<Road31.ChoiceA, Road31.ChoiceB>
 
 					await GDTask.CompletedTask;
 				},
-				color =>
+				textParameters =>
 					"During the first round of the scenario, before any cards are revealed, any characters may declare to act on Initiative 01 instead of their leading Initiative."
 			)
 		];
@@ -85,9 +85,9 @@ public class Road31 : RoadEventModel<Road31.ChoiceA, Road31.ChoiceB>
 			You continue on with your journey but have no luck finding more food. You manage to make it to your destination but feel sluggish and worn out from the lack of sustenance.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					ScenarioCheckEvents.InitiativeCheckEvent.Subscribe(this,
@@ -112,7 +112,7 @@ public class Road31 : RoadEventModel<Road31.ChoiceA, Road31.ChoiceB>
 
 					await GDTask.CompletedTask;
 				},
-				color =>
+				textParameters =>
 					"During the first round of the scenario, all characters act on Initiative 99 instead of their leading Initiative."
 			)
 		];

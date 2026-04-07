@@ -59,14 +59,14 @@ public class Road19 : RoadEventModel<Road19.ChoiceA, Road19.ChoiceB>
 			}
 		}
 
-		public override List<EventReward> GetRewards(SavedEventState state)
+		public override List<Reward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
 				return
 				[
-					new LoseCollectiveGoldEventReward(10),
-					new TotemEventReward(
+					new LoseCollectiveGoldReward(10),
+					new TotemReward(
 						obstacle =>
 						{
 							ScenarioEvents.DuringAttackEvent.Subscribe(this,
@@ -86,7 +86,7 @@ public class Road19 : RoadEventModel<Road19.ChoiceA, Road19.ChoiceB>
 							ScenarioEvents.DuringAttackEvent.Unsubscribe(this);
 						},
 						"Kangaroo",
-						color =>
+						textParameters =>
 							$"All characters adjacent to this obstacle gain Advantage to all their attacks."
 					)
 				];
@@ -142,14 +142,14 @@ public class Road19 : RoadEventModel<Road19.ChoiceA, Road19.ChoiceB>
 			}
 		}
 
-		public override List<EventReward> GetRewards(SavedEventState state)
+		public override List<Reward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
 				return
 				[
-					new LoseCollectiveGoldEventReward(10),
-					new TotemEventReward(
+					new LoseCollectiveGoldReward(10),
+					new TotemReward(
 						obstacle =>
 						{
 							ScenarioEvents.InflictConditionEvent.Subscribe(this,
@@ -196,7 +196,7 @@ public class Road19 : RoadEventModel<Road19.ChoiceA, Road19.ChoiceB>
 							ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this);
 						},
 						"Camel",
-						color =>
+						textParameters =>
 							$"All characters adjacent to this obstacle are immune to negative conditions."
 					)
 				];

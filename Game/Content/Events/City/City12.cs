@@ -58,13 +58,13 @@ public class City12 : CityEventModel<City12.ChoiceA, City12.ChoiceB>
 			}
 		}
 
-		public override List<EventReward> GetRewards(SavedEventState state)
+		public override List<Reward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
 				return
 				[
-					new GainCollectiveItemEventReward(ModelDB.Item<DrakescaleDagger>())
+					new GainCollectiveItemReward(ModelDB.Item<DrakescaleDagger>())
 				];
 			}
 			else
@@ -83,9 +83,9 @@ public class City12 : CityEventModel<City12.ChoiceA, City12.ChoiceB>
 			You threaten to report the Inox for trading without a permit and his face turns white. "Please, no! I can't afford to spend any more time in jail. Here, take the dagger! Just promise me you won't tell anyone!"
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new GainCollectiveItemEventReward(ModelDB.Item<DrakescaleDagger>())
+			new GainCollectiveItemReward(ModelDB.Item<DrakescaleDagger>())
 		];
 	}
 }

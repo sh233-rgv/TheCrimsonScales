@@ -22,16 +22,16 @@ public class Road46 : RoadEventModel<Road46.ChoiceA, Road46.ChoiceB>
 			You take the soft blue and glowing red claws and continue on with your journey. As you reach your destination, each claw emits one last burst before their glow fades away.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					await AbilityCmd.InfuseElement(null, Element.Ice, immediately: true);
 					await AbilityCmd.InfuseElement(null, Element.Fire, immediately: true);
 				},
-				color =>
-					$"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Ice), color: color)}, {Icons.Inline(Icons.GetElement(Element.Fire), color: color)}."
+				textParameters =>
+					$"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Ice), textParameters)}, {Icons.Inline(Icons.GetElement(Element.Fire), textParameters)}."
 			),
 		];
 	}
@@ -45,16 +45,16 @@ public class Road46 : RoadEventModel<Road46.ChoiceA, Road46.ChoiceB>
 			You take the bright yellow and dim black claws and continue on with your journey. As you reach your destination, each claw emits one last burst of light before their glow fades away.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					await AbilityCmd.InfuseElement(null, Element.Light, immediately: true);
 					await AbilityCmd.InfuseElement(null, Element.Dark, immediately: true);
 				},
-				color =>
-					$"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Light), color: color)}, {Icons.Inline(Icons.GetElement(Element.Dark), color: color)}."
+				textParameters =>
+					$"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Light), textParameters)}, {Icons.Inline(Icons.GetElement(Element.Dark), textParameters)}."
 			),
 		];
 	}

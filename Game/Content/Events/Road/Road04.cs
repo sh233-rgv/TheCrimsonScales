@@ -47,14 +47,14 @@ public class Road04 : RoadEventModel<Road04.ChoiceA, Road04.ChoiceB>
 			}
 		}
 
-		public override List<EventReward> GetRewards(SavedEventState state)
+		public override List<Reward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
 				return
 				[
-					new LoseCollectiveGoldEventReward(5),
-					new OnScenarioStartedEventReward(
+					new LoseCollectiveGoldReward(5),
+					new OnScenarioStartedReward(
 						async () =>
 						{
 							AbilityCmd.SubscribeDuringCharacterTurn(this, EffectType.Selectable,
@@ -76,8 +76,8 @@ public class Road04 : RoadEventModel<Road04.ChoiceA, Road04.ChoiceB>
 
 							await GDTask.CompletedTask;
 						},
-						color =>
-							$"Once, during the next scenario, a character may perform a “{Icons.Inline(Icons.Heal, color: color)}3, self” ability during their turn.")
+						textParameters =>
+							$"Once, during the next scenario, a character may perform a “{Icons.Inline(Icons.Heal, textParameters)}3, self” ability during their turn.")
 				];
 			}
 			else
@@ -98,6 +98,6 @@ public class Road04 : RoadEventModel<Road04.ChoiceA, Road04.ChoiceB>
 			The Harrower seems happy to have had the opportunity to stitch up the wound, but it hastily ushers you out of the tent after finishing in anticipation for the next passerby.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) => [];
+		public override List<Reward> GetRewards(SavedEventState state) => [];
 	}
 }

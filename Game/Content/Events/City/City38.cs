@@ -20,9 +20,9 @@ public class City38 : CityEventModel<City38.ChoiceA, City38.ChoiceB>
 			You agree to join the Orchid under the condition that she sponsor the drinks. After a night of laughter and reminiscing, the Orchid offers you a token of appreciation for the great evening.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeEnhancementCostEventReward(
+			new DowntimeEnhancementCostReward(
 				eventReward =>
 					parameters =>
 					{
@@ -33,8 +33,8 @@ public class City38 : CityEventModel<City38.ChoiceA, City38.ChoiceB>
 					{
 						state.Complete(eventReward);
 					},
-				color =>
-					$"The next enchantment purchased this City Phase will cost {Icons.Inline(Icons.Coins)}30 less.")
+				textParameters =>
+					$"The next enchantment purchased this City Phase will cost {Icons.Inline(Icons.Coins, textParameters)}30 less.")
 		];
 	}
 
@@ -49,9 +49,9 @@ public class City38 : CityEventModel<City38.ChoiceA, City38.ChoiceB>
 			The chieftain is saddened by your declination and vows to have a good time without you. To assuage her disappointment, you offer to sponsor drinks for the evening.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new LoseCollectiveGoldEventReward(10)
+			new LoseCollectiveGoldReward(10)
 		];
 	}
 }

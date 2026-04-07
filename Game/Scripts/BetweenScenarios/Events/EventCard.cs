@@ -58,18 +58,18 @@ public partial class EventCard : Control
 
 		_rewardLabels.Clear();
 
-		List<EventReward> eventRewards = savedEventState.Choice.GetRewards(savedEventState);
+		List<Reward> eventRewards = savedEventState.Choice.GetRewards(savedEventState);
 		if(eventRewards.Count == 0)
 		{
-			eventRewards.Add(new NoEffectEventReward());
+			eventRewards.Add(new NoEffectReward());
 		}
 
-		foreach(EventReward eventReward in eventRewards)
+		foreach(Reward eventReward in eventRewards)
 		{
 			RichTextLabel rewardLabel = _rewardLabelScene.Instantiate<RichTextLabel>();
 			_rewardLabelParent.AddChild(rewardLabel);
-			Color textColor = rewardLabel.GetThemeColor("default_color");
-			rewardLabel.SetText(eventReward.GetLabelText(textColor));
+			RichTextParameters textParameters = rewardLabel.GetRichTextParameters();
+			rewardLabel.SetText(eventReward.GetLabelText(textParameters));
 			rewardLabel.SetVisibleCharacters(0);
 			_rewardLabels.Add(rewardLabel);
 		}

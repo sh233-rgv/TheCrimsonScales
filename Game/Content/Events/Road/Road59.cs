@@ -32,13 +32,13 @@ public class Road59 : RoadEventModel<Road59.ChoiceA, Road59.ChoiceB>
 			You choose to eat the red berries, and although the taste is familiar, you begin to sense the power described by the vermling.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state)
+		public override List<Reward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
 				return
 				[
-					new OnScenarioStartedEventReward(
+					new OnScenarioStartedReward(
 						async () =>
 						{
 							ScenarioEvents.RoundEndedEvent.Subscribe(this,
@@ -63,8 +63,8 @@ public class Road59 : RoadEventModel<Road59.ChoiceA, Road59.ChoiceB>
 
 							await GDTask.CompletedTask;
 						},
-						color =>
-							$"At the end of the first round, each character may {Icons.Inline(Icons.RecoverCard, color: color)} one lost card."
+						textParameters =>
+							$"At the end of the first round, each character may {Icons.Inline(Icons.RecoverCard, textParameters)} one lost card."
 					)
 				];
 			}
@@ -72,7 +72,7 @@ public class Road59 : RoadEventModel<Road59.ChoiceA, Road59.ChoiceB>
 			{
 				return
 				[
-					new OnScenarioStartedEventReward(
+					new OnScenarioStartedReward(
 						async () =>
 						{
 							foreach(Character character in GameController.Instance.CharacterManager.Characters)
@@ -82,7 +82,7 @@ public class Road59 : RoadEventModel<Road59.ChoiceA, Road59.ChoiceB>
 								await GDTask.CompletedTask;
 							}
 						},
-						color =>
+						textParameters =>
 							$"All characters start the next scenario with 3 more hit points."
 					)
 				];
@@ -109,13 +109,13 @@ public class Road59 : RoadEventModel<Road59.ChoiceA, Road59.ChoiceB>
 			You choose to eat the green berries, and although the taste is familiar, you begin to sense the power described by the vermling.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state)
+		public override List<Reward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
 				return
 				[
-					new OnScenarioStartedEventReward(
+					new OnScenarioStartedReward(
 						async () =>
 						{
 							ScenarioEvents.AbilityStartedEvent.Subscribe(this,
@@ -145,7 +145,7 @@ public class Road59 : RoadEventModel<Road59.ChoiceA, Road59.ChoiceB>
 
 							await GDTask.CompletedTask;
 						},
-						color =>
+						textParameters =>
 							$"During the first round, all move abilities performed by characters have their value doubled."
 					)
 				];
@@ -154,7 +154,7 @@ public class Road59 : RoadEventModel<Road59.ChoiceA, Road59.ChoiceB>
 			{
 				return
 				[
-					new OnScenarioStartedEventReward(
+					new OnScenarioStartedReward(
 						async () =>
 						{
 							ScenarioEvents.RoundEndedEvent.Subscribe(this,
@@ -179,8 +179,8 @@ public class Road59 : RoadEventModel<Road59.ChoiceA, Road59.ChoiceB>
 
 							await GDTask.CompletedTask;
 						},
-						color =>
-							$"At the end of the first round, each character may {Icons.Inline(Icons.RecoverCard, color: color)} one spent or consumed item."
+						textParameters =>
+							$"At the end of the first round, each character may {Icons.Inline(Icons.RecoverCard, textParameters)} one spent or consumed item."
 					)
 				];
 			}

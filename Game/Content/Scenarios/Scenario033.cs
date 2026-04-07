@@ -11,6 +11,7 @@ public class Scenario033 : ScenarioModel
 	//public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario034>(true)];
 
 	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals(true);
+
 	protected override List<MonsterModel> SpawnedMonsterModels { get; } =
 		[ModelDB.Monster<InoxBodyguard>()];
 
@@ -144,7 +145,7 @@ public class Scenario033 : ScenarioModel
 			parameters => parameters.HexObject == pressurePlate,
 			parameters =>
 			{
-				parameters.Add(new InfoTextExtraEffect.Parameters("This pressure plate cannot be activated until another one is."));
+				parameters.Add(new InfoTextExtraEffect.Parameters(textParameters => "This pressure plate cannot be activated until another one is."));
 			}
 		);
 		_lastActivated = pressurePlate;

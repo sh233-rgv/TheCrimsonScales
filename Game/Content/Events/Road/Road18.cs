@@ -59,14 +59,14 @@ public class Road18 : RoadEventModel<Road18.ChoiceA, Road18.ChoiceB>
 			}
 		}
 
-		public override List<EventReward> GetRewards(SavedEventState state)
+		public override List<Reward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
 				return
 				[
-					new LoseCollectiveGoldEventReward(10),
-					new TotemEventReward(
+					new LoseCollectiveGoldReward(10),
+					new TotemReward(
 						obstacle =>
 						{
 							ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(this,
@@ -107,8 +107,8 @@ public class Road18 : RoadEventModel<Road18.ChoiceA, Road18.ChoiceB>
 							ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this);
 						},
 						"Bull",
-						color =>
-							$"All characters adjacent to this obstacle gain {Icons.Inline(Icons.Retaliate, color: color)}1."
+						textParameters =>
+							$"All characters adjacent to this obstacle gain {Icons.Inline(Icons.Retaliate, textParameters)}1."
 					)
 				];
 			}
@@ -163,14 +163,14 @@ public class Road18 : RoadEventModel<Road18.ChoiceA, Road18.ChoiceB>
 			}
 		}
 
-		public override List<EventReward> GetRewards(SavedEventState state)
+		public override List<Reward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
 				return
 				[
-					new LoseCollectiveGoldEventReward(10),
-					new TotemEventReward(
+					new LoseCollectiveGoldReward(10),
+					new TotemReward(
 						obstacle =>
 						{
 							ScenarioCheckEvents.ShieldCheckEvent.Subscribe(this,
@@ -210,8 +210,8 @@ public class Road18 : RoadEventModel<Road18.ChoiceA, Road18.ChoiceB>
 							ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this);
 						},
 						"Dog",
-						color =>
-							$"All characters adjacent to this obstacle gain {Icons.Inline(Icons.Shield, color: color)}1."
+						textParameters =>
+							$"All characters adjacent to this obstacle gain {Icons.Inline(Icons.Shield, textParameters)}1."
 					)
 				];
 			}

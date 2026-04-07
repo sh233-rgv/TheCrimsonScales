@@ -31,7 +31,7 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 	[Export]
 	public BetweenScenariosClassUnlockOverlay UnlockOverlay { get; private set; }
 
-	private readonly List<EventReward> _duringDowntimeEventRewards = new List<EventReward>();
+	private readonly List<Reward> _duringDowntimeEventRewards = new List<Reward>();
 
 	public BetweenScenariosSceneRequest SceneRequest { get; private set; }
 
@@ -210,10 +210,10 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		savedCampaign.RetireCharacter(savedCharacter);
 	}
 
-	public void UnsubscribeDuringDowntime(EventReward eventReward)
+	public void UnsubscribeDuringDowntime(Reward reward)
 	{
-		eventReward.UnsubscribeDuringDowntime();
-		_duringDowntimeEventRewards.Remove(eventReward);
+		reward.UnsubscribeDuringDowntime();
+		_duringDowntimeEventRewards.Remove(reward);
 	}
 
 	private async GDTaskVoid StartSequence()
@@ -263,9 +263,9 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 
 		foreach(SavedEventState savedEventState in SavedCampaign.SavedEvents.SavedEventStates)
 		{
-			foreach(EventReward eventReward in savedEventState.Choice.GetRewards(savedEventState))
+			foreach(Reward eventReward in savedEventState.Choice.GetRewards(savedEventState))
 			{
-				if(eventReward.Type == EventRewardType.DuringDowntime)
+				if(eventReward.Type == RewardType.DuringDowntime)
 				{
 					eventReward.SubscribeDuringDowntime(savedEventState);
 

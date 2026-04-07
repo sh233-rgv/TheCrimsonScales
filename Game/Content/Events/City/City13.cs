@@ -24,9 +24,9 @@ public class City13 : CityEventModel<City13.ChoiceA, City13.ChoiceB>
 			You tell Shiela that time is money, and she blushes as tears swell up in her eyes. "I'm terribly sorry, but business has been slow," she stammers as she opens her cash register to reveal it to be completely empty. "I'm afraid I have no gold at the moment, but I can offer you a discount on a potion instead."
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeShopPriceEventReward(
+			new DowntimeShopPriceReward(
 				eventReward =>
 					parameters =>
 					{
@@ -43,8 +43,8 @@ public class City13 : CityEventModel<City13.ChoiceA, City13.ChoiceB>
 							state.Complete(eventReward);
 						}
 					},
-				color =>
-					$"The next {Icons.Inline(Icons.GetItem(ItemType.Small), color: color)} item bought this City Phase will be half price (rounded down).")
+				textParameters =>
+					$"The next {Icons.Inline(Icons.GetItem(ItemType.Small), textParameters)} item bought this City Phase will be half price (rounded down).")
 		];
 	}
 
@@ -57,9 +57,9 @@ public class City13 : CityEventModel<City13.ChoiceA, City13.ChoiceB>
 			You tell Shiela not to worry about it, and she blushes. "Nonsense! You're a great friend, and it's completely my fault. At the very least, let me offer you one of my potions at no cost."
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeShopPriceEventReward(
+			new DowntimeShopPriceReward(
 				eventReward =>
 					parameters =>
 					{
@@ -76,8 +76,8 @@ public class City13 : CityEventModel<City13.ChoiceA, City13.ChoiceB>
 							state.Complete(eventReward);
 						}
 					},
-				color =>
-					$"The next {Icons.Inline(Icons.GetItem(ItemType.Small), color: color)} item bought this City Phase with a value of {Icons.Inline(Icons.Coins, color: color)}30 or less will be free.")
+				textParameters =>
+					$"The next {Icons.Inline(Icons.GetItem(ItemType.Small), textParameters)} item bought this City Phase with a value of {Icons.Inline(Icons.Coins, textParameters)}30 or less will be free.")
 		];
 	}
 }

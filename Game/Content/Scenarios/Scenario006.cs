@@ -42,8 +42,8 @@ public class Scenario006 : ScenarioModel
 			characterHasAntidote.Add(character, false);
 		}
 
-		object pickSubscriber = new();
-		object placeSubscriber = new();
+		object pickSubscriber = new object();
+		object placeSubscriber = new object();
 
 		// Allow picking up the antidote
 		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this, pickSubscriber,
@@ -72,7 +72,7 @@ public class Scenario006 : ScenarioModel
 					infoParameters => infoParameters.Figure == parameters.Performer,
 					infoParameters =>
 					{
-						infoParameters.Add(new InfoTextExtraEffect.Parameters(
+						infoParameters.Add(new InfoTextExtraEffect.Parameters(textParameters =>
 							$"This character carries an antidote bottle."));
 					}
 				);

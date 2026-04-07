@@ -54,6 +54,11 @@ public static class Icons
 		return conditionModel.IconPath;
 	}
 
+	public static string InlineCondition(ConditionModel conditionModel, RichTextParameters richTextParameters)
+	{
+		return Inline(GetCondition(conditionModel), richTextParameters);
+	}
+
 	public static string GetAMDValue(string amdValue)
 	{
 		return $"res://Art/Icons/AMDs/{amdValue}.png";

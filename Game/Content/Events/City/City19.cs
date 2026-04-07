@@ -25,10 +25,10 @@ public class City19 : CityEventModel<City19.ChoiceA, City19.ChoiceB>
 			At the end of the night, the Brewmaster thanks you and offers you a special brew he calls 'Liquid Rage' for your troubles.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new GainCollectiveGoldEventReward(10),
-			new OnScenarioStartedEventReward(
+			new GainCollectiveGoldReward(10),
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					ScenarioEvents.DuringAttackEvent.Subscribe(this,
@@ -44,7 +44,8 @@ public class City19 : CityEventModel<City19.ChoiceA, City19.ChoiceB>
 					);
 
 					await GDTask.CompletedTask;
-				}, color => $"Once, during the next scenario, a character can add +2{Icons.Inline(Icons.Attack, color: color)} to an attack.")
+				},
+				textParameters => $"Once, during the next scenario, a character can add +2{Icons.Inline(Icons.Attack, textParameters)} to an attack.")
 		];
 	}
 
@@ -59,9 +60,9 @@ public class City19 : CityEventModel<City19.ChoiceA, City19.ChoiceB>
 			At the end of the night, Shiela expresses her appreciation with an offer to stop by her potion shop in the morning for a free sampling.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeShopPriceEventReward(
+			new DowntimeShopPriceReward(
 				eventReward =>
 					parameters =>
 					{
@@ -78,7 +79,7 @@ public class City19 : CityEventModel<City19.ChoiceA, City19.ChoiceB>
 							state.SetCustomValue(parameters.Buyer.Guid.ToString(), true);
 						}
 					},
-				color =>
+				textParameters =>
 					$"During this City Phase, each character may buy one Minor potion from the shop for free.")
 		];
 

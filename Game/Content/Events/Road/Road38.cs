@@ -20,9 +20,9 @@ public class Road38 : RoadEventModel<Road38.ChoiceA, Road38.ChoiceB>
 			Within the backpack you find a crossbow and a single bolt. This will come in handy on the battlefield.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					Figure figure = await AbilityCmd.SelectFigure(GameController.Instance.CharacterManager.GetCharacter(0),
@@ -58,8 +58,8 @@ public class Road38 : RoadEventModel<Road38.ChoiceA, Road38.ChoiceB>
 							$"Forgo a top action to perform \"{Icons.Inline(Icons.Attack)}4, {Icons.Inline(Icons.Range)}3\".")
 					);
 				},
-				color =>
-					$"Once during the next scenario, one character may forgo a top action to perform \"{Icons.Inline(Icons.Attack, color: color)}4, {Icons.Inline(Icons.Range, color: color)}3\"."
+				textParameters =>
+					$"Once during the next scenario, one character may forgo a top action to perform \"{Icons.Inline(Icons.Attack, textParameters)}4, {Icons.Inline(Icons.Range, textParameters)}3\"."
 			)
 		];
 	}
@@ -73,9 +73,9 @@ public class Road38 : RoadEventModel<Road38.ChoiceA, Road38.ChoiceB>
 			Not wanting to pick a fight, you depart from the tent. A few minutes later you happen across an empty caravan. There are no Vermlings, but you do find a few random items that might fetch you a few coins at the market.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new GainCollectiveGoldEventReward(10)
+			new GainCollectiveGoldReward(10)
 		];
 	}
 }

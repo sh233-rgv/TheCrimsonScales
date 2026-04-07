@@ -23,9 +23,9 @@ public class Road20 : RoadEventModel<Road20.ChoiceA, Road20.ChoiceB>
 			You sip the bubbling red liquid, and it has an oddly sour berry flavor. Moments after you finish the last drop, you feel a surge of adrenaline run through your veins. You feel energized and your senses are heightened.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					foreach(Character character in GameController.Instance.CharacterManager.Characters)
@@ -69,7 +69,7 @@ public class Road20 : RoadEventModel<Road20.ChoiceA, Road20.ChoiceB>
 
 					await GDTask.CompletedTask;
 				},
-				color =>
+				textParameters =>
 					"At the start of the first round after all cards have been revealed, each character may decrease their leading Initiative by 20."
 			)
 		];
@@ -86,9 +86,9 @@ public class Road20 : RoadEventModel<Road20.ChoiceA, Road20.ChoiceB>
 			You quickly drink the glowing green ooze, and it has a sweet herbaceous taste. Moments after finishing the last drop, you begin to feel groggy and dreary. You turn away sluggishly and your senses feel repressed.
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					foreach(Character character in GameController.Instance.CharacterManager.Characters)
@@ -128,7 +128,7 @@ public class Road20 : RoadEventModel<Road20.ChoiceA, Road20.ChoiceB>
 
 					await GDTask.CompletedTask;
 				},
-				color =>
+				textParameters =>
 					"At the start of the first round after all cards have been revealed, each character increases their leading Initiative by 20."
 			)
 		];

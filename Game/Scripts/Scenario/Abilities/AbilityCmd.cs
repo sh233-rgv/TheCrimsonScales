@@ -70,7 +70,7 @@ public static class AbilityCmd
 				ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(state, state.Performer,
 					parameters => state.Performer == parameters.Figure,
 					parameters => parameters.Add(
-						new InfoTextExtraEffect.Parameters("All attacks targeting this figure this round gain disadvantage."))
+						new InfoTextExtraEffect.Parameters(textParameters => "All attacks targeting this figure this round gain disadvantage."))
 				);
 
 				await GDTask.CompletedTask;
@@ -304,11 +304,11 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask AddCharacterToken(AbilityState abilityState, Figure target, string effectText)
+	public static async GDTask AddCharacterToken(AbilityState abilityState, Figure target, Func<RichTextParameters, string> getEffectText)
 	{
 		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(abilityState, target,
 			parameters => parameters.Figure == target,
-			parameters => parameters.Add(new InfoTextExtraEffect.Parameters(effectText))
+			parameters => parameters.Add(new InfoTextExtraEffect.Parameters(getEffectText))
 		);
 
 		if(abilityState.Performer is Character character)
@@ -319,11 +319,11 @@ public static class AbilityCmd
 		await GDTask.CompletedTask;
 	}
 
-	public static async GDTask AddCharacterToken(Character character, Figure target, string effectText)
+	public static async GDTask AddCharacterToken(Character character, Figure target, Func<RichTextParameters, string> getEffectText)
 	{
 		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(character, target,
 			parameters => parameters.Figure == target,
-			parameters => parameters.Add(new InfoTextExtraEffect.Parameters(effectText))
+			parameters => parameters.Add(new InfoTextExtraEffect.Parameters(getEffectText))
 		);
 
 		target.AddEffectView<CharacterTokenHexObjectEffectView>(new CharacterTokenHexObjectEffectView.Parameters(character, target));

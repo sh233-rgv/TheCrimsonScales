@@ -21,9 +21,9 @@ public class Road50 : RoadEventModel<Road50.ChoiceA, Road50.ChoiceB>
 			You tell the Aesther you're in pursuit of health and he points to the stars. "I'll be sure to wish upon a certain star for you tonight, and should the constellations align, you will find yourself in full health!"
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					foreach(Character character in GameController.Instance.CharacterManager.Characters)
@@ -33,7 +33,7 @@ public class Road50 : RoadEventModel<Road50.ChoiceA, Road50.ChoiceB>
 						await GDTask.CompletedTask;
 					}
 				},
-				color =>
+				textParameters =>
 					$"All characters start the next scenario with 2 more hit points."
 			)
 		];
@@ -48,9 +48,9 @@ public class Road50 : RoadEventModel<Road50.ChoiceA, Road50.ChoiceB>
 			You tell the Aesther you're in pursuit of wealth and he points to the stars. "I'll be sure to wish upon a certain star for you tonight, and should the constellations align, you will find yourself with great fortune!"
 			""";
 
-		public override List<EventReward> GetRewards(SavedEventState state) =>
+		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedEventReward(
+			new OnScenarioStartedReward(
 				async () =>
 				{
 					ScenarioEvents.LootableObjectLootedEvent.Subscribe(this,
@@ -73,8 +73,8 @@ public class Road50 : RoadEventModel<Road50.ChoiceA, Road50.ChoiceB>
 
 					await GDTask.CompletedTask;
 				},
-				color =>
-					$"The first character to loot a treasure tile this scenario gains an additional {Icons.Inline(Icons.Coins, color: color)}10."
+				textParameters =>
+					$"The first character to loot a treasure tile this scenario gains an additional {Icons.Inline(Icons.Coins, textParameters)}10."
 			)
 		];
 	}

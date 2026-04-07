@@ -59,14 +59,14 @@ public class Road17 : RoadEventModel<Road17.ChoiceA, Road17.ChoiceB>
 			}
 		}
 
-		public override List<EventReward> GetRewards(SavedEventState state)
+		public override List<Reward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
 				return
 				[
-					new LoseCollectiveGoldEventReward(10),
-					new TotemEventReward(
+					new LoseCollectiveGoldReward(10),
+					new TotemReward(
 						obstacle =>
 						{
 							ScenarioEvents.DuringAttackEvent.Subscribe(this,
@@ -87,8 +87,8 @@ public class Road17 : RoadEventModel<Road17.ChoiceA, Road17.ChoiceB>
 							ScenarioEvents.DuringAttackEvent.Unsubscribe(this);
 						},
 						"Drake",
-						color =>
-							$"All characters adjacent to this obstacle add {Icons.Inline(Icons.GetCondition(Conditions.Muddle), color: color)} to all their melee attacks."
+						parameters =>
+							$"All characters adjacent to this obstacle add {Icons.Inline(Icons.GetCondition(Conditions.Muddle), parameters)} to all their melee attacks."
 					)
 				];
 			}
@@ -143,14 +143,14 @@ public class Road17 : RoadEventModel<Road17.ChoiceA, Road17.ChoiceB>
 			}
 		}
 
-		public override List<EventReward> GetRewards(SavedEventState state)
+		public override List<Reward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
 				return
 				[
-					new LoseCollectiveGoldEventReward(10),
-					new TotemEventReward(
+					new LoseCollectiveGoldReward(10),
+					new TotemReward(
 						obstacle =>
 						{
 							ScenarioEvents.FigureTurnEndedEvent.Subscribe(this,
@@ -173,8 +173,8 @@ public class Road17 : RoadEventModel<Road17.ChoiceA, Road17.ChoiceB>
 							ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(this);
 						},
 						"Eagle",
-						color =>
-							$"Whenever a character ends their turn adjacent to this obstacle, they may perform “{Icons.Inline(Icons.Heal, color: color)}1, self”."
+						textParameters =>
+							$"Whenever a character ends their turn adjacent to this obstacle, they may perform “{Icons.Inline(Icons.Heal, textParameters)}1, self”."
 					)
 				];
 			}

@@ -10,6 +10,7 @@ public class Scenario055 : ScenarioModel
 
 	protected override ScenarioGoals CreateScenarioGoals() =>
 		new CustomScenarioGoals("Kill all monsters and open four coffins to win this scenario.");
+
 	protected override List<MonsterModel> SpawnedMonsterModels { get; } =
 		[ModelDB.Monster<LivingBonesScenario55>()];
 
@@ -76,7 +77,7 @@ public class Scenario055 : ScenarioModel
 					character = ((Summon)parameters.Figure).CharacterOwner;
 				}
 
-				await AbilityCmd.AddCharacterToken(character, monster, $"{character.Name} controls all this figure's abilities.");
+				await AbilityCmd.AddCharacterToken(character, monster, textParameters => $"{character.Name} controls all this figure's abilities.");
 
 				ScenarioEvents.AbilityStartedEvent.Subscribe(this, monster,
 					abilityStartedParameters => abilityStartedParameters.Authority == monster,
@@ -164,7 +165,7 @@ public class Scenario055 : ScenarioModel
 				parameters => parameters.Figure == tombProtector,
 				parameters =>
 				{
-					parameters.Add(new InfoTextExtraEffect.Parameters(
+					parameters.Add(new InfoTextExtraEffect.Parameters(textParameters =>
 						"This figure cannot suffer damage other than at the beginning of each round. This figure cannot be targeted by any abilities."));
 				}
 			);
