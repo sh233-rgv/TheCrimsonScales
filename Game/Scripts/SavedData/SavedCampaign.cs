@@ -73,6 +73,9 @@ public class SavedCampaign
 	public SavedPartyGoals SavedPartyGoals { get; private set; } = new SavedPartyGoals();
 
 	[JsonProperty]
+	public SavedMerchantsGuildHall SavedMerchantsGuildHall { get; private set; } = new SavedMerchantsGuildHall();
+
+	[JsonProperty]
 	public int Reputation { get; private set; }
 
 	[JsonProperty]

@@ -12,6 +12,8 @@ public class SavedMerchantsGuildHallReward
 
 	public MerchantsGuildHallRewardModel Model => ModelDB.GetById<MerchantsGuildHallRewardModel>(ModelId);
 
+	public event Action<SavedMerchantsGuildHallReward> UnlockedEvent;
+
 	public SavedMerchantsGuildHallReward()
 	{
 	}
@@ -19,5 +21,12 @@ public class SavedMerchantsGuildHallReward
 	public SavedMerchantsGuildHallReward(MerchantsGuildHallRewardModel model)
 	{
 		ModelId = model.Id.ToString();
+	}
+
+	public void SetUnlocked()
+	{
+		Unlocked = true;
+
+		UnlockedEvent?.Invoke(this);
 	}
 }

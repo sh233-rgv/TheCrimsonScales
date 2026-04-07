@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using Fractural.Tasks;
 using Godot;
 
@@ -55,7 +56,8 @@ public partial class AppController : SingletonNode<AppController>
 		}
 	}
 
-	public async GDTask GiveRewards(SavedCampaign savedCampaign, List<Reward> rewards, bool showPopup = true)
+	public async GDTask GiveRewards(SavedCampaign savedCampaign, List<Reward> rewards, bool showPopup = true,
+		CancellationToken cancellationToken = default)
 	{
 		if(showPopup)
 		{
@@ -64,14 +66,14 @@ public partial class AppController : SingletonNode<AppController>
 				Rewards = rewards,
 			});
 
-			await GDTask.WaitWhile(() => PopupManager.IsPopupOpen());
+			await GDTask.WaitWhile(() => PopupManager.IsPopupOpen(), cancellationToken: cancellationToken);
 		}
 
 		foreach(Reward reward in rewards)
 		{
 			if(reward.Type == RewardType.Immediate)
 			{
-				await reward.ImmediateResolve(savedCampaign);
+				await reward.ImmediateResolve(savedCampaign, cancellationToken);
 			}
 		}
 	}

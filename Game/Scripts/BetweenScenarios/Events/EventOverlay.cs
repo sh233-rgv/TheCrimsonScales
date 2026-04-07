@@ -142,7 +142,7 @@ public partial class EventOverlay : Control
 		{
 			if(reward.Type == RewardType.Immediate)
 			{
-				await reward.ImmediateResolve(BetweenScenariosController.Instance.SavedCampaign);
+				await reward.ImmediateResolve(BetweenScenariosController.Instance.SavedCampaign, cancellationToken);
 			}
 			else
 			{

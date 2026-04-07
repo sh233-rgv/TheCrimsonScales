@@ -53,10 +53,11 @@
 [ext_resource type="Script" uid="uid://ck1ncviofqosh" path="res://Scripts/UI/ResizingLabel.cs" id="28_psaff"]
 [ext_resource type="PackedScene" uid="uid://do7n0wiqeo3tw" path="res://Scenes/BetweenScenarios/PartyGoals/PartyGoalsPartyGoal.tscn" id="29_r1npy"]
 [ext_resource type="Script" uid="uid://cupkvjgt2qge0" path="res://Scripts/BetweenScenarios/Events/EventCard.cs" id="30_dl2j2"]
+[ext_resource type="Script" uid="uid://bgvyd3pbf5qvk" path="res://Scripts/BetweenScenarios/MerchantsGuildHall/MerchantsGuildHall.cs" id="32_2o0ty"]
 [ext_resource type="PackedScene" uid="uid://ct6pmvbmsh7lf" path="res://Scenes/UI/MenuButton.tscn" id="32_5k12q"]
 [ext_resource type="Material" uid="uid://bgdcydtsmmrb" path="res://Materials/TintGrayscale.tres" id="32_su2xo"]
 [ext_resource type="Texture2D" uid="uid://byfj7yio15h8c" path="res://Art/BetweenScenarios/Events/CityFront.jpg" id="33_2yhfp"]
-[ext_resource type="Texture2D" uid="uid://bj03vc6rpjr3f" path="res://Art/Icons/Other/CheckMark.svg" id="33_al8mn"]
+[ext_resource type="PackedScene" uid="uid://c61uvdpqa62d5" path="res://Scenes/BetweenScenarios/MerchantsGuildHall/MerchantsGuildHallReward.tscn" id="33_al8mn"]
 [ext_resource type="Texture2D" uid="uid://bbdiabye37ueg" path="res://Art/BetweenScenarios/Events/cs-ce-01-f.png" id="34_rtdf2"]
 [ext_resource type="Script" uid="uid://b0n1q2n5kef18" path="res://Scripts/BetweenScenarios/Events/ShapedEventText.cs" id="35_0rh5w"]
 [ext_resource type="PackedScene" uid="uid://bwn4iiqm7bpjf" path="res://Scenes/BetweenScenarios/Enhancer/EnhancementMarkToggleButton.tscn" id="35_sfc7v"]
@@ -145,26 +146,26 @@ font_color = Color(0.969748, 0.793137, 0.50993, 1)
 outline_size = 3
 outline_color = Color(0.693772, 0.508051, 0.168401, 1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_n2gp2"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_lw45v"]
 viewport_path = NodePath("../../../../../FrontSubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2o0ty"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q3cuy"]
 resource_local_to_scene = true
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
-albedo_texture = SubResource("ViewportTexture_n2gp2")
+albedo_texture = SubResource("ViewportTexture_lw45v")
 metallic_specular = 0.0
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_al8mn"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ol6qn"]
 viewport_path = NodePath("../../../../../BackSubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lw45v"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ttpxi"]
 resource_local_to_scene = true
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
-albedo_texture = SubResource("ViewportTexture_al8mn")
+albedo_texture = SubResource("ViewportTexture_ol6qn")
 metallic_specular = 0.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_807yg"]
@@ -362,18 +363,6 @@ corner_radius_bottom_left = 2
 [sub_resource type="LabelSettings" id="LabelSettings_ttpxi"]
 font = ExtResource("28_jr74k")
 font_size = 40
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lxurl"]
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
 
 [sub_resource type="QuadMesh" id="QuadMesh_8ad0h"]
 
@@ -653,7 +642,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("6_nmjfa")
-_actions = [NodePath("ScenarioFlowchart"), NodePath("ItemShop"), NodePath("SanctuaryOfTheGreatOak"), NodePath("PartyGoals"), NodePath("Enhancer")]
+_actions = [NodePath("ScenarioFlowchart"), NodePath("ItemShop"), NodePath("SanctuaryOfTheGreatOak"), NodePath("PartyGoals"), NodePath("Enhancer"), NodePath("MerchantsGuildHall")]
 _startActiveAction = NodePath("ScenarioFlowchart")
 
 [node name="ScenarioFlowchart" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=1828643396 node_paths=PackedStringArray("OutlineParent", "_gridContainer", "_3dContainer", "_scrollMesh", "_subViewportContainer", "_subViewport", "_3dRoot", "Button")]
@@ -1283,10 +1272,10 @@ visible = false
 transform = Transform3D(68.9, 0, 0, 0, -4.37114e-06, 102.3, 0, -100, -4.47168e-06, 0, 0, 0)
 
 [node name="Front" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation/Page/Skeleton3D" parent_id_path=PackedInt32Array(1735437367, 1654290993) index="0" unique_id=237816969]
-material_override = SubResource("StandardMaterial3D_2o0ty")
+material_override = SubResource("StandardMaterial3D_q3cuy")
 
 [node name="Back" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation/Page/Skeleton3D" parent_id_path=PackedInt32Array(1735437367, 1654290993) index="1" unique_id=151070975]
-material_override = SubResource("StandardMaterial3D_lw45v")
+material_override = SubResource("StandardMaterial3D_ttpxi")
 
 [node name="AnimationPlayer" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation" index="1" unique_id=1227387750]
 speed_scale = 1.4
@@ -1726,7 +1715,7 @@ theme_override_constants/separation = 10
 visible = false
 layout_mode = 2
 
-[node name="MerchantsGuildHall" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=136246191]
+[node name="MerchantsGuildHall" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=136246191 node_paths=PackedStringArray("_container", "_leftParent", "_rightParent", "_exclamationMark", "Button")]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -1735,6 +1724,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("32_2o0ty")
+_container = NodePath("Anchor/Container")
+_rewardScene = ExtResource("33_al8mn")
+_leftParent = NodePath("Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left")
+_rightParent = NodePath("Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Right")
+_exclamationMark = NodePath("../ActionButtons/VBoxContainer/MerchantsGuildHallButton/ExclamationMark")
+Button = NodePath("../ActionButtons/VBoxContainer/MerchantsGuildHallButton")
 
 [node name="Anchor" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall" unique_id=1893722479]
 custom_minimum_size = Vector2(1026, 540)
@@ -1910,75 +1906,11 @@ layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="Left" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer" unique_id=963305833]
-custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
-
-[node name="MerchantsGuildHallUnlock" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left" unique_id=1877228202]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left/MerchantsGuildHallUnlock" unique_id=1828431441]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 20
-
-[node name="PerkBoxes" type="HBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left/MerchantsGuildHallUnlock/HBoxContainer" unique_id=1174381387]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 10
-
-[node name="CheckmarkBox" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left/MerchantsGuildHallUnlock/HBoxContainer/PerkBoxes" unique_id=490119054]
-custom_minimum_size = Vector2(60, 60)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-
-[node name="Outline" type="Panel" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left/MerchantsGuildHallUnlock/HBoxContainer/PerkBoxes/CheckmarkBox" unique_id=130075227]
-custom_minimum_size = Vector2(60, 60)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_lxurl")
-
-[node name="Checkmark" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left/MerchantsGuildHallUnlock/HBoxContainer/PerkBoxes/CheckmarkBox/Outline" unique_id=1272178193]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -23.0
-offset_top = -23.0
-offset_right = 23.0
-offset_bottom = 23.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("33_al8mn")
-expand_mode = 1
-
-[node name="Description" type="RichTextLabel" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left/MerchantsGuildHallUnlock/HBoxContainer" unique_id=1255753595]
-custom_minimum_size = Vector2(0, 75)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("63_16mqd")
-theme_override_fonts/bold_font = ExtResource("28_jr74k")
-theme_override_font_sizes/normal_font_size = 36
-theme_override_font_sizes/bold_font_size = 30
-bbcode_enabled = true
-text = "Gain +3 Prosperity"
-fit_content = true
-vertical_alignment = 1
 
 [node name="Right" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1169924386]
-custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10

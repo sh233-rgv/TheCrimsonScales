@@ -1,4 +1,5 @@
-﻿using Fractural.Tasks;
+﻿using System.Threading;
+using Fractural.Tasks;
 using Godot;
 
 public class UnlockPartyAMDReward(AMDCardModel cardModel) : Reward
@@ -8,9 +9,9 @@ public class UnlockPartyAMDReward(AMDCardModel cardModel) : Reward
 	public override string GetLabelText(RichTextParameters parameters) =>
 		$"Unlocked a bonus card whenever a character makes a donation to the Sanctuary of the Great Oak.";
 
-	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign)
+	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
 	{
-		await base.ImmediateResolve(savedCampaign);
+		await base.ImmediateResolve(savedCampaign, cancellationToken);
 
 		savedCampaign.SanctuaryOfTheGreatOak.UnlockPartyAMD(cardModel);
 	}

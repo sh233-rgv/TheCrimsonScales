@@ -1,11 +1,12 @@
-﻿using Fractural.Tasks;
+﻿using System.Threading;
+using Fractural.Tasks;
 
 public abstract class Reward
 {
 	public abstract RewardType Type { get; }
 	public abstract string GetLabelText(RichTextParameters parameters);
 
-	public virtual async GDTask ImmediateResolve(SavedCampaign savedCampaign)
+	public virtual async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
 	{
 		await GDTask.CompletedTask;
 	}
