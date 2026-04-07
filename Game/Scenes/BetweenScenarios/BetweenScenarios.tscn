@@ -67,6 +67,7 @@
 [ext_resource type="Script" uid="uid://cc4ctr6004sg4" path="res://Scripts/BetweenScenarios/Events/EventOverlay.cs" id="49_dl2j2"]
 [ext_resource type="Material" uid="uid://gfilfltix5vm" path="res://Materials/RotatingCard.tres" id="51_rtdf2"]
 [ext_resource type="Script" uid="uid://b4tm7wjgmvnd2" path="res://Scripts/UI/RotatingCardView.cs" id="52_0un3t"]
+[ext_resource type="Texture2D" uid="uid://duaxxhxj0in64" path="res://Art/Icons/BetweenScenariosActions/MerchantsGuildHall.svg" id="52_30ktq"]
 [ext_resource type="PackedScene" uid="uid://cw7b3ccvlqx53" path="res://Scenes/UI/ExclamationMark.tscn" id="52_vlt2p"]
 [ext_resource type="PackedScene" uid="uid://co015244vhv5u" path="res://Scenes/BetweenScenarios/Events/EventChoiceButton.tscn" id="57_dl2j2"]
 [ext_resource type="PackedScene" uid="uid://hux023lpvkr0" path="res://Scenes/BetweenScenarios/Events/CityEventRewardLabel.tscn" id="58_rtdf2"]
@@ -143,19 +144,8 @@ font_color = Color(0.969748, 0.793137, 0.50993, 1)
 outline_size = 3
 outline_color = Color(0.693772, 0.508051, 0.168401, 1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_vlt2p"]
-viewport_path = NodePath("../../../../../FrontSubViewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_30ktq"]
-resource_local_to_scene = true
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
-albedo_texture = SubResource("ViewportTexture_vlt2p")
-metallic_specular = 0.0
-
 [sub_resource type="ViewportTexture" id="ViewportTexture_n2gp2"]
-viewport_path = NodePath("../../../../../BackSubViewport")
+viewport_path = NodePath("../../../../../FrontSubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2o0ty"]
 resource_local_to_scene = true
@@ -163,6 +153,17 @@ transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 albedo_texture = SubResource("ViewportTexture_n2gp2")
+metallic_specular = 0.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_al8mn"]
+viewport_path = NodePath("../../../../../BackSubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lw45v"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = SubResource("ViewportTexture_al8mn")
 metallic_specular = 0.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_807yg"]
@@ -1269,10 +1270,10 @@ visible = false
 transform = Transform3D(68.9, 0, 0, 0, -4.37114e-06, 102.3, 0, -100, -4.47168e-06, 0, 0, 0)
 
 [node name="Front" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation/Page/Skeleton3D" parent_id_path=PackedInt32Array(1735437367, 859513443) index="0" unique_id=1572919683]
-material_override = SubResource("StandardMaterial3D_30ktq")
+material_override = SubResource("StandardMaterial3D_2o0ty")
 
 [node name="Back" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation/Page/Skeleton3D" parent_id_path=PackedInt32Array(1735437367, 859513443) index="1" unique_id=412232771]
-material_override = SubResource("StandardMaterial3D_2o0ty")
+material_override = SubResource("StandardMaterial3D_lw45v")
 
 [node name="AnimationPlayer" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation" index="1" unique_id=711269995]
 speed_scale = 1.4
@@ -2146,6 +2147,26 @@ modulate = Color(1, 0.67058825, 0.53333336, 1)
 texture = ExtResource("46_n4mfb")
 
 [node name="ExclamationMark" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/PartyGoalsButton" unique_id=1973262968 instance=ExtResource("52_vlt2p")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -23.0
+offset_top = -6.0
+offset_right = 9.0
+offset_bottom = 26.0
+grow_horizontal = 0
+
+[node name="MerchantsGuildHallButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer" unique_id=131465697 instance=ExtResource("17_3hv00")]
+layout_mode = 2
+
+[node name="Container" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/MerchantsGuildHallButton" index="0" unique_id=1764714963]
+modulate = Color(0.96, 0.48959997, 0.48959997, 1)
+
+[node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/MerchantsGuildHallButton/Container/BetterButton/Panel" parent_id_path=PackedInt32Array(131465697, 436553962) index="0" unique_id=950733184]
+texture = ExtResource("52_30ktq")
+
+[node name="ExclamationMark" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/MerchantsGuildHallButton" unique_id=2132959569 instance=ExtResource("52_vlt2p")]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -3176,6 +3197,7 @@ layout_mode = 1
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/ItemShopButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/SanctuaryOfTheGreatOakButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/PartyGoalsButton"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/MerchantsGuildHallButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EnhancerButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/EventButton"]
 [editable path="CanvasLayer/UI/SidePanel/MarginContainer/VBoxContainer/PartyStats/Reputation"]
