@@ -56,6 +56,7 @@
 [ext_resource type="PackedScene" uid="uid://ct6pmvbmsh7lf" path="res://Scenes/UI/MenuButton.tscn" id="32_5k12q"]
 [ext_resource type="Material" uid="uid://bgdcydtsmmrb" path="res://Materials/TintGrayscale.tres" id="32_su2xo"]
 [ext_resource type="Texture2D" uid="uid://byfj7yio15h8c" path="res://Art/BetweenScenarios/Events/CityFront.jpg" id="33_2yhfp"]
+[ext_resource type="Texture2D" uid="uid://bj03vc6rpjr3f" path="res://Art/Icons/Other/CheckMark.svg" id="33_al8mn"]
 [ext_resource type="Texture2D" uid="uid://bbdiabye37ueg" path="res://Art/BetweenScenarios/Events/cs-ce-01-f.png" id="34_rtdf2"]
 [ext_resource type="Script" uid="uid://b0n1q2n5kef18" path="res://Scripts/BetweenScenarios/Events/ShapedEventText.cs" id="35_0rh5w"]
 [ext_resource type="PackedScene" uid="uid://bwn4iiqm7bpjf" path="res://Scenes/BetweenScenarios/Enhancer/EnhancementMarkToggleButton.tscn" id="35_sfc7v"]
@@ -67,7 +68,7 @@
 [ext_resource type="Script" uid="uid://cc4ctr6004sg4" path="res://Scripts/BetweenScenarios/Events/EventOverlay.cs" id="49_dl2j2"]
 [ext_resource type="Material" uid="uid://gfilfltix5vm" path="res://Materials/RotatingCard.tres" id="51_rtdf2"]
 [ext_resource type="Script" uid="uid://b4tm7wjgmvnd2" path="res://Scripts/UI/RotatingCardView.cs" id="52_0un3t"]
-[ext_resource type="Texture2D" uid="uid://duaxxhxj0in64" path="res://Art/Icons/BetweenScenariosActions/MerchantsGuildHall.svg" id="52_30ktq"]
+[ext_resource type="Texture2D" uid="uid://beyj543vj2xgm" path="res://Art/Icons/BetweenScenariosActions/MerchantsGuildHall2.svg" id="52_30ktq"]
 [ext_resource type="PackedScene" uid="uid://cw7b3ccvlqx53" path="res://Scenes/UI/ExclamationMark.tscn" id="52_vlt2p"]
 [ext_resource type="PackedScene" uid="uid://co015244vhv5u" path="res://Scenes/BetweenScenarios/Events/EventChoiceButton.tscn" id="57_dl2j2"]
 [ext_resource type="PackedScene" uid="uid://hux023lpvkr0" path="res://Scenes/BetweenScenarios/Events/CityEventRewardLabel.tscn" id="58_rtdf2"]
@@ -361,6 +362,18 @@ corner_radius_bottom_left = 2
 [sub_resource type="LabelSettings" id="LabelSettings_ttpxi"]
 font = ExtResource("28_jr74k")
 font_size = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lxurl"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="QuadMesh" id="QuadMesh_8ad0h"]
 
@@ -1527,6 +1540,7 @@ theme_override_constants/v_separation = 0
 columns = 5
 
 [node name="PartyGoals" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=1254709443 node_paths=PackedStringArray("_container", "_partyGoalParent", "_exclamationMark", "Button")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1711,6 +1725,262 @@ theme_override_constants/separation = 10
 [node name="PanelButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/PartyGoals/Anchor/Container/MarginContainer/VBoxContainer" unique_id=1713316230 instance=ExtResource("27_hkul8")]
 visible = false
 layout_mode = 2
+
+[node name="MerchantsGuildHall" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=136246191]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Anchor" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall" unique_id=1893722479]
+custom_minimum_size = Vector2(1026, 540)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -513.0
+offset_top = -270.0
+offset_right = 513.0
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Container" type="PanelContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor" unique_id=1583457268]
+material = ExtResource("23_1ehwm")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -465.0
+offset_top = -100.0
+offset_right = 465.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("19_6k6qu")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container" unique_id=690873254]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer" unique_id=29261820]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Header" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer" unique_id=719324559]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="CloseButton" type="BaseButton" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/Header" unique_id=1000486188]
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = false
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -36.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 36.0
+grow_horizontal = 0
+grow_vertical = 1
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+pivot_offset_ratio = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+focus_behavior_recursive = 0
+mouse_filter = 0
+mouse_behavior_recursive = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+accessibility_name = ""
+accessibility_description = ""
+accessibility_live = 0
+accessibility_controls_nodes = []
+accessibility_described_by_nodes = []
+accessibility_labeled_by_nodes = []
+accessibility_flow_to_nodes = []
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = ExtResource("58_sagt1")
+metadata/_custom_type_script = "uid://dir5vjdxjac3n"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/Header/CloseButton" unique_id=2027300003]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("27_30ktq")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/Header" unique_id=1232694418]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 52.5
+grow_horizontal = 2
+text = "Unlock a Reward Every 5 Scenarios"
+label_settings = SubResource("LabelSettings_q3cuy")
+horizontal_alignment = 1
+
+[node name="Divider" type="Panel" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/Header" unique_id=745180154]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 60.0
+offset_bottom = 64.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ol6qn")
+
+[node name="Top" type="HBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer" unique_id=1465980417]
+visible = false
+layout_mode = 2
+
+[node name="Title" type="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/Top" unique_id=1010815639]
+layout_mode = 2
+text = "Complete 4 Party Goals to unlock new features!"
+label_settings = SubResource("LabelSettings_ttpxi")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer" unique_id=969211032]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Left" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer" unique_id=963305833]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="MerchantsGuildHallUnlock" type="MarginContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left" unique_id=1877228202]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left/MerchantsGuildHallUnlock" unique_id=1828431441]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 20
+
+[node name="PerkBoxes" type="HBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left/MerchantsGuildHallUnlock/HBoxContainer" unique_id=1174381387]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="CheckmarkBox" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left/MerchantsGuildHallUnlock/HBoxContainer/PerkBoxes" unique_id=490119054]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Outline" type="Panel" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left/MerchantsGuildHallUnlock/HBoxContainer/PerkBoxes/CheckmarkBox" unique_id=130075227]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lxurl")
+
+[node name="Checkmark" type="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left/MerchantsGuildHallUnlock/HBoxContainer/PerkBoxes/CheckmarkBox/Outline" unique_id=1272178193]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = 23.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("33_al8mn")
+expand_mode = 1
+
+[node name="Description" type="RichTextLabel" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left/MerchantsGuildHallUnlock/HBoxContainer" unique_id=1255753595]
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("63_16mqd")
+theme_override_fonts/bold_font = ExtResource("28_jr74k")
+theme_override_font_sizes/normal_font_size = 36
+theme_override_font_sizes/bold_font_size = 30
+bbcode_enabled = true
+text = "Gain +3 Prosperity"
+fit_content = true
+vertical_alignment = 1
+
+[node name="Right" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1169924386]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
 
 [node name="Shared3D" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=625849377]
 layout_mode = 1
@@ -2161,7 +2431,7 @@ grow_horizontal = 0
 layout_mode = 2
 
 [node name="Container" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/MerchantsGuildHallButton" index="0" unique_id=1764714963]
-modulate = Color(0.96, 0.48959997, 0.48959997, 1)
+modulate = Color(0.9519314, 0.43623045, 0.50443244, 1)
 
 [node name="TextureRect" parent="CanvasLayer/UI/BetweenScenariosActionManager/ActionButtons/VBoxContainer/MerchantsGuildHallButton/Container/BetterButton/Panel" parent_id_path=PackedInt32Array(131465697, 436553962) index="0" unique_id=950733184]
 texture = ExtResource("52_30ktq")
