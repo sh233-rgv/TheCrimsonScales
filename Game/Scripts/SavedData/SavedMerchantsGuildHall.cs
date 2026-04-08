@@ -30,6 +30,9 @@ public class SavedMerchantsGuildHall
 	[JsonProperty]
 	public int CompletedScenarioCount { get; private set; }
 
+	[JsonProperty]
+	public bool Unlocked { get; private set; }
+
 	public event Action CompletedScenarioCountChanged;
 
 	public SavedMerchantsGuildHall()
@@ -47,5 +50,10 @@ public class SavedMerchantsGuildHall
 	{
 		CompletedScenarioCount -= 5;
 		CompletedScenarioCountChanged?.Invoke();
+	}
+
+	public void Unlock()
+	{
+		Unlocked = true;
 	}
 }

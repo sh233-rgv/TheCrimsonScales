@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using Fractural.Tasks;
 using Godot;
 using GTweens.Builders;
 using GTweens.Easings;
@@ -47,11 +49,21 @@ public partial class MerchantsGuildHall : BetweenScenariosAction
 			}
 		}
 
+		Button.SetVisible(BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.Unlocked || canUnlockReward);
+
 		_exclamationMark.SetActive(canUnlockReward);
 
 		BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.CompletedScenarioCountChanged += OnCompletedScenarioCountChanged;
 
 		UpdateVisuals();
+
+		if(!BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.Unlocked && canUnlockReward)
+		{
+			this.DelayedCall(() =>
+			{
+				Unlock().Forget();
+			}, 0.5f);
+		}
 	}
 
 	public override void _ExitTree()
@@ -84,6 +96,31 @@ public partial class MerchantsGuildHall : BetweenScenariosAction
 			.Append(_container.TweenPosition(new Vector2(0, -1000), 0.4f).SetEasing(Easing.InQuad));
 
 		base.AnimateOut(sequenceBuilder);
+	}
+
+	private async GDTaskVoid Unlock()
+	{
+		if(BetweenScenariosController.Instance == null)
+		{
+			return;
+		}
+
+		if(BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.Unlocked)
+		{
+			return;
+		}
+
+		CancellationToken cancellationToken = BetweenScenariosController.Instance.DestroyCancellationToken;
+
+		await AppController.Instance.StoryView.OpenAsync("Friends in High Places", null,
+			"""
+			As you are walking through the Coin District, a chubby, ringed hand clasps one of you on the shoulder in a friendly manner. “Good day, adventurers!” beams the Valrath.
+
+			You recognize him as Councilman Raksani, one of the wealthiest merchants in Gloomhaven. “You are doing a terrific job in revitalizing this city - and it is not going unnoticed.” He leans a little closer. “Myself and my associates feel that we should share our increased wealth with you. Let me know if you ever need some additional equipment, and I am sure we can arrange a small discount” he adds with a wink.
+			""", cancellationToken: cancellationToken);
+
+		BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.Unlock();
+		AppController.Instance.SaveFile.Save();
 	}
 
 	private void UpdateVisuals()

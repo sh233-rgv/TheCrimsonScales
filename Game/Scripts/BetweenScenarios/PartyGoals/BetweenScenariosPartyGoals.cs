@@ -169,6 +169,8 @@ public partial class BetweenScenariosPartyGoals : BetweenScenariosAction
 		//TODO: Free enhancement
 		//TODO: Give custom item as a reward rather than adding it to the shop
 		//TODO: New party goal to use custom item 10 times
+
+		AppController.Instance.SaveFile.Save();
 	}
 
 	private void OnCompletedChangedEvent(PartyGoalsPartyGoal partyGoal)
