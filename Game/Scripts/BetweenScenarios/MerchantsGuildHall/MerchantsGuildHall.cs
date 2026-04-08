@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using Fractural.Tasks;
+﻿using System.Collections.Generic;
 using Godot;
 using GTweens.Builders;
 using GTweens.Easings;
@@ -51,7 +48,6 @@ public partial class MerchantsGuildHall : BetweenScenariosAction
 
 		Button.SetVisible(BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.Unlocked || canUnlockReward);
 
-		GD.Print(canUnlockReward);
 		_exclamationMark.SetActive(canUnlockReward);
 
 		BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.CompletedScenarioCountChanged += OnCompletedScenarioCountChanged;

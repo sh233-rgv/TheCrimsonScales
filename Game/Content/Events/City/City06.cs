@@ -22,7 +22,7 @@ public class City06 : CityEventModel<City06.ChoiceA, City06.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			//TODO:new UnlockScenarioEventReward(ModelDB.Scenario<Scenario044>())
+			new UnlockScenarioReward(ModelDB.Scenario<Scenario044>())
 		];
 	}
 

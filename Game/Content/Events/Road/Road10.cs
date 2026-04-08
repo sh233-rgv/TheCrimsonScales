@@ -36,7 +36,7 @@ public class Road10 : RoadEventModel<Road10.ChoiceA, Road10.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			//TODO:new UnlockScenarioEventReward(ModelDB.Scenario<Scenario046>())
+			new UnlockScenarioReward(ModelDB.Scenario<Scenario046>())
 		];
 	}
 }
