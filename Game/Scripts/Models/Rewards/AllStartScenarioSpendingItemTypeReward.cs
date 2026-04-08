@@ -5,8 +5,8 @@ public class AllStartScenarioSpendingItemTypeReward(ItemType itemType) : Reward
 {
 	public override RewardType Type => RewardType.ScenarioStart;
 
-	public override string GetLabelText(RichTextParameters parameters) =>
-		$"All characters start the next scenario spending a {Icons.Inline(Icons.GetItem(itemType), parameters)} each.";
+	public override string GetLabelText(RichTextParameters textParameters) =>
+		$"All characters start the next scenario spending a {Icons.Inline(Icons.GetItem(itemType), textParameters)} each.";
 
 	public override async GDTask OnScenarioSetupPhaseCompleted()
 	{

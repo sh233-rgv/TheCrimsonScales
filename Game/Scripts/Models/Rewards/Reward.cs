@@ -4,7 +4,7 @@ using Fractural.Tasks;
 public abstract class Reward
 {
 	public abstract RewardType Type { get; }
-	public abstract string GetLabelText(RichTextParameters parameters);
+	public abstract string GetLabelText(RichTextParameters textParameters);
 
 	public virtual async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
 	{

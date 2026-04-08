@@ -5,7 +5,7 @@ public class AllStartScenarioWithMinusOnesReward(int number) : Reward
 {
 	public override RewardType Type => RewardType.ScenarioStart;
 
-	public override string GetLabelText(RichTextParameters parameters) =>
+	public override string GetLabelText(RichTextParameters textParameters) =>
 		$"All characters start the next scenario with {Icons.Inline(Icons.MinusOneCard)} x{number}.";
 
 	public override async GDTask OnScenarioSetupPhaseCompleted()

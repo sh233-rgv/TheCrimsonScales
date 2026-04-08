@@ -5,7 +5,7 @@ public class SpawnReward(MonsterModel monsterModel, int maxHP) : Reward
 {
 	public override RewardType Type => RewardType.ScenarioStart;
 
-	public override string GetLabelText(RichTextParameters parameters) =>
+	public override string GetLabelText(RichTextParameters textParameters) =>
 		$"At the start of the next scenario, an allied {monsterModel.Name} with a maximum hit point value of {maxHP} will spawn next to any character.";
 
 	public override async GDTask OnScenarioSetupPhaseCompleted()

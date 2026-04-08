@@ -5,7 +5,7 @@ public class SummonReward(SummonAbility summonAbility) : Reward
 {
 	public override RewardType Type => RewardType.ScenarioStart;
 
-	public override string GetLabelText(RichTextParameters parameters) =>
+	public override string GetLabelText(RichTextParameters textParameters) =>
 		$"At the start of the next scenario, one character may Summon a {summonAbility.Name}.";
 
 	public override async GDTask OnScenarioSetupPhaseCompleted()

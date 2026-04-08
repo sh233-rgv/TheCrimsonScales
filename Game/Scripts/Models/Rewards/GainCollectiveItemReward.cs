@@ -5,7 +5,7 @@ using Godot;
 public class GainCollectiveItemReward(ItemModel itemModel) : Reward
 {
 	public override RewardType Type => RewardType.Immediate;
-	public override string GetLabelText(RichTextParameters parameters) => $"Gain 1 collective '{itemModel.Name}'.";
+	public override string GetLabelText(RichTextParameters textParameters) => $"Gain 1 collective '{itemModel.Name}'.";
 
 	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
 	{

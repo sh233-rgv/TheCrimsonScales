@@ -15,7 +15,7 @@ public partial class MerchantsGuildHallReward : Control
 	private SavedMerchantsGuildHallReward _savedReward;
 
 	public bool CanUnlock =>
-		BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.CompletedScenarioCount > 5 &&
+		BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.CompletedScenarioCount >= 5 &&
 		!_savedReward.Unlocked;
 
 	public override void _Ready()

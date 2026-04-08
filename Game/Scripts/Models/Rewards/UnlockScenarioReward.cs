@@ -4,7 +4,7 @@ using Fractural.Tasks;
 public class UnlockScenarioReward(ScenarioModel scenarioModel) : Reward
 {
 	public override RewardType Type => RewardType.Immediate;
-	public override string GetLabelText(RichTextParameters parameters) => $"Unlock Scenario {scenarioModel.ScenarioNumber}.";
+	public override string GetLabelText(RichTextParameters textParameters) => $"Unlock Scenario {scenarioModel.ScenarioNumber}.";
 
 	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
 	{

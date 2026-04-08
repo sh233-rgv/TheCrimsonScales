@@ -5,8 +5,8 @@ public class AllStartScenarioWithDamageReward(int damage) : Reward
 {
 	public override RewardType Type => RewardType.ScenarioStart;
 
-	public override string GetLabelText(RichTextParameters parameters) =>
-		$"All characters start the next scenario with {Icons.Inline(Icons.Damage, parameters)}{damage}.";
+	public override string GetLabelText(RichTextParameters textParameters) =>
+		$"All characters start the next scenario with {Icons.Inline(Icons.Damage, textParameters)}{damage}.";
 
 	public override async GDTask OnScenarioSetupPhaseCompleted()
 	{

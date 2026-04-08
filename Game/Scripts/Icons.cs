@@ -56,7 +56,7 @@ public static class Icons
 
 	public static string InlineCondition(ConditionModel conditionModel, RichTextParameters richTextParameters)
 	{
-		return Inline(GetCondition(conditionModel), richTextParameters);
+		return Inline(GetCondition(conditionModel), richTextParameters, true);
 	}
 
 	public static string GetAMDValue(string amdValue)

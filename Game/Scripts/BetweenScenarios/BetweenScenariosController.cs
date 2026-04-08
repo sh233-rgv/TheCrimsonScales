@@ -285,6 +285,20 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			));
 		}
 
+		if(!SavedCampaign.SavedMerchantsGuildHall.Unlocked && SavedCampaign.SavedMerchantsGuildHall.CompletedScenarioCount >= 5)
+		{
+			await AppController.Instance.StoryView.OpenAsync("Friends in High Places", null,
+				"""
+				As you are walking through the Coin District, a chubby, ringed hand clasps one of you on the shoulder in a friendly manner. “Good day, adventurers!” beams the Valrath.
+
+				You recognize him as Councilman Raksani, one of the wealthiest merchants in Gloomhaven. “You are doing a terrific job in revitalizing this city - and it is not going unnoticed.” He leans a little closer. “Myself and my associates feel that we should share our increased wealth with you. Let me know if you ever need some additional equipment, and I am sure we can arrange a small discount” he adds with a wink.
+				""", cancellationToken: cancellationToken);
+
+			SavedCampaign.SavedMerchantsGuildHall.Unlock();
+
+			AppController.Instance.SaveFile.Save();
+		}
+
 		// if(
 		// 	SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario010>()).Completed &&
 		// 	SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario013>()).Completed &&

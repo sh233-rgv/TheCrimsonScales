@@ -5,7 +5,7 @@ public class AllMonstersStartScenarioWithConditionReward(params ConditionModel[]
 {
 	public override RewardType Type => RewardType.ScenarioStart;
 
-	public override string GetLabelText(RichTextParameters parameters)
+	public override string GetLabelText(RichTextParameters textParameters)
 	{
 		string labelText = "At the start of the next scenario, all visible monsters gain ";
 
@@ -17,7 +17,7 @@ public class AllMonstersStartScenarioWithConditionReward(params ConditionModel[]
 				labelText += ", ";
 			}
 
-			labelText += Icons.Inline(Icons.GetCondition(conditionModel));
+			labelText += Icons.InlineCondition(conditionModel, textParameters);
 		}
 
 		labelText += ".";

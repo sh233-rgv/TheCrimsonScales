@@ -6,8 +6,8 @@ public class GainCollectiveGoldReward(int goldAmount) : Reward
 {
 	public override RewardType Type => RewardType.Immediate;
 
-	public override string GetLabelText(RichTextParameters parameters) =>
-		$"Gain {goldAmount} collective {Icons.Inline(Icons.Coins, parameters)}.";
+	public override string GetLabelText(RichTextParameters textParameters) =>
+		$"Gain {goldAmount} collective {Icons.Inline(Icons.Coins, textParameters)}.";
 
 	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
 	{

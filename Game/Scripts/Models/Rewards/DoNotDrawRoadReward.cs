@@ -3,7 +3,7 @@
 public class DoNotDrawRoadReward() : Reward
 {
 	public override RewardType Type => RewardType.DuringDowntime;
-	public override string GetLabelText(RichTextParameters parameters) => "Do not draw a road event.";
+	public override string GetLabelText(RichTextParameters textParameters) => "Do not draw a road event.";
 
 	public override void SubscribeDuringDowntime(SavedEventState savedEventState)
 	{

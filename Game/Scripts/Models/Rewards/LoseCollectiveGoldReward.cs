@@ -7,8 +7,8 @@ public class LoseCollectiveGoldReward(int goldAmount) : Reward
 {
 	public override RewardType Type => RewardType.Immediate;
 
-	public override string GetLabelText(RichTextParameters parameters) =>
-		$"Lose {goldAmount} collective {Icons.Inline(Icons.Coins, parameters)}.";
+	public override string GetLabelText(RichTextParameters textParameters) =>
+		$"Lose {goldAmount} collective {Icons.Inline(Icons.Coins, textParameters)}.";
 
 	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
 	{

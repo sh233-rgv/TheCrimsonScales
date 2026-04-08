@@ -5,7 +5,7 @@ using Godot;
 public class GainReputationReward(int reputationAmount) : Reward
 {
 	public override RewardType Type => RewardType.Immediate;
-	public override string GetLabelText(RichTextParameters parameters) => $"Gain {reputationAmount} reputation.";
+	public override string GetLabelText(RichTextParameters textParameters) => $"Gain {reputationAmount} reputation.";
 
 	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
 	{

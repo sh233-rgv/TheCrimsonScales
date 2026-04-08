@@ -5,7 +5,7 @@ public class AllStartScenarioWithConditionReward(params ConditionModel[] conditi
 {
 	public override RewardType Type => RewardType.ScenarioStart;
 
-	public override string GetLabelText(RichTextParameters parameters)
+	public override string GetLabelText(RichTextParameters textParameters)
 	{
 		string labelText = "All characters start the next scenario with ";
 
@@ -17,7 +17,7 @@ public class AllStartScenarioWithConditionReward(params ConditionModel[] conditi
 				labelText += ", ";
 			}
 
-			labelText += Icons.Inline(Icons.GetCondition(conditionModel));
+			labelText += Icons.InlineCondition(conditionModel, textParameters);
 		}
 
 		labelText += ".";

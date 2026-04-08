@@ -6,7 +6,7 @@ public class AllStartScenarioDiscardingReward(int discardCount) : Reward
 {
 	public override RewardType Type => RewardType.ScenarioStart;
 
-	public override string GetLabelText(RichTextParameters parameters) =>
+	public override string GetLabelText(RichTextParameters textParameters) =>
 		$"All characters start the next scenario discarding {discardCount} {(discardCount == 1 ? "card" : "cards")} each.";
 
 	public override async GDTask OnScenarioSetupPhaseCompleted()

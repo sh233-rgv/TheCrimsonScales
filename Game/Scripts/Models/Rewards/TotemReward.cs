@@ -7,8 +7,8 @@ public class TotemReward(Action<Obstacle> onTotemPlaced, Action<Obstacle> onTote
 {
 	public override RewardType Type => RewardType.ScenarioStart;
 
-	public override string GetLabelText(RichTextParameters parameters) =>
-		$"Once, during the next scenario, a character may place a {name} Totem obstacle in an adjacent empty hex during their turn. {labelText(parameters)}";
+	public override string GetLabelText(RichTextParameters textParameters) =>
+		$"Once, during the next scenario, a character may place a {name} Totem obstacle in an adjacent empty hex during their turn. {labelText(textParameters)}";
 
 	public override async GDTask OnScenarioSetupPhaseCompleted()
 	{

@@ -8,7 +8,7 @@ public class DowntimeEnhancementCostReward(
 	: Reward
 {
 	public override RewardType Type => RewardType.DuringDowntime;
-	public override string GetLabelText(RichTextParameters parameters) => getLabelText(parameters);
+	public override string GetLabelText(RichTextParameters textParameters) => getLabelText(textParameters);
 
 	public override void SubscribeDuringDowntime(SavedEventState savedEventState)
 	{
