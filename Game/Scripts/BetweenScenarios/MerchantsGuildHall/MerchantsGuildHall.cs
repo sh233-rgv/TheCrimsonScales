@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Godot;
 using GTweens.Builders;
 using GTweens.Easings;
@@ -8,6 +9,10 @@ public partial class MerchantsGuildHall : BetweenScenariosAction
 {
 	[Export]
 	private Control _container;
+
+	[Export]
+	private ProgressBar _progressBar;
+
 	[Export]
 	private PackedScene _rewardScene;
 	[Export]
@@ -26,6 +31,7 @@ public partial class MerchantsGuildHall : BetweenScenariosAction
 	{
 		base._Ready();
 
+		bool canUnlockReward = false;
 		for(int i = 0; i < BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.Rewards.Count; i++)
 		{
 			SavedMerchantsGuildHallReward savedReward = BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.Rewards[i];
@@ -34,6 +40,28 @@ public partial class MerchantsGuildHall : BetweenScenariosAction
 			parent.AddChild(reward);
 			reward.Init(savedReward);
 			_rewards.Add(reward);
+
+			if(reward.CanUnlock)
+			{
+				canUnlockReward = true;
+			}
+		}
+
+		_exclamationMark.SetActive(canUnlockReward);
+
+		BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.CompletedScenarioCountChanged += OnCompletedScenarioCountChanged;
+
+		UpdateVisuals();
+	}
+
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+
+		if(BetweenScenariosController.Instance != null)
+		{
+			BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.CompletedScenarioCountChanged -=
+				OnCompletedScenarioCountChanged;
 		}
 	}
 
@@ -56,5 +84,17 @@ public partial class MerchantsGuildHall : BetweenScenariosAction
 			.Append(_container.TweenPosition(new Vector2(0, -1000), 0.4f).SetEasing(Easing.InQuad));
 
 		base.AnimateOut(sequenceBuilder);
+	}
+
+	private void UpdateVisuals()
+	{
+		int completedCount = BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.CompletedScenarioCount;
+		float normalizedProgress = Mathf.Clamp((float)completedCount / 5, 0, 1);
+		_progressBar.Update(normalizedProgress, $"{completedCount}/5");
+	}
+
+	private void OnCompletedScenarioCountChanged()
+	{
+		UpdateVisuals();
 	}
 }

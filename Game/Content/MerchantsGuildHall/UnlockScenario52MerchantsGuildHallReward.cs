@@ -2,7 +2,7 @@
 
 public class UnlockScenario52MerchantsGuildHallReward : MerchantsGuildHallRewardModel
 {
-	public override string GetDescription(RichTextParameters richTextParameters) => "Unlock Scenario 52: “Rodent Warehouse”";
+	public override string GetDescription(RichTextParameters richTextParameters) => "Unlock Scenario 52: “Wishing Well”";
 
 	public override List<Reward> GetRewards() =>
 	[

@@ -382,6 +382,8 @@ public partial class GameController : SceneController<GameController>
 		if(scenarioResult == ScenarioResult.Win)
 		{
 			SavedScenarioProgress.Complete();
+
+			SavedCampaign.SavedMerchantsGuildHall.AddCompletedScenario();
 		}
 
 		if(scenarioResult == ScenarioResult.Retry)

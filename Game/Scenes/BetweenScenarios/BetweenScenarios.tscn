@@ -146,8 +146,19 @@ font_color = Color(0.969748, 0.793137, 0.50993, 1)
 outline_size = 3
 outline_color = Color(0.693772, 0.508051, 0.168401, 1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_lw45v"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_2o0ty"]
 viewport_path = NodePath("../../../../../FrontSubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_al8mn"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = SubResource("ViewportTexture_2o0ty")
+metallic_specular = 0.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_lw45v"]
+viewport_path = NodePath("../../../../../BackSubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q3cuy"]
 resource_local_to_scene = true
@@ -155,17 +166,6 @@ transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 albedo_texture = SubResource("ViewportTexture_lw45v")
-metallic_specular = 0.0
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_ol6qn"]
-viewport_path = NodePath("../../../../../BackSubViewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ttpxi"]
-resource_local_to_scene = true
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
-albedo_texture = SubResource("ViewportTexture_ol6qn")
 metallic_specular = 0.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_807yg"]
@@ -363,6 +363,14 @@ corner_radius_bottom_left = 2
 [sub_resource type="LabelSettings" id="LabelSettings_ttpxi"]
 font = ExtResource("28_jr74k")
 font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_2o0ty"]
+font = ExtResource("28_jr74k")
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_al8mn"]
+font = ExtResource("28_jr74k")
+font_size = 30
 
 [sub_resource type="QuadMesh" id="QuadMesh_8ad0h"]
 
@@ -1272,10 +1280,10 @@ visible = false
 transform = Transform3D(68.9, 0, 0, 0, -4.37114e-06, 102.3, 0, -100, -4.47168e-06, 0, 0, 0)
 
 [node name="Front" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation/Page/Skeleton3D" parent_id_path=PackedInt32Array(1735437367, 1654290993) index="0" unique_id=237816969]
-material_override = SubResource("StandardMaterial3D_q3cuy")
+material_override = SubResource("StandardMaterial3D_al8mn")
 
 [node name="Back" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation/Page/Skeleton3D" parent_id_path=PackedInt32Array(1735437367, 1654290993) index="1" unique_id=151070975]
-material_override = SubResource("StandardMaterial3D_ttpxi")
+material_override = SubResource("StandardMaterial3D_q3cuy")
 
 [node name="AnimationPlayer" parent="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/Book/Container/3D/SubViewport/Root/Page/PageAnimation" index="1" unique_id=1227387750]
 speed_scale = 1.4
@@ -1715,8 +1723,7 @@ theme_override_constants/separation = 10
 visible = false
 layout_mode = 2
 
-[node name="MerchantsGuildHall" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=136246191 node_paths=PackedStringArray("_container", "_leftParent", "_rightParent", "_exclamationMark", "Button")]
-visible = false
+[node name="MerchantsGuildHall" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager" unique_id=136246191 node_paths=PackedStringArray("_container", "_progressBar", "_leftParent", "_rightParent", "_exclamationMark", "Button")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1726,39 +1733,34 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("32_2o0ty")
 _container = NodePath("Anchor/Container")
+_progressBar = NodePath("Anchor/Container/MarginContainer/VBoxContainer/VBoxContainer/ProgressBar")
 _rewardScene = ExtResource("33_al8mn")
-_leftParent = NodePath("Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Left")
-_rightParent = NodePath("Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer/Right")
+_leftParent = NodePath("Anchor/Container/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Left")
+_rightParent = NodePath("Anchor/Container/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Right")
 _exclamationMark = NodePath("../ActionButtons/VBoxContainer/MerchantsGuildHallButton/ExclamationMark")
 Button = NodePath("../ActionButtons/VBoxContainer/MerchantsGuildHallButton")
 
 [node name="Anchor" type="Control" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall" unique_id=1893722479]
-custom_minimum_size = Vector2(1026, 540)
+custom_minimum_size = Vector2(1050, 780)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -513.0
-offset_top = -270.0
-offset_right = 513.0
-offset_bottom = 270.0
+offset_left = -525.0
+offset_top = -420.0
+offset_right = 525.0
+offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Container" type="PanelContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor" unique_id=1583457268]
 material = ExtResource("23_1ehwm")
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -465.0
-offset_top = -100.0
-offset_right = 465.0
-offset_bottom = 100.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("19_6k6qu")
@@ -1901,16 +1903,36 @@ layout_mode = 2
 text = "Complete 4 Party Goals to unlock new features!"
 label_settings = SubResource("LabelSettings_ttpxi")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer" unique_id=969211032]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer" unique_id=474406708]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ProgressBar" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1290106675 instance=ExtResource("45_rtdf2")]
+custom_minimum_size = Vector2(286, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="ProgressBar" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/VBoxContainer/ProgressBar" index="1" unique_id=1418968114]
+self_modulate = Color(0.9529412, 0.43529412, 0.5058824, 1)
+
+[node name="Label" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/VBoxContainer/ProgressBar" index="2" unique_id=610432765]
+text = "Progress"
+label_settings = SubResource("LabelSettings_2o0ty")
+
+[node name="Amount" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/VBoxContainer/ProgressBar" index="3" unique_id=349370130]
+text = "1/5"
+label_settings = SubResource("LabelSettings_al8mn")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/VBoxContainer" unique_id=969211032]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Left" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer" unique_id=963305833]
+[node name="Left" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=963305833]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Right" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1169924386]
+[node name="Right" type="VBoxContainer" parent="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1169924386]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
@@ -3393,6 +3415,7 @@ layout_mode = 1
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/ItemShop/FlipRightButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/SanctuaryOfTheGreatOak/DonationButton"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/PartyGoals/Anchor/Container/MarginContainer/VBoxContainer/PanelButton"]
+[editable path="CanvasLayer/UI/BetweenScenariosActionManager/MerchantsGuildHall/Anchor/Container/MarginContainer/VBoxContainer/VBoxContainer/ProgressBar"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/TitheBowlRoot/AnimatableBody3D/TitheBowl"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/Shared3D/Container/3D/SubViewport/Root/CrystalBallRoot/Container/CrystalBall/CrystalBallHolder"]
 [editable path="CanvasLayer/UI/BetweenScenariosActionManager/Enhancer/EnhancementOptionsAnchor/EnhancementOptionsContainer/MarginContainer/VBoxContainer/PanelButton"]

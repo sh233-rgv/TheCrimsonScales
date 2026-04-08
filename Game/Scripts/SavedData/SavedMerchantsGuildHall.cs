@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -29,6 +30,8 @@ public class SavedMerchantsGuildHall
 	[JsonProperty]
 	public int CompletedScenarioCount { get; private set; }
 
+	public event Action CompletedScenarioCountChanged;
+
 	public SavedMerchantsGuildHall()
 	{
 		Rewards = AllRewards.Select(rewardModel => new SavedMerchantsGuildHallReward(rewardModel)).ToList();
@@ -37,5 +40,12 @@ public class SavedMerchantsGuildHall
 	public void AddCompletedScenario()
 	{
 		CompletedScenarioCount++;
+		CompletedScenarioCountChanged?.Invoke();
+	}
+
+	public void RemoveFiveCompletedScenarios()
+	{
+		CompletedScenarioCount -= 5;
+		CompletedScenarioCountChanged?.Invoke();
 	}
 }

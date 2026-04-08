@@ -14,6 +14,10 @@ public partial class MerchantsGuildHallReward : Control
 
 	private SavedMerchantsGuildHallReward _savedReward;
 
+	public bool CanUnlock =>
+		BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.CompletedScenarioCount > 5 &&
+		!_savedReward.Unlocked;
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -30,6 +34,8 @@ public partial class MerchantsGuildHallReward : Control
 
 		_savedReward.UnlockedEvent += OnUnlocked;
 
+		BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.CompletedScenarioCountChanged += OnCompletedScenarioCountChanged;
+
 		UpdateVisuals();
 	}
 
@@ -41,21 +47,35 @@ public partial class MerchantsGuildHallReward : Control
 		{
 			_savedReward.UnlockedEvent -= OnUnlocked;
 		}
+
+		if(BetweenScenariosController.Instance != null)
+		{
+			BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.CompletedScenarioCountChanged -=
+				OnCompletedScenarioCountChanged;
+		}
 	}
 
 	private void UpdateVisuals()
 	{
 		_checkmark.SetVisible(_savedReward.Unlocked);
+
+		_button.SetEnabled(CanUnlock, false);
 	}
 
 	private async GDTaskVoid GiveRewards()
 	{
+		if(!CanUnlock)
+		{
+			return;
+		}
+
 		CancellationToken cancellationToken = BetweenScenariosController.Instance.DestroyCancellationToken;
 
 		List<Reward> rewards = _savedReward.Model.GetRewards();
 		await AppController.Instance.GiveRewards(BetweenScenariosController.Instance.SavedCampaign, rewards, cancellationToken: cancellationToken);
 
 		_savedReward.SetUnlocked();
+		BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.RemoveFiveCompletedScenarios();
 
 		AppController.Instance.SaveFile.Save();
 	}
@@ -80,6 +100,11 @@ public partial class MerchantsGuildHallReward : Control
 	}
 
 	private void OnUnlocked(SavedMerchantsGuildHallReward savedMerchantsGuildHallReward)
+	{
+		UpdateVisuals();
+	}
+
+	private void OnCompletedScenarioCountChanged()
 	{
 		UpdateVisuals();
 	}
