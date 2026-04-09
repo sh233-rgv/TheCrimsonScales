@@ -36,7 +36,7 @@ public class City12 : CityEventModel<City12.ChoiceA, City12.ChoiceB>
 		{
 			base.InitState(state, savedCampaign);
 
-			bool conditionsMet = savedCampaign.Characters.Sum(character => character.Gold) >= 30;
+			bool conditionsMet = savedCampaign.Characters.Sum(character => character.Gold) >= 15;
 			state.SetCustomValue(ConditionsMetKey, conditionsMet);
 		}
 
@@ -64,6 +64,7 @@ public class City12 : CityEventModel<City12.ChoiceA, City12.ChoiceB>
 			{
 				return
 				[
+					new LoseCollectiveGoldReward(15),
 					new GainCollectiveItemReward(ModelDB.Item<DrakescaleDagger>())
 				];
 			}

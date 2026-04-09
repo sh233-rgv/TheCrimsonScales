@@ -64,6 +64,7 @@ public class City11 : CityEventModel<City11.ChoiceA, City11.ChoiceB>
 			{
 				return
 				[
+					new LoseCollectiveGoldReward(30),
 					new GainCollectiveItemReward(ModelDB.Item<DrakescaleShield>())
 				];
 			}

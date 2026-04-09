@@ -28,7 +28,7 @@ public class SavedMerchantsGuildHall
 	public List<SavedMerchantsGuildHallReward> Rewards { get; private set; }
 
 	[JsonProperty]
-	public int CompletedScenarioCount { get; private set; } = 4;
+	public int CompletedScenarioCount { get; private set; }
 
 	[JsonProperty]
 	public bool Unlocked { get; private set; }
