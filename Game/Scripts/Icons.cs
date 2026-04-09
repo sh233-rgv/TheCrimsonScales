@@ -11,6 +11,7 @@ public static class Icons
 	public const string Heal = "res://Art/Icons/Abilities/Heal.svg";
 	public const string Range = "res://Art/Icons/Abilities/Range.svg";
 	public const string Damage = "res://Art/Icons/Abilities/Damage.svg";
+	public const string Flying = "res://Art/Icons/Abilities/Flying.svg";
 	public const string Push = "res://Art/Icons/ConditionsAndEffects/Push.svg";
 	public const string Pull = "res://Art/Icons/ConditionsAndEffects/Pull.svg";
 	public const string Swing = "res://Art/Icons/ConditionsAndEffects/Swing.svg";
