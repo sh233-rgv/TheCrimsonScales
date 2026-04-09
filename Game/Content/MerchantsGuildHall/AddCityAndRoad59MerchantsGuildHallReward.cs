@@ -7,7 +7,7 @@ public class AddCityAndRoad59MerchantsGuildHallReward : MerchantsGuildHallReward
 
 	public override List<Reward> GetRewards() =>
 	[
-		new AddCityReward(ModelDB.Event<City59>()),
-		new AddRoadReward(ModelDB.Event<Road59>()),
+		new AddCityToTopQueueReward(ModelDB.Event<City59>()),
+		new AddRoadToTopQueueReward(ModelDB.Event<Road59>()),
 	];
 }

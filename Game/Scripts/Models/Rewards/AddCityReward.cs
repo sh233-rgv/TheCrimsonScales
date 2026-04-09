@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using Fractural.Tasks;
-using Godot;
 
 public class AddCityReward(EventModel eventModel) : Reward
 {

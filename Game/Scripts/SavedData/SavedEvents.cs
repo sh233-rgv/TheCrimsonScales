@@ -218,7 +218,7 @@ public class SavedEvents
 	{
 		if(eventModel.EventType != EventType.City)
 		{
-			Log.Error("Trying to return an event of the wrong type!");
+			Log.Error("Trying to add an event of the wrong type!");
 			return;
 		}
 
@@ -229,7 +229,7 @@ public class SavedEvents
 	{
 		if(eventModel.EventType != EventType.Road)
 		{
-			Log.Error("Trying to return an event of the wrong type!");
+			Log.Error("Trying to add an event of the wrong type!");
 			return;
 		}
 
