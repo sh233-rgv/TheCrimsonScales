@@ -360,6 +360,12 @@ public partial class GameController : SceneController<GameController>
 
 	public async GDTask EndScenario()
 	{
+		if(ScenarioResult == ScenarioResult.None)
+		{
+			Log.Error("Trying to end the scenario while the result hasn't been set.");
+			return;
+		}
+
 		string scenarioModelId = SavedCampaign.SavedScenario.ScenarioModelId;
 
 		int goldConversion = GoldConversion();
