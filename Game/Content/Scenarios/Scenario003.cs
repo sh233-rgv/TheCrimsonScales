@@ -7,12 +7,32 @@ using GTweensGodot.Extensions;
 public class Scenario003 : ScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario003.tscn";
+
 	public override int ScenarioNumber => 3;
+	public override string Name => "TODO";
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
 	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario004>(), new ScenarioConnection<Scenario007>()];
 
-	protected override ScenarioGoals CreateScenarioGoals() =>
-		new KillSpecificEnemiesTypeGoals(ModelDB.Monster<HydraSpirit>(), "Kill the Hydra Spirit to win this scenario.");
+	public override string IntroductionText =>
+		"""
+		TODO
+		""";
+
+	public override string ConclusionText =>
+		"""
+		TODO
+		""";
+
+	public override List<MonsterModel> MonsterModels { get; } =
+	[
+		//TODO
+	];
+
+	public override List<Reward> Rewards { get; } =
+	[
+		//TODO
+	];
 
 	public override string BGMPath => "res://Audio/BGM/Dark-Abyss.ogg";
 	public override string BGSPath => "res://Audio/BGS/Cave.ogg";
@@ -23,6 +43,8 @@ public class Scenario003 : ScenarioModel
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
+
+		AddGoal(new KillSpecificEnemiesTypeGoal(ModelDB.Monster<HydraSpirit>()));
 
 		UpdateScenarioText(
 			$"At the end of each round, the water tiles marked {Icons.InlineMarker(Marker.Type.a)} " +

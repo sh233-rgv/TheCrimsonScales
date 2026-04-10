@@ -4,11 +4,32 @@ using Fractural.Tasks;
 public class Scenario002 : ScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario002.tscn";
+
 	public override int ScenarioNumber => 2;
+	public override string Name => "TODO";
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
 	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario003>(true)];
 
-	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals();
+	public override string IntroductionText =>
+		"""
+		TODO
+		""";
+
+	public override string ConclusionText =>
+		"""
+		TODO
+		""";
+
+	public override List<MonsterModel> MonsterModels { get; } =
+	[
+		//TODO
+	];
+
+	public override List<Reward> Rewards { get; } =
+	[
+		//TODO
+	];
 
 	public override string BGSPath => "res://Audio/BGS/Cave.ogg";
 
@@ -21,6 +42,8 @@ public class Scenario002 : ScenarioModel
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
+
+		AddGoal(new KillAllEnemiesScenarioGoal());
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(AbilityCmd.GetRandomAvailableStone());
 

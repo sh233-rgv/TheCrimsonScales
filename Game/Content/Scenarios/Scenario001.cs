@@ -4,8 +4,10 @@ using Fractural.Tasks;
 public class Scenario001 : ScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario001.tscn";
+
 	public override int ScenarioNumber => 1;
 	public override string Name => "The Dark Lake";
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
 	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario002>(true)];
 
@@ -27,13 +29,25 @@ public class Scenario001 : ScenarioModel
 		You explore further, and find an old tunnel. It is obviously some sort of overflow from somewhere, but currently it is only damp. There are prints in the muddy soil by the entrance though, and you can see other signs of activity. Maybe, whatever this mysterious object is, it lies in here.
 		""";
 
-	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals();
+	public override List<MonsterModel> MonsterModels { get; } =
+	[
+		ModelDB.Monster<SpittingDrake>(),
+		ModelDB.Monster<VermlingScout>(),
+		ModelDB.Monster<WaterSpirit>(),
+	];
+
+	public override List<Reward> Rewards { get; } =
+	[
+		new UnlockScenarioReward(ModelDB.Scenario<Scenario002>())
+	];
 
 	public override string BGSPath => "res://Audio/BGS/Forest Day.ogg";
 
 	public override async GDTask StartAfterFirstRoomRevealed()
 	{
 		await base.StartAfterFirstRoomRevealed();
+
+		AddGoal(new KillAllEnemiesScenarioGoal());
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<DizzyingTincture>());
 	}

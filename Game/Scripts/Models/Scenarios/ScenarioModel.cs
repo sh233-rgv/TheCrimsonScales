@@ -1,42 +1,45 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Fractural.Tasks;
 
 public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscriber
 {
-	public ScenarioGoals ScenarioGoals { get; private set; }
+	private readonly List<ScenarioGoal> _goals = new List<ScenarioGoal>();
+	private readonly List<ScenarioRule> _rules = new List<ScenarioRule>();
 
 	public abstract string ScenePath { get; }
+
 	public abstract int ScenarioNumber { get; }
-	public virtual string Name => null;
+	public abstract string Name { get; }
+
+	protected virtual List<ScenarioLink> Links { get; } = [];
+	protected virtual List<ScenarioRequirement> Requirements { get; } = [];
+
 	public abstract ScenarioChain ScenarioChain { get; }
 	public virtual IEnumerable<ScenarioConnection> Connections { get; } = [];
-	public virtual int[] TreasureNumbers { get; } = [];
-	public virtual string IntroductionText => null;
-	public virtual string ConclusionText => null;
 
-	//TODO: Change to being abstract to force scenarios to override for view pre-scenario
-	protected virtual List<MonsterModel> SpawnedMonsterModels { get; } = [];
-	protected virtual IEnumerable<ScenarioRequirement> ScenarioRequirements { get; } = [];
+	public abstract string IntroductionText { get; }
+	public abstract string ConclusionText { get; }
+
+	public abstract List<MonsterModel> MonsterModels { get; }
+	public abstract List<Reward> Rewards { get; }
 
 	public virtual string BGMPath => "res://Audio/BGM/Floral-Woods.ogg";
 	public virtual string BGSPath => null;
 
 	public virtual async GDTask StartBeforeFirstRoomRevealed()
 	{
-		ScenarioGoals = CreateScenarioGoals();
-		UpdateScenarioText(null);
+		UpdateScenarioText();
 
 		await GDTask.CompletedTask;
 	}
 
 	public virtual async GDTask StartAfterFirstRoomRevealed()
 	{
-		ScenarioGoals.Start();
-
 		ScenarioEvents.RoomRevealedEvent.Subscribe(this, parameters => true, OnRoomRevealed);
 
-		foreach(MonsterModel monsterModel in SpawnedMonsterModels)
+		foreach(MonsterModel monsterModel in MonsterModels)
 		{
 			GameController.Instance.Map.AddMonsterGroup(monsterModel);
 		}
@@ -54,21 +57,38 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		await GDTask.CompletedTask;
 	}
 
-	protected abstract ScenarioGoals CreateScenarioGoals();
-
-	protected virtual void UpdateScenarioText(string text)
+	protected void UpdateScenarioText(string text)
 	{
-		string displayText;
-		if(text != null)
+		for(int i = _rules.Count - 1; i >= 0; i--)
 		{
-			displayText = $"{ScenarioGoals.Text}\n\n{text}";
-		}
-		else
-		{
-			displayText = ScenarioGoals.Text;
+			ScenarioRule scenarioRule = _rules[i];
+			scenarioRule.Remove();
 		}
 
-		GameController.Instance.SpecialRulesView.SetText(displayText);
+		AddScenarioRule(new ScenarioRule(text, 0));
+	}
+
+	protected T AddGoal<T>(T goal)
+		where T : ScenarioGoal
+	{
+		_goals.Add(goal);
+
+		UpdateScenarioText();
+
+		return goal;
+	}
+
+	protected T AddScenarioRule<T>(T rule)
+		where T : ScenarioRule
+	{
+		_rules.Add(rule);
+
+		rule.TextChangedEvent += OnTextChangedEvent;
+		rule.TextRemovedEvent += OnTextRemovedEvent;
+
+		UpdateScenarioText();
+
+		return rule;
 	}
 
 	protected async GDTask<Monster> SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, Hex spawnHex,
@@ -167,5 +187,49 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		PopupRequest popupRequest = new TextPopup.Request(title, text, new TextButton.Parameters("Continue", null));
 		AppController.Instance.PopupManager.RequestPopup(popupRequest);
 		await GDTask.WaitWhile(AppController.Instance.PopupManager.IsPopupOpen, cancellationToken: GameController.CancellationToken);
+	}
+
+	private void UpdateScenarioText()
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+
+		_goals.Sort((a, b) => a.Order.CompareTo(b.Order));
+		foreach(ScenarioGoal goal in _goals)
+		{
+			if(stringBuilder.Length > 0)
+			{
+				stringBuilder.AppendLine();
+			}
+
+			stringBuilder.Append(goal.Text);
+		}
+
+		_rules.Sort((a, b) => a.Order.CompareTo(b.Order));
+		foreach(ScenarioRule rule in _rules)
+		{
+			if(stringBuilder.Length > 0)
+			{
+				stringBuilder.AppendLine();
+			}
+
+			stringBuilder.Append(rule.Text);
+		}
+
+		GameController.Instance.SpecialRulesView.SetText(stringBuilder.ToString());
+	}
+
+	private void OnTextChangedEvent(ScenarioRule scenarioRule)
+	{
+		UpdateScenarioText();
+	}
+
+	private void OnTextRemovedEvent(ScenarioRule scenarioRule)
+	{
+		scenarioRule.TextChangedEvent -= OnTextChangedEvent;
+		scenarioRule.TextRemovedEvent -= OnTextRemovedEvent;
+
+		_rules.Remove(scenarioRule);
+
+		UpdateScenarioText();
 	}
 }
