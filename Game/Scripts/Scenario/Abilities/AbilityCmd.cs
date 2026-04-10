@@ -1292,6 +1292,11 @@ public static class AbilityCmd
 
 		GameController.Instance.MarkScenarioEnded();
 		GameController.Instance.ScenarioLostView.Open();
+
+		await GDTask.WaitWhile(() => GameController.Instance.ScenarioResult == ScenarioResult.None);
+
+		await GameController.Instance.EndScenario();
+
 		await GDTask.Never(GameController.CancellationToken);
 	}
 
@@ -1303,6 +1308,11 @@ public static class AbilityCmd
 
 		GameController.Instance.MarkScenarioEnded();
 		GameController.Instance.ScenarioWonView.Open();
+
+		await GDTask.WaitWhile(() => GameController.Instance.ScenarioResult == ScenarioResult.None);
+
+		await GameController.Instance.EndScenario();
+
 		await GDTask.Never(GameController.CancellationToken);
 	}
 

@@ -143,6 +143,8 @@ public partial class GameController : SceneController<GameController>
 	public bool ResignRequested { get; private set; }
 	public bool CheatWinRequested { get; private set; }
 
+	public ScenarioResult ScenarioResult { get; private set; }
+
 	public Map Map => Scenario.Map;
 	public SavedScenario SavedScenario => SavedCampaign.SavedScenario;
 
@@ -351,7 +353,12 @@ public partial class GameController : SceneController<GameController>
 		CheatWinRequested = true;
 	}
 
-	public void EndScenario(ScenarioResult scenarioResult)
+	public void SetScenarioResult(ScenarioResult scenarioResult)
+	{
+		ScenarioResult = scenarioResult;
+	}
+
+	public async GDTask EndScenario()
 	{
 		string scenarioModelId = SavedCampaign.SavedScenario.ScenarioModelId;
 
@@ -360,11 +367,11 @@ public partial class GameController : SceneController<GameController>
 		foreach(Character character in CharacterManager.Characters)
 		{
 			character.SavedCharacter.AddGold(character.ObtainedCoins * goldConversion);
-			character.SavedCharacter.AddXP(character.ObtainedXP + (scenarioResult == ScenarioResult.Win ? bonusExperience : 0));
+			character.SavedCharacter.AddXP(character.ObtainedXP + (ScenarioResult == ScenarioResult.Win ? bonusExperience : 0));
 
 			SavedCampaign.SanctuaryOfTheGreatOak.ReturnCards(character.SavedCharacter);
 
-			if(scenarioResult == ScenarioResult.Win)
+			if(ScenarioResult == ScenarioResult.Win)
 			{
 				BattleGoal battleGoal = character.BattleGoal;
 				if(battleGoal != null && battleGoal.GivesCheckmark)
@@ -379,14 +386,16 @@ public partial class GameController : SceneController<GameController>
 			}
 		}
 
-		if(scenarioResult == ScenarioResult.Win)
+		if(ScenarioResult == ScenarioResult.Win)
 		{
+			await AppController.Instance.GiveRewards(SavedCampaign, ScenarioModel.Rewards, true, CancellationToken);
+
 			SavedScenarioProgress.Complete();
 
 			SavedCampaign.SavedMerchantsGuildHall.AddCompletedScenario();
 		}
 
-		if(scenarioResult == ScenarioResult.Retry)
+		if(ScenarioResult == ScenarioResult.Retry)
 		{
 			SavedCampaign.SetSavedScenario(new SavedScenario
 			{
@@ -403,7 +412,7 @@ public partial class GameController : SceneController<GameController>
 			SavedCampaign.SetSavedScenario(null);
 		}
 
-		EndEvent?.Invoke(scenarioResult, SavedScenarioProgress);
+		EndEvent?.Invoke(ScenarioResult, SavedScenarioProgress);
 
 		// Clear any event rewards and allow a new city event card to be drawn
 		SavedCampaign.SavedEvents.OnScenarioEnded();
@@ -412,7 +421,7 @@ public partial class GameController : SceneController<GameController>
 
 		ShownIntroduction = false;
 
-		if(scenarioResult == ScenarioResult.Retry)
+		if(ScenarioResult == ScenarioResult.Retry)
 		{
 			AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(SavedCampaign));
 		}
