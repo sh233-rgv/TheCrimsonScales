@@ -35,7 +35,7 @@ public abstract class DummyScenario : ScenarioModel
 	{
 		await base.StartAfterFirstRoomRevealed();
 
-		AddGoal(new KillAllEnemiesScenarioGoal());
+		await AddGoal(new KillAllEnemiesScenarioGoal());
 	}
 }
 

@@ -36,7 +36,7 @@ public class TestScenario : ScenarioModel
 	{
 		await base.StartAfterFirstRoomRevealed();
 
-		AddGoal(new KillAllEnemiesScenarioGoal());
+		await AddGoal(new KillAllEnemiesScenarioGoal());
 
 		GameController.Instance.Map.Treasures[0].SetItemDesignLoot(ModelDB.Item<VipertoothDagger>());
 

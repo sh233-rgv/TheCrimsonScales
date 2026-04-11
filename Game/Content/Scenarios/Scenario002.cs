@@ -43,7 +43,7 @@ public class Scenario002 : ScenarioModel
 	{
 		await base.StartAfterFirstRoomRevealed();
 
-		AddGoal(new KillAllEnemiesScenarioGoal());
+		await AddGoal(new KillAllEnemiesScenarioGoal());
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(AbilityCmd.GetRandomAvailableStone());
 

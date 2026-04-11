@@ -185,7 +185,7 @@ public partial class GameController : SceneController<GameController>
 				{
 					Id = Guid.NewGuid(),
 					AppVersion = AppController.Instance.SaveFile.SaveData.AppVersion,
-					ScenarioModelId = ModelDB.Scenario<TestScenario>().Id.ToString(),
+					ScenarioModelId = ModelDB.Scenario<Scenario003>().Id.ToString(),
 					//Seed = GD.RandRange(0, int.MaxValue),
 					Seed = 0,
 					ScenarioLevel =
@@ -453,7 +453,7 @@ public partial class GameController : SceneController<GameController>
 		ShownIntroduction = true;
 
 		string title = $"{ScenarioModel.ScenarioNumber} - {ScenarioModel.Name}";
-		await AppController.Instance.StoryView.OpenAsync(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.IntroductionText, fadeInDuration: 0f,
+		await AppController.Instance.StoryView.OpenAsync(title, "Introduction", ScenarioModel.IntroductionText, fadeInDuration: 0f,
 			cancellationToken: CancellationToken);
 	}
 
@@ -465,7 +465,7 @@ public partial class GameController : SceneController<GameController>
 		}
 
 		string title = $"{ScenarioModel.ScenarioNumber} - {ScenarioModel.Name}";
-		await AppController.Instance.StoryView.OpenAsync(title, ScenarioModel.ScenarioChain.Name, ScenarioModel.ConclusionText,
+		await AppController.Instance.StoryView.OpenAsync(title, "Conclusion", ScenarioModel.ConclusionText,
 			cancellationToken: CancellationToken);
 	}
 

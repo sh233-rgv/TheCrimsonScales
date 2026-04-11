@@ -44,7 +44,7 @@ public class Scenario003 : ScenarioModel
 	{
 		await base.StartAfterFirstRoomRevealed();
 
-		AddGoal(new KillSpecificEnemiesTypeGoal(ModelDB.Monster<HydraSpirit>()));
+		await AddGoal(new KillSpecificEnemyTypeGoal(ModelDB.Monster<HydraSpirit>()));
 
 		UpdateScenarioText(
 			$"At the end of each round, the water tiles marked {Icons.InlineMarker(Marker.Type.a)} " +
@@ -97,6 +97,7 @@ public class Scenario003 : ScenarioModel
 					// The scenario is lost, the water is all the way to the left
 					await AbilityCmd.Lose();
 				}
-			});
+			}
+		);
 	}
 }

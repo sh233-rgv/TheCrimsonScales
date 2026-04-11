@@ -47,7 +47,7 @@ public class Scenario001 : ScenarioModel
 	{
 		await base.StartAfterFirstRoomRevealed();
 
-		AddGoal(new KillAllEnemiesScenarioGoal());
+		await AddGoal(new KillAllEnemiesScenarioGoal());
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<DizzyingTincture>());
 	}

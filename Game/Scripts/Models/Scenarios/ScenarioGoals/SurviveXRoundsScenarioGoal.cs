@@ -1,0 +1,40 @@
+﻿using Fractural.Tasks;
+
+public class SurviveXRoundsScenarioGoal : ScenarioGoal
+{
+	private readonly int _rounds;
+	private readonly bool _allSurvive;
+
+	public override string Text => $"Survive {_rounds} rounds to win this scenario.";
+
+	public SurviveXRoundsScenarioGoal(int rounds, bool allSurvive = false, int order = 0)
+		: base(order)
+	{
+		_rounds = rounds;
+		_allSurvive = allSurvive;
+	}
+
+	public override async GDTask Start()
+	{
+		await base.Start();
+
+		ScenarioEvents.RoundEndedEvent.Subscribe(this,
+			parameters => parameters.RoundNumber >= _rounds,
+			async parameters =>
+			{
+				await Complete();
+			}
+		);
+
+		if(_allSurvive)
+		{
+			ScenarioEvents.FigureKilledEvent.Subscribe(this,
+				parameters => parameters.Figure is Character,
+				async parameters =>
+				{
+					await Fail();
+				}
+			);
+		}
+	}
+}

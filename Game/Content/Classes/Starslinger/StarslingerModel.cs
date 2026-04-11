@@ -16,6 +16,8 @@ public class StarslingerModel : ClassModel
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
+		ModelDB.AbilityCard<TestCard>(),
+
 		ModelDB.AbilityCard<AlignedConstellations>(),
 		ModelDB.AbilityCard<CrashingFlare>(),
 		ModelDB.AbilityCard<DiamondRings>(),

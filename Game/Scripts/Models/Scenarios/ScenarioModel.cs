@@ -8,6 +8,8 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	private readonly List<ScenarioGoal> _goals = new List<ScenarioGoal>();
 	private readonly List<ScenarioRule> _rules = new List<ScenarioRule>();
 
+	private object _subscriber = new object();
+
 	public abstract string ScenePath { get; }
 
 	public abstract int ScenarioNumber { get; }
@@ -37,12 +39,23 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 	public virtual async GDTask StartAfterFirstRoomRevealed()
 	{
-		ScenarioEvents.RoomRevealedEvent.Subscribe(this, parameters => true, OnRoomRevealed);
+		ScenarioEvents.RoomRevealedEvent.Subscribe(this, _subscriber,
+			parameters => true,
+			OnRoomRevealed
+		);
 
 		foreach(MonsterModel monsterModel in MonsterModels)
 		{
 			GameController.Instance.Map.AddMonsterGroup(monsterModel);
 		}
+
+		ScenarioEvents.RoundEndedEvent.Subscribe(this, _subscriber,
+			parameters => _goals.All(goal => goal.Completed),
+			async parameters =>
+			{
+				await AbilityCmd.Win();
+			}, order: 1000000
+		);
 
 		await GDTask.CompletedTask;
 	}
@@ -68,10 +81,12 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		AddScenarioRule(new ScenarioRule(text, 0));
 	}
 
-	protected T AddGoal<T>(T goal)
+	protected async GDTask<T> AddGoal<T>(T goal)
 		where T : ScenarioGoal
 	{
 		_goals.Add(goal);
+
+		await goal.Start();
 
 		UpdateScenarioText();
 
@@ -209,6 +224,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		{
 			if(stringBuilder.Length > 0)
 			{
+				stringBuilder.AppendLine();
 				stringBuilder.AppendLine();
 			}
 
