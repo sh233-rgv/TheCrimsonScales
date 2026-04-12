@@ -15,6 +15,38 @@ public class Road19 : RoadEventModel<Road19.ChoiceA, Road19.ChoiceB>
 		The Inox places two totems on the table of his booth. "Today, I can sell you the Kangaroo Totem of Balance or the Camel Totem of Endurance. Which would you care to buy?"
 		""";
 
+	public class ChoiceATotemReward : TotemReward
+	{
+		protected override string Name => "Kangaroo";
+
+		protected override string GetDescriptionLabelText(RichTextParameters textParameters) =>
+			$"All characters adjacent to this obstacle gain Advantage to all their attacks.";
+
+		protected override void OnTotemPlaced(Obstacle obstacle)
+		{
+			base.OnTotemPlaced(obstacle);
+
+			ScenarioEvents.DuringAttackEvent.Subscribe(this,
+				parameters =>
+					parameters.Performer is Character &&
+					RangeHelper.Distance(parameters.Performer.Hex, obstacle.Hex) <= 1,
+				async parameters =>
+				{
+					parameters.AbilityState.SingleTargetSetHasAdvantage();
+
+					await GDTask.CompletedTask;
+				}
+			);
+		}
+
+		protected override void OnTotemDestroyed(Obstacle obstacle)
+		{
+			base.OnTotemDestroyed(obstacle);
+
+			ScenarioEvents.DuringAttackEvent.Unsubscribe(this);
+		}
+	}
+
 	public class ChoiceA : EventChoiceModel, IEventSubscriber
 	{
 		private const string ConditionsMetKey = "ConditionsMet";
@@ -66,35 +98,72 @@ public class Road19 : RoadEventModel<Road19.ChoiceA, Road19.ChoiceB>
 				return
 				[
 					new LoseCollectiveGoldReward(10),
-					new TotemReward(
-						obstacle =>
-						{
-							ScenarioEvents.DuringAttackEvent.Subscribe(this,
-								parameters =>
-									parameters.Performer is Character &&
-									RangeHelper.Distance(parameters.Performer.Hex, obstacle.Hex) <= 1,
-								async parameters =>
-								{
-									parameters.AbilityState.SingleTargetSetHasAdvantage();
-
-									await GDTask.CompletedTask;
-								}
-							);
-						},
-						obstacle =>
-						{
-							ScenarioEvents.DuringAttackEvent.Unsubscribe(this);
-						},
-						"Kangaroo",
-						textParameters =>
-							$"All characters adjacent to this obstacle gain Advantage to all their attacks."
-					)
+					new ChoiceATotemReward()
 				];
 			}
 			else
 			{
 				return [];
 			}
+		}
+	}
+
+	public class ChoiceBTotemReward : TotemReward
+	{
+		protected override string Name => "Camel";
+
+		protected override string GetDescriptionLabelText(RichTextParameters textParameters) =>
+			$"All characters adjacent to this obstacle are immune to negative conditions.";
+
+		protected override void OnTotemPlaced(Obstacle obstacle)
+		{
+			base.OnTotemPlaced(obstacle);
+
+			ScenarioEvents.InflictConditionEvent.Subscribe(this,
+				parameters =>
+					parameters.Target is Character &&
+					RangeHelper.Distance(parameters.Target.Hex, obstacle.Hex) <= 1 &&
+					parameters.ConditionModel?.ImmunityCompareBaseConditions != null &&
+					parameters.ConditionModel.ImmunityCompareBaseConditions
+						.Any(c1 => Conditions.NegativeBaseConditionModels.Contains(c1)),
+				async parameters =>
+				{
+					parameters.SetPrevented(true);
+
+					await GDTask.CompletedTask;
+				}
+			);
+
+			ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Subscribe(this,
+				parameters =>
+					parameters.Figure is Character &&
+					RangeHelper.Distance(parameters.Figure.Hex, obstacle.Hex) <= 1,
+				parameters =>
+				{
+					foreach(ConditionModel conditionModel in Conditions.NegativeBaseConditionModels)
+					{
+						parameters.AddImmunity(conditionModel);
+					}
+				}
+			);
+
+			ScenarioEvents.FigureEnteredHexEvent.Subscribe(this,
+				parameters => parameters.Figure is Character,
+				async parameters =>
+				{
+					ScenarioCheckEvents.ImmunitiesVisualCheckEvent.FireChangedEvent();
+					await GDTask.CompletedTask;
+				}
+			);
+		}
+
+		protected override void OnTotemDestroyed(Obstacle obstacle)
+		{
+			base.OnTotemDestroyed(obstacle);
+
+			ScenarioEvents.InflictConditionEvent.Unsubscribe(this);
+			ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Unsubscribe(this);
+			ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this);
 		}
 	}
 
@@ -149,56 +218,7 @@ public class Road19 : RoadEventModel<Road19.ChoiceA, Road19.ChoiceB>
 				return
 				[
 					new LoseCollectiveGoldReward(10),
-					new TotemReward(
-						obstacle =>
-						{
-							ScenarioEvents.InflictConditionEvent.Subscribe(this,
-								parameters =>
-									parameters.Target is Character &&
-									RangeHelper.Distance(parameters.Target.Hex, obstacle.Hex) <= 1 &&
-									parameters.ConditionModel?.ImmunityCompareBaseConditions != null &&
-									parameters.ConditionModel.ImmunityCompareBaseConditions
-										.Any(c1 => Conditions.NegativeBaseConditionModels.Contains(c1)),
-								async parameters =>
-								{
-									parameters.SetPrevented(true);
-
-									await GDTask.CompletedTask;
-								}
-							);
-
-							ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Subscribe(this,
-								parameters =>
-									parameters.Figure is Character &&
-									RangeHelper.Distance(parameters.Figure.Hex, obstacle.Hex) <= 1,
-								parameters =>
-								{
-									foreach(ConditionModel conditionModel in Conditions.NegativeBaseConditionModels)
-									{
-										parameters.AddImmunity(conditionModel);
-									}
-								}
-							);
-
-							ScenarioEvents.FigureEnteredHexEvent.Subscribe(this,
-								parameters => parameters.Figure is Character,
-								async parameters =>
-								{
-									ScenarioCheckEvents.ImmunitiesVisualCheckEvent.FireChangedEvent();
-									await GDTask.CompletedTask;
-								}
-							);
-						},
-						obstacle =>
-						{
-							ScenarioEvents.InflictConditionEvent.Unsubscribe(this);
-							ScenarioCheckEvents.ImmunitiesVisualCheckEvent.Unsubscribe(this);
-							ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this);
-						},
-						"Camel",
-						textParameters =>
-							$"All characters adjacent to this obstacle are immune to negative conditions."
-					)
+					new ChoiceBTotemReward()
 				];
 			}
 			else

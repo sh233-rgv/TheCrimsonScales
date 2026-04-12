@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Fractural.Tasks;
 
 public class Road44 : RoadEventModel<Road44.ChoiceA, Road44.ChoiceB>
 {
@@ -13,6 +14,23 @@ public class Road44 : RoadEventModel<Road44.ChoiceA, Road44.ChoiceB>
 		"I've started a bit of a side business selling some of my traps," the Chainguard says while placing a couple different traps on the table in front of you. "For you, I'll let you have one for free. Which would you like? These rusty spikes or this clamping snare?"
 		""";
 
+	public class ChoiceAOnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"At the start of the next scenario, place one {Icons.Inline(Icons.Damage, textParameters)}4, {Icons.Inline(Icons.GetCondition(Conditions.Wound1), textParameters)} trap in an empty hex adjacent to any enemy.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			Character user = GameController.Instance.CharacterManager.Characters[0];
+
+			await AbilityCmd.CreateTraps(damage: 4, conditions: [Conditions.Wound1], performer: user,
+				customSelectHexes: list => CustomSelectHexes(list, user),
+				assetPath: "res://Content/Classes/Chainguard/Traps/ChainguardWoodSpikeTrap.tscn");
+		}
+	}
+
 	public class ChoiceA : EventChoiceModel
 	{
 		public override string ChoiceText => "Choose the rusty spikes trap.";
@@ -24,19 +42,25 @@ public class Road44 : RoadEventModel<Road44.ChoiceA, Road44.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					Character user = GameController.Instance.CharacterManager.Characters[0];
-
-					await AbilityCmd.CreateTraps(damage: 4, conditions: [Conditions.Wound1], performer: user,
-						customSelectHexes: list => CustomSelectHexes(list, user),
-						assetPath: "res://Content/Classes/Chainguard/Traps/ChainguardWoodSpikeTrap.tscn");
-				},
-				textParameters =>
-					$"At the start of the next scenario, place one {Icons.Inline(Icons.Damage, textParameters)}4, {Icons.Inline(Icons.GetCondition(Conditions.Wound1), textParameters)} trap in an empty hex adjacent to any enemy."
-			)
+			new ChoiceAOnScenarioStartedReward()
 		];
+	}
+
+	public class ChoiceBOnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"At the start of the next scenario, place one {Icons.Inline(Icons.GetCondition(Conditions.Stun), textParameters)} trap in an empty hex adjacent to any enemy.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			Character user = GameController.Instance.CharacterManager.Characters[0];
+
+			await AbilityCmd.CreateTraps(damage: 0, conditions: [Conditions.Stun], performer: user,
+				customSelectHexes: list => CustomSelectHexes(list, user),
+				assetPath: "res://Content/Classes/Chainguard/Traps/ChainguardRopeTrap.tscn");
+		}
 	}
 
 	public class ChoiceB : EventChoiceModel
@@ -50,18 +74,7 @@ public class Road44 : RoadEventModel<Road44.ChoiceA, Road44.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					Character user = GameController.Instance.CharacterManager.Characters[0];
-
-					await AbilityCmd.CreateTraps(damage: 0, conditions: [Conditions.Stun], performer: user,
-						customSelectHexes: list => CustomSelectHexes(list, user),
-						assetPath: "res://Content/Classes/Chainguard/Traps/ChainguardRopeTrap.tscn");
-				},
-				textParameters =>
-					$"At the start of the next scenario, place one {Icons.Inline(Icons.GetCondition(Conditions.Stun), textParameters)} trap in an empty hex adjacent to any enemy."
-			)
+			new ChoiceBOnScenarioStartedReward()
 		];
 	}
 

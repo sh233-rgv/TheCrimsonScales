@@ -29,6 +29,20 @@ public class Road13 : RoadEventModel<Road13.ChoiceA, Road13.ChoiceB>
 		];
 	}
 
+	public class ChoiceBOnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"Monsters start the next scenario with two extra “-1” AMD cards.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			GameController.Instance.MonsterAMDCardDeck.AddMinusOne();
+			GameController.Instance.MonsterAMDCardDeck.AddMinusOne();
+		}
+	}
+
 	public class ChoiceB : EventChoiceModel
 	{
 		public override string ChoiceText => "Pay the Aesther to hear your fortune told.";
@@ -43,16 +57,7 @@ public class Road13 : RoadEventModel<Road13.ChoiceA, Road13.ChoiceB>
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
 			new LoseCollectiveGoldReward(5),
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					GameController.Instance.MonsterAMDCardDeck.AddMinusOne();
-					GameController.Instance.MonsterAMDCardDeck.AddMinusOne();
-
-					await GDTask.CompletedTask;
-				},
-				textParameters => $"Monsters start the next scenario with two extra “-1” AMD cards."
-			)
+			new ChoiceBOnScenarioStartedReward()
 		];
 	}
 }

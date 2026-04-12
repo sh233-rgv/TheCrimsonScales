@@ -15,6 +15,37 @@ public class Road41 : RoadEventModel<Road41.ChoiceA, Road41.ChoiceB>
 		You brought extra rations and hand a small loaf of bread. The beggar grabs hold of the bread and closes his eyes as he breathes deeply, soaking in its aroma. "Now I bless you in return!" he exclaims. "Care to be blessed with longevity or sustenance?"
 		""";
 
+	public class ChoiceAOnScenarioStartedReward : OnScenarioStartedReward, IEventSubscriber
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"At the end of the first round, each character may {Icons.Inline(Icons.RecoverCard, textParameters)} one discarded card.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			ScenarioEvents.RoundEndedEvent.Subscribe(this,
+				parameters => parameters.RoundNumber == 1,
+				async parameters =>
+				{
+					ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
+
+					foreach(Character character in GameController.Instance.CharacterManager.Characters)
+					{
+						AbilityCard selectedAbilityCard =
+							await AbilityCmd.SelectAbilityCard(character, CardState.Discarded, mandatory: true,
+								hintText: $"Select a discarded card to recover");
+
+						if(selectedAbilityCard != null)
+						{
+							await AbilityCmd.ReturnToHand(selectedAbilityCard);
+						}
+					}
+				}
+			);
+		}
+	}
+
 	public class ChoiceA : EventChoiceModel, IEventSubscriber
 	{
 		public override string ChoiceText => "Ask to be blessed with longevity.";
@@ -26,35 +57,31 @@ public class Road41 : RoadEventModel<Road41.ChoiceA, Road41.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					ScenarioEvents.RoundEndedEvent.Subscribe(this,
-						parameters => parameters.RoundNumber == 1,
-						async parameters =>
-						{
-							ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
-
-							foreach(Character character in GameController.Instance.CharacterManager.Characters)
-							{
-								AbilityCard selectedAbilityCard =
-									await AbilityCmd.SelectAbilityCard(character, CardState.Discarded, mandatory: true,
-										hintText: $"Select a discarded card to recover");
-
-								if(selectedAbilityCard != null)
-								{
-									await AbilityCmd.ReturnToHand(selectedAbilityCard);
-								}
-							}
-						}
-					);
-
-					await GDTask.CompletedTask;
-				},
-				textParameters =>
-					$"At the end of the first round, each character may {Icons.Inline(Icons.RecoverCard, textParameters)} one discarded card."
-			)
+			new ChoiceAOnScenarioStartedReward()
 		];
+	}
+
+	public class ChoiceBOnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"At the start of the scenario, place one money token in an unoccupied hex adjacent to each character.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			foreach(Character character in GameController.Instance.CharacterManager.Characters)
+			{
+				Hex hex = await AbilityCmd.SelectHex(character,
+					list => list.AddRange(RangeHelper.GetHexesInRange(character.Hex, 1, false).Where(hex => hex.IsUnoccupied())),
+					hintText: "Select an unoccupied hex to spawn a money token in.");
+
+				if(hex != null)
+				{
+					await AbilityCmd.SpawnCoin(hex);
+				}
+			}
+		}
 	}
 
 	public class ChoiceB : EventChoiceModel
@@ -68,24 +95,7 @@ public class Road41 : RoadEventModel<Road41.ChoiceA, Road41.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					foreach(Character character in GameController.Instance.CharacterManager.Characters)
-					{
-						Hex hex = await AbilityCmd.SelectHex(character,
-							list => list.AddRange(RangeHelper.GetHexesInRange(character.Hex, 1, false).Where(hex => hex.IsUnoccupied())),
-							hintText: "Select an unoccupied hex to spawn a money token in.");
-
-						if(hex != null)
-						{
-							await AbilityCmd.SpawnCoin(hex);
-						}
-					}
-				},
-				textParameters =>
-					$"At the start of the scenario, place one money token in an unoccupied hex adjacent to each character."
-			)
+			new ChoiceBOnScenarioStartedReward()
 		];
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Fractural.Tasks;
 
 public class City34 : CityEventModel<City34.ChoiceA, City34.ChoiceB>
 {
@@ -26,6 +27,20 @@ public class City34 : CityEventModel<City34.ChoiceA, City34.ChoiceB>
 		];
 	}
 
+	public class ChoiceBOnScenarioStartedReward : OnScenarioStartedReward, IEventSubscriber
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"Monsters start the scenario with {Icons.Inline(Icons.GetCondition(Conditions.Curse), textParameters)}, {Icons.Inline(Icons.GetCondition(Conditions.Curse), textParameters)}.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			await AbilityCmd.CurseMonsters();
+			await AbilityCmd.CurseMonsters();
+		}
+	}
+
 	public class ChoiceB : EventChoiceModel
 	{
 		public override string ChoiceText => "Pay the asking price of ten gold.";
@@ -39,15 +54,7 @@ public class City34 : CityEventModel<City34.ChoiceA, City34.ChoiceB>
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
 			new LoseCollectiveGoldReward(10),
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					await AbilityCmd.CurseMonsters();
-					await AbilityCmd.CurseMonsters();
-				},
-				textParameters =>
-					$"Monsters start the scenario with {Icons.Inline(Icons.GetCondition(Conditions.Curse), textParameters)}, {Icons.Inline(Icons.GetCondition(Conditions.Curse), textParameters)}."
-			)
+			new ChoiceBOnScenarioStartedReward()
 		];
 	}
 }

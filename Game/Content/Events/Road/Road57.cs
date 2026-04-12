@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Fractural.Tasks;
 
 public class Road57 : RoadEventModel<Road57.ChoiceA, Road57.ChoiceB>
 {
@@ -30,6 +31,20 @@ public class Road57 : RoadEventModel<Road57.ChoiceA, Road57.ChoiceB>
 		];
 	}
 
+	public class ChoiceBOnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"At the start of the scenario, {Icons.Inline(Icons.WildElement, textParameters)}, {Icons.Inline(Icons.WildElement, textParameters)}";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			await AbilityCmd.InfuseWildElement(null);
+			await AbilityCmd.InfuseWildElement(null);
+		}
+	}
+
 	public class ChoiceB : EventChoiceModel
 	{
 		public override string ChoiceText => "Reach for the dull gray vial of ooze.";
@@ -41,15 +56,7 @@ public class Road57 : RoadEventModel<Road57.ChoiceA, Road57.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					await AbilityCmd.InfuseWildElement(null);
-					await AbilityCmd.InfuseWildElement(null);
-				},
-				textParameters =>
-					$"At the start of the scenario, {Icons.Inline(Icons.WildElement, textParameters)}, {Icons.Inline(Icons.WildElement, textParameters)}"
-			)
+			new ChoiceBOnScenarioStartedReward()
 		];
 	}
 }

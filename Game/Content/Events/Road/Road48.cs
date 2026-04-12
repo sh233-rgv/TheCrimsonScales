@@ -12,6 +12,32 @@ public class Road48 : RoadEventModel<Road48.ChoiceA, Road48.ChoiceB>
 		Interested by the prospect of what may be beckoning you, you approach the bush and see a Vermling hunched behind, waving her hands around. "There is a great spiritual energy here," she explains. "I can feel it. I can impart this upon you, but I warn you - the energy works differently with everyone. Should I restrain the energy and leave you with all but a taste, or are you ready to experience its full potential?"
 		""";
 
+	public class ChoiceAOnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"One character starts the scenario with {Icons.Inline(Icons.GetCondition(Conditions.Muddle), textParameters)}, all other characters start with {Icons.Inline(Icons.GetCondition(Conditions.Strengthen), textParameters)}.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			Figure selectedCharacter = await AbilityCmd.SelectFigure(GameController.Instance.CharacterManager.Characters[0],
+				list => list.AddRange(GameController.Instance.CharacterManager.Characters),
+				mandatory: true,
+				hintText: () => $"Select a character to gain {Icons.HintText(Icons.GetCondition(Conditions.Muddle))}");
+
+			await AbilityCmd.AddCondition(null, selectedCharacter, Conditions.Muddle);
+
+			foreach(Character character in GameController.Instance.CharacterManager.Characters)
+			{
+				if(character != selectedCharacter)
+				{
+					await AbilityCmd.AddCondition(null, character, Conditions.Strengthen);
+				}
+			}
+		}
+	}
+
 	public class ChoiceA : EventChoiceModel, IEventSubscriber
 	{
 		public override string ChoiceText => "Ask her to restrain the energy; you're not quite sure what you can handle.";
@@ -23,28 +49,34 @@ public class Road48 : RoadEventModel<Road48.ChoiceA, Road48.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					Figure selectedCharacter = await AbilityCmd.SelectFigure(GameController.Instance.CharacterManager.Characters[0],
-						list => list.AddRange(GameController.Instance.CharacterManager.Characters),
-						mandatory: true,
-						hintText: () => $"Select a character to gain {Icons.HintText(Icons.GetCondition(Conditions.Muddle))}");
-
-					await AbilityCmd.AddCondition(null, selectedCharacter, Conditions.Muddle);
-
-					foreach(Character character in GameController.Instance.CharacterManager.Characters)
-					{
-						if(character != selectedCharacter)
-						{
-							await AbilityCmd.AddCondition(null, character, Conditions.Strengthen);
-						}
-					}
-				},
-				textParameters =>
-					$"One character starts the scenario with {Icons.Inline(Icons.GetCondition(Conditions.Muddle), textParameters)}, all other characters start with {Icons.Inline(Icons.GetCondition(Conditions.Strengthen), textParameters)}."
-			)
+			new ChoiceAOnScenarioStartedReward()
 		];
+	}
+
+	public class ChoiceBOnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"One character starts the scenario with {Icons.Inline(Icons.GetCondition(Conditions.Stun), textParameters)}, all other characters start with {Icons.Inline(Icons.GetCondition(Conditions.Invisible), textParameters)}.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			Figure selectedCharacter = await AbilityCmd.SelectFigure(GameController.Instance.CharacterManager.Characters[0],
+				list => list.AddRange(GameController.Instance.CharacterManager.Characters),
+				mandatory: true,
+				hintText: () => $"Select a character to gain {Icons.HintText(Icons.GetCondition(Conditions.Stun))}");
+
+			await AbilityCmd.AddCondition(null, selectedCharacter, Conditions.Stun);
+
+			foreach(Character character in GameController.Instance.CharacterManager.Characters)
+			{
+				if(character != selectedCharacter)
+				{
+					await AbilityCmd.AddCondition(null, character, Conditions.Invisible);
+				}
+			}
+		}
 	}
 
 	public class ChoiceB : EventChoiceModel, IEventSubscriber
@@ -58,27 +90,7 @@ public class Road48 : RoadEventModel<Road48.ChoiceA, Road48.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					Figure selectedCharacter = await AbilityCmd.SelectFigure(GameController.Instance.CharacterManager.Characters[0],
-						list => list.AddRange(GameController.Instance.CharacterManager.Characters),
-						mandatory: true,
-						hintText: () => $"Select a character to gain {Icons.HintText(Icons.GetCondition(Conditions.Stun))}");
-
-					await AbilityCmd.AddCondition(null, selectedCharacter, Conditions.Stun);
-
-					foreach(Character character in GameController.Instance.CharacterManager.Characters)
-					{
-						if(character != selectedCharacter)
-						{
-							await AbilityCmd.AddCondition(null, character, Conditions.Invisible);
-						}
-					}
-				},
-				textParameters =>
-					$"One character starts the scenario with {Icons.Inline(Icons.GetCondition(Conditions.Stun), textParameters)}, all other characters start with {Icons.Inline(Icons.GetCondition(Conditions.Invisible), textParameters)}."
-			)
+			new ChoiceBOnScenarioStartedReward()
 		];
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Fractural.Tasks;
 
 public class Road08 : RoadEventModel<Road08.ChoiceA, Road08.ChoiceB>
 {
@@ -11,6 +12,43 @@ public class Road08 : RoadEventModel<Road08.ChoiceA, Road08.ChoiceB>
 		"I've never seen anything like this," the Vermling shudders. "White powder falling from the sky, and it's cold! Oh, so cold! I'm afraid of leaving here since I don't know what it will do to me, will you kindly lead me away from whatever this is? I'll gladly pay you good coin!"
 		""";
 
+	public class ChoiceAOnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			"At the start of the next scenario, an allied Vermling Scout will spawn next to any character.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			Hex hex = await AbilityCmd.SelectHex(GameController.Instance.CharacterManager.GetCharacter(0),
+				list =>
+				{
+					foreach(Character character in GameController.Instance.CharacterManager.Characters)
+					{
+						foreach(Hex hex in RangeHelper.GetHexesInRange(character.Hex, 1, false))
+						{
+							if(hex.IsEmpty())
+							{
+								list.AddIfNew(hex);
+							}
+						}
+					}
+				}, hintText: "Select a hex to spawn the allied Vermling Scout"
+			);
+
+			if(hex != null)
+			{
+				Monster monster = await AbilityCmd.SpawnMonster(ModelDB.Monster<VermlingScout>(), MonsterType.Normal, hex);
+				if(monster != null)
+				{
+					monster.SetAlignment(Alignment.Characters);
+					monster.SetEnemies(Alignment.Enemies);
+				}
+			}
+		}
+	}
+
 	public class ChoiceA : EventChoiceModel
 	{
 		public override string ChoiceText => "Explain to the Vermling that it's harmless snow.";
@@ -22,37 +60,7 @@ public class Road08 : RoadEventModel<Road08.ChoiceA, Road08.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					Hex hex = await AbilityCmd.SelectHex(GameController.Instance.CharacterManager.GetCharacter(0),
-						list =>
-						{
-							foreach(Character character in GameController.Instance.CharacterManager.Characters)
-							{
-								foreach(Hex hex in RangeHelper.GetHexesInRange(character.Hex, 1, false))
-								{
-									if(hex.IsEmpty())
-									{
-										list.AddIfNew(hex);
-									}
-								}
-							}
-						}, hintText: "Select a hex to spawn the allied Vermling Scout"
-					);
-
-					if(hex != null)
-					{
-						Monster monster = await AbilityCmd.SpawnMonster(ModelDB.Monster<VermlingScout>(), MonsterType.Normal, hex);
-						if(monster != null)
-						{
-							monster.SetAlignment(Alignment.Characters);
-							monster.SetEnemies(Alignment.Enemies);
-						}
-					}
-				},
-				textParameters => "At the start of the next scenario, an allied Vermling Scout will spawn next to any character."
-			)
+			new ChoiceAOnScenarioStartedReward()
 		];
 	}
 

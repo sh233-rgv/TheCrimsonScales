@@ -12,7 +12,57 @@ public class Road20 : RoadEventModel<Road20.ChoiceA, Road20.ChoiceB>
 		"We're running an experiment and would appreciate if you would test one of these out for us," the Brightspark grins. "Just let us know how it goes when you make your way back to the city."
 		""";
 
-	public class ChoiceA : EventChoiceModel, IEventSubscriber
+	public class ChoiceAOnScenarioStartedReward : OnScenarioStartedReward, IEventSubscriber
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			"At the start of the first round after all cards have been revealed, each character may decrease their leading Initiative by 20.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			foreach(Character character in GameController.Instance.CharacterManager.Characters)
+			{
+				ScenarioEvents.InitiativesSortedEvent.Subscribe(character, this,
+					parameters => true,
+					async parameters =>
+					{
+						ScenarioCheckEvents.InitiativeCheckEvent.Subscribe(character, this,
+							initiativeCheckParameters => initiativeCheckParameters.Figure == character,
+							initiativeCheckParameters =>
+							{
+								initiativeCheckParameters.AdjustInitiative(-20);
+							}
+						);
+
+						await GDTask.CompletedTask;
+					},
+					EffectType.Selectable,
+					effectButtonParameters: new TextEffectButton.Parameters($"{Icons.Inline(character.ClassModel.IconPath)}-20"),
+					effectInfoViewParameters: new TextEffectInfoView.Parameters(
+						$"Decrease the Initiative of {character.SavedCharacter.GetNameAndIcon()} by 20.")
+				);
+			}
+
+			ScenarioEvents.RoundEndedEvent.Subscribe(this,
+				parameters => true,
+				async parameters =>
+				{
+					ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
+
+					foreach(Character character in GameController.Instance.CharacterManager.Characters)
+					{
+						ScenarioEvents.InitiativesSortedEvent.Unsubscribe(character, this);
+						ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(character, this);
+					}
+
+					await GDTask.CompletedTask;
+				}
+			);
+		}
+	}
+
+	public class ChoiceA : EventChoiceModel
 	{
 		public override string ChoiceText => "Try the bubbling red liquid.";
 
@@ -25,54 +75,54 @@ public class Road20 : RoadEventModel<Road20.ChoiceA, Road20.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
+			new ChoiceAOnScenarioStartedReward()
+		];
+	}
+
+	public class ChoiceBOnScenarioStartedReward : OnScenarioStartedReward, IEventSubscriber
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			"At the start of the first round after all cards have been revealed, each character increases their leading Initiative by 20.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			foreach(Character character in GameController.Instance.CharacterManager.Characters)
+			{
+				ScenarioEvents.InitiativesSortedEvent.Subscribe(character, this,
+					parameters => true,
+					async parameters =>
+					{
+						ScenarioCheckEvents.InitiativeCheckEvent.Subscribe(character, this,
+							initiativeCheckParameters => initiativeCheckParameters.Figure == character,
+							initiativeCheckParameters =>
+							{
+								initiativeCheckParameters.AdjustInitiative(+20);
+							}
+						);
+
+						await GDTask.CompletedTask;
+					}
+				);
+			}
+
+			ScenarioEvents.RoundEndedEvent.Subscribe(this,
+				parameters => true,
+				async parameters =>
 				{
+					ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
+
 					foreach(Character character in GameController.Instance.CharacterManager.Characters)
 					{
-						ScenarioEvents.InitiativesSortedEvent.Subscribe(character, this,
-							parameters => true,
-							async parameters =>
-							{
-								ScenarioCheckEvents.InitiativeCheckEvent.Subscribe(character, this,
-									initiativeCheckParameters => initiativeCheckParameters.Figure == character,
-									initiativeCheckParameters =>
-									{
-										initiativeCheckParameters.AdjustInitiative(-20);
-									}
-								);
-
-								await GDTask.CompletedTask;
-							},
-							EffectType.Selectable,
-							effectButtonParameters: new TextEffectButton.Parameters($"{Icons.Inline(character.ClassModel.IconPath)}-20"),
-							effectInfoViewParameters: new TextEffectInfoView.Parameters(
-								$"Decrease the Initiative of {character.SavedCharacter.GetNameAndIcon()} by 20.")
-						);
+						ScenarioEvents.InitiativesSortedEvent.Unsubscribe(character, this);
+						ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(character, this);
 					}
 
-					ScenarioEvents.RoundEndedEvent.Subscribe(this,
-						parameters => true,
-						async parameters =>
-						{
-							ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
-
-							foreach(Character character in GameController.Instance.CharacterManager.Characters)
-							{
-								ScenarioEvents.InitiativesSortedEvent.Unsubscribe(character, this);
-								ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(character, this);
-							}
-
-							await GDTask.CompletedTask;
-						}
-					);
-
 					await GDTask.CompletedTask;
-				},
-				textParameters =>
-					"At the start of the first round after all cards have been revealed, each character may decrease their leading Initiative by 20."
-			)
-		];
+				}
+			);
+		}
 	}
 
 	public class ChoiceB : EventChoiceModel, IEventSubscriber
@@ -88,49 +138,7 @@ public class Road20 : RoadEventModel<Road20.ChoiceA, Road20.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					foreach(Character character in GameController.Instance.CharacterManager.Characters)
-					{
-						ScenarioEvents.InitiativesSortedEvent.Subscribe(character, this,
-							parameters => true,
-							async parameters =>
-							{
-								ScenarioCheckEvents.InitiativeCheckEvent.Subscribe(character, this,
-									initiativeCheckParameters => initiativeCheckParameters.Figure == character,
-									initiativeCheckParameters =>
-									{
-										initiativeCheckParameters.AdjustInitiative(+20);
-									}
-								);
-
-								await GDTask.CompletedTask;
-							}
-						);
-					}
-
-					ScenarioEvents.RoundEndedEvent.Subscribe(this,
-						parameters => true,
-						async parameters =>
-						{
-							ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
-
-							foreach(Character character in GameController.Instance.CharacterManager.Characters)
-							{
-								ScenarioEvents.InitiativesSortedEvent.Unsubscribe(character, this);
-								ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(character, this);
-							}
-
-							await GDTask.CompletedTask;
-						}
-					);
-
-					await GDTask.CompletedTask;
-				},
-				textParameters =>
-					"At the start of the first round after all cards have been revealed, each character increases their leading Initiative by 20."
-			)
+			new ChoiceBOnScenarioStartedReward()
 		];
 	}
 }

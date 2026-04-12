@@ -14,6 +14,26 @@ public class Road49 : RoadEventModel<Road49.ChoiceA, Road49.ChoiceB>
 		You look up to the sky and see a multitude of stars. It's hard to make out a shape, but it looks like there might be stars connecting in the letter 'T' or 'V', but you're unsure which.
 		""";
 
+	public class ChoiceAOnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"At the start of the next scenario, all monsters perform a “{Icons.Inline(Icons.Move, textParameters)}1” ability.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			foreach(Figure figure in GameController.Instance.Map.Figures)
+			{
+				if(figure is Monster monster)
+				{
+					ActionState actionState = new ActionState(monster, [MoveAbility.Builder().WithDistance(1).Build()]);
+					await actionState.Perform();
+				}
+			}
+		}
+	}
+
 	public class ChoiceA : EventChoiceModel
 	{
 		public override string ChoiceText => "Tell the Aesther you see a large 'T' shape in the sky.";
@@ -25,22 +45,25 @@ public class Road49 : RoadEventModel<Road49.ChoiceA, Road49.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					foreach(Figure figure in GameController.Instance.Map.Figures)
-					{
-						if(figure is Monster monster)
-						{
-							ActionState actionState = new ActionState(monster, [MoveAbility.Builder().WithDistance(1).Build()]);
-							await actionState.Perform();
-						}
-					}
-				},
-				textParameters =>
-					$"At the start of the next scenario, all monsters perform a “{Icons.Inline(Icons.Move, textParameters)}1” ability."
-			)
+			new ChoiceAOnScenarioStartedReward()
 		];
+	}
+
+	public class ChoiceBOnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"At the start of the next scenario, all characters may perform a “{Icons.Inline(Icons.Move, textParameters)}2” ability.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			foreach(Character character in GameController.Instance.CharacterManager.Characters)
+			{
+				ActionState actionState = new ActionState(character, [MoveAbility.Builder().WithDistance(2).Build()]);
+				await actionState.Perform();
+			}
+		}
 	}
 
 	public class ChoiceB : EventChoiceModel
@@ -54,18 +77,7 @@ public class Road49 : RoadEventModel<Road49.ChoiceA, Road49.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					foreach(Character character in GameController.Instance.CharacterManager.Characters)
-					{
-						ActionState actionState = new ActionState(character, [MoveAbility.Builder().WithDistance(2).Build()]);
-						await actionState.Perform();
-					}
-				},
-				textParameters =>
-					$"At the start of the next scenario, all characters may perform a “{Icons.Inline(Icons.Move, textParameters)}2” ability."
-			)
+			new ChoiceBOnScenarioStartedReward()
 		];
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Fractural.Tasks;
 
 public class Road46 : RoadEventModel<Road46.ChoiceA, Road46.ChoiceB>
 {
@@ -13,6 +14,20 @@ public class Road46 : RoadEventModel<Road46.ChoiceA, Road46.ChoiceB>
 		You have a feeling the glowing lights will help you on your journey, but only have room for two.
 		""";
 
+	public class ChoiceAOnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Ice), textParameters)}, {Icons.Inline(Icons.GetElement(Element.Fire), textParameters)}.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			await AbilityCmd.InfuseElement(null, Element.Ice, immediately: true);
+			await AbilityCmd.InfuseElement(null, Element.Fire, immediately: true);
+		}
+	}
+
 	public class ChoiceA : EventChoiceModel
 	{
 		public override string ChoiceText => "Take the soft blue and glowing red claws.";
@@ -24,16 +39,22 @@ public class Road46 : RoadEventModel<Road46.ChoiceA, Road46.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					await AbilityCmd.InfuseElement(null, Element.Ice, immediately: true);
-					await AbilityCmd.InfuseElement(null, Element.Fire, immediately: true);
-				},
-				textParameters =>
-					$"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Ice), textParameters)}, {Icons.Inline(Icons.GetElement(Element.Fire), textParameters)}."
-			),
+			new ChoiceAOnScenarioStartedReward()
 		];
+	}
+
+	public class ChoiceBOnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Light), textParameters)}, {Icons.Inline(Icons.GetElement(Element.Dark), textParameters)}.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			await AbilityCmd.InfuseElement(null, Element.Light, immediately: true);
+			await AbilityCmd.InfuseElement(null, Element.Dark, immediately: true);
+		}
 	}
 
 	public class ChoiceB : EventChoiceModel
@@ -47,15 +68,7 @@ public class Road46 : RoadEventModel<Road46.ChoiceA, Road46.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					await AbilityCmd.InfuseElement(null, Element.Light, immediately: true);
-					await AbilityCmd.InfuseElement(null, Element.Dark, immediately: true);
-				},
-				textParameters =>
-					$"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Light), textParameters)}, {Icons.Inline(Icons.GetElement(Element.Dark), textParameters)}."
-			),
+			new ChoiceBOnScenarioStartedReward()
 		];
 	}
 }

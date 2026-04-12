@@ -13,7 +13,35 @@ public class Road04 : RoadEventModel<Road04.ChoiceA, Road04.ChoiceB>
 		The Harrower chitters cheerfully as it introduces itself as a Vimthreader, and offers to tend to your wounds - for a small fee of five gold.
 		""";
 
-	public class ChoiceA : EventChoiceModel, IEventSubscriber
+	public class ChoiceAOnScenarioStartedReward : OnScenarioStartedReward, IEventSubscriber
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"Once, during the next scenario, a character may perform a “{Icons.Inline(Icons.Heal, textParameters)}3, self” ability during their turn.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			AbilityCmd.SubscribeDuringCharacterTurn(this, EffectType.Selectable,
+				character => true,
+				async character =>
+				{
+					ActionState actionState = new ActionState(character,
+						[
+							HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).Build()
+						]
+					);
+					await actionState.Perform();
+
+					AbilityCmd.UnsubscribeDuringTurn(this);
+				}, new IconEffectButton.Parameters(Icons.Heal),
+				new TextEffectInfoView.Parameters(
+					$"Perform “{Icons.Inline(Icons.Heal)}3, self” as a reward from the last Road Event.")
+			);
+		}
+	}
+
+	public class ChoiceA : EventChoiceModel
 	{
 		private const string ConditionsMetKey = "ConditionsMet";
 
@@ -54,30 +82,7 @@ public class Road04 : RoadEventModel<Road04.ChoiceA, Road04.ChoiceB>
 				return
 				[
 					new LoseCollectiveGoldReward(5),
-					new OnScenarioStartedReward(
-						async () =>
-						{
-							AbilityCmd.SubscribeDuringCharacterTurn(this, EffectType.Selectable,
-								character => true,
-								async character =>
-								{
-									ActionState actionState = new ActionState(character,
-										[
-											HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).Build()
-										]
-									);
-									await actionState.Perform();
-
-									AbilityCmd.UnsubscribeDuringTurn(this);
-								}, new IconEffectButton.Parameters(Icons.Heal),
-								new TextEffectInfoView.Parameters(
-									$"Perform “{Icons.Inline(Icons.Heal)}3, self” as a reward from the last Road Event.")
-							);
-
-							await GDTask.CompletedTask;
-						},
-						textParameters =>
-							$"Once, during the next scenario, a character may perform a “{Icons.Inline(Icons.Heal, textParameters)}3, self” ability during their turn.")
+					new ChoiceAOnScenarioStartedReward()
 				];
 			}
 			else

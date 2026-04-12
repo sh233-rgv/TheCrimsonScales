@@ -12,6 +12,22 @@ public class Road50 : RoadEventModel<Road50.ChoiceA, Road50.ChoiceB>
 		"Greetings! I will be exploring the galaxies tonight and will be watching you from above. Tell me, will you persue health or wealth tonight?"
 		""";
 
+	public class ChoiceAOnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"All characters start the next scenario with 2 more hit points.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			foreach(Character character in GameController.Instance.CharacterManager.Characters)
+			{
+				character.SetHealth(character.MaxHealth + 2);
+			}
+		}
+	}
+
 	public class ChoiceA : EventChoiceModel
 	{
 		public override string ChoiceText => "Tell the Aesther you're in pursuit of health.";
@@ -23,23 +39,36 @@ public class Road50 : RoadEventModel<Road50.ChoiceA, Road50.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					foreach(Character character in GameController.Instance.CharacterManager.Characters)
-					{
-						character.SetHealth(character.MaxHealth + 2);
-
-						await GDTask.CompletedTask;
-					}
-				},
-				textParameters =>
-					$"All characters start the next scenario with 2 more hit points."
-			)
+			new ChoiceAOnScenarioStartedReward()
 		];
 	}
 
-	public class ChoiceB : EventChoiceModel, IEventSubscriber
+	public class ChoiceBOnScenarioStartedReward : OnScenarioStartedReward, IEventSubscriber
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"The first character to loot a treasure tile this scenario gains an additional {Icons.Inline(Icons.Coins, textParameters)}10.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			ScenarioEvents.LootableObjectLootedEvent.Subscribe(this,
+				parameters =>
+					parameters.LootableObject is Treasure &&
+					parameters.LootObtainer is Character,
+				async parameters =>
+				{
+					await AbilityCmd.GainGold((Character)parameters.LootObtainer, 10);
+
+					ScenarioEvents.LootableObjectLootedEvent.Unsubscribe(this);
+
+					await GDTask.CompletedTask;
+				}
+			);
+		}
+	}
+
+	public class ChoiceB : EventChoiceModel
 	{
 		public override string ChoiceText => "Tell the Aesther you're in pursuit of wealth.";
 
@@ -50,32 +79,7 @@ public class Road50 : RoadEventModel<Road50.ChoiceA, Road50.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					ScenarioEvents.LootableObjectLootedEvent.Subscribe(this,
-						parameters =>
-							parameters.LootableObject is Treasure &&
-							parameters.LootObtainer is Character,
-						async parameters =>
-						{
-							ScenarioEvents.LootableObjectLootedEvent.Unsubscribe(this);
-
-							GameController.Instance.EndEvent += (result, progress) =>
-							{
-								Character character = (Character)parameters.LootObtainer;
-								character.SavedCharacter.AddGold(10);
-							};
-
-							await GDTask.CompletedTask;
-						}
-					);
-
-					await GDTask.CompletedTask;
-				},
-				textParameters =>
-					$"The first character to loot a treasure tile this scenario gains an additional {Icons.Inline(Icons.Coins, textParameters)}10."
-			)
+			new ChoiceBOnScenarioStartedReward()
 		];
 	}
 }

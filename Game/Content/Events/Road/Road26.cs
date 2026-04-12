@@ -12,6 +12,19 @@ public class Road26 : RoadEventModel<Road26.ChoiceA, Road26.ChoiceB>
 		The charmer abruptly stops playing and looks up to you as he says, "I'm in need of a new pungi, could you please spare a few coins?" Before you can answer, he narrows his eyes and points to the basket filled with snakes. "My snakes would be quite unhappy if you don't."
 		""";
 
+	public class ChoiceASummonReward : SummonReward
+	{
+		public override SummonAbility SummonAbility { get; } =
+			SummonAbility.Builder()
+				.WithName("Slithering Viper")
+				.WithTexturePath("res://Content/Classes/Chieftain/Summons/cottonmouth_snake_AI.png") //TODO: Generic or AI summon visual?
+				.WithHealth(3)
+				.WithMove(3)
+				.WithAttack(1)
+				.WithTraits(new ApplyConditionTrait(Conditions.Poison1), new JumpTrait())
+				.Build();
+	}
+
 	public class ChoiceA : EventChoiceModel
 	{
 		private const string ConditionsMetKey = "ConditionsMet";
@@ -51,16 +64,7 @@ public class Road26 : RoadEventModel<Road26.ChoiceA, Road26.ChoiceB>
 				return
 				[
 					new LoseCollectiveGoldReward(5),
-					new SummonReward(
-						SummonAbility.Builder()
-							.WithName("Slithering Viper")
-							.WithTexturePath("res://Content/Classes/Chieftain/Summons/cottonmouth_snake_AI.png") //TODO: Generic or AI summon visual?
-							.WithHealth(3)
-							.WithMove(3)
-							.WithAttack(1)
-							.WithTraits(new ApplyConditionTrait(Conditions.Poison1), new JumpTrait())
-							.Build()
-					)
+					new ChoiceASummonReward()
 				];
 			}
 			else

@@ -12,6 +12,54 @@ public class Road42 : RoadEventModel<Road42.ChoiceA, Road42.ChoiceB>
 		"Travelers, I am praying on behalf of all who merit to cross my path. Tell me, are you on the path of righteousness or the path of despair?"
 		""";
 
+	public class ChoiceA1OnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Light), textParameters)}.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			await AbilityCmd.InfuseElement(null, Element.Light, immediately: true);
+		}
+	}
+
+	public class ChoiceA2OnScenarioStartedReward : OnScenarioStartedReward, IEventSubscriber
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"During the first round of the next scenario, any negative attack modifier cards drawn by players to be a +1 instead.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			ScenarioEvents.AMDCardDrawnEvent.Subscribe(this,
+				parameters =>
+					parameters.Performer is Character &&
+					parameters.Type == AMDCardType.Value &&
+					parameters.Value < 0,
+				async parameters =>
+				{
+					parameters.SetValue(+1);
+
+					await GDTask.CompletedTask;
+				}
+			);
+
+			ScenarioEvents.RoundEndedEvent.Subscribe(this,
+				parameters => true,
+				async paramers =>
+				{
+					ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
+					ScenarioEvents.AMDCardDrawnEvent.Unsubscribe(this);
+
+					await GDTask.CompletedTask;
+				}
+			);
+		}
+	}
+
 	public class ChoiceA : EventChoiceModel, IEventSubscriber
 	{
 		public override string ChoiceText => "Respond with \"path of righteousness\".";
@@ -23,46 +71,57 @@ public class Road42 : RoadEventModel<Road42.ChoiceA, Road42.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
+			new ChoiceA1OnScenarioStartedReward(),
+			new ChoiceA2OnScenarioStartedReward()
+		];
+	}
+
+	public class ChoiceB1OnScenarioStartedReward : OnScenarioStartedReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Dark), textParameters)}.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			await AbilityCmd.InfuseElement(null, Element.Dark, immediately: true);
+		}
+	}
+
+	public class ChoiceB2OnScenarioStartedReward : OnScenarioStartedReward, IEventSubscriber
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"During the first round of the next scenario, any negative attack modifier cards drawn by players to be a -1 instead.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted()
+		{
+			await base.OnScenarioSetupPhaseCompleted();
+
+			ScenarioEvents.AMDCardDrawnEvent.Subscribe(this,
+				parameters =>
+					parameters.Performer is Character &&
+					parameters.Type == AMDCardType.Value &&
+					parameters.Value < 0,
+				async parameters =>
 				{
-					await AbilityCmd.InfuseElement(null, Element.Light, immediately: true);
-				},
-				textParameters => $"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Light), textParameters)}."
-			),
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					ScenarioEvents.AMDCardDrawnEvent.Subscribe(this,
-						parameters =>
-							parameters.Performer is Character &&
-							parameters.Type == AMDCardType.Value &&
-							parameters.Value < 0,
-						async parameters =>
-						{
-							parameters.SetValue(+1);
-
-							await GDTask.CompletedTask;
-						}
-					);
-
-					ScenarioEvents.RoundEndedEvent.Subscribe(this,
-						parameters => true,
-						async paramers =>
-						{
-							ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
-							ScenarioEvents.AMDCardDrawnEvent.Unsubscribe(this);
-
-							await GDTask.CompletedTask;
-						}
-					);
+					parameters.SetValue(-1);
 
 					await GDTask.CompletedTask;
-				},
-				textParameters =>
-					$"During the first round of the next scenario, any negative attack modifier cards drawn by players to be a +1 instead."
-			)
-		];
+				}
+			);
+
+			ScenarioEvents.RoundEndedEvent.Subscribe(this,
+				parameters => true,
+				async paramers =>
+				{
+					ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
+					ScenarioEvents.AMDCardDrawnEvent.Unsubscribe(this);
+
+					await GDTask.CompletedTask;
+				}
+			);
+		}
 	}
 
 	public class ChoiceB : EventChoiceModel, IEventSubscriber
@@ -76,45 +135,8 @@ public class Road42 : RoadEventModel<Road42.ChoiceA, Road42.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					await AbilityCmd.InfuseElement(null, Element.Dark, immediately: true);
-				},
-				textParameters => $"At the start of the next scenario, {Icons.Inline(Icons.GetElement(Element.Dark), textParameters)}."
-			),
-			new OnScenarioStartedReward(
-				async () =>
-				{
-					ScenarioEvents.AMDCardDrawnEvent.Subscribe(this,
-						parameters =>
-							parameters.Performer is Character &&
-							parameters.Type == AMDCardType.Value &&
-							parameters.Value < 0,
-						async parameters =>
-						{
-							parameters.SetValue(-1);
-
-							await GDTask.CompletedTask;
-						}
-					);
-
-					ScenarioEvents.RoundEndedEvent.Subscribe(this,
-						parameters => true,
-						async paramers =>
-						{
-							ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
-							ScenarioEvents.AMDCardDrawnEvent.Unsubscribe(this);
-
-							await GDTask.CompletedTask;
-						}
-					);
-
-					await GDTask.CompletedTask;
-				},
-				textParameters =>
-					$"During the first round of the next scenario, any negative attack modifier cards drawn by players to be a -1 instead."
-			)
+			new ChoiceB1OnScenarioStartedReward(),
+			new ChoiceB2OnScenarioStartedReward()
 		];
 	}
 }
