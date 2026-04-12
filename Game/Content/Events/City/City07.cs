@@ -26,6 +26,19 @@ public class City07 : CityEventModel<City07.ChoiceA, City07.ChoiceB>
 		public override List<Reward> GetRewards(SavedEventState state) => [];
 	}
 
+	public class ChoiceBSummonReward : SummonReward
+	{
+		public override SummonAbility SummonAbility { get; } =
+			SummonAbility.Builder()
+				.WithName("Battle Turkey")
+				.WithTexturePath("res://Content/Classes/Chieftain/Summons/speedy_ostrich_AI.png") //TODO: Generic or AI summon visual?
+				.WithHealth(5)
+				.WithMove(2)
+				.WithAttack(2)
+				.WithTraits(new PierceTrait(2))
+				.Build();
+	}
+
 	public class ChoiceB : EventChoiceModel
 	{
 		private const string ConditionsMetKey = "ConditionsMet";
@@ -65,16 +78,7 @@ public class City07 : CityEventModel<City07.ChoiceA, City07.ChoiceB>
 				return
 				[
 					new LoseCollectiveGoldReward(10),
-					new SummonReward(
-						SummonAbility.Builder()
-							.WithName("Battle Turkey")
-							.WithTexturePath("res://Content/Classes/Chieftain/Summons/speedy_ostrich_AI.png") //TODO: Generic or AI summon visual?
-							.WithHealth(5)
-							.WithMove(2)
-							.WithAttack(2)
-							.WithTraits(new PierceTrait(2))
-							.Build()
-					)
+					new ChoiceBSummonReward()
 				];
 			}
 			else

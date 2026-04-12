@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 [Serializable, JsonObject(MemberSerialization.OptIn)]
 public class UnlockPartyAMDReward : Reward
 {
+	[JsonProperty]
 	private string _cardModelId;
 
 	public override RewardType Type => RewardType.Immediate;

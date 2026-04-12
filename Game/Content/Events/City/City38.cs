@@ -11,6 +11,26 @@ public class City38 : CityEventModel<City38.ChoiceA, City38.ChoiceB>
 		"Great to see you again!" the Orchid Chieftain greets you with a smile. "Come, join me in the Sleeping Lion tonight and let's share a few drinks and reminisce."
 		""";
 
+	public class ChoiceADowntimeEnhancementCostReward : DowntimeEnhancementCostReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"The next enchantment purchased this City Phase will cost {Icons.Inline(Icons.Coins, textParameters)}30 less.";
+
+		public ChoiceADowntimeEnhancementCostReward()
+		{
+		}
+
+		protected override void CalculateCostApplyFunction(BetweenScenariosEvents.CalculateEnhancementCost.Parameters parameters)
+		{
+			parameters.AdjustCost(-30);
+		}
+
+		protected override void EnhancementBoughtApplyFunction(BetweenScenariosEvents.EnhancementBought.Parameters parameters)
+		{
+			Complete();
+		}
+	}
+
 	public class ChoiceA : EventChoiceModel
 	{
 		public override string ChoiceText => "Agree to meet the Chieftain in the Sleeping Lion this evening.";
@@ -22,19 +42,7 @@ public class City38 : CityEventModel<City38.ChoiceA, City38.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeEnhancementCostReward(
-				eventReward =>
-					parameters =>
-					{
-						parameters.AdjustCost(-30);
-					},
-				eventReward =>
-					parameters =>
-					{
-						state.Complete(eventReward);
-					},
-				textParameters =>
-					$"The next enchantment purchased this City Phase will cost {Icons.Inline(Icons.Coins, textParameters)}30 less.")
+			new ChoiceADowntimeEnhancementCostReward()
 		];
 	}
 

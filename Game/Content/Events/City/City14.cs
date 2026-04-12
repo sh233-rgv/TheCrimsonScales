@@ -9,6 +9,22 @@ public class City14 : CityEventModel<City14.ChoiceA, City14.ChoiceB>
 		You're about to order another glass of ale in the Sleeping Lion when suddenly a bird flies in through the open door. The bartender grabs a broomstick and begins chasing the bird around, leaving the tab unattended. 
 		""";
 
+	public class ChoiceADowntimeShopPriceReward : DowntimeShopPriceReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"The next item purchased this City Phase will cost {Icons.Inline(Icons.Coins)}10 less.";
+
+		protected override void CalculatePriceApplyFunction(BetweenScenariosEvents.CalculateItemBuyPrice.Parameters parameters)
+		{
+			parameters.AdjustPrice(-10);
+		}
+
+		protected override void ItemBoughtApplyFunction(BetweenScenariosEvents.ItemBought.Parameters parameters)
+		{
+			Complete();
+		}
+	}
+
 	public class ChoiceA : EventChoiceModel
 	{
 		public override string ChoiceText => "Help the bartender chase the bird out of the tavern.";
@@ -20,19 +36,7 @@ public class City14 : CityEventModel<City14.ChoiceA, City14.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeShopPriceReward(
-				eventReward =>
-					parameters =>
-					{
-						parameters.AdjustPrice(-10);
-					},
-				eventReward =>
-					parameters =>
-					{
-						state.Complete(eventReward);
-					},
-				textParameters =>
-					$"The next item purchased this City Phase will cost {Icons.Inline(Icons.Coins)}10 less.")
+			new ChoiceADowntimeShopPriceReward()
 		];
 	}
 

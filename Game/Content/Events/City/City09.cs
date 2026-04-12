@@ -26,6 +26,32 @@ public class City09 : CityEventModel<City09.ChoiceA, City09.ChoiceB>
 		];
 	}
 
+	public class ChoiceBDowntimeEnhancementCostReward : DowntimeEnhancementCostReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"The next {Icons.Inline(Icons.PlusOneEnhancement, textParameters)} enhancement for a level 1/X card purchased this City Phase will be free.";
+
+		public ChoiceBDowntimeEnhancementCostReward()
+		{
+		}
+
+		protected override void CalculateCostApplyFunction(BetweenScenariosEvents.CalculateEnhancementCost.Parameters parameters)
+		{
+			if(parameters.EnhancementModel is IPlusOneEnhancement && parameters.SavedAbilityCard.Model.Level == 1)
+			{
+				parameters.AdjustCost(-parameters.Cost);
+			}
+		}
+
+		protected override void EnhancementBoughtApplyFunction(BetweenScenariosEvents.EnhancementBought.Parameters parameters)
+		{
+			if(parameters.EnhancementModel is IPlusOneEnhancement && parameters.SavedAbilityCard.Model.Level == 1)
+			{
+				Complete();
+			}
+		}
+	}
+
 	public class ChoiceB : EventChoiceModel
 	{
 		public override string ChoiceText => "Go on stage to perform, you have a trick or two up your sleeve.";
@@ -39,25 +65,7 @@ public class City09 : CityEventModel<City09.ChoiceA, City09.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeEnhancementCostReward(
-				eventReward =>
-					parameters =>
-					{
-						if(parameters.EnhancementModel is IPlusOneEnhancement && parameters.SavedAbilityCard.Model.Level == 1)
-						{
-							parameters.AdjustCost(-parameters.Cost);
-						}
-					},
-				eventReward =>
-					parameters =>
-					{
-						if(parameters.EnhancementModel is IPlusOneEnhancement && parameters.SavedAbilityCard.Model.Level == 1)
-						{
-							state.Complete(eventReward);
-						}
-					},
-				textParameters =>
-					$"The next {Icons.Inline(Icons.PlusOneEnhancement, textParameters)} enhancement for a level 1/X card purchased this City Phase will be free.")
+			new ChoiceBDowntimeEnhancementCostReward()
 		];
 	}
 }

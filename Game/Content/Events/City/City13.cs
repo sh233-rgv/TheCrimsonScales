@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class City13 : CityEventModel<City13.ChoiceA, City13.ChoiceB>
 {
@@ -15,6 +16,28 @@ public class City13 : CityEventModel<City13.ChoiceA, City13.ChoiceB>
 		"How could I make it up to you? Did I cause you to miss out on anything?"
 		""";
 
+	public class ChoiceADowntimeShopPriceReward : DowntimeShopPriceReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"The next {Icons.Inline(Icons.GetItem(ItemType.Small), textParameters)} item bought this City Phase will be half price (rounded down).";
+
+		protected override void CalculatePriceApplyFunction(BetweenScenariosEvents.CalculateItemBuyPrice.Parameters parameters)
+		{
+			if(parameters.ItemModel.ItemType == ItemType.Small)
+			{
+				parameters.AdjustPrice(-parameters.Price / 2);
+			}
+		}
+
+		protected override void ItemBoughtApplyFunction(BetweenScenariosEvents.ItemBought.Parameters parameters)
+		{
+			if(parameters.ItemModel.ItemType == ItemType.Small)
+			{
+				Complete();
+			}
+		}
+	}
+
 	public class ChoiceA : EventChoiceModel
 	{
 		public override string ChoiceText => "Tell Shiela that time is money, and she needs to pay up.";
@@ -26,26 +49,30 @@ public class City13 : CityEventModel<City13.ChoiceA, City13.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeShopPriceReward(
-				eventReward =>
-					parameters =>
-					{
-						if(parameters.ItemModel.ItemType == ItemType.Small)
-						{
-							parameters.AdjustPrice(-parameters.Price / 2);
-						}
-					},
-				eventReward =>
-					parameters =>
-					{
-						if(parameters.ItemModel.ItemType == ItemType.Small)
-						{
-							state.Complete(eventReward);
-						}
-					},
-				textParameters =>
-					$"The next {Icons.Inline(Icons.GetItem(ItemType.Small), textParameters)} item bought this City Phase will be half price (rounded down).")
+			new ChoiceADowntimeShopPriceReward()
 		];
+	}
+
+	public class ChoiceBDowntimeShopPriceReward : DowntimeShopPriceReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"The next {Icons.Inline(Icons.GetItem(ItemType.Small), textParameters)} item bought this City Phase with a value of {Icons.Inline(Icons.Coins, textParameters)}30 or less will be free.";
+
+		protected override void CalculatePriceApplyFunction(BetweenScenariosEvents.CalculateItemBuyPrice.Parameters parameters)
+		{
+			if(parameters.ItemModel.ItemType == ItemType.Small && parameters.ItemModel.Cost <= 30)
+			{
+				parameters.AdjustPrice(-parameters.Price);
+			}
+		}
+
+		protected override void ItemBoughtApplyFunction(BetweenScenariosEvents.ItemBought.Parameters parameters)
+		{
+			if(parameters.ItemModel.ItemType == ItemType.Small && parameters.ItemModel.Cost <= 30)
+			{
+				Complete();
+			}
+		}
 	}
 
 	public class ChoiceB : EventChoiceModel
@@ -59,25 +86,7 @@ public class City13 : CityEventModel<City13.ChoiceA, City13.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeShopPriceReward(
-				eventReward =>
-					parameters =>
-					{
-						if(parameters.ItemModel.ItemType == ItemType.Small && parameters.ItemModel.Cost <= 30)
-						{
-							parameters.AdjustPrice(-parameters.Price);
-						}
-					},
-				eventReward =>
-					parameters =>
-					{
-						if(parameters.ItemModel.ItemType == ItemType.Small && parameters.ItemModel.Cost <= 30)
-						{
-							state.Complete(eventReward);
-						}
-					},
-				textParameters =>
-					$"The next {Icons.Inline(Icons.GetItem(ItemType.Small), textParameters)} item bought this City Phase with a value of {Icons.Inline(Icons.Coins, textParameters)}30 or less will be free.")
+			new ChoiceBDowntimeShopPriceReward()
 		];
 	}
 }

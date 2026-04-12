@@ -25,6 +25,28 @@ public class City05 : CityEventModel<City05.ChoiceA, City05.ChoiceB>
 		public override List<Reward> GetRewards(SavedEventState state) => [];
 	}
 
+	public class ChoiceBDowntimeShopSellPriceReward : DowntimeShopSellPriceReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"During this City Phase, each character may sell one item to the shop for its full gold value.";
+
+		protected override void CalculatePriceApplyFunction(BetweenScenariosEvents.CalculateItemSellPrice.Parameters parameters)
+		{
+			if(!GetCustomValue<bool>(parameters.Seller.Guid.ToString()))
+			{
+				parameters.AdjustSellPrice(parameters.ItemModel.Cost - parameters.SellPrice);
+			}
+		}
+
+		protected override void ItemSoldApplyFunction(BetweenScenariosEvents.ItemSold.Parameters parameters)
+		{
+			if(!GetCustomValue<bool>(parameters.Seller.Guid.ToString()))
+			{
+				SetCustomValue(parameters.Seller.Guid.ToString(), true);
+			}
+		}
+	}
+
 	public class ChoiceB : EventChoiceModel
 	{
 		public override string ChoiceText => "Sell the Harrower your lot, and hope the jewels are genuine.";
@@ -36,26 +58,7 @@ public class City05 : CityEventModel<City05.ChoiceA, City05.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeShopSellPriceReward(
-				eventReward =>
-					parameters =>
-					{
-						if(!state.GetCustomValue<bool>(parameters.Seller.Guid.ToString()))
-						{
-							parameters.AdjustSellPrice(parameters.ItemModel.Cost - parameters.SellPrice);
-						}
-					},
-				eventReward =>
-					parameters =>
-					{
-						if(!state.GetCustomValue<bool>(parameters.Seller.Guid.ToString()))
-						{
-							state.SetCustomValue(parameters.Seller.Guid.ToString(), true);
-						}
-					},
-				textParameters =>
-					$"During this City Phase, each character may sell one item to the shop for its full gold value."
-			)
+			new ChoiceBDowntimeShopSellPriceReward()
 		];
 	}
 }
