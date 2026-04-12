@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Fractural.Tasks;
 
 public class City19 : CityEventModel<City19.ChoiceA, City19.ChoiceB>

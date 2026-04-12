@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class City30 : CityEventModel<City30.ChoiceA, City30.ChoiceB>
 {
@@ -8,6 +9,28 @@ public class City30 : CityEventModel<City30.ChoiceA, City30.ChoiceB>
 		"""
 		It's Trading Day at the market and vendors have traveled into the city from all over to show their wares. This would be a good opportunity to stock up on new supplies, or you can take the day to pawn off your old merchandise to the many prospective buyers who will be perusing the stalls.
 		""";
+
+	public class ChoiceADowntimeShopPriceReward : DowntimeShopPriceReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"During this City Phase, each character may buy one item from the shop for {Icons.Inline(Icons.Coins, textParameters)}10 less.";
+
+		protected override void CalculatePriceApplyFunction(BetweenScenariosEvents.CalculateItemBuyPrice.Parameters parameters)
+		{
+			if(!GetCustomValue<bool>(parameters.Buyer.Guid.ToString()))
+			{
+				parameters.AdjustPrice(-10);
+			}
+		}
+
+		protected override void ItemBoughtApplyFunction(BetweenScenariosEvents.ItemBought.Parameters parameters)
+		{
+			if(!GetCustomValue<bool>(parameters.Buyer.Guid.ToString()))
+			{
+				SetCustomValue(parameters.Buyer.Guid.ToString(), true);
+			}
+		}
+	}
 
 	public class ChoiceA : EventChoiceModel
 	{
@@ -20,27 +43,30 @@ public class City30 : CityEventModel<City30.ChoiceA, City30.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeShopPriceReward(
-				eventReward =>
-					parameters =>
-					{
-						if(!state.GetCustomValue<bool>(parameters.Buyer.Guid.ToString()))
-						{
-							parameters.AdjustPrice(-10);
-						}
-					},
-				eventReward =>
-					parameters =>
-					{
-						if(!state.GetCustomValue<bool>(parameters.Buyer.Guid.ToString()))
-						{
-							state.SetCustomValue(parameters.Buyer.Guid.ToString(), true);
-						}
-					},
-				textParameters =>
-					$"During this City Phase, each character may buy one item from the shop for {Icons.Inline(Icons.Coins, textParameters)}10 less."
-			)
+			new ChoiceADowntimeShopPriceReward()
 		];
+	}
+
+	public class ChoiceBDowntimeShopSellPriceReward : DowntimeShopSellPriceReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"During this City Phase, each character may sell one item to the shop for {Icons.Inline(Icons.Coins, textParameters)}10 more.";
+
+		protected override void CalculatePriceApplyFunction(BetweenScenariosEvents.CalculateItemSellPrice.Parameters parameters)
+		{
+			if(!GetCustomValue<bool>(parameters.Seller.Guid.ToString()))
+			{
+				parameters.AdjustSellPrice(10);
+			}
+		}
+
+		protected override void ItemSoldApplyFunction(BetweenScenariosEvents.ItemSold.Parameters parameters)
+		{
+			if(!GetCustomValue<bool>(parameters.Seller.Guid.ToString()))
+			{
+				SetCustomValue(parameters.Seller.Guid.ToString(), true);
+			}
+		}
 	}
 
 	public class ChoiceB : EventChoiceModel
@@ -54,26 +80,7 @@ public class City30 : CityEventModel<City30.ChoiceA, City30.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeShopSellPriceReward(
-				eventReward =>
-					parameters =>
-					{
-						if(!state.GetCustomValue<bool>(parameters.Seller.Guid.ToString()))
-						{
-							parameters.AdjustSellPrice(10);
-						}
-					},
-				eventReward =>
-					parameters =>
-					{
-						if(!state.GetCustomValue<bool>(parameters.Seller.Guid.ToString()))
-						{
-							state.SetCustomValue(parameters.Seller.Guid.ToString(), true);
-						}
-					},
-				textParameters =>
-					$"During this City Phase, each character may sell one item to the shop for {Icons.Inline(Icons.Coins, textParameters)}10 more."
-			)
+			new ChoiceBDowntimeShopSellPriceReward()
 		];
 	}
 }

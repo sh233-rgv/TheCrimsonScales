@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class City13 : CityEventModel<City13.ChoiceA, City13.ChoiceB>
 {

@@ -11,6 +11,28 @@ public class City20 : CityEventModel<City20.ChoiceA, City20.ChoiceB>
 		The bartender looks to you with stern eyes as if expecting you to take responsibility for this situation. You're familiar with where she lives, but it's a long walk to the Mixed District.
 		""";
 
+	public class ChoiceADowntimeShopPriceReward : DowntimeShopPriceReward
+	{
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"During this City Phase, each character may buy one {Icons.Inline(Icons.GetItem(ItemType.Small), textParameters)} item from the shop for {Icons.Inline(Icons.Coins, textParameters)}10 less.";
+
+		protected override void CalculatePriceApplyFunction(BetweenScenariosEvents.CalculateItemBuyPrice.Parameters parameters)
+		{
+			if(!GetCustomValue<bool>(parameters.Buyer.Guid.ToString()) && parameters.ItemModel.ItemType == ItemType.Small)
+			{
+				parameters.AdjustPrice(-10);
+			}
+		}
+
+		protected override void ItemBoughtApplyFunction(BetweenScenariosEvents.ItemBought.Parameters parameters)
+		{
+			if(!GetCustomValue<bool>(parameters.Buyer.Guid.ToString()) && parameters.ItemModel.ItemType == ItemType.Small)
+			{
+				SetCustomValue(parameters.Buyer.Guid.ToString(), true);
+			}
+		}
+	}
+
 	public class ChoiceA : EventChoiceModel
 	{
 		public override string ChoiceText => "Sling her over your back and carry her to her apartment in the Mixed District.";
@@ -22,25 +44,7 @@ public class City20 : CityEventModel<City20.ChoiceA, City20.ChoiceB>
 
 		public override List<Reward> GetRewards(SavedEventState state) =>
 		[
-			new DowntimeShopPriceReward(
-				eventReward =>
-					parameters =>
-					{
-						if(!state.GetCustomValue<bool>(parameters.Buyer.Guid.ToString()) && parameters.ItemModel.ItemType == ItemType.Small)
-						{
-							parameters.AdjustPrice(-10);
-						}
-					},
-				eventReward =>
-					parameters =>
-					{
-						if(!state.GetCustomValue<bool>(parameters.Buyer.Guid.ToString()) && parameters.ItemModel.ItemType == ItemType.Small)
-						{
-							state.SetCustomValue(parameters.Buyer.Guid.ToString(), true);
-						}
-					},
-				textParameters =>
-					$"During this City Phase, each character may buy one {Icons.Inline(Icons.GetItem(ItemType.Small), textParameters)} item from the shop for {Icons.Inline(Icons.Coins, textParameters)}10 less.")
+			new ChoiceADowntimeShopPriceReward()
 		];
 	}
 
