@@ -6,10 +6,13 @@ using Godot;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public abstract class Reward
+public abstract class SavedReward
 {
 	[JsonProperty]
 	public bool Completed { get; private set; }
+
+	[JsonProperty]
+	public bool MarkedForRemoval { get; private set; }
 
 	[JsonProperty]
 	public Dictionary<string, object> CustomValues { get; private set; } = new Dictionary<string, object>();
@@ -23,16 +26,25 @@ public abstract class Reward
 		await GDTask.CompletedTask;
 	}
 
-	public virtual void SubscribeDuringDowntime(SavedEventState savedEventState)
+	public virtual void SubscribeDuringDowntime()
 	{
 	}
 
 	public virtual void UnsubscribeDuringDowntime()
 	{
+		if(Type == RewardType.DuringDowntime)
+		{
+			MarkedForRemoval = true;
+		}
 	}
 
 	public virtual async GDTask OnScenarioSetupPhaseCompleted()
 	{
+		if(Type == RewardType.ScenarioStart)
+		{
+			MarkedForRemoval = true;
+		}
+
 		await GDTask.CompletedTask;
 	}
 

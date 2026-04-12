@@ -4,7 +4,7 @@ using Godot;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public abstract class TotemReward : Reward, IEventSubscriber
+public abstract class TotemReward : SavedReward, IEventSubscriber
 {
 	protected abstract string Name { get; }
 

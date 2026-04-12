@@ -4,7 +4,7 @@ public class GainProsperityMerchantsGuildHallReward : MerchantsGuildHallRewardMo
 {
 	public override string GetDescription(RichTextParameters richTextParameters) => "Gain +3 Prosperity";
 
-	public override List<Reward> GetRewards() =>
+	public override List<SavedReward> GetRewards() =>
 	[
 		new GainProsperityReward(3)
 	];

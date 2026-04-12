@@ -56,7 +56,7 @@ public partial class AppController : SingletonNode<AppController>
 		}
 	}
 
-	public async GDTask GiveRewards(SavedCampaign savedCampaign, List<Reward> rewards, bool showPopup = true,
+	public async GDTask GiveRewards(SavedCampaign savedCampaign, List<SavedReward> rewards, bool showPopup = true,
 		CancellationToken cancellationToken = default)
 	{
 		if(showPopup)
@@ -69,7 +69,7 @@ public partial class AppController : SingletonNode<AppController>
 			await GDTask.WaitWhile(() => PopupManager.IsPopupOpen(), cancellationToken: cancellationToken);
 		}
 
-		foreach(Reward reward in rewards)
+		foreach(SavedReward reward in rewards)
 		{
 			if(reward.Type == RewardType.Immediate)
 			{

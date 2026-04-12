@@ -87,8 +87,8 @@ public class SavedEvents
 	[JsonProperty]
 	public List<string> TopRoadDeckQueueIds { get; private set; } = new List<string>();
 
-	[JsonProperty]
-	public List<SavedEventState> SavedEventStates { get; private set; } = new List<SavedEventState>();
+	// [JsonProperty]
+	// public List<SavedEventState> SavedEventStates { get; private set; } = new List<SavedEventState>();
 
 	[JsonProperty]
 	public bool CanDrawCityEvent { get; private set; }
@@ -104,20 +104,9 @@ public class SavedEvents
 		RoadEventDeckIds.Shuffle(tempRNG);
 	}
 
-	public void AddSavedEventState(SavedEventState savedEventState)
-	{
-		SavedEventStates.Add(savedEventState);
-	}
-
-	public void RemoveSavedEventState(SavedEventState savedEventState)
-	{
-		SavedEventStates.Remove(savedEventState);
-	}
-
 	public void OnScenarioEnded()
 	{
 		CanDrawCityEvent = true;
-		SavedEventStates.Clear();
 	}
 
 	public EventModel DrawCityEvent()

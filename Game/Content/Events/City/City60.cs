@@ -49,7 +49,7 @@ public class City60 : CityEventModel<City60.ChoiceA, City60.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -102,7 +102,7 @@ public class City60 : CityEventModel<City60.ChoiceA, City60.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{

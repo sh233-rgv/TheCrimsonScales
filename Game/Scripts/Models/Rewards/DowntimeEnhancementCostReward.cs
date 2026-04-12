@@ -2,13 +2,13 @@
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public abstract class DowntimeEnhancementCostReward : Reward
+public abstract class DowntimeEnhancementCostReward : SavedReward
 {
 	public override RewardType Type => RewardType.DuringDowntime;
 
-	public override void SubscribeDuringDowntime(SavedEventState savedEventState)
+	public override void SubscribeDuringDowntime()
 	{
-		base.SubscribeDuringDowntime(savedEventState);
+		base.SubscribeDuringDowntime();
 
 		BetweenScenariosEvents.CalculateEnhancementCostEvent.Subscribe(this, CalculateCostApplyFunction);
 		BetweenScenariosEvents.EnhancementBoughtEvent.Subscribe(this, EnhancementBoughtApplyFunction);

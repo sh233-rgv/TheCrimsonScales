@@ -25,7 +25,7 @@ public class City56 : CityEventModel<City56.ChoiceA, City56.ChoiceB>
 			Despite your efforts, the Savvas deteriorates quickly. It visibly goes from agitated to enraged and swinging its fists at shadows. It teleports away in a fury. You fear your paths may cross again.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) => [];
+		public override List<SavedReward> GetRewards(SavedEventState state) => [];
 	}
 
 	public class ChoiceB : EventChoiceModel
@@ -65,7 +65,7 @@ public class City56 : CityEventModel<City56.ChoiceA, City56.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{

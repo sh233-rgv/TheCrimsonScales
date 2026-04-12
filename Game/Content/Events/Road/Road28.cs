@@ -52,7 +52,7 @@ public class Road28 : RoadEventModel<Road28.ChoiceA, Road28.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -82,7 +82,7 @@ public class Road28 : RoadEventModel<Road28.ChoiceA, Road28.ChoiceB>
 			He grabs an armful of totems and dashes off into the distance, leaving behind his booth and a small tin filled with gold.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new GainCollectiveGoldReward(5)
 		];

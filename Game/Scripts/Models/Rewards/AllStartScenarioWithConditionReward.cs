@@ -4,7 +4,7 @@ using Fractural.Tasks;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class AllStartScenarioWithConditionReward : Reward
+public class AllStartScenarioWithConditionReward : SavedReward
 {
 	[JsonProperty]
 	private string[] _conditionModelsIds;

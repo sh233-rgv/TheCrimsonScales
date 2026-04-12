@@ -59,7 +59,7 @@ public class Scenario003 : ScenarioModel
 		ModelDB.Monster<HydraSpirit>(),
 	];
 
-	public override List<Reward> Rewards { get; } =
+	public override List<SavedReward> Rewards { get; } =
 	[
 		new GainXPReward(10),
 		new UnlockScenarioReward(ModelDB.Scenario<Scenario004>()),

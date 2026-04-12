@@ -48,7 +48,7 @@ public class City19 : CityEventModel<City19.ChoiceA, City19.ChoiceB>
 			At the end of the night, the Brewmaster thanks you and offers you a special brew he calls 'Liquid Rage' for your troubles.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new GainCollectiveGoldReward(10),
 			new ChoiceAOnScenarioStartedReward()
@@ -99,7 +99,7 @@ public class City19 : CityEventModel<City19.ChoiceA, City19.ChoiceB>
 			At the end of the night, Shiela expresses her appreciation with an offer to stop by her potion shop in the morning for a free sampling.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBDowntimeShopPriceReward()
 		];

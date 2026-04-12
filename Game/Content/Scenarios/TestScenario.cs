@@ -27,7 +27,7 @@ public class TestScenario : ScenarioModel
 	// 	ModelDB.Monster<WaterSpirit>(),
 	// ];
 
-	public override List<Reward> Rewards { get; } =
+	public override List<SavedReward> Rewards { get; } =
 	[
 		new GainGoldEachReward(15)
 	];

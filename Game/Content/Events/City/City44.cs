@@ -24,7 +24,7 @@ public class City44 : CityEventModel<City44.ChoiceA, City44.ChoiceB>
 			As the girl approaches, you quickly leap toward her and tackle her to the ground. The inox swings his chain forward and shackles her feet together. After catching his breath, he begins to thank you. "She's been wanted in several districts for thievery," the Inox explains as he pulls out a large pouch. "Thank you for your efforts. I'll be collecting a great bounty for this one. Here's some coin for your help."
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new GainGoldEachReward(15),
 			new GainReputationReward(1)
@@ -40,7 +40,7 @@ public class City44 : CityEventModel<City44.ChoiceA, City44.ChoiceB>
 			You attempt to step out of the way but the girl shoves you aside, causing you to stumble into a nearby stall containing glassware. You hear a large crash as you fall to the ground, and the shop-owner angrily demands compensation for the broken goods.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new LoseCollectiveGoldReward(15)
 		];

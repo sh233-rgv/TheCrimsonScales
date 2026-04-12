@@ -22,7 +22,7 @@ public class Road12 : RoadEventModel<Road12.ChoiceA, Road12.ChoiceB>
 			You scoff at the Aesther and state your disbelief in the practice of fortune telling. She narrows her eyes and begins waving her hands over the crystal ball. "Good fortune awaits!" she calls out as you proceed to exit her tent without payment.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			//TODO: All players ignore negative scenario effects
 		];
@@ -39,7 +39,7 @@ public class Road12 : RoadEventModel<Road12.ChoiceA, Road12.ChoiceB>
 			You pay the Aesther her fee and she begins to wave her hands over the crystal ball while humming a quiet tune. "The battlefield lies ahead. The choices you make will dictate your fortune. Choose wisely and you shall surely prosper."
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new LoseCollectiveGoldReward(5),
 			new GainXPReward(3),

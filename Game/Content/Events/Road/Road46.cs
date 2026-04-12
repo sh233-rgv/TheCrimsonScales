@@ -37,7 +37,7 @@ public class Road46 : RoadEventModel<Road46.ChoiceA, Road46.ChoiceB>
 			You take the soft blue and glowing red claws and continue on with your journey. As you reach your destination, each claw emits one last burst before their glow fades away.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -66,7 +66,7 @@ public class Road46 : RoadEventModel<Road46.ChoiceA, Road46.ChoiceB>
 			You take the bright yellow and dim black claws and continue on with your journey. As you reach your destination, each claw emits one last burst of light before their glow fades away.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBOnScenarioStartedReward()
 		];

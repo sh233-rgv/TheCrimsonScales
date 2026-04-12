@@ -4,7 +4,7 @@ using Fractural.Tasks;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class LoseCheckmarkReward : Reward
+public class LoseCheckmarkReward : SavedReward
 {
 	public override RewardType Type => RewardType.Immediate;
 

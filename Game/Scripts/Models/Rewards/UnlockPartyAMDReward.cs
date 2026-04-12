@@ -4,7 +4,7 @@ using Fractural.Tasks;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class UnlockPartyAMDReward : Reward
+public class UnlockPartyAMDReward : SavedReward
 {
 	[JsonProperty]
 	private string _cardModelId;

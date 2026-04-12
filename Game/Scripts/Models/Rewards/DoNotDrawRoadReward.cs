@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class DoNotDrawRoadReward : Reward
+public class DoNotDrawRoadReward : SavedReward
 {
 	public override RewardType Type => RewardType.DuringDowntime;
 
@@ -12,15 +12,15 @@ public class DoNotDrawRoadReward : Reward
 
 	public override string GetLabelText(RichTextParameters textParameters) => "Do not draw a road event.";
 
-	public override void SubscribeDuringDowntime(SavedEventState savedEventState)
+	public override void SubscribeDuringDowntime()
 	{
-		base.SubscribeDuringDowntime(savedEventState);
+		base.SubscribeDuringDowntime();
 
 		BetweenScenariosEvents.DrawRoadEventEvent.Subscribe(this,
 			parameters =>
 			{
 				parameters.SetDrawEvent(false);
-				savedEventState.Complete(this);
+				Complete();
 			}
 		);
 	}

@@ -3,7 +3,7 @@ using Fractural.Tasks;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class SpawnReward : Reward
+public class SpawnReward : SavedReward
 {
 	[JsonProperty]
 	private string _monsterModelId;

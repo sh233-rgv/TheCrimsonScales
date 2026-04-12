@@ -75,7 +75,7 @@ public class Road04 : RoadEventModel<Road04.ChoiceA, Road04.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -103,6 +103,6 @@ public class Road04 : RoadEventModel<Road04.ChoiceA, Road04.ChoiceB>
 			The Harrower seems happy to have had the opportunity to stitch up the wound, but it hastily ushers you out of the tent after finishing in anticipation for the next passerby.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) => [];
+		public override List<SavedReward> GetRewards(SavedEventState state) => [];
 	}
 }

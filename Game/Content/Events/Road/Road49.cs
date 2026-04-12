@@ -43,7 +43,7 @@ public class Road49 : RoadEventModel<Road49.ChoiceA, Road49.ChoiceB>
 			You tell the Aesther you see the letter 'T' formed in the stars, he shakes his head and tells you, "Tsk, that's the constellation of terror. I see your enemies will be moving forward, even as we speak. Best hurry on, dear travelers, before they advance too quickly."
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -75,7 +75,7 @@ public class Road49 : RoadEventModel<Road49.ChoiceA, Road49.ChoiceB>
 			You tell the Aesther you see the letter 'V' formed in the stars. He nods his head in affirmation and tells you, "That's the constellation of victory. You will have an advantage on the battlefield and move as quickly as a shooting star! I bid you well, dear travelers, and success in your journey."
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBOnScenarioStartedReward()
 		];

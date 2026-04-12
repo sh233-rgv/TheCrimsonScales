@@ -53,7 +53,7 @@ public class City55 : CityEventModel<City55.ChoiceA, City55.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -83,7 +83,7 @@ public class City55 : CityEventModel<City55.ChoiceA, City55.ChoiceB>
 			Suddenly, the Aesthers notice you. They quickly grab the lead Cragheart and together vanish into a hurriedly conjured portal.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new GainCheckmarkReward()
 		];

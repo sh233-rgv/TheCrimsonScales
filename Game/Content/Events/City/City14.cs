@@ -34,7 +34,7 @@ public class City14 : CityEventModel<City14.ChoiceA, City14.ChoiceB>
 			You grab a mop from nearby and help the bartender guide the bird out of the open door. Grateful for you assistance, the bartender offers you free drinks for the remainder of the night. The coin you saved will go a long way.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceADowntimeShopPriceReward()
 		];
@@ -49,7 +49,7 @@ public class City14 : CityEventModel<City14.ChoiceA, City14.ChoiceB>
 			You quickly place your mug under the tap and begin to fill the glass with ale. As you top off the drink, you look up to see the bartender standing over you with his arms crossed and eyes narrowed. You attempt to guzzle the ale as fast as you can before being forcefully escorted out of the tavern.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new LoseReputationReward(1)
 		];

@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class NoEffectReward : Reward
+public class NoEffectReward : SavedReward
 {
 	public override RewardType Type => RewardType.Immediate;
 

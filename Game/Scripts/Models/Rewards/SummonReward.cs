@@ -3,7 +3,7 @@ using Fractural.Tasks;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public abstract class SummonReward : Reward
+public abstract class SummonReward : SavedReward
 {
 	public override RewardType Type => RewardType.ScenarioStart;
 

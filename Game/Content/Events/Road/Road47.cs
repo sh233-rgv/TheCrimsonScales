@@ -47,7 +47,7 @@ public class Road47 : RoadEventModel<Road47.ChoiceA, Road47.ChoiceB>
 			"Ah! The shorter rod will serve you well if you ever decide to quickly rest," the Vermling glees as he hands you the shorter rod.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -87,7 +87,7 @@ public class Road47 : RoadEventModel<Road47.ChoiceA, Road47.ChoiceB>
 			"The longer rod, very well! This rod will ensure that you get the most fulfilment out of your resting," the Vermling smiles while gleefully handing out the longer rod.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBOnScenarioStartedReward()
 		];

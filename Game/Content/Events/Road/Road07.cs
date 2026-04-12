@@ -23,7 +23,7 @@ public class Road07 : RoadEventModel<Road07.ChoiceA, Road07.ChoiceB>
 			You spend the next few hours wandering around but the skies are empty, and eventually settle on a half-eaten bird carcass lying on the floor. You roast it and proceed to eat it, but the taste is foul and leaves you feeling sick.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AllStartScenarioWithConditionReward(Conditions.Poison1)
 		];
@@ -61,7 +61,7 @@ public class Road07 : RoadEventModel<Road07.ChoiceA, Road07.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{

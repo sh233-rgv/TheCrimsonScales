@@ -136,9 +136,8 @@ public partial class EventOverlay : Control
 
 		_continueButton.SetActive(false);
 
-		bool hasNonImmediateReward = false;
-		List<Reward> rewards = _chosenModel.GetRewards(savedEventState);
-		foreach(Reward reward in rewards)
+		List<SavedReward> rewards = _chosenModel.GetRewards(savedEventState);
+		foreach(SavedReward reward in rewards)
 		{
 			if(reward.Type == RewardType.Immediate)
 			{
@@ -146,13 +145,8 @@ public partial class EventOverlay : Control
 			}
 			else
 			{
-				hasNonImmediateReward = true;
+				BetweenScenariosController.Instance.SavedCampaign.SavedRewards.AddReward(reward);
 			}
-		}
-
-		if(hasNonImmediateReward)
-		{
-			BetweenScenariosController.Instance.SavedCampaign.SavedEvents.AddSavedEventState(savedEventState);
 		}
 
 		EventResolveType eventResolveType = _chosenModel.GetEventResolveType(savedEventState);

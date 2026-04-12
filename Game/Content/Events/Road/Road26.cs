@@ -57,7 +57,7 @@ public class Road26 : RoadEventModel<Road26.ChoiceA, Road26.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -83,7 +83,7 @@ public class Road26 : RoadEventModel<Road26.ChoiceA, Road26.ChoiceB>
 			You refuse to give the charmer any of your gold and turn away to continue with your journey. You feel a sharp sting running up your ankle and you turn around to see one of the vipers slithering away. The charmer smiles devilishly as he continues playing his pungi.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AllStartScenarioWithConditionReward(Conditions.Poison1)
 		];

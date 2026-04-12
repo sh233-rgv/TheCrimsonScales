@@ -420,8 +420,9 @@ public partial class GameController : SceneController<GameController>
 
 		EndEvent?.Invoke(ScenarioResult, SavedScenarioProgress);
 
-		// Clear any event rewards and allow a new city event card to be drawn
+		// Clear any old lingering rewards and allow a new city event card to be drawn
 		SavedCampaign.SavedEvents.OnScenarioEnded();
+		SavedCampaign.SavedRewards.OnScenarioEnded();
 
 		AppController.Instance.SaveFile.Save();
 

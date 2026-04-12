@@ -23,7 +23,7 @@ public class City07 : CityEventModel<City07.ChoiceA, City07.ChoiceB>
 			Gables turns to walk away, but not before flashing you a wink and whispering in your ear, "Quite delicious."
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) => [];
+		public override List<SavedReward> GetRewards(SavedEventState state) => [];
 	}
 
 	public class ChoiceBSummonReward : SummonReward
@@ -71,7 +71,7 @@ public class City07 : CityEventModel<City07.ChoiceA, City07.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{

@@ -44,7 +44,7 @@ public class City10 : CityEventModel<City10.ChoiceA, City10.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -70,7 +70,7 @@ public class City10 : CityEventModel<City10.ChoiceA, City10.ChoiceB>
 			You reach into your pockets and pull out a handful of coins. The Inox lets out a small squeal of joy as he extends the cup further toward you. As your hand nears the tin, you drop the coins in before snatching it out of his hands. You dash as fast as you can in the opposite direction without looking back. You didn't stick around long enough to see his reaction, but you've collected enough coin for a hearty round of drinks tonight.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new GainCollectiveGoldReward(15)
 		];

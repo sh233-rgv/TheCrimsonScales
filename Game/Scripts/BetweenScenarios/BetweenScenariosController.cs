@@ -31,7 +31,7 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 	[Export]
 	public BetweenScenariosClassUnlockOverlay UnlockOverlay { get; private set; }
 
-	private readonly List<Reward> _duringDowntimeEventRewards = new List<Reward>();
+	private readonly List<SavedReward> _duringDowntimeRewards = new List<SavedReward>();
 
 	public BetweenScenariosSceneRequest SceneRequest { get; private set; }
 
@@ -73,9 +73,9 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 
 	public override void _ExitTree()
 	{
-		for(int i = _duringDowntimeEventRewards.Count - 1; i >= 0; i--)
+		for(int i = _duringDowntimeRewards.Count - 1; i >= 0; i--)
 		{
-			UnsubscribeDuringDowntime(_duringDowntimeEventRewards[i]);
+			UnsubscribeDuringDowntime(_duringDowntimeRewards[i]);
 		}
 
 		if(SavedCampaign != null)
@@ -210,10 +210,10 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		savedCampaign.RetireCharacter(savedCharacter);
 	}
 
-	public void UnsubscribeDuringDowntime(Reward reward)
+	public void UnsubscribeDuringDowntime(SavedReward reward)
 	{
 		reward.UnsubscribeDuringDowntime();
-		_duringDowntimeEventRewards.Remove(reward);
+		_duringDowntimeRewards.Remove(reward);
 	}
 
 	private async GDTaskVoid StartSequence()
@@ -261,16 +261,13 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			await EventOverlay.DrawEventCard(EventType.City, cancellationToken);
 		}
 
-		foreach(SavedEventState savedEventState in SavedCampaign.SavedEvents.SavedEventStates)
+		foreach(SavedReward reward in SavedCampaign.SavedRewards.Rewards)
 		{
-			foreach(Reward eventReward in savedEventState.Choice.GetRewards(savedEventState))
+			if(reward.Type == RewardType.DuringDowntime && !reward.Completed)
 			{
-				if(eventReward.Type == RewardType.DuringDowntime)
-				{
-					eventReward.SubscribeDuringDowntime(savedEventState);
+				reward.SubscribeDuringDowntime();
 
-					_duringDowntimeEventRewards.Add(eventReward);
-				}
+				_duringDowntimeRewards.Add(reward);
 			}
 		}
 

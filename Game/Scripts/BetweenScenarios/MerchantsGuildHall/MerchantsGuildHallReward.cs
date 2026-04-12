@@ -71,7 +71,7 @@ public partial class MerchantsGuildHallReward : Control
 
 		CancellationToken cancellationToken = BetweenScenariosController.Instance.DestroyCancellationToken;
 
-		List<Reward> rewards = _savedReward.Model.GetRewards();
+		List<SavedReward> rewards = _savedReward.Model.GetRewards();
 		await AppController.Instance.GiveRewards(BetweenScenariosController.Instance.SavedCampaign, rewards, cancellationToken: cancellationToken);
 
 		_savedReward.SetUnlocked();

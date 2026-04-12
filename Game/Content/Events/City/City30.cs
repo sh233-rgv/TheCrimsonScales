@@ -41,7 +41,7 @@ public class City30 : CityEventModel<City30.ChoiceA, City30.ChoiceB>
 			You spend the day browsing the stalls and find a plethora of discounted merchandise. Today is a great day to shop for new supplies, and there are many great deals to take advantage of.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceADowntimeShopPriceReward()
 		];
@@ -78,7 +78,7 @@ public class City30 : CityEventModel<City30.ChoiceA, City30.ChoiceB>
 			You set up a stall and buyers pour in from all directions. With a bit of effort, you manage to persuade a few customers to agree to purchase your unwanted goods for the full asking price.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBDowntimeShopSellPriceReward()
 		];

@@ -73,7 +73,7 @@ public class Road20 : RoadEventModel<Road20.ChoiceA, Road20.ChoiceB>
 			You sip the bubbling red liquid, and it has an oddly sour berry flavor. Moments after you finish the last drop, you feel a surge of adrenaline run through your veins. You feel energized and your senses are heightened.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -136,7 +136,7 @@ public class Road20 : RoadEventModel<Road20.ChoiceA, Road20.ChoiceB>
 			You quickly drink the glowing green ooze, and it has a sweet herbaceous taste. Moments after finishing the last drop, you begin to feel groggy and dreary. You turn away sluggishly and your senses feel repressed.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBOnScenarioStartedReward()
 		];

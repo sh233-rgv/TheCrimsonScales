@@ -67,7 +67,7 @@ public class SavedEventState
 		return true;
 	}
 
-	public void Complete(Reward reward)
+	public void Complete(SavedReward reward)
 	{
 		Completed = true;
 

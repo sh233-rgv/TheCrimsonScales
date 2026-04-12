@@ -72,7 +72,7 @@ public class Road31 : RoadEventModel<Road31.ChoiceA, Road31.ChoiceB>
 			You explain you're not leaving without food and the Vermling insists he won't share. As you continue to argue with the Vermling he shines the light toward your face and stares for a few seconds, before smiling cheerfully and claiming to recognize you. He mentions something about you helping him unscrew a lightbulb from a tech lamp and sends you away feeling invigorated with a full stomach.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -120,7 +120,7 @@ public class Road31 : RoadEventModel<Road31.ChoiceA, Road31.ChoiceB>
 			You continue on with your journey but have no luck finding more food. You manage to make it to your destination but feel sluggish and worn out from the lack of sustenance.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBOnScenarioStartedReward()
 		];

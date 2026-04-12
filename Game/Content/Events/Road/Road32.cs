@@ -62,7 +62,7 @@ public class Road32 : RoadEventModel<Road32.ChoiceA, Road32.ChoiceB>
 			You eventually outrun the Vermling and enjoy a hearty meal, but as you reach your destination you turn around and find the Vermling has caught up and is angrily charging toward you.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -110,7 +110,7 @@ public class Road32 : RoadEventModel<Road32.ChoiceA, Road32.ChoiceB>
 			You continue on with your journey but have no luck finding more food. You manage to make it to your destination but feel sluggish and worn out from the lack of sustenance.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBOnScenarioStartedReward()
 		];

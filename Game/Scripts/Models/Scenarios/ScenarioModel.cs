@@ -25,7 +25,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	public abstract string ConclusionText { get; }
 
 	public abstract List<MonsterModel> MonsterModels { get; }
-	public abstract List<Reward> Rewards { get; }
+	public abstract List<SavedReward> Rewards { get; }
 
 	public virtual string BGMPath => "res://Audio/BGM/Floral-Woods.ogg";
 	public virtual string BGSPath => null;

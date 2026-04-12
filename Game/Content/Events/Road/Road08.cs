@@ -58,7 +58,7 @@ public class Road08 : RoadEventModel<Road08.ChoiceA, Road08.ChoiceB>
 			You explain to the Vermling that it's harmless snow, and snowfall is natural this high up in the peaks. She thanks you for clearing up the confusion and offers to accompany you on your journey.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -73,7 +73,7 @@ public class Road08 : RoadEventModel<Road08.ChoiceA, Road08.ChoiceB>
 			You agree to escort the Vermling out of the mountains and lead her out of the snowy mountains. She thanks you, pays you and vows never to return to what she calls the 'cursed powder mountains' again.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new GainCollectiveGoldReward(15)
 		];

@@ -32,7 +32,7 @@ public class City59 : CityEventModel<City59.ChoiceA, City59.ChoiceB>
 			You ask to be honored in the hospital, and the men assure you that your funds will ensure the Great Oak can continue to provide continuous care to those in need.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -70,7 +70,7 @@ public class City59 : CityEventModel<City59.ChoiceA, City59.ChoiceB>
 			You ask to be honored in the temple, and the men assure you that your funds will ensure the Great Oak can continue to help carry their message throughout Gloomhaven.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{

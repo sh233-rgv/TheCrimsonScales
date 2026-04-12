@@ -4,7 +4,7 @@ public class UnlockScenario52MerchantsGuildHallReward : MerchantsGuildHallReward
 {
 	public override string GetDescription(RichTextParameters richTextParameters) => "Unlock Scenario 52: “Wishing Well”";
 
-	public override List<Reward> GetRewards() =>
+	public override List<SavedReward> GetRewards() =>
 	[
 		new UnlockScenarioReward(ModelDB.Scenario<Scenario052>())
 	];

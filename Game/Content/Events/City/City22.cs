@@ -52,7 +52,7 @@ public class City22 : CityEventModel<City22.ChoiceA, City22.ChoiceB>
 			"The Disappearing Act trick! It's quite simple to use," the Quatryl glees as he proceeds to show you how to use the trick. "Wishing you the best and please, tell your friends about us!"
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -67,7 +67,7 @@ public class City22 : CityEventModel<City22.ChoiceA, City22.ChoiceB>
 			"The Spinning Wheel! Great trick for causing confusion," the Quatryl joyfully exclaims as he proceeds to show you how to use the trick. Don't forget to spread the word about the shop opening!"
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AllMonstersStartScenarioWithConditionReward(Conditions.Muddle)
 		];

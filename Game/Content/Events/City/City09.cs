@@ -20,7 +20,7 @@ public class City09 : CityEventModel<City09.ChoiceA, City09.ChoiceB>
 			They continue calling your name as you slink out the back door. Looks like they'll have to find another patron to fill the slot.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new LoseReputationReward(1)
 		];
@@ -63,7 +63,7 @@ public class City09 : CityEventModel<City09.ChoiceA, City09.ChoiceB>
 			You're pleasantly surprised when you hear your name being called up as one of the winners of the show.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBDowntimeEnhancementCostReward()
 		];

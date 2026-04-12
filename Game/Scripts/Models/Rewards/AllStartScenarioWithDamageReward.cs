@@ -3,7 +3,7 @@ using Fractural.Tasks;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class AllStartScenarioWithDamageReward : Reward
+public class AllStartScenarioWithDamageReward : SavedReward
 {
 	[JsonProperty]
 	private int _damage;

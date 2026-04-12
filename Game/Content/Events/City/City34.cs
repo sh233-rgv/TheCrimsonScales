@@ -21,7 +21,7 @@ public class City34 : CityEventModel<City34.ChoiceA, City34.ChoiceB>
 			You insist he interpret the dream at no charge and remind him of the time you rescued him from a bera. With an angry look on his face, he consents not to charge you. He pays little attention as you speak, and as you conclude his sour expression turns into a devilish smile as he proceeds to explain that your nightmare was meant to give you a glimpse of the impending misfortune you are due to experience.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AllStartScenarioWithConditionReward(Conditions.Curse)
 		];
@@ -51,7 +51,7 @@ public class City34 : CityEventModel<City34.ChoiceA, City34.ChoiceB>
 			""";
 
 		//TODO: Not enough gold
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new LoseCollectiveGoldReward(10),
 			new ChoiceBOnScenarioStartedReward()

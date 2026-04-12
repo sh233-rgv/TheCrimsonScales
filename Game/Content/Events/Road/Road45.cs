@@ -22,7 +22,7 @@ public class Road45 : RoadEventModel<Road45.ChoiceA, Road45.ChoiceB>
 			When you reach your destination, it doesn't want to leave your side. It seems it's here to stay, and you realize you haven't just hired a light source... you hired a mercenary.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new LoseCollectiveGoldReward(10),
 			new SpawnReward(ModelDB.Monster<Lurker>(), 4)
@@ -38,7 +38,7 @@ public class Road45 : RoadEventModel<Road45.ChoiceA, Road45.ChoiceB>
 			You continue on with your journey, making your way off the shoreline and into a forest when you accidentally stumble into a thorn-bush. Bruised and cut, you finally reach your destination and vow never to travel without extra oil again.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AllStartScenarioWithDamageReward(2)
 		];

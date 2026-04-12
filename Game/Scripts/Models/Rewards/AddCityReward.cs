@@ -4,7 +4,7 @@ using Fractural.Tasks;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class AddCityReward : Reward
+public class AddCityReward : SavedReward
 {
 	[JsonProperty]
 	private string _eventModelId;

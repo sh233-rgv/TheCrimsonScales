@@ -58,13 +58,13 @@ public partial class EventCard : Control
 
 		_rewardLabels.Clear();
 
-		List<Reward> eventRewards = savedEventState.Choice.GetRewards(savedEventState);
+		List<SavedReward> eventRewards = savedEventState.Choice.GetRewards(savedEventState);
 		if(eventRewards.Count == 0)
 		{
 			eventRewards.Add(new NoEffectReward());
 		}
 
-		foreach(Reward eventReward in eventRewards)
+		foreach(SavedReward eventReward in eventRewards)
 		{
 			RichTextLabel rewardLabel = _rewardLabelScene.Instantiate<RichTextLabel>();
 			_rewardLabelParent.AddChild(rewardLabel);

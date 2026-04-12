@@ -40,7 +40,7 @@ public class Road44 : RoadEventModel<Road44.ChoiceA, Road44.ChoiceB>
 			"The rusty spikes trap! Great choice, use it wisely." The Chainguard hands you the trap and bids you farewell.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -72,7 +72,7 @@ public class Road44 : RoadEventModel<Road44.ChoiceA, Road44.ChoiceB>
 			"The clamping snare. Great for stopping anything in its tracks!" The Chainguard hands you the trap and wishes you the best of luck on your journey.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBOnScenarioStartedReward()
 		];

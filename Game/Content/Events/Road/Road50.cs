@@ -37,7 +37,7 @@ public class Road50 : RoadEventModel<Road50.ChoiceA, Road50.ChoiceB>
 			You tell the Aesther you're in pursuit of health and he points to the stars. "I'll be sure to wish upon a certain star for you tonight, and should the constellations align, you will find yourself in full health!"
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -77,7 +77,7 @@ public class Road50 : RoadEventModel<Road50.ChoiceA, Road50.ChoiceB>
 			You tell the Aesther you're in pursuit of wealth and he points to the stars. "I'll be sure to wish upon a certain star for you tonight, and should the constellations align, you will find yourself with great fortune!"
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBOnScenarioStartedReward()
 		];

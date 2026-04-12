@@ -20,7 +20,7 @@ public class City08 : CityEventModel<City08.ChoiceA, City08.ChoiceB>
 			You point and laugh at the Vermlings and soon a crowd gathers and joins you in laughter. Embarrassed, the group of Vermlings disband but not before they give you a hard staredown.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AddRoadReward(ModelDB.Event<Road32>())
 		];
@@ -35,7 +35,7 @@ public class City08 : CityEventModel<City08.ChoiceA, City08.ChoiceB>
 			You help the Vermlings unscrew the lightbulb and they squeel with excitement as it twists out from the socket. They take turns holding it in awe and passing it around as they thank you for your help before scurrying off, leaving the street in darkness.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AddRoadReward(ModelDB.Event<Road31>())
 		];

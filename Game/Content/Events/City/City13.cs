@@ -46,7 +46,7 @@ public class City13 : CityEventModel<City13.ChoiceA, City13.ChoiceB>
 			You tell Shiela that time is money, and she blushes as tears swell up in her eyes. "I'm terribly sorry, but business has been slow," she stammers as she opens her cash register to reveal it to be completely empty. "I'm afraid I have no gold at the moment, but I can offer you a discount on a potion instead."
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceADowntimeShopPriceReward()
 		];
@@ -83,7 +83,7 @@ public class City13 : CityEventModel<City13.ChoiceA, City13.ChoiceB>
 			You tell Shiela not to worry about it, and she blushes. "Nonsense! You're a great friend, and it's completely my fault. At the very least, let me offer you one of my potions at no cost."
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBDowntimeShopPriceReward()
 		];

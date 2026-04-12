@@ -4,7 +4,7 @@ using Fractural.Tasks;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class GainXPReward : Reward
+public class GainXPReward : SavedReward
 {
 	[JsonProperty]
 	private int _xp;

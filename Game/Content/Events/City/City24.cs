@@ -22,7 +22,7 @@ public class City24 : CityEventModel<City24.ChoiceA, City24.ChoiceB>
 			It'll be the last time you work for him, but at least you've earned your keep for today.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new GainCollectiveGoldReward(30)
 		];
@@ -37,7 +37,7 @@ public class City24 : CityEventModel<City24.ChoiceA, City24.ChoiceB>
 			You begin to beat upon the Valrath who quickly drops to the ground in fear. He begs for mercy as you deal each blow and offers to empty his wallet. Having taught the Valrath a lesson, you hastily take all the coin he has to offer before leaving him to softly weep alone on the floor.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new GainCollectiveGoldReward(40),
 			new LoseReputationReward(1)

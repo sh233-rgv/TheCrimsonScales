@@ -42,7 +42,7 @@ public class City20 : CityEventModel<City20.ChoiceA, City20.ChoiceB>
 			You lift Shiela up over your shoulder and proceed to carry her all the way to the Mixed District. As you head up the stairs to her apartment, Shiela slurs a hearty thanks and promises to repay you the next time you visit her potion shop.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceADowntimeShopPriceReward()
 		];
@@ -59,7 +59,7 @@ public class City20 : CityEventModel<City20.ChoiceA, City20.ChoiceB>
 			You head straight home with little regard for her wellbeing and proceed to get a full night's rest.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AllStartScenarioWithConditionReward(Conditions.Strengthen)
 		];

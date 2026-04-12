@@ -20,7 +20,7 @@ public class Road37 : RoadEventModel<Road37.ChoiceA, Road37.ChoiceB>
 			You take the time to nurse the bear back to health. Confident that you've given it a fighting chance for survival, you begin to leave, only to notice the bear following you. It's limping, but you sense gratitude and it doesn't seem to want to leave your side.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new SpawnReward(ModelDB.Monster<CaveBear>(), 5)
 		];
@@ -35,7 +35,7 @@ public class Road37 : RoadEventModel<Road37.ChoiceA, Road37.ChoiceB>
 			You ignore the bear's pleading for help and carry on with your journey. You feel a slight sense of remorse as you wonder what could have been had you helped the bear, but there's no looking back now.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AllStartScenarioWithConditionReward(Conditions.Curse)
 		];

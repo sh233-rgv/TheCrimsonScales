@@ -42,7 +42,7 @@ public class City28 : CityEventModel<City28.ChoiceA, City28.ChoiceB>
 			You point to the amulet of security and a smile forms upon the Vermling's face. "You shall be blessed! Blessings upon you!"
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -59,7 +59,7 @@ public class City28 : CityEventModel<City28.ChoiceA, City28.ChoiceB>
 			You point to the amulet of restoration and a frown falls upon the Vermling's face. "You have been warned! Curses upon you!"
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AllStartScenarioWithConditionReward(Conditions.Curse)
 		];

@@ -55,7 +55,7 @@ public class Road41 : RoadEventModel<Road41.ChoiceA, Road41.ChoiceB>
 			You asked to be blessed with longevity. The old man puts his hands over your head and mumbles, leaving a smear of dirt on your forehead. He kisses your cheek and then sits down and begins picking at the bread and licking the crumbs from his hand.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -93,7 +93,7 @@ public class Road41 : RoadEventModel<Road41.ChoiceA, Road41.ChoiceB>
 			You asked to be blessed with sustenance. The old man waves his hands over your head, dropping small bits of dirt in your eyes as he mumbles. He kisses your forehead and then sits down and waves you off.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBOnScenarioStartedReward()
 		];

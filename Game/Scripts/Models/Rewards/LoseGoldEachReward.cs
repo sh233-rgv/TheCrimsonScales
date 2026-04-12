@@ -5,7 +5,7 @@ using Godot;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class LoseGoldEachReward : Reward
+public class LoseGoldEachReward : SavedReward
 {
 	[JsonProperty]
 	private int _goldAmount;

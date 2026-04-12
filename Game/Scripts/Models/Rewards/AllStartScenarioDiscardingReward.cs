@@ -4,7 +4,7 @@ using Fractural.Tasks;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class AllStartScenarioDiscardingReward : Reward
+public class AllStartScenarioDiscardingReward : SavedReward
 {
 	[JsonProperty]
 	private int _discardCount;

@@ -25,7 +25,7 @@ public class Road57 : RoadEventModel<Road57.ChoiceA, Road57.ChoiceB>
 			No wonder your throat won't sop itching. "Well," the Brightspark clears his throat, "Let's just hope you find plenty of bathroom stops along the way!"
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AllStartScenarioWithDamageReward(2)
 		];
@@ -54,7 +54,7 @@ public class Road57 : RoadEventModel<Road57.ChoiceA, Road57.ChoiceB>
 			"Here you go, handle it with care!" the Brightspark carefully hands you the dull gray vial of ooze. "Shake it and then uncap it when you're ready for a bedazzling chemical reaction!"
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBOnScenarioStartedReward()
 		];

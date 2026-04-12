@@ -22,7 +22,7 @@ public class Road05 : RoadEventModel<Road05.ChoiceA, Road05.ChoiceB>
 			On your way back to the road, you watch a second Inox dumping out a large pot filled with congealed grease and what appears to be human bones. Your stomach grumbles unpleasantly, and you feel ill.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new GainXPReward(3),
 			new AllStartScenarioWithDamageReward(3)
@@ -40,7 +40,7 @@ public class Road05 : RoadEventModel<Road05.ChoiceA, Road05.ChoiceB>
 			You've had a great time, but nightfall is approaching and it's time to carry on with your journey. The Inox give you gifts to depart with as you excuse yourself from the event. 
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new GainCollectiveGoldReward(5),
 			new GainCollectiveItemReward(ModelDB.Item<NecklaceOfTeeth>())

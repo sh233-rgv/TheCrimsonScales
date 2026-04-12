@@ -26,7 +26,7 @@ public abstract class DummyScenario : ScenarioModel
 		//TODO
 	];
 
-	public override List<Reward> Rewards { get; } =
+	public override List<SavedReward> Rewards { get; } =
 	[
 		//TODO
 	];

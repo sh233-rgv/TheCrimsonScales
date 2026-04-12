@@ -4,7 +4,7 @@ public class UnlockScenario53MerchantsGuildHallReward : MerchantsGuildHallReward
 {
 	public override string GetDescription(RichTextParameters richTextParameters) => "Unlock Scenario 53: “Cave of Currents”";
 
-	public override List<Reward> GetRewards() =>
+	public override List<SavedReward> GetRewards() =>
 	[
 		new UnlockScenarioReward(ModelDB.Scenario<Scenario053>())
 	];

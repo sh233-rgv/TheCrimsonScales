@@ -24,7 +24,7 @@ public class City57 : CityEventModel<City57.ChoiceA, City57.ChoiceB>
 			On the ground beside the bench you find a large rucksack - big enough to contain a few juvenile vipers - and a note... "Maybe I am mad after all."
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			//TODO:Retire the Viper Hunter and do not add retirement events for this character
 			new LoseProsperityReward(1),
@@ -43,7 +43,7 @@ public class City57 : CityEventModel<City57.ChoiceA, City57.ChoiceB>
 			On the ground beside the bench you find a large rucksack - big enough to contain a few juvenile vipers - and a note... "Maybe I am mad after all."
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			//TODO:Retire the Viper Hunter and do not add retirement events for this character
 			new LoseReputationReward(1),

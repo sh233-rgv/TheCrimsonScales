@@ -52,7 +52,7 @@ public class Road53 : RoadEventModel<Road53.ChoiceA, Road53.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -80,7 +80,7 @@ public class Road53 : RoadEventModel<Road53.ChoiceA, Road53.ChoiceB>
 			You're not happy about the situation, but being attacked while knee-deep in mud is exactly the luck you've been having today, so you decide not to risk it. The rest of the trip is uneventful, but exhausting.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AllStartScenarioDiscardingReward(2)
 		];

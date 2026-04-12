@@ -46,7 +46,7 @@ public class Road02 : RoadEventModel<Road02.ChoiceA, Road02.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -74,7 +74,7 @@ public class Road02 : RoadEventModel<Road02.ChoiceA, Road02.ChoiceB>
 			You spend hours searching for another meal, but the land seems to be devoid of anything remotely edible. You reach your destination weary and hungry.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AllStartScenarioWithConditionReward(Conditions.Muddle)
 		];

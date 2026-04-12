@@ -103,14 +103,11 @@ public class ScenarioSetupPhase : ScenarioPhase
 			await savedPartyGoal.Model.OnScenarioSetupPhaseCompleted(savedPartyGoal);
 		}
 
-		foreach(SavedEventState savedEventState in GameController.Instance.SavedCampaign.SavedEvents.SavedEventStates)
+		foreach(SavedReward reward in GameController.Instance.SavedCampaign.SavedRewards.Rewards)
 		{
-			foreach(Reward eventReward in savedEventState.Choice.GetRewards(savedEventState))
+			if(reward.Type == RewardType.ScenarioStart)
 			{
-				if(eventReward.Type == RewardType.ScenarioStart)
-				{
-					await eventReward.OnScenarioSetupPhaseCompleted();
-				}
+				await reward.OnScenarioSetupPhaseCompleted();
 			}
 		}
 	}

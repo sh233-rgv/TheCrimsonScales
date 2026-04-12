@@ -58,7 +58,7 @@ public class City11 : CityEventModel<City11.ChoiceA, City11.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -88,7 +88,7 @@ public class City11 : CityEventModel<City11.ChoiceA, City11.ChoiceB>
 			Moments later, you return to the scene with two city guards and they proceed to arrest the Inox. "Thank you, loyal citizen," one of the city guards commends you. "We appreciate you doing your part to keep these streets clean."
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new GainProsperityReward(1)
 		];

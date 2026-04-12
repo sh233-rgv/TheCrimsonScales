@@ -22,7 +22,7 @@ public class Road01 : RoadEventModel<Road01.ChoiceA, Road01.ChoiceB>
 
 		public override EventResolveType GetEventResolveType(SavedEventState state) => EventResolveType.ReturnCardToBottom;
 
-		public override List<Reward> GetRewards(SavedEventState state) => [];
+		public override List<SavedReward> GetRewards(SavedEventState state) => [];
 	}
 
 	public class ChoiceB : EventChoiceModel
@@ -34,7 +34,7 @@ public class Road01 : RoadEventModel<Road01.ChoiceA, Road01.ChoiceB>
 			You offer to help the Orchid on her mission and her face lights up with contentment. She relays the coordinates of where to find the beasts and wishes you luck as she excuses herself to tend to her tribe.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new UnlockScenarioReward(ModelDB.Scenario<Scenario042>())
 		];

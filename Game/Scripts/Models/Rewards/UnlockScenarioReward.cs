@@ -4,7 +4,7 @@ using Fractural.Tasks;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class UnlockScenarioReward : Reward
+public class UnlockScenarioReward : SavedReward
 {
 	[JsonProperty]
 	private string _scenarioModelId;

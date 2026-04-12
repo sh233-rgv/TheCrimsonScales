@@ -79,7 +79,7 @@ public class Road59 : RoadEventModel<Road59.ChoiceA, Road59.ChoiceB>
 			You choose to eat the red berries, and although the taste is familiar, you begin to sense the power described by the vermling.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{
@@ -184,7 +184,7 @@ public class Road59 : RoadEventModel<Road59.ChoiceA, Road59.ChoiceB>
 			You choose to eat the green berries, and although the taste is familiar, you begin to sense the power described by the vermling.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(ConditionsMetKey))
 			{

@@ -47,7 +47,7 @@ public class City26 : CityEventModel<City26.ChoiceA, City26.ChoiceB>
 			The human gratefully hands you a canister of poison gas used in his line of work and proceeds to enter the shop.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -93,7 +93,7 @@ public class City26 : CityEventModel<City26.ChoiceA, City26.ChoiceB>
 			You intervene on behalf of the Harrower and demand the Human leave it alone. Outnumbered, the Human curses under his breath as he turns around and enters the shop. The Harrower chitters gleefully and explains that it belongs to a sect of medically inclined Harrowers and is willing to aid you on your next journey.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBOnScenarioStartedReward()
 		];

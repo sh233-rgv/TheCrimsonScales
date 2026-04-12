@@ -6,7 +6,7 @@ public partial class RewardsPopup : Popup<RewardsPopup.Request>
 {
 	public class Request : PopupRequest
 	{
-		public List<Reward> Rewards { get; init; }
+		public List<SavedReward> Rewards { get; init; }
 	}
 
 	[Export]
@@ -29,7 +29,7 @@ public partial class RewardsPopup : Popup<RewardsPopup.Request>
 	{
 		base.OnOpen();
 
-		foreach(Reward reward in PopupRequest.Rewards)
+		foreach(SavedReward reward in PopupRequest.Rewards)
 		{
 			RichTextLabel label = _rewardLabelScene.Instantiate<RichTextLabel>();
 			_rewardLabelParent.AddChild(label);

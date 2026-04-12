@@ -64,7 +64,7 @@ public class Road16 : RoadEventModel<Road16.ChoiceA, Road16.ChoiceB>
 			You pry the saber from the corpse's hand and hold it tight. It's rusty and deteriorated but you could likely get a few good swings out of it.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -123,7 +123,7 @@ public class Road16 : RoadEventModel<Road16.ChoiceA, Road16.ChoiceB>
 			You slide the shield out from between the skeleton's bony fingers and clang your blade against it. It's in poor shape but likely to protect you from a few blows before it decays.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBOnScenarioStartedReward()
 		];

@@ -47,7 +47,7 @@ public class Road48 : RoadEventModel<Road48.ChoiceA, Road48.ChoiceB>
 			You ask the Vermling to restrain the energy and she nods and begins to chant. The light suddenly escapes from the bush and wraps around your body before slowly dimming. It's as if your body absorbed the light, and you begin to feel a strange sensation.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceAOnScenarioStartedReward()
 		];
@@ -88,7 +88,7 @@ public class Road48 : RoadEventModel<Road48.ChoiceA, Road48.ChoiceB>
 			You ask the Vermling to hold nothing back and she begins to shriek and wave her hands frantically in the air. The light intensifies until it becomes blinding and you shudder as you close your eyes. All of a sudden, her shrieking stops and you open your eyes to find nothing but a singed twig in the place of the bush, and a burning sensation running through you like nothing you've ever experienced before. 
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBOnScenarioStartedReward()
 		];

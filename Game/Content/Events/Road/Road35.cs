@@ -24,7 +24,7 @@ public class Road35 : RoadEventModel<Road35.ChoiceA, Road35.ChoiceB>
 			The men begin apologizing and mention something about disproportionate measurements. These men clearly did not know what they were doing.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new AllStartScenarioWithConditionReward(Conditions.Wound1)
 		];
@@ -39,6 +39,6 @@ public class Road35 : RoadEventModel<Road35.ChoiceA, Road35.ChoiceB>
 			You politely decline and carry forward with your journey. Several minutes after departing from the scene, you hear a large explosion and see a cloud of smoke rising in the distance. It's a good thing you didn't stick around.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) => [];
+		public override List<SavedReward> GetRewards(SavedEventState state) => [];
 	}
 }

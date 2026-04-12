@@ -22,7 +22,7 @@ public class City05 : CityEventModel<City05.ChoiceA, City05.ChoiceB>
 			You demand the Harrower pay you in gold coin, and it hastily snatches the bag of jewels and proceeds to turn away. The rest of the day passes with no other customers visiting your stall. You return home at the end of the day, wondering what could have been.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) => [];
+		public override List<SavedReward> GetRewards(SavedEventState state) => [];
 	}
 
 	public class ChoiceBDowntimeShopSellPriceReward : DowntimeShopSellPriceReward
@@ -56,7 +56,7 @@ public class City05 : CityEventModel<City05.ChoiceA, City05.ChoiceB>
 			You exchange your wares for the jewels and head straight to the jeweler to have them evaluated. The jeweler deems them authentic and you head to the Sleeping Lion with full pockets to enjoy an early evening in town.
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceBDowntimeShopSellPriceReward()
 		];

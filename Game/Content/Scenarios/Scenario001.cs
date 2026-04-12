@@ -36,7 +36,7 @@ public class Scenario001 : ScenarioModel
 		ModelDB.Monster<WaterSpirit>(),
 	];
 
-	public override List<Reward> Rewards { get; } =
+	public override List<SavedReward> Rewards { get; } =
 	[
 		new UnlockScenarioReward(ModelDB.Scenario<Scenario002>())
 	];

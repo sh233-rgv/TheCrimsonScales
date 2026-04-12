@@ -46,7 +46,7 @@ public class City37 : CityEventModel<City37.ChoiceA, City37.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(EnoughGoldKey))
 			{
@@ -106,7 +106,7 @@ public class City37 : CityEventModel<City37.ChoiceA, City37.ChoiceB>
 			}
 		}
 
-		public override List<Reward> GetRewards(SavedEventState state)
+		public override List<SavedReward> GetRewards(SavedEventState state)
 		{
 			if(state.GetCustomValue<bool>(OrchidInPartyKey))
 			{

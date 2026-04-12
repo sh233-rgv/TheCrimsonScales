@@ -4,7 +4,7 @@ using Fractural.Tasks;
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class GainCollectiveItemReward : Reward
+public class GainCollectiveItemReward : SavedReward
 {
 	[JsonProperty]
 	private string _itemModelId;

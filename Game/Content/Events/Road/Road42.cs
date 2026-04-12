@@ -69,7 +69,7 @@ public class Road42 : RoadEventModel<Road42.ChoiceA, Road42.ChoiceB>
 			You answer that you are on the path of righteousness and the man smiles warmly. "Very well then. I shall pray for you to continue to walk the path of prosperity and good merit!"
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceA1OnScenarioStartedReward(),
 			new ChoiceA2OnScenarioStartedReward()
@@ -133,7 +133,7 @@ public class Road42 : RoadEventModel<Road42.ChoiceA, Road42.ChoiceB>
 			You answer that you are on the path of despair and the man instantly frowns. "Well, if that's the path you choose, I shall pray for you to continue to walk the path of anguish and dishearten your enemies!"
 			""";
 
-		public override List<Reward> GetRewards(SavedEventState state) =>
+		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
 			new ChoiceB1OnScenarioStartedReward(),
 			new ChoiceB2OnScenarioStartedReward()
