@@ -179,7 +179,7 @@ public partial class GameController : SceneController<GameController>
 
 			if(string.IsNullOrEmpty(DefaultSavedGame))
 			{
-				savedCampaign = SavedCampaign.Test();
+				savedCampaign = SavedCampaign.Test(true);
 				float characterLevelSum = savedCampaign.Characters.Sum(character => character.Level);
 				savedCampaign.SetSavedScenario(new SavedScenario
 				{

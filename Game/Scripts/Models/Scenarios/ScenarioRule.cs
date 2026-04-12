@@ -5,6 +5,8 @@ public class ScenarioRule
 	public string Text { get; private set; }
 	public int Order { get; }
 
+	public bool Removed { get; private set; }
+
 	public event Action<ScenarioRule> TextChangedEvent;
 	public event Action<ScenarioRule> TextRemovedEvent;
 
@@ -23,6 +25,8 @@ public class ScenarioRule
 
 	public void Remove()
 	{
+		Removed = true;
+
 		TextRemovedEvent?.Invoke(this);
 	}
 }

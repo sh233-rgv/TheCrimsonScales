@@ -93,7 +93,12 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		return goal;
 	}
 
-	protected T AddScenarioRule<T>(T rule)
+	protected ScenarioRule AddScenarioRule(string text, int order = 0)
+	{
+		return AddScenarioRule(new ScenarioRule(text, order));
+	}
+
+	protected T AddScenarioRule<T>(T rule, int order = 0)
 		where T : ScenarioRule
 	{
 		_rules.Add(rule);

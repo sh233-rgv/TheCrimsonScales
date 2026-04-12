@@ -621,6 +621,16 @@ public partial class Character : Figure
 			AddCard(abilityCard);
 		}
 
+		if(GameController.Instance.SavedCampaign.GodMode)
+		{
+			for(int i = 0; i < 10; i++)
+			{
+				SavedAbilityCard savedAbilityCard = new SavedAbilityCard(ModelDB.AbilityCard<TestCard>());
+				AbilityCard abilityCard = new AbilityCard(savedAbilityCard, this);
+				AddCard(abilityCard);
+			}
+		}
+
 		// Add and initialize all equipped items
 		foreach(string baseSlotItem in SavedCharacter.EquippedBaseSlotItems)
 		{

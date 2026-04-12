@@ -167,7 +167,7 @@ public class MoveAbility : Ability<MoveAbility.State>
 				if(abilityState.MoveType == MoveType.Jump && i == path.Count - 1)
 				{
 					playedLandSound = true;
-					AppController.Instance.AudioController.PlayFastForwardable(SFX.GetLand(performer.Hex),
+					AppController.Instance.AudioController.PlayFastForwardable(SFX.GetLand(hex),
 						delay: 0.25f);
 				}
 

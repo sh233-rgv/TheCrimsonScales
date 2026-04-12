@@ -85,6 +85,9 @@ public class SavedCampaign
 	public bool EnhancementsUnlocked { get; private set; }
 
 	[JsonProperty]
+	public bool GodMode { get; private set; }
+
+	[JsonProperty]
 	public Dictionary<string, object> CustomValues { get; private set; } = new Dictionary<string, object>();
 
 	// Collection of ALL characters, even retired and benched ones
@@ -144,7 +147,7 @@ public class SavedCampaign
 		return savedCampaign;
 	}
 
-	public static SavedCampaign Test()
+	public static SavedCampaign Test(bool godMode = false)
 	{
 		SavedCampaign savedCampaign = New("Party Time", StartingGroup.Militants);
 
@@ -173,6 +176,8 @@ public class SavedCampaign
 		// savedCampaign.SavedScenarioProgresses.ScenarioProgresses.Add(ModelDB.GetId<Scenario029>().ToString(), testScenario);
 
 		savedCampaign.SetCustomValue("IntroductionSeen", true);
+
+		savedCampaign.GodMode = godMode;
 
 		return savedCampaign;
 	}

@@ -11,7 +11,7 @@ public class TestCard : BombardCardModel<TestCard.CardTop, TestCard.CardBottom>
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(AttackAbility.Builder().WithDamage(100).WithInfiniteRange().Build())
+			new AbilityCardAbility(AttackAbility.Builder().WithDamage(100).WithTargets(100).WithInfiniteRange().Build())
 		];
 	}
 
@@ -19,7 +19,7 @@ public class TestCard : BombardCardModel<TestCard.CardTop, TestCard.CardBottom>
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder().WithDistance(100).Build())
+			new AbilityCardAbility(MoveAbility.Builder().WithDistance(100).WithMoveType(MoveType.Jump).Build())
 		];
 	}
 }

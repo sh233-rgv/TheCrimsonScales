@@ -32,7 +32,7 @@ public class KillSpecificEnemyTypeGoal : ScenarioGoal
 		string monsterModelId = _monsterModel.Id.ToString();
 		foreach(MonsterSpawner monsterSpawner in GameController.Instance.Map.GetChildrenOfType<MonsterSpawner>())
 		{
-			if(monsterSpawner.MonsterModelId == monsterModelId)
+			if(monsterSpawner.MonsterModelId == monsterModelId && monsterSpawner.GetMonsterType() != MonsterType.None)
 			{
 				// Monster of this type still needs to be spawned
 				return false;
