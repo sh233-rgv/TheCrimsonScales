@@ -1,11 +1,28 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Fractural.Tasks;
-using Godot;
+using Newtonsoft.Json;
 
-public class GainCollectiveItemReward(ItemModel itemModel) : Reward
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class GainCollectiveItemReward : Reward
 {
+	[JsonProperty]
+	private string _itemModelId;
+
+	private ItemModel ItemModel => ModelDB.GetById<ItemModel>(_itemModelId);
+
 	public override RewardType Type => RewardType.Immediate;
-	public override string GetLabelText(RichTextParameters textParameters) => $"Gain 1 collective '{itemModel.Name}'.";
+
+	public GainCollectiveItemReward()
+	{
+	}
+
+	public GainCollectiveItemReward(ItemModel itemModel)
+	{
+		_itemModelId = itemModel.Id.ToString();
+	}
+
+	public override string GetLabelText(RichTextParameters textParameters) => $"Gain 1 collective '{ItemModel.Name}'.";
 
 	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
 	{
@@ -13,15 +30,16 @@ public class GainCollectiveItemReward(ItemModel itemModel) : Reward
 
 		AppController.Instance.PopupManager.RequestPopup(new ItemRewardCharacterSelectionPopup.Request()
 		{
-			ItemModel = itemModel,
+			ItemModel = ItemModel,
 			Characters = savedCampaign.Characters,
 			OnCharacterConfirmed = character =>
 			{
-				savedCampaign.GetSavedItem(itemModel).AddUnlocked(1);
-				character.AddItem(itemModel);
+				savedCampaign.GetSavedItem(ItemModel).AddUnlocked(1);
+				character.AddItem(ItemModel);
 			}
 		});
 
-		await GDTask.WaitWhile(() => AppController.Instance.PopupManager.IsPopupOpen<ItemRewardCharacterSelectionPopup.Request>());
+		await GDTask.WaitWhile(() => AppController.Instance.PopupManager.IsPopupOpen<ItemRewardCharacterSelectionPopup.Request>(),
+			cancellationToken: cancellationToken);
 	}
 }

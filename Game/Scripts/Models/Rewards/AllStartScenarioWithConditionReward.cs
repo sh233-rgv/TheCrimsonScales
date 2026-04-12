@@ -1,14 +1,32 @@
-﻿using Fractural.Tasks;
-using Godot;
+﻿using System;
+using System.Linq;
+using Fractural.Tasks;
+using Newtonsoft.Json;
 
-public class AllStartScenarioWithConditionReward(params ConditionModel[] conditionModels) : Reward
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class AllStartScenarioWithConditionReward : Reward
 {
+	[JsonProperty]
+	private string[] _conditionModelsIds;
+
+	public ConditionModel[] ConditionModels => _conditionModelsIds.Select(ModelDB.GetById<ConditionModel>).ToArray();
+
 	public override RewardType Type => RewardType.ScenarioStart;
+
+	public AllStartScenarioWithConditionReward()
+	{
+	}
+
+	public AllStartScenarioWithConditionReward(params ConditionModel[] conditionModels)
+	{
+		_conditionModelsIds = conditionModels.Select(model => model.Id.ToString()).ToArray();
+	}
 
 	public override string GetLabelText(RichTextParameters textParameters)
 	{
 		string labelText = "All characters start the next scenario with ";
 
+		ConditionModel[] conditionModels = ConditionModels;
 		for(int i = 0; i < conditionModels.Length; i++)
 		{
 			ConditionModel conditionModel = conditionModels[i];
@@ -29,6 +47,7 @@ public class AllStartScenarioWithConditionReward(params ConditionModel[] conditi
 	{
 		await base.OnScenarioSetupPhaseCompleted();
 
+		ConditionModel[] conditionModels = ConditionModels;
 		foreach(Character character in GameController.Instance.CharacterManager.Characters)
 		{
 			foreach(ConditionModel conditionModel in conditionModels)

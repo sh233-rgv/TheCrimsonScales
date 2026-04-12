@@ -1,8 +1,15 @@
-﻿using Godot;
+﻿using System;
+using Newtonsoft.Json;
 
-public class DoNotDrawRoadReward() : Reward
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class DoNotDrawRoadReward : Reward
 {
 	public override RewardType Type => RewardType.DuringDowntime;
+
+	public DoNotDrawRoadReward()
+	{
+	}
+
 	public override string GetLabelText(RichTextParameters textParameters) => "Do not draw a road event.";
 
 	public override void SubscribeDuringDowntime(SavedEventState savedEventState)

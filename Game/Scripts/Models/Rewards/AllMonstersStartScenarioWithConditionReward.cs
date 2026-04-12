@@ -1,14 +1,32 @@
-﻿using Fractural.Tasks;
-using Godot;
+﻿using System;
+using System.Linq;
+using Fractural.Tasks;
+using Newtonsoft.Json;
 
-public class AllMonstersStartScenarioWithConditionReward(params ConditionModel[] conditionModels) : Reward
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class AllMonstersStartScenarioWithConditionReward : Reward
 {
+	[JsonProperty]
+	private string[] _conditionModelsIds;
+
+	public ConditionModel[] ConditionModels => _conditionModelsIds.Select(ModelDB.GetById<ConditionModel>).ToArray();
+
 	public override RewardType Type => RewardType.ScenarioStart;
+
+	public AllMonstersStartScenarioWithConditionReward()
+	{
+	}
+
+	public AllMonstersStartScenarioWithConditionReward(params ConditionModel[] conditionModels)
+	{
+		_conditionModelsIds = conditionModels.Select(model => model.Id.ToString()).ToArray();
+	}
 
 	public override string GetLabelText(RichTextParameters textParameters)
 	{
 		string labelText = "At the start of the next scenario, all visible monsters gain ";
 
+		ConditionModel[] conditionModels = ConditionModels;
 		for(int i = 0; i < conditionModels.Length; i++)
 		{
 			ConditionModel conditionModel = conditionModels[i];
@@ -29,6 +47,7 @@ public class AllMonstersStartScenarioWithConditionReward(params ConditionModel[]
 	{
 		await base.OnScenarioSetupPhaseCompleted();
 
+		ConditionModel[] conditionModels = ConditionModels;
 		foreach(Figure figure in GameController.Instance.Map.Figures)
 		{
 			if(figure is Monster)

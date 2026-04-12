@@ -1,9 +1,13 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Fractural.Tasks;
+using Newtonsoft.Json;
 
+[Serializable, JsonObject(MemberSerialization.OptIn)]
 public abstract class Reward
 {
 	public abstract RewardType Type { get; }
+
 	public abstract string GetLabelText(RichTextParameters textParameters);
 
 	public virtual async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)

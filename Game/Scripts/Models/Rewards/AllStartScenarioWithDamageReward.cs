@@ -1,12 +1,26 @@
-﻿using Fractural.Tasks;
-using Godot;
+﻿using System;
+using Fractural.Tasks;
+using Newtonsoft.Json;
 
-public class AllStartScenarioWithDamageReward(int damage) : Reward
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class AllStartScenarioWithDamageReward : Reward
 {
+	[JsonProperty]
+	private int _damage;
+
 	public override RewardType Type => RewardType.ScenarioStart;
 
+	public AllStartScenarioWithDamageReward()
+	{
+	}
+
+	public AllStartScenarioWithDamageReward(int damage)
+	{
+		_damage = damage;
+	}
+
 	public override string GetLabelText(RichTextParameters textParameters) =>
-		$"All characters start the next scenario with {Icons.Inline(Icons.Damage, textParameters)}{damage}.";
+		$"All characters start the next scenario with {Icons.Inline(Icons.Damage, textParameters)}{_damage}.";
 
 	public override async GDTask OnScenarioSetupPhaseCompleted()
 	{
@@ -20,7 +34,7 @@ public class AllStartScenarioWithDamageReward(int damage) : Reward
 
 			if(!sufferDamageParameters.Prevented)
 			{
-				await AbilityCmd.SufferDamage(character, damage, character);
+				await AbilityCmd.SufferDamage(character, _damage, character);
 			}
 		}
 	}

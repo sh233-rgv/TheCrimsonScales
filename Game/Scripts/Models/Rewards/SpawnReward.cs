@@ -1,12 +1,32 @@
-﻿using Fractural.Tasks;
-using Godot;
+﻿using System;
+using Fractural.Tasks;
+using Newtonsoft.Json;
 
-public class SpawnReward(MonsterModel monsterModel, int maxHP) : Reward
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class SpawnReward : Reward
 {
+	[JsonProperty]
+	private string _monsterModelId;
+
+	[JsonProperty]
+	private int _maxHp;
+
+	public MonsterModel MonsterModel => ModelDB.GetById<MonsterModel>(_monsterModelId);
+
 	public override RewardType Type => RewardType.ScenarioStart;
 
+	public SpawnReward()
+	{
+	}
+
+	public SpawnReward(MonsterModel monsterModel, int maxHp)
+	{
+		_monsterModelId = monsterModel.Id.ToString();
+		_maxHp = maxHp;
+	}
+
 	public override string GetLabelText(RichTextParameters textParameters) =>
-		$"At the start of the next scenario, an allied {monsterModel.Name} with a maximum hit point value of {maxHP} will spawn next to any character.";
+		$"At the start of the next scenario, an allied {MonsterModel.Name} with a maximum hit point value of {_maxHp} will spawn next to any character.";
 
 	public override async GDTask OnScenarioSetupPhaseCompleted()
 	{
@@ -25,18 +45,18 @@ public class SpawnReward(MonsterModel monsterModel, int maxHP) : Reward
 						}
 					}
 				}
-			}, hintText: $"Select a hex to spawn the allied {monsterModel.Name}"
+			}, hintText: $"Select a hex to spawn the allied {MonsterModel.Name}"
 		);
 
 		if(hex != null)
 		{
-			Monster monster = await AbilityCmd.SpawnMonster(monsterModel, MonsterType.Normal, hex);
+			Monster monster = await AbilityCmd.SpawnMonster(MonsterModel, MonsterType.Normal, hex);
 			if(monster != null)
 			{
 				monster.SetAlignment(Alignment.Characters);
 				monster.SetEnemies(Alignment.Enemies);
-				monster.SetMaxHealth(maxHP);
-				monster.SetHealth(maxHP);
+				monster.SetMaxHealth(_maxHp);
+				monster.SetHealth(_maxHp);
 			}
 		}
 	}

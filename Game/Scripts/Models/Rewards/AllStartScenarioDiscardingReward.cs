@@ -1,13 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Fractural.Tasks;
-using Godot;
+using Newtonsoft.Json;
 
-public class AllStartScenarioDiscardingReward(int discardCount) : Reward
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class AllStartScenarioDiscardingReward : Reward
 {
+	[JsonProperty]
+	private int _discardCount;
+
 	public override RewardType Type => RewardType.ScenarioStart;
 
+	public AllStartScenarioDiscardingReward()
+	{
+	}
+
+	public AllStartScenarioDiscardingReward(int discardCount)
+	{
+		_discardCount = discardCount;
+	}
+
 	public override string GetLabelText(RichTextParameters textParameters) =>
-		$"All characters start the next scenario discarding {discardCount} {(discardCount == 1 ? "card" : "cards")} each.";
+		$"All characters start the next scenario discarding {_discardCount} {(_discardCount == 1 ? "card" : "cards")} each.";
 
 	public override async GDTask OnScenarioSetupPhaseCompleted()
 	{
@@ -15,8 +29,8 @@ public class AllStartScenarioDiscardingReward(int discardCount) : Reward
 
 		foreach(Character character in GameController.Instance.CharacterManager.Characters)
 		{
-			List<AbilityCard> cards = await AbilityCmd.SelectAbilityCards(character, CardState.Hand, discardCount, discardCount,
-				card => card.OriginalOwner == character, hintText: $"Select {discardCount} {(discardCount == 1 ? "card" : "cards")} to discard");
+			List<AbilityCard> cards = await AbilityCmd.SelectAbilityCards(character, CardState.Hand, _discardCount, _discardCount,
+				card => card.OriginalOwner == character, hintText: $"Select {_discardCount} {(_discardCount == 1 ? "card" : "cards")} to discard");
 			foreach(AbilityCard card in cards)
 			{
 				await AbilityCmd.DiscardCard(card);

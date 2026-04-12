@@ -1,11 +1,26 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Fractural.Tasks;
-using Godot;
+using Newtonsoft.Json;
 
-public class GainXPReward(int xp) : Reward
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class GainXPReward : Reward
 {
+	[JsonProperty]
+	private int _xp;
+
 	public override RewardType Type => RewardType.Immediate;
-	public override string GetLabelText(RichTextParameters textParameters) => $"Gain {Icons.Inline(Icons.XP, textParameters)}{xp} each.";
+
+	public GainXPReward()
+	{
+	}
+
+	public GainXPReward(int xp)
+	{
+		_xp = xp;
+	}
+
+	public override string GetLabelText(RichTextParameters textParameters) => $"Gain {Icons.Inline(Icons.XP, textParameters)}{_xp} each.";
 
 	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
 	{
@@ -13,7 +28,7 @@ public class GainXPReward(int xp) : Reward
 
 		foreach(SavedCharacter savedCharacter in savedCampaign.Characters)
 		{
-			savedCharacter.AddXP(xp);
+			savedCharacter.AddXP(_xp);
 		}
 	}
 }

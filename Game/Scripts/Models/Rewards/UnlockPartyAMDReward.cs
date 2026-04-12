@@ -1,10 +1,25 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Fractural.Tasks;
-using Godot;
+using Newtonsoft.Json;
 
-public class UnlockPartyAMDReward(AMDCardModel cardModel) : Reward
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class UnlockPartyAMDReward : Reward
 {
+	private string _cardModelId;
+
 	public override RewardType Type => RewardType.Immediate;
+
+	public AMDCardModel CardModel => ModelDB.GetById<AMDCardModel>(_cardModelId);
+
+	public UnlockPartyAMDReward()
+	{
+	}
+
+	public UnlockPartyAMDReward(AMDCardModel cardModel)
+	{
+		_cardModelId = cardModel.Id.ToString();
+	}
 
 	public override string GetLabelText(RichTextParameters textParameters) =>
 		$"Unlocked a bonus card whenever a character makes a donation to the Sanctuary of the Great Oak.";
@@ -13,6 +28,6 @@ public class UnlockPartyAMDReward(AMDCardModel cardModel) : Reward
 	{
 		await base.ImmediateResolve(savedCampaign, cancellationToken);
 
-		savedCampaign.SanctuaryOfTheGreatOak.UnlockPartyAMD(cardModel);
+		savedCampaign.SanctuaryOfTheGreatOak.UnlockPartyAMD(CardModel);
 	}
 }

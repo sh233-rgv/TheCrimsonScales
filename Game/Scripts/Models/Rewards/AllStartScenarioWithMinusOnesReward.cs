@@ -1,12 +1,26 @@
-﻿using Fractural.Tasks;
-using Godot;
+﻿using System;
+using Fractural.Tasks;
+using Newtonsoft.Json;
 
-public class AllStartScenarioWithMinusOnesReward(int number) : Reward
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class AllStartScenarioWithMinusOnesReward : Reward
 {
+	[JsonProperty]
+	private int _number;
+
 	public override RewardType Type => RewardType.ScenarioStart;
 
+	public AllStartScenarioWithMinusOnesReward()
+	{
+	}
+
+	public AllStartScenarioWithMinusOnesReward(int number)
+	{
+		_number = number;
+	}
+
 	public override string GetLabelText(RichTextParameters textParameters) =>
-		$"All characters start the next scenario with {Icons.Inline(Icons.MinusOneCard)} x{number}.";
+		$"All characters start the next scenario with {Icons.Inline(Icons.MinusOneCard)} x{_number}.";
 
 	public override async GDTask OnScenarioSetupPhaseCompleted()
 	{
@@ -20,7 +34,7 @@ public class AllStartScenarioWithMinusOnesReward(int number) : Reward
 
 			if(!inflictConditionsParameters.Prevented)
 			{
-				for(int i = 0; i < number; i++)
+				for(int i = 0; i < _number; i++)
 				{
 					character.AMDCardDeck.AddMinusOne();
 				}

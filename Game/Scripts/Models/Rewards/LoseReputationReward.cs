@@ -1,16 +1,31 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Fractural.Tasks;
-using Godot;
+using Newtonsoft.Json;
 
-public class LoseReputationReward(int reputationAmount) : Reward
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class LoseReputationReward : Reward
 {
+	[JsonProperty]
+	private int _reputationAmount;
+
 	public override RewardType Type => RewardType.Immediate;
-	public override string GetLabelText(RichTextParameters textParameters) => $"Lose {reputationAmount} reputation.";
+
+	public LoseReputationReward()
+	{
+	}
+
+	public LoseReputationReward(int reputationAmount)
+	{
+		_reputationAmount = reputationAmount;
+	}
+
+	public override string GetLabelText(RichTextParameters textParameters) => $"Lose {_reputationAmount} reputation.";
 
 	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
 	{
 		await base.ImmediateResolve(savedCampaign, cancellationToken);
 
-		savedCampaign.AdjustReputation(-reputationAmount);
+		savedCampaign.AdjustReputation(-_reputationAmount);
 	}
 }

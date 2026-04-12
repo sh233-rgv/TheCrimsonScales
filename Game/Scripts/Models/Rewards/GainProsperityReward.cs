@@ -1,16 +1,31 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Fractural.Tasks;
-using Godot;
+using Newtonsoft.Json;
 
-public class GainProsperityReward(int prosperity) : Reward
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class GainProsperityReward : Reward
 {
+	[JsonProperty]
+	private int _prosperity;
+
 	public override RewardType Type => RewardType.Immediate;
-	public override string GetLabelText(RichTextParameters textParameters) => $"Gain {prosperity} prosperity.";
+
+	public GainProsperityReward()
+	{
+	}
+
+	public GainProsperityReward(int prosperity)
+	{
+		_prosperity = prosperity;
+	}
+
+	public override string GetLabelText(RichTextParameters textParameters) => $"Gain {_prosperity} prosperity.";
 
 	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
 	{
 		await base.ImmediateResolve(savedCampaign, cancellationToken);
 
-		savedCampaign.AdjustProsperity(prosperity);
+		savedCampaign.AdjustProsperity(_prosperity);
 	}
 }

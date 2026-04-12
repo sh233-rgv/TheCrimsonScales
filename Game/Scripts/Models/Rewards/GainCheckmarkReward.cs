@@ -1,10 +1,17 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Fractural.Tasks;
-using Godot;
+using Newtonsoft.Json;
 
-public class GainCheckmarkReward() : Reward
+[Serializable, JsonObject(MemberSerialization.OptIn)]
+public class GainCheckmarkReward : Reward
 {
 	public override RewardType Type => RewardType.Immediate;
+
+	public GainCheckmarkReward()
+	{
+	}
+
 	public override string GetLabelText(RichTextParameters textParameters) => $"Gain 1 {Icons.Inline(Icons.Checkmark, textParameters)} each.";
 
 	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
