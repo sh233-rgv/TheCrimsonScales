@@ -58,7 +58,7 @@ public class KillSpecificEnemyTypeGoal : ScenarioGoal
 		int visibleEnemyCount = GetVisibleEnemyCount();
 		int invisibleEnemyCount = GetInvisibleEnemyCount();
 
-		await SetMaxProgress(invisibleEnemyCount > 0 ? null : visibleEnemyCount);
+		await SetMaxProgress(invisibleEnemyCount > 0 ? null : (visibleEnemyCount + Progress));
 	}
 
 	private int GetVisibleEnemyCount()
@@ -82,7 +82,7 @@ public class KillSpecificEnemyTypeGoal : ScenarioGoal
 		string monsterModelId = _monsterModel.Id.ToString();
 		foreach(MonsterSpawner monsterSpawner in GameController.Instance.Map.GetChildrenOfType<MonsterSpawner>())
 		{
-			if(monsterSpawner.MonsterModelId == monsterModelId && monsterSpawner.GetMonsterType() != MonsterType.None)
+			if(!monsterSpawner.Revealed && monsterSpawner.MonsterModelId == monsterModelId && monsterSpawner.GetMonsterType() != MonsterType.None)
 			{
 				// Monster of this type still needs to be spawned
 				count++;

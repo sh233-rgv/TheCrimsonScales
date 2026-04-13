@@ -5,14 +5,14 @@ public class SurviveXRoundsScenarioGoal : ScenarioGoal
 	private readonly int _rounds;
 	private readonly bool _allSurvive;
 
-	public override string Text => $"Survive {_rounds} rounds to win this scenario.";
-
 	public SurviveXRoundsScenarioGoal(int rounds, bool allSurvive = false, int order = 0)
 		: base(order)
 	{
 		_rounds = rounds;
 		_allSurvive = allSurvive;
 	}
+
+	public override string GetLabelText(RichTextParameters textParameters) => $"Survive {_rounds} rounds to win this scenario.";
 
 	public override async GDTask Start()
 	{

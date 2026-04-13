@@ -60,6 +60,8 @@ public partial class MonsterSpawner : Node2D
 	[Export]
 	public Alignment Enemies = Alignment.Characters;
 
+	public bool Revealed { get; private set; }
+
 	public async GDTask SpawnMonster()
 	{
 		QueueFree();
@@ -70,6 +72,8 @@ public partial class MonsterSpawner : Node2D
 
 		await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, Map.GlobalPositionToCoords(GlobalPosition), false,
 			GameController.Instance.SavedScenario.ScenarioLevel + AdjustMonsterLevel, Alignment, Enemies);
+
+		Revealed = true;
 	}
 
 	public MonsterType GetMonsterType()

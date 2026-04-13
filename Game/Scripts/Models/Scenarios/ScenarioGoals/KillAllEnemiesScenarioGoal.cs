@@ -1,4 +1,5 @@
 ﻿using Fractural.Tasks;
+using Godot;
 
 public class KillAllEnemiesScenarioGoal : ScenarioGoal
 {
@@ -70,18 +71,20 @@ public class KillAllEnemiesScenarioGoal : ScenarioGoal
 		if(_enemiesToBeSpawned)
 		{
 			await SetMaxProgress(null);
+			return;
 		}
 
 		int visibleEnemyCount = GetVisibleEnemyCount();
 
 		if(_revealedOnly)
 		{
-			await SetMaxProgress(visibleEnemyCount);
+			await SetMaxProgress(visibleEnemyCount + Progress);
+			return;
 		}
 
 		int invisibleEnemyCount = GetInvisibleEnemyCount();
 
-		await SetMaxProgress(invisibleEnemyCount > 0 ? null : visibleEnemyCount);
+		await SetMaxProgress(invisibleEnemyCount > 0 ? null : visibleEnemyCount + Progress);
 	}
 
 	private int GetVisibleEnemyCount()
@@ -103,7 +106,7 @@ public class KillAllEnemiesScenarioGoal : ScenarioGoal
 		int count = 0;
 		foreach(MonsterSpawner monsterSpawner in GameController.Instance.Map.GetChildrenOfType<MonsterSpawner>())
 		{
-			if(monsterSpawner.GetMonsterType() != MonsterType.None)
+			if(!monsterSpawner.Revealed && monsterSpawner.GetMonsterType() != MonsterType.None)
 			{
 				// Monster of this type still needs to be spawned
 				count++;

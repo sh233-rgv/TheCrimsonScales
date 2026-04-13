@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Fractural.Tasks;
@@ -29,6 +30,8 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 	public virtual string BGMPath => "res://Audio/BGM/Floral-Woods.ogg";
 	public virtual string BGSPath => null;
+
+	public event Action<ScenarioGoal> GoalAddedEvent;
 
 	public virtual async GDTask StartBeforeFirstRoomRevealed()
 	{
@@ -88,7 +91,8 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 		await goal.Start();
 
-		UpdateScenarioText();
+		GoalAddedEvent?.Invoke(goal);
+		//UpdateScenarioText();
 
 		return goal;
 	}

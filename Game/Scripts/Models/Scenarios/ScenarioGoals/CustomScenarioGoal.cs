@@ -6,6 +6,8 @@ public class CustomScenarioGoal : ScenarioGoal
 	private readonly TextHelper.LabelTextDelegate _getLabelText;
 	private readonly Func<CustomScenarioGoal, GDTask> _onStart;
 
+	public override bool HasProgress { get; }
+
 	public CustomScenarioGoal(TextHelper.LabelTextDelegate getLabelText, Func<CustomScenarioGoal, GDTask> onStart = null,
 		bool hasProgress = false, int? maxProgress = null,
 		int order = 1)

@@ -83,7 +83,9 @@
 [ext_resource type="Script" uid="uid://bctno8ajvg8at" path="res://Scripts/Scenario/CharacterStartHexMoveIndicator.cs" id="65_pcjy7"]
 [ext_resource type="Script" uid="uid://bdesfx5saafxe" path="res://Scripts/Scenario/UI/PartyButton.cs" id="68_7tbw1"]
 [ext_resource type="Texture2D" uid="uid://u3h3kga0ipcv" path="res://Art/Icons/Other/Party.svg" id="69_b2ul3"]
+[ext_resource type="Script" uid="uid://w03e1kq1r83b" path="res://Scripts/Scenario/UI/GoalsView/GoalsView.cs" id="70_fmnch"]
 [ext_resource type="Script" uid="uid://opd3xcxouwh5" path="res://Scripts/Scenario/UI/CurrentActionView/CurrentActionViewManager.cs" id="71_b23n0"]
+[ext_resource type="PackedScene" uid="uid://dqge1igxu7nf4" path="res://Scenes/Scenario/UI/GoalsViewGoal.tscn" id="71_m5nxw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fcllr"]
 shader = ExtResource("20_76yld")
@@ -175,7 +177,7 @@ EffectSelectionView = NodePath("CanvasLayer/UI/EffectSelectionView")
 EffectInfoViewManager = NodePath("CanvasLayer/UI/EffectSelectionView/EffectInfoViews")
 AMDDrawView = NodePath("CanvasLayer/UI/AMDDrawView")
 HintTextView = NodePath("CanvasLayer/UI/HintText")
-SpecialRulesView = NodePath("CanvasLayer/UI/SpecialRulesView")
+SpecialRulesView = NodePath("CanvasLayer/UI/RightView/SpecialRulesView")
 ElementsView = NodePath("CanvasLayer/UI/ElementsView")
 ScenarioLostView = NodePath("CanvasLayer/UI/ScenarioLostView")
 ScenarioWonView = NodePath("CanvasLayer/UI/ScenarioWonView")
@@ -1184,7 +1186,136 @@ offset_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="InfoView" type="Control" parent="CanvasLayer/UI" unique_id=1580235894 node_paths=PackedStringArray("_container", "_pinButtonContainer", "_pinButton", "_panelContainer")]
+[node name="RightView" type="Control" parent="CanvasLayer/UI" unique_id=462404578]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Container" type="Control" parent="CanvasLayer/UI/RightView" unique_id=492399963]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -460.0
+offset_top = 50.0
+offset_right = -100.0
+offset_bottom = -50.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="GoalsView" type="PanelContainer" parent="CanvasLayer/UI/RightView/Container" unique_id=192258129 node_paths=PackedStringArray("_goalParent")]
+material = ExtResource("64_ldvfj")
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_styles/panel = ExtResource("56_4oqg7")
+script = ExtResource("70_fmnch")
+_goalScene = ExtResource("71_m5nxw")
+_goalParent = NodePath("MarginContainer/VBoxContainer")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/RightView/Container/GoalsView" unique_id=1985729548]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/RightView/Container/GoalsView/MarginContainer" unique_id=1461806104]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="SpecialRulesView" type="Control" parent="CanvasLayer/UI/RightView" unique_id=2003745985 node_paths=PackedStringArray("_label", "_container")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("45_1uc0n")
+_label = NodePath("Container/Panel/Text")
+_container = NodePath("Container")
+
+[node name="Container" type="Control" parent="CanvasLayer/UI/RightView/SpecialRulesView" unique_id=1174330821]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -450.0
+offset_top = 50.0
+offset_right = -90.0
+offset_bottom = 350.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="Panel" type="Control" parent="CanvasLayer/UI/RightView/SpecialRulesView/Container" unique_id=217429902]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/UI/RightView/SpecialRulesView/Container/Panel" unique_id=92751741]
+material = SubResource("ShaderMaterial_4oqg7")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("56_4oqg7")
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/RightView/SpecialRulesView/Container/Panel" unique_id=263253598]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 10.0
+offset_bottom = 63.0
+grow_horizontal = 2
+text = "Scenario Rules"
+label_settings = SubResource("LabelSettings_tl3ik")
+horizontal_alignment = 1
+
+[node name="Divider" type="Panel" parent="CanvasLayer/UI/RightView/SpecialRulesView/Container/Panel" unique_id=1272596473]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 20.0
+offset_top = 70.0
+offset_right = -20.0
+offset_bottom = 74.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0mkyj")
+
+[node name="Text" type="RichTextLabel" parent="CanvasLayer/UI/RightView/SpecialRulesView/Container/Panel" unique_id=124595086]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 84.0
+offset_right = -20.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("61_2qf5q")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+
+[node name="InfoView" type="Control" parent="CanvasLayer/UI/RightView" unique_id=1580235894 node_paths=PackedStringArray("_container", "_pinButtonContainer", "_pinButton", "_panelContainer")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1199,7 +1330,7 @@ _pinButton = NodePath("Container/Pin/BetterButton")
 _panelScene = ExtResource("49_pcjy7")
 _panelContainer = NodePath("Container/PanelContainer")
 
-[node name="Container" type="Control" parent="CanvasLayer/UI/InfoView" unique_id=1570126583]
+[node name="Container" type="Control" parent="CanvasLayer/UI/RightView/InfoView" unique_id=1570126583]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
@@ -1213,11 +1344,11 @@ grow_horizontal = 0
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Panel" parent="CanvasLayer/UI/InfoView/Container" unique_id=1413974276 instance=ExtResource("49_pcjy7")]
+[node name="Panel" parent="CanvasLayer/UI/RightView/InfoView/Container" unique_id=1413974276 instance=ExtResource("49_pcjy7")]
 visible = false
 layout_mode = 1
 
-[node name="PanelContainer" type="Control" parent="CanvasLayer/UI/InfoView/Container" unique_id=816764435]
+[node name="PanelContainer" type="Control" parent="CanvasLayer/UI/RightView/InfoView/Container" unique_id=816764435]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1226,7 +1357,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Pin" type="Control" parent="CanvasLayer/UI/InfoView/Container" unique_id=1857046086]
+[node name="Pin" type="Control" parent="CanvasLayer/UI/RightView/InfoView/Container" unique_id=1857046086]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -1238,7 +1369,7 @@ offset_bottom = 20.0
 grow_horizontal = 0
 pivot_offset = Vector2(20, 20)
 
-[node name="BetterButton" type="BaseButton" parent="CanvasLayer/UI/InfoView/Container/Pin" unique_id=180543445]
+[node name="BetterButton" type="BaseButton" parent="CanvasLayer/UI/RightView/InfoView/Container/Pin" unique_id=180543445]
 unique_name_in_owner = false
 process_mode = 0
 process_priority = 0
@@ -1320,7 +1451,7 @@ shortcut_feedback = true
 shortcut_in_tooltip = true
 script = ExtResource("38_grpwx")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/InfoView/Container/Pin/BetterButton" unique_id=292837665]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/RightView/InfoView/Container/Pin/BetterButton" unique_id=292837665]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1329,87 +1460,6 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("54_uif1r")
 expand_mode = 1
-
-[node name="SpecialRulesView" type="Control" parent="CanvasLayer/UI" unique_id=2003745985 node_paths=PackedStringArray("_label", "_container")]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("45_1uc0n")
-_label = NodePath("Container/Panel/Text")
-_container = NodePath("Container")
-
-[node name="Container" type="Control" parent="CanvasLayer/UI/SpecialRulesView" unique_id=1174330821]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -450.0
-offset_top = 50.0
-offset_right = -90.0
-offset_bottom = 350.0
-grow_horizontal = 0
-mouse_filter = 2
-
-[node name="Panel" type="Control" parent="CanvasLayer/UI/SpecialRulesView/Container" unique_id=217429902]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Panel" type="Panel" parent="CanvasLayer/UI/SpecialRulesView/Container/Panel" unique_id=92751741]
-material = SubResource("ShaderMaterial_4oqg7")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = ExtResource("56_4oqg7")
-
-[node name="Label" type="Label" parent="CanvasLayer/UI/SpecialRulesView/Container/Panel" unique_id=263253598]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 10.0
-offset_bottom = 63.0
-grow_horizontal = 2
-text = "Scenario Rules"
-label_settings = SubResource("LabelSettings_tl3ik")
-horizontal_alignment = 1
-
-[node name="Divider" type="Panel" parent="CanvasLayer/UI/SpecialRulesView/Container/Panel" unique_id=1272596473]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 20.0
-offset_top = 70.0
-offset_right = -20.0
-offset_bottom = 74.0
-grow_horizontal = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_0mkyj")
-
-[node name="Text" type="RichTextLabel" parent="CanvasLayer/UI/SpecialRulesView/Container/Panel" unique_id=124595086]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 84.0
-offset_right = -20.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/normal_font = ExtResource("61_2qf5q")
-theme_override_font_sizes/normal_font_size = 30
-bbcode_enabled = true
 
 [node name="CardSelectionView" parent="CanvasLayer/UI" unique_id=1503873886 instance=ExtResource("59_h6npn")]
 layout_mode = 1

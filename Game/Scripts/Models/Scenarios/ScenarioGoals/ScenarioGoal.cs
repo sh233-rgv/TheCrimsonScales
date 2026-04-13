@@ -10,7 +10,8 @@ public abstract class ScenarioGoal : IEventSubscriber
 
 	public int Progress { get; private set; }
 	public int? MaxProgress { get; protected set; }
-	public bool HasProgress { get; protected set; }
+
+	public virtual bool HasProgress => true;
 
 	protected bool FullProgressCompletes => true;
 
