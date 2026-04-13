@@ -38,21 +38,6 @@ public class KillSpecificEnemyTypeGoal : ScenarioGoal
 		await UpdateMaxProgress();
 	}
 
-	// public bool SpecificEnemyRemaining()
-	// {
-	// 	if(GetVisibleEnemyCount() > 0)
-	// 	{
-	// 		return false;
-	// 	}
-	//
-	// 	if(GetInvisibleEnemyCount() > 0)
-	// 	{
-	// 		return false;
-	// 	}
-	//
-	// 	return true;
-	// }
-
 	private async GDTask UpdateMaxProgress()
 	{
 		int visibleEnemyCount = GetVisibleEnemyCount();

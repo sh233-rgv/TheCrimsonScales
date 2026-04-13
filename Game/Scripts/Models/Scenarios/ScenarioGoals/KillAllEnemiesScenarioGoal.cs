@@ -1,5 +1,4 @@
 ﻿using Fractural.Tasks;
-using Godot;
 
 public class KillAllEnemiesScenarioGoal : ScenarioGoal
 {
@@ -47,24 +46,6 @@ public class KillAllEnemiesScenarioGoal : ScenarioGoal
 
 		await UpdateMaxProgress();
 	}
-
-	// public static bool NoEnemiesRemaining(bool countObjectives = true, bool revealedOnly = false)
-	// {
-	// 	if(!revealedOnly && GameController.Instance.Map.Rooms.Any(room => !room.Revealed))
-	// 	{
-	// 		return false;
-	// 	}
-	//
-	// 	foreach(Figure figure in GameController.Instance.Map.Figures)
-	// 	{
-	// 		if(figure.Alignment == Alignment.Enemies && (figure is not Objective || countObjectives))
-	// 		{
-	// 			return false;
-	// 		}
-	// 	}
-	//
-	// 	return true;
-	// }
 
 	private async GDTask UpdateMaxProgress()
 	{

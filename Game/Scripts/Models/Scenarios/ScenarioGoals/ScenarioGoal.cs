@@ -13,7 +13,7 @@ public abstract class ScenarioGoal : IEventSubscriber
 
 	public virtual bool HasProgress => true;
 
-	protected bool FullProgressCompletes => true;
+	protected virtual bool FullProgressCompletes => true;
 
 	public event Action<ScenarioGoal> ProgressUpdatedEvent;
 
