@@ -75,6 +75,15 @@ public partial class AppController : SingletonNode<AppController>
 			{
 				await reward.ImmediateResolve(savedCampaign, cancellationToken);
 			}
+			else
+			{
+				savedCampaign.SavedRewards.AddReward(reward);
+
+				if(BetweenScenariosController.Instance != null)
+				{
+					BetweenScenariosController.Instance.SubscribeDuringDowntime(reward);
+				}
+			}
 		}
 	}
 }

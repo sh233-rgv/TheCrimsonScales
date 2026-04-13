@@ -17,6 +17,8 @@ public abstract class SavedReward
 	[JsonProperty]
 	public Dictionary<string, object> CustomValues { get; private set; } = new Dictionary<string, object>();
 
+	public bool ActivatedDuringDowntime { get; private set; }
+
 	public abstract RewardType Type { get; }
 
 	public abstract string GetLabelText(RichTextParameters textParameters);
@@ -28,6 +30,7 @@ public abstract class SavedReward
 
 	public virtual void SubscribeDuringDowntime()
 	{
+		ActivatedDuringDowntime = true;
 	}
 
 	public virtual void UnsubscribeDuringDowntime()

@@ -210,7 +210,13 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		savedCampaign.RetireCharacter(savedCharacter);
 	}
 
-	public void UnsubscribeDuringDowntime(SavedReward reward)
+	public void SubscribeDuringDowntime(SavedReward reward)
+	{
+		reward.SubscribeDuringDowntime();
+		_duringDowntimeRewards.Add(reward);
+	}
+
+	private void UnsubscribeDuringDowntime(SavedReward reward)
 	{
 		reward.UnsubscribeDuringDowntime();
 		_duringDowntimeRewards.Remove(reward);
@@ -263,11 +269,9 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 
 		foreach(SavedReward reward in SavedCampaign.SavedRewards.Rewards)
 		{
-			if(reward.Type == RewardType.DuringDowntime && !reward.Completed)
+			if(reward.Type == RewardType.DuringDowntime && !reward.Completed && !reward.ActivatedDuringDowntime)
 			{
-				reward.SubscribeDuringDowntime();
-
-				_duringDowntimeRewards.Add(reward);
+				SubscribeDuringDowntime(reward);
 			}
 		}
 
