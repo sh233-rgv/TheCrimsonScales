@@ -1,17 +1,27 @@
-﻿using Fractural.Tasks;
+﻿using System;
+using Fractural.Tasks;
 
 public abstract class ScenarioGoal : IEventSubscriber
 {
-	public abstract string Text { get; }
 	public int Order { get; }
 
 	public bool Completed { get; private set; }
 	public bool Failed { get; private set; }
 
-	public ScenarioGoal(int order)
+	public int Progress { get; private set; }
+	public int? MaxProgress { get; protected set; }
+	public bool HasProgress { get; protected set; }
+
+	protected bool FullProgressCompletes => true;
+
+	public event Action<ScenarioGoal> ProgressUpdatedEvent;
+
+	protected ScenarioGoal(int order)
 	{
 		Order = order;
 	}
+
+	public abstract string GetLabelText(RichTextParameters textParameters);
 
 	public virtual async GDTask Start()
 	{
@@ -20,6 +30,11 @@ public abstract class ScenarioGoal : IEventSubscriber
 
 	protected async GDTask Complete()
 	{
+		if(Completed)
+		{
+			return;
+		}
+
 		Completed = true;
 
 		await GDTask.CompletedTask;
@@ -30,5 +45,34 @@ public abstract class ScenarioGoal : IEventSubscriber
 		Failed = true;
 
 		await AbilityCmd.Lose();
+	}
+
+	protected async GDTask AdjustProgress(int amount)
+	{
+		await SetProgress(Progress + amount);
+	}
+
+	protected async GDTask SetProgress(int progress)
+	{
+		Progress = progress;
+
+		if(FullProgressCompletes && MaxProgress.HasValue && Progress >= MaxProgress)
+		{
+			await Complete();
+		}
+
+		ProgressUpdatedEvent?.Invoke(this);
+	}
+
+	protected async GDTask SetMaxProgress(int? maxProgress)
+	{
+		MaxProgress = maxProgress;
+
+		if(FullProgressCompletes && MaxProgress.HasValue && Progress >= MaxProgress)
+		{
+			await Complete();
+		}
+
+		ProgressUpdatedEvent?.Invoke(this);
 	}
 }

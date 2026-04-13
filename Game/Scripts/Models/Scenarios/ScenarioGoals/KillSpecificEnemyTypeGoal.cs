@@ -5,8 +5,6 @@ public class KillSpecificEnemyTypeGoal : ScenarioGoal
 	private readonly MonsterModel _monsterModel;
 	private readonly bool _multiple;
 
-	public override string Text => _multiple ? $"Kill all {_monsterModel.Name} enemies." : $"Kill the {_monsterModel.Name}.";
-
 	public KillSpecificEnemyTypeGoal(MonsterModel monsterModel, bool multiple = false, int order = 1)
 		: base(order)
 	{
@@ -14,40 +12,83 @@ public class KillSpecificEnemyTypeGoal : ScenarioGoal
 		_multiple = multiple;
 	}
 
+	public override string GetLabelText(RichTextParameters textParameters) =>
+		_multiple ? $"Kill all {_monsterModel.Name} enemies." : $"Kill the {_monsterModel.Name}.";
+
 	public override async GDTask Start()
 	{
 		await base.Start();
 
-		ScenarioEvents.RoundEndedEvent.Subscribe(this,
-			parameters => SpecificEnemyRemaining(),
+		ScenarioEvents.FigureKilledEvent.Subscribe(this,
+			parameters => parameters.Figure is Monster monster && monster.MonsterModel == _monsterModel,
 			async parameters =>
 			{
-				await Complete();
+				await AdjustProgress(1);
 			}
 		);
+
+		ScenarioEvents.RoomRevealedEvent.Subscribe(this,
+			parameters => true,
+			async parameters =>
+			{
+				await UpdateMaxProgress();
+			}
+		);
+
+		await UpdateMaxProgress();
 	}
 
-	public bool SpecificEnemyRemaining()
+	// public bool SpecificEnemyRemaining()
+	// {
+	// 	if(GetVisibleEnemyCount() > 0)
+	// 	{
+	// 		return false;
+	// 	}
+	//
+	// 	if(GetInvisibleEnemyCount() > 0)
+	// 	{
+	// 		return false;
+	// 	}
+	//
+	// 	return true;
+	// }
+
+	private async GDTask UpdateMaxProgress()
 	{
+		int visibleEnemyCount = GetVisibleEnemyCount();
+		int invisibleEnemyCount = GetInvisibleEnemyCount();
+
+		await SetMaxProgress(invisibleEnemyCount > 0 ? null : visibleEnemyCount);
+	}
+
+	private int GetVisibleEnemyCount()
+	{
+		int count = 0;
+		foreach(Figure figure in GameController.Instance.Map.Figures)
+		{
+			if(figure is Monster monster && monster.MonsterModel == _monsterModel)
+			{
+				// Monster of this type is still alive
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+	private int GetInvisibleEnemyCount()
+	{
+		int count = 0;
 		string monsterModelId = _monsterModel.Id.ToString();
 		foreach(MonsterSpawner monsterSpawner in GameController.Instance.Map.GetChildrenOfType<MonsterSpawner>())
 		{
 			if(monsterSpawner.MonsterModelId == monsterModelId && monsterSpawner.GetMonsterType() != MonsterType.None)
 			{
 				// Monster of this type still needs to be spawned
-				return false;
+				count++;
 			}
 		}
 
-		foreach(Figure figure in GameController.Instance.Map.Figures)
-		{
-			if(figure is Monster monster && monster.MonsterModel == _monsterModel)
-			{
-				// Monster of this type is still alive
-				return false;
-			}
-		}
-
-		return true;
+		return count;
 	}
 }

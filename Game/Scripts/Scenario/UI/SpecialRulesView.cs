@@ -7,13 +7,18 @@ public partial class SpecialRulesView : Control
 	[Export]
 	private Control _container;
 
-	private Font _font;
+	public RichTextParameters RichTextParameters { get; private set; }
+
+	public override void _EnterTree()
+	{
+		base._EnterTree();
+
+		RichTextParameters = _label.GetRichTextParameters();
+	}
 
 	public override void _Ready()
 	{
 		base._Ready();
-
-		_font = _label.GetThemeFont("normal_font");
 
 		Hide();
 	}

@@ -78,7 +78,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 			scenarioRule.Remove();
 		}
 
-		AddScenarioRule(new ScenarioRule(text, 0));
+		AddScenarioRule(text, 0);
 	}
 
 	protected async GDTask<T> AddGoal<T>(T goal)
@@ -95,7 +95,12 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 	protected ScenarioRule AddScenarioRule(string text, int order = 0)
 	{
-		return AddScenarioRule(new ScenarioRule(text, order));
+		return AddScenarioRule(textParameters => text, order);
+	}
+
+	protected ScenarioRule AddScenarioRule(TextHelper.LabelTextDelegate getTextLabel, int order = 0)
+	{
+		return AddScenarioRule(new ScenarioRule(getTextLabel, order));
 	}
 
 	protected T AddScenarioRule<T>(T rule, int order = 0)
@@ -211,6 +216,8 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 	private void UpdateScenarioText()
 	{
+		RichTextParameters textParameters = GameController.Instance.SpecialRulesView.RichTextParameters;
+
 		StringBuilder stringBuilder = new StringBuilder();
 
 		_goals.Sort((a, b) => a.Order.CompareTo(b.Order));
@@ -221,7 +228,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 				stringBuilder.AppendLine();
 			}
 
-			stringBuilder.Append(goal.Text);
+			stringBuilder.Append(goal.GetLabelText(textParameters));
 		}
 
 		_rules.Sort((a, b) => a.Order.CompareTo(b.Order));
@@ -233,7 +240,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 				stringBuilder.AppendLine();
 			}
 
-			stringBuilder.Append(rule.Text);
+			stringBuilder.Append(rule.GetLabelText(textParameters));
 		}
 
 		GameController.Instance.SpecialRulesView.SetText(stringBuilder.ToString());

@@ -1,51 +1,126 @@
-﻿using System.Linq;
-using Fractural.Tasks;
+﻿using Fractural.Tasks;
 
 public class KillAllEnemiesScenarioGoal : ScenarioGoal
 {
 	private bool _enemiesToBeSpawned;
+	private readonly bool _countObjectives;
+	private readonly bool _revealedOnly;
 
-	public override string Text => "Kill all enemies.";
-
-	public KillAllEnemiesScenarioGoal(bool enemiesToBeSpawned = false, int order = 0)
+	public KillAllEnemiesScenarioGoal(bool enemiesToBeSpawned = false, bool countObjectives = true, bool revealedOnly = false, int order = 0)
 		: base(order)
 	{
 		_enemiesToBeSpawned = enemiesToBeSpawned;
+		_countObjectives = countObjectives;
+		_revealedOnly = revealedOnly;
 	}
+
+	public override string GetLabelText(RichTextParameters textParameters) => "Kill all enemies.";
 
 	public override async GDTask Start()
 	{
 		await base.Start();
 
-		ScenarioEvents.RoundEndedEvent.Subscribe(this,
-			parameters => !_enemiesToBeSpawned && NoEnemiesRemaining(),
+		ScenarioEvents.FigureKilledEvent.Subscribe(this,
+			parameters =>
+				parameters.Figure.Alignment == Alignment.Enemies && (parameters.Figure is not Objective || _countObjectives),
 			async parameters =>
 			{
-				await Complete();
+				await AdjustProgress(1);
 			}
 		);
+
+		ScenarioEvents.RoomRevealedEvent.Subscribe(this,
+			parameters => true,
+			async parameters =>
+			{
+				await UpdateMaxProgress();
+			}
+		);
+
+		await UpdateMaxProgress();
 	}
 
-	public void DisableEnemiesToBeSpawned()
+	public async GDTask DisableEnemiesToBeSpawned()
 	{
 		_enemiesToBeSpawned = false;
+
+		await UpdateMaxProgress();
 	}
 
-	public static bool NoEnemiesRemaining(bool countObjectives = true, bool revealedOnly = false)
+	// public static bool NoEnemiesRemaining(bool countObjectives = true, bool revealedOnly = false)
+	// {
+	// 	if(!revealedOnly && GameController.Instance.Map.Rooms.Any(room => !room.Revealed))
+	// 	{
+	// 		return false;
+	// 	}
+	//
+	// 	foreach(Figure figure in GameController.Instance.Map.Figures)
+	// 	{
+	// 		if(figure.Alignment == Alignment.Enemies && (figure is not Objective || countObjectives))
+	// 		{
+	// 			return false;
+	// 		}
+	// 	}
+	//
+	// 	return true;
+	// }
+
+	private async GDTask UpdateMaxProgress()
 	{
-		if(!revealedOnly && GameController.Instance.Map.Rooms.Any(room => !room.Revealed))
+		if(_enemiesToBeSpawned)
 		{
-			return false;
+			await SetMaxProgress(null);
 		}
 
+		int visibleEnemyCount = GetVisibleEnemyCount();
+
+		if(_revealedOnly)
+		{
+			await SetMaxProgress(visibleEnemyCount);
+		}
+
+		int invisibleEnemyCount = GetInvisibleEnemyCount();
+
+		await SetMaxProgress(invisibleEnemyCount > 0 ? null : visibleEnemyCount);
+	}
+
+	private int GetVisibleEnemyCount()
+	{
+		int count = 0;
 		foreach(Figure figure in GameController.Instance.Map.Figures)
 		{
-			if(figure.Alignment == Alignment.Enemies && (figure is not Objective || countObjectives))
+			if(figure.Alignment == Alignment.Enemies && (figure is not Objective || _countObjectives))
 			{
-				return false;
+				count++;
 			}
 		}
 
-		return true;
+		return count;
+	}
+
+	private int GetInvisibleEnemyCount()
+	{
+		int count = 0;
+		foreach(MonsterSpawner monsterSpawner in GameController.Instance.Map.GetChildrenOfType<MonsterSpawner>())
+		{
+			if(monsterSpawner.GetMonsterType() != MonsterType.None)
+			{
+				// Monster of this type still needs to be spawned
+				count++;
+			}
+		}
+
+		if(_countObjectives)
+		{
+			foreach(Objective objective in GameController.Instance.Map.GetChildrenOfType<Objective>())
+			{
+				if(!objective.Revealed)
+				{
+					count++;
+				}
+			}
+		}
+
+		return count;
 	}
 }

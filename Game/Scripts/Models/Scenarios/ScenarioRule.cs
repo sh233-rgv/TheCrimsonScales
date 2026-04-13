@@ -2,7 +2,8 @@
 
 public class ScenarioRule
 {
-	public string Text { get; private set; }
+	private TextHelper.LabelTextDelegate _getLabelText;
+
 	public int Order { get; }
 
 	public bool Removed { get; private set; }
@@ -10,15 +11,17 @@ public class ScenarioRule
 	public event Action<ScenarioRule> TextChangedEvent;
 	public event Action<ScenarioRule> TextRemovedEvent;
 
-	public ScenarioRule(string text, int order)
+	public ScenarioRule(TextHelper.LabelTextDelegate getLabelText, int order)
 	{
-		Text = text;
+		_getLabelText = getLabelText;
 		Order = order;
 	}
 
-	public void SetText(string text)
+	public string GetLabelText(RichTextParameters textParameters) => _getLabelText(textParameters);
+
+	public void SetText(TextHelper.LabelTextDelegate getTextLabel)
 	{
-		Text = text;
+		_getLabelText = getTextLabel;
 
 		TextChangedEvent?.Invoke(this);
 	}

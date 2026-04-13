@@ -39,10 +39,6 @@ public abstract class DummyScenario : ScenarioModel
 	}
 }
 
-public class Scenario004 : DummyScenario
-{
-}
-
 public class Scenario005 : DummyScenario
 {
 }

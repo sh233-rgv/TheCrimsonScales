@@ -2,6 +2,8 @@
 
 public static class TextHelper
 {
+	public delegate string LabelTextDelegate(RichTextParameters textParameters);
+
 	public static string Prettify(string text)
 	{
 		text = text
