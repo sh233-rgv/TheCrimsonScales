@@ -117,7 +117,7 @@
 			ModelDB.Item<UnstableExplosives>(),
 			ModelDB.Item<BalancedBlade>(),
 			ModelDB.Item<StarEarring>(),
-			// ModelDB.Item<SecondChanceRing>(),
+			// ModelDB.Item<SecondChanceRing>(), // Fun item, but probably too much effort to implement ¯\_(ツ)_/¯
 		],
 	];
 
