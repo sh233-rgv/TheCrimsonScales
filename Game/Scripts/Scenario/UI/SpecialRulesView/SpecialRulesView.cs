@@ -20,20 +20,8 @@ public partial class SpecialRulesView : Control
 
 		GameController.Instance.ScenarioModel.RuleAddedEvent += OnRuleAdded;
 		GameController.Instance.ScenarioModel.RuleRemovedEvent += OnRuleRemoved;
-	}
 
-	private void OnRuleRemoved(ScenarioRule scenarioRule)
-	{
-		for(int i = _rules.Count - 1; i >= 0; i--)
-		{
-			SpecialRulesViewRule rule = _rules[i];
-			if(rule.Rule == scenarioRule)
-			{
-				rule.QueueFree();
-				_rules.RemoveAt(i);
-				break;
-			}
-		}
+		UpdateView();
 	}
 
 	public override void _ExitTree()
@@ -55,11 +43,34 @@ public partial class SpecialRulesView : Control
 		_scrollContainer.SetCustomMinimumSize(new Vector2(_scrollContainer.Size.X, sizeY));
 	}
 
+	private void UpdateView()
+	{
+		SetVisible(_rules.Count > 0);
+	}
+
 	private void OnRuleAdded(ScenarioRule scenarioRule)
 	{
 		SpecialRulesViewRule rule = _ruleScene.Instantiate<SpecialRulesViewRule>();
 		_ruleParent.AddChild(rule);
 		rule.Init(scenarioRule);
 		_rules.Add(rule);
+
+		UpdateView();
+	}
+
+	private void OnRuleRemoved(ScenarioRule scenarioRule)
+	{
+		for(int i = _rules.Count - 1; i >= 0; i--)
+		{
+			SpecialRulesViewRule rule = _rules[i];
+			if(rule.Rule == scenarioRule)
+			{
+				rule.QueueFree();
+				_rules.RemoveAt(i);
+				break;
+			}
+		}
+
+		UpdateView();
 	}
 }
