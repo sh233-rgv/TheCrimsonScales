@@ -109,12 +109,15 @@ public abstract class ItemModel : AbstractModel<ItemModel>, IActionSource
 		ItemState oldItemState = ItemState;
 		ItemState = state;
 
-		if(state is ItemState.Consumed or ItemState.Spent or ItemState.UnrecoverablyConsumed)
+		if(state is ItemState.Consumed or ItemState.Spent or ItemState.UnrecoverablyConsumed or ItemState.Active)
 		{
 			Unsubscribe();
 		}
 
-		if(Owner != null && oldItemState is ItemState.Consumed or ItemState.Spent)
+		if(
+			Owner != null &&
+			state is ItemState.Available &&
+			oldItemState is ItemState.Consumed or ItemState.Spent or ItemState.UnrecoverablyConsumed or ItemState.Active)
 		{
 			Subscribe();
 		}
