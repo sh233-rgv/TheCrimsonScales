@@ -1,26 +1,27 @@
 using Fractural.Tasks;
 
-public class WingedShoes : Prosperity1Item
+public class RocketBoots : GHRewardsItem
 {
 	public override string Name => "Winged Shoes";
-	public override int ItemNumber => 2;
+	public override int ItemNumber => 96;
 	public override int ShopCount => 2;
-	public override int Cost => 15;
+	public override int Cost => 80;
 	public override ItemType ItemType => ItemType.Feet;
 	public override ItemUseType ItemUseType => ItemUseType.Spend;
 
-	protected override int AtlasIndex => 2;
+	protected override int AtlasIndex => 0;
 
 	protected override void Subscribe()
 	{
 		base.Subscribe();
 
 		SubscribeDuringMove(
-			canApply: state => state.Performer == Owner && state.MoveType == MoveType.Regular,
+			canApply: state => state.Performer == Owner,
 			apply: async state =>
 			{
 				await Use(async user =>
 				{
+					state.AdjustMoveValue(3);
 					state.AddJump();
 
 					await GDTask.CompletedTask;

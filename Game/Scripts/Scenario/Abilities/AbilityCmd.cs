@@ -909,7 +909,8 @@ public static class AbilityCmd
 		return consumeEventParameters.Consumed ? consumeEventParameters.ConsumedElement : null;
 	}
 
-	public static async GDTask<bool> AskConsumeElement(Figure authority, Element element, string effectInfoText = null, string hintText = null)
+	public static async GDTask<bool> AskConsumeElement(Figure authority, Element element, bool mandatory = false, string effectInfoText = null,
+		string hintText = null)
 	{
 		object subscriber = new object();
 		ScenarioEvents.ConsumeElementEvent.Subscribe(authority, subscriber,
@@ -922,7 +923,8 @@ public static class AbilityCmd
 			{
 				applyParameters.SetConsumed(element);
 				await TryConsumeElement(element);
-			}, EffectType.Selectable, 0, false, false,
+			},
+			mandatory ? EffectType.SelectableMandatory : EffectType.Selectable, 0, false, false,
 			new ConsumeElementEffectButton.Parameters(element),
 			new TextEffectInfoView.Parameters(effectInfoText ?? $"Consume {Icons.Inline(Icons.GetElement(element))}"));
 
@@ -1560,7 +1562,7 @@ public static class AbilityCmd
 		return true;
 	}
 
-	private static bool CanConsumeElement(Element element, Figure potentialConsumer)
+	public static bool CanConsumeElement(Element element, Figure potentialConsumer)
 	{
 		if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert ||
 		   !ScenarioCheckEvents.CanConsumeElementCheckEvent
