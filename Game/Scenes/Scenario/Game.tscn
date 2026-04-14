@@ -1202,6 +1202,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/separation = 20
 
 [node name="GoalsView" type="PanelContainer" parent="CanvasLayer/UI/RightView/Container/VBoxContainer" unique_id=192258129 node_paths=PackedStringArray("_goalParent")]
@@ -1248,13 +1249,9 @@ horizontal_scroll_mode = 0
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="InfoView" type="Control" parent="CanvasLayer/UI/RightView" unique_id=1580235894 node_paths=PackedStringArray("_container", "_pinButtonContainer", "_pinButton", "_panelContainer")]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="InfoView" type="Control" parent="CanvasLayer/UI/RightView/Container/VBoxContainer" unique_id=1580235894 node_paths=PackedStringArray("_container", "_pinButtonContainer", "_pinButton", "_panelContainer")]
+layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("48_sv35a")
 _container = NodePath("Container")
@@ -1263,25 +1260,7 @@ _pinButton = NodePath("Container/Pin/BetterButton")
 _panelScene = ExtResource("49_pcjy7")
 _panelContainer = NodePath("Container/PanelContainer")
 
-[node name="Container" type="Control" parent="CanvasLayer/UI/RightView/InfoView" unique_id=1570126583]
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -450.0
-offset_top = 400.0
-offset_right = -90.0
-offset_bottom = -50.0
-grow_horizontal = 0
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="Panel" parent="CanvasLayer/UI/RightView/InfoView/Container" unique_id=1413974276 instance=ExtResource("49_pcjy7")]
-visible = false
-layout_mode = 1
-
-[node name="PanelContainer" type="Control" parent="CanvasLayer/UI/RightView/InfoView/Container" unique_id=816764435]
+[node name="Container" type="Control" parent="CanvasLayer/UI/RightView/Container/VBoxContainer/InfoView" unique_id=1570126583]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1290,7 +1269,20 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Pin" type="Control" parent="CanvasLayer/UI/RightView/InfoView/Container" unique_id=1857046086]
+[node name="Panel" parent="CanvasLayer/UI/RightView/Container/VBoxContainer/InfoView/Container" unique_id=1413974276 instance=ExtResource("49_pcjy7")]
+visible = false
+layout_mode = 1
+
+[node name="PanelContainer" type="Control" parent="CanvasLayer/UI/RightView/Container/VBoxContainer/InfoView/Container" unique_id=816764435]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Pin" type="Control" parent="CanvasLayer/UI/RightView/Container/VBoxContainer/InfoView/Container" unique_id=1857046086]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -1302,7 +1294,7 @@ offset_bottom = 20.0
 grow_horizontal = 0
 pivot_offset = Vector2(20, 20)
 
-[node name="BetterButton" type="BaseButton" parent="CanvasLayer/UI/RightView/InfoView/Container/Pin" unique_id=180543445]
+[node name="BetterButton" type="BaseButton" parent="CanvasLayer/UI/RightView/Container/VBoxContainer/InfoView/Container/Pin" unique_id=180543445]
 unique_name_in_owner = false
 process_mode = 0
 process_priority = 0
@@ -1384,7 +1376,7 @@ shortcut_feedback = true
 shortcut_in_tooltip = true
 script = ExtResource("38_grpwx")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/RightView/InfoView/Container/Pin/BetterButton" unique_id=292837665]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/RightView/Container/VBoxContainer/InfoView/Container/Pin/BetterButton" unique_id=292837665]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
