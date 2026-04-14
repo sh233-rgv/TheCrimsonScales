@@ -1,25 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using Godot;
 using Newtonsoft.Json;
 
-public class SaveFile
+public class SaveFile<TSaveData>
+	where TSaveData : SaveData, new()
 {
-	public static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
-	{
-		Formatting = Formatting.Indented,
-		TypeNameHandling = TypeNameHandling.Auto,
-		NullValueHandling = NullValueHandling.Ignore,
-		ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
-		ContractResolver = SaveFileContractResolver.Instance,
-		ObjectCreationHandling = ObjectCreationHandling.Replace
-	};
-
 	private readonly string _path;
 
-	private readonly List<object> _saveBlockers = new List<object>();
-
-	public SaveData SaveData { get; }
+	public TSaveData SaveData { get; }
 	public bool RemovedSavedScenario { get; }
 
 	public SaveFile(string path)
@@ -32,7 +20,7 @@ public class SaveFile
 			try
 			{
 				json = Migrator.Migrate(json, GetVersion(), out bool removedSavedScenario);
-				SaveData = JsonConvert.DeserializeObject<SaveData>(json, JsonSerializerSettings);
+				SaveData = JsonConvert.DeserializeObject<TSaveData>(json, SaveManager.JsonSerializerSettings);
 				RemovedSavedScenario = removedSavedScenario;
 			}
 			catch(Exception e)
@@ -45,10 +33,10 @@ public class SaveFile
 
 		if(SaveData == null)
 		{
-			SaveData = new SaveData()
+			SaveData = new TSaveData()
 			{
-				PlayerId = Guid.NewGuid(),
-				SavedCampaign = null,
+				//PlayerId = Guid.NewGuid(),
+				//SavedCampaign = null,
 				MigrationVersion = Migrator.MigrationVersion
 			};
 		}
@@ -61,30 +49,15 @@ public class SaveFile
 			return;
 		}
 
-		if(_saveBlockers.Count > 0)
-		{
-			return;
-		}
-
 		SaveData.AppVersion = GetVersion();
 
-		using FileAccess saveFile = FileAccess.Open(_path, FileAccess.ModeFlags.Write);
+		using FileAccess file = FileAccess.Open(_path, FileAccess.ModeFlags.Write);
 
-		string json = JsonConvert.SerializeObject(SaveData, JsonSerializerSettings);
-		saveFile.StoreLine(json);
+		string json = JsonConvert.SerializeObject(SaveData, SaveManager.JsonSerializerSettings);
+		file.StoreLine(json);
 	}
 
-	public void BlockSaving(object blocker)
-	{
-		_saveBlockers.Add(blocker);
-	}
-
-	public void UnblockSaving(object blocker)
-	{
-		_saveBlockers.Remove(blocker);
-	}
-
-	private string GetVersion()
+	private static string GetVersion()
 	{
 		return ProjectSettings.GetSetting("application/config/version").AsString();
 	}

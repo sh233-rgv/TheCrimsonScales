@@ -189,13 +189,14 @@ public partial class GameController : SceneController<GameController>
 					//Seed = GD.RandRange(0, int.MaxValue),
 					Seed = 0,
 					ScenarioLevel =
-						Mathf.CeilToInt((characterLevelSum / savedCampaign.Characters.Count) / 2f) + AppController.Instance.Options.Difficulty.Value,
+						Mathf.CeilToInt((characterLevelSum / savedCampaign.Characters.Count) / 2f) +
+						AppController.Instance.CampaignOptions.Difficulty.Value,
 					IsOnline = false
 				});
 			}
 			else
 			{
-				savedCampaign = JsonConvert.DeserializeObject<SavedCampaign>(DefaultSavedGame, SaveFile.JsonSerializerSettings);
+				savedCampaign = JsonConvert.DeserializeObject<SavedCampaign>(DefaultSavedGame, SaveManager.JsonSerializerSettings);
 			}
 
 			SceneRequest = new GameSceneRequest(savedCampaign);
@@ -254,7 +255,7 @@ public partial class GameController : SceneController<GameController>
 
 	public override void _ExitTree()
 	{
-		AppController.Instance.SaveFile.Save();
+		AppController.Instance.SaveGame();
 
 		FastForwardChangedEvent -= OnFastForwardChanged;
 
@@ -424,7 +425,7 @@ public partial class GameController : SceneController<GameController>
 		SavedCampaign.SavedEvents.OnScenarioEnded();
 		SavedCampaign.SavedRewards.OnScenarioEnded();
 
-		AppController.Instance.SaveFile.Save();
+		AppController.Instance.SaveGame();
 
 		ShownIntroduction = false;
 
@@ -472,7 +473,7 @@ public partial class GameController : SceneController<GameController>
 
 	private void EditorPrintSaveGame()
 	{
-		string json = JsonConvert.SerializeObject(SavedCampaign, SaveFile.JsonSerializerSettings);
+		string json = JsonConvert.SerializeObject(SavedCampaign, SaveManager.JsonSerializerSettings);
 		DisplayServer.ClipboardSet(json);
 	}
 

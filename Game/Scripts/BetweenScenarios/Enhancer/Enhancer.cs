@@ -360,7 +360,7 @@ public partial class Enhancer : BetweenScenariosAction
 					_selectedAbilityCard.AddSavedEnhancement(_selectedMark.Top, _selectedMark.Index,
 						new SavedEnhancement(_selectedOption.EnhancementModel));
 
-					AppController.Instance.SaveFile.Save();
+					AppController.Instance.SaveGame();
 
 					BetweenScenariosEvents.EnhancementBoughtEvent.Fire(
 						new BetweenScenariosEvents.EnhancementBought.Parameters(_selectedCharacter, _selectedAbilityCard,

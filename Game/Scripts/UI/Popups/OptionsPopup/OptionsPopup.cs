@@ -21,7 +21,7 @@ public partial class OptionsPopup : Popup<OptionsPopup.Request>
 
 		_confirmButton.Pressed += OnConfirmPressed;
 
-		SavedOptions options = AppController.Instance.SaveFile.SaveData.Options;
+		SavedCampaignOptions options = AppController.Instance.SaveFile.SaveData.Options;
 
 		AddSliderOption(options.BGMVolume, "Music");
 		AddSliderOption(options.BGSVolume, "Ambience");
@@ -53,7 +53,7 @@ public partial class OptionsPopup : Popup<OptionsPopup.Request>
 	{
 		base.OnClose();
 
-		AppController.Instance.SaveFile.Save();
+		AppController.Instance.SaveGame();
 	}
 
 	private void AddCheckmarkOption(SavedOption<bool> option, string label)

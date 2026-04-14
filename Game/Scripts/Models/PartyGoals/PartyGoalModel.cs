@@ -32,7 +32,7 @@ public abstract class PartyGoalModel<T> : PartyGoalModel
 	public sealed override async GDTask OnScenarioSetupPhaseCompleted(SavedPartyGoal savedPartyGoal)
 	{
 		// Clone the party goal data to overwrite the original later, after the scenario is finished
-		string serializedData = JsonConvert.SerializeObject(savedPartyGoal.PartyGoalData, SaveFile.JsonSerializerSettings);
+		string serializedData = JsonConvert.SerializeObject(savedPartyGoal.PartyGoalData, SaveManager.JsonSerializerSettings);
 		T clonedGoalData = JsonConvert.DeserializeObject<T>(serializedData);
 
 		await OnScenarioSetupPhaseCompleted(clonedGoalData);

@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 
 [Serializable, JsonObject(MemberSerialization.OptIn)]
-public class SavedOptions
+public class SavedDeviceOptions
 {
 	[JsonProperty]
 	public SavedOption<int> BGMVolume { get; private set; } = new SavedOption<int>(80);
@@ -18,7 +18,4 @@ public class SavedOptions
 
 	[JsonProperty]
 	public SavedOption<bool> AnimatedCharacters { get; private set; } = new SavedOption<bool>(true);
-
-	[JsonProperty]
-	public SavedOption<int> Difficulty { get; private set; } = new SavedOption<int>(0);
 }

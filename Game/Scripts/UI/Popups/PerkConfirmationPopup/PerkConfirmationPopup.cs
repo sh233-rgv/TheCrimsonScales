@@ -129,7 +129,7 @@ public partial class PerkConfirmationPopup : Popup<PerkConfirmationPopup.Request
 	{
 		PopupRequest.SavedCharacter.AcquirePerk(PopupRequest.PerkIndex);
 
-		AppController.Instance.SaveFile.Save();
+		AppController.Instance.SaveGame();
 
 		Close();
 	}

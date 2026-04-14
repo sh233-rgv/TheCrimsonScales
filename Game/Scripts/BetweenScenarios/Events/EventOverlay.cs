@@ -46,7 +46,7 @@ public partial class EventOverlay : Control
 
 	public async GDTask DrawEventCard(EventType eventType, CancellationToken cancellationToken)
 	{
-		AppController.Instance.SaveFile.BlockSaving(this);
+		AppController.Instance.SaveManager.BlockSaving(this);
 
 		EventModel eventModel;
 		if(eventType == EventType.City)
@@ -162,8 +162,8 @@ public partial class EventOverlay : Control
 			}
 		}
 
-		AppController.Instance.SaveFile.UnblockSaving(this);
-		AppController.Instance.SaveFile.Save();
+		AppController.Instance.SaveManager.UnblockSaving(this);
+		AppController.Instance.SaveManager.SaveGame();
 
 		_background.TweenModulateAlpha(0f, 0.3f).Play();
 		await _rotatingCardView.TweenScale(0f, 0.3f).SetEasing(Easing.InBack).PlayAsync(cancellationToken: cancellationToken);

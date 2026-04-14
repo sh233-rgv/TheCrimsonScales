@@ -170,7 +170,7 @@ public partial class BetweenScenariosPartyGoals : BetweenScenariosAction
 		//TODO: Give custom item as a reward rather than adding it to the shop
 		//TODO: New party goal to use custom item 10 times
 
-		AppController.Instance.SaveFile.Save();
+		AppController.Instance.SaveGame();
 	}
 
 	private void OnCompletedChangedEvent(PartyGoalsPartyGoal partyGoal)

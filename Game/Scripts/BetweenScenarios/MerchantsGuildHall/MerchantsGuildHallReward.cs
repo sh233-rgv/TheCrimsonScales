@@ -77,7 +77,7 @@ public partial class MerchantsGuildHallReward : Control
 		_savedReward.SetUnlocked();
 		BetweenScenariosController.Instance.SavedCampaign.SavedMerchantsGuildHall.RemoveFiveCompletedScenarios();
 
-		AppController.Instance.SaveFile.Save();
+		AppController.Instance.SaveGame();
 	}
 
 	private void OnPressed()

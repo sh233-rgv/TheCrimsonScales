@@ -297,7 +297,7 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 
 			SavedCampaign.SavedMerchantsGuildHall.Unlock();
 
-			AppController.Instance.SaveFile.Save();
+			AppController.Instance.SaveGame();
 		}
 
 		// if(
@@ -331,19 +331,19 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		float characterLevelSum = savedCampaign.Characters.Sum(character => character.Level);
 		int scenarioLevel =
 			Mathf.CeilToInt((characterLevelSum / savedCampaign.Characters.Count) / 2f) +
-			AppController.Instance.SaveFile.SaveData.Options.Difficulty.Value;
+			AppController.Instance.CampaignOptions.Difficulty.Value;
 		scenarioLevel = Mathf.Clamp(scenarioLevel, 0, 7);
 		savedCampaign.SetSavedScenario(new SavedScenario()
 		{
 			Id = Guid.NewGuid(),
-			AppVersion = AppController.Instance.SaveFile.SaveData.AppVersion,
+			AppVersion = AppController.Instance.DeviceSaveData.AppVersion,
 			ScenarioModelId = scenarioModel.Id.ToString(),
 			Seed = GD.RandRange(0, int.MaxValue),
 			ScenarioLevel = scenarioLevel,
 			IsOnline = false
 		});
 
-		AppController.Instance.SaveFile.SaveData.SavedCampaign = savedCampaign;
+		AppController.Instance.CampaignSaveData.SavedCampaign = savedCampaign;
 		AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(savedCampaign));
 	}
 

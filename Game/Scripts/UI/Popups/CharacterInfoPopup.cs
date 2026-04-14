@@ -100,7 +100,7 @@ public partial class CharacterInfoPopup : Popup<CharacterInfoPopup.Request>
 				{
 					PopupRequest.SavedCampaign.DeleteCharacter(PopupRequest.SavedCharacter);
 
-					AppController.Instance.SaveFile.Save();
+					AppController.Instance.SaveGame();
 
 					Close();
 				},

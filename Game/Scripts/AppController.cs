@@ -32,28 +32,34 @@ public partial class AppController : SingletonNode<AppController>
 	[Export]
 	public StoryView StoryView { get; private set; }
 
-	public SaveFile SaveFile { get; private set; }
+	// public SaveFile SaveFile { get; private set; }
+	public SaveManager SaveManager { get; private set; }
 
-	public SavedOptions Options => SaveFile.SaveData.Options;
+	public DeviceSaveData DeviceSaveData => SaveManager.DeviceSaveFile.SaveData;
+	public CampaignSaveData CampaignSaveData => SaveManager.CampaignSaveFile.SaveData;
+
+	public SavedDeviceOptions DeviceOptions => DeviceSaveData.Options;
+	public SavedCampaignOptions CampaignOptions => CampaignSaveData.Options;
 
 	public override void _EnterTree()
 	{
-		SaveFile = new SaveFile("user://SaveFile.save");
+		SaveManager = new SaveManager();
 	}
 
 	public override void _Ready()
 	{
 		base._Ready();
 
-		if(SaveFile.RemovedSavedScenario)
-		{
-			PopupManager.RequestPopup(new TextPopup.Request("New Version",
-				"""
-				A new version of The Crimson Scales was installed. This unfortunately meant that the progress on the last scenario was incompatible with the new version.
-
-				Please always make sure to finish up a scenario before installing a new version of the application!
-				"""));
-		}
+		//TODO: Reimplement this warning when continuing with a campaign save file
+// 		if(SaveFile.RemovedSavedScenario)
+// 		{
+// 			PopupManager.RequestPopup(new TextPopup.Request("New Version",
+// 				"""
+// 				A new version of The Crimson Scales was installed. This unfortunately meant that the progress on the last scenario was incompatible with the new version.
+//
+// 				Please always make sure to finish up a scenario before installing a new version of the application!
+// 				"""));
+// 		}
 	}
 
 	public async GDTask GiveRewards(SavedCampaign savedCampaign, List<SavedReward> rewards, bool showPopup = true,
@@ -85,5 +91,10 @@ public partial class AppController : SingletonNode<AppController>
 				}
 			}
 		}
+	}
+
+	public void SaveGame()
+	{
+		SaveManager.SaveGame();
 	}
 }

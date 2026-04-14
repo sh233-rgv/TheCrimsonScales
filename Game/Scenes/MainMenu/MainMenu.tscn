@@ -57,6 +57,16 @@ offset_bottom = 126.0
 grow_horizontal = 2
 texture = ExtResource("1_fstlw")
 
+[node name="Vignette" type="ColorRect" parent="CanvasLayer/UI" unique_id=1335331580]
+material = SubResource("ShaderMaterial_vapy7")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
 [node name="Title" type="TextureRect" parent="CanvasLayer/UI" unique_id=1482477935]
 layout_mode = 1
 anchors_preset = 5
@@ -69,16 +79,6 @@ offset_bottom = 122.0
 grow_horizontal = 2
 texture = ExtResource("1_fstlw")
 
-[node name="Vignette" type="ColorRect" parent="CanvasLayer/UI" unique_id=1335331580]
-material = SubResource("ShaderMaterial_vapy7")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI" unique_id=1189326839]
 layout_mode = 1
 anchors_preset = 7
@@ -87,7 +87,7 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -150.0
-offset_top = -298.0
+offset_top = -430.0
 offset_right = 150.0
 offset_bottom = -50.0
 grow_horizontal = 2
