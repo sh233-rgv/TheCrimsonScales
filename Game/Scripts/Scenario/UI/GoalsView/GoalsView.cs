@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Godot;
 
 public partial class GoalsView : Control
@@ -27,24 +26,6 @@ public partial class GoalsView : Control
 			GameController.Instance.ScenarioModel.GoalAddedEvent -= OnGoalAdded;
 		}
 	}
-
-	// public void Update(List<ScenarioGoal> goals)
-	// {
-	// 	foreach(GoalsViewGoal goal in _goals)
-	// 	{
-	// 		goal.QueueFree();
-	// 	}
-	//
-	// 	_goals.Clear();
-	//
-	// 	foreach(ScenarioGoal scenarioGoal in goals)
-	// 	{
-	// 		GoalsViewGoal goal = _goalScene.Instantiate<GoalsViewGoal>();
-	// 		_goalParent.AddChild(goal);
-	// 		goal.Init(scenarioGoal);
-	// 		_goals.Add(goal);
-	// 	}
-	// }
 
 	private void OnGoalAdded(ScenarioGoal scenarioGoal)
 	{

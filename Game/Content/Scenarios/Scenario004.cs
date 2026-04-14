@@ -54,7 +54,7 @@ public class Scenario004 : ScenarioModel
 		_cureGoal = await AddGoal(new CustomScenarioGoal(textParameters => "Cure 4 sick warriors.", hasProgress: true, maxProgress: 4));
 
 		AddScenarioRule(textParameters =>
-			$"Any character may forgo the top action of their turn to perform a “{Icons.Inline(Icons.Heal)}1, {Icons.Inline(Icons.Range)}2” ability.");
+			$"Any character may forgo the top action of their turn to perform a “{Icons.Inline(Icons.Heal, textParameters)}1, {Icons.Inline(Icons.Range, textParameters)}2” ability.");
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<BonecladShawl>());
 

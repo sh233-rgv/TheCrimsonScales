@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Fractural.Tasks;
 
 public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscriber
@@ -32,6 +31,8 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	public virtual string BGSPath => null;
 
 	public event Action<ScenarioGoal> GoalAddedEvent;
+	public event Action<ScenarioRule> RuleAddedEvent;
+	public event Action<ScenarioRule> RuleRemovedEvent;
 
 	public virtual async GDTask StartBeforeFirstRoomRevealed()
 	{
@@ -116,6 +117,8 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		rule.TextRemovedEvent += OnTextRemovedEvent;
 
 		UpdateScenarioText();
+
+		RuleAddedEvent?.Invoke(rule);
 
 		return rule;
 	}
@@ -220,34 +223,34 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 	private void UpdateScenarioText()
 	{
-		RichTextParameters textParameters = GameController.Instance.SpecialRulesView.RichTextParameters;
-
-		StringBuilder stringBuilder = new StringBuilder();
-
-		_goals.Sort((a, b) => a.Order.CompareTo(b.Order));
-		foreach(ScenarioGoal goal in _goals)
-		{
-			if(stringBuilder.Length > 0)
-			{
-				stringBuilder.AppendLine();
-			}
-
-			stringBuilder.Append(goal.GetLabelText(textParameters));
-		}
-
-		_rules.Sort((a, b) => a.Order.CompareTo(b.Order));
-		foreach(ScenarioRule rule in _rules)
-		{
-			if(stringBuilder.Length > 0)
-			{
-				stringBuilder.AppendLine();
-				stringBuilder.AppendLine();
-			}
-
-			stringBuilder.Append(rule.GetLabelText(textParameters));
-		}
-
-		GameController.Instance.SpecialRulesView.SetText(stringBuilder.ToString());
+		// RichTextParameters textParameters = GameController.Instance.SpecialRulesView.RichTextParameters;
+		//
+		// StringBuilder stringBuilder = new StringBuilder();
+		//
+		// _goals.Sort((a, b) => a.Order.CompareTo(b.Order));
+		// foreach(ScenarioGoal goal in _goals)
+		// {
+		// 	if(stringBuilder.Length > 0)
+		// 	{
+		// 		stringBuilder.AppendLine();
+		// 	}
+		//
+		// 	stringBuilder.Append(goal.GetLabelText(textParameters));
+		// }
+		//
+		// _rules.Sort((a, b) => a.Order.CompareTo(b.Order));
+		// foreach(ScenarioRule rule in _rules)
+		// {
+		// 	if(stringBuilder.Length > 0)
+		// 	{
+		// 		stringBuilder.AppendLine();
+		// 		stringBuilder.AppendLine();
+		// 	}
+		//
+		// 	stringBuilder.Append(rule.GetLabelText(textParameters));
+		// }
+		//
+		// GameController.Instance.SpecialRulesView.SetText(stringBuilder.ToString());
 	}
 
 	private void OnTextChangedEvent(ScenarioRule scenarioRule)
@@ -261,6 +264,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		scenarioRule.TextRemovedEvent -= OnTextRemovedEvent;
 
 		_rules.Remove(scenarioRule);
+		RuleRemovedEvent?.Invoke(scenarioRule);
 
 		UpdateScenarioText();
 	}
