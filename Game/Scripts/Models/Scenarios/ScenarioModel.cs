@@ -36,8 +36,6 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 	public virtual async GDTask StartBeforeFirstRoomRevealed()
 	{
-		UpdateScenarioText();
-
 		await GDTask.CompletedTask;
 	}
 
@@ -113,10 +111,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	{
 		_rules.Add(rule);
 
-		rule.TextChangedEvent += OnTextChangedEvent;
 		rule.TextRemovedEvent += OnTextRemovedEvent;
-
-		UpdateScenarioText();
 
 		RuleAddedEvent?.Invoke(rule);
 
@@ -221,51 +216,11 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		await GDTask.WaitWhile(AppController.Instance.PopupManager.IsPopupOpen, cancellationToken: GameController.CancellationToken);
 	}
 
-	private void UpdateScenarioText()
-	{
-		// RichTextParameters textParameters = GameController.Instance.SpecialRulesView.RichTextParameters;
-		//
-		// StringBuilder stringBuilder = new StringBuilder();
-		//
-		// _goals.Sort((a, b) => a.Order.CompareTo(b.Order));
-		// foreach(ScenarioGoal goal in _goals)
-		// {
-		// 	if(stringBuilder.Length > 0)
-		// 	{
-		// 		stringBuilder.AppendLine();
-		// 	}
-		//
-		// 	stringBuilder.Append(goal.GetLabelText(textParameters));
-		// }
-		//
-		// _rules.Sort((a, b) => a.Order.CompareTo(b.Order));
-		// foreach(ScenarioRule rule in _rules)
-		// {
-		// 	if(stringBuilder.Length > 0)
-		// 	{
-		// 		stringBuilder.AppendLine();
-		// 		stringBuilder.AppendLine();
-		// 	}
-		//
-		// 	stringBuilder.Append(rule.GetLabelText(textParameters));
-		// }
-		//
-		// GameController.Instance.SpecialRulesView.SetText(stringBuilder.ToString());
-	}
-
-	private void OnTextChangedEvent(ScenarioRule scenarioRule)
-	{
-		UpdateScenarioText();
-	}
-
 	private void OnTextRemovedEvent(ScenarioRule scenarioRule)
 	{
-		scenarioRule.TextChangedEvent -= OnTextChangedEvent;
 		scenarioRule.TextRemovedEvent -= OnTextRemovedEvent;
 
 		_rules.Remove(scenarioRule);
 		RuleRemovedEvent?.Invoke(scenarioRule);
-
-		UpdateScenarioText();
 	}
 }
