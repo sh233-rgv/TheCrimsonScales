@@ -40,11 +40,13 @@ public partial class OptionsPopup : Popup<OptionsPopup.Request>
 			AddCheckmarkOption(deviceOptions.VibrationsEnabled, "Vibrations");
 		}
 
+		// AddLabeledSliderOption(deviceOptions.GameplaySpeed, "Gameplay Speed", SavedDeviceOptions.GameplaySpeedOptions);
+
 		AddCheckmarkOption(deviceOptions.AnimatedCharacters, "Animated Characters");
 
 		if(campaignOptions != null)
 		{
-			AddOption(new LabeledSliderOptionView.Parameters(campaignOptions.Difficulty, "Difficulty", SavedCampaignOptions.DifficultyOptions));
+			AddLabeledSliderOption(campaignOptions.Difficulty, "Difficulty", SavedCampaignOptions.DifficultyOptions);
 		}
 
 		foreach(OptionViewBase option in _options)
@@ -80,6 +82,11 @@ public partial class OptionsPopup : Popup<OptionsPopup.Request>
 	private void AddSliderOption(SavedOption<int> option, string label)
 	{
 		AddOption(new SliderOptionView.Parameters(option, label));
+	}
+
+	private void AddLabeledSliderOption(SavedOption<int> option, string label, LabeledOptions options)
+	{
+		AddOption(new LabeledSliderOptionView.Parameters(option, label, options));
 	}
 
 	private void AddOption(OptionViewParameters parameters)

@@ -98,13 +98,7 @@ public partial class SaveFileSelectionPopupSaveFile : Control
 
 	private void OnLoadPressed()
 	{
-		AppController.Instance.SaveManager.SetCampaignIndex(_index);
-		AppController.Instance.DeviceSaveData.LastCampaignIndex = _index;
-
-		AppController.Instance.SaveManager.SaveCampaignAndDevice();
-
-		AppController.Instance.SceneLoader.RequestSceneChange(
-			new BetweenScenariosSceneRequest(AppController.Instance.CampaignSaveData.SavedCampaign));
+		MainMenuController.Instance.OpenSaveFile(_index);
 	}
 
 	private void OnDeletePressed()

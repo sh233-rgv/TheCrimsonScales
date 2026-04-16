@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Fractural.Tasks;
@@ -60,7 +61,15 @@ public partial class AppController : SingletonNode<AppController>
 // 				Please always make sure to finish up a scenario before installing a new version of the application!
 // 				"""));
 // 		}
+
+		// DeviceOptions.GameplaySpeed.ValueChangedEvent += OnGameplaySpeedChanged;
+		// OnGameplaySpeedChanged(DeviceOptions.GameplaySpeed.Value);
 	}
+
+	// private void OnGameplaySpeedChanged(int value)
+	// {
+	// 	Engine.SetTimeScale(SavedDeviceOptions.GameplaySpeedOptions.GetValue(value));
+	// }
 
 	public async GDTask GiveRewards(SavedCampaign savedCampaign, List<SavedReward> rewards, bool showPopup = true,
 		CancellationToken cancellationToken = default)

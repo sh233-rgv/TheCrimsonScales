@@ -40,9 +40,9 @@ public partial class LabeledSliderOptionView : OptionView<LabeledSliderOptionVie
 
 		_valueSet = true;
 
+		_slider.SetRange(0, _parameters.LabeledOptions.OptionCount - 1);
 		this.DelayedCall(() =>
 		{
-			_slider.SetRange(0, _parameters.LabeledOptions.OptionCount - 1);
 			_slider.SetValue(SavedOption.Value);
 		});
 	}
@@ -51,11 +51,7 @@ public partial class LabeledSliderOptionView : OptionView<LabeledSliderOptionVie
 	{
 		base.OnValueChanged(value);
 
-		LabeledOption option = _parameters.LabeledOptions.GetOption(value);
-		_valueLabel.SetText(option.Label);
-		// string difficultyName = DifficultyToString(value);
-		//
-		// _valueLabel.Text = $"{difficultyName} ({(value >= 0 ? "+" : string.Empty)}{value})";
+		_valueLabel.SetText(_parameters.LabeledOptions.GetLabel(value));
 	}
 
 	private void OnSliderValueChanged(float value)

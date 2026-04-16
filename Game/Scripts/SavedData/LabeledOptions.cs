@@ -14,14 +14,14 @@
 		return Options[index];
 	}
 
-	public override string GetLabel(SavedOption<int> savedOption)
-	{
-		return Options[savedOption.Value].Label;
-	}
-
 	public TValue GetValue(SavedOption<int> savedOption)
 	{
-		return Options[savedOption.Value].Value;
+		return GetValue(savedOption.Value);
+	}
+
+	public TValue GetValue(int index)
+	{
+		return Options[index].Value;
 	}
 }
 
@@ -29,5 +29,14 @@ public abstract class LabeledOptions
 {
 	public abstract int OptionCount { get; }
 	public abstract LabeledOption GetOption(int index);
-	public abstract string GetLabel(SavedOption<int> savedOption);
+
+	public string GetLabel(SavedOption<int> savedOption)
+	{
+		return GetLabel(savedOption.Value);
+	}
+
+	public string GetLabel(int index)
+	{
+		return GetOption(index).Label;
+	}
 }

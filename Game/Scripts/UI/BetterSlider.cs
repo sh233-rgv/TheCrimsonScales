@@ -42,7 +42,15 @@ public partial class BetterSlider : Control
 
 	public void SetValue(float value)
 	{
-		_slider.Value = value;
+		if(_slider.Value == value)
+		{
+			// Make sure the value change is forced, so the handle position is updated appropriately
+			OnValueChanged(_slider.Value);
+		}
+		else
+		{
+			_slider.SetValue(value);
+		}
 	}
 
 	public void SetRange(float min, float max)

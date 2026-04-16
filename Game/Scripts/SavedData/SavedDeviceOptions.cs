@@ -20,12 +20,14 @@ public class SavedDeviceOptions
 	public SavedOption<bool> AnimatedCharacters { get; private set; } = new SavedOption<bool>(true);
 
 	[JsonProperty]
-	public SavedOption<int> AnimationSpeed { get; private set; } = new SavedOption<int>(1);
+	public SavedOption<int> GameplaySpeed { get; private set; } = new SavedOption<int>(0);
 
-	public static LabeledOptions<float> AnimationSpeedOptions { get; } = new LabeledOptions<float>(
+	public static LabeledOptions<float> GameplaySpeedOptions { get; } = new LabeledOptions<float>(
 	[
 		new("1x", 1f),
+		new("1.25x", 1.25f),
+		new("1.5x", 1.5f),
+		new("1.75x", 1.75f),
 		new("2x", 2f),
-		new("4x", 4f),
 	]);
 }
