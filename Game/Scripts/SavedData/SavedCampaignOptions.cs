@@ -5,5 +5,13 @@ using Newtonsoft.Json;
 public class SavedCampaignOptions
 {
 	[JsonProperty]
-	public SavedOption<int> Difficulty { get; private set; } = new SavedOption<int>(0);
+	public SavedOption<int> Difficulty { get; private set; } = new SavedOption<int>(1);
+
+	public static LabeledOptions<int> DifficultyOptions { get; } = new LabeledOptions<int>(
+	[
+		new("Easy (-1)", -1),
+		new("Normal (0)", 0),
+		new("Hard (+1)", 1),
+		new("Very Hard (+2)", 2),
+	]);
 }

@@ -7,7 +7,7 @@ public abstract partial class OptionView<TParameters, TValue> : OptionViewBase
 {
 	private Label _label;
 
-	private TParameters _parameters;
+	protected TParameters _parameters;
 
 	protected SavedOption<TValue> SavedOption => _parameters.SavedOption;
 

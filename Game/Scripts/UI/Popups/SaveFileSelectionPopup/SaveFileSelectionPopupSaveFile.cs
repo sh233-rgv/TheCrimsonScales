@@ -87,7 +87,7 @@ public partial class SaveFileSelectionPopupSaveFile : Control
 				savedCampaign.SavedScenario == null
 					? "Gloomhaven"
 					: $"Scenario {ModelDB.GetById<ScenarioModel>(savedCampaign.SavedScenario.ScenarioModelId).ScenarioNumber}");
-			_difficultyLabel.SetText(DifficultySliderOptionView.DifficultyToString(_campaignSaveData.Options.Difficulty.Value));
+			_difficultyLabel.SetText(SavedCampaignOptions.DifficultyOptions.GetOption(_campaignSaveData.Options.Difficulty.Value).Label);
 		}
 	}
 

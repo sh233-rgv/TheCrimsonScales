@@ -45,6 +45,12 @@ public partial class BetterSlider : Control
 		_slider.Value = value;
 	}
 
+	public void SetRange(float min, float max)
+	{
+		_slider.SetMin(min);
+		_slider.SetMax(max);
+	}
+
 	private void OnValueChanged(double value)
 	{
 		float normalizedValue = Mathf.InverseLerp((float)_slider.MinValue, (float)_slider.MaxValue, (float)_slider.Value);

@@ -44,7 +44,7 @@ public partial class OptionsPopup : Popup<OptionsPopup.Request>
 
 		if(campaignOptions != null)
 		{
-			AddOption(new DifficultySliderOptionView.Parameters(campaignOptions.Difficulty, "Difficulty"));
+			AddOption(new LabeledSliderOptionView.Parameters(campaignOptions.Difficulty, "Difficulty", SavedCampaignOptions.DifficultyOptions));
 		}
 
 		foreach(OptionViewBase option in _options)
