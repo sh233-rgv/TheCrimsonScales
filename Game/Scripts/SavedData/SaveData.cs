@@ -9,4 +9,7 @@ public abstract class SaveData
 
 	[JsonProperty]
 	public string AppVersion { get; set; }
+
+	[JsonProperty]
+	public DateTime? LastSaved { get; set; }
 }

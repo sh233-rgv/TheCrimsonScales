@@ -47,14 +47,7 @@ public partial class DifficultySliderOptionView : OptionView<DifficultySliderOpt
 	{
 		base.OnValueChanged(value);
 
-		string difficultyName = value switch
-		{
-			-1 => "Easy",
-			0 => "Normal",
-			1 => "Hard",
-			2 => "Very Hard",
-			_ => string.Empty
-		};
+		string difficultyName = DifficultyToString(value);
 
 		_valueLabel.Text = $"{difficultyName} ({(value >= 0 ? "+" : string.Empty)}{value})";
 	}
@@ -62,5 +55,17 @@ public partial class DifficultySliderOptionView : OptionView<DifficultySliderOpt
 	private void OnSliderValueChanged(float value)
 	{
 		SavedOption.SetValue(Mathf.RoundToInt(value));
+	}
+
+	public static string DifficultyToString(int difficulty)
+	{
+		return difficulty switch
+		{
+			-1 => "Easy",
+			0 => "Normal",
+			1 => "Hard",
+			2 => "Very Hard",
+			_ => string.Empty
+		};
 	}
 }

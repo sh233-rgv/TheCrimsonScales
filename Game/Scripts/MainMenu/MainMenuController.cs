@@ -41,6 +41,8 @@ public partial class MainMenuController : SceneController<MainMenuController>
 
 		AppController.Instance.AudioController.SetBGM("res://Audio/BGM/Call to Adventure FULL LOOP TomMusic.ogg");
 		AppController.Instance.AudioController.SetBGS(null);
+
+		AppController.Instance.SaveManager.SetCampaignIndex(-1);
 	}
 
 	private void OnContinuePressed()

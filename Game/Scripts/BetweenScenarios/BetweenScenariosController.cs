@@ -279,9 +279,10 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		{
 			AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("Welcome!",
 				"""
-				Welcome to the very early access version of The Crimson Scales!\nPlease create a couple of characters to get started on this campaign.
+				Welcome to the very early access version of The Crimson Scales!
 
-				You can do so using the button in the bottom-left corner."
+				Please create a couple of characters to get started on this campaign.
+				You can do so using the button in the bottom-left corner.
 				"""
 			));
 		}

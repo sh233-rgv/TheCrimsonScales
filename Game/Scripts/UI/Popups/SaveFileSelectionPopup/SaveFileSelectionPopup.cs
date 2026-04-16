@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class SaveFileSelectionPopup : Popup<SaveFileSelectionPopup.Request>
@@ -12,7 +13,17 @@ public partial class SaveFileSelectionPopup : Popup<SaveFileSelectionPopup.Reque
 	[Export]
 	private Control _saveFileParent;
 
+	[Export]
+	private BetterButton _closeButton;
+
 	private readonly List<SaveFileSelectionPopupSaveFile> _saveFiles = new List<SaveFileSelectionPopupSaveFile>();
+
+	public override void _Ready()
+	{
+		base._Ready();
+
+		_closeButton.Pressed += OnClosePressed;
+	}
 
 	protected override void OnOpen()
 	{
@@ -39,5 +50,10 @@ public partial class SaveFileSelectionPopup : Popup<SaveFileSelectionPopup.Reque
 		}
 
 		_saveFiles.Clear();
+	}
+
+	private void OnClosePressed()
+	{
+		Close();
 	}
 }

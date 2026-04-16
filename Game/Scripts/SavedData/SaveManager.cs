@@ -40,7 +40,7 @@ public class SaveManager
 
 	public void SaveAll()
 	{
-		if(CanSave)
+		if(!CanSave)
 		{
 			return;
 		}
@@ -51,7 +51,7 @@ public class SaveManager
 
 	public void SaveGame()
 	{
-		if(CanSave)
+		if(!CanSave)
 		{
 			return;
 		}
@@ -61,7 +61,7 @@ public class SaveManager
 
 	public void SaveDevice()
 	{
-		if(CanSave)
+		if(!CanSave)
 		{
 			return;
 		}

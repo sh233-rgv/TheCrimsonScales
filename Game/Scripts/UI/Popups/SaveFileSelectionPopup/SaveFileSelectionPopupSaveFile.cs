@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class SaveFileSelectionPopupSaveFile : Control
@@ -16,11 +17,35 @@ public partial class SaveFileSelectionPopupSaveFile : Control
 	[Export]
 	private Control _characterParent;
 
+	[Export]
+	private Label _dateLabel;
+	[Export]
+	private Label _locationLabel;
+	[Export]
+	private Label _difficultyLabel;
+
+	[Export]
+	private BetterButton _newCampaignButton;
+	[Export]
+	private BetterButton _loadButton;
+
 	private readonly List<SaveFileSelectionPopupSaveFileCharacter> _characters = new List<SaveFileSelectionPopupSaveFileCharacter>();
+
+	private int _index;
+
+	public override void _Ready()
+	{
+		base._Ready();
+
+		_newCampaignButton.Pressed += OnNewCampaignPressed;
+		_loadButton.Pressed += OnLoadPressed;
+	}
 
 	public void Init(int index, CampaignSaveData campaignSaveData)
 	{
-		_numberLabel.SetText(index.ToString());
+		_index = index;
+
+		_numberLabel.SetText(_index.ToString());
 
 		SavedCampaign savedCampaign = campaignSaveData.SavedCampaign;
 
@@ -36,6 +61,29 @@ public partial class SaveFileSelectionPopupSaveFile : Control
 				character.Init(savedCharacter);
 				_characters.Add(character);
 			}
+
+			_dateLabel.SetText(campaignSaveData.LastSaved == null ? "N.A." : campaignSaveData.LastSaved.Value.ToString("yyyy/MM/dd"));
+			_locationLabel.SetText(
+				campaignSaveData.SavedCampaign.SavedScenario == null
+					? "Gloomhaven"
+					: $"Scenario {ModelDB.GetById<ScenarioModel>(campaignSaveData.SavedCampaign.SavedScenario.ScenarioModelId).ScenarioNumber}");
+			_difficultyLabel.SetText(DifficultySliderOptionView.DifficultyToString(campaignSaveData.Options.Difficulty.Value));
 		}
+	}
+
+	private void OnNewCampaignPressed()
+	{
+		AppController.Instance.SceneLoader.RequestSceneChange(new NewCampaignSceneRequest(_index));
+	}
+
+	private void OnLoadPressed()
+	{
+		AppController.Instance.SaveManager.SetCampaignIndex(_index);
+		AppController.Instance.DeviceSaveData.LastCampaignIndex = _index;
+
+		AppController.Instance.SaveManager.SaveAll();
+
+		AppController.Instance.SceneLoader.RequestSceneChange(
+			new BetweenScenariosSceneRequest(AppController.Instance.CampaignSaveData.SavedCampaign));
 	}
 }

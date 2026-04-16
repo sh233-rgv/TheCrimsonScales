@@ -105,6 +105,7 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 		SavedCampaign campaign = SavedCampaign.New(PartyName, StartingGroup.Value);
 
 		AppController.Instance.SaveManager.SetCampaignIndex(_sceneRequest.CampaignIndex);
+		AppController.Instance.DeviceSaveData.LastCampaignIndex = _sceneRequest.CampaignIndex;
 		AppController.Instance.CampaignSaveData.SavedCampaign = campaign;
 
 		AppController.Instance.SaveManager.SaveAll();

@@ -50,6 +50,7 @@ public class SaveFile<TSaveData>
 		}
 
 		SaveData.AppVersion = GetVersion();
+		SaveData.LastSaved = DateTime.Now;
 
 		using FileAccess file = FileAccess.Open(_path, FileAccess.ModeFlags.Write);
 
