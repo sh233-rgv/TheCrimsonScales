@@ -5,24 +5,27 @@
 [ext_resource type="LabelSettings" uid="uid://co0cqpevlny13" path="res://Resources/PanelLabel.tres" id="2_1ywqw"]
 [ext_resource type="PackedScene" uid="uid://cwssh8m5tb3t5" path="res://Scenes/UI/Popups/SaveFileSelectionPopup/SaveFileSelectionPopupSaveFileCharacter.tscn" id="2_gksbr"]
 [ext_resource type="PackedScene" uid="uid://b51vd03g1dpc8" path="res://Scenes/UI/PanelButton.tscn" id="3_qy2to"]
+[ext_resource type="Script" uid="uid://ck1ncviofqosh" path="res://Scripts/UI/ResizingLabel.cs" id="6_fmafd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_jymqk"]
 font = ExtResource("1_c85tf")
 font_size = 60
 
-[node name="SaveFileSelectionPopupSaveFile" type="MarginContainer" unique_id=644443270 node_paths=PackedStringArray("_numberLabel", "_emptyContainer", "_saveFileContainer", "_characterParent", "_dateLabel", "_locationLabel", "_difficultyLabel", "_newCampaignButton", "_loadButton")]
-custom_minimum_size = Vector2(0, 150)
+[node name="SaveFileSelectionPopupSaveFile" type="MarginContainer" unique_id=644443270 node_paths=PackedStringArray("_numberLabel", "_emptyContainer", "_saveFileContainer", "_characterParent", "_nameLabel", "_dateLabel", "_locationLabel", "_difficultyLabel", "_newCampaignButton", "_loadButton", "_deleteButton")]
+custom_minimum_size = Vector2(0, 180)
 script = ExtResource("1_gksbr")
 _numberLabel = NodePath("Container/Number")
 _emptyContainer = NodePath("Container/EmptyContainer")
 _saveFileContainer = NodePath("Container/SaveFileContainer")
 _characterScene = ExtResource("2_gksbr")
 _characterParent = NodePath("Container/SaveFileContainer/CharacterPortraits")
+_nameLabel = NodePath("Container/SaveFileContainer/VBoxContainer/Name")
 _dateLabel = NodePath("Container/SaveFileContainer/VBoxContainer/Date/Value")
 _locationLabel = NodePath("Container/SaveFileContainer/VBoxContainer/Location/Value")
 _difficultyLabel = NodePath("Container/SaveFileContainer/VBoxContainer/Difficulty/Value")
 _newCampaignButton = NodePath("Container/EmptyContainer/MarginContainer/NewCampaignButton/BetterButton")
-_loadButton = NodePath("Container/SaveFileContainer/MarginContainer/LoadButton/BetterButton")
+_loadButton = NodePath("Container/SaveFileContainer/Load/LoadButton/BetterButton")
+_deleteButton = NodePath("Container/SaveFileContainer/Delete/DeleteButton/BetterButton")
 
 [node name="Container" type="HBoxContainer" parent="." unique_id=1750086135]
 layout_mode = 2
@@ -34,6 +37,7 @@ text = "1:"
 label_settings = SubResource("LabelSettings_jymqk")
 
 [node name="EmptyContainer" type="HBoxContainer" parent="Container" unique_id=1933881848]
+visible = false
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -68,6 +72,7 @@ theme_override_constants/separation = 20
 [node name="CharacterPortraits" type="HBoxContainer" parent="Container/SaveFileContainer" unique_id=1159006269]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 theme_override_constants/separation = 10
 alignment = 1
 
@@ -75,6 +80,15 @@ alignment = 1
 custom_minimum_size = Vector2(350, 0)
 layout_mode = 2
 alignment = 1
+
+[node name="Name" type="Label" parent="Container/SaveFileContainer/VBoxContainer" unique_id=494806921]
+layout_mode = 2
+text = "Party Squad"
+label_settings = ExtResource("2_1ywqw")
+horizontal_alignment = 1
+script = ExtResource("6_fmafd")
+_minSize = 20
+_maxSize = 40
 
 [node name="Date" type="HBoxContainer" parent="Container/SaveFileContainer/VBoxContainer" unique_id=886065720]
 layout_mode = 2
@@ -127,16 +141,31 @@ text = "Very Hard"
 label_settings = ExtResource("2_1ywqw")
 horizontal_alignment = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Container/SaveFileContainer" unique_id=1102099174]
+[node name="Delete" type="MarginContainer" parent="Container/SaveFileContainer" unique_id=717933304]
 layout_mode = 2
-theme_override_constants/margin_left = 10
 
-[node name="LoadButton" parent="Container/SaveFileContainer/MarginContainer" unique_id=1476904353 instance=ExtResource("3_qy2to")]
+[node name="DeleteButton" parent="Container/SaveFileContainer/Delete" unique_id=699340975 instance=ExtResource("3_qy2to")]
+modulate = Color(1, 0.36862746, 0.22745098, 1)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Label" parent="Container/SaveFileContainer/MarginContainer/LoadButton/BetterButton/Panel" parent_id_path=PackedInt32Array(1476904353, 62362509) index="0" unique_id=188245078]
+[node name="Label" parent="Container/SaveFileContainer/Delete/DeleteButton/BetterButton/Panel" parent_id_path=PackedInt32Array(699340975, 62362509) index="0" unique_id=188245078]
+text = "Delete"
+
+[node name="Load" type="MarginContainer" parent="Container/SaveFileContainer" unique_id=1102099174]
+layout_mode = 2
+
+[node name="LoadButton" parent="Container/SaveFileContainer/Load" unique_id=1476904353 instance=ExtResource("3_qy2to")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" parent="Container/SaveFileContainer/Load/LoadButton/BetterButton/Panel" parent_id_path=PackedInt32Array(1476904353, 62362509) index="0" unique_id=188245078]
 text = "Load"
 
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=993474122]
+visible = false
+layout_mode = 2
+
 [editable path="Container/EmptyContainer/MarginContainer/NewCampaignButton"]
-[editable path="Container/SaveFileContainer/MarginContainer/LoadButton"]
+[editable path="Container/SaveFileContainer/Delete/DeleteButton"]
+[editable path="Container/SaveFileContainer/Load/LoadButton"]

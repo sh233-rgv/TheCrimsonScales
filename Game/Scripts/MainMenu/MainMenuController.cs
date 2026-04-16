@@ -22,10 +22,7 @@ public partial class MainMenuController : SceneController<MainMenuController>
 			_sceneRequest = new MainMenuSceneRequest();
 		}
 
-		bool continueAvailable =
-			AppController.Instance.DeviceSaveData.LastCampaignIndex >= 0 &&
-			AppController.Instance.SaveManager.CampaignSaveFiles[AppController.Instance.DeviceSaveData.LastCampaignIndex] != null;
-		_continueButton.GetParent<Control>().SetVisible(continueAvailable);
+		UpdateContinueButton();
 
 		_continueButton.Pressed += OnContinuePressed;
 		_playButton.Pressed += OnPlayPressed;
@@ -43,6 +40,15 @@ public partial class MainMenuController : SceneController<MainMenuController>
 		AppController.Instance.AudioController.SetBGS(null);
 
 		AppController.Instance.SaveManager.SetCampaignIndex(-1);
+	}
+
+	public void UpdateContinueButton()
+	{
+		bool continueAvailable =
+			AppController.Instance.DeviceSaveData.LastCampaignIndex >= 0 &&
+			AppController.Instance.SaveManager.CampaignSaveFiles[AppController.Instance.DeviceSaveData.LastCampaignIndex].SaveData.SavedCampaign !=
+			null;
+		_continueButton.GetParent<Control>().SetVisible(continueAvailable);
 	}
 
 	private void OnContinuePressed()

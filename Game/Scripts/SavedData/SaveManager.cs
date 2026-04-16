@@ -29,13 +29,24 @@ public class SaveManager
 
 		for(int i = 0; i < 3; i++)
 		{
-			CampaignSaveFiles.Add(new SaveFile<CampaignSaveData>($"user://Campaign-{i}.save"));
+			CampaignSaveFiles.Add(new SaveFile<CampaignSaveData>($"user://Campaign-{i + 1}.save"));
 		}
 	}
 
 	public void SetCampaignIndex(int campaignIndex)
 	{
 		CurrentCampaignIndex = campaignIndex;
+	}
+
+	public void SaveCampaignAndDevice()
+	{
+		if(!CanSave)
+		{
+			return;
+		}
+
+		SaveGame();
+		SaveDevice();
 	}
 
 	public void SaveAll()
@@ -45,7 +56,11 @@ public class SaveManager
 			return;
 		}
 
-		SaveGame();
+		foreach(SaveFile<CampaignSaveData> saveFile in CampaignSaveFiles)
+		{
+			saveFile.Save();
+		}
+
 		SaveDevice();
 	}
 

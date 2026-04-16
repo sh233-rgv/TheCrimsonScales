@@ -108,7 +108,7 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 		AppController.Instance.DeviceSaveData.LastCampaignIndex = _sceneRequest.CampaignIndex;
 		AppController.Instance.CampaignSaveData.SavedCampaign = campaign;
 
-		AppController.Instance.SaveManager.SaveAll();
+		AppController.Instance.SaveManager.SaveCampaignAndDevice();
 
 		AppController.Instance.SceneLoader.RequestSceneChange(
 			new BetweenScenariosSceneRequest(AppController.Instance.CampaignSaveData.SavedCampaign));

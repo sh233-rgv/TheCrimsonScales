@@ -31,11 +31,9 @@ public partial class SaveFileSelectionPopup : Popup<SaveFileSelectionPopup.Reque
 
 		for(int i = 0; i < AppController.Instance.SaveManager.CampaignSaveFiles.Count; i++)
 		{
-			SaveFile<CampaignSaveData> campaignSaveFile = AppController.Instance.SaveManager.CampaignSaveFiles[i];
-
 			SaveFileSelectionPopupSaveFile saveFile = _saveFileScene.Instantiate<SaveFileSelectionPopupSaveFile>();
 			_saveFileParent.AddChild(saveFile);
-			saveFile.Init(i, campaignSaveFile.SaveData);
+			saveFile.Init(i);
 			_saveFiles.Add(saveFile);
 		}
 	}

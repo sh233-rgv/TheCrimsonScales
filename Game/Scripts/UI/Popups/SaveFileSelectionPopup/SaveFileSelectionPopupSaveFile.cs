@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Godot;
 
 public partial class SaveFileSelectionPopupSaveFile : Control
@@ -18,6 +17,8 @@ public partial class SaveFileSelectionPopupSaveFile : Control
 	private Control _characterParent;
 
 	[Export]
+	private ResizingLabel _nameLabel;
+	[Export]
 	private Label _dateLabel;
 	[Export]
 	private Label _locationLabel;
@@ -28,10 +29,13 @@ public partial class SaveFileSelectionPopupSaveFile : Control
 	private BetterButton _newCampaignButton;
 	[Export]
 	private BetterButton _loadButton;
+	[Export]
+	private BetterButton _deleteButton;
 
 	private readonly List<SaveFileSelectionPopupSaveFileCharacter> _characters = new List<SaveFileSelectionPopupSaveFileCharacter>();
 
 	private int _index;
+	private CampaignSaveData _campaignSaveData;
 
 	public override void _Ready()
 	{
@@ -39,18 +43,33 @@ public partial class SaveFileSelectionPopupSaveFile : Control
 
 		_newCampaignButton.Pressed += OnNewCampaignPressed;
 		_loadButton.Pressed += OnLoadPressed;
+		_deleteButton.Pressed += OnDeletePressed;
 	}
 
-	public void Init(int index, CampaignSaveData campaignSaveData)
+	public void Init(int index)
 	{
 		_index = index;
 
-		_numberLabel.SetText(_index.ToString());
+		_numberLabel.SetText($"{(_index + 1).ToString()}:");
 
-		SavedCampaign savedCampaign = campaignSaveData.SavedCampaign;
+		UpdateVisuals();
+	}
+
+	private void UpdateVisuals()
+	{
+		_campaignSaveData = AppController.Instance.SaveManager.CampaignSaveFiles[_index].SaveData;
+
+		SavedCampaign savedCampaign = _campaignSaveData.SavedCampaign;
 
 		_emptyContainer.SetVisible(savedCampaign == null);
 		_saveFileContainer.SetVisible(savedCampaign != null);
+
+		foreach(SaveFileSelectionPopupSaveFileCharacter character in _characters)
+		{
+			character.QueueFree();
+		}
+
+		_characters.Clear();
 
 		if(savedCampaign != null)
 		{
@@ -62,12 +81,13 @@ public partial class SaveFileSelectionPopupSaveFile : Control
 				_characters.Add(character);
 			}
 
-			_dateLabel.SetText(campaignSaveData.LastSaved == null ? "N.A." : campaignSaveData.LastSaved.Value.ToString("yyyy/MM/dd"));
+			_nameLabel.SetText(savedCampaign.PartyName);
+			_dateLabel.SetText(_campaignSaveData.LastSaved == null ? "N.A." : _campaignSaveData.LastSaved.Value.ToString("yyyy/MM/dd"));
 			_locationLabel.SetText(
-				campaignSaveData.SavedCampaign.SavedScenario == null
+				savedCampaign.SavedScenario == null
 					? "Gloomhaven"
-					: $"Scenario {ModelDB.GetById<ScenarioModel>(campaignSaveData.SavedCampaign.SavedScenario.ScenarioModelId).ScenarioNumber}");
-			_difficultyLabel.SetText(DifficultySliderOptionView.DifficultyToString(campaignSaveData.Options.Difficulty.Value));
+					: $"Scenario {ModelDB.GetById<ScenarioModel>(savedCampaign.SavedScenario.ScenarioModelId).ScenarioNumber}");
+			_difficultyLabel.SetText(DifficultySliderOptionView.DifficultyToString(_campaignSaveData.Options.Difficulty.Value));
 		}
 	}
 
@@ -81,9 +101,31 @@ public partial class SaveFileSelectionPopupSaveFile : Control
 		AppController.Instance.SaveManager.SetCampaignIndex(_index);
 		AppController.Instance.DeviceSaveData.LastCampaignIndex = _index;
 
-		AppController.Instance.SaveManager.SaveAll();
+		AppController.Instance.SaveManager.SaveCampaignAndDevice();
 
 		AppController.Instance.SceneLoader.RequestSceneChange(
 			new BetweenScenariosSceneRequest(AppController.Instance.CampaignSaveData.SavedCampaign));
+	}
+
+	private void OnDeletePressed()
+	{
+		AppController.Instance!.PopupManager.OpenPopupOnTop(new TextPopup.Request("Are you sure?",
+			$"Are you sure you want to clear this save file? This cannot be reverted!",
+			new TextButton.Parameters("Cancel",
+				() =>
+				{
+				}
+			),
+			new TextButton.Parameters("Delete",
+				() =>
+				{
+					AppController.Instance.SaveManager.CampaignSaveFiles[_index].NewSaveData();
+					AppController.Instance.SaveManager.SaveAll();
+					UpdateVisuals();
+					MainMenuController.Instance.UpdateContinueButton();
+				},
+				TextButton.ColorType.Red
+			)
+		));
 	}
 }

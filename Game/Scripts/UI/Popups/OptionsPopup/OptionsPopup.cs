@@ -57,7 +57,7 @@ public partial class OptionsPopup : Popup<OptionsPopup.Request>
 	{
 		base.OnClose();
 
-		AppController.Instance.SaveManager.SaveAll();
+		AppController.Instance.SaveManager.SaveCampaignAndDevice();
 	}
 
 	protected override void OnClosed()

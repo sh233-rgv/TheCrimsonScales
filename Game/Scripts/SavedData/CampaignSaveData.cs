@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 public class CampaignSaveData : SaveData
 {
 	[JsonProperty]
-	public Guid CampaignId { get; set; }
+	public Guid CampaignId { get; set; } = Guid.NewGuid();
 
 	[JsonProperty]
 	public SavedCampaign SavedCampaign { get; set; }

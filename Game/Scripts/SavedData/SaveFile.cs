@@ -7,7 +7,7 @@ public class SaveFile<TSaveData>
 {
 	private readonly string _path;
 
-	public TSaveData SaveData { get; }
+	public TSaveData SaveData { get; private set; }
 	public bool RemovedSavedScenario { get; }
 
 	public SaveFile(string path)
@@ -33,12 +33,7 @@ public class SaveFile<TSaveData>
 
 		if(SaveData == null)
 		{
-			SaveData = new TSaveData()
-			{
-				//PlayerId = Guid.NewGuid(),
-				//SavedCampaign = null,
-				MigrationVersion = Migrator.MigrationVersion
-			};
+			NewSaveData();
 		}
 	}
 
@@ -56,6 +51,16 @@ public class SaveFile<TSaveData>
 
 		string json = JsonConvert.SerializeObject(SaveData, SaveManager.JsonSerializerSettings);
 		file.StoreLine(json);
+	}
+
+	public void NewSaveData()
+	{
+		SaveData = new TSaveData()
+		{
+			//PlayerId = Guid.NewGuid(),
+			//SavedCampaign = null,
+			MigrationVersion = Migrator.MigrationVersion
+		};
 	}
 
 	private static string GetVersion()
