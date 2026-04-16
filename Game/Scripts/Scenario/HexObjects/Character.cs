@@ -46,7 +46,7 @@ public partial class Character : Figure
 	public override Texture2D MapIconTexture => _staticSprite.Texture;
 
 	public override Node2D Visual =>
-		AppController.Instance.CampaignOptions.AnimatedCharacters.Value && ClassModel.HasAnimatedSprite ? _animatedSprite : _staticSprite;
+		AppController.Instance.DeviceOptions.AnimatedCharacters.Value && ClassModel.HasAnimatedSprite ? _animatedSprite : _staticSprite;
 
 	public event Action<Character> BattleGoalChangedEvent;
 	public event Action<Character> BattleGoalProgressChangedEvent;
@@ -129,9 +129,9 @@ public partial class Character : Figure
 
 		GameController.Instance.Map.RegisterFigure(this);
 
-		AppController.Instance.CampaignOptions.AnimatedCharacters.ValueChangedEvent += OnAnimatedCharactersChanged;
+		AppController.Instance.DeviceOptions.AnimatedCharacters.ValueChangedEvent += OnAnimatedCharactersChanged;
 
-		OnAnimatedCharactersChanged(AppController.Instance.CampaignOptions.AnimatedCharacters.Value);
+		OnAnimatedCharactersChanged(AppController.Instance.DeviceOptions.AnimatedCharacters.Value);
 	}
 
 	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
@@ -174,7 +174,7 @@ public partial class Character : Figure
 
 		if(what == NotificationPredelete && AppController.Instance != null)
 		{
-			AppController.Instance.CampaignOptions.AnimatedCharacters.ValueChangedEvent -= OnAnimatedCharactersChanged;
+			AppController.Instance.DeviceOptions.AnimatedCharacters.ValueChangedEvent -= OnAnimatedCharactersChanged;
 		}
 	}
 

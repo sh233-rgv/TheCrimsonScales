@@ -36,10 +36,10 @@ public partial class AppController : SingletonNode<AppController>
 	public SaveManager SaveManager { get; private set; }
 
 	public DeviceSaveData DeviceSaveData => SaveManager.DeviceSaveFile.SaveData;
-	public CampaignSaveData CampaignSaveData => SaveManager.CampaignSaveFile.SaveData;
+	public CampaignSaveData CampaignSaveData => SaveManager.CampaignSaveFile?.SaveData;
 
 	public SavedDeviceOptions DeviceOptions => DeviceSaveData.Options;
-	public SavedCampaignOptions CampaignOptions => CampaignSaveData.Options;
+	public SavedCampaignOptions CampaignOptions => CampaignSaveData?.Options;
 
 	public override void _EnterTree()
 	{

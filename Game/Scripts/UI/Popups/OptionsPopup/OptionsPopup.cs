@@ -20,21 +20,6 @@ public partial class OptionsPopup : Popup<OptionsPopup.Request>
 		base._Ready();
 
 		_confirmButton.Pressed += OnConfirmPressed;
-
-		SavedCampaignOptions options = AppController.Instance.SaveFile.SaveData.Options;
-
-		AddSliderOption(options.BGMVolume, "Music");
-		AddSliderOption(options.BGSVolume, "Ambience");
-		AddSliderOption(options.SFXVolume, "Sound Effects");
-
-		if(!Platform.DeskTop)
-		{
-			AddCheckmarkOption(options.VibrationsEnabled, "Vibrations");
-		}
-
-		AddCheckmarkOption(options.AnimatedCharacters, "Animated Characters");
-
-		AddOption(new DifficultySliderOptionView.Parameters(options.Difficulty, "Difficulty"));
 	}
 
 	protected override void OnOpen()
@@ -42,6 +27,25 @@ public partial class OptionsPopup : Popup<OptionsPopup.Request>
 		base.OnOpen();
 
 		_confirmButton.SetEnabled(true, false);
+
+		SavedDeviceOptions deviceOptions = AppController.Instance.DeviceOptions;
+		SavedCampaignOptions campaignOptions = AppController.Instance.CampaignOptions;
+
+		AddSliderOption(deviceOptions.BGMVolume, "Music");
+		AddSliderOption(deviceOptions.BGSVolume, "Ambience");
+		AddSliderOption(deviceOptions.SFXVolume, "Sound Effects");
+
+		if(!Platform.DeskTop)
+		{
+			AddCheckmarkOption(deviceOptions.VibrationsEnabled, "Vibrations");
+		}
+
+		AddCheckmarkOption(deviceOptions.AnimatedCharacters, "Animated Characters");
+
+		if(campaignOptions != null)
+		{
+			AddOption(new DifficultySliderOptionView.Parameters(campaignOptions.Difficulty, "Difficulty"));
+		}
 
 		foreach(OptionViewBase option in _options)
 		{
@@ -53,7 +57,19 @@ public partial class OptionsPopup : Popup<OptionsPopup.Request>
 	{
 		base.OnClose();
 
-		AppController.Instance.SaveGame();
+		AppController.Instance.SaveManager.SaveAll();
+	}
+
+	protected override void OnClosed()
+	{
+		base.OnClosed();
+
+		foreach(OptionViewBase option in _options)
+		{
+			option.QueueFree();
+		}
+
+		_options.Clear();
 	}
 
 	private void AddCheckmarkOption(SavedOption<bool> option, string label)

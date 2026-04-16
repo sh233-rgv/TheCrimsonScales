@@ -31,6 +31,8 @@ public partial class CheckmarkOptionView : OptionView<CheckmarkOptionView.Parame
 
 	protected override void OnValueChanged(bool value)
 	{
+		base.OnValueChanged(value);
+
 		_checkmark.SetVisible(value);
 	}
 

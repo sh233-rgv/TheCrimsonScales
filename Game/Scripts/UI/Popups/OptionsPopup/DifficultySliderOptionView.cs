@@ -45,6 +45,8 @@ public partial class DifficultySliderOptionView : OptionView<DifficultySliderOpt
 
 	protected override void OnValueChanged(int value)
 	{
+		base.OnValueChanged(value);
+
 		string difficultyName = value switch
 		{
 			-1 => "Easy",

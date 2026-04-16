@@ -5,7 +5,7 @@ public partial class MainMenuController : SceneController<MainMenuController>
 	[Export]
 	private BetterButton _continueButton;
 	[Export]
-	private BetterButton _newGameButton;
+	private BetterButton _playButton;
 	[Export]
 	private BetterButton _optionsButton;
 	[Export]
@@ -22,11 +22,13 @@ public partial class MainMenuController : SceneController<MainMenuController>
 			_sceneRequest = new MainMenuSceneRequest();
 		}
 
-		bool continueAvailable = AppController.Instance.SaveFile.SaveData.SavedCampaign != null;
+		bool continueAvailable =
+			AppController.Instance.DeviceSaveData.LastCampaignIndex >= 0 &&
+			AppController.Instance.SaveManager.CampaignSaveFiles[AppController.Instance.DeviceSaveData.LastCampaignIndex] != null;
 		_continueButton.GetParent<Control>().SetVisible(continueAvailable);
 
 		_continueButton.Pressed += OnContinuePressed;
-		_newGameButton.Pressed += OnNewGamePressed;
+		_playButton.Pressed += OnPlayPressed;
 		_optionsButton.Pressed += OnOptionsPressed;
 		_exitButton.Pressed += OnExitPressed;
 
@@ -43,7 +45,9 @@ public partial class MainMenuController : SceneController<MainMenuController>
 
 	private void OnContinuePressed()
 	{
-		SavedCampaign savedCampaign = AppController.Instance.SaveFile.SaveData.SavedCampaign;
+		int lastCampaignIndex = AppController.Instance.DeviceSaveData.LastCampaignIndex;
+		AppController.Instance.SaveManager.SetCampaignIndex(lastCampaignIndex);
+		SavedCampaign savedCampaign = AppController.Instance.CampaignSaveData.SavedCampaign;
 		if(savedCampaign.SavedScenario == null)
 		{
 			AppController.Instance.SceneLoader.RequestSceneChange(new BetweenScenariosSceneRequest(savedCampaign));
@@ -54,31 +58,34 @@ public partial class MainMenuController : SceneController<MainMenuController>
 		}
 	}
 
-	private void OnNewGamePressed()
+	private void OnPlayPressed()
 	{
-		if(AppController.Instance.SaveFile.SaveData.SavedCampaign == null)
+		AppController.Instance.PopupManager.RequestPopup(new SaveFileSelectionPopup.Request()
 		{
-			StartNewCampaign();
-		}
-		else
-		{
-			AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request("Are you sure?",
-				"Are you sure you want to start a new campaign?\nThis will overwrite your saved campaign and can not be undone!",
-				new TextButton.Parameters("Cancel",
-					() =>
-					{
-					}
-				),
-				new TextButton.Parameters("New Campaign",
-					() =>
-					{
-						StartNewCampaign();
-					},
-					TextButton.ColorType.Red,
-					width: 300
-				)
-			));
-		}
+		});
+		// if(AppController.Instance.SaveFile.SaveData.SavedCampaign == null)
+		// {
+		// 	StartNewCampaign();
+		// }
+		// else
+		// {
+		// 	AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request("Are you sure?",
+		// 		"Are you sure you want to start a new campaign?\nThis will overwrite your saved campaign and can not be undone!",
+		// 		new TextButton.Parameters("Cancel",
+		// 			() =>
+		// 			{
+		// 			}
+		// 		),
+		// 		new TextButton.Parameters("New Campaign",
+		// 			() =>
+		// 			{
+		// 				StartNewCampaign();
+		// 			},
+		// 			TextButton.ColorType.Red,
+		// 			width: 300
+		// 		)
+		// 	));
+		// }
 	}
 
 	private void OnOptionsPressed()
@@ -86,11 +93,11 @@ public partial class MainMenuController : SceneController<MainMenuController>
 		AppController.Instance.PopupManager.RequestPopup(new OptionsPopup.Request());
 	}
 
-	private void StartNewCampaign()
-	{
-		AppController.Instance.SceneLoader.RequestSceneChange(new NewCampaignSceneRequest());
-		//AppController.Instance.PopupManager.RequestPopup(new CreateCampaignPopup.Request());
-	}
+	// private void StartNewCampaign()
+	// {
+	// 	AppController.Instance.SceneLoader.RequestSceneChange(new NewCampaignSceneRequest());
+	// 	//AppController.Instance.PopupManager.RequestPopup(new CreateCampaignPopup.Request());
+	// }
 
 	private void OnExitPressed()
 	{

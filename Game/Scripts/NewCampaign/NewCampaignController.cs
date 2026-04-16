@@ -26,7 +26,7 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 
 		if(_sceneRequest == null)
 		{
-			_sceneRequest = new NewCampaignSceneRequest();
+			_sceneRequest = new NewCampaignSceneRequest(0);
 		}
 	}
 
@@ -104,12 +104,13 @@ public partial class NewCampaignController : SceneController<NewCampaignControll
 
 		SavedCampaign campaign = SavedCampaign.New(PartyName, StartingGroup.Value);
 
-		AppController.Instance.SaveFile.SaveData.SavedCampaign = campaign;
+		AppController.Instance.SaveManager.SetCampaignIndex(_sceneRequest.CampaignIndex);
+		AppController.Instance.CampaignSaveData.SavedCampaign = campaign;
 
-		AppController.Instance.SaveFile.Save();
+		AppController.Instance.SaveManager.SaveAll();
 
 		AppController.Instance.SceneLoader.RequestSceneChange(
-			new BetweenScenariosSceneRequest(AppController.Instance.SaveFile.SaveData.SavedCampaign));
+			new BetweenScenariosSceneRequest(AppController.Instance.CampaignSaveData.SavedCampaign));
 	}
 
 	private void OnBackPressed()

@@ -184,7 +184,7 @@ public partial class GameController : SceneController<GameController>
 				savedCampaign.SetSavedScenario(new SavedScenario
 				{
 					Id = Guid.NewGuid(),
-					AppVersion = AppController.Instance.SaveFile.SaveData.AppVersion,
+					AppVersion = AppController.Instance.DeviceSaveData.AppVersion,
 					ScenarioModelId = ModelDB.Scenario<Scenario001>().Id.ToString(),
 					//Seed = GD.RandRange(0, int.MaxValue),
 					Seed = 0,

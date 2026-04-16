@@ -48,6 +48,7 @@ public partial class SliderOptionView : OptionView<SliderOptionView.Parameters, 
 
 	protected override void OnValueChanged(int value)
 	{
+		base.OnValueChanged(value);
 	}
 
 	private void OnSliderValueChanged(float value)

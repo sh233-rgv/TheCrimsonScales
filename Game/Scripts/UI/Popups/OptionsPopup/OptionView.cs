@@ -33,6 +33,16 @@ public abstract partial class OptionView<TParameters, TValue> : OptionViewBase
 		OnValueChanged(SavedOption.Value);
 	}
 
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+
+		if(SavedOption != null)
+		{
+			SavedOption.ValueChangedEvent -= OnValueChanged;
+		}
+	}
+
 	public override void Destroy()
 	{
 		this.TweenScale(0.5f, 0.15f).SetEasing(Easing.InBack).OnComplete(QueueFree).Play();

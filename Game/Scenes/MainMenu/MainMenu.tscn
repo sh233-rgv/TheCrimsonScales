@@ -14,10 +14,10 @@ shader_parameter/vignette_strength = 0.8
 shader_parameter/dither_strength = 0.03
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 
-[node name="MainMenu" type="Node" unique_id=775081676 node_paths=PackedStringArray("_continueButton", "_newGameButton", "_optionsButton", "_exitButton")]
+[node name="MainMenu" type="Node" unique_id=775081676 node_paths=PackedStringArray("_continueButton", "_playButton", "_optionsButton", "_exitButton")]
 script = ExtResource("1_056y2")
 _continueButton = NodePath("CanvasLayer/UI/VBoxContainer/ContinueButton/BetterButton")
-_newGameButton = NodePath("CanvasLayer/UI/VBoxContainer/NewGameButton/BetterButton")
+_playButton = NodePath("CanvasLayer/UI/VBoxContainer/PlayButton/BetterButton")
 _optionsButton = NodePath("CanvasLayer/UI/VBoxContainer/OptionsButton/BetterButton")
 _exitButton = NodePath("CanvasLayer/UI/VBoxContainer/ExitButton/BetterButton")
 
@@ -103,13 +103,13 @@ script = null
 [node name="Label" parent="CanvasLayer/UI/VBoxContainer/ContinueButton/BetterButton/Panel" parent_id_path=PackedInt32Array(810399806, 1664087955) index="0" unique_id=1161890966]
 text = "Continue"
 
-[node name="NewGameButton" parent="CanvasLayer/UI/VBoxContainer" unique_id=1011399412 instance=ExtResource("3_o2b56")]
+[node name="PlayButton" parent="CanvasLayer/UI/VBoxContainer" unique_id=1011399412 instance=ExtResource("3_o2b56")]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 script = null
 
-[node name="Label" parent="CanvasLayer/UI/VBoxContainer/NewGameButton/BetterButton/Panel" parent_id_path=PackedInt32Array(1011399412, 1664087955) index="0" unique_id=1161890966]
-text = "New Campaign"
+[node name="Label" parent="CanvasLayer/UI/VBoxContainer/PlayButton/BetterButton/Panel" parent_id_path=PackedInt32Array(1011399412, 1664087955) index="0" unique_id=1161890966]
+text = "Play"
 
 [node name="OptionsButton" parent="CanvasLayer/UI/VBoxContainer" unique_id=1013233185 instance=ExtResource("3_o2b56")]
 custom_minimum_size = Vector2(300, 80)
@@ -128,6 +128,6 @@ script = null
 text = "Exit"
 
 [editable path="CanvasLayer/UI/VBoxContainer/ContinueButton"]
-[editable path="CanvasLayer/UI/VBoxContainer/NewGameButton"]
+[editable path="CanvasLayer/UI/VBoxContainer/PlayButton"]
 [editable path="CanvasLayer/UI/VBoxContainer/OptionsButton"]
 [editable path="CanvasLayer/UI/VBoxContainer/ExitButton"]
