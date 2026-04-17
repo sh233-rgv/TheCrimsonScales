@@ -16,7 +16,7 @@
 
 		SubscribeDuringTurn(
 			canApply: character => character == Owner,
-			apply: async user =>
+			apply: async character =>
 			{
 				await Use(async user =>
 				{
