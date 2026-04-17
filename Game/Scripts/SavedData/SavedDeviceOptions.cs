@@ -22,7 +22,20 @@ public class SavedDeviceOptions
 	[JsonProperty]
 	public SavedOption<int> GameplaySpeed { get; private set; } = new SavedOption<int>(0);
 
-	public static LabeledOptions<float> GameplaySpeedOptions { get; } = new LabeledOptions<float>(
+	[JsonProperty]
+	public SavedOption<int> OtherSpeed { get; private set; } = new SavedOption<int>(0);
+
+	public float GetTimeScale(TimeScale timeScale)
+	{
+		return timeScale switch
+		{
+			TimeScale.Gameplay => SpeedOptions.GetValue(GameplaySpeed),
+			TimeScale.Other => SpeedOptions.GetValue(OtherSpeed),
+			_ => 1f
+		};
+	}
+
+	public static LabeledOptions<float> SpeedOptions { get; } = new LabeledOptions<float>(
 	[
 		new("1x", 1f),
 		new("1.25x", 1.25f),

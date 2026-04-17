@@ -497,8 +497,7 @@ public static class AbilityCmd
 			return null;
 		}
 
-		await overlayTile.TweenGlobalPosition(movedToHex.GlobalPosition, 0.3f).SetEasing(Easing.OutSine)
-			.PlayFastForwardableAsync();
+		await overlayTile.TweenGlobalPosition(movedToHex.GlobalPosition, 0.3f).SetEasing(Easing.OutSine).PlayFastForwardableAsync();
 		await GDTask.DelayFastForwardable(0.03f);
 		overlayTile.SetOriginHexAndRotation(movedToHex);
 

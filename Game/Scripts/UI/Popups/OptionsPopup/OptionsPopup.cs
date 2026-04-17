@@ -40,7 +40,7 @@ public partial class OptionsPopup : Popup<OptionsPopup.Request>
 			AddCheckmarkOption(deviceOptions.VibrationsEnabled, "Vibrations");
 		}
 
-		// AddLabeledSliderOption(deviceOptions.GameplaySpeed, "Gameplay Speed", SavedDeviceOptions.GameplaySpeedOptions);
+		AddLabeledSliderOption(deviceOptions.GameplaySpeed, "Gameplay Speed", SavedDeviceOptions.SpeedOptions);
 
 		AddCheckmarkOption(deviceOptions.AnimatedCharacters, "Animated Characters");
 

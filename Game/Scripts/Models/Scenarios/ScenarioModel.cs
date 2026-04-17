@@ -8,7 +8,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	private readonly List<ScenarioGoal> _goals = new List<ScenarioGoal>();
 	private readonly List<ScenarioRule> _rules = new List<ScenarioRule>();
 
-	private object _subscriber = new object();
+	private readonly object _subscriber = new object();
 
 	public abstract string ScenePath { get; }
 
