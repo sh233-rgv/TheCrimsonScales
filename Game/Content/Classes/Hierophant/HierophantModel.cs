@@ -8,6 +8,18 @@ public class HierophantModel : ClassModel
 	public override int HandSize => 11;
 	public override Ancestry Ancestry => Ancestry.Human;
 
+	public override List<EventModel> UnlockEvents { get; } =
+	[
+		ModelDB.Event<City41>(),
+		ModelDB.Event<Road41>(),
+	];
+
+	public override List<EventModel> RetirementEvents { get; } =
+	[
+		ModelDB.Event<City42>(),
+		ModelDB.Event<Road42>(),
+	];
+
 	public override string AssetPath => "res://Content/Classes/Hierophant";
 	public override Color PrimaryColor => Color.FromHtml("ddde8a");
 	public override Color SecondaryColor => Color.FromHtml("a9a5ad");

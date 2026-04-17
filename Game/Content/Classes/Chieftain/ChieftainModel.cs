@@ -8,6 +8,18 @@ public class ChieftainModel : ClassModel
 	public override int HandSize => 10;
 	public override Ancestry Ancestry => Ancestry.Orchid;
 
+	public override List<EventModel> UnlockEvents { get; } =
+	[
+		ModelDB.Event<City37>(),
+		ModelDB.Event<Road37>(),
+	];
+
+	public override List<EventModel> RetirementEvents { get; } =
+	[
+		ModelDB.Event<City38>(),
+		ModelDB.Event<Road38>(),
+	];
+
 	public override string AssetPath => "res://Content/Classes/Chieftain";
 	public override Color PrimaryColor => Color.FromHtml("76c7c3");
 	public override Color SecondaryColor => Color.FromHtml("5e7574");
