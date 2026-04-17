@@ -206,7 +206,7 @@ public class SavedCampaign
 		return savedItem;
 	}
 
-	public void UnlockClass(ClassModel classModel)
+	public SavedClass GetSavedClass(ClassModel classModel)
 	{
 		string classModelId = classModel.Id.ToString();
 		if(!SavedClasses.TryGetValue(classModelId, out SavedClass savedClass))
@@ -215,7 +215,31 @@ public class SavedCampaign
 			SavedClasses.Add(classModelId, savedClass);
 		}
 
-		savedClass.Unlock();
+		return savedClass;
+	}
+
+	public void UnlockClass(ClassModel classModel)
+	{
+		SavedClass savedClass = GetSavedClass(classModel);
+
+		if(!savedClass.Unlocked)
+		{
+			RandomNumberGenerator tempRNG = new RandomNumberGenerator();
+			tempRNG.Randomize();
+			foreach(EventModel eventModel in classModel.UnlockEvents)
+			{
+				if(eventModel.EventType == EventType.City)
+				{
+					SavedEvents.AddCityEventToDeck(eventModel, tempRNG);
+				}
+				else if(eventModel.EventType == EventType.Road)
+				{
+					SavedEvents.AddRoadEventToDeck(eventModel, tempRNG);
+				}
+			}
+
+			savedClass.Unlock();
+		}
 	}
 
 	public bool CheckClassUnlocked(ClassModel classModel)
@@ -251,6 +275,27 @@ public class SavedCampaign
 
 		Characters.Remove(savedCharacter);
 		RetiredCharacters.Add(savedCharacter);
+
+		ClassModel classModel = savedCharacter.ClassModel;
+		SavedClass savedClass = GetSavedClass(classModel);
+		if(!savedClass.Retired)
+		{
+			RandomNumberGenerator tempRNG = new RandomNumberGenerator();
+			tempRNG.Randomize();
+			foreach(EventModel eventModel in classModel.RetirementEvents)
+			{
+				if(eventModel.EventType == EventType.City)
+				{
+					SavedEvents.AddCityEventToDeck(eventModel, tempRNG);
+				}
+				else if(eventModel.EventType == EventType.Road)
+				{
+					SavedEvents.AddRoadEventToDeck(eventModel, tempRNG);
+				}
+			}
+
+			savedClass.Retire();
+		}
 
 		ClassModel unlockedClass = GetUnlockedClass(savedCharacter);
 		if(unlockedClass != null)
