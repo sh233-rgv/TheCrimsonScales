@@ -493,6 +493,14 @@ public class SavedCampaign
 			savedItem.AddUnlocked(itemModel.ShopCount - currentlyUnlockedCount);
 			savedItem.AddStock(itemModel.ShopCount - currentlyUnlockedCount);
 		}
+
+		if(prosperityLevel > 1)
+		{
+			AppController.Instance.PopupManager.RequestPopup(new ProsperityLevelUpPopup.Request()
+			{
+				ItemModels = itemModels
+			});
+		}
 	}
 
 	private void ReturnCards(SavedCharacter savedCharacter)

@@ -5,7 +5,7 @@ public partial class ProsperityLevelUpPopup : Popup<ProsperityLevelUpPopup.Reque
 {
 	public class Request : PopupRequest
 	{
-		public List<ItemModel> ItemModels { get; init; }
+		public ItemModel[] ItemModels { get; init; }
 	}
 
 	[Export]
