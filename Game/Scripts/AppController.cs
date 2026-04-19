@@ -62,14 +62,9 @@ public partial class AppController : SingletonNode<AppController>
 // 				"""));
 // 		}
 
-		// DeviceOptions.GameplaySpeed.ValueChangedEvent += OnGameplaySpeedChanged;
-		// OnGameplaySpeedChanged(DeviceOptions.GameplaySpeed.Value);
+		DeviceOptions.FullScreen.ValueChangedEvent += OnFullScreenChanged;
+		OnFullScreenChanged(DeviceOptions.FullScreen.Value);
 	}
-
-	// private void OnGameplaySpeedChanged(int value)
-	// {
-	// 	Engine.SetTimeScale(SavedDeviceOptions.GameplaySpeedOptions.GetValue(value));
-	// }
 
 	public async GDTask GiveRewards(SavedCampaign savedCampaign, List<SavedReward> rewards, bool showPopup = true,
 		CancellationToken cancellationToken = default)
@@ -105,5 +100,20 @@ public partial class AppController : SingletonNode<AppController>
 	public void SaveGame()
 	{
 		SaveManager.SaveGame();
+	}
+
+	private void OnFullScreenChanged(bool fullScreen)
+	{
+		DisplayServer.WindowMode windowMode = DisplayServer.WindowGetMode();
+
+		if(!fullScreen && windowMode == DisplayServer.WindowMode.Fullscreen)
+		{
+			DisplayServer.WindowSetMode(DisplayServer.WindowMode.Windowed);
+		}
+
+		if(fullScreen && windowMode != DisplayServer.WindowMode.Fullscreen)
+		{
+			DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);
+		}
 	}
 }

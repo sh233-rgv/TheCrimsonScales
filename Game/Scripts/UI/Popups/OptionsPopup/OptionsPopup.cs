@@ -35,7 +35,14 @@ public partial class OptionsPopup : Popup<OptionsPopup.Request>
 		AddSliderOption(deviceOptions.BGSVolume, "Ambience");
 		AddSliderOption(deviceOptions.SFXVolume, "Sound Effects");
 
-		if(!Platform.DeskTop)
+		if(Platform.DeskTop)
+		{
+			DisplayServer.WindowMode windowMode = DisplayServer.WindowGetMode();
+			deviceOptions.FullScreen.SetValue(windowMode == DisplayServer.WindowMode.Fullscreen);
+
+			AddCheckmarkOption(deviceOptions.FullScreen, "Full Screen");
+		}
+		else
 		{
 			AddCheckmarkOption(deviceOptions.VibrationsEnabled, "Vibrations");
 		}

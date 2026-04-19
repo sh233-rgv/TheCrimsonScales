@@ -14,6 +14,9 @@ public class SavedDeviceOptions
 	public SavedOption<int> SFXVolume { get; private set; } = new SavedOption<int>(80);
 
 	[JsonProperty]
+	public SavedOption<bool> FullScreen { get; private set; } = new SavedOption<bool>(false);
+
+	[JsonProperty]
 	public SavedOption<bool> VibrationsEnabled { get; private set; } = new SavedOption<bool>(true);
 
 	[JsonProperty]
