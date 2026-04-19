@@ -65,9 +65,8 @@ public partial class ItemShopItem : Control
 			if(BetweenScenariosController.Instance != null)
 			{
 				BetweenScenariosController.Instance.CharacterPortraitManager.SelectedPortraitChangedEvent -= OnSelectedPortraitChanged;
+				BetweenScenariosEvents.ItemBoughtEvent.Unsubscribe(this);
 			}
-
-			BetweenScenariosEvents.ItemBoughtEvent.Unsubscribe(this);
 		}
 	}
 

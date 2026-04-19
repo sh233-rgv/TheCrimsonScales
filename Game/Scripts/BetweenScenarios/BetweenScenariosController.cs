@@ -39,7 +39,11 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 
 	public BetweenScenariosEvents Events { get; private set; }
 
+	public List<ScenarioModel> LinkedScenarios { get; } = new List<ScenarioModel>();
+
 	public SavedCampaign SavedCampaign => SceneRequest.SavedCampaign;
+
+	public bool InGloomhaven => LinkedScenarios.Count == 0;
 
 	public override void _EnterTree()
 	{
@@ -157,6 +161,28 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 
 	public void TryStartScenario(ScenarioModel scenarioModel)
 	{
+		if(!InGloomhaven && !LinkedScenarios.Contains(scenarioModel))
+		{
+			AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("Cannot start non-linked scenario",
+				"To start this scenario, you first need to return to Gloomhaven. Would you like to?",
+				new TextButton.Parameters("Cancel",
+					() =>
+					{
+					}
+				),
+				new TextButton.Parameters("Back to Gloomhaven",
+					() =>
+					{
+						ReturnToGloomhaven();
+					},
+					TextButton.ColorType.Green,
+					width: 400
+				)
+			));
+
+			return;
+		}
+
 		if(SavedCampaign.Characters.Count < 2)
 		{
 			AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("Cannot start scenario",
@@ -196,6 +222,12 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 				TextButton.ColorType.Green
 			)
 		));
+	}
+
+	public void ReturnToGloomhaven()
+	{
+		CancellationToken cancellationToken = DestroyCancellationToken;
+		ReturnToGloomhavenSequence(cancellationToken).Forget();
 	}
 
 	public void RetireCharacter(SavedCharacter savedCharacter, SavedCampaign savedCampaign)
@@ -262,17 +294,52 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			await savedPartyGoal.Model.OnBetweenScenariosStarted(savedPartyGoal);
 		}
 
-		if(SavedCampaign.SavedEvents.CanDrawCityEvent && SavedCampaign.SavedEvents.CityEventDeckIds.Count > 0)
-		{
-			await EventOverlay.DrawEventCard(EventType.City, cancellationToken);
-		}
-
 		foreach(SavedReward reward in SavedCampaign.SavedRewards.Rewards)
 		{
 			if(reward.Type == RewardType.DuringDowntime && !reward.Completed && !reward.ActivatedDuringDowntime)
 			{
 				SubscribeDuringDowntime(reward);
 			}
+		}
+
+		if(SavedCampaign.CompletedScenarioModel != null)
+		{
+			foreach(ScenarioConnection connection in SavedCampaign.CompletedScenarioModel.Connections)
+			{
+				if(connection.Linked)
+				{
+					LinkedScenarios.Add(connection.To);
+				}
+			}
+		}
+
+		if(InGloomhaven)
+		{
+			await ReturnToGloomhavenSequence(cancellationToken);
+		}
+
+		// if(
+		// 	SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario010>()).Completed &&
+		// 	SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario013>()).Completed &&
+		// 	SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario014>()).Completed)
+		// {
+		// 	AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("End of Demo",
+		// 		"Thank you for playing this demo of The Crimson Scales!\nHope you had fun!" +
+		// 		"\nAny and all feedback is very welcome. Please do not hesitate to let us know your thoughts."
+		// 	));
+		// }
+
+		ActionManager.Init();
+	}
+
+	private async GDTask ReturnToGloomhavenSequence(CancellationToken cancellationToken)
+	{
+		LinkedScenarios.Clear();
+		SavedCampaign.SetCompletedScenario(null);
+
+		if(SavedCampaign.SavedEvents.CanDrawCityEvent && SavedCampaign.SavedEvents.CityEventDeckIds.Count > 0)
+		{
+			await EventOverlay.DrawEventCard(EventType.City, cancellationToken);
 		}
 
 		if(SceneRequest.SavedCampaign.Characters.Count == 0)
@@ -300,19 +367,6 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 
 			AppController.Instance.SaveGame();
 		}
-
-		// if(
-		// 	SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario010>()).Completed &&
-		// 	SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario013>()).Completed &&
-		// 	SceneRequest.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ModelDB.Scenario<Scenario014>()).Completed)
-		// {
-		// 	AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("End of Demo",
-		// 		"Thank you for playing this demo of The Crimson Scales!\nHope you had fun!" +
-		// 		"\nAny and all feedback is very welcome. Please do not hesitate to let us know your thoughts."
-		// 	));
-		// }
-
-		ActionManager.Init();
 	}
 
 	private async GDTaskVoid StartScenarioSequence(ScenarioModel scenarioModel)

@@ -401,6 +401,8 @@ public partial class GameController : SceneController<GameController>
 
 			SavedScenarioProgress.Complete();
 
+			SavedCampaign.SetCompletedScenario(ScenarioModel);
+
 			SavedCampaign.SavedMerchantsGuildHall.AddCompletedScenario();
 		}
 

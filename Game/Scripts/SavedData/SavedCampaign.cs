@@ -52,6 +52,9 @@ public class SavedCampaign
 	public SavedScenarioProgresses SavedScenarioProgresses { get; private set; }
 
 	[JsonProperty]
+	public string CompletedScenarioModelId { get; private set; }
+
+	[JsonProperty]
 	public Dictionary<string, SavedItem> SavedItems { get; private set; } = new Dictionary<string, SavedItem>();
 
 	[JsonProperty]
@@ -111,6 +114,8 @@ public class SavedCampaign
 			//TODO: Benched characters
 		}
 	}
+
+	public ScenarioModel CompletedScenarioModel => ModelDB.GetById<ScenarioModel>(CompletedScenarioModelId);
 
 	public event Action CharactersChangedEvent;
 	public event Action ProsperityChangedEvent;
@@ -304,6 +309,11 @@ public class SavedCampaign
 		}
 
 		CharactersChangedEvent?.Invoke();
+	}
+
+	public void SetCompletedScenario(ScenarioModel scenarioModel)
+	{
+		CompletedScenarioModelId = scenarioModel?.Id.ToString();
 	}
 
 	public void AdjustProsperity(int prosperityAmount)
