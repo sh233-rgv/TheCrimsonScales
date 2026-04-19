@@ -38,23 +38,13 @@ public partial class ItemShopItem : Control
 
 		BetweenScenariosController.Instance.CharacterPortraitManager.SelectedPortraitChangedEvent += OnSelectedPortraitChanged;
 
+		BetweenScenariosEvents.ItemBoughtEvent.Subscribe(this, parameters =>
+		{
+			UpdateVisuals();
+		});
+
 		UpdateVisuals();
 	}
-
-	// public override void _ExitTree()
-	// {
-	// 	base._ExitTree();
-	//
-	// 	if(SavedItem != null)
-	// 	{
-	// 		SavedItem.StockCountChangedEvent -= OnStockCountChanged;
-	// 	}
-	//
-	// 	foreach(SavedCharacter savedCharacter in _savedCampaign.Characters)
-	// 	{
-	// 		savedCharacter.GoldChangedEvent -= OnGoldChanged;
-	// 	}
-	// }
 
 	public override void _Notification(int what)
 	{
@@ -76,6 +66,8 @@ public partial class ItemShopItem : Control
 			{
 				BetweenScenariosController.Instance.CharacterPortraitManager.SelectedPortraitChangedEvent -= OnSelectedPortraitChanged;
 			}
+
+			BetweenScenariosEvents.ItemBoughtEvent.Unsubscribe(this);
 		}
 	}
 
