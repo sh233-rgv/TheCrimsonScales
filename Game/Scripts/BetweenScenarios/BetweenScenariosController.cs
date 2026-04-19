@@ -332,7 +332,9 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		float characterLevelSum = savedCampaign.Characters.Sum(character => character.Level);
 		int scenarioLevel =
 			Mathf.CeilToInt((characterLevelSum / savedCampaign.Characters.Count) / 2f) +
-			AppController.Instance.CampaignOptions.Difficulty.Value;
+			(AppController.Instance.CampaignOptions == null
+				? 0
+				: SavedCampaignOptions.DifficultyOptions.GetValue(AppController.Instance.CampaignOptions.Difficulty));
 		scenarioLevel = Mathf.Clamp(scenarioLevel, 0, 7);
 		savedCampaign.SetSavedScenario(new SavedScenario()
 		{
@@ -344,7 +346,11 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			IsOnline = false
 		});
 
-		AppController.Instance.CampaignSaveData.SavedCampaign = savedCampaign;
+		if(AppController.Instance.CampaignSaveData != null)
+		{
+			AppController.Instance.CampaignSaveData.SavedCampaign = savedCampaign;
+		}
+
 		AppController.Instance.SceneLoader.RequestSceneChange(new GameSceneRequest(savedCampaign));
 	}
 

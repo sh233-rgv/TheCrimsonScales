@@ -14,8 +14,17 @@ public partial class ProsperityLevelUpPopup : Popup<ProsperityLevelUpPopup.Reque
 	private Control _itemParent;
 	[Export]
 	private ScrollContainer _scrollContainer;
+	[Export]
+	private BetterButton _continueButton;
 
 	private readonly List<ProsperityLevelUpPopupItem> _items = new List<ProsperityLevelUpPopupItem>();
+
+	public override void _Ready()
+	{
+		base._Ready();
+
+		_continueButton.Pressed += OnContinuePressed;
+	}
 
 	protected override void OnOpen()
 	{
@@ -53,5 +62,10 @@ public partial class ProsperityLevelUpPopup : Popup<ProsperityLevelUpPopup.Reque
 		}
 
 		_items.Clear();
+	}
+
+	private void OnContinuePressed()
+	{
+		Close();
 	}
 }

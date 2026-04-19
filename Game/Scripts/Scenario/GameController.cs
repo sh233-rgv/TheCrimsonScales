@@ -190,7 +190,9 @@ public partial class GameController : SceneController<GameController>
 					Seed = 0,
 					ScenarioLevel =
 						Mathf.CeilToInt((characterLevelSum / savedCampaign.Characters.Count) / 2f) +
-						SavedCampaignOptions.DifficultyOptions.GetValue(AppController.Instance.CampaignOptions.Difficulty),
+						(AppController.Instance.CampaignOptions == null
+							? 0
+							: SavedCampaignOptions.DifficultyOptions.GetValue(AppController.Instance.CampaignOptions.Difficulty)),
 					IsOnline = false
 				});
 			}
