@@ -5,6 +5,7 @@ public partial class ProsperityLevelUpPopup : Popup<ProsperityLevelUpPopup.Reque
 {
 	public class Request : PopupRequest
 	{
+		public int Level { get; init; }
 		public ItemModel[] ItemModels { get; init; }
 	}
 
@@ -14,6 +15,10 @@ public partial class ProsperityLevelUpPopup : Popup<ProsperityLevelUpPopup.Reque
 	private Control _itemParent;
 	[Export]
 	private ScrollContainer _scrollContainer;
+
+	[Export]
+	private RichTextLabel _levelReachedLabel;
+
 	[Export]
 	private BetterButton _continueButton;
 
@@ -37,6 +42,8 @@ public partial class ProsperityLevelUpPopup : Popup<ProsperityLevelUpPopup.Reque
 			item.Init(itemModel);
 			_items.Add(item);
 		}
+
+		_levelReachedLabel.SetText($"You've reached Prosperity Level {PopupRequest.Level}!");
 
 		this.DelayedCall(() =>
 		{

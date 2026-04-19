@@ -498,6 +498,7 @@ public class SavedCampaign
 		{
 			AppController.Instance.PopupManager.RequestPopup(new ProsperityLevelUpPopup.Request()
 			{
+				Level = prosperityLevel,
 				ItemModels = itemModels
 			});
 		}
