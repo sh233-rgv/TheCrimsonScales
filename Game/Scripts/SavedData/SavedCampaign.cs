@@ -272,7 +272,7 @@ public class SavedCampaign
 		CharactersChangedEvent?.Invoke();
 	}
 
-	public void RetireCharacter(SavedCharacter savedCharacter)
+	public void RetireCharacter(SavedCharacter savedCharacter, bool addRetirementEvents)
 	{
 		ReturnCards(savedCharacter);
 
@@ -281,25 +281,28 @@ public class SavedCampaign
 		Characters.Remove(savedCharacter);
 		RetiredCharacters.Add(savedCharacter);
 
-		ClassModel classModel = savedCharacter.ClassModel;
-		SavedClass savedClass = GetSavedClass(classModel);
-		if(!savedClass.Retired)
+		if(addRetirementEvents)
 		{
-			RandomNumberGenerator tempRNG = new RandomNumberGenerator();
-			tempRNG.Randomize();
-			foreach(EventModel eventModel in classModel.RetirementEvents)
+			ClassModel classModel = savedCharacter.ClassModel;
+			SavedClass savedClass = GetSavedClass(classModel);
+			if(!savedClass.Retired)
 			{
-				if(eventModel.EventType == EventType.City)
+				RandomNumberGenerator tempRNG = new RandomNumberGenerator();
+				tempRNG.Randomize();
+				foreach(EventModel eventModel in classModel.RetirementEvents)
 				{
-					SavedEvents.AddCityEventToDeck(eventModel, tempRNG);
+					if(eventModel.EventType == EventType.City)
+					{
+						SavedEvents.AddCityEventToDeck(eventModel, tempRNG);
+					}
+					else if(eventModel.EventType == EventType.Road)
+					{
+						SavedEvents.AddRoadEventToDeck(eventModel, tempRNG);
+					}
 				}
-				else if(eventModel.EventType == EventType.Road)
-				{
-					SavedEvents.AddRoadEventToDeck(eventModel, tempRNG);
-				}
-			}
 
-			savedClass.Retire();
+				savedClass.Retire();
+			}
 		}
 
 		ClassModel unlockedClass = GetUnlockedClass(savedCharacter);

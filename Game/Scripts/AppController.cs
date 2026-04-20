@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using Fractural.Tasks;
@@ -95,6 +94,18 @@ public partial class AppController : SingletonNode<AppController>
 				}
 			}
 		}
+	}
+
+	public void RetireCharacter(SavedCharacter savedCharacter, SavedCampaign savedCampaign, bool addRetirementEvents = true)
+	{
+		PopupManager.RequestPopup(new RetirementPopup.Request()
+		{
+			Character = savedCharacter,
+			SavedCampaign = savedCampaign,
+			UnlockedClass = savedCampaign.GetUnlockedClass(savedCharacter)
+		});
+
+		savedCampaign.RetireCharacter(savedCharacter, addRetirementEvents);
 	}
 
 	public void SaveGame()

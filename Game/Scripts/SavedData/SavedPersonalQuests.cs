@@ -23,7 +23,7 @@ public class SavedPersonalQuests
 		// ModelDB.PersonalQuest<TheDyingOfLight>(), // Requires Hollowpact
 		ModelDB.PersonalQuest<NaturalSelection>(),
 		ModelDB.PersonalQuest<PredatorAndPrey>(),
-		// ModelDB.PersonalQuest<AnAdderDivides>(), // Not implemented fully yet, requires weird PQ interaction
+		ModelDB.PersonalQuest<AnAdderDivides>(),
 		ModelDB.PersonalQuest<FieldResearch>(),
 		// ModelDB.PersonalQuest<ConjurersHand>(), // Requires Spirit Caller
 		// ModelDB.PersonalQuest<NoRestForTheWicked>(), // Requires Spirit Caller

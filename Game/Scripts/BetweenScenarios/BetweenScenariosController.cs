@@ -230,18 +230,6 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		ReturnToGloomhavenSequence(cancellationToken).Forget();
 	}
 
-	public void RetireCharacter(SavedCharacter savedCharacter, SavedCampaign savedCampaign)
-	{
-		AppController.Instance.PopupManager.RequestPopup(new RetirementPopup.Request()
-		{
-			Character = savedCharacter,
-			SavedCampaign = savedCampaign,
-			UnlockedClass = savedCampaign.GetUnlockedClass(savedCharacter)
-		});
-
-		savedCampaign.RetireCharacter(savedCharacter);
-	}
-
 	public void SubscribeDuringDowntime(SavedReward reward)
 	{
 		reward.SubscribeDuringDowntime();

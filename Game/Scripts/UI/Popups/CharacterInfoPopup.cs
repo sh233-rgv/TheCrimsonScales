@@ -64,7 +64,7 @@ public partial class CharacterInfoPopup : Popup<CharacterInfoPopup.Request>
 			return;
 		}
 
-		BetweenScenariosController.Instance?.RetireCharacter(PopupRequest.SavedCharacter, PopupRequest.SavedCampaign);
+		AppController.Instance.RetireCharacter(PopupRequest.SavedCharacter, PopupRequest.SavedCampaign);
 
 		Close();
 	}

@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using Fractural.Tasks;
+using Newtonsoft.Json;
 
 public class City57 : CityEventModel<City57.ChoiceA, City57.ChoiceB>
 {
@@ -10,6 +14,32 @@ public class City57 : CityEventModel<City57.ChoiceA, City57.ChoiceB>
 
 		The Viper Hunter isn't with you, and you begin to suspect something sinister has happened.
 		""";
+
+	[Serializable, JsonObject(MemberSerialization.OptIn)]
+	public class RetireViperHunterReward : SavedReward
+	{
+		public override RewardType Type => RewardType.Immediate;
+
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			"""
+			The Character with the "An Adder Divides" Personal Quest retires immediately. No retirement events are added for this Character.
+			""";
+
+		public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
+		{
+			AnAdderDivides personalQuest = ModelDB.PersonalQuest<AnAdderDivides>();
+
+			foreach(SavedCharacter savedCharacter in savedCampaign.AllCharacters)
+			{
+				if(savedCharacter.SavedPersonalQuest.Model == personalQuest)
+				{
+					AppController.Instance.RetireCharacter(savedCharacter, savedCampaign, false);
+				}
+			}
+
+			await GDTask.CompletedTask;
+		}
+	}
 
 	public class ChoiceA : EventChoiceModel
 	{
@@ -26,7 +56,7 @@ public class City57 : CityEventModel<City57.ChoiceA, City57.ChoiceB>
 
 		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
-			//TODO:Retire the Viper Hunter and do not add retirement events for this character
+			new RetireViperHunterReward(),
 			new LoseProsperityReward(1),
 			new LoseReputationReward(2)
 		];
@@ -45,7 +75,7 @@ public class City57 : CityEventModel<City57.ChoiceA, City57.ChoiceB>
 
 		public override List<SavedReward> GetRewards(SavedEventState state) =>
 		[
-			//TODO:Retire the Viper Hunter and do not add retirement events for this character
+			new RetireViperHunterReward(),
 			new LoseReputationReward(1),
 			new GainXPReward(10)
 		];
