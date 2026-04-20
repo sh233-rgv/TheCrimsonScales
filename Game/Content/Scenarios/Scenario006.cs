@@ -18,9 +18,9 @@
 // 		await AbilityCmd.AddCondition(null, character, Conditions.Poison1);
 // 	}
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		List<Hex> hexesWithAntidote = GameController.Instance.Map.Markers
 // 			.Where(marker => marker.MarkerType == Marker.Type._1)

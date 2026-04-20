@@ -32,9 +32,9 @@ public class TestScenario : ScenarioModel
 		new GainGoldEachReward(15)
 	];
 
-	public override async GDTask StartAfterFirstRoomRevealed()
+	public override async GDTask InitializeAfterFirstRoomRevealed()
 	{
-		await base.StartAfterFirstRoomRevealed();
+		await base.InitializeAfterFirstRoomRevealed();
 
 		await AddGoal(new KillAllEnemiesScenarioGoal());
 

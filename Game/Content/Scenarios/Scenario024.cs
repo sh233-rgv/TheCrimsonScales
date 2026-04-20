@@ -29,9 +29,9 @@
 // 	private int _orbsPlaced = 0;
 // 	private Dictionary<Figure, Marker> _charactersWithOrbs = new Dictionary<Figure, Marker> { };
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<CursebloodBlade>());
 //

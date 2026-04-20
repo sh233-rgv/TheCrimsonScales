@@ -15,9 +15,9 @@
 // 		await AbilityCmd.AddCondition(null, character, Conditions.Poison1);
 // 	}
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		UpdateScenarioText($"All Living Corpses add {Icons.Inline(Icons.Targets)} 1 on all their attacks.");
 //

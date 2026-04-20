@@ -12,9 +12,9 @@
 //
 // 	private Door _door1;
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		Marker marker1 = GameController.Instance.Map.GetMarker(Marker.Type._1);
 // 		_door1 = marker1.GetHexObject<Door>();

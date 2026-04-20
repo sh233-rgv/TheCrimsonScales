@@ -19,9 +19,9 @@
 // 	private Door _door1;
 // 	private List<Door> _doors2;
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		//TODO: Sarcophagi can't be moved
 //

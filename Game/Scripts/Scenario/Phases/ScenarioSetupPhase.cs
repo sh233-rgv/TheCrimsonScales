@@ -88,6 +88,8 @@ public class ScenarioSetupPhase : ScenarioPhase
 
 		GameController.Instance.UndoManager.AddStep(new ScenarioSetupUndoStep());
 
+		await GameController.Instance.ScenarioModel.OnSetupCompleted();
+
 		foreach(Character character in GameController.Instance.CharacterManager.Characters)
 		{
 			await character.OnScenarioSetupCompleted();

@@ -11,9 +11,9 @@
 //
 // 	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals();
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		GameController.Instance.Map.Treasures[0].SetItemDesignLoot(ModelDB.Item<AshsteelGauntlets>());
 // 	}

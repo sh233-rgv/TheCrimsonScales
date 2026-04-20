@@ -22,9 +22,9 @@
 // 	private bool _lootedTreasure;
 // 	private readonly List<Door> _firstDoors = new List<Door>();
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		UpdateScenarioText("The doors are locked.\nSomething will happen once all enemies in this room are killed.");
 //

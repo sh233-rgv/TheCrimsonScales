@@ -12,9 +12,9 @@
 // 	protected override ScenarioGoals CreateScenarioGoals() =>
 // 		new KillSpecificEnemiesTypeGoals(ModelDB.Monster<Lavalite>(), "Kill the Lavalite to win this scenario.");
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		GameController.Instance.Map.Treasures.First(treasure => treasure.TreasureNumber == 4).SetObtainLootFunction(async character =>
 // 		{

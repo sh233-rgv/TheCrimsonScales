@@ -8,9 +8,9 @@
 //
 // 	protected override ScenarioGoals CreateScenarioGoals() => new KillAllEnemiesScenarioGoals();
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		//TODO: Scenario has not been implemented yet!
 // 	}

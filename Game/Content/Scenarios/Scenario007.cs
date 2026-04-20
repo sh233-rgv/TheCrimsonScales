@@ -20,9 +20,9 @@
 // 	private readonly List<(Water, int)> _waterTiles = new List<(Water, int)>();
 // 	private int _lastUsedRoundIndex = -1;
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		UpdateScenarioText(
 // 			$"Once per round, when a character ends their turn on a water tile marked {Icons.InlineMarker(Marker.Type.a)}, " +

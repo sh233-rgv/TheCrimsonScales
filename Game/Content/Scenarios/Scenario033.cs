@@ -27,9 +27,9 @@
 // 	private PressurePlate _lastActivated;
 //
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		_hexesLeftOfStaircase = GameController.Instance.Map.GetMarkers(Marker.Type._1).Select(marker => marker.Hex);
 // 		_markerAPressurePlate = GameController.Instance.Map.GetMarkers(Marker.Type.a)[0].GetHexObject<PressurePlate>();

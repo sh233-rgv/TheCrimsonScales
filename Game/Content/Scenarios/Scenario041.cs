@@ -10,9 +10,9 @@
 // 	protected override ScenarioGoals CreateScenarioGoals() =>
 // 		new KillSpecificEnemiesTypeGoals(ModelDB.Monster<RogueHollowpact>(), "Kill the Rogue Hollowpact to win this scenario.");
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		List<Objective> objectives = GameController.Instance.Map.GetChildrenOfType<Objective>();
 // 		int objectiveHealth = GameController.Instance.SavedCampaign.Characters.Count + GameController.Instance.SavedScenario.ScenarioLevel;

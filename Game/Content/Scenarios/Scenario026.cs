@@ -21,9 +21,9 @@
 // 		await AbilityCmd.AddCondition(null, character, Conditions.Chill);
 // 	}
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		List<Objective> coldThermalStones = GameController.Instance.Map.Rooms[0].GetChildrenOfType<Objective>();
 // 		List<Objective> hotThermalStones = GameController.Instance.Map.Rooms[1].GetChildrenOfType<Objective>();

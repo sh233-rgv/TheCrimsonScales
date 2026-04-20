@@ -11,9 +11,9 @@
 // 		new KillSpecificEnemiesTypeGoals([ModelDB.Monster<TerribleTwoBanditArcher>(), ModelDB.Monster<TerribleTwoBanditGuard>()],
 // 			"Kill both of the Terrible Two to win this scenario");
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		GameController.Instance.Map.Treasures.First(treasure => treasure.TreasureNumber == 2).SetItemLoot(ModelDB.Item<HookShot>());
 // 		GameController.Instance.Map.Treasures.First(treasure => treasure.TreasureNumber == 30).SetItemLoot(ModelDB.Item<BonecladShawl>());

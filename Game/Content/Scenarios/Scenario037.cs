@@ -17,9 +17,9 @@
 // 	private Objective _frostStone;
 // 	private Door _door1;
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<IronSnare>());
 //

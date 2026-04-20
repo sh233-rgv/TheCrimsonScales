@@ -21,9 +21,9 @@
 // 	private Hex _markerCHex;
 // 	private string _text;
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		//TODO: Dark Pits cannot be moved
 //

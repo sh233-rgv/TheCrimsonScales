@@ -19,9 +19,9 @@
 // 	private IEnumerable<Marker> _markersA;
 // 	private IEnumerable<Marker> _markersB;
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<WovenPlateArmor>());
 // 		GameController.Instance.Map.Treasures[1].SetObtainLootFunction(async lootingCharacter =>

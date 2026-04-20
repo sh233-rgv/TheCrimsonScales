@@ -17,9 +17,9 @@
 // 	private Door _door1;
 // 	private Door _door2;
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		UpdateScenarioText($"The bushes marked {Icons.Inline(Icons.GetMarker(Marker.Type.a))} are the Bushes of Hope and cannot be destroyed. Whenever a figure adjacent to a Bush of Hope draws a negative modifier, treat it as a {Icons.Inline(Icons.GetAMDValue("+0"))} instead.");
 //

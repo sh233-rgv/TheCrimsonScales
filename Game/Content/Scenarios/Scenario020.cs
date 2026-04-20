@@ -14,9 +14,9 @@
 // 	private bool _summonElite;
 // 	private List<Objective> _altars = [];
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		_altars.Add(GameController.Instance.Map.GetMarker(Marker.Type.a).GetHexObject<Objective>());
 // 		_altars.Add(GameController.Instance.Map.GetMarker(Marker.Type.b).GetHexObject<Objective>());

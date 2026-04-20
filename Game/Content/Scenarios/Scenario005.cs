@@ -22,9 +22,9 @@
 // 		await AbilityCmd.AddCondition(null, character, Conditions.Infect);
 // 	}
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		GameController.Instance.EndEvent += (scenarioResult, savedScenarioProgress) =>
 // 		{

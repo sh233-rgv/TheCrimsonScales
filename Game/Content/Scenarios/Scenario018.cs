@@ -20,9 +20,9 @@
 // 		await AbilityCmd.AddCondition(null, character, Conditions.Immobilize);
 // 	}
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		UpdateScenarioText($"If any character is exhausted while not occupying a hex {Icons.InlineMarker(Marker.Type.a)}, the scenario is lost");
 //

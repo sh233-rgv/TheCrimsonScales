@@ -13,9 +13,9 @@
 // 		await AbilityCmd.AddConditions(null, character, [Conditions.Curse, Conditions.Curse]);
 // 	}
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		GameController.Instance.Map.Treasures[0].SetItemDesignLoot(ModelDB.Item<TrophyHelm>());
 //

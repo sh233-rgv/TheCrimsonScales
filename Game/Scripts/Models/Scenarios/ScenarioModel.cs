@@ -34,12 +34,12 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	public event Action<ScenarioRule> RuleAddedEvent;
 	public event Action<ScenarioRule> RuleRemovedEvent;
 
-	public virtual async GDTask StartBeforeFirstRoomRevealed()
+	public virtual async GDTask InitializeBeforeFirstRoomRevealed()
 	{
 		await GDTask.CompletedTask;
 	}
 
-	public virtual async GDTask StartAfterFirstRoomRevealed()
+	public virtual async GDTask InitializeAfterFirstRoomRevealed()
 	{
 		ScenarioEvents.RoomRevealedEvent.Subscribe(this, _subscriber,
 			parameters => true,
@@ -63,6 +63,11 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	}
 
 	public virtual async GDTask StartOfScenarioEffects(Character character)
+	{
+		await GDTask.CompletedTask;
+	}
+
+	public virtual async GDTask OnSetupCompleted()
 	{
 		await GDTask.CompletedTask;
 	}

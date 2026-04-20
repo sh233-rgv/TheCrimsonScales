@@ -43,9 +43,9 @@ public class Scenario001 : ScenarioModel
 
 	public override string BGSPath => "res://Audio/BGS/Forest Day.ogg";
 
-	public override async GDTask StartAfterFirstRoomRevealed()
+	public override async GDTask InitializeAfterFirstRoomRevealed()
 	{
-		await base.StartAfterFirstRoomRevealed();
+		await base.InitializeAfterFirstRoomRevealed();
 
 		await AddGoal(new KillAllEnemiesScenarioGoal());
 

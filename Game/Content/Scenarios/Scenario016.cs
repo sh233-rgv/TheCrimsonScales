@@ -13,9 +13,9 @@
 // 	private bool _treasureRoom3Looted;
 // 	private bool _treasureRoom4Looted;
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		_door1 = GameController.Instance.Map.GetMarker(Marker.Type.a).GetHexObject<Door>();
 //

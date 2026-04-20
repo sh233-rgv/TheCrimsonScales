@@ -29,9 +29,9 @@
 // 		}
 // 	}
 //
-// 	public override async GDTask StartBeforeFirstRoomRevealed()
+// 	public override async GDTask InitializeBeforeFirstRoomRevealed()
 // 	{
-// 		await base.StartBeforeFirstRoomRevealed();
+// 		await base.InitializeBeforeFirstRoomRevealed();
 //
 // 		List<Objective> objectives = GameController.Instance.Map.GetChildrenOfType<Objective>();
 // 		int objectiveHealth =

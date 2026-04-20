@@ -11,9 +11,9 @@
 // 		new CustomScenarioGoals("Extinguish all fires to win this scenario");
 //
 // 	//TODO: Remove the final room for 2 players
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		if(GameController.Instance.SavedCampaign.Characters.Count >= 3)
 // 		{

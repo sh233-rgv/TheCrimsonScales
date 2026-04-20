@@ -50,9 +50,9 @@ public class Scenario002 : ScenarioModel
 
 	private ScenarioRule _scenarioRule;
 
-	public override async GDTask StartAfterFirstRoomRevealed()
+	public override async GDTask InitializeAfterFirstRoomRevealed()
 	{
-		await base.StartAfterFirstRoomRevealed();
+		await base.InitializeAfterFirstRoomRevealed();
 
 		await AddGoal(new KillAllEnemiesScenarioGoal());
 

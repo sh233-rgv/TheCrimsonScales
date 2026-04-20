@@ -14,9 +14,9 @@
 // 	private bool _firstDoorOpened;
 // 	private int _cultistMurderCount = 0;
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<DizzyingTincture>());
 // 		GameController.Instance.Map.Treasures[1].SetItemLoot(ModelDB.Item<OrbOfFortune>());

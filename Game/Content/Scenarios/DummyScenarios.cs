@@ -31,9 +31,9 @@ public abstract class DummyScenario : ScenarioModel
 		//TODO
 	];
 
-	public override async GDTask StartAfterFirstRoomRevealed()
+	public override async GDTask InitializeAfterFirstRoomRevealed()
 	{
-		await base.StartAfterFirstRoomRevealed();
+		await base.InitializeAfterFirstRoomRevealed();
 
 		await AddGoal(new KillAllEnemiesScenarioGoal());
 	}

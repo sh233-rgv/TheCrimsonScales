@@ -72,9 +72,9 @@ public class Scenario003 : ScenarioModel
 	private readonly List<Water> _waterTiles = new List<Water>();
 	private readonly List<Hex> _waterSpawnHexes = new List<Hex>();
 
-	public override async GDTask StartAfterFirstRoomRevealed()
+	public override async GDTask InitializeAfterFirstRoomRevealed()
 	{
-		await base.StartAfterFirstRoomRevealed();
+		await base.InitializeAfterFirstRoomRevealed();
 
 		await AddGoal(new KillSpecificEnemyTypeGoal(ModelDB.Monster<HydraSpirit>()));
 

@@ -22,9 +22,9 @@
 // 	];
 // 	private int _spawnNumber;
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		UpdateScenarioText($"""
 // 		                    At the end of the first round, one island creature spawns at {Icons.Inline(Icons.GetMarker(Marker.Type.a))}

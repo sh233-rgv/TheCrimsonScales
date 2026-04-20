@@ -16,9 +16,9 @@
 // 		await AbilityCmd.AddCondition(null, character, Conditions.Muddle);
 // 	}
 //
-// 	public override async GDTask StartAfterFirstRoomRevealed()
+// 	public override async GDTask InitializeAfterFirstRoomRevealed()
 // 	{
-// 		await base.StartAfterFirstRoomRevealed();
+// 		await base.InitializeAfterFirstRoomRevealed();
 //
 // 		_remainingImpKills = GameController.Instance.SavedCampaign.Characters.Count * 4;
 //

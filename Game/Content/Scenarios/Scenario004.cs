@@ -46,9 +46,9 @@ public class Scenario004 : ScenarioModel
 
 	private CustomScenarioGoal _cureGoal;
 
-	public override async GDTask StartAfterFirstRoomRevealed()
+	public override async GDTask InitializeAfterFirstRoomRevealed()
 	{
-		await base.StartAfterFirstRoomRevealed();
+		await base.InitializeAfterFirstRoomRevealed();
 
 		await AddGoal(new KillAllEnemiesScenarioGoal());
 		_cureGoal = await AddGoal(new CustomScenarioGoal(textParameters => "Cure 4 sick warriors.", hasProgress: true, maxProgress: 4));
@@ -57,6 +57,28 @@ public class Scenario004 : ScenarioModel
 			$"Any character may forgo the top action of their turn to perform a “{Icons.Inline(Icons.Heal, textParameters)}1, {Icons.Inline(Icons.Range, textParameters)}2” ability.");
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<BonecladShawl>());
+
+		// Allow using Heal 1 instead of any top action
+		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this,
+			parameters =>
+				!parameters.ForgoneAction &&
+				(parameters.AbilityCardSide.AbilityCardSideType is AbilityCardSideType.Top or AbilityCardSideType.BasicTop),
+			async parameters =>
+			{
+				parameters.ForgoAction();
+
+				ActionState actionState = new ActionState(parameters.Performer, [HealAbility.Builder().WithHealValue(1).WithRange(2).Build()]);
+				await actionState.Perform();
+			},
+			EffectType.Selectable,
+			effectButtonParameters: new IconEffectButton.Parameters(Icons.Heal),
+			effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Heal)}1, {Icons.Inline(Icons.Range)}2")
+		);
+	}
+
+	public override async GDTask OnSetupCompleted()
+	{
+		await base.OnSetupCompleted();
 
 		// This implements
 		// One character gains the “Pox Antidote” item. 
@@ -81,12 +103,19 @@ public class Scenario004 : ScenarioModel
 		// Item not given previously - give if scenario 7 is not completed yet
 		else if(!poxAntidoteGiven && !GameController.Instance.SavedCampaign.CollectedPartyAchievements.Contains(PartyAchievement.FollowTheMoney))
 		{
+			await ShowText(
+				"As you approach the stricken guards, you are spotted by Shiela, a regular from the Sleeping Lion, famed for her potion making. “Thank you for coming so quickly. Take this — it will help cure the stricken.”");
+
+			// character = (Character)await AbilityCmd.SelectFigure(authority: null,
+			// 	figures => figures.AddRange(map.Figures.Where(figure => figure is Character)),
+			// 	mandatory: true, autoSelectIfOne: true, hintText: () =>
+			// 		$"Select a character to receive Pox Antidote." + System.Environment.NewLine + System.Environment.NewLine +
+			// 		"During this scenario, this item is equipped" + System.Environment.NewLine +
+			// 		$"without it occupying an {Icons.Inline(Icons.GetItem(ItemType.Small))} item slot.");
 			character = (Character)await AbilityCmd.SelectFigure(authority: null,
-				figures => figures.AddRange(GameController.Instance.Map.Figures.Where(figure => figure is Character)),
+				figures => figures.AddRange(map.Figures.Where(figure => figure is Character)),
 				mandatory: true, autoSelectIfOne: true, hintText: () =>
-					$"Select a character to receive Pox Antidote." + System.Environment.NewLine + System.Environment.NewLine +
-					"During this scenario, this item is equipped" + System.Environment.NewLine +
-					$"without it occupying an {Icons.Inline(Icons.GetItem(ItemType.Small))} item slot.");
+					$"Select a character to receive a Pox Antidote.");
 
 			GameController.Instance.EndEvent += (scenarioResult, savedScenarioProgress) =>
 			{
@@ -98,23 +127,6 @@ public class Scenario004 : ScenarioModel
 		{
 			await AbilityCmd.PermanentlyGiveItem(character, itemModel);
 		}
-
-		// Allow using Heal 1 instead of any top action
-		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this,
-			parameters =>
-				!parameters.ForgoneAction &&
-				(parameters.AbilityCardSide.AbilityCardSideType is AbilityCardSideType.Top or AbilityCardSideType.BasicTop),
-			async parameters =>
-			{
-				parameters.ForgoAction();
-
-				ActionState actionState = new ActionState(parameters.Performer, [HealAbility.Builder().WithHealValue(1).WithRange(2).Build()]);
-				await actionState.Perform();
-			},
-			EffectType.Selectable,
-			effectButtonParameters: new IconEffectButton.Parameters(Icons.Heal),
-			effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Heal)}1, {Icons.Inline(Icons.Range)}2")
-		);
 	}
 
 	protected override async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters parameters)
@@ -123,10 +135,14 @@ public class Scenario004 : ScenarioModel
 
 		if(!_roomRevealed)
 		{
-			UpdateScenarioText(
-				$"City Archers and City Guards suffer from {Icons.Inline(Icons.GetCondition(Conditions.Infect))}" +
-				"They are considered allies to you." +
-				"If you perform a heal ability targeting the infected warrior, you have successfully cured them.");
+			AddScenarioRule(
+				$"""
+				 City Archers and City Guards suffer from {Icons.Inline(Icons.GetCondition(Conditions.Infect))}. They are considered allies to you and do not act during their turn. If you perform a heal ability targeting an infected warrior, you have successfully cured them, and they will join your for the remainder of the scenario.
+				 """);
+			AddScenarioRule(
+				$"""
+				 City Guards and City Archers draw from the monster attack modifier deck, are one level lower than the scenario level and have a maximum hit point value of 4.
+				 """);
 
 			_roomRevealed = true;
 		}
