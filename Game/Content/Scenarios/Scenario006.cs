@@ -55,8 +55,9 @@ public class Scenario006 : ScenarioModel
 	{
 		await base.InitializeAfterFirstRoomRevealed();
 
+		int characterCount = GameController.Instance.CharacterManager.Characters.Count;
 		_goal = await AddGoal(new CustomScenarioGoal(textParameters =>
-			$"Place {GameController.Instance.CharacterManager.Characters.Count} antidotes in the fountain.", hasProgress: true));
+			$"Place {characterCount} antidotes in the fountain.", hasProgress: true, maxProgress: characterCount));
 
 		AddScenarioRule("The crate and cabinet obstacles contain the bottles of antidote and cannot be destroyed.");
 		AddScenarioRule("Any character may sacrifice the top or bottom action of their turn while adjacent to an antidote to it pick up.");
@@ -225,26 +226,18 @@ public class Scenario006 : ScenarioModel
 		{
 			case 0: // 6G
 			{
-				// await SummonMonster(hexA, ModelDB.Monster<BloodOoze>(), MonsterType.Elite);
-				// await SummonMonster(hexB, ModelDB.Monster<ContaminatedWaterSpirit>(), MonsterType.Normal);
 				await SpawnMonster(null, ModelDB.Monster<BloodOoze>(), MonsterType.Elite, hexA);
 				await SpawnMonster(null, ModelDB.Monster<ContaminatedWaterSpirit>(), MonsterType.Normal, hexB);
 				break;
 			}
 			case 1: // 6D
 			{
-				// await SummonMonster(hexA, ModelDB.Monster<FlamingDrake>(), MonsterType.Normal);
-				// await SummonMonster(hexB, ModelDB.Monster<FlamingDrake>(), MonsterType.Normal);
 				await SpawnMonster(null, ModelDB.Monster<FlamingDrake>(), MonsterType.Normal, hexA);
 				await SpawnMonster(null, ModelDB.Monster<FlamingDrake>(), MonsterType.Normal, hexB);
 				break;
 			}
 			case 2: // 6F
 			{
-				// await SummonMonster(hexA, ModelDB.Monster<ToxicImp>(), MonsterType.Normal);
-				// await SummonMonster(hexA, ModelDB.Monster<ToxicImp>(), MonsterType.Elite);
-				// await SummonMonster(hexB, ModelDB.Monster<ToxicImp>(), MonsterType.Normal);
-				// await SummonMonster(hexB, ModelDB.Monster<ToxicImp>(), MonsterType.Elite);
 				await SpawnMonster(null, ModelDB.Monster<ToxicImp>(), MonsterType.Normal, hexA);
 				await SpawnMonster(null, ModelDB.Monster<ToxicImp>(), MonsterType.Elite, hexA);
 				await SpawnMonster(null, ModelDB.Monster<ToxicImp>(), MonsterType.Normal, hexB);
@@ -253,8 +246,6 @@ public class Scenario006 : ScenarioModel
 			}
 			case 3: // 6E
 			{
-				// await SummonMonster(hexA, ModelDB.Monster<ContaminatedWaterSpirit>(), MonsterType.Elite);
-				// await SummonMonster(hexB, ModelDB.Monster<ContaminatedWaterSpirit>(), MonsterType.Elite);
 				await SpawnMonster(null, ModelDB.Monster<ContaminatedWaterSpirit>(), MonsterType.Elite, hexA);
 				await SpawnMonster(null, ModelDB.Monster<ContaminatedWaterSpirit>(), MonsterType.Elite, hexA);
 				break;
@@ -263,47 +254,4 @@ public class Scenario006 : ScenarioModel
 
 		_spawnRules[spawnIndex].Remove();
 	}
-
-	// private async GDTask SummonMonster(Hex hex, MonsterModel monsterModel, MonsterType monsterType)
-	// {
-	// 	List<Hex> hexes = RangeHelper.GetHexesInRange(hex, 100, requiresLineOfSight: false).ToList();
-	//
-	// 	Hex chosenHex = await AbilityCmd.SelectHex(GameController.Instance.CharacterManager.FirstAlive(),
-	// 		list =>
-	// 		{
-	// 			Hex firstHex = null;
-	// 			foreach(Hex hex in hexes)
-	// 			{
-	// 				if(hex.IsEmpty())
-	// 				{
-	// 					firstHex = hex;
-	// 					break;
-	// 				}
-	// 			}
-	//
-	// 			if(firstHex == null)
-	// 			{
-	// 				return;
-	// 			}
-	//
-	// 			int distance = RangeHelper.Distance(hex, firstHex);
-	//
-	// 			foreach(Hex otherHex in hexes)
-	// 			{
-	// 				int otherDistance = RangeHelper.Distance(hex, otherHex);
-	// 				if(otherHex.IsEmpty() && otherDistance == distance)
-	// 				{
-	// 					list.Add(otherHex);
-	// 				}
-	// 			}
-	// 		}, true, $"Select where to summon the {monsterType.ToString()} {monsterModel.Name}"
-	// 	);
-	//
-	// 	if(chosenHex == null)
-	// 	{
-	// 		return;
-	// 	}
-	//
-	// 	await AbilityCmd.SummonMonster(monsterModel, monsterType, chosenHex);
-	// }
 }
