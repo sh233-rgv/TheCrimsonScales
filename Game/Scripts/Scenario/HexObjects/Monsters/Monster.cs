@@ -123,7 +123,7 @@ public partial class Monster : Figure
 		MonsterGroup.RegisterMonster(this);
 		await GameController.Instance.Map.RegisterFigure(this);
 
-		Scale = Vector2.Zero;
+		SetScale(Vector2.Zero);
 		this.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
 	}
 

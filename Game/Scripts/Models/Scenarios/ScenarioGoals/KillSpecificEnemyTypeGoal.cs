@@ -4,12 +4,14 @@ public class KillSpecificEnemyTypeGoal : ScenarioGoal
 {
 	private readonly MonsterModel _monsterModel;
 	private readonly bool _multiple;
+	private readonly int? _specificCount;
 
-	public KillSpecificEnemyTypeGoal(MonsterModel monsterModel, bool multiple = false, int order = 1)
+	public KillSpecificEnemyTypeGoal(MonsterModel monsterModel, bool multiple = false, int? specificCount = null, int order = 1)
 		: base(order)
 	{
 		_monsterModel = monsterModel;
 		_multiple = multiple;
+		_specificCount = specificCount;
 	}
 
 	public override string GetLabelText(RichTextParameters textParameters) =>
@@ -40,6 +42,12 @@ public class KillSpecificEnemyTypeGoal : ScenarioGoal
 
 	private async GDTask UpdateMaxProgress()
 	{
+		if(_specificCount.HasValue)
+		{
+			await SetMaxProgress(_specificCount.Value);
+			return;
+		}
+
 		int visibleEnemyCount = GetVisibleEnemyCount();
 		int invisibleEnemyCount = GetInvisibleEnemyCount();
 
