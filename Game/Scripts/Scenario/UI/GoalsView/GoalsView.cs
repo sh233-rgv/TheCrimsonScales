@@ -33,5 +33,12 @@ public partial class GoalsView : Control
 		_goalParent.AddChild(goal);
 		goal.Init(scenarioGoal);
 		_goals.Add(goal);
+
+		_goals.Sort((goalA, goalB) => goalA.Goal.Order.CompareTo(goalB.Goal.Order));
+		for(int i = 0; i < _goals.Count; i++)
+		{
+			GoalsViewGoal otherGoal = _goals[i];
+			_goalParent.MoveChild(otherGoal, i);
+		}
 	}
 }

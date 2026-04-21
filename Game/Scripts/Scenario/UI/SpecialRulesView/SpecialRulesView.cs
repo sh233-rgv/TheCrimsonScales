@@ -46,6 +46,13 @@ public partial class SpecialRulesView : Control
 	private void UpdateView()
 	{
 		SetVisible(_rules.Count > 0);
+
+		_rules.Sort((ruleA, ruleB) => ruleA.Rule.Order.CompareTo(ruleB.Rule.Order));
+		for(int i = 0; i < _rules.Count; i++)
+		{
+			SpecialRulesViewRule rule = _rules[i];
+			_ruleParent.MoveChild(rule, i);
+		}
 	}
 
 	private void OnRuleAdded(ScenarioRule scenarioRule)
