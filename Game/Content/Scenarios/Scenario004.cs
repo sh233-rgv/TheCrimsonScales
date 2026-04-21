@@ -37,7 +37,7 @@ public class Scenario004 : ScenarioModel
 
 	public override List<SavedReward> Rewards { get; } =
 	[
-		//TODO: Each character gains one random orb item 
+		new GainRandomOrbEachReward(),
 		new UnlockScenarioReward(ModelDB.Scenario<Scenario005>()),
 		//new UnlockScenarioReward(ModelDB.Scenario<Scenario006>()), // Unlock is stated in the section book, but doesn't really make sense...
 	];

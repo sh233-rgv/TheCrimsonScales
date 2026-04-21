@@ -113,6 +113,54 @@ public partial class AppController : SingletonNode<AppController>
 		SaveManager.SaveGame();
 	}
 
+	public static ItemModel GetRandomAvailableOrb(SavedCampaign savedCampaign, RandomNumberGenerator randomNumberGenerator)
+	{
+		return GetRandomAvailableItem(
+		[
+			ModelDB.Item<OrbOfConfusion>(),
+			ModelDB.Item<OrbOfMomentum>(),
+			ModelDB.Item<OrbOfAgility>(),
+			ModelDB.Item<OrbOfVigor>(),
+			ModelDB.Item<OrbOfRetribution>(),
+			ModelDB.Item<OrbOfInfection>(),
+			ModelDB.Item<OrbOfVitality>(),
+			ModelDB.Item<OrbOfProtection>(),
+			ModelDB.Item<OrbOfFortune>(),
+			ModelDB.Item<OrbOfDespair>(),
+		], savedCampaign, randomNumberGenerator);
+	}
+
+	public static ItemModel GetRandomAvailableStone(SavedCampaign savedCampaign, RandomNumberGenerator randomNumberGenerator)
+	{
+		return GetRandomAvailableItem(
+		[
+			ModelDB.Item<FrostStone>(),
+			ModelDB.Item<StormStone>(),
+			ModelDB.Item<InfernoStone>(),
+			ModelDB.Item<TremorStone>(),
+			ModelDB.Item<BrilliantStone>(),
+			ModelDB.Item<DarkStone>(),
+			ModelDB.Item<WonderStone>(),
+		], savedCampaign, randomNumberGenerator);
+	}
+
+	private static ItemModel GetRandomAvailableItem(IEnumerable<ItemModel> itemModels, SavedCampaign savedCampaign,
+		RandomNumberGenerator randomNumberGenerator)
+	{
+		List<ItemModel> availableItems = new List<ItemModel>();
+		foreach(ItemModel itemModel in itemModels)
+		{
+			SavedItem savedItem = savedCampaign.GetSavedItem(itemModel);
+			int unlockedCount = savedItem.UnlockedCount;
+			for(int i = 0; i < itemModel.ShopCount - unlockedCount; i++)
+			{
+				availableItems.Add(itemModel);
+			}
+		}
+
+		return availableItems.Count == 0 ? null : availableItems.PickRandom(randomNumberGenerator);
+	}
+
 	private void OnFullScreenChanged(bool fullScreen)
 	{
 		DisplayServer.WindowMode windowMode = DisplayServer.WindowGetMode();

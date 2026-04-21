@@ -397,7 +397,11 @@ public partial class GameController : SceneController<GameController>
 
 		if(ScenarioResult == ScenarioResult.Win)
 		{
-			await AppController.Instance.GiveRewards(SavedCampaign, ScenarioModel.Rewards, true, CancellationToken);
+			if(!SavedScenarioProgress.Completed)
+			{
+				// Give scenario rewards only if the scenario hasn't been completed before
+				await AppController.Instance.GiveRewards(SavedCampaign, ScenarioModel.Rewards, true, CancellationToken);
+			}
 
 			SavedScenarioProgress.Complete();
 

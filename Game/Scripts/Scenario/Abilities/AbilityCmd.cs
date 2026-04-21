@@ -1242,49 +1242,12 @@ public static class AbilityCmd
 
 	public static ItemModel GetRandomAvailableOrb()
 	{
-		return GetRandomAvailableItem(
-		[
-			ModelDB.Item<OrbOfConfusion>(),
-			ModelDB.Item<OrbOfMomentum>(),
-			ModelDB.Item<OrbOfAgility>(),
-			ModelDB.Item<OrbOfVigor>(),
-			ModelDB.Item<OrbOfRetribution>(),
-			ModelDB.Item<OrbOfInfection>(),
-			ModelDB.Item<OrbOfVitality>(),
-			ModelDB.Item<OrbOfProtection>(),
-			ModelDB.Item<OrbOfFortune>(),
-			ModelDB.Item<OrbOfDespair>(),
-		]);
+		return AppController.GetRandomAvailableOrb(GameController.Instance.SavedCampaign, GameController.Instance.StateRNG);
 	}
 
 	public static ItemModel GetRandomAvailableStone()
 	{
-		return GetRandomAvailableItem(
-		[
-			ModelDB.Item<FrostStone>(),
-			ModelDB.Item<StormStone>(),
-			ModelDB.Item<InfernoStone>(),
-			ModelDB.Item<TremorStone>(),
-			ModelDB.Item<BrilliantStone>(),
-			ModelDB.Item<DarkStone>(),
-			ModelDB.Item<WonderStone>(),
-		]);
-	}
-
-	private static ItemModel GetRandomAvailableItem(IEnumerable<ItemModel> itemModels)
-	{
-		List<ItemModel> availableItems = new List<ItemModel>();
-		foreach(ItemModel itemModel in itemModels)
-		{
-			SavedItem savedItem = GameController.Instance.SavedCampaign.GetSavedItem(itemModel);
-			int unlockedCount = savedItem.UnlockedCount;
-			for(int i = 0; i < itemModel.ShopCount - unlockedCount; i++)
-			{
-				availableItems.Add(itemModel);
-			}
-		}
-
-		return availableItems.Count == 0 ? null : availableItems.PickRandom(GameController.Instance.StateRNG);
+		return AppController.GetRandomAvailableStone(GameController.Instance.SavedCampaign, GameController.Instance.StateRNG);
 	}
 
 	public static async GDTask Lose()
