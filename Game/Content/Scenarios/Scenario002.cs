@@ -8,6 +8,8 @@ public class Scenario002 : ScenarioModel
 	public override int ScenarioNumber => 2;
 	public override string Name => "Underground Channels";
 
+	public override List<ScenarioLink> Links => [new ScenarioLink<Scenario001>()];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
 	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario003>(true)];
 

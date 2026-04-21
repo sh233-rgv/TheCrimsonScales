@@ -65,7 +65,7 @@ public partial class Character : Figure
 		_animatedSprite = GetNode<AnimatedSpriteSheet2D>("Mask/AnimatedSpriteSheet2D");
 	}
 
-	public virtual void Spawn(SavedCharacter savedCharacter, int index)
+	public virtual async GDTask Spawn(SavedCharacter savedCharacter, int index)
 	{
 		SavedCharacter = savedCharacter;
 		ClassModel = SavedCharacter.ClassModel;
@@ -127,7 +127,7 @@ public partial class Character : Figure
 		_figureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);
 		_figureViewComponent.ActivePS.SetModulate(OutlineColor);
 
-		GameController.Instance.Map.RegisterFigure(this);
+		await GameController.Instance.Map.RegisterFigure(this);
 
 		AppController.Instance.DeviceOptions.AnimatedCharacters.ValueChangedEvent += OnAnimatedCharactersChanged;
 

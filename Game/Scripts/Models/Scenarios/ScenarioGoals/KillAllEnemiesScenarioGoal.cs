@@ -1,4 +1,5 @@
 ﻿using Fractural.Tasks;
+using Godot;
 
 public class KillAllEnemiesScenarioGoal : ScenarioGoal
 {
@@ -26,10 +27,19 @@ public class KillAllEnemiesScenarioGoal : ScenarioGoal
 			async parameters =>
 			{
 				await AdjustProgress(1);
+				await UpdateMaxProgress();
 			}
 		);
 
 		ScenarioEvents.RoomRevealedEvent.Subscribe(this,
+			parameters => true,
+			async parameters =>
+			{
+				await UpdateMaxProgress();
+			}
+		);
+
+		ScenarioEvents.FigureRegisteredEvent.Subscribe(this,
 			parameters => true,
 			async parameters =>
 			{

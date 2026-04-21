@@ -1,5 +1,6 @@
 ﻿using System;
 using Fractural.Tasks;
+using Godot;
 
 public abstract class ScenarioGoal : IEventSubscriber
 {

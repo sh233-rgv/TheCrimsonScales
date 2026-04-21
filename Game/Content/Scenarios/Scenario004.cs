@@ -9,6 +9,8 @@ public class Scenario004 : ScenarioModel
 	public override int ScenarioNumber => 4;
 	public override string Name => "Infected Warriors";
 
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<InfectiousScenarioChain>();
 	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario005>()];
 

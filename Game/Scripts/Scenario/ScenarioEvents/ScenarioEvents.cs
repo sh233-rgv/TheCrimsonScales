@@ -541,6 +541,28 @@ public partial class ScenarioEvents
 	private readonly FigureKilled _figureKilled = new FigureKilled();
 	public static FigureKilled FigureKilledEvent => GameController.Instance.ScenarioEvents._figureKilled;
 
+	// public class FigureInitialized : ScenarioEvent<FigureInitialized.Parameters>
+	// {
+	// 	public class Parameters(Figure figure) : ParametersBase
+	// 	{
+	// 		public Figure Figure { get; } = figure;
+	// 	}
+	// }
+	//
+	// private readonly FigureInitialized _figureInitialized = new FigureInitialized();
+	// public static FigureInitialized FigureInitializedEvent => GameController.Instance.ScenarioEvents._figureInitialized;
+
+	public class FigureRegistered : ScenarioEvent<FigureRegistered.Parameters>
+	{
+		public class Parameters(Figure figure) : ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+		}
+	}
+
+	private readonly FigureRegistered _figureRegistered = new FigureRegistered();
+	public static FigureRegistered FigureRegisteredEvent => GameController.Instance.ScenarioEvents._figureRegistered;
+
 	public class Retaliate : ScenarioEvent<Retaliate.Parameters>
 	{
 		public class Parameters(AttackAbility.State abilityState, Figure retaliatingFigure) : ParametersBase<AttackAbility.State>(abilityState)
@@ -1286,7 +1308,7 @@ public partial class ScenarioEvents
 
 	private readonly LootableObjectLooted _lootableObjectLooted = new LootableObjectLooted();
 	public static LootableObjectLooted LootableObjectLootedEvent => GameController.Instance.ScenarioEvents._lootableObjectLooted;
-	
+
 	public class InflictConditionEventReward : ScenarioEvent<InflictConditionEventReward.Parameters>
 	{
 		public class Parameters(Character character, ConditionModel conditionModel)
@@ -1306,7 +1328,7 @@ public partial class ScenarioEvents
 
 	private readonly InflictConditionEventReward _inflictConditionEventReward = new InflictConditionEventReward();
 	public static InflictConditionEventReward InflictConditionEventRewardEvent => GameController.Instance.ScenarioEvents._inflictConditionEventReward;
-	
+
 	public class SufferDamageEventReward : ScenarioEvent<SufferDamageEventReward.Parameters>
 	{
 		public class Parameters(Character character)
@@ -1325,7 +1347,7 @@ public partial class ScenarioEvents
 
 	private readonly SufferDamageEventReward _sufferDamageEventReward = new SufferDamageEventReward();
 	public static SufferDamageEventReward SufferDamageEventRewardEvent => GameController.Instance.ScenarioEvents._sufferDamageEventReward;
-	
+
 	public class AddMinusOnesEventReward : ScenarioEvent<AddMinusOnesEventReward.Parameters>
 	{
 		public class Parameters(Character character)

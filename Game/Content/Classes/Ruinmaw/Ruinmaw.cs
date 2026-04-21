@@ -18,9 +18,10 @@ public partial class Ruinmaw : Character, IHasEmpower
 
 	public event Func<Ruinmaw, GDTask> SateEvent;
 
-	public override void Spawn(SavedCharacter savedCharacter, int index)
+	public override async GDTask Spawn(SavedCharacter savedCharacter, int index)
 	{
-		base.Spawn(savedCharacter, index);
+		await base.Spawn(savedCharacter, index);
+
 		_satedIndicator.Hide();
 	}
 

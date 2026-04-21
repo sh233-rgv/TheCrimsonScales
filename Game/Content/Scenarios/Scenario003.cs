@@ -11,6 +11,8 @@ public class Scenario003 : ScenarioModel
 	public override int ScenarioNumber => 3;
 	public override string Name => "Flooded Cavern";
 
+	public override List<ScenarioLink> Links => [new ScenarioLink<Scenario002>()];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
 	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario004>(), new ScenarioConnection<Scenario007>()];
 

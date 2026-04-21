@@ -15,7 +15,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	public abstract int ScenarioNumber { get; }
 	public abstract string Name { get; }
 
-	protected virtual List<ScenarioLink> Links { get; } = [];
+	public virtual List<ScenarioLink> Links { get; } = [];
 	protected virtual List<ScenarioRequirement> Requirements { get; } = [];
 
 	public abstract ScenarioChain ScenarioChain { get; }
