@@ -5,6 +5,7 @@ using Fractural.Tasks;
 public class Scenario005 : ScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario005.tscn";
+
 	public override int ScenarioNumber => 5;
 	public override string Name => "Blood of the Oozes";
 
@@ -104,8 +105,6 @@ public class Scenario005 : ScenarioModel
 		}
 
 		_markersLeftToRemove = GameController.Instance.SavedCampaign.Characters.Count;
-
-		//UpdateScenarioText();
 
 		int doorOpenedRoundNumber = GameController.Instance.ScenarioPhaseManager.RoundIndex + 1;
 		int doorOpenedRoundNumberOddness = doorOpenedRoundNumber % 2;

@@ -100,9 +100,9 @@ public class Scenario002 : ScenarioModel
 			}
 		);
 
-		_scenarioRule = AddScenarioRule(
+		_scenarioRule = AddScenarioRule(textParameters =>
 			$"""
-			 The door is locked. When a character ends their turn on the pressure plate marked {Icons.InlineMarker(Marker.Type.a)}, all enemies occupying the I2A map tile gain {Icons.Inline(Icons.GetCondition(Conditions.Strengthen))} and the door is permanently unlocked.
+			 The door is locked. When a character ends their turn on the pressure plate marked {Icons.InlineMarker(Marker.Type.a, textParameters)}, all enemies occupying the I2A map tile gain {Icons.InlineCondition(Conditions.Strengthen, textParameters)} and the door is permanently unlocked.
 			 """);
 	}
 
@@ -141,9 +141,9 @@ public class Scenario002 : ScenarioModel
 				}
 			);
 
-			_scenarioRule = AddScenarioRule(
+			_scenarioRule = AddScenarioRule(textParameters =>
 				$"""
-				 The door is locked. When a character ends their turn on the pressure plate marked {Icons.InlineMarker(Marker.Type.b)} the door is permanently unlocked and all figures occupying the H1A map tile perform a “{Icons.Inline(Icons.Heal)}2, self” ability.
+				 The door is locked. When a character ends their turn on the pressure plate marked {Icons.InlineMarker(Marker.Type.b, textParameters)} the door is permanently unlocked and all figures occupying the H1A map tile perform a “{Icons.Inline(Icons.Heal, textParameters)}2, self” ability.
 				 """);
 		}
 
@@ -172,9 +172,9 @@ public class Scenario002 : ScenarioModel
 				}
 			);
 
-			_scenarioRule = AddScenarioRule(
+			_scenarioRule = AddScenarioRule(textParameters =>
 				$"""
-				 The pressure plate marked {Icons.InlineMarker(Marker.Type.c)} activates the Electric Current. When a character ends their turn on this pressure plate, all figures occupying a water hex in the E1B tile immediately have their current hit points reduced to 1.
+				 The pressure plate marked {Icons.InlineMarker(Marker.Type.c, textParameters)} activates the Electric Current. When a character ends their turn on this pressure plate, all figures occupying a water hex in the E1B tile immediately have their current hit points reduced to 1.
 				 """);
 		}
 	}

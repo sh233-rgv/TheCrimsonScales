@@ -11,7 +11,7 @@ public class ScenarioRule
 	public event Action<ScenarioRule> TextChangedEvent;
 	public event Action<ScenarioRule> TextRemovedEvent;
 
-	public ScenarioRule(TextHelper.LabelTextDelegate getLabelText, int order)
+	public ScenarioRule(TextHelper.LabelTextDelegate getLabelText, int order = 0)
 	{
 		_getLabelText = getLabelText;
 		Order = order;

@@ -80,13 +80,13 @@ public class Scenario003 : ScenarioModel
 
 		await AddGoal(new KillSpecificEnemyTypeGoal(ModelDB.Monster<HydraSpirit>()));
 
-		AddScenarioRule(
+		AddScenarioRule(textParameters =>
 			$"""
-			 At the end of each round, the water tiles marked {Icons.InlineMarker(Marker.Type.a)} and all spawned water tiles to the right of them move one hex toward the hexes marked {Icons.InlineMarker(Marker.Type.b)}. These water tiles cannot be removed. After every round, a new column of water tiles will spawn to the right of the other columns.
+			 At the end of each round, the water tiles marked {Icons.InlineMarker(Marker.Type.a, textParameters)} and all spawned water tiles to the right of them move one hex toward the hexes marked {Icons.InlineMarker(Marker.Type.b, textParameters)}. These water tiles cannot be removed. After every round, a new column of water tiles will spawn to the right of the other columns.
 			 """);
-		AddScenarioRule(
+		AddScenarioRule(textParameters =>
 			$"""
-			 When all hexes marked {Icons.InlineMarker(Marker.Type.b)} are occupied by water tiles, the scenario is immediately lost.
+			 When all hexes marked {Icons.InlineMarker(Marker.Type.b, textParameters)} are occupied by water tiles, the scenario is immediately lost.
 			 """);
 
 		foreach(Marker marker in GameController.Instance.Map.Markers)

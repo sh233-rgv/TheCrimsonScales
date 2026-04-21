@@ -65,9 +65,9 @@ public static class Icons
 		return $"res://Art/Icons/AMDs/{amdValue}.png";
 	}
 
-	public static string InlineMarker(Marker.Type markerType, int size = 30)
+	public static string InlineMarker(Marker.Type markerType, RichTextParameters richTextParameters)
 	{
-		return Inline(GetMarker(markerType), size);
+		return Inline(GetMarker(markerType), richTextParameters, true);
 	}
 
 	public static string GetMarker(Marker.Type markerType)

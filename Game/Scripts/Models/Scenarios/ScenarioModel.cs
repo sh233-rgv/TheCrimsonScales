@@ -111,7 +111,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		return AddScenarioRule(new ScenarioRule(getTextLabel, order));
 	}
 
-	protected T AddScenarioRule<T>(T rule, int order = 0)
+	protected T AddScenarioRule<T>(T rule)
 		where T : ScenarioRule
 	{
 		_rules.Add(rule);
@@ -123,20 +123,21 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		return rule;
 	}
 
-	protected async GDTask<Monster> SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, Hex spawnHex,
+	protected async GDTask<Monster> SpawnMonster(Figure potentialAuthority, MonsterModel monsterModel, MonsterType monsterType, Hex spawnHex,
 		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters, bool canHaveFeatures = false)
 	{
-		return await SpawnMonster(authority, monsterModel, monsterType, [spawnHex], monsterLevel, alignment, enemies, canHaveFeatures);
+		return await SpawnMonster(potentialAuthority, monsterModel, monsterType, [spawnHex], monsterLevel, alignment, enemies, canHaveFeatures);
 	}
 
-	protected async GDTask<Monster> SpawnMonster(Figure authority, MonsterModel monsterModel, MonsterType monsterType, IEnumerable<Hex> spawnHexes,
+	protected async GDTask<Monster> SpawnMonster(Figure potentialAuthority, MonsterModel monsterModel, MonsterType monsterType,
+		IEnumerable<Hex> spawnHexes,
 		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters, bool canHaveFeatures = false)
 	{
 		spawnHexes = spawnHexes.ToList();
-		authority ??= GameController.Instance.CharacterManager.FirstAlive();
+		potentialAuthority ??= GameController.Instance.CharacterManager.FirstAlive();
 		List<Hex> hexes = RangeHelper.GetHexesInRange(spawnHexes.First(), 100, requiresLineOfSight: false).ToList();
 
-		Hex chosenHex = await AbilityCmd.SelectHex(authority,
+		Hex chosenHex = await AbilityCmd.SelectHex(potentialAuthority,
 			list =>
 			{
 				int? minDistance = null;
