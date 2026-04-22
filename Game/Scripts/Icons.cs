@@ -45,6 +45,16 @@ public static class Icons
 		return $"res://Art/Icons/Elements/{element.ToString()}.svg";
 	}
 
+	public static string InlineElement(Element element, RichTextParameters richTextParameters)
+	{
+		return Inline(GetElement(element), richTextParameters, true);
+	}
+
+	public static string InlineWildElement(RichTextParameters richTextParameters)
+	{
+		return Inline(WildElement, richTextParameters, true);
+	}
+
 	public static string GetItem(ItemType itemType)
 	{
 		return $"res://Art/Icons/Items/{itemType.ToString()}.svg";
