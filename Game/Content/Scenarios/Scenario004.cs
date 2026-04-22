@@ -106,7 +106,7 @@ public class Scenario004 : ScenarioModel
 		else if(!poxAntidoteGiven && !GameController.Instance.SavedCampaign.CollectedPartyAchievements.Contains(PartyAchievement.FollowTheMoney))
 		{
 			await ShowText(
-				"As you approach the stricken guards, you are spotted by Shiela, a regular from the Sleeping Lion, famed for her potion making. “Thank you for coming so quickly. Take this — it will help cure the stricken.”");
+				"As you approach the stricken guards, you are spotted by Shiela, a regular from the Sleeping Lion, famed for her potion making. “Thank you for coming so quickly. Take this—it will help cure the stricken.”");
 
 			// character = (Character)await AbilityCmd.SelectFigure(authority: null,
 			// 	figures => figures.AddRange(map.Figures.Where(figure => figure is Character)),

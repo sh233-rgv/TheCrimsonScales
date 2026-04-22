@@ -18,11 +18,19 @@ public class SurviveXRoundsScenarioGoal : ScenarioGoal
 	{
 		await base.Start();
 
+		// ScenarioEvents.RoundEndedEvent.Subscribe(this,
+		// 	parameters => parameters.RoundNumber >= _rounds,
+		// 	async parameters =>
+		// 	{
+		// 		await Complete();
+		// 	}
+		// );
+
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
-			parameters => parameters.RoundNumber >= _rounds,
+			parameters => true,
 			async parameters =>
 			{
-				await Complete();
+				await AdjustProgress(1);
 			}
 		);
 
@@ -36,5 +44,7 @@ public class SurviveXRoundsScenarioGoal : ScenarioGoal
 				}
 			);
 		}
+
+		await SetMaxProgress(_rounds);
 	}
 }

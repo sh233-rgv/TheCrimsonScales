@@ -14,7 +14,7 @@ public class Scenario006 : ScenarioModel
 
 	public override string IntroductionText =>
 		"""
-		You trace the fountain’s water supply up to the main water source for the whole of Gloomhaven — a large lake at the top of a hill that siphons off into a complex series of pipes and pumps.
+		You trace the fountain’s water supply up to the main water source for the whole of Gloomhaven—a large lake at the top of a hill that siphons off into a complex series of pipes and pumps.
 
 		Shiela appears shortly after, straining to push a cart full of crates and barrels. “These will help to purify the water! Careful though, the poisoned water will infect any creatures in the area” she calls from a distance, before letting out a short squeal and disappearing from view.
 

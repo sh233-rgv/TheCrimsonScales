@@ -6,10 +6,14 @@ public class CustomScenarioGoal : ScenarioGoal
 	private readonly TextHelper.LabelTextDelegate _getLabelText;
 	private readonly Func<CustomScenarioGoal, GDTask> _onStart;
 
+	private bool _markedCompleted;
+
 	public override bool HasProgress { get; }
 
+	public override bool Completed => _markedCompleted || Progress >= MaxProgress;
+
 	public CustomScenarioGoal(TextHelper.LabelTextDelegate getLabelText, Func<CustomScenarioGoal, GDTask> onStart = null,
-		bool hasProgress = false, int? maxProgress = null,
+		bool hasProgress = true, int? maxProgress = null,
 		int order = 1)
 		: base(order)
 	{
@@ -32,9 +36,12 @@ public class CustomScenarioGoal : ScenarioGoal
 		}
 	}
 
-	public new async GDTask Complete()
+	public async GDTask Complete()
 	{
-		await base.Complete();
+		_markedCompleted = true;
+		//await base.Complete();
+
+		await GDTask.CompletedTask;
 	}
 
 	public new async GDTask AdjustProgress(int progress)

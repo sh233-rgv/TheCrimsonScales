@@ -144,7 +144,7 @@ public class Scenario005 : ScenarioModel
 
 		await ShowText(
 			"""
-			You kick down the door to find more demons, and the source of the Bloody Pox — a huge Blood Ooze, its viscous shape surrounding a central fountain. You are momentarily distracted by the strange, pulsing shape — until a screech from one of the two Drakes snaps you back to reality...
+			You kick down the door to find more demons, and the source of the Bloody Pox—a huge Blood Ooze, its viscous shape surrounding a central fountain. You are momentarily distracted by the strange, pulsing shape—until a screech from one of the two Drakes snaps you back to reality...
 			""");
 	}
 

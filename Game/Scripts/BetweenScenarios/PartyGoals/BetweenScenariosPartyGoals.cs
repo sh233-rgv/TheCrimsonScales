@@ -124,7 +124,7 @@ public partial class BetweenScenariosPartyGoals : BetweenScenariosAction
 
 			After a brief discussion the next day as to the correct attire for a tea party at the wealthiest merchant in town (you settle on ‘no obvious weapons’), you head up to Councilman Raksani’s huge mansion, which no-one in their right mind could casually refer to as “the house.”
 
-			Making your way up the enormous drive to the main house, there is a shout of “I say!” from your left, and you see the portly Councilman Raksani seated at a large table on the lawn with a magnificent spread of food — and Shiela.
+			Making your way up the enormous drive to the main house, there is a shout of “I say!” from your left, and you see the portly Councilman Raksani seated at a large table on the lawn with a magnificent spread of food—and Shiela.
 
 			“Take a seat friends,” he indicates generously before calling a butler over. “How do you take your tea?” Waiting a second to enjoy the slightly perplexed looks on your faces, he bellows with laughter before instructing his butler “Another pot for Shiela and I please, and a tankard of ale for my companions, I think!”
 
@@ -134,13 +134,13 @@ public partial class BetweenScenariosPartyGoals : BetweenScenariosAction
 
 			“I appreciate that these are trifling gifts compared to the dangers you have faced to keep Gloomhaven safe, but I beg that you accept them in the spirit of gratitude that they were intended.”
 
-			“Now then — eat, drink and tell us of your latest adventures!”
+			“Now then—eat, drink and tell us of your latest adventures!”
 
 			A few hours later, having had maybe one more tankard of ale than was strictly sensible, you bid Councilman Raksani farewell, and arrange to meet Shiela in the morning to discuss her latest discovery. Not too early though...
 			""", cancellationToken: cancellationToken);
 
 		AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("Accomplished Mercenaries",
-			"The Merchant’s Guild has noticed your efforts and have decided to grant some of the Guild’s services to you — including a special gift constructed by the finest Tinkerers in Gloomhaven, with some guidance from a mysterious, mustachioed fellow, tailored to fit your party’s needs."));
+			"The Merchant’s Guild has noticed your efforts and have decided to grant some of the Guild’s services to you—including a special gift constructed by the finest Tinkerers in Gloomhaven, with some guidance from a mysterious, mustachioed fellow, tailored to fit your party’s needs."));
 		await GDTask.WaitWhile(() => AppController.Instance.PopupManager.IsPopupOpen(), cancellationToken: cancellationToken);
 
 		BetweenScenariosController.Instance.SavedCampaign.AddPartyAchievement(PartyAchievement.AccomplishedMercenaries);

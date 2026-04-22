@@ -49,7 +49,7 @@ public class Scenario003 : ScenarioModel
 
 		“But we’ll come to that later,” she says, whipping the crystal off the table and into her robes. ”You’ll earn the bigger jobs in due course. First, I need you to recover some trinkets for a friend of mine. Councilman Raksani collects antiquities, and has notified me of a beast laying golden eggs in the Lingering Swamp. Find and recover three of them, and I’ll make sure you get your fair share of future jobs.”
 
-		You are returning to your normal haunt — The Sleeping Lion — to grab a drink or two for the road, when a door close to the East Wall bursts open. “Help!” croaks an elderly man, “‘Tis the bloody pox! The guards have brought it inside the gates!” With a spluttering cough, he sinks to his knees, vomits blood, and takes his last breath.
+		You are returning to your normal haunt—The Sleeping Lion—to grab a drink or two for the road, when a door close to the East Wall bursts open. “Help!” croaks an elderly man, “‘Tis the bloody pox! The guards have brought it inside the gates!” With a spluttering cough, he sinks to his knees, vomits blood, and takes his last breath.
 
 		You discuss whether to go and check the guards or travel straight to the Lingering Swamp to recover the eggs for Selandre.
 		""";

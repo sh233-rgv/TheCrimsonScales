@@ -1,4 +1,5 @@
 ﻿using System;
+using Godot;
 
 public class ScenarioRule
 {
@@ -28,6 +29,12 @@ public class ScenarioRule
 
 	public void Remove()
 	{
+		if(Removed)
+		{
+			Log.Warning("Removing a rule that was already removed.");
+			return;
+		}
+
 		Removed = true;
 
 		TextRemovedEvent?.Invoke(this);

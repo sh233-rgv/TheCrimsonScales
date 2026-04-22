@@ -1,5 +1,4 @@
 ﻿using Fractural.Tasks;
-using Godot;
 
 public class KillAllEnemiesScenarioGoal : ScenarioGoal
 {
@@ -15,7 +14,7 @@ public class KillAllEnemiesScenarioGoal : ScenarioGoal
 		_revealedOnly = revealedOnly;
 	}
 
-	public override string GetLabelText(RichTextParameters textParameters) => "Kill all enemies.";
+	public override string GetLabelText(RichTextParameters textParameters) => _revealedOnly ? "Kill all revealed enemies." : "Kill all enemies.";
 
 	public override async GDTask Start()
 	{
