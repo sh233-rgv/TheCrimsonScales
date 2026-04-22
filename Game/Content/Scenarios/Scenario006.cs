@@ -108,45 +108,46 @@ public class Scenario006 : ScenarioModel
 				characterHasAntidote[parameters.Performer] = true;
 
 				ScenarioRule newRule = null;
+				string text = null;
 				switch(antidoteBottlesPicked)
 				{
 					case 0:
 						newRule = new ScenarioRule(textParameters =>
 								$"At the end of the round, spawn one elite Blood Ooze closest to the hex marked {Icons.InlineMarker(Marker.Type.a, textParameters)} and one normal Water Spirit closest to the hex marked {Icons.InlineMarker(Marker.Type.b, textParameters)}.",
 							-4);
-						await ShowText(
+						text =
 							"""
 							After forcing your way to the head of the track where you last saw Shiela, you retrieve an antidote from the pile of various crates and barrels scattered around her overturned cart. Shiela herself is cowering behind the cart, apparently unharmed but terrified by the Blood Oozes.
 
 							You need to recover the antidote, but also stop the Blood Oozes from getting out of control.
-							""");
+							""";
 						break;
 					case 1:
 						newRule = new ScenarioRule(textParameters =>
 								$"At the end of the round, spawn one normal Flaming Drake closest to the hex marked {Icons.InlineMarker(Marker.Type.a, textParameters)} and one normal Flaming Drake closest to the hex marked {Icons.InlineMarker(Marker.Type.b, textParameters)}.",
 							-3);
-						await ShowText(
+						text =
 							"""
 							“Watch out!” you hear Shiela cry out from the corner. “Look, up from the sky!”
-							""");
+							""";
 						break;
 					case 2:
 						newRule = new ScenarioRule(textParameters =>
 								$"At the end of the round, spawn one normal and one elite Toxic Imp closest to the hex marked {Icons.InlineMarker(Marker.Type.a, textParameters)} and one normal and one elite Toxic Imp closest to the hex marked {Icons.InlineMarker(Marker.Type.b, textParameters)}.",
 							-2);
-						await ShowText(
+						text =
 							"""
 							You hear ruffling from the bushes and trees, and all of a sudden a flock of imps burst out from the foliage. They have a purple foam dripping from their mouths and their wings are splattered with blood. They don’t appear to be happy with your presence and you ready yourself to ward them off.
-							""");
+							""";
 						break;
 					case 3:
 						newRule = new ScenarioRule(textParameters =>
 								$"At the end of the round, spawn one elite Contaminated Water Spirit closest the hex marked {Icons.InlineMarker(Marker.Type.a, textParameters)} and one elite Contaminated Water Spirit closest to the hex marked {Icons.InlineMarker(Marker.Type.b, textParameters)}.",
 							-1);
-						await ShowText(
+						text =
 							"""
 							As you grab the last antidote, the water begins to bubble and boil around you. Several Contaminated Water Spirits emerge from the water and lunge toward you. This isn’t over yet.
-							""");
+							""";
 						break;
 					default:
 						Log.Error("Picked up an antidote to many somehow!");
@@ -155,6 +156,8 @@ public class Scenario006 : ScenarioModel
 
 				AddScenarioRule(newRule);
 				_spawnRules[antidoteBottlesPicked] = newRule;
+
+				await ShowText(text);
 
 				antidoteBottlesPicked++;
 

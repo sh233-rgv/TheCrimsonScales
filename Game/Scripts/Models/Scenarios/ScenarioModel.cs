@@ -210,14 +210,24 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		await ShowText("Story", text);
 	}
 
+	protected async GDTask ShowText(TextHelper.LabelTextDelegate getText)
+	{
+		await ShowText("Story", getText);
+	}
+
 	protected async GDTask ShowText(string title, string text)
+	{
+		await ShowText(title, textParameters => text);
+	}
+
+	protected async GDTask ShowText(string title, TextHelper.LabelTextDelegate getText)
 	{
 		if(GameController.FastForward)
 		{
 			return;
 		}
 
-		PopupRequest popupRequest = new TextPopup.Request(title, text, new TextButton.Parameters("Continue", null));
+		PopupRequest popupRequest = new TextPopup.Request(title, getText, new TextButton.Parameters("Continue", null));
 		AppController.Instance.PopupManager.RequestPopup(popupRequest);
 		await GDTask.WaitWhile(AppController.Instance.PopupManager.IsPopupOpen, cancellationToken: GameController.CancellationToken);
 	}
