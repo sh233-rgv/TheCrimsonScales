@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://cgtl32ii2ijpy"]
+
+[ext_resource type="PackedScene" uid="uid://ccqd7gjbphheu" path="res://AOECreator/Hexes/_AOEHex.tscn" id="1_faeql"]
+
+[node name="AOEHex" unique_id=1133035251 instance=ExtResource("1_faeql")]
