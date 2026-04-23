@@ -205,7 +205,7 @@ public class Scenario007 : ScenarioModel
 							$"""
 							 The character who removed the water tile may perform “{Icons.Inline(Icons.Heal, textParameters)}3, Self” and {Icons.Inline(Icons.RecoverCard, textParameters)} two discarded cards.
 							 """);
-						
+
 						ActionState actionState =
 							new ActionState(character, [HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).Build()]);
 						await actionState.Perform();
@@ -237,9 +237,9 @@ public class Scenario007 : ScenarioModel
 		}
 
 		Hex hex = water.Hex;
-		List<Hex> hexes = RangeHelper.GetHexesInRange(hex, RangeHelper.InfiniteRange, requiresLineOfSight: false).ToList();
-		hexes.Shuffle(GameController.Instance.StateRNG);
-		hexes.Sort((otherHexA, otherHexB) => RangeHelper.Distance(hex, otherHexA).CompareTo(RangeHelper.Distance(hex, otherHexB)));
+		// List<Hex> hexes = RangeHelper.GetHexesInRange(hex, RangeHelper.InfiniteRange, requiresLineOfSight: false).ToList();
+		// hexes.Shuffle(GameController.Instance.StateRNG);
+		// hexes.Sort((otherHexA, otherHexB) => RangeHelper.Distance(hex, otherHexA).CompareTo(RangeHelper.Distance(hex, otherHexB)));
 
 		await water.Destroy(forceDestroy: true);
 
@@ -260,21 +260,21 @@ public class Scenario007 : ScenarioModel
 				{
 					case 2:
 					{
-						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hexes);
+						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hex);
 						break;
 					}
 					case 3:
 					{
-						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 4:
 					{
-						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hexes);
+						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hex);
 						break;
 					}
 				}
@@ -296,21 +296,21 @@ public class Scenario007 : ScenarioModel
 				{
 					case 2:
 					{
-						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 3:
 					{
-						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 4:
 					{
-						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hex);
 						break;
 					}
 				}
@@ -338,20 +338,20 @@ public class Scenario007 : ScenarioModel
 				{
 					case 2:
 					{
-						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hexes);
+						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hex);
 						break;
 					}
 					case 3:
 					{
-						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 4:
 					{
-						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hex);
 						break;
 					}
 				}
@@ -380,20 +380,20 @@ public class Scenario007 : ScenarioModel
 				{
 					case 2:
 					{
-						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Elite, hexes);
+						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Elite, hex);
 						break;
 					}
 					case 3:
 					{
-						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 4:
 					{
-						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hex);
 						break;
 					}
 				}
@@ -415,23 +415,23 @@ public class Scenario007 : ScenarioModel
 				{
 					case 2:
 					{
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 3:
 					{
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 4:
 					{
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hex);
 						break;
 					}
 				}
@@ -458,26 +458,26 @@ public class Scenario007 : ScenarioModel
 				{
 					case 2:
 					{
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 3:
 					{
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hexes);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hex);
 						break;
 					}
 					case 4:
 					{
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hexes);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hex);
 						break;
 					}
 				}
@@ -500,24 +500,24 @@ public class Scenario007 : ScenarioModel
 				{
 					case 2:
 					{
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 3:
 					{
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 4:
 					{
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Elite, hexes);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Elite, hex);
 						break;
 					}
 				}
@@ -539,24 +539,24 @@ public class Scenario007 : ScenarioModel
 				{
 					case 2:
 					{
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 3:
 					{
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 4:
 					{
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Elite, hexes);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<ForestImp>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Elite, hex);
 						break;
 					}
 				}
@@ -578,22 +578,22 @@ public class Scenario007 : ScenarioModel
 				{
 					case 2:
 					{
-						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 3:
 					{
-						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 4:
 					{
-						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Elite, hexes);
+						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<SpittingDrake>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<Hound>(), MonsterType.Elite, hex);
 						break;
 					}
 				}
@@ -615,20 +615,20 @@ public class Scenario007 : ScenarioModel
 				{
 					case 2:
 					{
-						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 3:
 					{
-						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hexes);
+						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hex);
 						break;
 					}
 					case 4:
 					{
-						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hexes);
+						await SummonMonster(character, ModelDB.Monster<CaveBear>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hex);
 						break;
 					}
 				}
@@ -669,23 +669,23 @@ public class Scenario007 : ScenarioModel
 				{
 					case 2:
 					{
-						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 3:
 					{
-						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hex);
 						break;
 					}
 					case 4:
 					{
-						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hexes);
-						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Normal, hexes);
-						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hexes);
+						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Elite, hex);
+						await SummonMonster(character, ModelDB.Monster<RendingDrake>(), MonsterType.Normal, hex);
+						await SummonMonster(character, ModelDB.Monster<GiantViper>(), MonsterType.Normal, hex);
 						break;
 					}
 				}
@@ -693,46 +693,5 @@ public class Scenario007 : ScenarioModel
 				break;
 			}
 		}
-	}
-
-	private async GDTask SummonMonster(Character character, MonsterModel monsterModel, MonsterType monsterType, List<Hex> hexes)
-	{
-		Hex chosenHex = await AbilityCmd.SelectHex(character,
-			list =>
-			{
-				Hex firstHex = null;
-				foreach(Hex hex in hexes)
-				{
-					if(hex.IsEmpty())
-					{
-						firstHex = hex;
-						break;
-					}
-				}
-
-				if(firstHex == null)
-				{
-					return;
-				}
-
-				int distance = RangeHelper.Distance(character.Hex, firstHex);
-
-				foreach(Hex otherHex in hexes)
-				{
-					int otherDistance = RangeHelper.Distance(character.Hex, otherHex);
-					if(otherHex.IsEmpty() && otherDistance == distance)
-					{
-						list.Add(otherHex);
-					}
-				}
-			}, true, $"Select where to summon the {monsterType.ToString()} {monsterModel.Name}"
-		);
-
-		if(chosenHex == null)
-		{
-			return;
-		}
-
-		await AbilityCmd.SummonMonster(monsterModel, monsterType, chosenHex);
 	}
 }
