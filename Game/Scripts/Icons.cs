@@ -89,7 +89,10 @@ public static class Icons
 
 	public static string InlineAOEPattern(AOEPattern aoePattern, RichTextParameters richTextParameters)
 	{
-		return Inline(GetAOEPattern(aoePattern), richTextParameters, true);
+		string path = GetAOEPattern(aoePattern);
+		Texture2D aoePatternImage = ResourceLoader.Load<Texture2D>(path);
+		int overrideHeight = (richTextParameters.FontSize * aoePatternImage.GetHeight()) / 100;
+		return Inline(path, richTextParameters, true, overrideHeight: overrideHeight);
 	}
 
 	public static string GetAOEPattern(AOEPattern aoePattern)
@@ -100,13 +103,15 @@ public static class Icons
 	public static string Inline(string iconPath, int size = 30, Color? color = null)
 	{
 		Color finalColor = color ?? Colors.White;
-		return $"[img width={size} color=#{finalColor.ToHtml()}]{iconPath}[/img]";
+		return $"[img height={size} color=#{finalColor.ToHtml()}]{iconPath}[/img]";
 	}
 
-	public static string Inline(string iconPath, RichTextParameters richTextParameters, bool ignoreParametersColor = false)
+	public static string Inline(string iconPath, RichTextParameters richTextParameters, bool ignoreParametersColor = false,
+		int? overrideHeight = null)
 	{
 		Color finalColor = ignoreParametersColor ? Colors.White : richTextParameters.Color;
-		return $"[img width={richTextParameters.FontSize} color=#{finalColor.ToHtml()}]{iconPath}[/img]";
+		int finalHeight = overrideHeight ?? richTextParameters.FontSize;
+		return $"[img height={finalHeight} color=#{finalColor.ToHtml()}]{iconPath}[/img]";
 	}
 
 	public static string HintText(string iconPath)
@@ -118,7 +123,7 @@ public static class Icons
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		List<AOEHex> listCopy = aoePattern.LocalHexes.ToList();
-		listCopy.Sort((a, b) => a.Coords.GetHashCode().CompareTo(b.Coords.GetHashCode()));
+		listCopy.Sort((a, b) => (a.Coords.X + a.Coords.Y * 100).CompareTo((b.Coords.X + b.Coords.Y * 100)));
 		foreach(AOEHex aoeHex in listCopy)
 		{
 			stringBuilder.Append(aoeHex.Coords.X);

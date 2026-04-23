@@ -34,6 +34,13 @@ public partial class AOECreator : Node2D
 				new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
 			]
 		),
+		new AOEPattern(
+			[
+				new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+				new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+				new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
+			]
+		),
 	];
 
 	[Export]
@@ -107,6 +114,8 @@ public partial class AOECreator : Node2D
 				ViewportTexture viewportTexture = viewport.GetTexture();
 				Image image = viewportTexture.GetImage();
 				image.SavePng($"{patternPath}{PatternToString(aoePattern)}.png");
+
+				patternView.QueueFree();
 			}
 		}
 		catch(Exception e)
@@ -155,7 +164,7 @@ public partial class AOECreator : Node2D
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		List<AOEHex> listCopy = aoePattern.LocalHexes.ToList();
-		listCopy.Sort((a, b) => a.Coords.GetHashCode().CompareTo(b.Coords.GetHashCode()));
+		listCopy.Sort((a, b) => (a.Coords.X + a.Coords.Y * 100).CompareTo((b.Coords.X + b.Coords.Y * 100)));
 		foreach(AOEHex aoeHex in listCopy)
 		{
 			stringBuilder.Append(aoeHex.Coords.X);
