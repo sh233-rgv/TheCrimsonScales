@@ -1,5 +1,7 @@
-﻿using System;
-﻿using Godot;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Godot;
 
 public static class Icons
 {
@@ -85,6 +87,16 @@ public static class Icons
 		return $"res://Art/Markers/{markerType.ToString().Replace("_", string.Empty)}.png";
 	}
 
+	public static string InlineAOEPattern(AOEPattern aoePattern, RichTextParameters richTextParameters)
+	{
+		return Inline(GetAOEPattern(aoePattern), richTextParameters, true);
+	}
+
+	public static string GetAOEPattern(AOEPattern aoePattern)
+	{
+		return $"res://Art/AOEPatterns/{PatternToString(aoePattern)}.png";
+	}
+
 	public static string Inline(string iconPath, int size = 30, Color? color = null)
 	{
 		Color finalColor = color ?? Colors.White;
@@ -100,5 +112,20 @@ public static class Icons
 	public static string HintText(string iconPath)
 	{
 		return $"[img={{{50}}}]{iconPath}[/img]";
+	}
+
+	private static string PatternToString(AOEPattern aoePattern)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		List<AOEHex> listCopy = aoePattern.LocalHexes.ToList();
+		listCopy.Sort((a, b) => a.Coords.GetHashCode().CompareTo(b.Coords.GetHashCode()));
+		foreach(AOEHex aoeHex in listCopy)
+		{
+			stringBuilder.Append(aoeHex.Coords.X);
+			stringBuilder.Append(aoeHex.Coords.Y);
+			stringBuilder.Append(aoeHex.Type.ToString()[0]);
+		}
+
+		return stringBuilder.ToString();
 	}
 }

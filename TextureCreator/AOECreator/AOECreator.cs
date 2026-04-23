@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using Fractural.Tasks;
 using Godot;
 
@@ -11,11 +13,25 @@ public partial class AOECreator : Node2D
 
 	private static readonly List<AOEPattern> Patterns =
 	[
-		new AOEPattern("Cleave",
+		new AOEPattern(
 			[
 				new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
 				new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+			]
+		),
+		new AOEPattern(
+			[
+				new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
+				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
+				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
+				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East).Add(Direction.East), AOEHexType.Red),
+				new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East).Add(Direction.East), AOEHexType.Red),
+				new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
+				new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+				new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
 			]
 		),
 	];
@@ -90,7 +106,7 @@ public partial class AOECreator : Node2D
 				Viewport viewport = GetViewport();
 				ViewportTexture viewportTexture = viewport.GetTexture();
 				Image image = viewportTexture.GetImage();
-				image.SavePng($"{patternPath}{aoePattern.FileName}.png");
+				image.SavePng($"{patternPath}{PatternToString(aoePattern)}.png");
 			}
 		}
 		catch(Exception e)
@@ -133,5 +149,20 @@ public partial class AOECreator : Node2D
 		// 3. Zoom is inverse of scale
 		float zoom = scale;
 		camera.Zoom = new Vector2(zoom, zoom);
+	}
+
+	private static string PatternToString(AOEPattern aoePattern)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		List<AOEHex> listCopy = aoePattern.LocalHexes.ToList();
+		listCopy.Sort((a, b) => a.Coords.GetHashCode().CompareTo(b.Coords.GetHashCode()));
+		foreach(AOEHex aoeHex in listCopy)
+		{
+			stringBuilder.Append(aoeHex.Coords.X);
+			stringBuilder.Append(aoeHex.Coords.Y);
+			stringBuilder.Append(aoeHex.Type.ToString()[0]);
+		}
+
+		return stringBuilder.ToString();
 	}
 }
