@@ -76,9 +76,6 @@ public partial class GameController : SceneController<GameController>
 	public HintTextView HintTextView { get; private set; }
 
 	[Export]
-	public SpecialRulesView SpecialRulesView { get; private set; }
-
-	[Export]
 	public ElementsView ElementsView { get; private set; }
 
 	[Export]
