@@ -37,7 +37,7 @@ public abstract partial class OptionView<TParameters, TValue> : OptionViewBase
 	{
 		base.OnOpen();
 
-		SetMouseBehaviorRecursive(MouseBehaviorRecursiveEnum.Disabled);
+		SetMouseBehaviorRecursive(_parameters.Enabled ? MouseBehaviorRecursiveEnum.Inherited : MouseBehaviorRecursiveEnum.Disabled);
 		SetModulate(_parameters.Enabled ? Colors.White : Colors.Gray);
 	}
 
