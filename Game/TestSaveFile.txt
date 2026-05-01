@@ -1,0 +1,632 @@
+{
+  "PartyName": "Party Time",
+  "StartingGroup": 0,
+  "Characters": [
+    {
+      "ClassModelId": "CLASS_MODEL.SPIRIT_CALLER_MODEL",
+      "Level": 1,
+      "LevelUpInProgress": false,
+      "AvailableAbilityCards": [
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        }
+      ],
+      "HandAbilityCardIndices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "Gold": 1030,
+      "XP": 0,
+      "Name": "Ketting Garde",
+      "ItemIds": [
+        "PROSPERITY1_ITEM.POISON_DAGGER",
+        "PROSPERITY3_ITEM.CHAINMAIL"
+      ],
+      "EquippedBaseSlotItems": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "EquippedSmallItems": [
+        "PROSPERITY4_ITEM.FALCON_FIGURINE",
+        null
+      ],
+      "TotalAvailablePerkCount": 0,
+      "AcquiredPerkIndices": [],
+      "CheckmarkCount": 0,
+      "Guid": "e12cd2cb-5e1c-4d55-b0e9-94441d1eb59f"
+    },
+    {
+      "ClassModelId": "CLASS_MODEL.STARSLINGER_MODEL",
+      "Level": 1,
+      "LevelUpInProgress": false,
+      "AvailableAbilityCards": [
+        {
+          "ModelId": "STARSLINGER_CARD_MODEL`2.ALIGNED_CONSTELLATIONS",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "STARSLINGER_CARD_MODEL`2.CRASHING_FLARE",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "STARSLINGER_CARD_MODEL`2.DIAMOND_RINGS",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "STARSLINGER_CARD_MODEL`2.EARTHSHINE",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "STARSLINGER_CARD_MODEL`2.LIGHT_POLLUTION",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "STARSLINGER_CARD_MODEL`2.LUCKY_STARS",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "STARSLINGER_CARD_MODEL`2.LUMINOUS_BLITZ",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "STARSLINGER_CARD_MODEL`2.SOLAR_ECLIPSE",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "STARSLINGER_CARD_MODEL`2.STARSTRUCK",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "STARSLINGER_CARD_MODEL`2.SUPERNOVA",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "STARSLINGER_CARD_MODEL`2.FORCE_FIELD",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "STARSLINGER_CARD_MODEL`2.GRAVITATIONAL_FLIP",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        },
+        {
+          "ModelId": "STARSLINGER_CARD_MODEL`2.LOST_IN_THE_STARS",
+          "SavedTopEnhancements": {},
+          "SavedBottomEnhancements": {}
+        }
+      ],
+      "HandAbilityCardIndices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "Gold": 30,
+      "XP": 0,
+      "Name": "Sterrenwerper",
+      "ItemIds": [],
+      "EquippedBaseSlotItems": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "EquippedSmallItems": [],
+      "TotalAvailablePerkCount": 0,
+      "AcquiredPerkIndices": [],
+      "CheckmarkCount": 0,
+      "SavedPersonalQuest": {
+        "ModelId": "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.EXPERIENCED_LEADER",
+        "PersonalQuestData": {
+          "Progress": 0
+        }
+      },
+      "Guid": "bb5ea634-d6d5-4e6f-8011-4cc8c2a68827"
+    }
+  ],
+  "RetiredCharacters": [],
+  "SavedClasses": {
+    "CLASS_MODEL.BOMBARD_MODEL": {
+      "Unlocked": true,
+      "Retired": false
+    },
+    "CLASS_MODEL.FIRE_KNIGHT_MODEL": {
+      "Unlocked": true,
+      "Retired": false
+    },
+    "CLASS_MODEL.HIEROPHANT_MODEL": {
+      "Unlocked": true,
+      "Retired": false
+    },
+    "CLASS_MODEL.MIREFOOT_MODEL": {
+      "Unlocked": true,
+      "Retired": false
+    }
+  },
+  "SavedScenarioProgresses": {
+    "ScenarioProgresses": {
+      "SCENARIO_MODEL.SCENARIO001": {
+        "Discovered": true,
+        "ShownOnMap": false,
+        "Completed": false,
+        "CollectedTreasureChestNumbers": [],
+        "CustomValues": {}
+      },
+      "SCENARIO_MODEL.TEST_SCENARIO": {
+        "Discovered": false,
+        "ShownOnMap": false,
+        "Completed": false,
+        "CollectedTreasureChestNumbers": [],
+        "CustomValues": {}
+      }
+    }
+  },
+  "SavedItems": {
+    "PROSPERITY3_ITEM.AMULET_OF_LIFE": {
+      "ItemModelId": "PROSPERITY3_ITEM.AMULET_OF_LIFE",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "G_H_DESIGNS_ITEM.CIRCLET_OF_ELEMENTS": {
+      "ItemModelId": "G_H_DESIGNS_ITEM.CIRCLET_OF_ELEMENTS",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.HIDE_ARMOR": {
+      "ItemModelId": "PROSPERITY1_ITEM.HIDE_ARMOR",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.LEATHER_ARMOR": {
+      "ItemModelId": "PROSPERITY1_ITEM.LEATHER_ARMOR",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "JOT_L_ITEM.WEATHERED_BOOTS": {
+      "ItemModelId": "JOT_L_ITEM.WEATHERED_BOOTS",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.WINGED_SHOES": {
+      "ItemModelId": "PROSPERITY1_ITEM.WINGED_SHOES",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "G_H_DESIGNS_ITEM.SHOES_OF_HAPPINESS": {
+      "ItemModelId": "G_H_DESIGNS_ITEM.SHOES_OF_HAPPINESS",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY2_ITEM.BOOTS_OF_SPEED": {
+      "ItemModelId": "PROSPERITY2_ITEM.BOOTS_OF_SPEED",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.HEATER_SHIELD": {
+      "ItemModelId": "PROSPERITY1_ITEM.HEATER_SHIELD",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.POISON_DAGGER": {
+      "ItemModelId": "PROSPERITY1_ITEM.POISON_DAGGER",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY5_ITEM.HOOKED_CHAIN": {
+      "ItemModelId": "PROSPERITY5_ITEM.HOOKED_CHAIN",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "JOT_L_ITEM.IRON_SPEAR": {
+      "ItemModelId": "JOT_L_ITEM.IRON_SPEAR",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.MINOR_HEALING_POTION": {
+      "ItemModelId": "PROSPERITY1_ITEM.MINOR_HEALING_POTION",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY1_ITEM.MINOR_POWER_POTION": {
+      "ItemModelId": "PROSPERITY1_ITEM.MINOR_POWER_POTION",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    },
+    "PROSPERITY2_ITEM.MINOR_MANA_POTION": {
+      "ItemModelId": "PROSPERITY2_ITEM.MINOR_MANA_POTION",
+      "UnlockedCount": 2,
+      "StockCount": 2
+    }
+  },
+  "SavedScenario": {
+    "Id": "5dede0c2-5925-4c9e-839c-27490126d677",
+    "AppVersion": "0.4.1",
+    "ScenarioModelId": "SCENARIO_MODEL.TEST_SCENARIO",
+    "Seed": 0,
+    "ScenarioLevel": 1,
+    "IsOnline": false,
+    "ScenarioSetupState": {
+      "CharacterScenarioSetupStates": [
+        {
+          "StartHexCoords": {
+            "X": -1,
+            "Y": 1
+          },
+          "SelectedBattleGoalIndex": 1
+        },
+        {
+          "StartHexCoords": {
+            "X": 0,
+            "Y": 1
+          },
+          "SelectedBattleGoalIndex": 2
+        }
+      ],
+      "Completed": true
+    },
+    "CardSelectionStates": [
+      {
+        "CharacterCardSelectionStates": [
+          {
+            "ChosenCardReferenceIds": [
+              36,
+              33
+            ],
+            "LongResting": false
+          },
+          {
+            "ChosenCardReferenceIds": [
+              63,
+              45
+            ],
+            "LongResting": false
+          }
+        ],
+        "CurrentPromptIndex": 0,
+        "SyncedActions": [],
+        "Completed": true
+      }
+    ],
+    "PromptAnswers": [
+      {
+        "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
+        "CardReferenceId": 63,
+        "AbilityCardSection": 3
+      },
+      {
+        "$type": "MovePrompt+Answer, Game",
+        "Skipped": true
+      },
+      {
+        "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
+        "CardReferenceId": 45,
+        "AbilityCardSection": 0
+      },
+      {
+        "$type": "ConfirmPrompt+Answer, Game",
+        "Skipped": true
+      }
+    ]
+  },
+  "CollectedPartyAchievements": [],
+  "SanctuaryOfTheGreatOak": {
+    "TotalDonationCount": 0,
+    "CritAMDCardIds": [
+      "SANCTUARY_CRIT_AM_D_CARD_MODEL.BLESS_ALLY_SANCTUARY_CRIT_AM_D_CARD",
+      "SANCTUARY_CRIT_AM_D_CARD_MODEL.BLESS_ALLY_SANCTUARY_CRIT_AM_D_CARD",
+      "SANCTUARY_CRIT_AM_D_CARD_MODEL.HEAL_SANCTUARY_CRIT_AM_D_CARD",
+      "SANCTUARY_CRIT_AM_D_CARD_MODEL.HEAL_SANCTUARY_CRIT_AM_D_CARD",
+      "SANCTUARY_CRIT_AM_D_CARD_MODEL.WILD_ELEMENT_SANCTUARY_CRIT_AM_D_CARD",
+      "SANCTUARY_CRIT_AM_D_CARD_MODEL.WILD_ELEMENT_SANCTUARY_CRIT_AM_D_CARD",
+      "SANCTUARY_CRIT_AM_D_CARD_MODEL.ADJACENT_ENEMIES_SUFFER_SANCTUARY_CRIT_AM_D_CARD",
+      "SANCTUARY_CRIT_AM_D_CARD_MODEL.ADJACENT_ENEMIES_SUFFER_SANCTUARY_CRIT_AM_D_CARD"
+    ],
+    "RollingAMDCardIds": [
+      "SANCTUARY_ROLLING_AM_D_CARD_MODEL.PUSH_SANCTUARY_ROLLING_AM_D_CARD",
+      "SANCTUARY_ROLLING_AM_D_CARD_MODEL.PUSH_SANCTUARY_ROLLING_AM_D_CARD",
+      "SANCTUARY_ROLLING_AM_D_CARD_MODEL.HEAL_SANCTUARY_ROLLING_AM_D_CARD",
+      "SANCTUARY_ROLLING_AM_D_CARD_MODEL.HEAL_SANCTUARY_ROLLING_AM_D_CARD",
+      "SANCTUARY_ROLLING_AM_D_CARD_MODEL.WOUND_MUDDLE_SANCTUARY_ROLLING_AM_D_CARD",
+      "SANCTUARY_ROLLING_AM_D_CARD_MODEL.WOUND_MUDDLE_SANCTUARY_ROLLING_AM_D_CARD",
+      "SANCTUARY_ROLLING_AM_D_CARD_MODEL.PIERCE_SANCTUARY_ROLLING_AM_D_CARD",
+      "SANCTUARY_ROLLING_AM_D_CARD_MODEL.PIERCE_SANCTUARY_ROLLING_AM_D_CARD"
+    ]
+  },
+  "SavedEvents": {
+    "CityEventDeckIds": [
+      "CITY_EVENT_MODEL`2.CITY27",
+      "CITY_EVENT_MODEL`2.CITY12",
+      "CITY_EVENT_MODEL`2.CITY19",
+      "CITY_EVENT_MODEL`2.CITY23",
+      "CITY_EVENT_MODEL`2.CITY22",
+      "CITY_EVENT_MODEL`2.CITY03",
+      "CITY_EVENT_MODEL`2.CITY30",
+      "CITY_EVENT_MODEL`2.CITY14",
+      "CITY_EVENT_MODEL`2.CITY25",
+      "CITY_EVENT_MODEL`2.CITY07",
+      "CITY_EVENT_MODEL`2.CITY24",
+      "CITY_EVENT_MODEL`2.CITY18",
+      "CITY_EVENT_MODEL`2.CITY53",
+      "CITY_EVENT_MODEL`2.CITY26",
+      "CITY_EVENT_MODEL`2.CITY06",
+      "CITY_EVENT_MODEL`2.CITY29",
+      "CITY_EVENT_MODEL`2.CITY10",
+      "CITY_EVENT_MODEL`2.CITY13",
+      "CITY_EVENT_MODEL`2.CITY41",
+      "CITY_EVENT_MODEL`2.CITY51",
+      "CITY_EVENT_MODEL`2.CITY28",
+      "CITY_EVENT_MODEL`2.CITY20",
+      "CITY_EVENT_MODEL`2.CITY05",
+      "CITY_EVENT_MODEL`2.CITY01",
+      "CITY_EVENT_MODEL`2.CITY15",
+      "CITY_EVENT_MODEL`2.CITY04",
+      "CITY_EVENT_MODEL`2.CITY39",
+      "CITY_EVENT_MODEL`2.CITY21",
+      "CITY_EVENT_MODEL`2.CITY02",
+      "CITY_EVENT_MODEL`2.CITY16",
+      "CITY_EVENT_MODEL`2.CITY08",
+      "CITY_EVENT_MODEL`2.CITY11"
+    ],
+    "TopCityDeckQueueIds": [],
+    "RoadEventDeckIds": [
+      "ROAD_EVENT_MODEL`2.ROAD29",
+      "ROAD_EVENT_MODEL`2.ROAD16",
+      "ROAD_EVENT_MODEL`2.ROAD08",
+      "ROAD_EVENT_MODEL`2.ROAD41",
+      "ROAD_EVENT_MODEL`2.ROAD27",
+      "ROAD_EVENT_MODEL`2.ROAD02",
+      "ROAD_EVENT_MODEL`2.ROAD10",
+      "ROAD_EVENT_MODEL`2.ROAD26",
+      "ROAD_EVENT_MODEL`2.ROAD21",
+      "ROAD_EVENT_MODEL`2.ROAD20",
+      "ROAD_EVENT_MODEL`2.ROAD30",
+      "ROAD_EVENT_MODEL`2.ROAD06",
+      "ROAD_EVENT_MODEL`2.ROAD11",
+      "ROAD_EVENT_MODEL`2.ROAD51",
+      "ROAD_EVENT_MODEL`2.ROAD01",
+      "ROAD_EVENT_MODEL`2.ROAD15",
+      "ROAD_EVENT_MODEL`2.ROAD22",
+      "ROAD_EVENT_MODEL`2.ROAD09",
+      "ROAD_EVENT_MODEL`2.ROAD14",
+      "ROAD_EVENT_MODEL`2.ROAD24",
+      "ROAD_EVENT_MODEL`2.ROAD17",
+      "ROAD_EVENT_MODEL`2.ROAD04",
+      "ROAD_EVENT_MODEL`2.ROAD03",
+      "ROAD_EVENT_MODEL`2.ROAD18",
+      "ROAD_EVENT_MODEL`2.ROAD13",
+      "ROAD_EVENT_MODEL`2.ROAD19",
+      "ROAD_EVENT_MODEL`2.ROAD23",
+      "ROAD_EVENT_MODEL`2.ROAD28",
+      "ROAD_EVENT_MODEL`2.ROAD53",
+      "ROAD_EVENT_MODEL`2.ROAD07",
+      "ROAD_EVENT_MODEL`2.ROAD05"
+    ],
+    "TopRoadDeckQueueIds": [],
+    "CanDrawCityEvent": false
+  },
+  "SavedPersonalQuests": {
+    "PersonalQuestDeckIds": [
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.NATURAL_SELECTION",
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.PREDATOR_AND_PREY",
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.THRILL_SEEKER",
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.CREATURES_IN_THE_NIGHT",
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.EXPERIMENTATION",
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.TRAP_SETTER",
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.HEALTH_FIRST",
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.EXPERIENCED_LEADER",
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.LIMITLESS_SEARCHING"
+    ]
+  },
+  "SavedPartyGoals": {
+    "PartyGoals": [
+      {
+        "ModelId": "SCALES_WITH_CHARACTERS_PARTY_GOAL_MODEL.BATTLE_GOALS_PARTY_GOAL",
+        "PartyGoalData": {
+          "$type": "ScalesWithCharactersPartyGoalData, Game",
+          "CharacterProgresses": {},
+          "Progress": 0
+        }
+      },
+      {
+        "ModelId": "SCALES_WITH_CHARACTERS_PARTY_GOAL_MODEL.EXPERIENCE_PARTY_GOAL",
+        "PartyGoalData": {
+          "$type": "ScalesWithCharactersPartyGoalData, Game",
+          "CharacterProgresses": {},
+          "Progress": 0
+        }
+      },
+      {
+        "ModelId": "SCALES_WITH_CHARACTERS_PARTY_GOAL_MODEL.SPEND_GOLD_AT_SHOP_PARTY_GOAL",
+        "PartyGoalData": {
+          "$type": "ScalesWithCharactersPartyGoalData, Game",
+          "CharacterProgresses": {},
+          "Progress": 0
+        }
+      },
+      {
+        "ModelId": "SCALES_WITH_CHARACTERS_PARTY_GOAL_MODEL.TREASURE_TILE_PARTY_GOAL",
+        "PartyGoalData": {
+          "$type": "ScalesWithCharactersPartyGoalData, Game",
+          "CharacterProgresses": {},
+          "Progress": 0
+        }
+      },
+      {
+        "ModelId": "PARTY_GOAL_MODEL`1.SIDE_SCENARIO_PARTY_GOAL",
+        "PartyGoalData": {
+          "Progress": 0
+        }
+      }
+    ],
+    "CompletedPartyGoalCount": 0,
+    "CompletedEnough": false
+  },
+  "SavedMerchantsGuildHall": {
+    "Rewards": [
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.GAIN_PROSPERITY_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      },
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.GAIN_PROSPERITY_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      },
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.GAIN_PROSPERITY_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      },
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.GAIN_PROSPERITY_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      },
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.GAIN_PROSPERITY_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      },
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.GAIN_PROSPERITY_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      },
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.GAIN_PROSPERITY_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      },
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.ADD_CITY_AND_ROAD59_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      },
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.ADD_CITY_AND_ROAD60_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      },
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.UNLOCK_SCENARIO51_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      },
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.UNLOCK_SCENARIO52_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      },
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.UNLOCK_SCENARIO53_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      },
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.UNLOCK_SCENARIO54_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      },
+      {
+        "ModelId": "MERCHANTS_GUILD_HALL_REWARD_MODEL.UNLOCK_SCENARIO55_MERCHANTS_GUILD_HALL_REWARD",
+        "Unlocked": false
+      }
+    ],
+    "CompletedScenarioCount": 0,
+    "Unlocked": false
+  },
+  "SavedRewards": {
+    "Rewards": []
+  },
+  "Reputation": 0,
+  "Prosperity": 0,
+  "EnhancementsUnlocked": false,
+  "GodMode": true,
+  "CustomValues": {
+    "IntroductionSeen": true
+  }
+}

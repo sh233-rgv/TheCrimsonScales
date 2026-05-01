@@ -4,13 +4,13 @@ using Godot;
 
 public partial class Spirit : Figure
 {
-	private SpiritViewComponent _summonViewComponent;
+	private SpiritViewComponent _spiritViewComponent;
 	private string _name;
 	private readonly List<Ability> _abilities = new List<Ability>();
 
 	private ActionState _turnActionState;
 
-	public int Health { get; private set; }
+	public int HealthStat { get; private set; }
 	public int? Move { get; private set; }
 	public int? Attack { get; private set; }
 	public int? Range { get; private set; }
@@ -21,8 +21,8 @@ public partial class Spirit : Figure
 	public override string DisplayName => _name;
 	public override string DebugName => _name;
 	public override AMDCardDeck AMDCardDeck => CharacterOwner.AMDCardDeck;
-	public override Texture2D MapIconTexture => _summonViewComponent.Sprite.Texture;
-	public override Node2D Visual => _summonViewComponent.Sprite;
+	public override Texture2D MapIconTexture => _spiritViewComponent.Sprite.Texture;
+	public override Node2D Visual => _spiritViewComponent.Sprite;
 
 	public RangeType RangeType => Range.HasValue ? RangeType.Range : RangeType.Melee;
 
@@ -30,13 +30,13 @@ public partial class Spirit : Figure
 	{
 		await base.Init(originHex, rotationIndex, hexCanBeNull);
 
-		_summonViewComponent = GetViewComponent<SpiritViewComponent>();
+		_spiritViewComponent = GetViewComponent<SpiritViewComponent>();
 	}
 
 	public async GDTask Spawn(int health, int? move, int? attack, int? range, FigureTrait[] traits, Character characterOwner, string name,
 		string texturePath, string mapIconTexturePath)
 	{
-		Health = health;
+		HealthStat = health;
 		Move = move;
 		Attack = attack;
 		Range = range;
@@ -48,16 +48,16 @@ public partial class Spirit : Figure
 		_figureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);
 		_figureViewComponent.ActivePS.SetModulate(OutlineColor);
 
-		_summonViewComponent.StandeeNumberCircle.SetSelfModulate(OutlineColor);
+		_spiritViewComponent.StandeeNumberCircle.SetSelfModulate(OutlineColor);
 
 		Texture = ResourceLoader.Load<Texture2D>(texturePath);
 		Texture2D mapIconTexture = ResourceLoader.Load<Texture2D>(mapIconTexturePath);
-		_summonViewComponent.Sprite.SetTexture(mapIconTexture);
+		_spiritViewComponent.Sprite.SetTexture(mapIconTexture);
 		float textureWidth = mapIconTexture.GetWidth();
-		_summonViewComponent.Sprite.SetScale((250f / textureWidth) * Vector2.One);
+		_spiritViewComponent.Sprite.SetScale((250f / textureWidth) * Vector2.One);
 
-		SetMaxHealth(Health);
-		SetHealth(Health);
+		SetMaxHealth(HealthStat);
+		SetHealth(HealthStat);
 
 		SetAlignment(CharacterOwner.Alignment);
 		SetEnemies(CharacterOwner.Enemies);
@@ -76,7 +76,7 @@ public partial class Spirit : Figure
 
 		UpdateInitiative();
 
-		CanTakeTurn = false;
+		//CanTakeTurn = false;
 
 		if(Move.HasValue)
 		{
@@ -137,7 +137,7 @@ public partial class Spirit : Figure
 		// 	},
 		// 	effectType: EffectType.Selectable,
 		// 	effectButtonParameters: new IconEffectButton.Parameters(Icons.Move),
-		// 	effectInfoViewParameters: new TextEffectInfoView.Parameters("Choose for the summon to move towards the summoner")
+		// 	effectInfoViewParameters: new TextEffectInfoView.Parameters("Choose for the spirit to move towards the spawner")
 		// );
 	}
 
@@ -185,7 +185,7 @@ public partial class Spirit : Figure
 		return new Initiative()
 		{
 			MainInitiative = ownerInitiative.MainInitiative,
-			SortingInitiative = ownerInitiative.SortingInitiative - 100 + SpiritIndex
+			SortingInitiative = ownerInitiative.SortingInitiative + SpiritIndex
 		};
 	}
 
@@ -195,7 +195,7 @@ public partial class Spirit : Figure
 
 		UpdateInitiative();
 
-		_summonViewComponent.StandeeNumberLabel.SetText((SpiritIndex + 1).ToString());
+		_spiritViewComponent.StandeeNumberLabel.SetText((SpiritIndex + 1).ToString());
 	}
 
 	private void RegisterSpirit(Spirit spirit)
@@ -217,7 +217,7 @@ public partial class Spirit : Figure
 		}
 	}
 
-	private List<Spirit> GetSpirits(Character characterOwner)
+	public static List<Spirit> GetSpirits(Character characterOwner)
 	{
 		const string spiritsKey = "Spirits";
 		if(!characterOwner.TryGetCustomValue(spiritsKey, out List<Spirit> spirits))
