@@ -48,9 +48,11 @@ public partial class ScenarioEvents
 
 	public class HexObjectDestroyed : ScenarioEvent<HexObjectDestroyed.Parameters>
 	{
-		public class Parameters(HexObject hexObject) : ParametersBase
+		public class Parameters(HexObject hexObject, bool immediately, bool forceDestroy) : ParametersBase
 		{
 			public HexObject HexObject { get; } = hexObject;
+			public bool Immediately { get; } = immediately;
+			public bool ForceDestroy { get; } = forceDestroy;
 		}
 	}
 

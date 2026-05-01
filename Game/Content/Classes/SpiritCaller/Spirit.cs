@@ -59,8 +59,8 @@ public partial class Spirit : Figure
 		SetMaxHealth(Health);
 		SetHealth(Health);
 
-		SetAlignment(characterOwner.Alignment);
-		SetEnemies(characterOwner.Enemies);
+		SetAlignment(CharacterOwner.Alignment);
+		SetEnemies(CharacterOwner.Enemies);
 
 		if(traits != null)
 		{
@@ -70,7 +70,7 @@ public partial class Spirit : Figure
 			}
 		}
 
-		CharacterOwner.RegisterSummon(this);
+		RegisterSpirit(this);
 
 		await GameController.Instance.Map.RegisterFigure(this);
 
@@ -94,52 +94,51 @@ public partial class Spirit : Figure
 			_abilities.Add(attackAbility);
 		}
 
-		ScenarioEvents.FigureFoundFocusEvent.Subscribe(this, characterOwner,
-			parameters =>
-				parameters.Performer == this &&
-				parameters.AbilityState is MoveAbility.State &&
-				parameters.Focus == null,
+		ScenarioEvents.HexObjectDestroyedEvent.Subscribe(this, CharacterOwner,
+			parameters => parameters.HexObject == CharacterOwner,
 			async parameters =>
 			{
-				parameters.SetNewFocus(CharacterOwner);
-
-				ScenarioCheckEvents.AIMoveParametersCheckEvent.Subscribe(this, characterOwner,
-					parameters => parameters.Performer == this,
-					parameters =>
-					{
-						parameters.SetRange(1);
-						parameters.SetRangeType(RangeType.Melee);
-						parameters.SetTargets(1);
-						parameters.SetAOEPattern(null);
-					}
-				);
-
-				ScenarioEvents.AbilityEndedEvent.Subscribe(this, characterOwner,
-					parameters => parameters.Performer == this,
-					async parameters =>
-					{
-						ScenarioEvents.AbilityEndedEvent.Unsubscribe(this, characterOwner);
-						ScenarioCheckEvents.AIMoveParametersCheckEvent.Unsubscribe(this, characterOwner);
-
-						await GDTask.CompletedTask;
-					}
-				);
-
-				await GDTask.CompletedTask;
-			},
-			effectType: EffectType.Selectable,
-			effectButtonParameters: new IconEffectButton.Parameters(Icons.Move),
-			effectInfoViewParameters: new TextEffectInfoView.Parameters("Choose for the summon to move towards the summoner")
+				await Destroy(parameters.Immediately, parameters.ForceDestroy);
+			}
 		);
-	}
 
-	public void SetSpiritIndex(int spiritIndex)
-	{
-		SpiritIndex = spiritIndex;
-
-		UpdateInitiative();
-
-		_summonViewComponent.StandeeNumberLabel.SetText((SpiritIndex + 1).ToString());
+		// ScenarioEvents.FigureFoundFocusEvent.Subscribe(this, CharacterOwner,
+		// 	parameters =>
+		// 		parameters.Performer == this &&
+		// 		parameters.AbilityState is MoveAbility.State &&
+		// 		parameters.Focus == null,
+		// 	async parameters =>
+		// 	{
+		// 		parameters.SetNewFocus(CharacterOwner);
+		//
+		// 		ScenarioCheckEvents.AIMoveParametersCheckEvent.Subscribe(this, CharacterOwner,
+		// 			parameters => parameters.Performer == this,
+		// 			parameters =>
+		// 			{
+		// 				parameters.SetRange(1);
+		// 				parameters.SetRangeType(RangeType.Melee);
+		// 				parameters.SetTargets(1);
+		// 				parameters.SetAOEPattern(null);
+		// 			}
+		// 		);
+		//
+		// 		ScenarioEvents.AbilityEndedEvent.Subscribe(this, CharacterOwner,
+		// 			parameters => parameters.Performer == this,
+		// 			async parameters =>
+		// 			{
+		// 				ScenarioEvents.AbilityEndedEvent.Unsubscribe(this, CharacterOwner);
+		// 				ScenarioCheckEvents.AIMoveParametersCheckEvent.Unsubscribe(this, CharacterOwner);
+		//
+		// 				await GDTask.CompletedTask;
+		// 			}
+		// 		);
+		//
+		// 		await GDTask.CompletedTask;
+		// 	},
+		// 	effectType: EffectType.Selectable,
+		// 	effectButtonParameters: new IconEffectButton.Parameters(Icons.Move),
+		// 	effectInfoViewParameters: new TextEffectInfoView.Parameters("Choose for the summon to move towards the summoner")
+		// );
 	}
 
 	protected override async GDTask TakeTurn()
@@ -164,9 +163,10 @@ public partial class Spirit : Figure
 	{
 		await RemoveTurnActionFromActive();
 
-		ScenarioEvents.FigureFoundFocusEvent.Unsubscribe(this, CharacterOwner);
+		//ScenarioEvents.FigureFoundFocusEvent.Unsubscribe(this, CharacterOwner);
+		ScenarioEvents.HexObjectDestroyedEvent.Unsubscribe(this, CharacterOwner);
 
-		CharacterOwner.DeregisterSummon(this);
+		DeregisterSpirit(this);
 
 		await base.Destroy(immediately, forceDestroy);
 	}
@@ -187,6 +187,46 @@ public partial class Spirit : Figure
 			MainInitiative = ownerInitiative.MainInitiative,
 			SortingInitiative = ownerInitiative.SortingInitiative - 100 + SpiritIndex
 		};
+	}
+
+	private void SetSpiritIndex(int spiritIndex)
+	{
+		SpiritIndex = spiritIndex;
+
+		UpdateInitiative();
+
+		_summonViewComponent.StandeeNumberLabel.SetText((SpiritIndex + 1).ToString());
+	}
+
+	private void RegisterSpirit(Spirit spirit)
+	{
+		List<Spirit> spirits = GetSpirits(spirit.CharacterOwner);
+
+		spirits.Add(this);
+		SetSpiritIndex(spirits.Count - 1);
+	}
+
+	private void DeregisterSpirit(Spirit spirit)
+	{
+		List<Spirit> spirits = GetSpirits(spirit.CharacterOwner);
+
+		for(int i = 0; i < spirits.Count; i++)
+		{
+			Spirit otherSpirit = spirits[i];
+			otherSpirit.SetSpiritIndex(i);
+		}
+	}
+
+	private List<Spirit> GetSpirits(Character characterOwner)
+	{
+		const string spiritsKey = "Spirits";
+		if(!characterOwner.TryGetCustomValue(spiritsKey, out List<Spirit> spirits))
+		{
+			spirits = new List<Spirit>();
+			characterOwner.SetCustomValue(spiritsKey, spirits);
+		}
+
+		return spirits;
 	}
 
 	public override void AddInfoItemParameters(List<InfoItemParameters> parametersList)
