@@ -35,7 +35,7 @@ public class SpiritCallerModel : ClassModel
 		ModelDB.AbilityCard<HordeOfBones>(),
 		ModelDB.AbilityCard<IncorporealTransport>(),
 		ModelDB.AbilityCard<MidnightFeast>(),
-		ModelDB.AbilityCard<BurningPit>(),
+		ModelDB.AbilityCard<ShriekingSpirit>(),
 		ModelDB.AbilityCard<BurningPit>(),
 		ModelDB.AbilityCard<BurningPit>(),
 		ModelDB.AbilityCard<BurningPit>(),

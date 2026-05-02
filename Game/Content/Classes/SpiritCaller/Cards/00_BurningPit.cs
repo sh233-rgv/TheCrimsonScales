@@ -90,6 +90,7 @@ public class BurningPit : SpiritCallerCardModel<BurningPit.CardTop, BurningPit.C
 						}
 					}
 				})
+				.WithTarget(Target.Enemies | Target.TargetAll)
 				.Build())
 		];
 	}

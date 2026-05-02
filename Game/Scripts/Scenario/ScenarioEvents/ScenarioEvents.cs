@@ -649,9 +649,10 @@ public partial class ScenarioEvents
 
 	public class MoveTogetherCheck : ScenarioEvent<MoveTogetherCheck.Parameters>
 	{
-		public class Parameters(Figure performer)
+		public class Parameters(AbilityState abilityState, Figure performer)
 			: ParametersBase
 		{
+			public AbilityState AbilityState { get; } = abilityState;
 			public Figure Performer { get; } = performer;
 
 			public Figure OtherFigure { get; private set; } = null;

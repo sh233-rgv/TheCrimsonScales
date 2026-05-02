@@ -731,7 +731,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 				}
 
 				ScenarioEvents.MoveTogetherCheck.Parameters moveTogetherCheckParameters =
-					await ScenarioEvents.MoveTogetherCheckEvent.CreatePrompt(new ScenarioEvents.MoveTogetherCheck.Parameters(target));
+					await ScenarioEvents.MoveTogetherCheckEvent.CreatePrompt(new ScenarioEvents.MoveTogetherCheck.Parameters(abilityState, target));
 
 				await AbilityCmd.ExitHex(abilityState, target, abilityState.Authority);
 				await target.TweenGlobalPosition(hex.GlobalPosition, 0.2f).PlayFastForwardableAsync();

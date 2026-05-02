@@ -174,7 +174,8 @@ public class MoveAbility : Ability<MoveAbility.State>
 				abilityState.Hexes.Add(hex);
 
 				ScenarioEvents.MoveTogetherCheck.Parameters moveTogetherCheckParameters =
-					await ScenarioEvents.MoveTogetherCheckEvent.CreatePrompt(new ScenarioEvents.MoveTogetherCheck.Parameters(performer));
+					await ScenarioEvents.MoveTogetherCheckEvent.CreatePrompt(
+						new ScenarioEvents.MoveTogetherCheck.Parameters(abilityState, performer));
 
 				// if(moveTogetherCheckParameters.OtherFigure != null)
 				// {

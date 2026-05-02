@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Fractural.Tasks;
+using Godot;
 
 public class MidnightFeast : SpiritCallerCardModel<MidnightFeast.CardTop, MidnightFeast.CardBottom>
 {
@@ -23,7 +25,54 @@ public class MidnightFeast : SpiritCallerCardModel<MidnightFeast.CardTop, Midnig
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			//TODO
+			new AbilityCardAbility(UseSlotAbility.Builder()
+				.WithOnActivate(async state =>
+				{
+					ScenarioEvents.HexObjectDestroyedEvent.Subscribe(state, this,
+						parameters => parameters.HexObject is Spirit,
+						async parameters =>
+						{
+							await state.AdvanceUseSlot();
+
+							foreach(Figure figure in RangeHelper.GetFiguresInRange(parameters.HexObject.Hex, 1, true))
+							{
+								if(state.Performer.EnemiesWith(figure))
+								{
+									await AbilityCmd.SufferDamage(state, figure, 2);
+									await AbilityCmd.AddCondition(state, figure, Conditions.Curse);
+								}
+							}
+
+							ActionState actionState = new ActionState(state.ActionState, state.Performer,
+							[
+								HealAbility.Builder()
+									.WithHealValue(3)
+									.WithCustomGetTargets((state, list) =>
+									{
+										foreach(Figure figure in RangeHelper.GetFiguresInRange(parameters.HexObject.Hex, 1, true))
+										{
+											if(state.Performer.AlliedWith(figure))
+											{
+												list.Add(figure);
+											}
+										}
+									})
+									.Build()
+							]);
+							await actionState.Perform();
+						}
+					);
+
+					await GDTask.CompletedTask;
+				})
+				.WithOnDeactivate(async state =>
+				{
+					ScenarioEvents.HexObjectDestroyedEvent.Unsubscribe(state, this);
+
+					await GDTask.CompletedTask;
+				})
+				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.9f))) //TODO
+				.Build())
 		];
 
 		public override int XP => 2;

@@ -182,7 +182,7 @@ public class SpawnAbility : ActiveAbility<SpawnAbility.State>
 					{
 						Hex hex = list[i];
 
-						if(!hex.IsEmpty())
+						if(!hex.IsUnoccupied())
 						{
 							list.RemoveAt(i);
 						}

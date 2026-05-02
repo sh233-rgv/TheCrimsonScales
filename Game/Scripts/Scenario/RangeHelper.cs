@@ -155,7 +155,10 @@ public static class RangeHelper
 		{
 			foreach(Figure figure in hex.GetHexObjectsOfType<Figure>())
 			{
-				yield return figure;
+				if(figure.IsFigure)
+				{
+					yield return figure;
+				}
 			}
 		}
 	}

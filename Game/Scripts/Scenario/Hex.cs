@@ -92,6 +92,21 @@ public partial class Hex : Node2D
 		}
 	}
 
+	public IEnumerable<Figure> GetFigures()
+	{
+		for(int i = HexObjects.Count - 1; i >= 0; i--)
+		{
+			HexObject hexObject = HexObjects[i];
+			if(hexObject is Figure figure)
+			{
+				if(figure.IsFigure)
+				{
+					yield return figure;
+				}
+			}
+		}
+	}
+
 	public bool IsEmpty()
 	{
 		foreach(HexObject hexObject in HexObjects)
