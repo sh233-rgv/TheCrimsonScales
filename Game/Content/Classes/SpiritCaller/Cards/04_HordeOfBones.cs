@@ -12,8 +12,8 @@ public class HordeOfBones : SpiritCallerCardModel<HordeOfBones.CardTop, HordeOfB
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SpawnAbility.Builder()
-				.WithName("Phantom Hound")
-				.WithTexturePath("res://Content/Classes/SpiritCaller/Summons/phantom_hound.png")
+				.WithName("Skeletal Archer")
+				.WithTexturePath("res://Content/Classes/SpiritCaller/Summons/skeletal_archer.png")
 				.WithHealth(2)
 				.WithMove(2)
 				.WithAttack(1)

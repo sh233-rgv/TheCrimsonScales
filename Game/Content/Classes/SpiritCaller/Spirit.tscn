@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://jgexfi78ryp4"]
 
-[ext_resource type="Script" uid="uid://fm3my30cicdh" path="res://Content/Classes/SpiritCaller/Spirit.cs" id="1_cwcxa"]
+[ext_resource type="Script" path="res://Content/Classes/SpiritCaller/Spirit.cs" id="1_cwcxa"]
 [ext_resource type="Script" uid="uid://cga0mgtsgequm" path="res://Scripts/Scenario/SnapToHexGrid.cs" id="2_oad2q"]
 [ext_resource type="Texture2D" uid="uid://cuqpi0vkwqe6k" path="res://Art/Other/Hexagon.svg" id="3_e00qb"]
 [ext_resource type="Material" uid="uid://1x8yfhwue0ki" path="res://Materials/Tint.tres" id="4_u3cjp"]
 [ext_resource type="Texture2D" uid="uid://ck1wj8cyw1lgq" path="res://Content/Classes/SpiritCaller/Summons/bat_cloudMapIcon.tres" id="5_oad2q"]
 [ext_resource type="Texture2D" uid="uid://gkm342ht1q3j" path="res://Art/Other/Outline1H.svg" id="6_su5fo"]
 [ext_resource type="PackedScene" uid="uid://2cvn7adxaika" path="res://Scenes/Scenario/FigureViewComponent.tscn" id="7_wdfa1"]
-[ext_resource type="Script" uid="uid://3mftcoeqeg40" path="res://Content/Classes/SpiritCaller/SpiritViewComponent.cs" id="8_cwcxa"]
+[ext_resource type="Script" path="res://Content/Classes/SpiritCaller/SpiritViewComponent.cs" id="8_cwcxa"]
 [ext_resource type="Texture2D" uid="uid://ik22o4ue7m2t" path="res://Art/Icons/Other/Circle.svg" id="9_utnk4"]
 [ext_resource type="FontFile" uid="uid://c4k3lpnj0wc06" path="res://Fonts/PirataOne-Gloomhaven.ttf" id="10_d5r2h"]
 
@@ -39,6 +39,9 @@ texture = ExtResource("6_su5fo")
 
 [node name="FigureViewComponent" parent="." unique_id=1347457643 instance=ExtResource("7_wdfa1")]
 
+[node name="TextureProgressBar" parent="FigureViewComponent/Health" parent_id_path=PackedInt32Array(1347457643, 375530829) index="0" unique_id=2028947764]
+tint_progress = Color(0.35686275, 0.7372549, 0.38039216, 1)
+
 [node name="SpiritViewComponent" type="Node2D" parent="." unique_id=1932905802 node_paths=PackedStringArray("StandeeNumberCircle", "StandeeNumberLabel", "Sprite")]
 script = ExtResource("8_cwcxa")
 StandeeNumberCircle = NodePath("StandeeNumber")
@@ -68,3 +71,5 @@ text = "8"
 label_settings = SubResource("LabelSettings_mq1of")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[editable path="FigureViewComponent"]

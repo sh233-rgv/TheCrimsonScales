@@ -24,6 +24,8 @@ public partial class Spirit : Figure
 	public override Texture2D MapIconTexture => _spiritViewComponent.Sprite.Texture;
 	public override Node2D Visual => _spiritViewComponent.Sprite;
 
+	public override bool IsFigure => false;
+
 	public RangeType RangeType => Range.HasValue ? RangeType.Range : RangeType.Melee;
 
 	public override async GDTask Init(Hex originHex, int rotationIndex = 0, bool hexCanBeNull = false)
@@ -76,8 +78,6 @@ public partial class Spirit : Figure
 
 		UpdateInitiative();
 
-		//CanTakeTurn = false;
-
 		if(Move.HasValue)
 		{
 			MoveAbility moveAbility = MoveAbility.Builder().WithDistance(Move.Value).Build();
@@ -101,44 +101,6 @@ public partial class Spirit : Figure
 				await Destroy(parameters.Immediately, parameters.ForceDestroy);
 			}
 		);
-
-		// ScenarioEvents.FigureFoundFocusEvent.Subscribe(this, CharacterOwner,
-		// 	parameters =>
-		// 		parameters.Performer == this &&
-		// 		parameters.AbilityState is MoveAbility.State &&
-		// 		parameters.Focus == null,
-		// 	async parameters =>
-		// 	{
-		// 		parameters.SetNewFocus(CharacterOwner);
-		//
-		// 		ScenarioCheckEvents.AIMoveParametersCheckEvent.Subscribe(this, CharacterOwner,
-		// 			parameters => parameters.Performer == this,
-		// 			parameters =>
-		// 			{
-		// 				parameters.SetRange(1);
-		// 				parameters.SetRangeType(RangeType.Melee);
-		// 				parameters.SetTargets(1);
-		// 				parameters.SetAOEPattern(null);
-		// 			}
-		// 		);
-		//
-		// 		ScenarioEvents.AbilityEndedEvent.Subscribe(this, CharacterOwner,
-		// 			parameters => parameters.Performer == this,
-		// 			async parameters =>
-		// 			{
-		// 				ScenarioEvents.AbilityEndedEvent.Unsubscribe(this, CharacterOwner);
-		// 				ScenarioCheckEvents.AIMoveParametersCheckEvent.Unsubscribe(this, CharacterOwner);
-		//
-		// 				await GDTask.CompletedTask;
-		// 			}
-		// 		);
-		//
-		// 		await GDTask.CompletedTask;
-		// 	},
-		// 	effectType: EffectType.Selectable,
-		// 	effectButtonParameters: new IconEffectButton.Parameters(Icons.Move),
-		// 	effectInfoViewParameters: new TextEffectInfoView.Parameters("Choose for the spirit to move towards the spawner")
-		// );
 	}
 
 	protected override async GDTask TakeTurn()
@@ -149,6 +111,14 @@ public partial class Spirit : Figure
 
 		_turnActionState = new ActionState(this, this, authority, _abilities);
 		await _turnActionState.Perform();
+	}
+
+	protected override async GDTask EndTurn()
+	{
+		await base.EndTurn();
+
+		// Spirits suffer 1 damage at the end of their turns
+		await AbilityCmd.SufferDamage(this, 1, this);
 	}
 
 	public async GDTask RemoveTurnActionFromActive()
@@ -163,7 +133,6 @@ public partial class Spirit : Figure
 	{
 		await RemoveTurnActionFromActive();
 
-		//ScenarioEvents.FigureFoundFocusEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioEvents.HexObjectDestroyedEvent.Unsubscribe(this, CharacterOwner);
 
 		DeregisterSpirit(this);

@@ -29,12 +29,12 @@ public class SpiritCallerModel : ClassModel
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
 		ModelDB.AbilityCard<BurningPit>(),
-		ModelDB.AbilityCard<BurningPit>(),
-		ModelDB.AbilityCard<BurningPit>(),
-		ModelDB.AbilityCard<BurningPit>(),
-		ModelDB.AbilityCard<BurningPit>(),
-		ModelDB.AbilityCard<BurningPit>(),
-		ModelDB.AbilityCard<BurningPit>(),
+		ModelDB.AbilityCard<ConfidenceRitual>(),
+		ModelDB.AbilityCard<DimmedDefense>(),
+		ModelDB.AbilityCard<EtherealCanine>(),
+		ModelDB.AbilityCard<HordeOfBones>(),
+		ModelDB.AbilityCard<IncorporealTransport>(),
+		ModelDB.AbilityCard<MidnightFeast>(),
 		ModelDB.AbilityCard<BurningPit>(),
 		ModelDB.AbilityCard<BurningPit>(),
 		ModelDB.AbilityCard<BurningPit>(),

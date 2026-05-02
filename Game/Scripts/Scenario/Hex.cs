@@ -96,9 +96,16 @@ public partial class Hex : Node2D
 	{
 		foreach(HexObject hexObject in HexObjects)
 		{
+			if(hexObject is Figure figure)
+			{
+				if(figure.IsFigure)
+				{
+					return false;
+				}
+			}
+
 			switch(hexObject)
 			{
-				case Figure:
 				case Obstacle:
 				case DifficultTerrain:
 				case HazardousTerrain:

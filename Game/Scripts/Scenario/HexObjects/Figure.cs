@@ -53,6 +53,8 @@ public abstract partial class Figure : HexObject, IActionSource
 
 	public bool IsDead => IsDestroyed;
 
+	public virtual bool IsFigure => true;
+
 	public event Action<Figure> HealthChangedEvent;
 	public event Action<Figure> MaxHealthChangedEvent;
 	public event Action<Figure> InitiativeChangedEvent;
