@@ -17,8 +17,7 @@ public class BurningPit : SpiritCallerCardModel<BurningPit.CardTop, BurningPit.C
 				.WithName("Blazing Fire")
 				.WithTexturePath("res://Content/Classes/SpiritCaller/Summons/blazing_fire.png")
 				.WithHealth(2)
-				.Build()
-			),
+				.Build()),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -49,8 +48,7 @@ public class BurningPit : SpiritCallerCardModel<BurningPit.CardTop, BurningPit.C
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.WithMandatory(true)
 				.WithSkipConfirmation()
-				.Build()
-			)
+				.Build())
 		];
 
 		public override int XP => 1;
