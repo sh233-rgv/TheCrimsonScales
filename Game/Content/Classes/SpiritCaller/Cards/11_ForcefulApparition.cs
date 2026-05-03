@@ -17,9 +17,9 @@ public class ForcefulApparition : SpiritCallerCardModel<ForcefulApparition.CardT
 				.WithName("Leeching Phantasm")
 				.WithTexturePath("res://Content/Classes/SpiritCaller/Summons/leeching_phantasm.png")
 				.WithHealth(2)
-				.WithMove(3)
+				.WithMove(2)
 				.WithAttack(2)
-				.WithTraits(new PierceTrait(99), new ApplyConditionTrait(Conditions.Immobilize))
+				//TODO: .WithTraits(new trait)
 				.Build()),
 		];
 

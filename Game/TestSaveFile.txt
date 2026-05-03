@@ -387,7 +387,25 @@
       {
         "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
         "CardReferenceId": 26,
-        "AbilityCardSection": 1
+        "AbilityCardSection": 0
+      },
+      {
+        "$type": "HexSelectionPrompt+Answer, Game",
+        "CoordSets": [
+          {
+            "X": -1,
+            "Y": 2
+          }
+        ]
+      },
+      {
+        "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
+        "CardReferenceId": 36,
+        "AbilityCardSection": 3
+      },
+      {
+        "$type": "MovePrompt+Answer, Game",
+        "Skipped": true
       }
     ]
   },

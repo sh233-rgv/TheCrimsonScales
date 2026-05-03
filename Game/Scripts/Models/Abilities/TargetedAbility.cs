@@ -44,7 +44,7 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 	public Action<TargetedAbilityState, List<Figure>> AbilityCustomGetTargets { get; set; }
 	public Func<TargetedAbilityState, Figure, bool> AbilityFilterTargets { get; set; }
 	public AOEPattern AbilityAOEPattern { get; set; }
-	public Hex AbilityPerformHex { private get; set; }
+	public Hex AbilityPerformHex { get; set; }
 
 	public RangeType AbilityRangeType { get; set; }
 	public int AbilityRange { get; set; }
@@ -151,8 +151,13 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 		Hex hex = await AbilityCmd.SelectHex(this, getValidHexes, mandatory, "Select a hex to perform this ability from");
 		if(hex != null)
 		{
-			AbilityPerformHex = hex;
+			SetPerformHex(hex);
 		}
+	}
+
+	public void SetPerformHex(Hex hex)
+	{
+		AbilityPerformHex = hex;
 	}
 
 	public void SetTarget(Target target)
@@ -313,6 +318,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 	public ConditionModel[] Conditions { get; private set; } = [];
 
 	public Action<T, List<Figure>> CustomGetTargets { get; private set; }
+	public Func<T, Hex> CustomGetPerformHex { get; private set; }
 	public Func<T, Figure, bool> FilterTargets { get; private set; }
 
 	public bool IsMultiTarget =>
@@ -442,6 +448,12 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 			return (TBuilder)this;
 		}
 
+		public TBuilder WithCustomGetPerformHex(Func<T, Hex> getPerformHex)
+		{
+			Obj.CustomGetPerformHex = getPerformHex;
+			return (TBuilder)this;
+		}
+
 		public TBuilder WithFilterTargets(Func<T, Figure, bool> filterTargets)
 		{
 			Obj.FilterTargets = filterTargets;
@@ -493,6 +505,12 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 
 	protected override async GDTask Perform(T abilityState)
 	{
+		if(CustomGetPerformHex != null)
+		{
+			Hex performHex = CustomGetPerformHex(abilityState);
+			abilityState.SetPerformHex(performHex);
+		}
+
 		Figure performer = abilityState.Performer;
 
 		if(abilityState.AbilityAOEPattern != null)

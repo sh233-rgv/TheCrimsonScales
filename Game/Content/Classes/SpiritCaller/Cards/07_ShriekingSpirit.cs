@@ -17,13 +17,13 @@ public class ShriekingSpirit : SpiritCallerCardModel<ShriekingSpirit.CardTop, Sh
 				.WithName("Wailing Banshee")
 				.WithTexturePath("res://Content/Classes/SpiritCaller/Summons/wailing_banshee.png")
 				.WithHealth(2)
-				.WithMove(2)
+				.WithMove(3)
 				.WithAttack(2)
-				//TODO: .WithTraits(new trait)
+				.WithTraits(new PierceTrait(99), new ApplyConditionTrait(Conditions.Immobilize))
 				.Build()),
 		];
 
-		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Ice)];
+		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Air)];
 		public override int XP => 2;
 		public override bool Persistent => true;
 		public override bool Loss => true;

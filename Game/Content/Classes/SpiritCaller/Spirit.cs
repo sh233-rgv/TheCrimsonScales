@@ -101,6 +101,29 @@ public partial class Spirit : Figure
 				await Destroy(parameters.Immediately, parameters.ForceDestroy);
 			}
 		);
+
+		ScenarioCheckEvents.FlyingCheckEvent.Subscribe(this, CharacterOwner,
+			parameters => parameters.Figure == this,
+			parameters => parameters.SetFlying(true)
+		);
+
+		ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(this, CharacterOwner,
+			canApplyParameters =>
+				canApplyParameters.PotentialTarget == this,
+			applyParameters =>
+			{
+				applyParameters.SetCannotBeFocused();
+			}
+		);
+
+		ScenarioCheckEvents.CanBeTargetedCheckEvent.Subscribe(this, CharacterOwner,
+			canApplyParameters =>
+				canApplyParameters.PotentialTarget == this,
+			applyParameters =>
+			{
+				applyParameters.SetCannotBeTargeted();
+			}
+		);
 	}
 
 	protected override async GDTask TakeTurn()
@@ -134,6 +157,9 @@ public partial class Spirit : Figure
 		await RemoveTurnActionFromActive();
 
 		ScenarioEvents.HexObjectDestroyedEvent.Unsubscribe(this, CharacterOwner);
+		ScenarioCheckEvents.FlyingCheckEvent.Unsubscribe(this, CharacterOwner);
+		ScenarioCheckEvents.CanBeFocusedCheckEvent.Unsubscribe(this, CharacterOwner);
+		ScenarioCheckEvents.CanBeTargetedCheckEvent.Unsubscribe(this, CharacterOwner);
 
 		DeregisterSpirit(this);
 

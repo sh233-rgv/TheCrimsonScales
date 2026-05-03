@@ -52,7 +52,7 @@ public class UnholySacrifice : SpiritCallerCardModel<UnholySacrifice.CardTop, Un
 								PullAbility.Builder()
 									.WithPull(1)
 									.WithRange(2)
-									//TODO: As if occupying a hex with the spirit that died
+									.WithCustomGetPerformHex(pullState => parameters.HexObject.Hex)
 									.Build()
 							]);
 							await actionState.Perform();

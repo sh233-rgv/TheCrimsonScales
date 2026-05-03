@@ -47,11 +47,11 @@ public class MidnightFeast : SpiritCallerCardModel<MidnightFeast.CardTop, Midnig
 							[
 								HealAbility.Builder()
 									.WithHealValue(3)
-									.WithCustomGetTargets((state, list) =>
+									.WithCustomGetTargets((healState, list) =>
 									{
 										foreach(Figure figure in RangeHelper.GetFiguresInRange(parameters.HexObject.Hex, 1, true))
 										{
-											if(state.Performer.AlliedWith(figure))
+											if(healState.Performer.AlliedWith(figure))
 											{
 												list.Add(figure);
 											}

@@ -36,7 +36,28 @@ public class WhistlingWinds : SpiritCallerCardModel<WhistlingWinds.CardTop, Whis
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Curse))}")
 					)
 				])
-				//TODO: As if occupying a hex with a spirit
+				.WithCustomGetPerformHex(state => state.GetCustomValue<Hex>(this, "Hex"))
+				.WithConditionalAbilityCheck(async state =>
+				{
+					Figure figure = await AbilityCmd.SelectFigure(state, list =>
+					{
+						foreach(Figure figure in GameController.Instance.Map.Figures)
+						{
+							if(figure is Spirit)
+							{
+								list.Add(figure);
+							}
+						}
+					}, hintText: () => $"Choose a Spirit");
+
+					if(figure == null)
+					{
+						return false;
+					}
+
+					state.SetCustomValue(this, "Hex", figure.Hex);
+					return true;
+				})
 				.Build()),
 		];
 	}
@@ -66,12 +87,6 @@ public class WhistlingWinds : SpiritCallerCardModel<WhistlingWinds.CardTop, Whis
 					}
 				})
 				.WithTarget(Target.TargetAll)
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-
-					return state.Performer.Hex.HasHexObjectOfType<Spirit>();
-				})
 				.Build()),
 		];
 
