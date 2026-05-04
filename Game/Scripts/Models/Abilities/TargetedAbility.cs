@@ -319,6 +319,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 
 	public Action<T, List<Figure>> CustomGetTargets { get; private set; }
 	public Func<T, Hex> CustomGetPerformHex { get; private set; }
+	public bool CanTargetNonFigures { get; private set; }
 	public Func<T, Figure, bool> FilterTargets { get; private set; }
 
 	public bool IsMultiTarget =>
@@ -451,6 +452,12 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 		public TBuilder WithCustomGetPerformHex(Func<T, Hex> getPerformHex)
 		{
 			Obj.CustomGetPerformHex = getPerformHex;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithCanTargetNonFigures()
+		{
+			Obj.CanTargetNonFigures = true;
 			return (TBuilder)this;
 		}
 
@@ -892,6 +899,11 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 			}
 
 			if(figure.IsDead)
+			{
+				remove = true;
+			}
+
+			if(!CanTargetNonFigures && !figure.IsFigure)
 			{
 				remove = true;
 			}

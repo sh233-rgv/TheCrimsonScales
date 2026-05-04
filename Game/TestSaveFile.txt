@@ -48,47 +48,42 @@
           "SavedBottomEnhancements": {}
         },
         {
-          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.TOXIC_CHARM",
           "SavedTopEnhancements": {},
           "SavedBottomEnhancements": {}
         },
         {
-          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.WHISTLING_WINDS",
           "SavedTopEnhancements": {},
           "SavedBottomEnhancements": {}
         },
         {
-          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.FEAR_THE_REAPER",
           "SavedTopEnhancements": {},
           "SavedBottomEnhancements": {}
         },
         {
-          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.FORCEFUL_APPARITION",
           "SavedTopEnhancements": {},
           "SavedBottomEnhancements": {}
         },
         {
-          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
-          "SavedTopEnhancements": {},
-          "SavedBottomEnhancements": {}
-        },
-        {
-          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.BURNING_PIT",
+          "ModelId": "SPIRIT_CALLER_CARD_MODEL`2.UNHOLY_SACRIFICE",
           "SavedTopEnhancements": {},
           "SavedBottomEnhancements": {}
         }
       ],
       "HandAbilityCardIndices": [
-        2,
-        7,
-        3,
-        1,
         0,
-        8,
-        9,
-        5,
+        1,
+        2,
+        3,
         4,
-        6
+        5,
+        6,
+        7,
+        8,
+        9
       ],
       "Gold": 1030,
       "XP": 0,
@@ -111,7 +106,7 @@
       "TotalAvailablePerkCount": 0,
       "AcquiredPerkIndices": [],
       "CheckmarkCount": 0,
-      "Guid": "6079ab80-ef5c-43e4-b476-ce71359e0c69"
+      "Guid": "22132ec9-12b9-494d-9042-f9b0da4226f2"
     },
     {
       "ClassModelId": "CLASS_MODEL.STARSLINGER_MODEL",
@@ -217,7 +212,7 @@
           "Progress": 0
         }
       },
-      "Guid": "4e016637-3c5f-46b9-a350-0bcf511c785e"
+      "Guid": "59c8d1d9-888e-4b55-803e-0a4d52ac743c"
     }
   ],
   "RetiredCharacters": [],
@@ -335,7 +330,7 @@
     }
   },
   "SavedScenario": {
-    "Id": "ae7c06fd-2eb3-4698-9553-e09dac3781d5",
+    "Id": "108cf751-2a37-44ac-bbd5-27ec6190ecb0",
     "AppVersion": "0.4.1",
     "ScenarioModelId": "SCENARIO_MODEL.TEST_SCENARIO",
     "Seed": 0,
@@ -345,15 +340,15 @@
       "CharacterScenarioSetupStates": [
         {
           "StartHexCoords": {
-            "X": -1,
+            "X": 0,
             "Y": 1
           },
-          "SelectedBattleGoalIndex": 1
+          "SelectedBattleGoalIndex": 0
         },
         {
           "StartHexCoords": {
-            "X": 0,
-            "Y": 1
+            "X": -1,
+            "Y": 2
           },
           "SelectedBattleGoalIndex": 1
         }
@@ -365,15 +360,15 @@
         "CharacterCardSelectionStates": [
           {
             "ChosenCardReferenceIds": [
-              36,
-              26
+              27,
+              29
             ],
             "LongResting": false
           },
           {
             "ChosenCardReferenceIds": [
-              47,
-              46
+              53,
+              52
             ],
             "LongResting": false
           }
@@ -381,137 +376,42 @@
         "CurrentPromptIndex": 0,
         "SyncedActions": [],
         "Completed": true
-      },
-      {
-        "CharacterCardSelectionStates": [
-          {
-            "ChosenCardReferenceIds": [],
-            "LongResting": false
-          },
-          {
-            "ChosenCardReferenceIds": [],
-            "LongResting": false
-          }
-        ],
-        "CurrentPromptIndex": 18,
-        "SyncedActions": [],
-        "Completed": false
       }
     ],
     "PromptAnswers": [
       {
         "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
-        "CardReferenceId": 26,
+        "CardReferenceId": 27,
         "AbilityCardSection": 0
       },
       {
         "$type": "HexSelectionPrompt+Answer, Game",
         "CoordSets": [
           {
-            "X": -1,
+            "X": 0,
             "Y": 2
           }
         ]
       },
       {
         "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
-        "CardReferenceId": 36,
-        "AbilityCardSection": 3
-      },
-      {
-        "$type": "MovePrompt+Answer, Game",
-        "Skipped": true
-      },
-      {
-        "$type": "ScenarioEventPrompt+Answer, Game"
-      },
-      {
-        "$type": "MovePrompt+Answer, Game",
-        "Path": [
-          {
-            "X": 0,
-            "Y": 1
-          },
-          {
-            "X": 1,
-            "Y": 0
-          },
-          {
-            "X": 2,
-            "Y": 0
-          },
-          {
-            "X": 2,
-            "Y": -1
-          }
-        ],
-        "MoveSpent": 4
-      },
-      {
-        "$type": "MovePrompt+Answer, Game",
-        "Skipped": true
-      },
-      {
-        "$type": "TargetSelectionPrompt+Answer, Game",
-        "FigureReferenceId": 21
-      },
-      {
-        "$type": "ConfirmPrompt+Answer, Game",
-        "Confirmed": true,
-        "ImmediateCompletion": true
-      },
-      {
-        "$type": "MonsterTargetSelectionPrompt+Answer, Game",
-        "Skipped": true,
-        "ImmediateCompletion": true
-      },
-      {
-        "$type": "MonsterMovePrompt+Answer, Game",
-        "Path": [
-          {
-            "X": 1,
-            "Y": -1
-          },
-          {
-            "X": 2,
-            "Y": -1
-          }
-        ],
-        "MoveSpent": 2,
-        "ImmediateCompletion": true
-      },
-      {
-        "$type": "MonsterTargetSelectionPrompt+Answer, Game",
-        "Skipped": true,
-        "ImmediateCompletion": true
-      },
-      {
-        "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
-        "CardReferenceId": 47,
+        "CardReferenceId": 29,
         "AbilityCardSection": 1
       },
       {
-        "$type": "MovePrompt+Answer, Game",
-        "Path": [
-          {
-            "X": 1,
-            "Y": 1
-          }
-        ],
-        "MoveSpent": 1
-      },
-      {
-        "$type": "MovePrompt+Answer, Game",
-        "Skipped": true
-      },
-      {
-        "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
-        "CardReferenceId": 46,
-        "AbilityCardSection": 0
-      },
-      {
-        "$type": "TargetSelectionPrompt+Answer, Game",
+        "$type": "ScenarioEventPrompt+Answer, Game",
         "SelectedEffectIndex": 0
+      },
+      {
+        "$type": "ScenarioEventPrompt+Answer, Game",
+        "ImmediateCompletion": true
+      },
+      {
+        "$type": "TeleportPrompt+Answer, Game",
+        "DestinationCoords": {
+          "X": 1,
+          "Y": 1
+        }
       }
     ]
   },
@@ -541,87 +441,87 @@
   },
   "SavedEvents": {
     "CityEventDeckIds": [
-      "CITY_EVENT_MODEL`2.CITY11",
-      "CITY_EVENT_MODEL`2.CITY20",
-      "CITY_EVENT_MODEL`2.CITY27",
-      "CITY_EVENT_MODEL`2.CITY05",
-      "CITY_EVENT_MODEL`2.CITY26",
-      "CITY_EVENT_MODEL`2.CITY01",
-      "CITY_EVENT_MODEL`2.CITY51",
-      "CITY_EVENT_MODEL`2.CITY23",
-      "CITY_EVENT_MODEL`2.CITY19",
-      "CITY_EVENT_MODEL`2.CITY02",
-      "CITY_EVENT_MODEL`2.CITY10",
-      "CITY_EVENT_MODEL`2.CITY24",
-      "CITY_EVENT_MODEL`2.CITY14",
-      "CITY_EVENT_MODEL`2.CITY16",
-      "CITY_EVENT_MODEL`2.CITY08",
-      "CITY_EVENT_MODEL`2.CITY12",
-      "CITY_EVENT_MODEL`2.CITY15",
-      "CITY_EVENT_MODEL`2.CITY18",
-      "CITY_EVENT_MODEL`2.CITY22",
-      "CITY_EVENT_MODEL`2.CITY41",
-      "CITY_EVENT_MODEL`2.CITY06",
-      "CITY_EVENT_MODEL`2.CITY28",
-      "CITY_EVENT_MODEL`2.CITY04",
-      "CITY_EVENT_MODEL`2.CITY39",
-      "CITY_EVENT_MODEL`2.CITY30",
-      "CITY_EVENT_MODEL`2.CITY25",
-      "CITY_EVENT_MODEL`2.CITY53",
-      "CITY_EVENT_MODEL`2.CITY13",
       "CITY_EVENT_MODEL`2.CITY21",
       "CITY_EVENT_MODEL`2.CITY03",
+      "CITY_EVENT_MODEL`2.CITY28",
+      "CITY_EVENT_MODEL`2.CITY05",
+      "CITY_EVENT_MODEL`2.CITY30",
+      "CITY_EVENT_MODEL`2.CITY26",
+      "CITY_EVENT_MODEL`2.CITY23",
       "CITY_EVENT_MODEL`2.CITY07",
-      "CITY_EVENT_MODEL`2.CITY29"
+      "CITY_EVENT_MODEL`2.CITY18",
+      "CITY_EVENT_MODEL`2.CITY08",
+      "CITY_EVENT_MODEL`2.CITY04",
+      "CITY_EVENT_MODEL`2.CITY12",
+      "CITY_EVENT_MODEL`2.CITY29",
+      "CITY_EVENT_MODEL`2.CITY13",
+      "CITY_EVENT_MODEL`2.CITY15",
+      "CITY_EVENT_MODEL`2.CITY24",
+      "CITY_EVENT_MODEL`2.CITY51",
+      "CITY_EVENT_MODEL`2.CITY27",
+      "CITY_EVENT_MODEL`2.CITY14",
+      "CITY_EVENT_MODEL`2.CITY25",
+      "CITY_EVENT_MODEL`2.CITY06",
+      "CITY_EVENT_MODEL`2.CITY19",
+      "CITY_EVENT_MODEL`2.CITY11",
+      "CITY_EVENT_MODEL`2.CITY02",
+      "CITY_EVENT_MODEL`2.CITY53",
+      "CITY_EVENT_MODEL`2.CITY41",
+      "CITY_EVENT_MODEL`2.CITY16",
+      "CITY_EVENT_MODEL`2.CITY01",
+      "CITY_EVENT_MODEL`2.CITY10",
+      "CITY_EVENT_MODEL`2.CITY22",
+      "CITY_EVENT_MODEL`2.CITY20",
+      "CITY_EVENT_MODEL`2.CITY39"
     ],
     "TopCityDeckQueueIds": [],
     "RoadEventDeckIds": [
-      "ROAD_EVENT_MODEL`2.ROAD23",
-      "ROAD_EVENT_MODEL`2.ROAD11",
-      "ROAD_EVENT_MODEL`2.ROAD53",
-      "ROAD_EVENT_MODEL`2.ROAD05",
-      "ROAD_EVENT_MODEL`2.ROAD29",
-      "ROAD_EVENT_MODEL`2.ROAD28",
-      "ROAD_EVENT_MODEL`2.ROAD10",
-      "ROAD_EVENT_MODEL`2.ROAD03",
-      "ROAD_EVENT_MODEL`2.ROAD22",
-      "ROAD_EVENT_MODEL`2.ROAD18",
-      "ROAD_EVENT_MODEL`2.ROAD24",
-      "ROAD_EVENT_MODEL`2.ROAD27",
-      "ROAD_EVENT_MODEL`2.ROAD19",
-      "ROAD_EVENT_MODEL`2.ROAD51",
-      "ROAD_EVENT_MODEL`2.ROAD20",
       "ROAD_EVENT_MODEL`2.ROAD02",
-      "ROAD_EVENT_MODEL`2.ROAD41",
-      "ROAD_EVENT_MODEL`2.ROAD26",
-      "ROAD_EVENT_MODEL`2.ROAD16",
-      "ROAD_EVENT_MODEL`2.ROAD06",
-      "ROAD_EVENT_MODEL`2.ROAD13",
-      "ROAD_EVENT_MODEL`2.ROAD30",
-      "ROAD_EVENT_MODEL`2.ROAD15",
-      "ROAD_EVENT_MODEL`2.ROAD08",
+      "ROAD_EVENT_MODEL`2.ROAD29",
+      "ROAD_EVENT_MODEL`2.ROAD03",
       "ROAD_EVENT_MODEL`2.ROAD09",
-      "ROAD_EVENT_MODEL`2.ROAD04",
-      "ROAD_EVENT_MODEL`2.ROAD01",
+      "ROAD_EVENT_MODEL`2.ROAD19",
       "ROAD_EVENT_MODEL`2.ROAD14",
+      "ROAD_EVENT_MODEL`2.ROAD06",
+      "ROAD_EVENT_MODEL`2.ROAD27",
+      "ROAD_EVENT_MODEL`2.ROAD10",
+      "ROAD_EVENT_MODEL`2.ROAD01",
+      "ROAD_EVENT_MODEL`2.ROAD13",
+      "ROAD_EVENT_MODEL`2.ROAD16",
+      "ROAD_EVENT_MODEL`2.ROAD30",
+      "ROAD_EVENT_MODEL`2.ROAD53",
+      "ROAD_EVENT_MODEL`2.ROAD04",
+      "ROAD_EVENT_MODEL`2.ROAD26",
+      "ROAD_EVENT_MODEL`2.ROAD18",
+      "ROAD_EVENT_MODEL`2.ROAD23",
+      "ROAD_EVENT_MODEL`2.ROAD24",
+      "ROAD_EVENT_MODEL`2.ROAD08",
+      "ROAD_EVENT_MODEL`2.ROAD28",
+      "ROAD_EVENT_MODEL`2.ROAD41",
+      "ROAD_EVENT_MODEL`2.ROAD07",
+      "ROAD_EVENT_MODEL`2.ROAD15",
       "ROAD_EVENT_MODEL`2.ROAD21",
+      "ROAD_EVENT_MODEL`2.ROAD05",
+      "ROAD_EVENT_MODEL`2.ROAD20",
+      "ROAD_EVENT_MODEL`2.ROAD22",
       "ROAD_EVENT_MODEL`2.ROAD17",
-      "ROAD_EVENT_MODEL`2.ROAD07"
+      "ROAD_EVENT_MODEL`2.ROAD11",
+      "ROAD_EVENT_MODEL`2.ROAD51"
     ],
     "TopRoadDeckQueueIds": [],
     "CanDrawCityEvent": false
   },
   "SavedPersonalQuests": {
     "PersonalQuestDeckIds": [
-      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.THRILL_SEEKER",
-      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.TRAP_SETTER",
-      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.HEALTH_FIRST",
-      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.EXPERIMENTATION",
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.LIMITLESS_SEARCHING",
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.EXPERIENCED_LEADER",
       "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.PREDATOR_AND_PREY",
       "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.CREATURES_IN_THE_NIGHT",
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.HEALTH_FIRST",
       "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.NATURAL_SELECTION",
-      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.EXPERIENCED_LEADER",
-      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.LIMITLESS_SEARCHING"
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.TRAP_SETTER",
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.EXPERIMENTATION",
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.THRILL_SEEKER"
     ]
   },
   "SavedPartyGoals": {

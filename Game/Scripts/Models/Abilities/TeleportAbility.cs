@@ -23,6 +23,7 @@ public class TeleportAbility : Ability<TeleportAbility.State>
 
 	public int Distance { get; private set; }
 	public Action<State, List<Hex>> CustomGetHexes { get; set; }
+	public Func<State, Hex, bool> FilterHexes { get; set; }
 
 	/// <summary>
 	/// A builder extending <see cref="Ability{T}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods
@@ -49,6 +50,12 @@ public class TeleportAbility : Ability<TeleportAbility.State>
 		public TBuilder WithCustomGetHexes(Action<State, List<Hex>> getHexes)
 		{
 			Obj.CustomGetHexes = getHexes;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithFilterHexes(Func<State, Hex, bool> filterHexes)
+		{
+			Obj.FilterHexes = filterHexes;
 			return (TBuilder)this;
 		}
 	}
@@ -97,7 +104,7 @@ public class TeleportAbility : Ability<TeleportAbility.State>
 			// Character teleporting
 			TeleportPrompt.Answer teleportAnswer =
 				await PromptManager.Prompt(
-					new TeleportPrompt(abilityState, performer, null, customHexes: customHexes,
+					new TeleportPrompt(abilityState, performer, null, customHexes: customHexes, filterHexes: FilterHexes,
 						getHintText: () => $"Select a destination for {Icons.HintText(Icons.Teleport)}{abilityState.Distance}"),
 					abilityState.Authority);
 

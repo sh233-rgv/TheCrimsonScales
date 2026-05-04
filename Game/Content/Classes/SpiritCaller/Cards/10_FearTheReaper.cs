@@ -36,12 +36,7 @@ public class FearTheReaper : SpiritCallerCardModel<FearTheReaper.CardTop, FearTh
 						{
 							usedRoundNumber = GameController.Instance.ScenarioPhaseManager.RoundIndex;
 							Spirit spirit = state.ActionState.GetAbilityState<SpawnAbility.State>(0).Spirit;
-							if(spirit.Health < spirit.MaxHealth)
-							{
-								spirit.SetHealth(spirit.Health + 1);
-							}
-
-							await GDTask.CompletedTask;
+							await spirit.RemoveDamageCounters(1);
 						}
 					);
 

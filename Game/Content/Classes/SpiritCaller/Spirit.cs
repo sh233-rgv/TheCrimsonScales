@@ -319,4 +319,16 @@ public partial class Spirit : Figure
 
 		parametersList.Add(new SpiritInfoItem.Parameters(this));
 	}
+
+	public async GDTask RemoveDamageCounters(int amount)
+	{
+		if(Health < MaxHealth)
+		{
+			int targetHealth = Health + amount;
+			targetHealth = Mathf.Min(targetHealth, MaxHealth);
+			SetHealth(targetHealth);
+		}
+
+		await GDTask.CompletedTask;
+	}
 }

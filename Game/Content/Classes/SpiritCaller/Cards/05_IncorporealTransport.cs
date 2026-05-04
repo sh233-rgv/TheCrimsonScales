@@ -47,6 +47,7 @@ public class IncorporealTransport : SpiritCallerCardModel<IncorporealTransport.C
 						}
 					}
 				})
+				.WithTarget(Target.Any | Target.TargetAll)
 				.WithConditionalAbilityCheck(async state =>
 				{
 					if(!await AbilityCmd.HasPerformedAbility(state, 0))

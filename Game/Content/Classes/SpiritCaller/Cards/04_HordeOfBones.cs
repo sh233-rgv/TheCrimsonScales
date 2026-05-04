@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Fractural.Tasks;
 
 public class HordeOfBones : SpiritCallerCardModel<HordeOfBones.CardTop, HordeOfBones.CardBottom>
 {
@@ -32,7 +33,31 @@ public class HordeOfBones : SpiritCallerCardModel<HordeOfBones.CardTop, HordeOfB
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			//TODO
+			new AbilityCardAbility(TeleportAbility.Builder()
+				.WithDistance(3)
+				.WithFilterHexes((state, hex) => hex.HasHexObjectOfType<Coin>())
+				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Dark))
+				.Build()),
+
+			new AbilityCardAbility(GrantAbility.Builder()
+				.WithAbilities(LootAbility.Builder()
+					.WithRange(1)
+					.WithCustomGetLootObtainer(state => state.ActionState.ParentActionState.Performer)
+					.Build())
+				.WithCustomGetTargets((state, list) =>
+				{
+					list.Add(state.Performer);
+					list.AddRange(Spirit.GetSpirits((Character)state.Performer));
+				})
+				.WithTarget(Target.Any)
+				.WithCanTargetNonFigures()
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return state.Performer is Character;
+				})
+				.Build())
 		];
 	}
 }
