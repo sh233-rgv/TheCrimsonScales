@@ -23,6 +23,7 @@ public class ConfidenceRitual : SpiritCallerCardModel<ConfidenceRitual.CardTop, 
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
+			//new AbilityCardAbility(OtherActiveAbility.Builder().WithOnActivate())
 			//TODO
 		];
 	}

@@ -304,7 +304,7 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask AddCharacterToken(AbilityState abilityState, Figure target, Func<RichTextParameters, string> getEffectText)
+	public static async GDTask AddCharacterToken(AbilityState abilityState, Figure target, TextHelper.LabelTextDelegate getEffectText)
 	{
 		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(abilityState, target,
 			parameters => parameters.Figure == target,
@@ -319,7 +319,7 @@ public static class AbilityCmd
 		await GDTask.CompletedTask;
 	}
 
-	public static async GDTask AddCharacterToken(Character character, Figure target, Func<RichTextParameters, string> getEffectText)
+	public static async GDTask AddCharacterToken(Character character, Figure target, TextHelper.LabelTextDelegate getEffectText)
 	{
 		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(character, target,
 			parameters => parameters.Figure == target,

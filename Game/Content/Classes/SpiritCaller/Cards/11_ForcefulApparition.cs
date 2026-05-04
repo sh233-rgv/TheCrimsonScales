@@ -19,8 +19,17 @@ public class ForcefulApparition : SpiritCallerCardModel<ForcefulApparition.CardT
 				.WithHealth(2)
 				.WithMove(2)
 				.WithAttack(2)
-				//TODO: .WithTraits(new trait)
-				.Build()),
+				.WithTraits(new ControlTargetTrait(
+					MoveAbility.Builder()
+						.WithDistance(2)
+						.WithOnAbilityEndedPerformed(async state =>
+						{
+							await AbilityCmd.AddCondition(null, state.Performer, Conditions.Stun);
+						})
+						.Build(),
+					textParameters =>
+						$"{Icons.Inline(Icons.Move, textParameters)}2, if this is performed, this figure gains {Icons.InlineCondition(Conditions.Stun, textParameters)}"))
+				.Build())
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse(Element.Ice)];

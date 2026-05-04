@@ -36,12 +36,11 @@ public class SpiritCallerModel : ClassModel
 		ModelDB.AbilityCard<IncorporealTransport>(),
 		ModelDB.AbilityCard<MidnightFeast>(),
 		ModelDB.AbilityCard<ShriekingSpirit>(),
-		ModelDB.AbilityCard<BurningPit>(),
-		ModelDB.AbilityCard<BurningPit>(),
-		ModelDB.AbilityCard<BurningPit>(),
-		ModelDB.AbilityCard<BurningPit>(),
-		ModelDB.AbilityCard<BurningPit>(),
-		ModelDB.AbilityCard<BurningPit>(),
+		ModelDB.AbilityCard<ToxicCharm>(),
+		ModelDB.AbilityCard<WhistlingWinds>(),
+		ModelDB.AbilityCard<FearTheReaper>(),
+		ModelDB.AbilityCard<ForcefulApparition>(),
+		ModelDB.AbilityCard<UnholySacrifice>(),
 	];
 
 	public override List<PerkModel> Perks { get; } =

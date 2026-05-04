@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
-using Godot;
 
 public class WhistlingWinds : SpiritCallerCardModel<WhistlingWinds.CardTop, WhistlingWinds.CardBottom>
 {
