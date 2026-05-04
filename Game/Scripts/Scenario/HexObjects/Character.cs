@@ -124,8 +124,8 @@ public partial class Character : Figure
 
 		PlayableAbilityCardCount = 2;
 
-		_figureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);
-		_figureViewComponent.ActivePS.SetModulate(OutlineColor);
+		FigureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);
+		FigureViewComponent.ActivePS.SetModulate(OutlineColor);
 
 		await GameController.Instance.Map.RegisterFigure(this);
 

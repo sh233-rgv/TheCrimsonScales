@@ -381,6 +381,21 @@
         "CurrentPromptIndex": 0,
         "SyncedActions": [],
         "Completed": true
+      },
+      {
+        "CharacterCardSelectionStates": [
+          {
+            "ChosenCardReferenceIds": [],
+            "LongResting": false
+          },
+          {
+            "ChosenCardReferenceIds": [],
+            "LongResting": false
+          }
+        ],
+        "CurrentPromptIndex": 18,
+        "SyncedActions": [],
+        "Completed": false
       }
     ],
     "PromptAnswers": [
@@ -406,6 +421,97 @@
       {
         "$type": "MovePrompt+Answer, Game",
         "Skipped": true
+      },
+      {
+        "$type": "ScenarioEventPrompt+Answer, Game"
+      },
+      {
+        "$type": "MovePrompt+Answer, Game",
+        "Path": [
+          {
+            "X": 0,
+            "Y": 1
+          },
+          {
+            "X": 1,
+            "Y": 0
+          },
+          {
+            "X": 2,
+            "Y": 0
+          },
+          {
+            "X": 2,
+            "Y": -1
+          }
+        ],
+        "MoveSpent": 4
+      },
+      {
+        "$type": "MovePrompt+Answer, Game",
+        "Skipped": true
+      },
+      {
+        "$type": "TargetSelectionPrompt+Answer, Game",
+        "FigureReferenceId": 21
+      },
+      {
+        "$type": "ConfirmPrompt+Answer, Game",
+        "Confirmed": true,
+        "ImmediateCompletion": true
+      },
+      {
+        "$type": "MonsterTargetSelectionPrompt+Answer, Game",
+        "Skipped": true,
+        "ImmediateCompletion": true
+      },
+      {
+        "$type": "MonsterMovePrompt+Answer, Game",
+        "Path": [
+          {
+            "X": 1,
+            "Y": -1
+          },
+          {
+            "X": 2,
+            "Y": -1
+          }
+        ],
+        "MoveSpent": 2,
+        "ImmediateCompletion": true
+      },
+      {
+        "$type": "MonsterTargetSelectionPrompt+Answer, Game",
+        "Skipped": true,
+        "ImmediateCompletion": true
+      },
+      {
+        "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
+        "CardReferenceId": 47,
+        "AbilityCardSection": 1
+      },
+      {
+        "$type": "MovePrompt+Answer, Game",
+        "Path": [
+          {
+            "X": 1,
+            "Y": 1
+          }
+        ],
+        "MoveSpent": 1
+      },
+      {
+        "$type": "MovePrompt+Answer, Game",
+        "Skipped": true
+      },
+      {
+        "$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
+        "CardReferenceId": 46,
+        "AbilityCardSection": 0
+      },
+      {
+        "$type": "TargetSelectionPrompt+Answer, Game",
+        "SelectedEffectIndex": 0
       }
     ]
   },

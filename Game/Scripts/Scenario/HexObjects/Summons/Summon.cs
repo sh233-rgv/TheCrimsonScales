@@ -35,8 +35,8 @@ public partial class Summon : Figure
 		_name = name;
 
 		_outline.SetSelfModulate(CharacterOwner.OutlineColor);
-		_figureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);
-		_figureViewComponent.ActivePS.SetModulate(OutlineColor);
+		FigureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);
+		FigureViewComponent.ActivePS.SetModulate(OutlineColor);
 
 		_summonViewComponent.StandeeNumberCircle.SetSelfModulate(OutlineColor);
 

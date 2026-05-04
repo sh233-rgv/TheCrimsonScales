@@ -82,8 +82,8 @@ public partial class Monster : Figure
 		}
 
 		_outline.SelfModulate = TypeColor;
-		_figureViewComponent.TurnStartPS.SelfModulate = TypeColor;
-		_figureViewComponent.ActivePS.Modulate = OutlineColor;
+		FigureViewComponent.TurnStartPS.SelfModulate = TypeColor;
+		FigureViewComponent.ActivePS.Modulate = OutlineColor;
 		_monsterViewComponent.StandeeNumberCircle.SelfModulate = TypeColor;
 		_monsterViewComponent.StandeeNumberCircle.Visible = MonsterType != MonsterType.Boss;
 

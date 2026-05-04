@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
+using GTweens.Builders;
 using GTweens.Easings;
 using GTweensGodot.Extensions;
 
@@ -8,6 +10,8 @@ public partial class Spirit : Figure
 {
 	[Export]
 	private Node2D _container;
+	[Export]
+	private Node2D _mask;
 
 	private SpiritViewComponent _spiritViewComponent;
 	private string _name;
@@ -35,11 +39,21 @@ public partial class Spirit : Figure
 
 	public RangeType RangeType => Range.HasValue ? RangeType.Range : RangeType.Melee;
 
+	public override void _Ready()
+	{
+		base._Ready();
+
+		_spiritViewComponent = GetViewComponent<SpiritViewComponent>();
+
+		_mask.Reparent(_container, false);
+		_outline.Reparent(_container, false);
+		FigureViewComponent.Reparent(_container, false);
+		_spiritViewComponent.Reparent(_container, false);
+	}
+
 	public override async GDTask Init(Hex originHex, int rotationIndex = 0, bool hexCanBeNull = false)
 	{
 		await base.Init(originHex, rotationIndex, hexCanBeNull);
-
-		_spiritViewComponent = GetViewComponent<SpiritViewComponent>();
 	}
 
 	public async GDTask Spawn(int health, int? move, int? attack, int? range, FigureTrait[] traits, Character characterOwner, string name,
@@ -54,8 +68,8 @@ public partial class Spirit : Figure
 		_name = name;
 
 		_outline.SetSelfModulate(CharacterOwner.OutlineColor);
-		_figureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);
-		_figureViewComponent.ActivePS.SetModulate(OutlineColor);
+		FigureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);
+		FigureViewComponent.ActivePS.SetModulate(OutlineColor);
 
 		_spiritViewComponent.StandeeNumberCircle.SetSelfModulate(OutlineColor);
 
@@ -102,10 +116,19 @@ public partial class Spirit : Figure
 		}
 
 		ScenarioEvents.HexObjectDestroyedEvent.Subscribe(this, CharacterOwner,
-			parameters => parameters.HexObject == CharacterOwner,
+			parameters =>
+				parameters.HexObject == CharacterOwner ||
+				parameters.HexObject.Hex == Hex,
 			async parameters =>
 			{
-				await Destroy(parameters.Immediately, parameters.ForceDestroy);
+				if(parameters.HexObject == CharacterOwner)
+				{
+					await Destroy(parameters.Immediately, parameters.ForceDestroy);
+				}
+				else
+				{
+					await UpdateInCorner(0f);
+				}
 			}
 		);
 
@@ -115,9 +138,7 @@ public partial class Spirit : Figure
 				parameters.Figure == this,
 			async parameters =>
 			{
-				_container.TweenScale(1f, 0.3f).SetEasing(Easing.InOutBack).PlayFastForwardable();
-				_container.TweenPosition(Vector2.Zero, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
-				await GDTask.DelayFastForwardable(0.3f);
+				await UpdateInCorner();
 			}
 		);
 
@@ -224,6 +245,32 @@ public partial class Spirit : Figure
 			MainInitiative = ownerInitiative.MainInitiative,
 			SortingInitiative = ownerInitiative.SortingInitiative + SpiritIndex
 		};
+	}
+
+	private async GDTask UpdateInCorner(float initialDelay = 0f)
+	{
+		bool inCorner = Hex.GetFigures().Any();
+		if(inCorner != _inCorner)
+		{
+			if(inCorner)
+			{
+				FigureViewComponent.SetCanAdjustViewPosition(false);
+				await GTweenSequenceBuilder.New()
+					.AppendTime(initialDelay)
+					.Append(_container.TweenScale(0.7f, 0.3f).SetEasing(Easing.InOutBack))
+					.Join(_container.TweenPosition(new Vector2(-70f, -70f), 0.3f).SetEasing(Easing.OutBack))
+					.Build().PlayFastForwardableAsync();
+			}
+			else
+			{
+				FigureViewComponent.SetCanAdjustViewPosition(true);
+				_container.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
+				_container.TweenPosition(Vector2.Zero, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
+				await GDTask.DelayFastForwardable(0.3f);
+			}
+
+			_inCorner = inCorner;
+		}
 	}
 
 	private void SetSpiritIndex(int spiritIndex)

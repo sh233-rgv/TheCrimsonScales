@@ -74,6 +74,7 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 				_mounted = true;
 				figure.UpdateInitiative();
 
+				figure.FigureViewComponent.SetCanAdjustViewPosition(false);
 				characterOwner.Reparent(figure.GetNode<Node2D>(MountedAnchorName));
 				characterOwner.TweenScale(1f, 0.3f).SetEasing(Easing.InOutBack).PlayFastForwardable();
 				characterOwner.TweenPosition(Vector2.Zero, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
@@ -154,6 +155,7 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 			await onDismounted.Invoke(characterOwner, figure);
 		}
 
+		figure.FigureViewComponent.SetCanAdjustViewPosition(true);
 		characterOwner.Reparent(GameController.Instance.Map);
 		characterOwner.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
 		characterOwner.TweenGlobalPosition(figure.Hex.GlobalPosition, 0.2f)
