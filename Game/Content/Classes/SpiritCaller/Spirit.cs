@@ -1,14 +1,21 @@
 ﻿using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
+using GTweens.Easings;
+using GTweensGodot.Extensions;
 
 public partial class Spirit : Figure
 {
+	[Export]
+	private Node2D _container;
+
 	private SpiritViewComponent _spiritViewComponent;
 	private string _name;
 	private readonly List<Ability> _abilities = new List<Ability>();
 
 	private ActionState _turnActionState;
+
+	private bool _inCorner;
 
 	public int HealthStat { get; private set; }
 	public int? Move { get; private set; }
@@ -102,6 +109,18 @@ public partial class Spirit : Figure
 			}
 		);
 
+		ScenarioEvents.FigureEnteredHexEvent.Subscribe(this, CharacterOwner,
+			parameters =>
+				parameters.Hex == Hex ||
+				parameters.Figure == this,
+			async parameters =>
+			{
+				_container.TweenScale(1f, 0.3f).SetEasing(Easing.InOutBack).PlayFastForwardable();
+				_container.TweenPosition(Vector2.Zero, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
+				await GDTask.DelayFastForwardable(0.3f);
+			}
+		);
+
 		ScenarioCheckEvents.FlyingCheckEvent.Subscribe(this, CharacterOwner,
 			parameters => parameters.Figure == this,
 			parameters => parameters.SetFlying(true)
@@ -122,6 +141,26 @@ public partial class Spirit : Figure
 			applyParameters =>
 			{
 				applyParameters.SetCannotBeTargeted();
+			}
+		);
+
+		// Allow stopping movement in the same hex
+		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Subscribe(this, CharacterOwner,
+			parameters =>
+				parameters.OtherFigure == this &&
+				parameters.Figure is not Spirit,
+			parameters =>
+			{
+				parameters.SetCanStopAt();
+			}
+		);
+
+		ScenarioCheckEvents.CanPassEnemyCheckEvent.Subscribe(this, CharacterOwner,
+			parameters =>
+				parameters.EnemyFigure == this,
+			parameters =>
+			{
+				parameters.SetCanPass();
 			}
 		);
 	}
@@ -157,9 +196,12 @@ public partial class Spirit : Figure
 		await RemoveTurnActionFromActive();
 
 		ScenarioEvents.HexObjectDestroyedEvent.Unsubscribe(this, CharacterOwner);
+		ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.FlyingCheckEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.CanBeFocusedCheckEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.CanBeTargetedCheckEvent.Unsubscribe(this, CharacterOwner);
+		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Unsubscribe(this, CharacterOwner);
+		ScenarioCheckEvents.CanPassEnemyCheckEvent.Unsubscribe(this, CharacterOwner);
 
 		DeregisterSpirit(this);
 
