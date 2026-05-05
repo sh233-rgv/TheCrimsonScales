@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 using Godot;
@@ -196,13 +197,13 @@ public partial class Spirit : Figure
 				parameters.SetAuthority(CharacterOwner);
 			}
 		);
+
+		CharacterOwner.InitiativeChangedEvent += OnOwnerInitiativeChanged;
 	}
 
 	protected override async GDTask TakeTurn()
 	{
 		await base.TakeTurn();
-
-		Figure authority = CharacterOwner;
 
 		_turnActionState = new ActionState(this, this, this, _abilities);
 		await _turnActionState.Perform();
@@ -236,6 +237,11 @@ public partial class Spirit : Figure
 		//ScenarioCheckEvents.CanBeTargetedCheckEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.CanPassEnemyCheckEvent.Unsubscribe(this, CharacterOwner);
+
+		if(CharacterOwner != null)
+		{
+			CharacterOwner.InitiativeChangedEvent -= OnOwnerInitiativeChanged;
+		}
 
 		DeregisterSpirit(this);
 
@@ -356,5 +362,10 @@ public partial class Spirit : Figure
 		// }
 
 		//await GDTask.CompletedTask;
+	}
+
+	private void OnOwnerInitiativeChanged(Figure owner)
+	{
+		UpdateInitiative();
 	}
 }
