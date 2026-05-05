@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class WhistlingWinds : SpiritCallerCardModel<WhistlingWinds.CardTop, WhistlingWinds.CardBottom>
 {
@@ -13,7 +14,7 @@ public class WhistlingWinds : SpiritCallerCardModel<WhistlingWinds.CardTop, Whis
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(3)
+				.WithDamage(3, new AttackDiamond(this, new Vector2(0.6195456f, 0.15117243f)))
 				.WithDuringAttackSubscriptions(
 				[
 					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Air,
@@ -66,7 +67,7 @@ public class WhistlingWinds : SpiritCallerCardModel<WhistlingWinds.CardTop, Whis
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62149024f, 0.64566964f)))
 				.Build()),
 
 			new AbilityCardAbility(GrantAbility.Builder()

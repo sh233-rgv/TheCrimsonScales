@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 public class IncorporealTransport : SpiritCallerCardModel<IncorporealTransport.CardTop, IncorporealTransport.CardBottom>
 {
@@ -31,7 +32,8 @@ public class IncorporealTransport : SpiritCallerCardModel<IncorporealTransport.C
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.618964f, 0.65822786f)),
+					new MoveCircle(this, new Vector2(0.7070629f, 0.65822786f)))
 				.Build()),
 
 			new AbilityCardAbility(GrantAbility.Builder()

@@ -300,6 +300,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 	where TSingleTargetState : SingleTargetState, new()
 {
 	private static readonly List<Hex> HexCache = new List<Hex>();
+	private static readonly List<Node2D> PreviousParents = new List<Node2D>();
 
 	private Func<T, string> _getTargetingHintText;
 
@@ -583,7 +584,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 				bool autoSelectIfOne = Mandatory ||
 				                       abilityState.AbilityTarget == Target.Self ||
 				                       (TargetHex != null && abilityState.AbilityAOEPattern == null);
-				target = await AbilityCmd.SelectFigure(abilityState, getValidTargets, mandatory: Mandatory, 
+				target = await AbilityCmd.SelectFigure(abilityState, getValidTargets, mandatory: Mandatory,
 					autoSelectIfOne: autoSelectIfOne, autoSkipIfNone: true,
 					duringTargetedAbilityEffectCollection,
 					() => _getTargetingHintText(abilityState));
@@ -757,16 +758,36 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 				}
 
 				ScenarioEvents.MoveTogether.Parameters moveTogetherCheckParameters =
-					await ScenarioEvents.MoveTogetherEvent.CreatePrompt(new ScenarioEvents.MoveTogether.Parameters(abilityState, target));
+					await ScenarioEvents.MoveTogetherEvent.CreatePrompt(new ScenarioEvents.MoveTogether.Parameters(abilityState, target, hex));
 
 				await AbilityCmd.ExitHex(abilityState, target, abilityState.Authority);
-				await target.TweenGlobalPosition(hex.GlobalPosition, 0.2f).PlayFastForwardableAsync();
+
+				PreviousParents.Clear();
+				Node2D moveParent = GameController.Instance.MoveParent;
+				moveParent.SetGlobalPosition(target.Hex.GlobalPosition);
+				PreviousParents.Add(target.GetParent<Node2D>());
+				target.Reparent(moveParent);
+				foreach(Figure otherFigure in moveTogetherCheckParameters.OtherFigures)
+				{
+					PreviousParents.Add(otherFigure.GetParent<Node2D>());
+					otherFigure.Reparent(moveParent);
+				}
+
+				await moveParent.TweenGlobalPosition(hex.GlobalPosition, 0.2f).PlayFastForwardableAsync();
+
+				target.Reparent(PreviousParents[0]);
+				PreviousParents.RemoveAt(0);
+				foreach(Figure otherFigure in moveTogetherCheckParameters.OtherFigures)
+				{
+					otherFigure.Reparent(PreviousParents[0]);
+					PreviousParents.RemoveAt(0);
+				}
+
 				await AbilityCmd.EnterHex(abilityState, target, abilityState.Authority, hex, true, true);
 
 				foreach(Figure otherFigure in moveTogetherCheckParameters.OtherFigures)
 				{
 					await AbilityCmd.ExitHex(abilityState, otherFigure, abilityState.Authority);
-					//await target.TweenGlobalPosition(hex.GlobalPosition, 0.2f).PlayFastForwardableAsync();
 					await AbilityCmd.EnterHex(abilityState, otherFigure, abilityState.Authority, hex,
 						moveTogetherCheckParameters.TriggerHexEffects, false);
 				}

@@ -31,7 +31,7 @@ public class DimmedDefense : SpiritCallerCardModel<DimmedDefense.CardTop, Dimmed
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6224222f, 0.723211f))) // TODO
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62167174f, 0.6397274f)))
 				.Build()),
 
 			new AbilityCardAbility(ShieldAbility.Builder()

@@ -96,6 +96,9 @@ public partial class GameController : SceneController<GameController>
 	[Export]
 	public ScreenDistortion ScreenDistortion { get; private set; }
 
+	[Export]
+	public Node2D MoveParent { get; private set; }
+
 	private readonly Stopwatch _fastForwardStopwatch = new Stopwatch();
 
 	public GameSceneRequest SceneRequest { get; private set; }

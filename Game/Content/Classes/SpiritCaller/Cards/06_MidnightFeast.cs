@@ -15,8 +15,9 @@ public class MidnightFeast : SpiritCallerCardModel<MidnightFeast.CardTop, Midnig
 		[
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(new DynamicInt<HealAbility.State>(state =>
-					3 + (state.Performer is Character characterOwner ? Spirit.GetSpirits(characterOwner).Count : 0)))
-				.WithRange(3)
+						3 + (state.Performer is Character characterOwner ? Spirit.GetSpirits(characterOwner).Count : 0)),
+					new HealDiamondPlus(this, new Vector2(0.48868448f, 0.26533592f)))
+				.WithRange(3, new RangeSquare(this, new Vector2(0.6962813f, 0.2648491f)))
 				.Build()),
 		];
 	}
@@ -71,7 +72,7 @@ public class MidnightFeast : SpiritCallerCardModel<MidnightFeast.CardTop, Midnig
 
 					await GDTask.CompletedTask;
 				})
-				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.9f))) //TODO
+				.WithUseSlot(new UseSlot(new Vector2(0.49944463f, 0.8753652f)))
 				.Build())
 		];
 

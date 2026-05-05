@@ -14,9 +14,9 @@ public class UnholySacrifice : SpiritCallerCardModel<UnholySacrifice.CardTop, Un
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4)
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.38304138f, 0.25413826f)))
 				.WithTargets(1)
-				.WithRange(3)
+				.WithRange(3, new RangeSquare(this, new Vector2(0.7300597f, 0.25316456f)))
 				.WithOnAbilityStarted(async state =>
 				{
 					state.AdjustTargets(state.Performer is Character characterOwner ? Spirit.GetSpirits(characterOwner).Count : 0);
@@ -35,7 +35,7 @@ public class UnholySacrifice : SpiritCallerCardModel<UnholySacrifice.CardTop, Un
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62100875f, 0.61442417f)))
 				.Build()),
 
 			new AbilityCardAbility(UseSlotAbility.Builder()
@@ -67,7 +67,7 @@ public class UnholySacrifice : SpiritCallerCardModel<UnholySacrifice.CardTop, Un
 
 					await GDTask.CompletedTask;
 				})
-				.WithUseSlot(new UseSlot(new Vector2(0.5f, 0.9f))) //TODO
+				.WithUseSlot(new UseSlot(new Vector2(0.50099707f, 0.89953434f)))
 				.Build())
 		];
 

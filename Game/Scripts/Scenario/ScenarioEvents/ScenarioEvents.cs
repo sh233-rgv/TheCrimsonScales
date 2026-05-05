@@ -649,11 +649,12 @@ public partial class ScenarioEvents
 
 	public class MoveTogether : ScenarioEvent<MoveTogether.Parameters>
 	{
-		public class Parameters(AbilityState abilityState, Figure performer)
+		public class Parameters(AbilityState abilityState, Figure performer, Hex destinationHex)
 			: ParametersBase
 		{
 			public AbilityState AbilityState { get; } = abilityState;
 			public Figure Performer { get; } = performer;
+			public Hex DestinationHex { get; } = destinationHex;
 
 			public List<Figure> OtherFigures { get; } = new List<Figure>();
 

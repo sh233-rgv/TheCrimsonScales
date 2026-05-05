@@ -7,7 +7,7 @@ public class ToxicCharm : SpiritCallerCardModel<ToxicCharm.CardTop, ToxicCharm.C
 	public override string Name => "Toxic Charm";
 	public override int Level => 1;
 	public override int Initiative => 59;
-	protected override int AtlasIndex => 28 - 7;
+	protected override int AtlasIndex => 28 - 8;
 
 	public class CardTop : SpiritCallerCardSide
 	{
@@ -15,7 +15,7 @@ public class ToxicCharm : SpiritCallerCardModel<ToxicCharm.CardTop, ToxicCharm.C
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(1)
-				.WithRange(3)
+				.WithRange(3, new RangeSquare(this, new Vector2(0.44632727f, 0.2367115f)))
 				.WithConditions(Conditions.Poison1)
 				.WithAOEPattern(new AOEPattern(
 				[
@@ -40,7 +40,7 @@ public class ToxicCharm : SpiritCallerCardModel<ToxicCharm.CardTop, ToxicCharm.C
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.6212088f, 0.6698124f)))
 				.Build()),
 
 			new AbilityCardAbility(HealAbility.Builder()

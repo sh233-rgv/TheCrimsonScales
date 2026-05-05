@@ -43,7 +43,7 @@ public class ForcefulApparition : SpiritCallerCardModel<ForcefulApparition.CardT
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62149024f, 0.6477171f)))
 				.Build()),
 
 			new AbilityCardAbility(ControlAbility.Builder()

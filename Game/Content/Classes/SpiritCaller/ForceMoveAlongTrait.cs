@@ -16,7 +16,7 @@ public class ForceMoveAlongTrait() : FigureTrait
 				{
 					foreach(Figure otherFigure in parameters.Performer.Hex.GetFigures())
 					{
-						if(otherFigure.IsFigure)
+						if(otherFigure.IsFigure && MoveHelper.CanStopAt(parameters.AbilityState, otherFigure, parameters.DestinationHex))
 						{
 							list.Add(otherFigure);
 						}

@@ -168,8 +168,10 @@ public partial class Spirit : Figure
 		// Allow stopping movement in the same hex
 		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Subscribe(this, CharacterOwner,
 			parameters =>
-				parameters.OtherFigure == this &&
-				parameters.Figure is not Spirit,
+				(parameters.Figure == this &&
+				 parameters.OtherFigure is not Spirit) ||
+				(parameters.OtherFigure == this &&
+				 parameters.Figure is not Spirit),
 			parameters =>
 			{
 				parameters.SetCanStopAt();

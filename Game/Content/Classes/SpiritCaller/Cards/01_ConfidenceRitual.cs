@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class ConfidenceRitual : SpiritCallerCardModel<ConfidenceRitual.CardTop, ConfidenceRitual.CardBottom>
 {
@@ -14,8 +15,9 @@ public class ConfidenceRitual : SpiritCallerCardModel<ConfidenceRitual.CardTop, 
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(new DynamicInt<AttackAbility.State>(state =>
-					3 + (state.Performer is Character characterOwner ? Spirit.GetSpirits(characterOwner).Count : 0)))
-				.WithRange(2)
+						3 + (state.Performer is Character characterOwner ? Spirit.GetSpirits(characterOwner).Count : 0)),
+					new AttackDiamond(this, new Vector2(0.49890798f, 0.2658228f)))
+				.WithRange(2, new RangeSquare(this, new Vector2(0.7096053f, 0.26492292f)))
 				.Build()),
 		];
 	}

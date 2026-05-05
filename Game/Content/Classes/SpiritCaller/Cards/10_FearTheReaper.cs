@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class FearTheReaper : SpiritCallerCardModel<FearTheReaper.CardTop, FearTheReaper.CardBottom>
 {
@@ -64,7 +65,7 @@ public class FearTheReaper : SpiritCallerCardModel<FearTheReaper.CardTop, FearTh
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62159026f, 0.6668694f)))
 				.Build()),
 
 			new AbilityCardAbility(ConditionAbility.Builder()
