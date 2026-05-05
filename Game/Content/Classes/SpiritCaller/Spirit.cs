@@ -129,7 +129,7 @@ public partial class Spirit : Figure
 				}
 				else
 				{
-					await UpdateInCorner(0f);
+					await UpdateInCorner();
 				}
 			}
 		);
@@ -141,6 +141,15 @@ public partial class Spirit : Figure
 			async parameters =>
 			{
 				await UpdateInCorner();
+			}
+		);
+
+		ScenarioEvents.FigureExitingHexEvent.Subscribe(this, CharacterOwner,
+			parameters =>
+				parameters.Hex == Hex,
+			async parameters =>
+			{
+				await UpdateInCorner(parameters.Figure);
 			}
 		);
 
@@ -232,6 +241,7 @@ public partial class Spirit : Figure
 
 		ScenarioEvents.HexObjectDestroyedEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this, CharacterOwner);
+		ScenarioEvents.FigureExitingHexEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.FlyingCheckEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.CanBeFocusedCheckEvent.Unsubscribe(this, CharacterOwner);
 		//ScenarioCheckEvents.CanBeTargetedCheckEvent.Unsubscribe(this, CharacterOwner);
@@ -266,9 +276,9 @@ public partial class Spirit : Figure
 		};
 	}
 
-	private async GDTask UpdateInCorner(float initialDelay = 0f)
+	private async GDTask UpdateInCorner(Figure figureToIgnore = null, float initialDelay = 0f)
 	{
-		bool inCorner = Hex.GetFigures().Any();
+		bool inCorner = Hex.GetFigures().Any(figure => figure != figureToIgnore);
 		if(inCorner != _inCorner)
 		{
 			if(inCorner)
