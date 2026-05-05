@@ -82,7 +82,7 @@ public class KillAllEnemiesScenarioGoal : ScenarioGoal
 		int count = 0;
 		foreach(Figure figure in GameController.Instance.Map.Figures)
 		{
-			if(figure.Alignment == Alignment.Enemies && (figure is not Objective || _countObjectives))
+			if(figure.Alignment == Alignment.Enemies && (figure is not Objective || _countObjectives) && figure.IsFigure)
 			{
 				count++;
 			}

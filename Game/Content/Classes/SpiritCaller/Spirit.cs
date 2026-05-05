@@ -187,6 +187,15 @@ public partial class Spirit : Figure
 				parameters.SetCanPass();
 			}
 		);
+
+		ScenarioCheckEvents.ChangeAuthorityCheckEvent.Subscribe(this, CharacterOwner,
+			parameters =>
+				parameters.Authority == this,
+			parameters =>
+			{
+				parameters.SetAuthority(CharacterOwner);
+			}
+		);
 	}
 
 	protected override async GDTask TakeTurn()
@@ -195,7 +204,7 @@ public partial class Spirit : Figure
 
 		Figure authority = CharacterOwner;
 
-		_turnActionState = new ActionState(this, this, authority, _abilities);
+		_turnActionState = new ActionState(this, this, this, _abilities);
 		await _turnActionState.Perform();
 	}
 
@@ -209,6 +218,7 @@ public partial class Spirit : Figure
 
 	public async GDTask RemoveTurnActionFromActive()
 	{
+		// TODO: Call this at the end of the round?
 		if(_turnActionState != null)
 		{
 			await _turnActionState.RemoveFromActive();

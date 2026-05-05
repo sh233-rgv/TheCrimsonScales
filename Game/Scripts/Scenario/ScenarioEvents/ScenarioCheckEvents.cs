@@ -678,4 +678,21 @@ public partial class ScenarioCheckEvents
 
 	private readonly ApplyScenarioEffectsCheck _applyScenarioEffectsCheck = new ApplyScenarioEffectsCheck();
 	public static ApplyScenarioEffectsCheck ApplyScenarioEffectsCheckEvent => GameController.Instance.ScenarioCheckEvents._applyScenarioEffectsCheck;
+
+	public class ChangeAuthorityCheck : ScenarioCheckEvent<ChangeAuthorityCheck.Parameters>
+	{
+		public class Parameters(AbilityState abilityState)
+			: ParametersBase
+		{
+			public Figure Authority { get; private set; } = abilityState.ActionState.Authority;
+
+			public void SetAuthority(Figure authority)
+			{
+				Authority = authority;
+			}
+		}
+	}
+
+	private readonly ChangeAuthorityCheck _changeAuthorityCheck = new ChangeAuthorityCheck();
+	public static ChangeAuthorityCheck ChangeAuthorityCheckEvent => GameController.Instance.ScenarioCheckEvents._changeAuthorityCheck;
 }
