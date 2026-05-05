@@ -598,9 +598,10 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 
 			if(abilityState.Authority is Character)
 			{
-				bool autoSelectIfOne = Mandatory ||
-				                       abilityState.AbilityTarget == Target.Self ||
-				                       (TargetHex != null && abilityState.AbilityAOEPattern == null);
+				bool autoSelectIfOne =
+					Mandatory ||
+					abilityState.AbilityTarget == Target.Self ||
+					(TargetHex != null && abilityState.AbilityAOEPattern == null);
 				target = await AbilityCmd.SelectFigure(abilityState, getValidTargets, mandatory: Mandatory,
 					autoSelectIfOne: autoSelectIfOne, autoSkipIfNone: true,
 					duringTargetedAbilityEffectCollection,

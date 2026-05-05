@@ -14,6 +14,8 @@ public class ControlTargetTrait(Ability ability, TextHelper.LabelTextDelegate ge
 				[
 					ControlAbility.Builder()
 						.WithAbilities([ability])
+						.WithCustomGetTargets((state, list) => list.Add(parameters.AbilityState.Target))
+						.WithMandatory(true)
 						.Build()
 				]);
 				await actionState.Perform();
