@@ -201,7 +201,7 @@ public partial class Spirit : Figure
 		await base.EndTurn();
 
 		// Spirits suffer 1 damage at the end of their turns
-		await AbilityCmd.SufferDamage(this, 1, this);
+		await AddDamageCounters(1);
 	}
 
 	public async GDTask RemoveTurnActionFromActive()
@@ -330,5 +330,18 @@ public partial class Spirit : Figure
 		}
 
 		await GDTask.CompletedTask;
+	}
+
+	public async GDTask AddDamageCounters(int amount)
+	{
+		await AbilityCmd.SufferDamage(this, amount, this);
+		// if(Health > 0)
+		// {
+		// 	int targetHealth = Health - amount;
+		// 	targetHealth = Mathf.Max(targetHealth, 0);
+		// 	SetHealth(targetHealth);
+		// }
+
+		//await GDTask.CompletedTask;
 	}
 }

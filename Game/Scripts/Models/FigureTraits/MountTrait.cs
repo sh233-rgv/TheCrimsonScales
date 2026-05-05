@@ -44,11 +44,11 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 		);
 
 		// Follow the mount when it moves or being forcefully moved
-		ScenarioEvents.MoveTogetherCheckEvent.Subscribe(figure, this,
+		ScenarioEvents.MoveTogetherEvent.Subscribe(figure, this,
 			parameters => parameters.Performer == figure && _mounted,
 			async parameters =>
 			{
-				parameters.SetOtherFigure(characterOwner);
+				parameters.AddOtherFigure(characterOwner);
 				parameters.SetTriggerHexEffects(false);
 
 				await GDTask.CompletedTask;
@@ -137,7 +137,7 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 
 		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.IsSummonControlledCheckEvent.Unsubscribe(figure, this);
-		ScenarioEvents.MoveTogetherCheckEvent.Unsubscribe(figure, this);
+		ScenarioEvents.MoveTogetherEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(figure, this);
 		ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.IsMountedCheckEvent.Unsubscribe(figure, this);

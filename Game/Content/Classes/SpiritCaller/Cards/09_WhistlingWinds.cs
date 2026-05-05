@@ -86,6 +86,7 @@ public class WhistlingWinds : SpiritCallerCardModel<WhistlingWinds.CardTop, Whis
 					}
 				})
 				.WithTarget(Target.Any | Target.TargetAll)
+				.WithCanTargetNonFigures()
 				.Build()),
 		];
 

@@ -16,7 +16,7 @@ public class IncorporealTransport : SpiritCallerCardModel<IncorporealTransport.C
 				.WithTexturePath("res://Content/Classes/SpiritCaller/Summons/ghost_carriage.png")
 				.WithHealth(2)
 				.WithMove(4)
-				.WithTraits() //TODO
+				.WithTraits(new ForceMoveAlongTrait())
 				.Build()
 			)
 		];
@@ -48,6 +48,7 @@ public class IncorporealTransport : SpiritCallerCardModel<IncorporealTransport.C
 					}
 				})
 				.WithTarget(Target.Any | Target.TargetAll)
+				.WithCanTargetNonFigures()
 				.WithConditionalAbilityCheck(async state =>
 				{
 					if(!await AbilityCmd.HasPerformedAbility(state, 0))

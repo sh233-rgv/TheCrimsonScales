@@ -136,9 +136,9 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 		}
 	}
 
-	public void SetAbilityCustomTargets(Action<TargetedAbilityState, List<Figure>> customTargets)
+	public void SetAbilityCustomTargets(Action<TargetedAbilityState, List<Figure>> customGetTargets)
 	{
-		AbilityCustomGetTargets = customTargets;
+		AbilityCustomGetTargets = customGetTargets;
 	}
 
 	public void SetAbilityFilterTargets(Func<TargetedAbilityState, Figure, bool> filterTargets)
@@ -583,7 +583,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 				bool autoSelectIfOne = Mandatory ||
 				                       abilityState.AbilityTarget == Target.Self ||
 				                       (TargetHex != null && abilityState.AbilityAOEPattern == null);
-				target = await AbilityCmd.SelectFigure(abilityState, getValidTargets, Mandatory, autoSelectIfOne,
+				target = await AbilityCmd.SelectFigure(abilityState, getValidTargets, mandatory: Mandatory, 
+					autoSelectIfOne: autoSelectIfOne, autoSkipIfNone: true,
 					duringTargetedAbilityEffectCollection,
 					() => _getTargetingHintText(abilityState));
 			}
@@ -755,18 +756,19 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 					abilityState.SingleTargetState.PushHexes.Add(hex);
 				}
 
-				ScenarioEvents.MoveTogetherCheck.Parameters moveTogetherCheckParameters =
-					await ScenarioEvents.MoveTogetherCheckEvent.CreatePrompt(new ScenarioEvents.MoveTogetherCheck.Parameters(abilityState, target));
+				ScenarioEvents.MoveTogether.Parameters moveTogetherCheckParameters =
+					await ScenarioEvents.MoveTogetherEvent.CreatePrompt(new ScenarioEvents.MoveTogether.Parameters(abilityState, target));
 
 				await AbilityCmd.ExitHex(abilityState, target, abilityState.Authority);
 				await target.TweenGlobalPosition(hex.GlobalPosition, 0.2f).PlayFastForwardableAsync();
 				await AbilityCmd.EnterHex(abilityState, target, abilityState.Authority, hex, true, true);
 
-				if(moveTogetherCheckParameters.OtherFigure != null)
+				foreach(Figure otherFigure in moveTogetherCheckParameters.OtherFigures)
 				{
-					await AbilityCmd.ExitHex(abilityState, moveTogetherCheckParameters.OtherFigure, abilityState.Authority);
+					await AbilityCmd.ExitHex(abilityState, otherFigure, abilityState.Authority);
 					//await target.TweenGlobalPosition(hex.GlobalPosition, 0.2f).PlayFastForwardableAsync();
-					await AbilityCmd.EnterHex(abilityState, moveTogetherCheckParameters.OtherFigure, abilityState.Authority, hex, true, false);
+					await AbilityCmd.EnterHex(abilityState, otherFigure, abilityState.Authority, hex,
+						moveTogetherCheckParameters.TriggerHexEffects, false);
 				}
 			}
 
@@ -792,7 +794,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 		}
 		else if(abilityState.AbilityCustomGetTargets != null)
 		{
-			CustomGetTargets(abilityState, figures);
+			abilityState.AbilityCustomGetTargets(abilityState, figures);
 		}
 		else if(abilityState.TargetedAOEHexes != null)
 		{

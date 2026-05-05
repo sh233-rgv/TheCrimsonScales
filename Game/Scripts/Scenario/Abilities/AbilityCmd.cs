@@ -582,16 +582,17 @@ public static class AbilityCmd
 	}
 
 	public static GDTask<Figure> SelectFigure(AbilityState state, Action<List<Figure>> getValidTargets, bool mandatory = false,
-		bool autoSelectIfOne = true, EffectCollection effectCollection = null, Func<string> hintText = null)
+		bool autoSelectIfOne = true, bool autoSkipIfNone = false, EffectCollection effectCollection = null, Func<string> hintText = null)
 	{
-		return SelectFigure(state.Authority, getValidTargets, mandatory, autoSelectIfOne, effectCollection, hintText);
+		return SelectFigure(state.Authority, getValidTargets, mandatory, autoSelectIfOne, autoSkipIfNone, effectCollection, hintText);
 	}
 
 	public static async GDTask<Figure> SelectFigure(Figure authority, Action<List<Figure>> getValidTargets, bool mandatory = false,
-		bool autoSelectIfOne = true, EffectCollection effectCollection = null, Func<string> hintText = null)
+		bool autoSelectIfOne = true, bool autoSkipIfNone = false, EffectCollection effectCollection = null, Func<string> hintText = null)
 	{
 		TargetSelectionPrompt.Answer targetAnswer = await PromptManager.Prompt(
-			new TargetSelectionPrompt(getValidTargets, autoSelectIfOne, mandatory, effectCollection, hintText ?? (() => "Select a target")),
+			new TargetSelectionPrompt(getValidTargets, autoSelectIfOne, autoSkipIfNone, mandatory, effectCollection,
+				hintText ?? (() => "Select a target")),
 			authority);
 
 		if(targetAnswer.Skipped)

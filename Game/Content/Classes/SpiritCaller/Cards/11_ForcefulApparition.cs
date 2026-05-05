@@ -55,13 +55,13 @@ public class ForcefulApparition : SpiritCallerCardModel<ForcefulApparition.CardT
 						{
 							Spirit spiritToMove = state.Performer.Hex.GetHexObjectOfType<Spirit>();
 
-							ScenarioEvents.MoveTogetherCheckEvent.Subscribe(state, this,
+							ScenarioEvents.MoveTogetherEvent.Subscribe(state, this,
 								parameters =>
 									parameters.AbilityState == state &&
 									parameters.Performer == state.Performer,
 								async parameters =>
 								{
-									parameters.SetOtherFigure(spiritToMove);
+									parameters.AddOtherFigure(spiritToMove);
 									parameters.SetTriggerHexEffects(false);
 
 									await GDTask.CompletedTask;
@@ -72,7 +72,7 @@ public class ForcefulApparition : SpiritCallerCardModel<ForcefulApparition.CardT
 						})
 						.WithOnAbilityEnded(async state =>
 						{
-							ScenarioEvents.MoveTogetherCheckEvent.Unsubscribe(state, this);
+							ScenarioEvents.MoveTogetherEvent.Unsubscribe(state, this);
 
 							await GDTask.CompletedTask;
 						})

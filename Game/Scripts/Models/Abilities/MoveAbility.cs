@@ -173,9 +173,9 @@ public class MoveAbility : Ability<MoveAbility.State>
 
 				abilityState.Hexes.Add(hex);
 
-				ScenarioEvents.MoveTogetherCheck.Parameters moveTogetherCheckParameters =
-					await ScenarioEvents.MoveTogetherCheckEvent.CreatePrompt(
-						new ScenarioEvents.MoveTogetherCheck.Parameters(abilityState, performer));
+				ScenarioEvents.MoveTogether.Parameters moveTogetherCheckParameters =
+					await ScenarioEvents.MoveTogetherEvent.CreatePrompt(
+						new ScenarioEvents.MoveTogether.Parameters(abilityState, performer));
 
 				// if(moveTogetherCheckParameters.OtherFigure != null)
 				// {
@@ -202,10 +202,10 @@ public class MoveAbility : Ability<MoveAbility.State>
 					}
 				}
 
-				if(moveTogetherCheckParameters.OtherFigure != null)
+				foreach(Figure otherFigure in moveTogetherCheckParameters.OtherFigures)
 				{
-					await AbilityCmd.ExitHex(abilityState, moveTogetherCheckParameters.OtherFigure, abilityState.Authority);
-					await AbilityCmd.EnterHex(abilityState, moveTogetherCheckParameters.OtherFigure, abilityState.Authority, hex,
+					await AbilityCmd.ExitHex(abilityState, otherFigure, abilityState.Authority);
+					await AbilityCmd.EnterHex(abilityState, otherFigure, abilityState.Authority, hex,
 						moveTogetherCheckParameters.TriggerHexEffects, false);
 				}
 			}
