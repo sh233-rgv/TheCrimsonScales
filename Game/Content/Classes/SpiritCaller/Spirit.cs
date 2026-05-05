@@ -110,6 +110,7 @@ public partial class Spirit : Figure
 			AttackAbility attackAbility = AttackAbility.Builder()
 				.WithDamage(Attack.Value)
 				.WithRange(Range ?? 1)
+				.WithMinRange(1)
 				.WithRangeType(RangeType)
 				.Build();
 			_abilities.Add(attackAbility);

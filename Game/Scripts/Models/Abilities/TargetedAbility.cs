@@ -48,6 +48,7 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 
 	public RangeType AbilityRangeType { get; set; }
 	public int AbilityRange { get; set; }
+	public int AbilityMinRange { get; set; }
 	public List<ConditionModel> AbilityConditionModels { get; set; }
 	public int AbilityPush { get; set; }
 	public int AbilityPull { get; set; }
@@ -55,6 +56,7 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 
 	public RangeType SingleTargetRangeType { get; set; }
 	public int SingleTargetRange { get; set; }
+	public int SingleTargetMinRange { get; set; }
 	public List<ConditionModel> SingleTargetConditionModels { get; set; }
 	public int SingleTargetPush { get; set; }
 	public int SingleTargetPull { get; set; }
@@ -190,6 +192,13 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 		SingleTargetRange += amount;
 	}
 
+	public void AbilityAdjustMinRange(int amount)
+	{
+		AbilityMinRange += amount;
+
+		SingleTargetMinRange += amount;
+	}
+
 	public void AbilitySetRangeType(RangeType rangeType)
 	{
 		AbilityRangeType = rangeType;
@@ -305,6 +314,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 	private Func<T, string> _getTargetingHintText;
 
 	public DynamicInt Range { get; private set; } = 1;
+	public int MinRange { get; private set; } = 0;
 	public DynamicRangeType TypeOfRange { get; private set; } = RangeType.Melee;
 	public bool RequiresLineOfSight { get; private set; } = true;
 	public DynamicTarget TargetType { get; protected set; } = Target.Enemies;
@@ -356,6 +366,12 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 		{
 			Obj.Range = range;
 			AddEnhancements(enhancementMarks);
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithMinRange(int minRange)
+		{
+			Obj.MinRange = minRange;
 			return (TBuilder)this;
 		}
 
@@ -498,6 +514,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 		abilityState.AbilityPerformHex = null;
 
 		abilityState.AbilityRange = Range.GetValue();
+		abilityState.AbilityMinRange = MinRange;
 		abilityState.AbilityRangeType = TypeOfRange.GetValue();
 		abilityState.AbilityConditionModels = Conditions.ToList();
 		abilityState.AbilityPush = Push;
@@ -667,6 +684,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 	protected virtual void InitAbilityStateForSingleTarget(T abilityState)
 	{
 		abilityState.SingleTargetRange = abilityState.AbilityRange;
+		abilityState.SingleTargetMinRange = abilityState.AbilityMinRange;
 		abilityState.SingleTargetRangeType = abilityState.AbilityRangeType;
 		abilityState.SingleTargetConditionModels = abilityState.AbilityConditionModels.ToList();
 		abilityState.SingleTargetPush = abilityState.AbilityPush;
@@ -827,7 +845,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 			if(targetsOutOfAOE < abilityState.AbilityTargets - 1)
 			{
 				HexCache.Clear();
-				RangeHelper.FindHexesInRange(performer.Hex, abilityState.SingleTargetRange, true, HexCache);
+				RangeHelper.FindHexesInRange(performer.Hex, abilityState.SingleTargetRange, true, HexCache,
+					minRange: abilityState.SingleTargetMinRange);
 
 				foreach(Hex hex in HexCache)
 				{
@@ -842,7 +861,8 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 		else
 		{
 			HexCache.Clear();
-			RangeHelper.FindHexesInRange(abilityState.GetPerformHex, abilityState.SingleTargetRange, true, HexCache);
+			RangeHelper.FindHexesInRange(abilityState.GetPerformHex, abilityState.SingleTargetRange, true, HexCache,
+				minRange: abilityState.SingleTargetMinRange);
 
 			foreach(Hex hex in HexCache)
 			{

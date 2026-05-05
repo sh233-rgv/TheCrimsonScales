@@ -17,7 +17,7 @@ public static class RangeHelper
 	}
 
 	public static void FindHexesInRange(Hex origin, int range, bool requiresLineOfSight, List<Hex> list,
-		bool requiresHexesRevealed = true, bool allowDoors = false)
+		bool requiresHexesRevealed = true, bool allowDoors = false, int minRange = 0)
 	{
 		OpenList.Clear();
 		ClosedList.Clear();
@@ -93,7 +93,10 @@ public static class RangeHelper
 
 		foreach(KeyValuePair<Hex, Node> nodePair in ClosedList)
 		{
-			list.Add(nodePair.Key);
+			if(nodePair.Value.RangeSpent >= minRange)
+			{
+				list.Add(nodePair.Key);
+			}
 		}
 	}
 
