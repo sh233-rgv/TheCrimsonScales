@@ -156,14 +156,14 @@ public partial class Spirit : Figure
 			}
 		);
 
-		ScenarioCheckEvents.CanBeTargetedCheckEvent.Subscribe(this, CharacterOwner,
-			canApplyParameters =>
-				canApplyParameters.PotentialTarget == this,
-			applyParameters =>
-			{
-				applyParameters.SetCannotBeTargeted();
-			}
-		);
+		// ScenarioCheckEvents.CanBeTargetedCheckEvent.Subscribe(this, CharacterOwner,
+		// 	canApplyParameters =>
+		// 		canApplyParameters.PotentialTarget == this,
+		// 	applyParameters =>
+		// 	{
+		// 		applyParameters.SetCannotBeTargeted();
+		// 	}
+		// );
 
 		// Allow stopping movement in the same hex
 		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Subscribe(this, CharacterOwner,
@@ -220,7 +220,7 @@ public partial class Spirit : Figure
 		ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.FlyingCheckEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.CanBeFocusedCheckEvent.Unsubscribe(this, CharacterOwner);
-		ScenarioCheckEvents.CanBeTargetedCheckEvent.Unsubscribe(this, CharacterOwner);
+		//ScenarioCheckEvents.CanBeTargetedCheckEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.CanPassEnemyCheckEvent.Unsubscribe(this, CharacterOwner);
 

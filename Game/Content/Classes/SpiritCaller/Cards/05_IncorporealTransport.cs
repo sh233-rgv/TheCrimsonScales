@@ -12,8 +12,8 @@ public class IncorporealTransport : SpiritCallerCardModel<IncorporealTransport.C
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SpawnAbility.Builder()
-				.WithName("Phantom Hound")
-				.WithTexturePath("res://Content/Classes/SpiritCaller/Summons/phantom_hound.png")
+				.WithName("Ghost Carriage")
+				.WithTexturePath("res://Content/Classes/SpiritCaller/Summons/ghost_carriage.png")
 				.WithHealth(2)
 				.WithMove(4)
 				.WithTraits() //TODO
