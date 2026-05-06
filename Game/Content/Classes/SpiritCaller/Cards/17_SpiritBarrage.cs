@@ -26,20 +26,11 @@ public class SpiritBarrage : SpiritCallerCardModel<SpiritBarrage.CardTop, Spirit
 						}))
 				.WithOnAbilityStarted(async state =>
 				{
-					Figure figure = await AbilityCmd.SelectFigure(state, list =>
-					{
-						foreach(Figure figure in GameController.Instance.Map.Figures)
-						{
-							if(figure is Spirit)
-							{
-								list.Add(figure);
-							}
-						}
-					}, hintText: () => $"Choose a Spirit", autoSelectIfOne: false);
+					Spirit spirit = await Spirit.SelectSpirit(state);
 
-					if(figure != null)
+					if(spirit != null)
 					{
-						state.SetCustomValue(this, "Hex", figure.Hex);
+						state.SetCustomValue(this, "Hex", spirit.Hex);
 						state.AbilityAdjustAttackValue(1);
 					}
 				})
@@ -77,16 +68,7 @@ public class SpiritBarrage : SpiritCallerCardModel<SpiritBarrage.CardTop, Spirit
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					Figure spirit = await AbilityCmd.SelectFigure(state, list =>
-					{
-						foreach(Figure figure in GameController.Instance.Map.Figures)
-						{
-							if(figure is Spirit)
-							{
-								list.Add(figure);
-							}
-						}
-					}, hintText: () => $"Choose a Spirit", autoSelectIfOne: false);
+					Spirit spirit = await Spirit.SelectSpirit(state);
 
 					if(spirit == null)
 					{

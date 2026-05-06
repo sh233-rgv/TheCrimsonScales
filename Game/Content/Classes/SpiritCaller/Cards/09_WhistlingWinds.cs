@@ -39,23 +39,14 @@ public class WhistlingWinds : SpiritCallerCardModel<WhistlingWinds.CardTop, Whis
 				.WithCustomGetPerformHex(state => state.GetCustomValue<Hex>(this, "Hex"))
 				.WithConditionalAbilityCheck(async state =>
 				{
-					Figure figure = await AbilityCmd.SelectFigure(state, list =>
-					{
-						foreach(Figure figure in GameController.Instance.Map.Figures)
-						{
-							if(figure is Spirit)
-							{
-								list.Add(figure);
-							}
-						}
-					}, hintText: () => $"Choose a Spirit");
+					Spirit spirit = await Spirit.SelectSpirit(state);
 
-					if(figure == null)
+					if(spirit == null)
 					{
 						return false;
 					}
 
-					state.SetCustomValue(this, "Hex", figure.Hex);
+					state.SetCustomValue(this, "Hex", spirit.Hex);
 					return true;
 				})
 				.Build()),

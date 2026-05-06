@@ -69,23 +69,14 @@ public class ConfidenceRitual : SpiritCallerCardModel<ConfidenceRitual.CardTop, 
 				})
 				.WithConditionalAbilityCheck(async state =>
 				{
-					Figure figure = await AbilityCmd.SelectFigure(state, list =>
-					{
-						foreach(Figure figure in GameController.Instance.Map.Figures)
-						{
-							if(figure is Spirit)
-							{
-								list.Add(figure);
-							}
-						}
-					}, hintText: () => $"Choose a Spirit");
+					Spirit spirit = await Spirit.SelectSpirit(state);
 
-					if(figure == null)
+					if(spirit == null)
 					{
 						return false;
 					}
 
-					state.SetCustomValue(this, "Spirit", (Spirit)figure);
+					state.SetCustomValue(this, "Spirit", spirit);
 					return true;
 				})
 				.Build())

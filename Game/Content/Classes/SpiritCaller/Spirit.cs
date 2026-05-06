@@ -342,6 +342,22 @@ public partial class Spirit : Figure
 		return spirits;
 	}
 
+	public static async GDTask<Spirit> SelectSpirit(AbilityState state)
+	{
+		Figure figure = await AbilityCmd.SelectFigure(state, list =>
+		{
+			foreach(Figure figure in GameController.Instance.Map.Figures)
+			{
+				if(figure is Spirit)
+				{
+					list.Add(figure);
+				}
+			}
+		}, hintText: () => $"Select a Spirit");
+
+		return figure as Spirit;
+	}
+
 	public override void AddInfoItemParameters(List<InfoItemParameters> parametersList)
 	{
 		base.AddInfoItemParameters(parametersList);

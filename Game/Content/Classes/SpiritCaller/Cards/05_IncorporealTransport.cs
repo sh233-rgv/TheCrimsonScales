@@ -45,7 +45,10 @@ public class IncorporealTransport : SpiritCallerCardModel<IncorporealTransport.C
 					{
 						foreach(Figure figure in hex.GetHexObjectsOfType<Figure>())
 						{
-							list.Add(figure);
+							if(state.Performer.AlliedWith(figure))
+							{
+								list.Add(figure);
+							}
 						}
 					}
 				})

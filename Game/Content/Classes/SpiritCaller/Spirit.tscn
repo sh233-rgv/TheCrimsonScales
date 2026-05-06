@@ -17,7 +17,7 @@ font_size = 55
 font_color = Color(0, 0, 0, 1)
 
 [node name="Spirit" type="Node2D" unique_id=1353092289 node_paths=PackedStringArray("_container", "_mask")]
-z_index = 100
+z_index = 20
 script = ExtResource("1_cwcxa")
 _container = NodePath("Container")
 _mask = NodePath("Mask")
