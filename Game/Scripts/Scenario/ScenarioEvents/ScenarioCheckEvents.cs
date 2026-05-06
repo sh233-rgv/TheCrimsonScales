@@ -20,6 +20,11 @@ public partial class ScenarioCheckEvents
 				AIMoveParameters.Targets = amount;
 			}
 
+			public void SetTargetAll()
+			{
+				AIMoveParameters.TargetAll = true;
+			}
+
 			public void AdjustRange(int amount)
 			{
 				AIMoveParameters.Range += amount;

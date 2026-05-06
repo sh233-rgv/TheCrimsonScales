@@ -152,13 +152,14 @@ public static class RangeHelper
 		}
 	}
 
-	public static IEnumerable<Figure> GetFiguresInRange(Hex origin, int range, bool includeOrigin = true, bool requiresLineOfSight = true)
+	public static IEnumerable<Figure> GetFiguresInRange(Hex origin, int range, bool includeOrigin = true, bool requiresLineOfSight = true,
+		bool includeNonFigures = false)
 	{
 		foreach(Hex hex in GetHexesInRange(origin, range, includeOrigin, requiresLineOfSight))
 		{
 			foreach(Figure figure in hex.GetHexObjectsOfType<Figure>())
 			{
-				if(figure.IsFigure)
+				if(includeNonFigures || figure.IsFigure)
 				{
 					yield return figure;
 				}
@@ -166,13 +167,14 @@ public static class RangeHelper
 		}
 	}
 
-	public static IEnumerable<Figure> GetFiguresInRange(HexObject hexObject, int range, bool includeOrigin = true, bool requiresLineOfSight = true)
+	public static IEnumerable<Figure> GetFiguresInRange(HexObject hexObject, int range, bool includeOrigin = true, bool requiresLineOfSight = true,
+		bool includeNonFigures = false)
 	{
 		List<Figure> figures = new List<Figure>();
 
 		foreach(Hex objectHex in hexObject.Hexes)
 		{
-			foreach(Figure figure in GetFiguresInRange(objectHex, range, includeOrigin, requiresLineOfSight))
+			foreach(Figure figure in GetFiguresInRange(objectHex, range, includeOrigin, requiresLineOfSight, includeNonFigures: includeNonFigures))
 			{
 				figures.AddIfNew(figure);
 			}

@@ -38,6 +38,7 @@ public class SpiritCallerModel : ClassModel
 		ModelDB.AbilityCard<ShriekingSpirit>(),
 		ModelDB.AbilityCard<ToxicCharm>(),
 		ModelDB.AbilityCard<WhistlingWinds>(),
+
 		ModelDB.AbilityCard<FearTheReaper>(),
 		ModelDB.AbilityCard<ForcefulApparition>(),
 		ModelDB.AbilityCard<UnholySacrifice>(),

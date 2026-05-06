@@ -159,7 +159,7 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 
 	public void SetPerformHex(Hex hex)
 	{
-		AbilityPerformHex = hex;
+		AbilityPerformHex = hex ?? Performer.Hex;
 	}
 
 	public void SetTarget(Target target)

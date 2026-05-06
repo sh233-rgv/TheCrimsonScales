@@ -59,6 +59,26 @@ public partial class ScenarioEvents
 	private readonly HexObjectDestroyed _hexObjectDestroyed = new HexObjectDestroyed();
 	public static HexObjectDestroyed HexObjectDestroyedEvent => GameController.Instance.ScenarioEvents._hexObjectDestroyed;
 
+	public class DuringPush : ScenarioEvent<DuringPush.Parameters>
+	{
+		public class Parameters(PushAbility.State abilityState) : ParametersBase<PushAbility.State>(abilityState)
+		{
+		}
+	}
+
+	private readonly DuringPush _duringPush = new DuringPush();
+	public static DuringPush DuringPushEvent => GameController.Instance.ScenarioEvents._duringPush;
+
+	public class DuringPull : ScenarioEvent<DuringPull.Parameters>
+	{
+		public class Parameters(PullAbility.State abilityState) : ParametersBase<PullAbility.State>(abilityState)
+		{
+		}
+	}
+
+	private readonly DuringPull _duringPull = new DuringPull();
+	public static DuringPull DuringPullEvent => GameController.Instance.ScenarioEvents._duringPull;
+
 	public class DuringAttack : ScenarioEvent<DuringAttack.Parameters>
 	{
 		public class Parameters(AttackAbility.State abilityState) : ParametersBase<AttackAbility.State>(abilityState)
@@ -416,6 +436,13 @@ public partial class ScenarioEvents
 			public void SetBrittle(bool brittle)
 			{
 				HasBrittle = brittle;
+
+				CalculateCurrentDamage();
+			}
+
+			public void AdjustPierce(int amount)
+			{
+				((AttackAbility.State)PotentialAbilityState).SingleTargetAdjustPierce(amount);
 
 				CalculateCurrentDamage();
 			}
