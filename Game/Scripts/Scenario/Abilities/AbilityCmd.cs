@@ -246,7 +246,7 @@ public static class AbilityCmd
 		return false;
 	}
 
-	public static async GDTask RemoveOneNegativeCondition(Figure target)
+	public static async GDTask RemoveOneNegativeCondition(AbilityState potentialAbilityState, Figure target)
 	{
 		List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
 			new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
@@ -257,6 +257,7 @@ public static class AbilityCmd
 				subscriptions.Add(ScenarioEvents.GenericChoice.Subscription.New(
 					applyFunction: async applyParameters =>
 					{
+						potentialAbilityState?.SetPerformed();
 						await RemoveCondition(target, condition.ConditionModel);
 					},
 					effectType: EffectType.SelectableMandatory,
@@ -774,8 +775,16 @@ public static class AbilityCmd
 		return otherAbilityState.Performed;
 	}
 
-	public static async GDTask GenericChoice(Figure authority, IEnumerable<ScenarioEvents.GenericChoice.Subscription> subscriptions,
+	public static async GDTask GenericChoice(Figure authority, List<ScenarioEvents.GenericChoice.Subscription> subscriptions,
 		bool canSelectMultiple = false, string hintText = "Make a selection")
+	{
+		EffectCollection effectCollection = GenericChoiceCollection(authority, subscriptions, canSelectMultiple: canSelectMultiple);
+		await ScenarioEvents.GenericChoiceEvent.CreatePrompt(effectCollection, authority, hintText);
+		ScenarioEvents.GenericChoiceEvent.Unsubscribe(subscriptions);
+	}
+
+	public static EffectCollection GenericChoiceCollection(Figure authority, List<ScenarioEvents.GenericChoice.Subscription> subscriptions,
+		bool canSelectMultiple = false)
 	{
 		object subscriber = new object();
 		foreach(ScenarioEvents.GenericChoice.Subscription subscription in subscriptions)
@@ -809,8 +818,12 @@ public static class AbilityCmd
 			ScenarioEvents.GenericChoiceEvent.Subscribe(authority, subscriber, newSubscription, false);
 		}
 
-		await ScenarioEvents.GenericChoiceEvent.CreatePrompt(new ScenarioEvents.GenericChoice.Parameters(subscriber), authority, hintText);
-		ScenarioEvents.GenericChoiceEvent.ClearAllSubscriptions();
+		return ScenarioEvents.GenericChoiceEvent.CreateEffectCollection(new ScenarioEvents.GenericChoice.Parameters(subscriber));
+	}
+
+	public static void ClearGenericChoiceCollection(List<ScenarioEvents.GenericChoice.Subscription> subscriptions)
+	{
+		ScenarioEvents.GenericChoiceEvent.Unsubscribe(subscriptions);
 	}
 
 	public static GDTask InfuseWildElement(AbilityState potentialAbilityState, Figure potentialInfuser = null)
@@ -1332,7 +1345,7 @@ public static class AbilityCmd
 			effectInfoViewParameters: effectInfoViewParameters);
 	}
 
-	public static void UnsubscribeDuringTurn(IEventSubscriber eventSubscriber)
+	public static void UnsubscribeDuringCharacterTurn(IEventSubscriber eventSubscriber)
 	{
 		ScenarioEvents.CardSideSelectionEvent.Unsubscribe(eventSubscriber);
 		ScenarioEvents.AfterCardsPlayedEvent.Unsubscribe(eventSubscriber);

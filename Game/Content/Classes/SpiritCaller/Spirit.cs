@@ -342,7 +342,7 @@ public partial class Spirit : Figure
 		return spirits;
 	}
 
-	public static async GDTask<Spirit> SelectSpirit(AbilityState state)
+	public static async GDTask<Spirit> SelectSpirit(AbilityState state, EffectCollection effectCollection = null)
 	{
 		Figure figure = await AbilityCmd.SelectFigure(state, list =>
 		{
@@ -353,7 +353,7 @@ public partial class Spirit : Figure
 					list.Add(figure);
 				}
 			}
-		}, hintText: () => $"Select a Spirit");
+		}, effectCollection: effectCollection, hintText: () => $"Select a Spirit");
 
 		return figure as Spirit;
 	}

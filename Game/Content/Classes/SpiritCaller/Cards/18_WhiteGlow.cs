@@ -125,7 +125,8 @@ public class WhiteGlow : SpiritCallerCardModel<WhiteGlow.CardTop, WhiteGlow.Card
 				})
 				.WithOnDeactivate(async state =>
 				{
-					// ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(state, this);
+					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
+					AbilityCmd.UnsubscribeDuringCharacterTurn(ScenarioEvents.GetSubscriberPair(state, this));
 
 					await GDTask.CompletedTask;
 				})

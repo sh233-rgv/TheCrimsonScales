@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 
 public class SoulHarvest : SpiritCallerCardModel<SoulHarvest.CardTop, SoulHarvest.CardBottom>
@@ -40,13 +41,49 @@ public class SoulHarvest : SpiritCallerCardModel<SoulHarvest.CardTop, SoulHarves
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					Spirit spirit = await Spirit.SelectSpirit(state);
+					int spiritCount = 1;
+					List<ScenarioEvents.GenericChoice.Subscription> subscriptions = new List<ScenarioEvents.GenericChoice.Subscription>();
+					subscriptions.Add(ScenarioEvents.GenericChoice.Subscription.ConsumeElement(Element.Ice,
+						applyFunction: async applyParameters =>
+						{
+							await AbilityCmd.AddCondition(state, state.Performer, Conditions.Curse);
 
-					if(spirit != null)
+							spiritCount++;
+
+							await GainXP(state);
+						},
+						effectType: EffectType.Selectable,
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"Remove a damage counter from two Spirits instead.")
+					));
+
+					EffectCollection effectCollection = AbilityCmd.GenericChoiceCollection(state.Performer, subscriptions);
+
+					List<Spirit> selectedSpirits = new List<Spirit>();
+
+					for(int i = 0; i < spiritCount; i++)
 					{
-						await spirit.RemoveDamageCounters(1);
-						state.SetPerformed();
+						Spirit spirit = await AbilityCmd.SelectFigure(state, list =>
+						{
+							foreach(Figure figure in GameController.Instance.Map.Figures)
+							{
+								if(figure is Spirit && !selectedSpirits.Contains(figure))
+								{
+									list.Add(figure);
+								}
+							}
+						}, effectCollection: i == 0 ? effectCollection : null, hintText: () => $"Select a Spirit") as Spirit;
+
+						selectedSpirits.Add(spirit);
+
+						if(spirit != null)
+						{
+							await spirit.RemoveDamageCounters(1);
+							state.SetPerformed();
+						}
 					}
+
+					AbilityCmd.ClearGenericChoiceCollection(subscriptions);
 				})
 				.Build())
 		];
@@ -58,58 +95,15 @@ public class SoulHarvest : SpiritCallerCardModel<SoulHarvest.CardTop, SoulHarves
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(SpawnAbility.Builder()
-				.WithName("Shifting Discs")
-				.WithTexturePath("res://Content/Classes/SpiritCaller/Summons/orb_of_light.png")
-				.WithHealth(2)
-				.WithMove(2)
+			new AbilityCardAbility(MoveAbility.Builder()
+				.WithDistance(4)
 				.Build()),
 
-			new AbilityCardAbility(OtherActiveAbility.Builder()
-				.WithOnActivate(async state =>
-				{
-					bool canUse = true;
-
-					ScenarioEvents.FigureTurnEndedEvent.Subscribe(state, this,
-						parameters => true,
-						async parameters =>
-						{
-							canUse = true;
-
-							await GDTask.CompletedTask;
-						}
-					);
-
-					SpawnAbility.State spawnAbilityState = state.ActionState.GetAbilityState<SpawnAbility.State>(0);
-
-					AbilityCmd.SubscribeDuringCharacterTurn(ScenarioEvents.GetSubscriberPair(state, this), EffectType.Selectable,
-						character =>
-							canUse &&
-							AbilityCmd.CanSwap(spawnAbilityState.Spirit, character),
-						async character =>
-						{
-							canUse = false;
-							await AbilityCmd.TrySwap(state, spawnAbilityState.Spirit, character);
-						},
-						new IconEffectButton.Parameters(Icons.Teleport),
-						new TextEffectInfoView.Parameters($"Swap hexes with Shifting Discs.")
-					);
-
-					await GDTask.CompletedTask;
-				})
-				.WithOnDeactivate(async state =>
-				{
-					// ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(state, this);
-
-					await GDTask.CompletedTask;
-				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.WithMandatory(true)
-				.WithSkipConfirmation()
+			new AbilityCardAbility(HealAbility.Builder()
+				.WithHealValue(new DynamicInt<HealAbility.State>(state =>
+					state.ActionState.GetAbilityState<MoveAbility.State>(0).Hexes.Count(hex => hex.HasHexObjectOfType<Spirit>()) + 1))
+				.WithRange(2)
 				.Build())
 		];
-
-		public override int XP => 1;
-		public override bool Persistent => true;
 	}
 }

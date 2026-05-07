@@ -102,16 +102,13 @@ public abstract partial class Figure : HexObject, IActionSource
 		ScenarioCheckEvents.RetaliateCheckEvent.SubscribersChangedEvent += OnRetaliateSubscriptionsChanged;
 		ScenarioCheckEvents.FlyingCheckEvent.SubscribersChangedEvent += OnFlyingSubscriptionsChanged;
 		ScenarioCheckEvents.InitiativeCheckEvent.SubscribersChangedEvent += OnInitiativeSubscriptionsChanged;
-		//ScenarioCheckEvents.IsMountedCheckEvent.SubscribersChangedEvent += OnIsMountedSubscriptionsChanged;
 
 		OnShieldSubscriptionsChanged();
 		OnRetaliateSubscriptionsChanged();
 		OnFlyingSubscriptionsChanged();
-		//OnIsMountedSubscriptionsChanged();
 
-		//await GameController.Instance.Map.RegisterFigure(this);
-
-		//await ScenarioEvents.FigureInitializedEvent.CreatePrompt(new ScenarioEvents.FigureInitialized.Parameters(this));
+		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(null, this), this);
+		//await AbilityCmd.EnterHex(null, this, this, Hex, false, false);
 	}
 
 	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
