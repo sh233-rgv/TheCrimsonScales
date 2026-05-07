@@ -406,15 +406,13 @@ public partial class Spirit : Figure
 
 	public async GDTask AddDamageCounters(int amount)
 	{
-		await AbilityCmd.SufferDamage(this, amount, this);
-		// if(Health > 0)
-		// {
-		// 	int targetHealth = Health - amount;
-		// 	targetHealth = Mathf.Max(targetHealth, 0);
-		// 	SetHealth(targetHealth);
-		// }
+		ScenarioEvents.SpiritGainDamageToken.Parameters parameters =
+			await ScenarioEvents.SpiritGainDamageTokenEvent.CreatePrompt(new ScenarioEvents.SpiritGainDamageToken.Parameters(this));
 
-		//await GDTask.CompletedTask;
+		if(parameters.Target != null)
+		{
+			await AbilityCmd.SufferDamage(parameters.Target, amount, this);
+		}
 	}
 
 	private void OnOwnerInitiativeChanged(Figure owner)
