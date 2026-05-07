@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 using Godot;
@@ -94,7 +93,7 @@ public partial class Spirit : Figure
 			}
 		}
 
-		RegisterSpirit(this);
+		RegisterSpirit();
 
 		await GameController.Instance.Map.RegisterFigure(this);
 
@@ -253,9 +252,37 @@ public partial class Spirit : Figure
 			CharacterOwner.InitiativeChangedEvent -= OnOwnerInitiativeChanged;
 		}
 
-		DeregisterSpirit(this);
+		DeregisterSpirit();
 
 		await base.Destroy(immediately, forceDestroy);
+	}
+
+	public void SetAttack(int? attack)
+	{
+		Attack = attack;
+	}
+
+	public void SetMove(int? move)
+	{
+		Move = move;
+	}
+
+	public void SetRange(int? range)
+	{
+		Range = range;
+	}
+
+	public void SetAsFirstSpirit()
+	{
+		List<Spirit> spirits = GetSpirits(CharacterOwner);
+		spirits.Remove(this);
+		spirits.Insert(0, this);
+
+		for(int i = 0; i < spirits.Count; i++)
+		{
+			Spirit spirit = spirits[i];
+			spirit.SetSpiritIndex(i);
+		}
 	}
 
 	protected override Initiative GetInitiative()
@@ -272,7 +299,7 @@ public partial class Spirit : Figure
 		return new Initiative()
 		{
 			MainInitiative = ownerInitiative.MainInitiative,
-			SortingInitiative = ownerInitiative.SortingInitiative + SpiritIndex
+			SortingInitiative = ownerInitiative.SortingInitiative + (SpiritIndex + 1) * 10
 		};
 	}
 
@@ -311,22 +338,22 @@ public partial class Spirit : Figure
 		_spiritViewComponent.StandeeNumberLabel.SetText((SpiritIndex + 1).ToString());
 	}
 
-	private void RegisterSpirit(Spirit spirit)
+	private void RegisterSpirit()
 	{
-		List<Spirit> spirits = GetSpirits(spirit.CharacterOwner);
+		List<Spirit> spirits = GetSpirits(CharacterOwner);
 
 		spirits.Add(this);
 		SetSpiritIndex(spirits.Count - 1);
 	}
 
-	private void DeregisterSpirit(Spirit spirit)
+	private void DeregisterSpirit()
 	{
-		List<Spirit> spirits = GetSpirits(spirit.CharacterOwner);
+		List<Spirit> spirits = GetSpirits(CharacterOwner);
 
 		for(int i = 0; i < spirits.Count; i++)
 		{
-			Spirit otherSpirit = spirits[i];
-			otherSpirit.SetSpiritIndex(i);
+			Spirit spirit = spirits[i];
+			spirit.SetSpiritIndex(i);
 		}
 	}
 

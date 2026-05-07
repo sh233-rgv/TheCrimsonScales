@@ -700,6 +700,31 @@ public static class AbilityCmd
 		}
 	}
 
+	public static async GDTask Teleport(AbilityState abilityState, Figure figure, Hex destination)
+	{
+		abilityState.SetPerformed();
+
+		await ExitHex(abilityState, figure, abilityState.Authority);
+
+		const float animationSpeed = 1.4f;
+
+		if(!GameController.FastForward)
+		{
+			// Disappear
+			await GameController.Instance.ScreenDistortion.Disappear(figure, animationSpeed, true).PlayFastForwardableAsync();
+		}
+
+		figure.SetOriginHexAndRotation(destination);
+
+		if(!GameController.FastForward)
+		{
+			// Appear
+			await GameController.Instance.ScreenDistortion.Appear(figure, animationSpeed, true).PlayFastForwardableAsync();
+		}
+
+		await EnterHex(abilityState, figure, abilityState.Authority, destination, true, true);
+	}
+
 	public static GDTask<bool> TrySwap(Figure authority, Figure figureA, Figure figureB)
 	{
 		return TrySwap(null, authority, figureA, figureB);
@@ -712,25 +737,70 @@ public static class AbilityCmd
 
 	public static bool CanSwap(Figure figureA, Figure figureB)
 	{
-		if(figureA.Hex.TryGetHexObjectOfType(out Obstacle obstacle) &&
-		   !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figureB)).HasFlying)
+		return CanForceMoveTo(figureA, figureB.Hex) && CanForceMoveTo(figureB, figureA.Hex);
+
+		// if(figureA.Hex.TryGetHexObjectOfType(out Obstacle obstacle) &&
+		//    !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figureB)).HasFlying)
+		// {
+		// 	ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
+		// 		ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
+		// 			new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figureB, figureA.Hex, obstacle, true));
+		//
+		// 	if(!canEnterObstacleParameters.CanEnter)
+		// 	{
+		// 		return false;
+		// 	}
+		// }
+		//
+		// if(figureB.Hex.TryGetHexObjectOfType(out Obstacle obstacle2) &&
+		//    !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figureA)).HasFlying)
+		// {
+		// 	ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
+		// 		ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
+		// 			new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figureA, figureB.Hex, obstacle2, true));
+		//
+		// 	if(!canEnterObstacleParameters.CanEnter)
+		// 	{
+		// 		return false;
+		// 	}
+		// }
+		//
+		// if(ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Fire(
+		// 	   new ScenarioCheckEvents.ImmuneToForcedMovementCheck.Parameters(figureA)).ImmuneToForcedMovement)
+		// {
+		// 	return false;
+		// }
+		//
+		// if(ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Fire(
+		// 	   new ScenarioCheckEvents.ImmuneToForcedMovementCheck.Parameters(figureB)).ImmuneToForcedMovement)
+		// {
+		// 	return false;
+		// }
+		//
+		// ScenarioCheckEvents.CanEnterCheck.Parameters canEnterA =
+		// 	ScenarioCheckEvents.CanEnterCheckEvent.Fire(
+		// 		new ScenarioCheckEvents.CanEnterCheck.Parameters(figureA, figureB.Hex));
+		//
+		// ScenarioCheckEvents.CanEnterCheck.Parameters canEnterB =
+		// 	ScenarioCheckEvents.CanEnterCheckEvent.Fire(
+		// 		new ScenarioCheckEvents.CanEnterCheck.Parameters(figureB, figureA.Hex));
+		//
+		// if(!canEnterA.CanEnter || !canEnterB.CanEnter)
+		// {
+		// 	return false;
+		// }
+		//
+		// return true;
+	}
+
+	public static bool CanForceMoveTo(Figure figure, Hex destination)
+	{
+		if(destination.TryGetHexObjectOfType(out Obstacle obstacle) &&
+		   !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figure)).HasFlying)
 		{
 			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
 				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
-					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figureB, figureA.Hex, obstacle, true));
-
-			if(!canEnterObstacleParameters.CanEnter)
-			{
-				return false;
-			}
-		}
-
-		if(figureB.Hex.TryGetHexObjectOfType(out Obstacle obstacle2) &&
-		   !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figureA)).HasFlying)
-		{
-			ScenarioCheckEvents.CanEnterObstacleCheck.Parameters canEnterObstacleParameters =
-				ScenarioCheckEvents.CanEnterObstacleCheckEvent.Fire(
-					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figureA, figureB.Hex, obstacle2, true));
+					new ScenarioCheckEvents.CanEnterObstacleCheck.Parameters(figure, destination, obstacle, true));
 
 			if(!canEnterObstacleParameters.CanEnter)
 			{
@@ -739,26 +809,15 @@ public static class AbilityCmd
 		}
 
 		if(ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Fire(
-			   new ScenarioCheckEvents.ImmuneToForcedMovementCheck.Parameters(figureA)).ImmuneToForcedMovement)
+			   new ScenarioCheckEvents.ImmuneToForcedMovementCheck.Parameters(figure)).ImmuneToForcedMovement)
 		{
 			return false;
 		}
 
-		if(ScenarioCheckEvents.ImmuneToForcedMovementCheckEvent.Fire(
-			   new ScenarioCheckEvents.ImmuneToForcedMovementCheck.Parameters(figureB)).ImmuneToForcedMovement)
-		{
-			return false;
-		}
-
-		ScenarioCheckEvents.CanEnterCheck.Parameters canEnterA =
+		ScenarioCheckEvents.CanEnterCheck.Parameters canEnter =
 			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
-				new ScenarioCheckEvents.CanEnterCheck.Parameters(figureA, figureB.Hex));
-
-		ScenarioCheckEvents.CanEnterCheck.Parameters canEnterB =
-			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
-				new ScenarioCheckEvents.CanEnterCheck.Parameters(figureB, figureA.Hex));
-
-		if(!canEnterA.CanEnter || !canEnterB.CanEnter)
+				new ScenarioCheckEvents.CanEnterCheck.Parameters(figure, destination));
+		if(!canEnter.CanEnter)
 		{
 			return false;
 		}

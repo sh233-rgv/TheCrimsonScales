@@ -123,26 +123,28 @@ public class TeleportAbility : Ability<TeleportAbility.State>
 			return;
 		}
 
-		abilityState.SetPerformed();
+		await AbilityCmd.Teleport(abilityState, performer, destination);
 
-		await AbilityCmd.ExitHex(abilityState, performer, abilityState.Authority);
-
-		const float animationSpeed = 1.4f;
-
-		if(!GameController.FastForward)
-		{
-			// Disappear
-			await GameController.Instance.ScreenDistortion.Disappear(performer, animationSpeed, true).PlayFastForwardableAsync();
-		}
-
-		performer.SetOriginHexAndRotation(destination);
-
-		if(!GameController.FastForward)
-		{
-			// Appear
-			await GameController.Instance.ScreenDistortion.Appear(performer, animationSpeed, true).PlayFastForwardableAsync();
-		}
-
-		await AbilityCmd.EnterHex(abilityState, performer, abilityState.Authority, destination, true, true);
+		// abilityState.SetPerformed();
+		//
+		// await AbilityCmd.ExitHex(abilityState, performer, abilityState.Authority);
+		//
+		// const float animationSpeed = 1.4f;
+		//
+		// if(!GameController.FastForward)
+		// {
+		// 	// Disappear
+		// 	await GameController.Instance.ScreenDistortion.Disappear(performer, animationSpeed, true).PlayFastForwardableAsync();
+		// }
+		//
+		// performer.SetOriginHexAndRotation(destination);
+		//
+		// if(!GameController.FastForward)
+		// {
+		// 	// Appear
+		// 	await GameController.Instance.ScreenDistortion.Appear(performer, animationSpeed, true).PlayFastForwardableAsync();
+		// }
+		//
+		// await AbilityCmd.EnterHex(abilityState, performer, abilityState.Authority, destination, true, true);
 	}
 }

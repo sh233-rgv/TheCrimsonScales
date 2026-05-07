@@ -360,7 +360,7 @@ public abstract partial class Figure : HexObject, IActionSource
 		ReorderEffects();
 	}
 
-	protected async GDTask AddTrait(FigureTrait trait)
+	public async GDTask AddTrait(FigureTrait trait)
 	{
 		FigureTrait mutableTrait = trait.ToMutable();
 		Traits.Add(mutableTrait);

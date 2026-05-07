@@ -13,7 +13,7 @@ public class DimmedDefense : SpiritCallerCardModel<DimmedDefense.CardTop, Dimmed
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(SpawnAbility.Builder()
-				.WithName("Blazing Fire")
+				.WithName("Wall of Shadows")
 				.WithTexturePath("res://Content/Classes/SpiritCaller/Summons/wall_of_shadows.png")
 				.WithHealth(2)
 				.WithTraits(new ShieldAuraTrait(1, 1, false))
