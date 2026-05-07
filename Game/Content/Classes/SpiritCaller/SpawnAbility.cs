@@ -50,6 +50,7 @@ public class SpawnAbility : ActiveAbility<SpawnAbility.State>
 	private string _texturePath;
 	private string _mapIconTexturePath;
 	private Action<State, List<Hex>> _getValidHexes;
+	private bool _requestDiscardOrLoseAfterSpiritKilled = true;
 
 	public string Name { get; private set; }
 	public int Health { get; private set; }
@@ -129,10 +130,15 @@ public class SpawnAbility : ActiveAbility<SpawnAbility.State>
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithGetValidHexes(
-			Action<State, List<Hex>> getValidHexes)
+		public TBuilder WithGetValidHexes(Action<State, List<Hex>> getValidHexes)
 		{
 			Obj._getValidHexes = getValidHexes;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithSetDontRequestDiscardOrLoseAfterSpiritKilled()
+		{
+			Obj._requestDiscardOrLoseAfterSpiritKilled = false;
 			return (TBuilder)this;
 		}
 	}
@@ -207,12 +213,16 @@ public class SpawnAbility : ActiveAbility<SpawnAbility.State>
 			spirit.Scale = Vector2.Zero;
 			await spirit.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardableAsync();
 
-			ScenarioEvents.FigureKilledEvent.Subscribe(abilityState, this,
-				parameters => parameters.Figure == spirit,
-				async parameters =>
-				{
-					await abilityState.ActionState.RequestDiscardOrLose();
-				});
+			if(_requestDiscardOrLoseAfterSpiritKilled)
+			{
+				ScenarioEvents.FigureKilledEvent.Subscribe(abilityState, this,
+					parameters => parameters.Figure == spirit,
+					async parameters =>
+					{
+						await abilityState.ActionState.RequestDiscardOrLose();
+					}
+				);
+			}
 
 			await Activate(abilityState);
 		}

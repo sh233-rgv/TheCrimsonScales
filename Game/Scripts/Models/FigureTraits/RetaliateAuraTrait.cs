@@ -1,28 +1,28 @@
 ﻿using Fractural.Tasks;
 
-public class ShieldAuraTrait(int shield, int range, bool canBeSelf) : FigureTrait
+public class RetaliateAuraTrait(int retaliate, int range, bool canBeSelf) : FigureTrait
 {
 	public override async GDTask Activate(Figure figure)
 	{
 		await base.Activate(figure);
 
-		ScenarioCheckEvents.ShieldCheckEvent.Subscribe(figure, this,
+		ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(figure, this,
 			parameters =>
 				figure.AlliedWith(parameters.Figure, canBeSelf) &&
 				RangeHelper.Distance(parameters.Figure.Hex, figure.Hex) <= range,
 			applyParameters =>
 			{
-				applyParameters.AdjustShield(shield);
+				applyParameters.AddRetaliate(retaliate, range);
 			}
 		);
 
-		ScenarioEvents.SufferDamageEvent.Subscribe(figure, this,
-			parameters =>
-				figure.AlliedWith(parameters.Figure, canBeSelf) &&
-				RangeHelper.Distance(parameters.Figure.Hex, figure.Hex) <= range,
-			async parameters =>
+		ScenarioEvents.RetaliateEvent.Subscribe(figure, this,
+			canApplyParameters =>
+				canApplyParameters.RetaliatingFigure == figure &&
+				RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, figure.Hex) <= range,
+			async applyParameters =>
 			{
-				parameters.AdjustShield(shield);
+				applyParameters.AdjustRetaliate(retaliate);
 
 				await GDTask.CompletedTask;
 			}
@@ -32,7 +32,7 @@ public class ShieldAuraTrait(int shield, int range, bool canBeSelf) : FigureTrai
 			parameters => figure.AlliedWith(parameters.Figure, true),
 			async parameters =>
 			{
-				ScenarioCheckEvents.ShieldCheckEvent.FireChangedEvent();
+				ScenarioCheckEvents.RetaliateCheckEvent.FireChangedEvent();
 
 				await GDTask.CompletedTask;
 			}
@@ -43,8 +43,8 @@ public class ShieldAuraTrait(int shield, int range, bool canBeSelf) : FigureTrai
 	{
 		await base.Deactivate(figure);
 
-		ScenarioCheckEvents.ShieldCheckEvent.Unsubscribe(figure, this);
-		ScenarioEvents.SufferDamageEvent.Unsubscribe(figure, this);
+		ScenarioCheckEvents.RetaliateCheckEvent.Unsubscribe(figure, this);
+		ScenarioEvents.RetaliateEvent.Unsubscribe(figure, this);
 		ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(figure, this);
 	}
 }

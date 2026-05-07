@@ -28,7 +28,7 @@ public class SpiritCallerModel : ClassModel
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
-		ModelDB.AbilityCard<FierceLoyalty>(),
+		ModelDB.AbilityCard<RiseFromAshes>(),
 		ModelDB.AbilityCard<SoulHarvest>(),
 
 		ModelDB.AbilityCard<BurningPit>(),
