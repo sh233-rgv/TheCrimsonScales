@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class SoulHarvest : SpiritCallerCardModel<SoulHarvest.CardTop, SoulHarvest.CardBottom>
 {
@@ -96,7 +97,7 @@ public class SoulHarvest : SpiritCallerCardModel<SoulHarvest.CardTop, SoulHarves
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.61863244f, 0.67363274f)))
 				.Build()),
 
 			new AbilityCardAbility(HealAbility.Builder()

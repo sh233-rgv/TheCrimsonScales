@@ -15,9 +15,9 @@ public class DecayingDaggers : SpiritCallerCardModel<DecayingDaggers.CardTop, De
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.4038575f, 0.24590431f)))
 				.WithTargets(2)
-				.WithRange(3)
+				.WithRange(3, new RangeSquare(this, new Vector2(0.70742154f, 0.24483776f)))
 				.WithAfterTargetConfirmedSubscription(ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
 					parameters =>
 						RangeHelper.GetFiguresInRange(parameters.AbilityState.Target, 1, includeNonFigures: true)
@@ -62,11 +62,11 @@ public class DecayingDaggers : SpiritCallerCardModel<DecayingDaggers.CardTop, De
 				})
 				.WithUseSlots(
 				[
-					new UseSlot(new Vector2(0.5f, 0.5f), GainXP),
-					new UseSlot(new Vector2(0.5f, 0.5f), Air),
-					new UseSlot(new Vector2(0.5f, 0.5f), GainXP),
-					new UseSlot(new Vector2(0.5f, 0.5f), Dark),
-					new UseSlot(new Vector2(0.5f, 0.5f), GainXP),
+					new UseSlot(new Vector2(0.28975242f, 0.7408624f), GainXP),
+					new UseSlot(new Vector2(0.49964964f, 0.7408624f), Air),
+					new UseSlot(new Vector2(0.706647f, 0.7408624f), GainXP),
+					new UseSlot(new Vector2(0.3969018f, 0.87083995f), Dark),
+					new UseSlot(new Vector2(0.6038991f, 0.87083995f), GainXP),
 				])
 				.Build())
 		];

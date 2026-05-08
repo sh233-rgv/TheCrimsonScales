@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class HorrificNightmare : SpiritCallerCardModel<HorrificNightmare.CardTop, HorrificNightmare.CardBottom>
 {
@@ -63,7 +64,7 @@ public class HorrificNightmare : SpiritCallerCardModel<HorrificNightmare.CardTop
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3)
-				.WithRange(4)
+				.WithRange(4, new RangeSquare(this, new Vector2(0.616032f, 0.6833825f)))
 				.WithDuringAttackSubscriptions(
 					[
 						ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Air,

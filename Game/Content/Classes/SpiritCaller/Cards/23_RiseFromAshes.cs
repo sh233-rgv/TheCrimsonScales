@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class RiseFromAshes : SpiritCallerCardModel<RiseFromAshes.CardTop, RiseFromAshes.CardBottom>
 {
@@ -111,7 +112,7 @@ public class RiseFromAshes : SpiritCallerCardModel<RiseFromAshes.CardTop, RiseFr
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(5)
+				.WithDamage(5, new AttackDiamond(this, new Vector2(0.28229654f, 0.73834634f)))
 				.WithCustomGetTargets((state, list) =>
 				{
 					list.AddRange(RangeHelper.GetFiguresInRange(state.GetCustomValue<Figure>(this, "Spirit"), 1));

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 
 public class CircleOfLifeless : SpiritCallerCardModel<CircleOfLifeless.CardTop, CircleOfLifeless.CardBottom>
 {
@@ -71,7 +72,7 @@ public class CircleOfLifeless : SpiritCallerCardModel<CircleOfLifeless.CardTop, 
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.52304226f, 0.6980486f)))
 				.WithMoveType(MoveType.Jump)
 				.WithOnAbilityEndedPerformed(async state =>
 				{

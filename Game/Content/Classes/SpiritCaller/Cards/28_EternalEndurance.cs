@@ -5,7 +5,7 @@ using Fractural.Tasks;
 public class EternalEndurance : SpiritCallerCardModel<EternalEndurance.CardTop, EternalEndurance.CardBottom>
 {
 	public override string Name => "Eternal Endurance";
-	public override int Level => 1;
+	public override int Level => 9;
 	public override int Initiative => 06;
 	protected override int AtlasIndex => 28 - 28;
 

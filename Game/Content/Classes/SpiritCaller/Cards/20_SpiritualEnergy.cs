@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class SpiritualEnergy : SpiritCallerCardModel<SpiritualEnergy.CardTop, SpiritualEnergy.CardBottom>
 {
@@ -69,7 +70,7 @@ public class SpiritualEnergy : SpiritCallerCardModel<SpiritualEnergy.CardTop, Sp
 				.Build()),
 
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2)
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.6210601f, 0.7654614f)))
 				.Build()),
 
 			new AbilityCardAbility(OtherAbility.Builder()

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class FierceLoyalty : SpiritCallerCardModel<FierceLoyalty.CardTop, FierceLoyalty.CardBottom>
 {
@@ -104,7 +105,7 @@ public class FierceLoyalty : SpiritCallerCardModel<FierceLoyalty.CardTop, Fierce
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.6181081f, 0.6304685f)))
 				.Build()),
 
 			new AbilityCardAbility(OtherActiveAbility.Builder()

@@ -16,7 +16,7 @@ public class ChillingSlice : SpiritCallerCardModel<ChillingSlice.CardTop, Chilli
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2)
-				.WithRange(3)
+				.WithRange(3, new RangeSquare(this, new Vector2(0.42527303f, 0.24675451f)))
 				.WithAOEPattern(new AOEPattern(
 					[
 						new AOEHex(Vector2I.Zero, AOEHexType.Red),
@@ -47,7 +47,7 @@ public class ChillingSlice : SpiritCallerCardModel<ChillingSlice.CardTop, Chilli
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3)
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62073576f, 0.64836746f)))
 				.Build()),
 
 			new AbilityCardAbility(ConditionAbility.Builder()

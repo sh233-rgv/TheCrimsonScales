@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 public class SmokyShroud : SpiritCallerCardModel<SmokyShroud.CardTop, SmokyShroud.CardBottom>
 {
@@ -78,7 +79,7 @@ public class SmokyShroud : SpiritCallerCardModel<SmokyShroud.CardTop, SmokyShrou
 				.Build()),
 
 			new AbilityCardAbility(PushAbility.Builder()
-				.WithPush(1)
+				.WithPush(1, new PushCircle(this, new Vector2(0.5121589f, 0.71031433f)))
 				.WithRange(1)
 				.WithDuringPushSubscriptions(
 					ScenarioEvents.DuringPush.Subscription.ConsumeElement(Element.Dark,
