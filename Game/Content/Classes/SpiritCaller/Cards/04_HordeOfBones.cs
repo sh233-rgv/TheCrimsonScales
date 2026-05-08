@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Fractural.Tasks;
 
 public class HordeOfBones : SpiritCallerCardModel<HordeOfBones.CardTop, HordeOfBones.CardBottom>
 {
@@ -47,16 +46,10 @@ public class HordeOfBones : SpiritCallerCardModel<HordeOfBones.CardTop, HordeOfB
 				.WithCustomGetTargets((state, list) =>
 				{
 					list.Add(state.Performer);
-					list.AddRange(Spirit.GetSpirits((Character)state.Performer));
+					list.AddRange(Spirit.GetAllSpirits());
 				})
 				.WithTarget(Target.Any)
 				.WithCanTargetNonFigures()
-				.WithConditionalAbilityCheck(async state =>
-				{
-					await GDTask.CompletedTask;
-
-					return state.Performer is Character;
-				})
 				.Build())
 		];
 	}

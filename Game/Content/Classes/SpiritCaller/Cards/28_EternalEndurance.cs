@@ -85,11 +85,11 @@ public class EternalEndurance : SpiritCallerCardModel<EternalEndurance.CardTop, 
 				{
 					Spirit spirit = state.ActionState.GetAbilityState<SpawnAbility.State>(0).Spirit;
 
-					ScenarioEvents.SpiritGainDamageTokenEvent.Subscribe(state, this,
-						parameters => parameters.Target == spirit,
+					ScenarioEvents.SufferDamageEvent.Subscribe(state, this,
+						parameters => parameters.Figure == spirit,
 						async parameters =>
 						{
-							parameters.SetTarget(null);
+							parameters.SetDamagePrevented();
 
 							await GDTask.CompletedTask;
 						}
@@ -99,7 +99,7 @@ public class EternalEndurance : SpiritCallerCardModel<EternalEndurance.CardTop, 
 				})
 				.WithOnDeactivate(async state =>
 				{
-					ScenarioEvents.SpiritGainDamageTokenEvent.Unsubscribe(state, this);
+					ScenarioEvents.SufferDamageEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
 				})
@@ -132,13 +132,16 @@ public class EternalEndurance : SpiritCallerCardModel<EternalEndurance.CardTop, 
 				{
 					Spirit spirit = state.ActionState.GetAbilityState<SpawnAbility.State>(0).Spirit;
 
-					ScenarioEvents.SpiritGainDamageTokenEvent.Subscribe(state, this,
-						parameters => parameters.Target != spirit,
+					ScenarioEvents.SufferDamageEvent.Subscribe(state, this,
+						parameters =>
+							Spirit.CountsAsSpirit(parameters.Figure) &&
+							parameters.Figure != spirit,
 						async parameters =>
 						{
-							parameters.SetTarget(null);
+							int damage = parameters.CalculatedCurrentDamage;
+							parameters.SetDamagePrevented();
 
-							await GDTask.CompletedTask;
+							await AbilityCmd.SufferDamage(state, spirit, damage);
 						},
 						effectType: EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.Damage),
@@ -149,7 +152,7 @@ public class EternalEndurance : SpiritCallerCardModel<EternalEndurance.CardTop, 
 				})
 				.WithOnDeactivate(async state =>
 				{
-					ScenarioEvents.SpiritGainDamageTokenEvent.Unsubscribe(state, this);
+					ScenarioEvents.SufferDamageEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
 				})

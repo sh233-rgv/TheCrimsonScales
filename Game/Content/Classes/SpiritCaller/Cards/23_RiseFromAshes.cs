@@ -114,11 +114,11 @@ public class RiseFromAshes : SpiritCallerCardModel<RiseFromAshes.CardTop, RiseFr
 				.WithDamage(5)
 				.WithCustomGetTargets((state, list) =>
 				{
-					list.AddRange(RangeHelper.GetFiguresInRange(state.GetCustomValue<Spirit>(this, "Spirit"), 1));
+					list.AddRange(RangeHelper.GetFiguresInRange(state.GetCustomValue<Figure>(this, "Spirit"), 1));
 				})
 				.WithConditionalAbilityCheck(async state =>
 				{
-					Spirit spirit = await Spirit.SelectSpirit(state);
+					Figure spirit = await Spirit.SelectSpirit(state);
 
 					if(spirit == null)
 					{
@@ -134,7 +134,7 @@ public class RiseFromAshes : SpiritCallerCardModel<RiseFromAshes.CardTop, RiseFr
 				.WithPerformAbility(async state =>
 				{
 					await AbilityCmd.KillOrExhaust(state,
-						state.ActionState.GetAbilityState<AttackAbility.State>(0).GetCustomValue<Spirit>(this, "Spirit"));
+						state.ActionState.GetAbilityState<AttackAbility.State>(0).GetCustomValue<Figure>(this, "Spirit"));
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.Build())

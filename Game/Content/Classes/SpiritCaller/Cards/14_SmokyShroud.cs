@@ -100,7 +100,7 @@ public class SmokyShroud : SpiritCallerCardModel<SmokyShroud.CardTop, SmokyShrou
 					{
 						foreach(Hex pushHex in singleTargetState.PushHexes)
 						{
-							if(pushHex.HasHexObjectOfType<Spirit>())
+							if(Spirit.HasSpirit(pushHex))
 							{
 								list.Add(singleTargetState.Target);
 								break;

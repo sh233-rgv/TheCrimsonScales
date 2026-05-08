@@ -20,7 +20,8 @@ public class DecayingDaggers : SpiritCallerCardModel<DecayingDaggers.CardTop, De
 				.WithRange(3)
 				.WithAfterTargetConfirmedSubscription(ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
 					parameters =>
-						RangeHelper.GetFiguresInRange(parameters.AbilityState.Target, 1, includeNonFigures: true).Any(figure => figure is Spirit),
+						RangeHelper.GetFiguresInRange(parameters.AbilityState.Target, 1, includeNonFigures: true)
+							.Any(figure => Spirit.CountsAsSpirit(figure)),
 					async parameters =>
 					{
 						parameters.AbilityState.SingleTargetAdjustAttackValue(1);
@@ -42,8 +43,7 @@ public class DecayingDaggers : SpiritCallerCardModel<DecayingDaggers.CardTop, De
 						parameters =>
 							parameters.FromAttack &&
 							parameters.TotalShield > 0 &&
-							parameters.PotentialAbilityState.Performer is Spirit spirit &&
-							spirit.CharacterOwner == state.Performer,
+							Spirit.CountsAsSpirit(parameters.PotentialAbilityState.Performer),
 						async parameters =>
 						{
 							parameters.AdjustPierce(2);

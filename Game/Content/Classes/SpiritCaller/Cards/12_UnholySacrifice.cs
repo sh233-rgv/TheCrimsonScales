@@ -19,7 +19,7 @@ public class UnholySacrifice : SpiritCallerCardModel<UnholySacrifice.CardTop, Un
 				.WithRange(3, new RangeSquare(this, new Vector2(0.7300597f, 0.25316456f)))
 				.WithOnAbilityStarted(async state =>
 				{
-					state.AdjustTargets(state.Performer is Character characterOwner ? Spirit.GetSpirits(characterOwner).Count : 0);
+					state.AdjustTargets(Spirit.GetAllSpirits().Count);
 
 					await GDTask.CompletedTask;
 				})
@@ -41,8 +41,8 @@ public class UnholySacrifice : SpiritCallerCardModel<UnholySacrifice.CardTop, Un
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					ScenarioEvents.HexObjectDestroyedEvent.Subscribe(state, this,
-						parameters => parameters.HexObject is Spirit,
+					ScenarioEvents.FigureKilledEvent.Subscribe(state, this,
+						parameters => Spirit.CountsAsSpirit(parameters.Figure),
 						async parameters =>
 						{
 							await state.AdvanceUseSlot();
@@ -52,7 +52,7 @@ public class UnholySacrifice : SpiritCallerCardModel<UnholySacrifice.CardTop, Un
 								PullAbility.Builder()
 									.WithPull(1)
 									.WithRange(2)
-									.WithCustomGetPerformHex(pullState => parameters.HexObject.Hex)
+									.WithCustomGetPerformHex(pullState => parameters.Figure.Hex)
 									.Build()
 							]);
 							await actionState.Perform();

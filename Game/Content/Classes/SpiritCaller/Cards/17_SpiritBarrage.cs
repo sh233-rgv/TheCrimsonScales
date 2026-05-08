@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Fractural.Tasks;
-using Godot;
 
 public class SpiritBarrage : SpiritCallerCardModel<SpiritBarrage.CardTop, SpiritBarrage.CardBottom>
 {
@@ -26,7 +24,7 @@ public class SpiritBarrage : SpiritCallerCardModel<SpiritBarrage.CardTop, Spirit
 						}))
 				.WithOnAbilityStarted(async state =>
 				{
-					Spirit spirit = await Spirit.SelectSpirit(state);
+					Figure spirit = await Spirit.SelectSpirit(state);
 
 					if(spirit != null)
 					{
@@ -57,10 +55,7 @@ public class SpiritBarrage : SpiritCallerCardModel<SpiritBarrage.CardTop, Spirit
 						.Build())
 				.WithCustomGetTargets((state, list) =>
 				{
-					if(state.Performer is Character character)
-					{
-						list.AddRange(Spirit.GetSpirits(character));
-					}
+					list.AddRange(Spirit.GetAllSpirits());
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Dark))
 				.Build()),
@@ -68,7 +63,7 @@ public class SpiritBarrage : SpiritCallerCardModel<SpiritBarrage.CardTop, Spirit
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					Spirit spirit = await Spirit.SelectSpirit(state);
+					Figure spirit = await Spirit.SelectSpirit(state);
 
 					if(spirit == null)
 					{

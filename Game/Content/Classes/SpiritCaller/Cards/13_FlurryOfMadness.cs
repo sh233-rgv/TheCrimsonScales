@@ -42,8 +42,7 @@ public class FlurryOfMadness : SpiritCallerCardModel<FlurryOfMadness.CardTop, Fl
 					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
 						parameters =>
 							parameters.AbilityState is AttackAbility.State &&
-							parameters.Performer is Spirit spirit &&
-							spirit.CharacterOwner == state.Performer,
+							Spirit.CountsAsSpirit(parameters.Performer),
 						async parameters =>
 						{
 							AttackAbility.State attackAbilityState = (AttackAbility.State)parameters.AbilityState;

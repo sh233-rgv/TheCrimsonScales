@@ -53,8 +53,8 @@ public class EtherealCanine : SpiritCallerCardModel<EtherealCanine.CardTop, Ethe
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					Spirit spirit = state.GetCustomValue<Spirit>(this, "Spirit");
-					await spirit.AddDamageCounters(1);
+					Figure spirit = state.GetCustomValue<Figure>(this, "Spirit");
+					await AbilityCmd.SufferDamage(spirit, 1, spirit);
 
 					if(spirit.IsDead)
 					{
@@ -86,7 +86,7 @@ public class EtherealCanine : SpiritCallerCardModel<EtherealCanine.CardTop, Ethe
 				})
 				.WithOnDeactivate(async state =>
 				{
-					Spirit spirit = state.GetCustomValue<Spirit>(this, "Spirit");
+					Figure spirit = state.GetCustomValue<Figure>(this, "Spirit");
 
 					await AbilityCmd.RemoveCharacterToken(state, spirit);
 
@@ -95,7 +95,7 @@ public class EtherealCanine : SpiritCallerCardModel<EtherealCanine.CardTop, Ethe
 				.WithSkipConfirmation()
 				.WithConditionalAbilityCheck(async state =>
 				{
-					Spirit spirit = await Spirit.SelectSpirit(state);
+					Figure spirit = await Spirit.SelectSpirit(state);
 
 					if(spirit == null)
 					{

@@ -14,8 +14,7 @@ public class MidnightFeast : SpiritCallerCardModel<MidnightFeast.CardTop, Midnig
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(HealAbility.Builder()
-				.WithHealValue(new DynamicInt<HealAbility.State>(state =>
-						3 + (state.Performer is Character characterOwner ? Spirit.GetSpirits(characterOwner).Count : 0)),
+				.WithHealValue(new DynamicInt<HealAbility.State>(state => Spirit.GetAllSpirits().Count + 3),
 					new HealDiamondPlus(this, new Vector2(0.48868448f, 0.26533592f)))
 				.WithRange(3, new RangeSquare(this, new Vector2(0.6962813f, 0.2648491f)))
 				.Build()),
@@ -29,13 +28,13 @@ public class MidnightFeast : SpiritCallerCardModel<MidnightFeast.CardTop, Midnig
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					ScenarioEvents.HexObjectDestroyedEvent.Subscribe(state, this,
-						parameters => parameters.HexObject is Spirit,
+					ScenarioEvents.FigureKilledEvent.Subscribe(state, this,
+						parameters => Spirit.CountsAsSpirit(parameters.Figure),
 						async parameters =>
 						{
 							await state.AdvanceUseSlot();
 
-							foreach(Figure figure in RangeHelper.GetFiguresInRange(parameters.HexObject.Hex, 1, true))
+							foreach(Figure figure in RangeHelper.GetFiguresInRange(parameters.Figure.Hex, 1, true))
 							{
 								if(state.Performer.EnemiesWith(figure))
 								{
@@ -50,7 +49,7 @@ public class MidnightFeast : SpiritCallerCardModel<MidnightFeast.CardTop, Midnig
 									.WithHealValue(3)
 									.WithCustomGetTargets((healState, list) =>
 									{
-										foreach(Figure figure in RangeHelper.GetFiguresInRange(parameters.HexObject.Hex, 1, true))
+										foreach(Figure figure in RangeHelper.GetFiguresInRange(parameters.Figure.Hex, 1, true))
 										{
 											if(healState.Performer.AlliedWith(figure))
 											{

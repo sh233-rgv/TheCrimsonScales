@@ -739,6 +739,11 @@ public static class AbilityCmd
 
 	public static bool CanSwap(Figure figureA, Figure figureB)
 	{
+		if(figureA == figureB)
+		{
+			return false;
+		}
+
 		return CanForceMoveTo(figureA, figureB.Hex) && CanForceMoveTo(figureB, figureA.Hex);
 
 		// if(figureA.Hex.TryGetHexObjectOfType(out Obstacle obstacle) &&

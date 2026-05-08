@@ -66,7 +66,7 @@ public class SpreadDisease : SpiritCallerCardModel<SpreadDisease.CardTop, Spread
 				.WithCustomGetPerformHex(state => state.GetCustomValue<Hex>(this, "Hex"))
 				.WithConditionalAbilityCheck(async state =>
 				{
-					Spirit spirit = await Spirit.SelectSpirit(state);
+					Figure spirit = await Spirit.SelectSpirit(state);
 
 					if(spirit == null)
 					{

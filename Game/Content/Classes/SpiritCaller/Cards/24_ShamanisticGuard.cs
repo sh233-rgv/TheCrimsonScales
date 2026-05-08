@@ -68,16 +68,13 @@ public class ShamanisticGuard : SpiritCallerCardModel<ShamanisticGuard.CardTop, 
 				{
 					Character character = await AbilityCmd.SelectFigure(state, list =>
 					{
-						foreach(Figure figure in GameController.Instance.Map.Figures)
+						foreach(Figure spirit in Spirit.GetAllSpirits())
 						{
-							if(figure is Spirit)
+							foreach(Figure otherFigure in RangeHelper.GetFiguresInRange(spirit, 1, requiresLineOfSight: false))
 							{
-								foreach(Figure otherFigure in RangeHelper.GetFiguresInRange(figure, 1, requiresLineOfSight: false))
+								if(otherFigure is Character character)
 								{
-									if(otherFigure is Character character)
-									{
-										list.Add(character);
-									}
+									list.AddIfNew(character);
 								}
 							}
 						}

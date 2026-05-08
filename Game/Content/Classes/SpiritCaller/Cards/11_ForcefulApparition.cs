@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -53,7 +54,12 @@ public class ForcefulApparition : SpiritCallerCardModel<ForcefulApparition.CardT
 						.WithDistance(1)
 						.WithOnAbilityStarted(async state =>
 						{
-							Spirit spiritToMove = state.Performer.Hex.GetHexObjectOfType<Spirit>();
+							Figure spiritToMove = state.Performer.Hex.GetFigures(true).FirstOrDefault(figure => Spirit.CountsAsSpirit(figure));
+
+							if(spiritToMove == null || spiritToMove == state.Performer)
+							{
+								return;
+							}
 
 							ScenarioEvents.MoveTogetherEvent.Subscribe(state, this,
 								parameters =>
@@ -80,11 +86,11 @@ public class ForcefulApparition : SpiritCallerCardModel<ForcefulApparition.CardT
 				])
 				.WithCustomGetTargets((state, list) =>
 				{
-					foreach(Figure figure in GameController.Instance.Map.Figures)
+					foreach(Figure spirit in Spirit.GetAllSpirits())
 					{
-						if(figure is Spirit spirit)
+						foreach(Figure otherFigure in spirit.Hex.GetFigures())
 						{
-							foreach(Figure otherFigure in spirit.Hex.GetFigures())
+							if(otherFigure != spirit)
 							{
 								list.Add(otherFigure);
 							}

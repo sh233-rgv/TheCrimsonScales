@@ -39,7 +39,7 @@ public class WhistlingWinds : SpiritCallerCardModel<WhistlingWinds.CardTop, Whis
 				.WithCustomGetPerformHex(state => state.GetCustomValue<Hex>(this, "Hex"))
 				.WithConditionalAbilityCheck(async state =>
 				{
-					Spirit spirit = await Spirit.SelectSpirit(state);
+					Figure spirit = await Spirit.SelectSpirit(state);
 
 					if(spirit == null)
 					{
@@ -69,13 +69,7 @@ public class WhistlingWinds : SpiritCallerCardModel<WhistlingWinds.CardTop, Whis
 				])
 				.WithCustomGetTargets((state, list) =>
 				{
-					foreach(Figure figure in GameController.Instance.Map.Figures)
-					{
-						if(figure is Spirit spirit)
-						{
-							list.Add(spirit);
-						}
-					}
+					list.AddRange(Spirit.GetAllSpirits());
 				})
 				.WithTarget(Target.Any | Target.TargetAll)
 				.WithCanTargetNonFigures()

@@ -19,7 +19,7 @@ public class SoulHarvest : SpiritCallerCardModel<SoulHarvest.CardTop, SoulHarves
 					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
 						parameters =>
 							parameters.AbilityState is AttackAbility.State &&
-							parameters.Performer is Spirit,
+							Spirit.CountsAsSpirit(parameters.Performer),
 						async parameters =>
 						{
 							((AttackAbility.State)parameters.AbilityState).AbilitySetHasAdvantage();
@@ -59,26 +59,26 @@ public class SoulHarvest : SpiritCallerCardModel<SoulHarvest.CardTop, SoulHarves
 
 					EffectCollection effectCollection = AbilityCmd.GenericChoiceCollection(state.Performer, subscriptions);
 
-					List<Spirit> selectedSpirits = new List<Spirit>();
+					List<Figure> selectedSpirits = new List<Figure>();
 
 					for(int i = 0; i < spiritCount; i++)
 					{
-						Spirit spirit = await AbilityCmd.SelectFigure(state, list =>
+						Figure spirit = await AbilityCmd.SelectFigure(state, list =>
 						{
 							foreach(Figure figure in GameController.Instance.Map.Figures)
 							{
-								if(figure is Spirit && !selectedSpirits.Contains(figure))
+								if(Spirit.CountsAsSpirit(figure) && !selectedSpirits.Contains(figure))
 								{
 									list.Add(figure);
 								}
 							}
-						}, effectCollection: i == 0 ? effectCollection : null, hintText: () => $"Select a Spirit") as Spirit;
+						}, effectCollection: i == 0 ? effectCollection : null, hintText: () => $"Select a Spirit");
 
 						selectedSpirits.Add(spirit);
 
 						if(spirit != null)
 						{
-							await spirit.RemoveDamageCounters(1);
+							await Spirit.RemoveDamageCounters(spirit, 1);
 							state.SetPerformed();
 						}
 					}
@@ -101,7 +101,7 @@ public class SoulHarvest : SpiritCallerCardModel<SoulHarvest.CardTop, SoulHarves
 
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(new DynamicInt<HealAbility.State>(state =>
-					state.ActionState.GetAbilityState<MoveAbility.State>(0).Hexes.Count(hex => hex.HasHexObjectOfType<Spirit>()) + 1))
+					state.ActionState.GetAbilityState<MoveAbility.State>(0).Hexes.Count(hex => Spirit.HasSpirit(hex)) + 1))
 				.WithRange(2)
 				.Build())
 		];

@@ -37,7 +37,7 @@ public class FearTheReaper : SpiritCallerCardModel<FearTheReaper.CardTop, FearTh
 						{
 							usedRoundNumber = GameController.Instance.ScenarioPhaseManager.RoundIndex;
 							Spirit spirit = state.ActionState.GetAbilityState<SpawnAbility.State>(0).Spirit;
-							await spirit.RemoveDamageCounters(1);
+							await Spirit.RemoveDamageCounters(spirit, 1);
 						}
 					);
 
@@ -73,7 +73,7 @@ public class FearTheReaper : SpiritCallerCardModel<FearTheReaper.CardTop, FearTh
 				.WithCustomGetPerformHex(state => state.GetCustomValue<Hex>(this, "Hex"))
 				.WithConditionalAbilityCheck(async state =>
 				{
-					Spirit spirit = await Spirit.SelectSpirit(state);
+					Figure spirit = await Spirit.SelectSpirit(state);
 
 					if(spirit == null)
 					{

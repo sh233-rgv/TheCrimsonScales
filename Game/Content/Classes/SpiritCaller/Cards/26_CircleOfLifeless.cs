@@ -75,19 +75,19 @@ public class CircleOfLifeless : SpiritCallerCardModel<CircleOfLifeless.CardTop, 
 				.WithMoveType(MoveType.Jump)
 				.WithOnAbilityEndedPerformed(async state =>
 				{
-					Spirit spirit = await AbilityCmd.SelectFigure(state, list =>
+					Figure spirit = await AbilityCmd.SelectFigure(state, list =>
 					{
 						foreach(Hex hex in state.Hexes)
 						{
-							list.AddRange(hex.GetHexObjectsOfType<Spirit>());
+							list.AddRange(hex.GetFigures(true).Where(figure => Spirit.CountsAsSpirit(figure)));
 						}
-					}) as Spirit;
+					});
 
 					if(spirit != null)
 					{
 						await AbilityCmd.AddCondition(state, state.Performer, Conditions.Curse);
 
-						await spirit.RemoveDamageCounters(1);
+						await Spirit.RemoveDamageCounters(spirit, 1);
 					}
 				})
 				.Build()),

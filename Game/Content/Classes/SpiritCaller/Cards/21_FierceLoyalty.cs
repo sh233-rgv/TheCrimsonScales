@@ -18,7 +18,16 @@ public class FierceLoyalty : SpiritCallerCardModel<FierceLoyalty.CardTop, Fierce
 				.WithHealth(1)
 				.WithConditionalAbilityCheck(async state =>
 				{
-					Spirit spirit = await Spirit.SelectSpirit(state);
+					Spirit spirit = await AbilityCmd.SelectFigure(state, list =>
+					{
+						foreach(Figure figure in GameController.Instance.Map.Figures)
+						{
+							if(figure is Spirit)
+							{
+								list.Add(figure);
+							}
+						}
+					}, hintText: () => $"Select a Spirit") as Spirit;
 
 					if(spirit != null)
 					{
@@ -101,7 +110,7 @@ public class FierceLoyalty : SpiritCallerCardModel<FierceLoyalty.CardTop, Fierce
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					Spirit spirit = state.GetCustomValue<Spirit>(this, "Spirit");
+					Figure spirit = state.GetCustomValue<Figure>(this, "Spirit");
 
 					await AbilityCmd.Teleport(state, spirit, state.Performer.Hex);
 
@@ -131,12 +140,12 @@ public class FierceLoyalty : SpiritCallerCardModel<FierceLoyalty.CardTop, Fierce
 				.WithSkipConfirmation()
 				.WithConditionalAbilityCheck(async state =>
 				{
-					if(state.Performer.Hex.HasHexObjectOfType<Spirit>())
+					if(Spirit.HasSpirit(state.Performer.Hex))
 					{
 						return false;
 					}
 
-					Spirit spirit = await Spirit.SelectSpirit(state);
+					Figure spirit = await Spirit.SelectSpirit(state);
 
 					if(spirit == null)
 					{

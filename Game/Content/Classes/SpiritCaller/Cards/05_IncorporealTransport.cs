@@ -43,11 +43,12 @@ public class IncorporealTransport : SpiritCallerCardModel<IncorporealTransport.C
 					MoveAbility.State moveAbilityState = state.ActionState.GetAbilityState<MoveAbility.State>(0);
 					foreach(Hex hex in moveAbilityState.Hexes)
 					{
-						foreach(Figure figure in hex.GetHexObjectsOfType<Figure>())
+						foreach(Figure figure in hex.GetFigures(true))
 						{
-							if(state.Performer.AlliedWith(figure))
+							if(state.Performer.AlliedWith(figure) || Spirit.CountsAsSpirit(figure))
 							{
-								list.Add(figure);
+								list.AddIfNew(figure);
+								break;
 							}
 						}
 					}
@@ -65,10 +66,13 @@ public class IncorporealTransport : SpiritCallerCardModel<IncorporealTransport.C
 					MoveAbility.State moveAbilityState = state.ActionState.GetAbilityState<MoveAbility.State>(0);
 					foreach(Hex hex in moveAbilityState.Hexes)
 					{
-						foreach(Figure figure in hex.GetHexObjectsOfType<Figure>())
+						foreach(Figure figure in hex.GetFigures(true))
 						{
-							hasPotentialTarget = true;
-							break;
+							if(state.Performer.AlliedWith(figure) || Spirit.CountsAsSpirit(figure))
+							{
+								hasPotentialTarget = true;
+								break;
+							}
 						}
 					}
 

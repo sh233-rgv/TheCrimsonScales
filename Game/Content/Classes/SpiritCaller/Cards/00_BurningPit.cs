@@ -79,11 +79,11 @@ public class BurningPit : SpiritCallerCardModel<BurningPit.CardTop, BurningPit.C
 				.WithDamage(1)
 				.WithCustomGetTargets((state, list) =>
 				{
-					foreach(Figure figure in GameController.Instance.Map.Figures)
+					foreach(Figure spirit in Spirit.GetAllSpirits())
 					{
-						if(figure is Spirit spirit)
+						foreach(Figure otherFigure in spirit.Hex.GetHexObjectsOfType<Figure>())
 						{
-							foreach(Figure otherFigure in spirit.Hex.GetHexObjectsOfType<Figure>())
+							if(otherFigure != spirit)
 							{
 								list.Add(otherFigure);
 							}

@@ -92,14 +92,14 @@ public partial class Hex : Node2D
 		}
 	}
 
-	public IEnumerable<Figure> GetFigures()
+	public IEnumerable<Figure> GetFigures(bool includeNonFigures = false)
 	{
 		for(int i = HexObjects.Count - 1; i >= 0; i--)
 		{
 			HexObject hexObject = HexObjects[i];
 			if(hexObject is Figure figure)
 			{
-				if(figure.IsFigure)
+				if(includeNonFigures || figure.IsFigure)
 				{
 					yield return figure;
 				}

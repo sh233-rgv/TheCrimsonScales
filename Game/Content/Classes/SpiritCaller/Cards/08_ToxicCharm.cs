@@ -50,7 +50,7 @@ public class ToxicCharm : SpiritCallerCardModel<ToxicCharm.CardTop, ToxicCharm.C
 				{
 					await GDTask.CompletedTask;
 
-					return state.Performer.Hex.HasHexObjectOfType<Spirit>();
+					return Spirit.HasSpirit(state.Performer.Hex);
 				})
 				.Build()),
 		];

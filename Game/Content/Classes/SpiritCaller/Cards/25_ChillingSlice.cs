@@ -31,7 +31,7 @@ public class ChillingSlice : SpiritCallerCardModel<ChillingSlice.CardTop, Chilli
 					parameters => true,
 					async parameters =>
 					{
-						int spiritCount = parameters.AbilityState.GetRedAOEHexes().Count(hex => hex.HasHexObjectOfType<Spirit>());
+						int spiritCount = parameters.AbilityState.GetRedAOEHexes().Count(hex => Spirit.HasSpirit(hex));
 						parameters.AbilityState.AbilityAdjustAttackValue(spiritCount);
 
 						await GDTask.CompletedTask;

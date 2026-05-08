@@ -81,7 +81,7 @@ public class SpiritualEnergy : SpiritCallerCardModel<SpiritualEnergy.CardTop, Sp
 				{
 					await GDTask.CompletedTask;
 
-					return state.Performer.Hex.HasHexObjectOfType<Spirit>();
+					return Spirit.HasSpirit(state.Performer.Hex);
 				})
 				.Build())
 		];

@@ -222,7 +222,7 @@ public partial class Spirit : Figure
 		await base.EndTurn();
 
 		// Spirits suffer 1 damage at the end of their turns
-		await AddDamageCounters(1);
+		await AddDamageCounters(this, 1);
 	}
 
 	public async GDTask RemoveTurnActionFromActive()
@@ -274,7 +274,7 @@ public partial class Spirit : Figure
 
 	public void SetAsFirstSpirit()
 	{
-		List<Spirit> spirits = GetSpirits(CharacterOwner);
+		List<Spirit> spirits = GetOwnedSpirits(CharacterOwner);
 		spirits.Remove(this);
 		spirits.Insert(0, this);
 
@@ -340,7 +340,7 @@ public partial class Spirit : Figure
 
 	private void RegisterSpirit()
 	{
-		List<Spirit> spirits = GetSpirits(CharacterOwner);
+		List<Spirit> spirits = GetOwnedSpirits(CharacterOwner);
 
 		spirits.Add(this);
 		SetSpiritIndex(spirits.Count - 1);
@@ -348,7 +348,7 @@ public partial class Spirit : Figure
 
 	private void DeregisterSpirit()
 	{
-		List<Spirit> spirits = GetSpirits(CharacterOwner);
+		List<Spirit> spirits = GetOwnedSpirits(CharacterOwner);
 
 		for(int i = 0; i < spirits.Count; i++)
 		{
@@ -357,7 +357,7 @@ public partial class Spirit : Figure
 		}
 	}
 
-	public static List<Spirit> GetSpirits(Character characterOwner)
+	private static List<Spirit> GetOwnedSpirits(Character characterOwner)
 	{
 		const string spiritsKey = "Spirits";
 		if(!characterOwner.TryGetCustomValue(spiritsKey, out List<Spirit> spirits))
@@ -369,20 +369,56 @@ public partial class Spirit : Figure
 		return spirits;
 	}
 
-	public static async GDTask<Spirit> SelectSpirit(AbilityState state, EffectCollection effectCollection = null)
+	public static List<Figure> GetAllSpirits()
+	{
+		List<Figure> spirits = new List<Figure>();
+		foreach(Figure figure in GameController.Instance.Map.Figures)
+		{
+			if(CountsAsSpirit(figure))
+			{
+				spirits.Add(figure);
+			}
+		}
+
+		return spirits;
+	}
+
+	public static async GDTask<Figure> SelectSpirit(AbilityState state, EffectCollection effectCollection = null)
 	{
 		Figure figure = await AbilityCmd.SelectFigure(state, list =>
 		{
-			foreach(Figure figure in GameController.Instance.Map.Figures)
-			{
-				if(figure is Spirit)
-				{
-					list.Add(figure);
-				}
-			}
+			list.AddRange(GetAllSpirits());
 		}, effectCollection: effectCollection, hintText: () => $"Select a Spirit");
 
-		return figure as Spirit;
+		return figure;
+	}
+
+	public static bool CountsAsSpirit(Figure figure)
+	{
+		//TODO: Add check event
+		return figure is Spirit;
+	}
+
+	public static async GDTask AddDamageCounters(Figure spirit, int amount)
+	{
+		await AbilityCmd.SufferDamage(spirit, 1, spirit);
+	}
+
+	public static async GDTask RemoveDamageCounters(Figure spirit, int amount)
+	{
+		if(spirit.Health < spirit.MaxHealth)
+		{
+			int targetHealth = spirit.Health + amount;
+			targetHealth = Mathf.Min(targetHealth, spirit.MaxHealth);
+			spirit.SetHealth(targetHealth);
+		}
+
+		await GDTask.CompletedTask;
+	}
+
+	public static bool HasSpirit(Hex hex)
+	{
+		return hex.GetFigures(true).Any(figure => CountsAsSpirit(figure));
 	}
 
 	public override void AddInfoItemParameters(List<InfoItemParameters> parametersList)
@@ -390,29 +426,6 @@ public partial class Spirit : Figure
 		base.AddInfoItemParameters(parametersList);
 
 		parametersList.Add(new SpiritInfoItem.Parameters(this));
-	}
-
-	public async GDTask RemoveDamageCounters(int amount)
-	{
-		if(Health < MaxHealth)
-		{
-			int targetHealth = Health + amount;
-			targetHealth = Mathf.Min(targetHealth, MaxHealth);
-			SetHealth(targetHealth);
-		}
-
-		await GDTask.CompletedTask;
-	}
-
-	public async GDTask AddDamageCounters(int amount)
-	{
-		ScenarioEvents.SpiritGainDamageToken.Parameters parameters =
-			await ScenarioEvents.SpiritGainDamageTokenEvent.CreatePrompt(new ScenarioEvents.SpiritGainDamageToken.Parameters(this));
-
-		if(parameters.Target != null)
-		{
-			await AbilityCmd.SufferDamage(parameters.Target, amount, this);
-		}
 	}
 
 	private void OnOwnerInitiativeChanged(Figure owner)

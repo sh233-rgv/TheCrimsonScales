@@ -14,8 +14,7 @@ public class ConfidenceRitual : SpiritCallerCardModel<ConfidenceRitual.CardTop, 
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(new DynamicInt<AttackAbility.State>(state =>
-						3 + (state.Performer is Character characterOwner ? Spirit.GetSpirits(characterOwner).Count : 0)),
+				.WithDamage(new DynamicInt<AttackAbility.State>(state => Spirit.GetAllSpirits().Count + 3),
 					new AttackDiamond(this, new Vector2(0.49890798f, 0.2658228f)))
 				.WithRange(2, new RangeSquare(this, new Vector2(0.7096053f, 0.26492292f)))
 				.Build()),
@@ -29,8 +28,8 @@ public class ConfidenceRitual : SpiritCallerCardModel<ConfidenceRitual.CardTop, 
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					Spirit spirit = state.GetCustomValue<Spirit>(this, "Spirit");
-					await spirit.RemoveDamageCounters(1);
+					Figure spirit = state.GetCustomValue<Figure>(this, "Spirit");
+					await Spirit.RemoveDamageCounters(spirit, 1);
 
 					await AbilityCmd.AddCharacterToken(state, spirit,
 						textParameters =>
@@ -39,7 +38,7 @@ public class ConfidenceRitual : SpiritCallerCardModel<ConfidenceRitual.CardTop, 
 					ScenarioEvents.AbilityStartedEvent.Subscribe(state, this,
 						parameters =>
 							parameters.AbilityState is AttackAbility.State &&
-							parameters.AbilityState.Performer == spirit.CharacterOwner,
+							parameters.AbilityState.Performer == state.Performer,
 						async parameters =>
 						{
 							AttackAbility.State attackAbilityState = (AttackAbility.State)parameters.AbilityState;
@@ -60,7 +59,7 @@ public class ConfidenceRitual : SpiritCallerCardModel<ConfidenceRitual.CardTop, 
 				})
 				.WithOnDeactivate(async state =>
 				{
-					Spirit spirit = state.GetCustomValue<Spirit>(this, "Spirit");
+					Figure spirit = state.GetCustomValue<Figure>(this, "Spirit");
 
 					await AbilityCmd.RemoveCharacterToken(state, spirit);
 
@@ -69,7 +68,7 @@ public class ConfidenceRitual : SpiritCallerCardModel<ConfidenceRitual.CardTop, 
 				})
 				.WithConditionalAbilityCheck(async state =>
 				{
-					Spirit spirit = await Spirit.SelectSpirit(state);
+					Figure spirit = await Spirit.SelectSpirit(state);
 
 					if(spirit == null)
 					{
