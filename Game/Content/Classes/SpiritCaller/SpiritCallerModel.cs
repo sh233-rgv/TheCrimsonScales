@@ -28,9 +28,6 @@ public class SpiritCallerModel : ClassModel
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
-		ModelDB.AbilityCard<EternalEndurance>(),
-		ModelDB.AbilityCard<WhiteGlow>(),
-
 		ModelDB.AbilityCard<BurningPit>(),
 		ModelDB.AbilityCard<ConfidenceRitual>(),
 		ModelDB.AbilityCard<DimmedDefense>(),
@@ -45,6 +42,23 @@ public class SpiritCallerModel : ClassModel
 		ModelDB.AbilityCard<FearTheReaper>(),
 		ModelDB.AbilityCard<ForcefulApparition>(),
 		ModelDB.AbilityCard<UnholySacrifice>(),
+
+		ModelDB.AbilityCard<FlurryOfMadness>(),
+		ModelDB.AbilityCard<SmokyShroud>(),
+		ModelDB.AbilityCard<DecayingDaggers>(),
+		ModelDB.AbilityCard<SpreadDisease>(),
+		ModelDB.AbilityCard<SpiritBarrage>(),
+		ModelDB.AbilityCard<WhiteGlow>(),
+		ModelDB.AbilityCard<SoulHarvest>(),
+		ModelDB.AbilityCard<SpiritualEnergy>(),
+		ModelDB.AbilityCard<FierceLoyalty>(),
+		ModelDB.AbilityCard<HorrificNightmare>(),
+		ModelDB.AbilityCard<RiseFromAshes>(),
+		ModelDB.AbilityCard<ShamanisticGuard>(),
+		ModelDB.AbilityCard<ChillingSlice>(),
+		ModelDB.AbilityCard<CircleOfLifeless>(),
+		ModelDB.AbilityCard<DeathIsNotDefeat>(),
+		ModelDB.AbilityCard<EternalEndurance>(),
 	];
 
 	public override List<PerkModel> Perks { get; } =

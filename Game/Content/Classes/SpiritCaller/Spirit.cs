@@ -395,8 +395,9 @@ public partial class Spirit : Figure
 
 	public static bool CountsAsSpirit(Figure figure)
 	{
-		//TODO: Add check event
-		return figure is Spirit;
+		return
+			ScenarioCheckEvents.CountsAsSpiritCheckEvent.Fire(
+				new ScenarioCheckEvents.CountsAsSpiritCheck.Parameters(figure, figure is Spirit)).CountsAsSpirit;
 	}
 
 	public static async GDTask AddDamageCounters(Figure spirit, int amount)
