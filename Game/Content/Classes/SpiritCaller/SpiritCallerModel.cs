@@ -63,5 +63,30 @@ public class SpiritCallerModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<SpiritCallerPerks.ReplaceOneMinusTwoWithOnePlusZero>(),
+
+		ModelDB.Perk<SpiritCallerPerks.ReplaceOneMinusOneWithOnePlusZeroPlusTwoIfSpiritAttacked>(),
+		ModelDB.Perk<SpiritCallerPerks.ReplaceOneMinusOneWithOnePlusZeroPlusTwoIfSpiritAttacked>(),
+
+		ModelDB.Perk<SpiritCallerPerks.ReplaceOneMinusOneWithOnePlusZeroPoisonRolling>(),
+		ModelDB.Perk<SpiritCallerPerks.ReplaceOneMinusOneWithOnePlusZeroPoisonRolling>(),
+
+		ModelDB.Perk<SpiritCallerPerks.ReplaceOnePlusZeroWithOnePlusOneAir>(),
+		ModelDB.Perk<SpiritCallerPerks.ReplaceOnePlusZeroWithOnePlusOneAir>(),
+
+		ModelDB.Perk<SpiritCallerPerks.ReplaceOnePlusZeroWithOnePlusOneDark>(),
+		ModelDB.Perk<SpiritCallerPerks.ReplaceOnePlusZeroWithOnePlusOneDark>(),
+
+		ModelDB.Perk<SpiritCallerPerks.ReplaceTwoPlusZeroWithTwoPlusZeroPierceThreeRolling>(),
+
+		ModelDB.Perk<SpiritCallerPerks.ReplaceOnePlusZeroWithOnePlusZeroAddTargetRolling>(),
+
+		ModelDB.Perk<SpiritCallerPerks.ReplaceTwoPlusOneWithOnePlusOnePierceTwo>(),
+
+		ModelDB.Perk<SpiritCallerPerks.AddOnePlusTwoPushTwo>(),
+
+		ModelDB.Perk<SpiritCallerPerks.IgnoreScenarioEffectsAddOnePlusOneCurse>(),
+
+		ModelDB.Perk<SpiritCallerPerks.SpectralVelocity>(),
 	];
 }
