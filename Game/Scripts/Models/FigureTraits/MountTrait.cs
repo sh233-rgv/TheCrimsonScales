@@ -142,6 +142,7 @@ public class MountTrait(Func<Figure, Figure, GDTask> onMounted = null, Func<Figu
 		ScenarioCheckEvents.IsSummonControlledCheckEvent.Unsubscribe(figure, this);
 		ScenarioEvents.MoveTogetherEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.InitiativeCheckEvent.Unsubscribe(figure, this);
+		ScenarioEvents.AbilityPerformedEvent.Unsubscribe(figure, this);
 		ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.IsMountedCheckEvent.Unsubscribe(figure, this);
 		ScenarioCheckEvents.CanOpenDoorsCheckEvent.Unsubscribe(figure, this);
