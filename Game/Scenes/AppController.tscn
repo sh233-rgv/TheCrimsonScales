@@ -181,7 +181,6 @@ _cardView = NodePath("AbilityCardView")
 layout_mode = 1
 offset_right = 0.0
 offset_bottom = 0.0
-mouse_filter = 0
 
 [node name="ItemPreview" type="Control" parent="CanvasLayer/CardPreviewView/MarginContainer/Container" unique_id=1586069982 node_paths=PackedStringArray("_itemView")]
 anchors_preset = 0
