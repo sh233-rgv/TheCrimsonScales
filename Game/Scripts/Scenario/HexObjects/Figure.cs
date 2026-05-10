@@ -330,8 +330,6 @@ public abstract partial class Figure : HexObject, IActionSource
 		Conditions.Add(condition);
 		await condition.OnAdded();
 
-		ReorderEffects();
-
 		return condition;
 	}
 
@@ -356,8 +354,6 @@ public abstract partial class Figure : HexObject, IActionSource
 
 		await condition.OnRemoved();
 		Conditions.Remove(condition);
-
-		ReorderEffects();
 	}
 
 	public async GDTask AddTrait(FigureTrait trait)
@@ -375,6 +371,8 @@ public abstract partial class Figure : HexObject, IActionSource
 		effectView.Init(parameters);
 		Effects.Add(effectView);
 
+		ReorderEffects();
+
 		return (T)effectView;
 	}
 
@@ -382,6 +380,8 @@ public abstract partial class Figure : HexObject, IActionSource
 	{
 		Effects.Remove(effectView);
 		effectView.Destroy();
+
+		ReorderEffects();
 	}
 
 	public void SetAlignment(Alignment alignment)
@@ -583,8 +583,6 @@ public abstract partial class Figure : HexObject, IActionSource
 
 	private void ReorderEffects()
 	{
-		//List<HexObjectEffectViewBase> effects = Effects.Where(effect => effect.Node != null).Select(condition => condition.Node).ToList();
-
 		int effectCount = Effects.Count;
 		int index = 0;
 		const float maxOffset = 50f;
