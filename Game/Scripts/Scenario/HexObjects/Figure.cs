@@ -32,7 +32,6 @@ public abstract partial class Figure : HexObject, IActionSource
 	public List<FigureTrait> Traits { get; } = new List<FigureTrait>();
 
 	public Alignment Alignment { get; private set; }
-	public Alignment Enemies { get; private set; }
 
 	public bool TakingTurn { get; private set; }
 
@@ -384,39 +383,39 @@ public abstract partial class Figure : HexObject, IActionSource
 		ReorderEffects();
 	}
 
-	public void SetAlignment(Alignment alignment)
+	protected void SetAlignment(Alignment alignment)
 	{
 		Alignment = alignment;
 	}
 
-	public void SetEnemies(Alignment alignment)
-	{
-		Enemies = alignment;
-	}
-
 	public bool AlliedWith(Figure figure, bool canBeSelf = false)
 	{
-		if(figure == null)
-		{
-			return false;
-		}
-
-		if(!canBeSelf && figure == this)
-		{
-			return false;
-		}
-
-		return Alignment.HasFlag(figure.Alignment);
+		FigureRelationship relationship = GetRelationship(figure);
+		return relationship == FigureRelationship.AlliedWith || (relationship == FigureRelationship.Self && canBeSelf);
 	}
 
 	public bool EnemiesWith(Figure figure)
 	{
+		return GetRelationship(figure) == FigureRelationship.EnemiesWith;
+	}
+
+	public FigureRelationship GetRelationship(Figure figure)
+	{
 		if(figure == null)
 		{
-			return false;
+			return FigureRelationship.Undefined;
 		}
 
-		return Enemies.HasFlag(figure.Alignment);
+		if(figure == this)
+		{
+			return FigureRelationship.Self;
+		}
+
+		ScenarioCheckEvents.FigureRelationshipCheck.Parameters relationshipCheckParameters =
+			ScenarioCheckEvents.FigureRelationshipCheckEvent.Fire(
+				new ScenarioCheckEvents.FigureRelationshipCheck.Parameters(this, figure));
+
+		return relationshipCheckParameters.FigureRelationship;
 	}
 
 	public virtual void AddCoin()

@@ -51,7 +51,7 @@ public partial class Monster : Figure
 	}
 
 	public async GDTask Spawn(MonsterGroup monsterGroup, MonsterType monsterType, int standeeNumber, bool summon,
-		int? monsterLevel, Alignment alignment, Alignment enemies)
+		int? monsterLevel, Alignment alignment)
 	{
 		MonsterGroup = monsterGroup;
 		MonsterType = monsterType;
@@ -104,7 +104,6 @@ public partial class Monster : Figure
 		SetHealth(Stats.Health);
 
 		SetAlignment(alignment);
-		SetEnemies(enemies);
 
 		if(Stats.Traits != null)
 		{

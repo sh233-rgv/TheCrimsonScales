@@ -50,7 +50,6 @@ public partial class Summon : Figure
 		SetHealth(Stats.Health);
 
 		SetAlignment(characterOwner.Alignment);
-		SetEnemies(characterOwner.Enemies);
 
 		if(Stats.Traits != null)
 		{

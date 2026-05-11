@@ -82,8 +82,31 @@ public partial class Spirit : Figure
 		SetMaxHealth(HealthStat);
 		SetHealth(HealthStat);
 
-		SetAlignment(CharacterOwner.Alignment);
-		SetEnemies(CharacterOwner.Enemies);
+		SetAlignment(Alignment.Custom);
+		ScenarioCheckEvents.FigureRelationshipCheckEvent.Subscribe(this, CharacterOwner,
+			parameters => parameters.Figure == this || parameters.OtherFigure == this,
+			parameters =>
+			{
+				if(parameters.Figure == this)
+				{
+					if(parameters.OtherFigure.Alignment == Alignment.Characters)
+					{
+						parameters.SetAlliedWith();
+						return;
+					}
+					else
+					{
+						parameters.SetAlliedWith();
+						return;
+					}
+				}
+
+				if(parameters.OtherFigure == this)
+				{
+					parameters.SetFigureRelationship(FigureRelationship.Undefined);
+				}
+			}
+		);
 
 		if(traits != null)
 		{
@@ -246,6 +269,7 @@ public partial class Spirit : Figure
 		//ScenarioCheckEvents.CanBeTargetedCheckEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.CanPassEnemyCheckEvent.Unsubscribe(this, CharacterOwner);
+		ScenarioCheckEvents.FigureRelationshipCheckEvent.Unsubscribe(this, CharacterOwner);
 
 		if(CharacterOwner != null)
 		{

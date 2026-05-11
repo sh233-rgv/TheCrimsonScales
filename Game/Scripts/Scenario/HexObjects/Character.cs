@@ -77,7 +77,6 @@ public partial class Character : Figure
 		SetHealth(health);
 
 		SetAlignment(Alignment.Characters);
-		SetEnemies(Alignment.Enemies);
 
 		// Create AMD
 		AMDCardOwner amdCardOwner = (AMDCardOwner)(Index + 1);

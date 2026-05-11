@@ -700,4 +700,39 @@ public partial class ScenarioCheckEvents
 
 	private readonly ChangeAuthorityCheck _changeAuthorityCheck = new ChangeAuthorityCheck();
 	public static ChangeAuthorityCheck ChangeAuthorityCheckEvent => GameController.Instance.ScenarioCheckEvents._changeAuthorityCheck;
+
+	public class FigureRelationshipCheck : ScenarioCheckEvent<FigureRelationshipCheck.Parameters>
+	{
+		public class Parameters(Figure figure, Figure otherFigure)
+			: ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+			public Figure OtherFigure { get; } = otherFigure;
+
+			public FigureRelationship FigureRelationship { get; private set; } =
+				figure == otherFigure
+					? FigureRelationship.Self
+					: figure.Alignment == otherFigure.Alignment
+						? FigureRelationship.AlliedWith
+						: FigureRelationship.EnemiesWith;
+
+			public void SetEnemiesWith()
+			{
+				SetFigureRelationship(FigureRelationship.EnemiesWith);
+			}
+
+			public void SetAlliedWith()
+			{
+				SetFigureRelationship(FigureRelationship.AlliedWith);
+			}
+
+			public void SetFigureRelationship(FigureRelationship figureRelationship)
+			{
+				FigureRelationship = figureRelationship;
+			}
+		}
+	}
+
+	private readonly FigureRelationshipCheck _figureRelationshipCheck = new FigureRelationshipCheck();
+	public static FigureRelationshipCheck FigureRelationshipCheckEvent => GameController.Instance.ScenarioCheckEvents._figureRelationshipCheck;
 }
