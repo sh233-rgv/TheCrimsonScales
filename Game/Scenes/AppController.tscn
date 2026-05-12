@@ -308,5 +308,5 @@ bus = &"BGM"
 [node name="BGSStreamPlayer" type="AudioStreamPlayer" parent="AudioController" unique_id=1021057919]
 bus = &"BGS"
 
-[node name="Node" type="Node" parent="." unique_id=1780657384]
+[node name="ScreenshotHelper" type="Node" parent="." unique_id=1780657384]
 script = ExtResource("28_p2uns")
