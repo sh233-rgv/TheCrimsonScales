@@ -183,82 +183,105 @@ public static class RangeHelper
 		return figures;
 	}
 
-	// public int FindRange(Hex origin, Hex destination, bool requiresLineOfSight)
-	// {
-	// 	_closedList.Clear();
-	// 	_openList.Clear();
-	//
-	// 	Map map = GameController.Instance.Map;
-	//
-	// 	Node firstNode = new Node(origin, 0, 1000);
-	// 	_openList.Add(firstNode);
-	// 	_closedList.Add(firstNode.Hex, firstNode);
-	//
-	// 	while(_openList.Count > 0)
-	// 	{
-	// 		Node nodeToHandle = _openList[0];
-	// 		_openList.RemoveAt(0);
-	//
-	// 		if(nodeToHandle.Hex == destination)
-	// 		{
-	// 			return nodeToHandle.RangeSpent;
-	// 		}
-	//
-	// 		foreach(Point2 neighbourOffset in Map.NeighbourOffsets)
-	// 		{
-	// 			Point2 newCoords = nodeToHandle.Hex.Coords + neighbourOffset;
-	// 			Hex newHex = map.GetHex(newCoords);
-	// 			if(newHex != null) // && newHex != firstNode.Hex)
-	// 			{
-	// 				int rangeCost = 1;
-	// 				int newRangeLeft = nodeToHandle.RangeLeft - rangeCost;
-	//
-	// 				if(newRangeLeft < 0)
-	// 				{
-	// 					continue;
-	// 				}
-	//
-	// 				Node newNode = new Node(newHex, nodeToHandle.RangeSpent + rangeCost, newRangeLeft);
-	//
-	// 				newNode.Parents.Add(nodeToHandle);
-	//
-	// 				if(_closedList.TryGetValue(newHex, out Node oldNode))
-	// 				{
-	// 					CompareResult compareResult = newNode.CompareTo(oldNode);
-	// 					switch(compareResult)
-	// 					{
-	// 						case CompareResult.Better:
-	// 							// The new node is better than the old one; replace it
-	// 							_openList.Remove(oldNode);
-	// 							_openList.Add(newNode);
-	// 							_closedList[newHex] = newNode;
-	// 							break;
-	// 						case CompareResult.Worse:
-	// 							// The old node is better than the new one; do nothing
-	// 							break;
-	// 						case CompareResult.Equal:
-	// 							// The two nodes are equal in value; keep the old one and add this route as a new potential option
-	// 							oldNode.Parents.Add(nodeToHandle);
-	// 							break;
-	// 					}
-	// 				}
-	// 				else
-	// 				{
-	// 					if(requiresLineOfSight && !HasLineOfSight(origin, newNode.Hex))
-	// 					{
-	// 						continue;
-	// 					}
-	//
-	// 					// New node found
-	// 					_openList.Add(newNode);
-	// 					_closedList.Add(newHex, newNode);
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	//
-	// 	return int.MaxValue;
-	// }
+	public static bool CheckCanPlaceObstacle(Hex targetHex)
+	{
+		// Find all neighbours of the targetHex, and check if one of its neighbours is still connected to the other neighbors
+		List<Hex> walkableNeighbours = new List<Hex>();
+		foreach(Hex neighbour in targetHex.Neighbours)
+		{
+			if(neighbour.HasHexObjectOfType<Obstacle>() || neighbour.HasHexObjectOfType<Door>())
+			{
+				continue;
+			}
+
+			walkableNeighbours.Add(neighbour);
+		}
+
+		if(walkableNeighbours.Count < 2)
+		{
+			return true;
+		}
+
+		OpenList.Clear();
+		ClosedList.Clear();
+
+		Node firstNode = new Node(walkableNeighbours[0], 0, 1000);
+		OpenList.Add(firstNode);
+		ClosedList.Add(firstNode.Hex, firstNode);
+
+		while(OpenList.Count > 0)
+		{
+			Node nodeToHandle = OpenList[0];
+			OpenList.RemoveAt(0);
+
+			foreach(Hex newHex in nodeToHandle.Hex.Neighbours)
+			{
+				if(!newHex.Revealed)
+				{
+					continue;
+				}
+
+				if(newHex.HasHexObjectOfType<Door>()) //newHex != null)
+				{
+					continue;
+				}
+
+				if(newHex.HasHexObjectOfType<Obstacle>() || newHex == targetHex)
+				{
+					continue;
+				}
+
+				int rangeCost = 1;
+				int newRangeLeft = nodeToHandle.RangeLeft - rangeCost;
+
+				if(newRangeLeft < 0)
+				{
+					continue;
+				}
+
+				Node newNode = new Node(newHex, nodeToHandle.RangeSpent + rangeCost, newRangeLeft);
+
+				newNode.Parents.Add(nodeToHandle);
+
+				if(ClosedList.TryGetValue(newHex, out Node oldNode))
+				{
+					CompareResult compareResult = newNode.CompareTo(oldNode);
+					switch(compareResult)
+					{
+						case CompareResult.Better:
+							// The new node is better than the old one; replace it
+							OpenList.Remove(oldNode);
+							OpenList.Add(newNode);
+							ClosedList[newHex] = newNode;
+							break;
+						case CompareResult.Worse:
+							// The old node is better than the new one; do nothing
+							break;
+						case CompareResult.Equal:
+							// The two nodes are equal in value; keep the old one and add this route as a new potential option
+							oldNode.Parents.Add(nodeToHandle);
+							break;
+					}
+				}
+				else
+				{
+					// New node found
+					OpenList.Add(newNode);
+					ClosedList.Add(newHex, newNode);
+				}
+			}
+		}
+
+		foreach(Hex walkableNeighbour in walkableNeighbours)
+		{
+			if(!ClosedList.ContainsKey(walkableNeighbour))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 	public class Node
 	{
