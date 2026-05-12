@@ -139,6 +139,32 @@ public partial class ScenarioEvents
 	private readonly AMDCardDrawn _amdCardDrawn = new AMDCardDrawn();
 	public static AMDCardDrawn AMDCardDrawnEvent => GameController.Instance.ScenarioEvents._amdCardDrawn;
 
+	public class AMDCardPeeked : ScenarioEvent<AMDCardPeeked.Parameters>
+	{
+		public class Parameters(DivinationAbility.State abilityState, AMDCard amdCard)
+			: ParametersBase<DivinationAbility.State>(abilityState)
+		{
+			public AMDCard AMDCard = amdCard;
+			public bool PlaceAtDeckTop { get; private set; } = false;
+			public bool PlaceAtDeckBottom { get; private set; } = false;
+
+			public void SetPlaceAtDeckTop()
+			{
+				PlaceAtDeckTop = true;
+				PlaceAtDeckBottom = false;
+			}
+
+			public void SetPlaceAtDeckBottom()
+			{
+				PlaceAtDeckTop = false;
+				PlaceAtDeckBottom = true;
+			}
+		}
+	}
+
+	private readonly AMDCardPeeked _amdCardPeeked = new AMDCardPeeked();
+	public static AMDCardPeeked AMDCardPeekedEvent => GameController.Instance.ScenarioEvents._amdCardPeeked;
+
 	public class AMDCardValueApplied : ScenarioEvent<AMDCardValueApplied.Parameters>
 	{
 		public class Parameters(AttackAbility.State abilityState, AMDCardValue amdCardValue)

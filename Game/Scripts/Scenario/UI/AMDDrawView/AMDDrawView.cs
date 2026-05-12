@@ -29,6 +29,58 @@ public partial class AMDDrawView : Control
 		Hide();
 	}
 
+	public async GDTask PeekCards(DivinationAbility.State divinationAbilityState, int cardsToPeek)
+	{
+		AMDCardDeck deck = divinationAbilityState.Target.AMDCardDeck;
+
+		Show();
+
+		UpdateDrawPileSize(deck);
+
+		await this.TweenPositionY(0f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardableAsync();
+		await GDTask.DelayFastForwardable(0.2f);
+
+		int index = 0;
+		int cardsPeeked = 0;
+
+		while(cardsPeeked < cardsToPeek)
+		{
+			AMDCard newCard = deck.PeekCard(index);
+
+			UpdateDrawPileSize(deck);
+
+			AMDDrawCard drawCard = _amdDrawCardscene.Instantiate<AMDDrawCard>();
+			AddChild(drawCard);
+			await drawCard.DrawCard(newCard, _deckAnchor, _discardAnchor);
+
+			_discardContainer.Visible = true;
+			_discardTopCardTextureRect.Texture = newCard.GetTexture();
+
+			ScenarioEvents.AMDCardPeeked.Parameters amdCardDrawnParameters =
+				await ScenarioEvents.AMDCardPeekedEvent.CreatePrompt(
+					new ScenarioEvents.AMDCardPeeked.Parameters(divinationAbilityState, newCard));
+
+			if(amdCardDrawnParameters.PlaceAtDeckTop)
+			{
+				deck.MoveCardToTop(newCard);
+				index++;
+			} 
+			else if(amdCardDrawnParameters.PlaceAtDeckBottom)
+			{
+				deck.MoveCardToBottom(newCard);
+			}
+			else
+			{
+				index++;
+			}
+
+			cardsPeeked++;
+		}
+
+		// Move visuals away
+		await this.TweenPositionY(OpenDistance, 0.3f).SetEasing(Easing.InBack).OnComplete(Hide).PlayFastForwardableAsync();
+	}
+
 	public async GDTask DrawCards(AttackAbility.State attackAbilityState)
 	{
 		AMDCardDeck deck = attackAbilityState.Performer.AMDCardDeck;
