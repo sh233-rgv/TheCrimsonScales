@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-public class TeleportPrompt(
+public class MonsterTeleportPrompt(
 	TeleportAbility.State teleportAbilityState, Figure performer, EffectCollection effectCollection, Func<string> getHintText,
 	Action<TeleportAbility.State, List<Hex>> customHexes = null, Func<TeleportAbility.State, Hex, bool> filterHexes = null)
-	: Prompt<TeleportPrompt.Answer>(effectCollection, getHintText)
+	: Prompt<MonsterTeleportPrompt.Answer>(effectCollection, getHintText)
 {
 	public class Answer : PromptAnswer
 	{
@@ -18,7 +18,7 @@ public class TeleportPrompt(
 
 	protected override bool CanConfirm => _selectedHex != null;
 
-	protected override bool CanSkip => true;
+	protected override bool CanSkip => _possibleHexes.Count == 0;
 
 	protected override void Enable()
 	{
@@ -52,6 +52,18 @@ public class TeleportPrompt(
 					_possibleHexes.RemoveAt(i);
 				}
 			}
+		}
+
+		if(_possibleHexes.Count == 0)
+		{
+			Skip();
+			return;
+		}
+
+		if(_possibleHexes.Count == 1)
+		{
+			_selectedHex = _possibleHexes.First();
+			Complete(true);
 		}
 	}
 
