@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class Scenario011 : ScenarioModel
 {
@@ -112,14 +113,24 @@ public class Scenario011 : ScenarioModel
 			effectInfoViewParameters: new TextEffectInfoView.Parameters("Perform the attack as if you were occupying another barrel.")
 		);
 
+		List<Hex> hexes = new List<Hex>();
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
 			parameters => parameters.RoundNumber == 1,
 			async _ =>
 			{
-				foreach(Room room in GameController.Instance.Map.Rooms.Where(room => room.Figures.Any(figure => figure is Character)))
+				foreach(Character character in GameController.Instance.CharacterManager.Characters)
 				{
-					_spawnedMonsters.Add(await SpawnMonster(null, ModelDB.Monster<InoxGuard>(), MonsterType.Normal, room.Hexes));
-					_spawnedMonsters.Add(await SpawnMonster(null, ModelDB.Monster<InoxArcher>(), MonsterType.Elite, room.Hexes));
+					hexes.Clear();
+					foreach((Vector2I coords, Hex hex) in GameController.Instance.Map.Hexes)
+					{
+						if(character.Hex.MapTile == hex.MapTile)
+						{
+							hexes.Add(hex);
+						}
+					}
+
+					_spawnedMonsters.Add(await SpawnMonster(null, ModelDB.Monster<InoxGuard>(), MonsterType.Normal, hexes));
+					_spawnedMonsters.Add(await SpawnMonster(null, ModelDB.Monster<InoxArcher>(), MonsterType.Elite, hexes));
 				}
 
 				ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
@@ -140,10 +151,19 @@ public class Scenario011 : ScenarioModel
 						await ShowText(
 							"You are barely able to catch your breath when more Inox barge in. “You’re not dead?” one of them barks at you while the other starts muttering what sounds like a chant under their breath. No, you are not dead, and as far as you assumed that wasn’t supposed to be part of today’s travel plans.");
 
-						foreach(Room room in GameController.Instance.Map.Rooms.Where(room => room.Figures.Any(figure => figure is Character)))
+						foreach(Character character in GameController.Instance.CharacterManager.Characters)
 						{
-							await SpawnMonster(null, ModelDB.Monster<InoxGuard>(), MonsterType.Elite, room.Hexes);
-							await SpawnMonster(null, ModelDB.Monster<InoxShaman>(), MonsterType.Elite, room.Hexes);
+							hexes.Clear();
+							foreach((Vector2I coords, Hex hex) in GameController.Instance.Map.Hexes)
+							{
+								if(character.Hex.MapTile == hex.MapTile)
+								{
+									hexes.Add(hex);
+								}
+							}
+
+							await SpawnMonster(null, ModelDB.Monster<InoxGuard>(), MonsterType.Elite, hexes);
+							await SpawnMonster(null, ModelDB.Monster<InoxShaman>(), MonsterType.Elite, hexes);
 						}
 
 						ScenarioEvents.FigureKilledEvent.Unsubscribe(this);
@@ -157,10 +177,19 @@ public class Scenario011 : ScenarioModel
 								await ShowText(
 									"You peer around the room and listen closely for more footsteps. Silence. You breathe a sigh of relief and as you are about to leave the room to see what’s going on, two demons wisp out from within the barrels and lock eyes. It’s time again.");
 
-								foreach(Room room in GameController.Instance.Map.Rooms.Where(room => room.Figures.Any(figure => figure is Character)))
+								foreach(Character character in GameController.Instance.CharacterManager.Characters)
 								{
-									await SpawnMonster(null, ModelDB.Monster<FlameDemon>(), MonsterType.Normal, room.Hexes);
-									await SpawnMonster(null, ModelDB.Monster<NightDemon>(), MonsterType.Normal, room.Hexes);
+									hexes.Clear();
+									foreach((Vector2I coords, Hex hex) in GameController.Instance.Map.Hexes)
+									{
+										if(character.Hex.MapTile == hex.MapTile)
+										{
+											hexes.Add(hex);
+										}
+									}
+
+									await SpawnMonster(null, ModelDB.Monster<FlameDemon>(), MonsterType.Normal, hexes);
+									await SpawnMonster(null, ModelDB.Monster<NightDemon>(), MonsterType.Normal, hexes);
 								}
 
 								await _goal.DisableEnemiesToBeSpawned();
