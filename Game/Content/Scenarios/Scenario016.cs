@@ -58,8 +58,8 @@ public class Scenario016 : ScenarioModel
 
 	public override List<MonsterModel> MonsterModels { get; } =
 	[
-		ModelDB.Monster<BlackImp>(),
 		ModelDB.Monster<ApexDemon>(),
+		ModelDB.Monster<BlackImp>(),
 		ModelDB.Monster<FlameDemon>(),
 		ModelDB.Monster<NightDemon>(),
 		ModelDB.Monster<SunDemon>(),
@@ -100,8 +100,7 @@ public class Scenario016 : ScenarioModel
 			_treasureRoom3Looted = true;
 			if(_treasureRoom4Looted)
 			{
-				await _door1.Unlock();
-				_treasureTileRule.Remove();
+				await UnlockDoor1();
 			}
 		});
 
@@ -110,9 +109,27 @@ public class Scenario016 : ScenarioModel
 			_treasureRoom4Looted = true;
 			if(_treasureRoom3Looted)
 			{
-				await _door1.Unlock();
-				_treasureTileRule.Remove();
+				await UnlockDoor1();
 			}
 		});
+
+		ScenarioEvents.DoorOpenedEvent.Subscribe(this,
+			parameters => parameters.OpenedDoor == _door1,
+			async parameters =>
+			{
+				await ShowText(
+					"""
+					Using the two keys found in the chests, you unlock the cabin door with questions running through your mind.
+
+					As soon as you swing the door open, a bellowing roar knocks you backwards. The biggest demon you’ve ever seen stands before you. “I am the Apex Demon, guardian of relics!” the demon thunders. “You dared loot the protected island, and now you have invaded my ship? You shall not leave here alive!
+					""");
+			}
+		);
+	}
+
+	private async GDTask UnlockDoor1()
+	{
+		await _door1.Unlock();
+		_treasureTileRule.Remove();
 	}
 }
