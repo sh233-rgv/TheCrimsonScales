@@ -58,13 +58,19 @@ public class Scenario017 : ScenarioModel
 	];
 
 	private IEnumerable<Hex> _markerHexes;
+	private Character _orbOfEmbersHolder;
+	private Character _frostedCrystalHolder;
+
+	private CustomScenarioGoal _goal;
+	private ScenarioRule _startOfScenarioRule;
+	private ScenarioRule _orbOfEmbersRule;
 
 	public override async GDTask InitializeAfterFirstRoomRevealed()
 	{
 		await base.InitializeAfterFirstRoomRevealed();
 
 		await AddGoal(new LootGoalTreasuresGoal());
-		await AddGoal(new CustomScenarioGoal(
+		_goal = await AddGoal(new CustomScenarioGoal(
 			textParameters => $"All characters occupy hexes with {Icons.InlineMarker(Marker.Type.a, textParameters)}.",
 			onStart: async goal =>
 			{
@@ -77,19 +83,16 @@ public class Scenario017 : ScenarioModel
 					}
 				);
 
-				ScenarioEvents.FigureKilledEvent.Subscribe(this,
-					parameters => parameters.Figure == character,
-					async parameters =>
-					{
-						await AbilityCmd.Lose();
-					}
-				);
-
 				await GDTask.CompletedTask;
 			},
 			hasProgress: true,
 			maxProgress: GameController.Instance.CharacterManager.Characters.Count
 		));
+
+		_startOfScenarioRule = AddScenarioRule(textParameters =>
+			$"At the start of the scenario, nominate one character to carry the Frosted Crystal. This character may not loot the goal treasure tile and gains {Icons.Inline(Icons.Retaliate, textParameters)}1.");
+		_orbOfEmbersRule = AddScenarioRule(textParameters =>
+			$"The goal treasure tile contains the Orb of Embers. While a character possesses the Orb of Embers, the character adds +1 to all {Icons.Inline(Icons.Attack, textParameters)} and {Icons.Inline(Icons.Move, textParameters)} abilities. If the character who holds the Orb of Embers becomes exhausted, the scenario is immediately lost. If any character becomes exhausted while not occupying a starting hex, the scenario is lost.");
 
 		_markerHexes = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.Hex);
 
@@ -118,9 +121,10 @@ public class Scenario017 : ScenarioModel
 			}
 		});
 
-		GameController.Instance.Map.Treasures.First(treasure => treasure.TreasureNumber == -1).SetObtainLootFunction(async character =>
+		GameController.Instance.Map.Treasures.First(treasure => treasure.IsGoal).SetObtainLootFunction(async character =>
 		{
-			_treasureLooted = true;
+			_orbOfEmbersHolder = character;
+
 			ScenarioEvents.AbilityStartedEvent.Subscribe(this,
 				parameters => parameters.Performer == character && parameters.AbilityState is AttackAbility.State or MoveAbility.State,
 				async parameters =>
@@ -136,47 +140,81 @@ public class Scenario017 : ScenarioModel
 					}
 
 					await GDTask.CompletedTask;
-				});
+				}
+			);
+
+			_orbOfEmbersRule.SetText(textParameters =>
+				$"While a character possesses the Orb of Embers, the character adds +1 to all {Icons.Inline(Icons.Attack, textParameters)} and {Icons.Inline(Icons.Move, textParameters)} abilities. If the character who holds the Orb of Embers becomes exhausted, the scenario is immediately lost. If any character becomes exhausted while not occupying a starting hex, the scenario is lost.");
 
 			await GDTask.CompletedTask;
 		});
 
-		UpdateScenarioText(
-			$"""
-			 At the start of the scenario, nominate one character to carry the Frosted Crystal. This character may not loot the goal tile and gains {Icons.Inline(Icons.Retaliate)}1.
+		ScenarioEvents.FigureKilledEvent.Subscribe(this,
+			parameters =>
+				parameters.Figure is Character &&
+				(parameters.Figure == _orbOfEmbersHolder ||
+				 !_markerHexes.Contains(parameters.Figure.Hex)),
+			async parameters =>
+			{
+				await AbilityCmd.Lose();
+			}
+		);
 
-			 The exit is indicated by the starting hexes. The goal treasure tile represents the Orb of Embers. While a character possesses the Orb of Embers, the character adds +1 to all attack abilities and move abilities. If the character who holds the Orb of Embers becomes exhausted, the scenario is immediately lost.
-			 """);
+		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(this,
+			parameters =>
+				parameters.Figure == _orbOfEmbersHolder ||
+				parameters.Figure == _frostedCrystalHolder,
+			parameters =>
+			{
+				if(parameters.Figure == _orbOfEmbersHolder)
+				{
+					parameters.Add(new InfoTextExtraEffect.Parameters(textParameters => "This character is holding the Orb of Embers."));
+				}
+				else
+				{
+					parameters.Add(new InfoTextExtraEffect.Parameters(textParameters => "This character is holding the Frosted Crystal."));
+				}
+			}
+		);
 	}
 
 	public override async GDTask OnSetupCompleted()
 	{
 		await base.OnSetupCompleted();
 
-		Figure frostedCrystalCharacter = await AbilityCmd.SelectFigure(GameController.Instance.CharacterManager.FirstAlive(), figures =>
+		_frostedCrystalHolder = await AbilityCmd.SelectFigure(GameController.Instance.CharacterManager.FirstAlive(), figures =>
 		{
 			figures.AddRange(GameController.Instance.CharacterManager.Characters);
-		}, true, hintText: () => "Select a character to gain the Frosted Crystal");
+		}, true, hintText: () => "Select a character to hold the Frosted Crystal") as Character;
 
 		ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(this,
 			canApplyParameters =>
-				canApplyParameters.Figure == frostedCrystalCharacter,
+				canApplyParameters.Figure == _frostedCrystalHolder,
 			applyParameters =>
 			{
 				applyParameters.AddRetaliate(1, 1);
-			});
+			}
+		);
 
 		ScenarioEvents.RetaliateEvent.Subscribe(this,
-			canApplyParameters => canApplyParameters.RetaliatingFigure == frostedCrystalCharacter &&
-			                      RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, frostedCrystalCharacter.Hex) <= 1,
+			canApplyParameters =>
+				canApplyParameters.RetaliatingFigure == _frostedCrystalHolder &&
+				RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, _frostedCrystalHolder.Hex) <= 1,
 			async applyParameters =>
 			{
 				applyParameters.AdjustRetaliate(1);
 
 				await GDTask.CompletedTask;
-			});
+			}
+		);
 
-		GameController.Instance.Map.Treasures.First(treasure => treasure.TreasureNumber == -1)
-			.SetCanLootFunction(figure => figure != frostedCrystalCharacter);
+		await _goal.SetProgress(
+			GameController.Instance.CharacterManager.Characters.Count(character => _markerHexes.Contains(character.Hex)));
+
+		_startOfScenarioRule.SetText(textParameters =>
+			$"The character holding the Frosted Crystal may not loot the goal treasure tile and gains {Icons.Inline(Icons.Retaliate, textParameters)}1.");
+
+		Treasure goalTreasure = GameController.Instance.Map.Treasures.First(treasure => treasure.IsGoal);
+		goalTreasure.SetCanLootFunction(figure => figure != _frostedCrystalHolder);
 	}
 }
