@@ -121,7 +121,7 @@ public class Scenario016 : ScenarioModel
 					"""
 					Using the two keys found in the chests, you unlock the cabin door with questions running through your mind.
 
-					As soon as you swing the door open, a bellowing roar knocks you backwards. The biggest demon you’ve ever seen stands before you. “I am the Apex Demon, guardian of relics!” the demon thunders. “You dared loot the protected island, and now you have invaded my ship? You shall not leave here alive!
+					As soon as you swing the door open, a bellowing roar knocks you backwards. The biggest demon you’ve ever seen stands before you. “I am the Apex Demon, guardian of relics!” the demon thunders. “You dared loot the protected island, and now you have invaded my ship? You shall not leave here alive!”
 					""");
 			}
 		);
