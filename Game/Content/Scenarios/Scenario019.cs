@@ -47,7 +47,7 @@ public class Scenario019 : ScenarioModel
 		ModelDB.Monster<FrostDemon>(),
 		ModelDB.Monster<NightDemon>(),
 		ModelDB.Monster<SunDemon>(),
-		ModelDB.Monster<VermlingScout>(),
+		ModelDB.Monster<VermlingExperiment>(),
 		ModelDB.Monster<WindDemon>(),
 	];
 
