@@ -45,9 +45,14 @@ public class Scenario026 : ScenarioModel
 
 	public override string BGSPath => "res://Audio/BGS/Cave.ogg";
 
-	private string _text;
-
 	private CustomScenarioGoal _goal;
+
+	private ScenarioRule _coldThermalStoneRule1;
+	private ScenarioRule _coldThermalStoneRule2;
+	private ScenarioRule _hotThermalStoneRule1;
+	private ScenarioRule _hotThermalStoneRule2;
+	private ScenarioRule _icyFireThermalStoneRule1;
+	private ScenarioRule _icyFireThermalStoneRule2;
 
 	public override async GDTask StartOfScenarioEffects(Character character)
 	{
@@ -69,6 +74,15 @@ public class Scenario026 : ScenarioModel
 		Objective icyFireThermalStone = GameController.Instance.Map.Rooms[2].GetChildrenOfType<Objective>()[0];
 		int thermalStoneHealth = GameController.Instance.SavedCampaign.Characters.Count + 3;
 		int icyFireThermalStoneHealth = GameController.Instance.SavedCampaign.Characters.Count * 6;
+
+		int coldThermalStonesRemaining = coldThermalStones.Count;
+		int hotThermalStonesRemaining = coldThermalStones.Count;
+
+		_coldThermalStoneRule1 = AddScenarioRule(textParameters =>
+			$"Each time a character or character summons attacks a Cold thermal stone, they gain {Icons.Inline(Icons.GetCondition(Conditions.Chill), textParameters)} immediately following the attack.");
+
+		_coldThermalStoneRule2 = AddScenarioRule(textParameters =>
+			$"When a character or character summon destroys a Cold thermal stone, they immediately remove all {Icons.Inline(Icons.GetCondition(Conditions.Chill), textParameters)} from self and place a water tile in the hex it was occupying.");
 
 		foreach(Objective objective in coldThermalStones)
 		{
@@ -92,7 +106,14 @@ public class Scenario026 : ScenarioModel
 				{
 					await _goal.AdjustProgress(1);
 
-					UpdateScenarioText(_text);
+					coldThermalStonesRemaining--;
+
+					if(coldThermalStonesRemaining == 0)
+					{
+						_coldThermalStoneRule1.Remove();
+						_coldThermalStoneRule2.Remove();
+					}
+
 					await AbilityCmd.RemoveAllChill(applyParameters.PotentialAbilityState.Performer);
 					await AbilityCmd.CreateDifficultTerrain(objective.Hex,
 						ResourceLoader.Load<PackedScene>("res://Content/OverlayTiles/DifficultTerrain/Water1H.tscn"));
@@ -124,12 +145,19 @@ public class Scenario026 : ScenarioModel
 				{
 					await _goal.AdjustProgress(1);
 
-					UpdateScenarioText(_text);
+					hotThermalStonesRemaining--;
+
+					if(hotThermalStonesRemaining == 0)
+					{
+						_hotThermalStoneRule1.Remove();
+						_hotThermalStoneRule2.Remove();
+					}
+
 					HealAbility heal = HealAbility.Builder()
 						.WithHealValue(3)
 						.WithTarget(Target.Self)
 						.Build();
-					ActionState actionState = new ActionState(applyParameters.Figure, [heal]);
+					ActionState actionState = new ActionState(applyParameters.PotentialAbilityState.Performer, [heal]);
 					await actionState.Perform();
 					await AbilityCmd.CreateOverlayTile<HazardousTerrain>(objective.Hex,
 						ResourceLoader.Load<PackedScene>("res://Content/OverlayTiles/HazardousTerrain/HotCoals1H.tscn"));
@@ -159,20 +187,15 @@ public class Scenario026 : ScenarioModel
 			{
 				await _goal.AdjustProgress(1);
 
-				UpdateScenarioText(_text);
+				_icyFireThermalStoneRule1.Remove();
+				_icyFireThermalStoneRule2.Remove();
+
 				Figure figure = applyParameters.PotentialAbilityState.Performer;
 				await AbilityCmd.RemoveAllNegativeConditions(figure);
 				ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(this, icyFireThermalStone);
 				ScenarioEvents.FigureKilledEvent.Unsubscribe(this, icyFireThermalStone);
 			}
 		);
-
-		_text = $"""
-		         Each boulder on L3B represents a Cold thermal stone and has {thermalStoneHealth} hit points. Each time a character or character summons attacks a Cold thermal stone, they gain {Icons.Inline(Icons.GetCondition(Conditions.Chill))} immediately following the attack.
-
-		         When a character or character summon destroys a Cold thermal stone, they immediately remove all {Icons.Inline(Icons.GetCondition(Conditions.Chill))} from self and place a water tile in the hex it was occupying.
-		         """;
-		UpdateScenarioText(_text);
 
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<OrbOfDespair>());
 
@@ -219,13 +242,11 @@ public class Scenario026 : ScenarioModel
 
 		if(parameters.Room == GameController.Instance.Map.Rooms[1])
 		{
-			int thermalStoneHealth = GameController.Instance.SavedCampaign.Characters.Count + 3;
-			_text = $"""
-			         Each boulder on G2A represents a Hot thermal stone and has {thermalStoneHealth} hit points. Each time a character or character summon attacks a Hot thermal stone, they immediately suffer {Icons.Inline(Icons.Damage)} 1 following the attack.
+			_hotThermalStoneRule1 = AddScenarioRule(textParameters =>
+				$"Each time a character or character summon attacks a Hot thermal stone, they immediately suffer {Icons.Inline(Icons.Damage, textParameters)}1 following the attack.");
 
-			         When a character or character summon destroys a Hot thermal stone, they immediately perform {Icons.Inline(Icons.Heal)}3, Self and place a hot coal tile in the hex it was occupying.
-			         """;
-			UpdateScenarioText(_text);
+			_hotThermalStoneRule2 = AddScenarioRule(textParameters =>
+				$"When a character or character summon destroys a Hot thermal stone, they immediately perform {Icons.Inline(Icons.Heal, textParameters)}3, Self and place a hot coal tile in the hex it was occupying.");
 
 			await ShowText(
 				"""
@@ -234,13 +255,11 @@ public class Scenario026 : ScenarioModel
 		}
 		else if(parameters.Room == GameController.Instance.Map.Rooms[2])
 		{
-			int icyFireThermalStoneHealth = GameController.Instance.SavedCampaign.Characters.Count * 6;
-			_text = $"""
-			         The boulder marked represents the Icy Flame thermal stone and has {icyFireThermalStoneHealth} hit points. Each time a character or character summonattacks an Icy Flame thermal stone, they immediately gain {Icons.Inline(Icons.GetCondition(Conditions.Wound1))} and {Icons.Inline(Icons.GetCondition(Conditions.Chill))}.
+			_icyFireThermalStoneRule1 = AddScenarioRule(textParameters =>
+				$"Each time a character or character summon attacks an Icy Flame thermal stone, they immediately gain {Icons.Inline(Icons.GetCondition(Conditions.Wound1), textParameters)} and {Icons.Inline(Icons.GetCondition(Conditions.Chill), textParameters)}.");
 
-			         When a character or character summon destroys the Icy Flame thermal stone, they immediately remove all negative conditions from self.
-			         """;
-			UpdateScenarioText(_text);
+			_icyFireThermalStoneRule2 = AddScenarioRule(textParameters =>
+				$"When a character or character summon destroys the Icy Flame thermal stone, they immediately remove all negative conditions from self.");
 
 			await ShowText(
 				"""
@@ -248,16 +267,4 @@ public class Scenario026 : ScenarioModel
 				""");
 		}
 	}
-
-// 	protected override void UpdateScenarioText(string text)
-// 	{
-// 		string displayText = $"""
-// 		                      Destroy {5 - _thermalStonesDestroyed} more Thermal Stones to win this scenario.
-//
-// 		                      Any character may forgo the top or bottom action of their turn to remove all {Icons.Inline(Icons.GetCondition(Conditions.Chill))} from self or one summon they own within {Icons.Inline(Icons.Range)} 2.
-//
-//
-// 		                      """ + text;
-// 		GameController.Instance.SpecialRulesView.SetText(displayText);
-// 	}
 }
