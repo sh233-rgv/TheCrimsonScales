@@ -45,6 +45,7 @@ public class Scenario024 : ScenarioModel
 	public override string BGSPath => "res://Audio/BGS/Cave.ogg";
 
 	private Door _door1;
+	private Door _door2;
 	private Door _door3;
 	private List<Marker> _markers = [];
 	private Marker _markerA;
@@ -57,6 +58,7 @@ public class Scenario024 : ScenarioModel
 	private Dictionary<Figure, Marker> _charactersWithOrbs = new Dictionary<Figure, Marker> { };
 
 	private CustomScenarioGoal _goal;
+	private ScenarioRule _warmFiresRule;
 
 	public override async GDTask InitializeAfterFirstRoomRevealed()
 	{
@@ -83,6 +85,9 @@ public class Scenario024 : ScenarioModel
 
 		Marker marker1 = GameController.Instance.Map.GetMarker(Marker.Type._1);
 		_door1 = marker1.GetHexObject<Door>();
+
+		Marker marker2 = GameController.Instance.Map.GetMarker(Marker.Type._2);
+		_door2 = marker2.GetHexObject<Door>();
 
 		Marker marker3 = GameController.Instance.Map.GetMarker(Marker.Type._3);
 		_door3 = marker3.GetHexObject<Door>();
@@ -151,25 +156,13 @@ public class Scenario024 : ScenarioModel
 
 		if(parameters.OpenedDoor == _door1)
 		{
-// 			UpdateScenarioText(
-// 				$"""
-// 				 While adjacent to the hexes marked {Icons.InlineMarker(Marker.Type.a)}, {Icons.InlineMarker(Marker.Type.b)}, {Icons.InlineMarker(Marker.Type.c)}, {Icons.InlineMarker(Marker.Type.d)}, each character may forgo the top or bottom action of their turn to pick up the letter representing each Orb and gain the following bonus:
-// 				 {Icons.InlineMarker(Marker.Type.a)}: Add +1{Icons.Inline(Icons.Move)} to all your move abilities
-// 				 {Icons.InlineMarker(Marker.Type.b)}: Add {Icons.Inline(Icons.Pierce)} 2 to all your attack abilities
-// 				 {Icons.InlineMarker(Marker.Type.c)}: You are unaffected by {Icons.Inline(Icons.Retaliate)}
-// 				 {Icons.InlineMarker(Marker.Type.d)}: Add {Icons.Inline(Icons.GetCondition(Conditions.Chill))} to all your attack abilities
-// 				 Each character may only hold a maximum of one orb. If any character exhausts while holding an orb, the scenario is lost.
-// 				 While occupying the K1b tile, at the end of each character and character summons turn, if they have no {Icons.Inline(Icons.GetCondition(Conditions.Chill))} tokens they gain {Icons.Inline(Icons.GetCondition(Conditions.Chill))}.
-// 				 The Hot Coal hexes represents Warm Fires and cannot be removed. If a character ends their turn within {Icons.Inline(Icons.Range)} 1 of a Warm Fire, they ignore this effect.
-// 				 """);
-
 			AddScenarioRule(textParameters =>
 				$"""
 				 While adjacent to the hexes marked {Icons.InlineMarker(Marker.Type.a, textParameters)}, {Icons.InlineMarker(Marker.Type.b, textParameters)}, {Icons.InlineMarker(Marker.Type.c, textParameters)}, {Icons.InlineMarker(Marker.Type.d, textParameters)}, each character may forgo the top or bottom action of their turn to pick up the letter representing each Orb and gain the following bonus:
-				 {Icons.InlineMarker(Marker.Type.a, textParameters)}: Add +1{Icons.Inline(Icons.Move, textParameters)} to all your move abilities
-				 {Icons.InlineMarker(Marker.Type.b, textParameters)}: Add {Icons.Inline(Icons.Pierce, textParameters, true)} 2 to all your attack abilities
-				 {Icons.InlineMarker(Marker.Type.c, textParameters)}: You are unaffected by {Icons.Inline(Icons.Retaliate, textParameters)}
-				 {Icons.InlineMarker(Marker.Type.d, textParameters)}: Add {Icons.Inline(Icons.GetCondition(Conditions.Chill), textParameters)} to all your attack abilities
+				 {Icons.InlineMarker(Marker.Type.a, textParameters)}: Add +1{Icons.Inline(Icons.Move, textParameters)} to all your move abilities.
+				 {Icons.InlineMarker(Marker.Type.b, textParameters)}: Add {Icons.Inline(Icons.Pierce, textParameters, true)} 2 to all your attack abilities.
+				 {Icons.InlineMarker(Marker.Type.c, textParameters)}: You are unaffected by {Icons.Inline(Icons.Retaliate, textParameters)}.
+				 {Icons.InlineMarker(Marker.Type.d, textParameters)}: Add {Icons.Inline(Icons.GetCondition(Conditions.Chill), textParameters)} to all your attack abilities.
 				 """);
 
 			AddScenarioRule(textParameters =>
@@ -185,7 +178,11 @@ public class Scenario024 : ScenarioModel
 			AddScenarioRule(textParameters =>
 				$"""
 				 While occupying the K1b tile, at the end of each character and character summons turn, if they have no {Icons.Inline(Icons.GetCondition(Conditions.Chill), textParameters)} tokens they gain {Icons.Inline(Icons.GetCondition(Conditions.Chill), textParameters)}.
-				 The Hot Coal hexes represents Warm Fires and cannot be removed. If a character ends their turn within {Icons.Inline(Icons.Range, textParameters)} 1 of a Warm Fire, they ignore this effect.
+				 """);
+
+			_warmFiresRule = AddScenarioRule(textParameters =>
+				$"""
+				 The Hot Coal hexes represents Warm Fires and cannot be removed. If a character ends their turn within {Icons.Inline(Icons.Range, textParameters)} 1 of a Warm Fire, they ignore the effect above.
 				 """);
 
 			await ShowText(
@@ -210,7 +207,7 @@ public class Scenario024 : ScenarioModel
 			ScenarioEvents.FigureTurnEndedEvent.Subscribe(this, _door1,
 				canApplyParameters =>
 				{
-					return canApplyParameters.Figure is Character || canApplyParameters.Figure is Summon;
+					return canApplyParameters.Figure is Character or Summon;
 				},
 				async applyParameters =>
 				{
@@ -252,7 +249,7 @@ public class Scenario024 : ScenarioModel
 										},
 										effectButtonParameters: new IconEffectButton.Parameters(Icons.GetMarker(Marker.Type.a)),
 										effectInfoViewParameters: new TextEffectInfoView.Parameters(
-											$"Take Orb {Icons.Inline(Icons.GetMarker(Marker.Type.a))}"),
+											$"Take Orb {Icons.Inline(Icons.GetMarker(Marker.Type.a))}."),
 										effectType: EffectType.Selectable
 									),
 									ScenarioEvents.GenericChoice.Subscription.New(canApplyFunction: canApplyParameters =>
@@ -269,7 +266,7 @@ public class Scenario024 : ScenarioModel
 										},
 										effectButtonParameters: new IconEffectButton.Parameters(Icons.GetMarker(Marker.Type.b)),
 										effectInfoViewParameters: new TextEffectInfoView.Parameters(
-											$"Take Orb {Icons.Inline(Icons.GetMarker(Marker.Type.b))}"),
+											$"Take Orb {Icons.Inline(Icons.GetMarker(Marker.Type.b))}."),
 										effectType: EffectType.Selectable
 									),
 									ScenarioEvents.GenericChoice.Subscription.New(canApplyFunction: canApplyParameters =>
@@ -286,7 +283,7 @@ public class Scenario024 : ScenarioModel
 										},
 										effectButtonParameters: new IconEffectButton.Parameters(Icons.GetMarker(Marker.Type.c)),
 										effectInfoViewParameters: new TextEffectInfoView.Parameters(
-											$"Take Orb {Icons.Inline(Icons.GetMarker(Marker.Type.c))}"),
+											$"Take Orb {Icons.Inline(Icons.GetMarker(Marker.Type.c))}."),
 										effectType: EffectType.Selectable
 									),
 									ScenarioEvents.GenericChoice.Subscription.New(canApplyFunction: canApplyParameters =>
@@ -303,7 +300,7 @@ public class Scenario024 : ScenarioModel
 										},
 										effectButtonParameters: new IconEffectButton.Parameters(Icons.GetMarker(Marker.Type.d)),
 										effectInfoViewParameters: new TextEffectInfoView.Parameters(
-											$"Take Orb {Icons.Inline(Icons.GetMarker(Marker.Type.d))}"),
+											$"Take Orb {Icons.Inline(Icons.GetMarker(Marker.Type.d))}."),
 										effectType: EffectType.Selectable
 									),
 								], hintText: "Choose an Orb to take");
@@ -317,15 +314,34 @@ public class Scenario024 : ScenarioModel
 			);
 		}
 
+		if(parameters.OpenedDoor == _door2)
+		{
+			await ShowText(
+				"""
+				Grabbing a globe each, you immediately feel empowered by the glowing sphere. The energy force continues, and you can feel them urging you towards another roughly hewn door in the ice bound cavern. As you force your way through it and slam it behind you, you find peace from the storm, though there are more frozen horrors guarding the door, and the globes are pulling you towards the next door.
+				""");
+		}
+
 		if(parameters.OpenedDoor == _door3)
 		{
-			UpdateScenarioText(
-				$"""
-				 While occupying the K2b tile, all characters gain {Icons.Inline(Icons.GetCondition(Conditions.Chill))} at the end of their turn
+			AddScenarioRule(textParameters =>
+				$"While occupying the K2b tile, all characters gain {Icons.Inline(Icons.GetCondition(Conditions.Chill), textParameters)} at the end of their turn.");
 
-				 The Hot Coal hexes represents Warm Fires and cannot be removed. If a character ends their turn within {Icons.Inline(Icons.Range)} 1 of a Warm Fire, they ignore this effect
+			_warmFiresRule.Remove();
+			_warmFiresRule = AddScenarioRule(textParameters =>
+				$"""
+				 The Hot Coal hexes represents Warm Fires and cannot be removed. If a character ends their turn within {Icons.Inline(Icons.Range, textParameters)} 1 of a Warm Fire, they ignore the two effects above.
+				 """);
+
+			AddScenarioRule(textParameters =>
+				$"""
 				 The dome is represented by the altar. The altar cannot be destroyed. Each character may forgo the top or bottom action of their turn while adjacent to the dome to place the orb in the dome.
 				 """);
+
+			await ShowText(
+				"""
+				You open another door, and again the storm hits you. Although you are a little more prepared this time, the power is still breathtaking. The globes’ pull is even stronger now, almost dragging you towards a highly polished obsidian dome which somehow emanates a sense of stillness, out of place in this maelstrom of ice and wind. However, strong as the globes’ pull is, you are also beginning to feel a strange attachment to them and are reluctant to give them up, though you know deep down that the globes must be returned to the dome.
+				""");
 
 			//Gain Chill at end of round
 			ScenarioEvents.FigureTurnEndedEvent.Subscribe(this, _door3,
