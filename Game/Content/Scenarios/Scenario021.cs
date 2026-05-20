@@ -145,5 +145,12 @@ public class Scenario021 : ScenarioModel
 
 		AddScenarioRule(textParameters =>
 			$"The character holding the Frosted Crystal adds +1{Icons.Inline(Icons.Attack, textParameters)} to all their attacks targeting the Lavalite.");
+
+		await ShowText(
+			"""
+			You enter the room and the Savvas turns around with a look of shock on his face, as if he’s surprised you’re still alive.
+
+			“That battle was just the appetizer! Prepare yourself for the main course!” with a whisk of hands, more demons step out from the thorns and blazing fires in the room. You look around and take notice that there’s nowhere for the Savvas to go. It’s time to finish this once and for all.
+			""");
 	}
 }
