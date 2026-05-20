@@ -44,6 +44,9 @@ public class Scenario023 : ScenarioModel
 
 		await AddGoal(new KillAllEnemiesScenarioGoal());
 
+		AddScenarioRule(textParameters =>
+			$"Any character may forgo the top or bottom action of their turn to remove all {Icons.InlineCondition(Conditions.Chill, textParameters)} tokens from self or one summon they own within {Icons.Inline(Icons.Range, textParameters)}2.");
+
 		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<IronSnare>());
 
 		ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this,
