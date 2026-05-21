@@ -41,7 +41,7 @@ public class Scenario030 : ScenarioModel
 
 	public override List<SavedReward> Rewards =>
 	[
-		//TODO
+		new UnlockScenarioReward(ModelDB.Scenario<Scenario032>())
 	];
 
 	private Door _door2;
