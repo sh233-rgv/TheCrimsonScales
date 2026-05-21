@@ -40,6 +40,7 @@ public class Scenario036 : ScenarioModel
 
 	public override List<SavedReward> Rewards =>
 	[
+		new OpenEnvelopeReward(ModelDB.PersonalQuest<BanditBanisher>()),
 		new GainGoldEachReward(10)
 	];
 
