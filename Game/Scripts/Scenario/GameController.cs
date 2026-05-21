@@ -185,7 +185,7 @@ public partial class GameController : SceneController<GameController>
 				{
 					Id = Guid.NewGuid(),
 					AppVersion = AppController.Instance.DeviceSaveData.AppVersion,
-					ScenarioModelId = ModelDB.Scenario<Scenario036>().Id.ToString(),
+					ScenarioModelId = ModelDB.Scenario<Scenario037>().Id.ToString(),
 					//Seed = GD.RandRange(0, int.MaxValue),
 					Seed = 0,
 					ScenarioLevel =
