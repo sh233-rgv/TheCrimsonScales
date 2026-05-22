@@ -210,7 +210,7 @@ public class Scenario042 : ScenarioModel
 				$"Whenever a Cave Bear is killed, reduce the Shield value of the Goring Grizzly by 1."));
 
 			int caveBearsToSpawn = 0;
-			int shieldValue = 0;
+			int shieldValue = 3;
 			ScenarioEvents.FigureKilledEvent.Subscribe(this, _door2,
 				canApplyParameters =>
 					canApplyParameters.Figure is Monster monster &&
@@ -246,8 +246,7 @@ public class Scenario042 : ScenarioModel
 
 			ScenarioCheckEvents.ShieldCheckEvent.Subscribe(this, _door2,
 				canApplyParameters =>
-					canApplyParameters.Figure is Monster monster &&
-					monster.MonsterModel is GoringGrizzly,
+					canApplyParameters.Figure == goringGrizzly,
 				applyParameters =>
 				{
 					applyParameters.AdjustShield(shieldValue);

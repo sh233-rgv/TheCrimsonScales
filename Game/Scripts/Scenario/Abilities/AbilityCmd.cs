@@ -225,11 +225,17 @@ public static class AbilityCmd
 
 	public static async GDTask RemoveCondition(Condition condition)
 	{
+		Figure target = condition.Owner;
+
 		ScenarioEvents.RemoveCondition.Parameters removeConditionParameters =
 			await ScenarioEvents.RemoveConditionEvent.CreatePrompt(
 				new ScenarioEvents.RemoveCondition.Parameters(condition), condition.Owner);
 
 		await condition.Owner.RemoveCondition(condition);
+
+		ScenarioEvents.AfterRemoveCondition.Parameters afterRemoveConditionParameters =
+			await ScenarioEvents.AfterRemoveConditionEvent.CreatePrompt(
+				new ScenarioEvents.AfterRemoveCondition.Parameters(target, condition.ConditionModel), target);
 	}
 
 	public static async GDTask<bool> RemoveCondition(Figure target, ConditionModel conditionModel)
@@ -238,9 +244,6 @@ public static class AbilityCmd
 		if(condition != null)
 		{
 			await RemoveCondition(condition);
-			ScenarioEvents.AfterRemoveCondition.Parameters afterRemoveConditionParameters =
-				await ScenarioEvents.AfterRemoveConditionEvent.CreatePrompt(
-					new ScenarioEvents.AfterRemoveCondition.Parameters(target, conditionModel), target);
 
 			return true;
 		}
