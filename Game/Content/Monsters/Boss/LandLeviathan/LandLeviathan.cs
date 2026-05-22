@@ -40,7 +40,6 @@ public class LandLeviathan : DeepTerror, IBossMonsterModel
 			 3 => "The type of Imp that is summoned cycles in the order of Elite Black Imp, then Normal Forest Imp.",
 			 _ => "The type of Imp that is summoned cycles in the order of Elite Black Imp, then Elite Forest Imp."
 		 })}
-
 		 Grant all Imps within {Icons.Inline(Icons.Range, richTextParameters)}5 “{Icons.Inline(Icons.Heal, richTextParameters)}1, Self.”
 		 """;
 
