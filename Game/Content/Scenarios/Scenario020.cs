@@ -84,7 +84,7 @@ public class Scenario020 : ScenarioModel
 	{
 		await base.InitializeAfterFirstRoomRevealed();
 
-		await AddGoal(new KillSpecificEnemyTypeGoal(ModelDB.Monster<CultLeader>(), specificCount: 1));
+		await AddGoal(new KillSpecificEnemyTypeGoal(ModelDB.Monster<CultLeader>()));
 
 		int characterCount = GameController.Instance.SavedCampaign.Characters.Count;
 		string summonInfo = characterCount == 3 ? """Every other Living Spirit summoned is elite.""" :
