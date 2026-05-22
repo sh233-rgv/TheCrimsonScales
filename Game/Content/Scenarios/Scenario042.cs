@@ -312,7 +312,7 @@ public class Scenario042 : ScenarioModel
 			AddScenarioRule(textParameters =>
 				$"None of the monsters in the room will focus on enemies outside the C2A tile, nor will they leave the tile.");
 			cobraRules.Add(AddScenarioRule(textParameters =>
-				$"Whenever a Giant Viper is damaged, the King Cobra suffers an equal amount of {Icons.Inline(Icons.Damage)}"));
+				$"Whenever a Giant Viper is damaged, the King Cobra suffers an equal amount of {Icons.Inline(Icons.Damage, textParameters)}"));
 
 			ScenarioEvents.FigureKilledEvent.Subscribe(this, kingCobra,
 				canApplyParameters =>

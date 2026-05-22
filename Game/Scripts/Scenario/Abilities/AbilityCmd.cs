@@ -495,8 +495,7 @@ public static class AbilityCmd
 		Action<List<Hex>> hexes = list => moveToHexes(overlayTile, list);
 
 		Hex movedToHex = await SelectHex(state.Performer, hexes, mandatory: true,
-			hintText: $"Select a hex to move {overlayTile.GetType().ToString().ToLower()} to");
-
+			hintText: $"Select a hex to move the overlay tile to");
 
 		if(movedToHex == null)
 		{
