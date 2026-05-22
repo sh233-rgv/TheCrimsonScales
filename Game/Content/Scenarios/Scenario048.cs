@@ -44,14 +44,23 @@ public class Scenario048 : ScenarioModel
 
 	private CustomScenarioGoal _goal;
 
-	//TODO: Remove the final room for 2 players
 	public override async GDTask InitializeAfterFirstRoomRevealed()
 	{
 		await base.InitializeAfterFirstRoomRevealed();
 
 		_goal = await AddGoal(new CustomScenarioGoal(
-			textParameters => "Extinguish all fires to win this scenario", hasProgress: true,
-			maxProgress: GameController.Instance.CharacterManager.Characters.Count == 2 ? 14 : 20));
+			textParameters => "Extinguish all fires.", hasProgress: true,
+			maxProgress: GameController.Instance.CharacterManager.Characters.Count == 2 ? 14 : 17));
+
+		AddScenarioRule(
+			"""
+			The hot coal overlay tiles in this scenario represent fire, and are considered difficult terrain instead of hazardous terrain for all characters.
+			""");
+
+		AddScenarioRule(
+			"""
+			Whenever a character ends their turn in a hex that is on fire, that single hex of fire is extinguished and can be removed from the board.
+			""");
 
 		if(GameController.Instance.SavedCampaign.Characters.Count >= 3)
 		{
@@ -81,18 +90,38 @@ public class Scenario048 : ScenarioModel
 		}
 
 		ScenarioEvents.FigureTurnEndedEvent.Subscribe(this,
-			parameters => parameters.Figure is Character &&
-			              (parameters.Figure.Hex.GetHexObjectOfType<DifficultTerrain>()?.Name.ToString().Contains("HotCoalsDifficultTerrain1H") ??
-			               false),
+			parameters =>
+				parameters.Figure is Character &&
+				(parameters.Figure.Hex.HasHexObjectOfType<HotCoals>()),
 			async parameters =>
 			{
-				await parameters.Figure.Hex.GetHexObjectOfType<DifficultTerrain>().Destroy();
+				await parameters.Figure.Hex.GetHexObjectOfType<HotCoals>().Destroy();
 				await _goal.AdjustProgress(1);
-			}, EffectType.Selectable,
+			}, //EffectType.Selectable,
 			effectButtonParameters: new IconEffectButton.Parameters("res://Art/OverlayTiles/Hot Coals 1h.png"),
-			effectInfoViewParameters: new TextEffectInfoView.Parameters("Extinguish fire (Remove hot coals from the board)")
+			effectInfoViewParameters: new TextEffectInfoView.Parameters("Extinguish fire (Remove hot coals from the board).")
 		);
 
-		//TODO: Either use normal hotcoals and have characters treat them differently, or use difficult terrain ones and have monster treat them differently.
+		ScenarioCheckEvents.MoveCheckEvent.Subscribe(this,
+			canApplyParameters =>
+				canApplyParameters.Performer is Character &&
+				canApplyParameters.Hex.HasHexObjectOfType<HotCoals>(),
+			applyParameters =>
+			{
+				applyParameters.SetMoveCost(2);
+				applyParameters.SetAffectedByNegativeHex(false);
+			}
+		);
+
+		ScenarioEvents.HazardousTerrainTriggeredEvent.Subscribe(this,
+			canApplyParameters =>
+				canApplyParameters.PotentialAbilityState?.Performer is Character &&
+				canApplyParameters.Hex.HasHexObjectOfType<HotCoals>(),
+			applyParameters =>
+			{
+				applyParameters.SetAffectedByHazardousTerrain(false);
+				return GDTask.CompletedTask;
+			}
+		);
 	}
 }
