@@ -106,12 +106,13 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 	// IBossMonsterModel
 	public string GetSpecial1Description(Monster monster, RichTextParameters richTextParameters) =>
 		$"""
-		 TODO
+		 {Icons.Inline(Icons.Heal, richTextParameters)}{2}, {Icons.Inline(Icons.Targets, richTextParameters)}all.
 		 """;
 
 	public string GetSpecial2Description(Monster monster, RichTextParameters richTextParameters) =>
 		$"""
-		 TODO
+		 All allies add +{1}{Icons.Inline(Icons.Attack, richTextParameters)} to all attacks this round.
+		 {Icons.Inline(Icons.Attack, richTextParameters)}{monster.Stats.Attack + 1}.
 		 """;
 
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>

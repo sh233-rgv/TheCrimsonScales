@@ -117,15 +117,15 @@ public class InoxBodyguard : MonsterModel, IBossMonsterModel
 	// IBossMonsterModel
 	public string GetSpecial1Description(Monster monster, RichTextParameters richTextParameters) =>
 		$"""
-		 {Icons.Inline(Icons.Move, richTextParameters)}{monster.Stats.Move - 1}
-		 {Icons.Inline(Icons.Attack, richTextParameters)}{monster.Stats.Attack - 1}{Icons.InlineAOEPattern(AOEPattern, richTextParameters)}
+		 {Icons.Inline(Icons.Move, richTextParameters)}{monster.Stats.Move - 1}.
+		 {Icons.Inline(Icons.Attack, richTextParameters)}{monster.Stats.Attack - 1}, {Icons.InlineAOEPattern(AOEPattern, richTextParameters)}.
 		 """;
 
 	public string GetSpecial2Description(Monster monster, RichTextParameters richTextParameters) =>
 		$"""
-		 {Icons.Inline(Icons.Move, richTextParameters)}{monster.Stats.Move}
-		 {Icons.Inline(Icons.Attack, richTextParameters)}{monster.Stats.Attack}
-		 {Icons.Inline(Icons.Retaliate, richTextParameters)}{GetRetaliateValue()}
+		 {Icons.Inline(Icons.Move, richTextParameters)}{monster.Stats.Move}.
+		 {Icons.Inline(Icons.Attack, richTextParameters)}{monster.Stats.Attack}.
+		 {Icons.Inline(Icons.Retaliate, richTextParameters)}{GetRetaliateValue()}.
 		 """;
 
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
