@@ -89,7 +89,7 @@ public partial class Door : OverlayTile, IEventSubscriber
 
 		HexObject corridor = _corridorScene.Instantiate<HexObject>();
 		GameController.Instance.Map.AddChild(corridor);
-		await corridor.Init(Hex);
+		await corridor.Init(Hex, RotationIndex);
 
 		await Destroy();
 	}
