@@ -34,6 +34,26 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	public event Action<ScenarioRule> RuleAddedEvent;
 	public event Action<ScenarioRule> RuleRemovedEvent;
 
+	public bool GetRequirementsMet(SavedCampaign savedCampaign, out string notMetMessage)
+	{
+		notMetMessage = null;
+		if(Requirements.Count == 0)
+		{
+			return true;
+		}
+
+		foreach(ScenarioRequirement requirement in Requirements)
+		{
+			if(!requirement.GetMet(savedCampaign))
+			{
+				notMetMessage = requirement.NotMetMessage();
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	public virtual async GDTask InitializeBeforeFirstRoomRevealed()
 	{
 		await GDTask.CompletedTask;

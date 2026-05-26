@@ -8,6 +8,7 @@ public class Scenario049 : ScenarioModel
 	public override int ScenarioNumber => 49;
 	public override string Name => "Oak Invasion A";
 
+	protected override List<ScenarioRequirement> Requirements => [new PartyAchievementRequirement(PartyAchievement.OaksAlliance, false)];
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<EventScenarioChain>();
 
 	public override string IntroductionText =>
