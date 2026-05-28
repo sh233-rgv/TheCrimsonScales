@@ -1,5 +1,4 @@
 ﻿using System;
-using Godot;
 
 public class ScenarioEventPrompt(EffectCollection effectCollection, Func<string> getHintText)
 	: Prompt<ScenarioEventPrompt.Answer>(effectCollection, getHintText)

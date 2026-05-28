@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscriber
 {

@@ -4,8 +4,7 @@ using System.Linq;
 using Godot;
 
 public class MonsterMovePrompt(
-	MoveAbility.State moveAbilityState, Figure performer, AIMoveParameters aiMoveParameters, Figure focus,
-	Hex focusHex, // List<FocusNode> bestFocusNodes,
+	MoveAbility.State moveAbilityState, Figure performer, AIMoveParameters aiMoveParameters, Figure focus, Hex focusHex,
 	EffectCollection effectCollection, Func<string> getHintText)
 	: Prompt<MonsterMovePrompt.Answer>(effectCollection, getHintText)
 {
@@ -349,11 +348,6 @@ public class MonsterMovePrompt(
 						{
 							continue;
 						}
-
-						// if(!performer.EnemiesWith(potentialTarget))
-						// {
-						// 	continue;
-						// }
 
 						ScenarioCheckEvents.PotentialTargetCheck.Parameters potentialTargetCheckParameters =
 							ScenarioCheckEvents.PotentialTargetCheckEvent.Fire(

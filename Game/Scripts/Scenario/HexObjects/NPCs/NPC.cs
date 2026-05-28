@@ -51,7 +51,6 @@ public partial class NPC : Figure, IEventSubscriber
 		SetHealth(health);
 
 		SetAlignment(alignment);
-		//SetEnemies(enemies);
 
 		await GameController.Instance.Map.RegisterFigure(this);
 
