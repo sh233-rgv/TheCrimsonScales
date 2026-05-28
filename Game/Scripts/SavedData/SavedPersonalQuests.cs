@@ -19,8 +19,8 @@ public class SavedPersonalQuests
 		ModelDB.PersonalQuest<MutualSupport>(),
 		ModelDB.PersonalQuest<ThyBeBlessed>(),
 		ModelDB.PersonalQuest<SpiritualGainsPersonalQuest>(),
-		// ModelDB.PersonalQuest<ThePathOfAgony>(), // Requires Hollowpact
-		// ModelDB.PersonalQuest<TheDyingOfLight>(), // Requires Hollowpact
+		ModelDB.PersonalQuest<ThePathOfAgony>(),
+		ModelDB.PersonalQuest<CruelDominion>(),
 		ModelDB.PersonalQuest<NaturalSelection>(),
 		ModelDB.PersonalQuest<PredatorAndPrey>(),
 		ModelDB.PersonalQuest<AnAdderDivides>(),
