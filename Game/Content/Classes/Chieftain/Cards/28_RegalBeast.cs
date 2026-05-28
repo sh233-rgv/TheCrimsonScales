@@ -96,9 +96,12 @@ public class RegalBeast : ChieftainCardModel<RegalBeast.CardTop, RegalBeast.Card
 					foreach(AbilityCardSide abilitySide in abilitySides)
 					{
 						await abilitySide.Perform(state.Performer);
-						await abilitySide.AbilityCard.SetCardState(abilitySide.AbilityCard.Unrecoverable
-							? CardState.UnrecoverablyLost
-							: CardState.Lost);
+						if(!abilitySide.AbilityCard.CardState.IsPersistent())
+						{
+							await AbilityCmd.LoseCard(abilitySide.AbilityCard);
+							//await abilitySide.AbilityCard.SetCardState(CardState.Lost);
+						}
+
 						state.SetPerformed();
 					}
 

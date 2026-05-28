@@ -44,7 +44,7 @@ public class CultistAbilityCard0 : CultistAbilityCard
 				ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(state, this,
 					parameters => parameters.Figure == monster,
 					parameters => parameters.Add(
-						new InfoTextExtraEffect.Parameters(
+						new InfoTextExtraEffect.Parameters(textParameters =>
 							$"On death, this monster performs {Icons.Inline(Icons.Attack)}+2, {Icons.Inline(Icons.Targets)} all adjacent enemies"))
 				);
 
@@ -86,7 +86,7 @@ public class CultistAbilityCard1 : CultistAbilityCard
 				ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(state, this,
 					parameters => parameters.Figure == monster,
 					parameters => parameters.Add(
-						new InfoTextExtraEffect.Parameters(
+						new InfoTextExtraEffect.Parameters(textParameters =>
 							$"On death, this monster performs {Icons.Inline(Icons.Attack)}+2, {Icons.Inline(Icons.Targets)} all adjacent enemies"))
 				);
 
@@ -153,11 +153,10 @@ public class CultistAbilityCard5 : CultistAbilityCard
 			.WithMonsterType(MonsterType.Normal)
 			.Build()),
 
-		new MonsterAbilityCardAbility(OtherAbility.Builder()
-			.WithPerformAbility(async state =>
-			{
-				await AbilityCmd.SufferDamage(state, state.Performer, 2);
-			})
+		new MonsterAbilityCardAbility(SufferDamageAbility.Builder()
+			.WithDamage(2)
+			.WithTarget(Target.Self)
+			.WithMandatory(true)
 			.Build())
 	];
 }
@@ -175,11 +174,10 @@ public class CultistAbilityCard6 : CultistAbilityCard
 			.WithMonsterType(MonsterType.Normal)
 			.Build()),
 
-		new MonsterAbilityCardAbility(OtherAbility.Builder()
-			.WithPerformAbility(async state =>
-			{
-				await AbilityCmd.SufferDamage(state, state.Performer, 2);
-			})
+		new MonsterAbilityCardAbility(SufferDamageAbility.Builder()
+			.WithDamage(2)
+			.WithTarget(Target.Self)
+			.WithMandatory(true)
 			.Build())
 	];
 }

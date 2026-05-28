@@ -25,6 +25,8 @@ public partial class Character : Figure
 	public List<ItemModel> Items { get; } = new List<ItemModel>();
 
 	public List<AbilityCard> RoundCards { get; } = new List<AbilityCard>();
+	public List<CardPlayCardData> RoundCardData { get; } = new List<CardPlayCardData>();
+	public List<ItemModel> TurnItemsUsed { get; } = [];
 	public bool LongResting { get; private set; }
 
 	public int ShortRestSeed { get; private set; }
@@ -44,7 +46,7 @@ public partial class Character : Figure
 	public override Texture2D MapIconTexture => _staticSprite.Texture;
 
 	public override Node2D Visual =>
-		AppController.Instance.Options.AnimatedCharacters.Value && ClassModel.HasAnimatedSprite ? _animatedSprite : _staticSprite;
+		AppController.Instance.DeviceOptions.AnimatedCharacters.Value && ClassModel.HasAnimatedSprite ? _animatedSprite : _staticSprite;
 
 	public event Action<Character> BattleGoalChangedEvent;
 	public event Action<Character> BattleGoalProgressChangedEvent;
@@ -63,7 +65,7 @@ public partial class Character : Figure
 		_animatedSprite = GetNode<AnimatedSpriteSheet2D>("Mask/AnimatedSpriteSheet2D");
 	}
 
-	public virtual void Spawn(SavedCharacter savedCharacter, int index)
+	public virtual async GDTask Spawn(SavedCharacter savedCharacter, int index)
 	{
 		SavedCharacter = savedCharacter;
 		ClassModel = SavedCharacter.ClassModel;
@@ -75,7 +77,6 @@ public partial class Character : Figure
 		SetHealth(health);
 
 		SetAlignment(Alignment.Characters);
-		SetEnemies(Alignment.Enemies);
 
 		// Create AMD
 		AMDCardOwner amdCardOwner = (AMDCardOwner)(Index + 1);
@@ -105,7 +106,7 @@ public partial class Character : Figure
 				{
 					foreach(AMDCardModel amdCardModel in perk.CardsToAdd)
 					{
-						_amdCardDeck.AddCard(new AMDCard(amdCardModel, amdCardOwner), true);
+						_amdCardDeck.AddCard(new AMDCard(amdCardModel, amdCardOwner, potentialDeckOwner: this), true);
 					}
 				}
 			}
@@ -122,14 +123,14 @@ public partial class Character : Figure
 
 		PlayableAbilityCardCount = 2;
 
-		_figureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);
-		_figureViewComponent.ActivePS.SetModulate(OutlineColor);
+		FigureViewComponent.TurnStartPS.SetSelfModulate(OutlineColor);
+		FigureViewComponent.ActivePS.SetModulate(OutlineColor);
 
-		GameController.Instance.Map.RegisterFigure(this);
+		await GameController.Instance.Map.RegisterFigure(this);
 
-		AppController.Instance.Options.AnimatedCharacters.ValueChangedEvent += OnAnimatedCharactersChanged;
+		AppController.Instance.DeviceOptions.AnimatedCharacters.ValueChangedEvent += OnAnimatedCharactersChanged;
 
-		OnAnimatedCharactersChanged(AppController.Instance.Options.AnimatedCharacters.Value);
+		OnAnimatedCharactersChanged(AppController.Instance.DeviceOptions.AnimatedCharacters.Value);
 	}
 
 	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
@@ -172,7 +173,7 @@ public partial class Character : Figure
 
 		if(what == NotificationPredelete && AppController.Instance != null)
 		{
-			AppController.Instance.Options.AnimatedCharacters.ValueChangedEvent -= OnAnimatedCharactersChanged;
+			AppController.Instance.DeviceOptions.AnimatedCharacters.ValueChangedEvent -= OnAnimatedCharactersChanged;
 		}
 	}
 
@@ -316,6 +317,12 @@ public partial class Character : Figure
 		item.SetOwner(null);
 	}
 
+	public void EquipItem(ItemModel itemModel)
+	{
+		itemModel.Init(this);
+		Items.Add(itemModel);
+	}
+
 	public void RegisterSummon(Summon summon)
 	{
 		Summons.Add(summon);
@@ -345,11 +352,11 @@ public partial class Character : Figure
 		{
 			bool topPlayed = false;
 			bool bottomPlayed = false;
-			List<CardPlayCardData> cardDatas = new List<CardPlayCardData>();
+			RoundCardData.Clear();
 
 			foreach(AbilityCard card in RoundCards)
 			{
-				cardDatas.Add(new CardPlayCardData()
+				RoundCardData.Add(new CardPlayCardData()
 				{
 					AbilityCard = card,
 					CanPlayTop = true,
@@ -359,9 +366,10 @@ public partial class Character : Figure
 				});
 			}
 
-			for(int i = 0; i < cardDatas.Count; i++)
+			for(int i = 0; i < RoundCardData.Count; i++)
 			{
-				if(IsDead || !TakingTurn)
+				if(IsDead || !TakingTurn || RoundCardData.All(data =>
+					   !data.CanPlayBasicBottom && !data.CanPlayBottom && !data.CanPlayBasicTop && !data.CanPlayTop))
 				{
 					break;
 				}
@@ -370,7 +378,7 @@ public partial class Character : Figure
 					ScenarioEvents.CardSideSelectionEvent.CreateEffectCollection(new ScenarioEvents.CardSideSelection.Parameters(this));
 
 				AbilityCardSectionSelectionPrompt.Answer cardSectionAnswer = await PromptManager.Prompt(
-					new AbilityCardSectionSelectionPrompt(cardDatas, cardSideSelectionEffectCollection, () => "Select card side to play"), this);
+					new AbilityCardSectionSelectionPrompt(RoundCardData, cardSideSelectionEffectCollection, () => "Select card side to play"), this);
 
 				AbilityCard card = GameController.Instance.ReferenceManager.Get<AbilityCard>(cardSectionAnswer.CardReferenceId);
 				AbilityCardSection section = cardSectionAnswer.AbilityCardSection;
@@ -402,7 +410,7 @@ public partial class Character : Figure
 						throw new ArgumentOutOfRangeException();
 				}
 
-				foreach(CardPlayCardData cardData in cardDatas)
+				foreach(CardPlayCardData cardData in RoundCardData)
 				{
 					if(cardData.AbilityCard == card)
 					{
@@ -413,13 +421,13 @@ public partial class Character : Figure
 					}
 				}
 
-				if(i == cardDatas.Count - 2)
+				if(i == RoundCardData.Count - 2)
 				{
 					// Only one card left, make sure both a top and bottom are played
 
 					if(!topPlayed)
 					{
-						foreach(CardPlayCardData cardData in cardDatas)
+						foreach(CardPlayCardData cardData in RoundCardData)
 						{
 							cardData.CanPlayBottom = false;
 							cardData.CanPlayBasicBottom = false;
@@ -428,7 +436,7 @@ public partial class Character : Figure
 
 					if(!bottomPlayed)
 					{
-						foreach(CardPlayCardData cardData in cardDatas)
+						foreach(CardPlayCardData cardData in RoundCardData)
 						{
 							cardData.CanPlayTop = false;
 							cardData.CanPlayBasicTop = false;
@@ -442,6 +450,13 @@ public partial class Character : Figure
 				await ScenarioEvents.AfterCardsPlayedEvent.CreatePrompt(new ScenarioEvents.AfterCardsPlayed.Parameters(this), this, "End turn?");
 			}
 		}
+	}
+
+	protected override async GDTask EndTurn()
+	{
+		await base.EndTurn();
+
+		TurnItemsUsed.Clear();
 	}
 
 	protected override async GDTask EndOfTurnLooting()
@@ -495,6 +510,9 @@ public partial class Character : Figure
 				.Build()
 		]);
 		await actionState.Perform();
+
+		await ScenarioEvents.LongRestEndedEvent.CreatePrompt(
+			new ScenarioEvents.LongRestEnded.Parameters(this));
 	}
 
 	public async GDTask ShortRest()
@@ -602,6 +620,16 @@ public partial class Character : Figure
 			AddCard(abilityCard);
 		}
 
+		if(GameController.Instance.SavedCampaign.GodMode)
+		{
+			for(int i = 0; i < 10; i++)
+			{
+				SavedAbilityCard savedAbilityCard = new SavedAbilityCard(ModelDB.AbilityCard<TestCard>());
+				AbilityCard abilityCard = new AbilityCard(savedAbilityCard, this);
+				AddCard(abilityCard);
+			}
+		}
+
 		// Add and initialize all equipped items
 		foreach(string baseSlotItem in SavedCharacter.EquippedBaseSlotItems)
 		{
@@ -611,8 +639,7 @@ public partial class Character : Figure
 			}
 
 			ItemModel item = ModelDB.GetById<ItemModel>(baseSlotItem).ToMutable();
-			item.Init(this);
-			Items.Add(item);
+			EquipItem(item);
 		}
 
 		foreach(string smallItem in SavedCharacter.EquippedSmallItems)
@@ -623,21 +650,20 @@ public partial class Character : Figure
 			}
 
 			ItemModel item = ModelDB.GetById<ItemModel>(smallItem).ToMutable();
-			item.Init(this);
-			Items.Add(item);
+			EquipItem(item);
 		}
 
-		bool ignoreNegativeItemEffects = false;
+		bool ignoreItemMinusOneEffects = false;
 		for(int i = 0; i < ClassModel.Perks.Count; i++)
 		{
 			PerkModel perkModel = ClassModel.Perks[i];
-			if(perkModel.IgnoreNegativeItemEffects && SavedCharacter.GetPerkAcquired(i))
+			if(perkModel.IgnoreItemMinusOneEffects && SavedCharacter.GetPerkAcquired(i))
 			{
-				ignoreNegativeItemEffects = true;
+				ignoreItemMinusOneEffects = true;
 			}
 		}
 
-		if(!ignoreNegativeItemEffects)
+		if(!ignoreItemMinusOneEffects)
 		{
 			foreach(ItemModel item in Items)
 			{

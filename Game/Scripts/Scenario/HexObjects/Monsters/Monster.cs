@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
@@ -13,6 +13,7 @@ public partial class Monster : Figure
 	private Sprite2D _staticSprite;
 	private MonsterViewComponent _monsterViewComponent;
 	private AMDCardDeck _amdCardDeckOverride;
+	private object _bossSpecialSubscriber;
 
 	public MonsterModel MonsterModel { get; private set; }
 	public MonsterGroup MonsterGroup { get; private set; }
@@ -50,7 +51,7 @@ public partial class Monster : Figure
 	}
 
 	public async GDTask Spawn(MonsterGroup monsterGroup, MonsterType monsterType, int standeeNumber, bool summon,
-		int? monsterLevel, Alignment alignment, Alignment enemies)
+		int? monsterLevel, Alignment alignment)
 	{
 		MonsterGroup = monsterGroup;
 		MonsterType = monsterType;
@@ -82,8 +83,8 @@ public partial class Monster : Figure
 		}
 
 		_outline.SelfModulate = TypeColor;
-		_figureViewComponent.TurnStartPS.SelfModulate = TypeColor;
-		_figureViewComponent.ActivePS.Modulate = OutlineColor;
+		FigureViewComponent.TurnStartPS.SelfModulate = TypeColor;
+		FigureViewComponent.ActivePS.Modulate = OutlineColor;
 		_monsterViewComponent.StandeeNumberCircle.SelfModulate = TypeColor;
 		_monsterViewComponent.StandeeNumberCircle.Visible = MonsterType != MonsterType.Boss;
 
@@ -103,7 +104,6 @@ public partial class Monster : Figure
 		SetHealth(Stats.Health);
 
 		SetAlignment(alignment);
-		SetEnemies(enemies);
 
 		if(Stats.Traits != null)
 		{
@@ -120,10 +120,27 @@ public partial class Monster : Figure
 			CanTakeTurn = false;
 		}
 
-		MonsterGroup.RegisterMonster(this);
-		GameController.Instance.Map.RegisterFigure(this);
+		if(MonsterModel is IBossMonsterModel bossMonsterModel)
+		{
+			_bossSpecialSubscriber = new object();
+			ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(this, _bossSpecialSubscriber,
+				parameters => parameters.Figure == this,
+				parameters =>
+				{
+					parameters.Add(
+						new InfoTextExtraEffect.Parameters(textParameters =>
+							$"Special 1:\n{bossMonsterModel.GetSpecial1Description(this, textParameters)}"));
+					parameters.Add(
+						new InfoTextExtraEffect.Parameters(textParameters =>
+							$"Special 2:\n{bossMonsterModel.GetSpecial2Description(this, textParameters)}"));
+				}
+			);
+		}
 
-		Scale = Vector2.Zero;
+		MonsterGroup.RegisterMonster(this);
+		await GameController.Instance.Map.RegisterFigure(this);
+
+		SetScale(Vector2.Zero);
 		this.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardable();
 	}
 
@@ -146,6 +163,11 @@ public partial class Monster : Figure
 		}
 
 		MonsterGroup.DeregisterMonster(this);
+
+		if(MonsterModel is IBossMonsterModel)
+		{
+			ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(this, _bossSpecialSubscriber);
+		}
 
 		await base.Destroy(immediately, forceDestroy);
 

@@ -91,9 +91,11 @@ public partial class Map : Node2D
 		UpdateContainerRect();
 	}
 
-	public void RegisterFigure(Figure figure)
+	public async GDTask RegisterFigure(Figure figure)
 	{
 		Figures.Add(figure);
+
+		await ScenarioEvents.FigureRegisteredEvent.CreatePrompt(new ScenarioEvents.FigureRegistered.Parameters(figure));
 
 		FigureAddedEvent?.Invoke(figure);
 	}
@@ -112,7 +114,7 @@ public partial class Map : Node2D
 	}
 
 	public async GDTask<Monster> CreateMonster(MonsterModel monsterModel, MonsterType monsterType, Vector2I coords, bool summon,
-		int? monsterLevel = null, Alignment alignment = Alignment.Enemies, Alignment enemies = Alignment.Characters)
+		int? monsterLevel = null, Alignment alignment = Alignment.Monsters)
 	{
 		MonsterGroup monsterGroup = MonsterGroups.Find(group => group.MonsterModel == monsterModel);
 		if(monsterGroup == null)
@@ -128,7 +130,7 @@ public partial class Map : Node2D
 			AddChild(monsterHexObject, true);
 			monsterHexObject.SetMonsterModel(monsterModel);
 			await monsterHexObject.Init(hex);
-			await monsterHexObject.Spawn(monsterGroup, monsterType, standeeNumber, summon, monsterLevel, alignment, enemies);
+			await monsterHexObject.Spawn(monsterGroup, monsterType, standeeNumber, summon, monsterLevel, alignment);
 			return monsterHexObject;
 		}
 
@@ -136,13 +138,13 @@ public partial class Map : Node2D
 	}
 
 	public async GDTask<NPC> CreateNPC(Vector2I coords, int health, string name, string assetPath, int initiative, List<Ability> abilities,
-		string actionText, Alignment alignment, Alignment enemies)
+		TextHelper.LabelTextDelegate actionText, Alignment alignment, Alignment enemies)
 	{
 		Hex hex = GetHex(coords);
 		NPC npcHexObject = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/NPC.tscn").Instantiate<NPC>();
 		AddChild(npcHexObject, true);
 		await npcHexObject.Init(hex);
-		npcHexObject.Spawn(health, name, assetPath, initiative, abilities, actionText, alignment, enemies);
+		await npcHexObject.Spawn(health, name, assetPath, initiative, abilities, actionText, alignment);
 		return npcHexObject;
 	}
 

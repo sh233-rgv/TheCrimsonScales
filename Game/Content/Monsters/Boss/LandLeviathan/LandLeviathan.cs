@@ -1,20 +1,20 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
 public class LandLeviathan : DeepTerror, IBossMonsterModel
 {
-	public override MonsterStats[] NamedLevelStats =>
+	public override MonsterStats[] BossLevelStats =>
 		base.EliteLevelStats
 			.Select(stats => stats with
 			{
 				Health = stats.Health * (CharacterCount * 2 - 1),
 				Traits = (stats.Traits ?? [])
-					.Append(ConditionImmunityTrait.PoisonImmunityTrait())
-					.Append(new ConditionImmunityTrait(Conditions.Stun))
-					.Append(new ConditionImmunityTrait(Conditions.Disarm))
-					.Append(new ForcedMovementImmunityTrait())
-					.ToArray()
+				.Append(ConditionImmunityTrait.PoisonImmunityTrait())
+				.Append(new ConditionImmunityTrait(Conditions.Stun))
+				.Append(new ConditionImmunityTrait(Conditions.Disarm))
+				.Append(new ForcedMovementImmunityTrait())
+				.ToArray()
 			})
 			.ToArray();
 
@@ -26,16 +26,33 @@ public class LandLeviathan : DeepTerror, IBossMonsterModel
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
 	// IBossMonsterModel
+	public string GetSpecial1Description(Monster monster, RichTextParameters richTextParameters) =>
+		$"""
+		 {Icons.Inline(Icons.Attack, richTextParameters)}-1, {Icons.Inline(Icons.Range, richTextParameters)}5, {Icons.Inline(Icons.Targets, richTextParameters)}2.
+		 Increase the Land Leviathan's maximum hit point value by 2. {Icons.Inline(Icons.Heal, richTextParameters)}2, Self.
+		 """;
+
+	public string GetSpecial2Description(Monster monster, RichTextParameters richTextParameters) =>
+		$"""
+		 Summon one Imp in the closest empty hex within {Icons.Inline(Icons.Range, richTextParameters)}2. {(CharacterCount switch
+		 {
+			 2 => "The type of Imp that is summoned cycles in the order of Normal Black Imp, then Normal Forest Imp.",
+			 3 => "The type of Imp that is summoned cycles in the order of Elite Black Imp, then Normal Forest Imp.",
+			 _ => "The type of Imp that is summoned cycles in the order of Elite Black Imp, then Elite Forest Imp."
+		 })}
+		 Grant all Imps within {Icons.Inline(Icons.Range, richTextParameters)}5 “{Icons.Inline(Icons.Heal, richTextParameters)}1, Self.”
+		 """;
+
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MonsterAbilityCardModel.AttackAbility(monster, -1, targets: 2, range: 5)),
 
 		new MonsterAbilityCardAbility(OtherAbility.Builder()
 			.WithPerformAbility(async state =>
-            {
-                monster.SetMaxHealth(monster.MaxHealth + 2);
+			{
+				monster.SetMaxHealth(monster.MaxHealth + 2);
 				await GDTask.CompletedTask;
-            })
+			})
 			.Build()),
 
 		new MonsterAbilityCardAbility(HealAbility.Builder()
@@ -48,33 +65,36 @@ public class LandLeviathan : DeepTerror, IBossMonsterModel
 	[
 		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
 			.WithMonsterModel(_summonBlackImp ? ModelDB.Monster<BlackImp>() : ModelDB.Monster<ForestImp>())
-			.WithMonsterType(_summonBlackImp ? ((CharacterCount >= 3) ? MonsterType.Elite : MonsterType.Normal) : ((CharacterCount >= 4) ? MonsterType.Elite : MonsterType.Normal))
+			.WithMonsterType(_summonBlackImp
+				? ((CharacterCount >= 3) ? MonsterType.Elite : MonsterType.Normal)
+				: ((CharacterCount >= 4) ? MonsterType.Elite : MonsterType.Normal))
 			.WithGetValidHexes((state, hexes) =>
-            {
-                hexes = RangeHelper.GetHexesInRange(state.Performer.Hex, 1, true).Where(hex => hex.IsEmpty()).ToList();
-				if (hexes.Count == 0)
-                {
-                    hexes = RangeHelper.GetHexesInRange(state.Performer.Hex, 2, true).Where(hex => hex.IsEmpty()).ToList();
-                }
-            })
+			{
+				hexes = RangeHelper.GetHexesInRange(state.Performer.Hex, 1, true).Where(hex => hex.IsEmpty()).ToList();
+				if(hexes.Count == 0)
+				{
+					hexes = RangeHelper.GetHexesInRange(state.Performer.Hex, 2, true).Where(hex => hex.IsEmpty()).ToList();
+				}
+			})
 			.WithOnAbilityEndedPerformed(async state =>
-            {
-                _summonBlackImp = !_summonBlackImp;
+			{
+				_summonBlackImp = !_summonBlackImp;
 				await GDTask.CompletedTask;
-            })
+			})
 			.Build()),
 
 		new MonsterAbilityCardAbility(GrantAbility.Builder()
-            .WithGetAbilities(state =>
+			.WithGetAbilities(state =>
 			[
 				HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).Build()
 			])
 			.WithTarget(Target.TargetAll | Target.Allies)
 			.WithRange(5)
 			.WithCustomGetTargets((state, targets) =>
-            {
-                targets.AddRange(RangeHelper.GetFiguresInRange(state.Performer, 100).Where(figure => figure is Monster monster && monster.MonsterModel is Imp));
-            })
+			{
+				targets.AddRange(RangeHelper.GetFiguresInRange(state.Performer, 100)
+					.Where(figure => figure is Monster monster && monster.MonsterModel is Imp));
+			})
 			.Build())
 	];
 }

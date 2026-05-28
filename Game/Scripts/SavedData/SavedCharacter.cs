@@ -260,6 +260,11 @@ public class SavedCharacter
 		return $"{Name}[img={{{iconSize}}}, color=#{ClassModel.PrimaryColor.ToHtml()}]{ClassModel.IconPath}[/img]";
 	}
 
+	public string GetNameAndIcon(RichTextParameters richTextParameters)
+	{
+		return $"{Name}[img={{{richTextParameters.FontSize}}}, color=#{ClassModel.PrimaryColor.ToHtml()}]{ClassModel.IconPath}[/img]";
+	}
+
 	public int GetSmallItemSlotCount()
 	{
 		int smallItemSlotCount = (Level + 1) / 2;
@@ -319,6 +324,7 @@ public class SavedCharacter
 		AcquiredPerkIndices.Add(perkIndex);
 
 		PerksChangedEvent?.Invoke(this);
+		ClassModel.Perks[perkIndex].OnPerkAcquired(this);
 	}
 
 	public int GetUsedPerkCount()

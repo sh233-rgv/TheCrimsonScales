@@ -36,6 +36,9 @@ public partial class Enhancer : BetweenScenariosAction
 	[Export]
 	private BetterButton _confirmButton;
 
+	[Export]
+	private ExclamationMark _exclamationMark;
+
 	private readonly List<EnhancementMarkToggleButton> _enhancementMarkToggleButtons = new List<EnhancementMarkToggleButton>();
 	private readonly List<EnhancementOptionToggleButton> _enhancementOptionToggleButtons = new List<EnhancementOptionToggleButton>();
 
@@ -59,12 +62,27 @@ public partial class Enhancer : BetweenScenariosAction
 
 		_confirmButton.Pressed += OnConfirmPressed;
 
+		Button.SetVisible(BetweenScenariosController.Instance.SavedCampaign.EnhancementsUnlocked);
+
 		BetweenScenariosController.Instance.CharacterPortraitManager.SelectedPortraitChangedEvent += OnSelectedPortraitChanged;
+		BetweenScenariosController.Instance.SavedCampaign.EnhancementsUnlockedChangedEvent += OnEnhancementsUnlocked;
+	}
+
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+
+		if(BetweenScenariosController.Instance != null)
+		{
+			BetweenScenariosController.Instance.SavedCampaign.EnhancementsUnlockedChangedEvent -= OnEnhancementsUnlocked;
+		}
 	}
 
 	protected override void AnimateIn(GTweenSequenceBuilder sequenceBuilder, BetweenScenariosAction previousActiveAction)
 	{
 		base.AnimateIn(sequenceBuilder, previousActiveAction);
+
+		_exclamationMark.SetActive(false);
 
 		_3dRoot.SetVisible(true);
 		_crystalBall.SetVisible(false);
@@ -188,7 +206,7 @@ public partial class Enhancer : BetweenScenariosAction
 		_confirmButton.SetEnabled(CanConfirm, true);
 	}
 
-	private static int GetCost(SavedCharacter savedCharacter, SavedAbilityCard savedAbilityCard, EnhancementMark mark, EnhancementModel model)
+	private static int GetBaseCost(SavedCharacter savedCharacter, SavedAbilityCard savedAbilityCard, EnhancementMark mark, EnhancementModel model)
 	{
 		Dictionary<int, SavedEnhancement> savedEnhancements =
 			savedAbilityCard.GetEnhancements(mark.AbilityCardSideModel.AbilityCardSideType == AbilityCardSideType.Top);
@@ -204,7 +222,7 @@ public partial class Enhancer : BetweenScenariosAction
 				if(model == ModelDB.Enhancement<RedHexEnhancement>())
 				{
 					cost /=
-						targetedAbility.AOEPattern.LocalHexes.Count(hex => hex.Type == AOEHexType.Red) +
+						targetedAbility.AbilityAOEPattern.LocalHexes.Count(hex => hex.Type == AOEHexType.Red) +
 						savedEnhancements.Count(enhancement => enhancement.Value.Model == ModelDB.Enhancement<RedHexEnhancement>());
 				}
 				else
@@ -249,6 +267,13 @@ public partial class Enhancer : BetweenScenariosAction
 
 		// Previous enhancements
 		cost += savedEnhancements.Count * 75;
+
+		return cost;
+	}
+
+	private static int GetCost(SavedCharacter savedCharacter, SavedAbilityCard savedAbilityCard, EnhancementMark mark, EnhancementModel model)
+	{
+		int cost = GetBaseCost(savedCharacter, savedAbilityCard, mark, model);
 
 		BetweenScenariosEvents.CalculateEnhancementCost.Parameters parameters =
 			BetweenScenariosEvents.CalculateEnhancementCostEvent.Fire(
@@ -327,6 +352,7 @@ public partial class Enhancer : BetweenScenariosAction
 		}
 
 		int cost = GetCost(_selectedCharacter, _selectedAbilityCard, _selectedMark.EnhancementMark, _selectedOption.EnhancementModel);
+		int baseCost = GetBaseCost(_selectedCharacter, _selectedAbilityCard, _selectedMark.EnhancementMark, _selectedOption.EnhancementModel);
 
 		AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request("Buy Enhancement",
 			$"Would you like to spend {Icons.Inline(Icons.Coins)}{cost} to buy this {Icons.Inline(_selectedOption.EnhancementModel.TexturePath)} enhancement?",
@@ -342,11 +368,11 @@ public partial class Enhancer : BetweenScenariosAction
 					_selectedAbilityCard.AddSavedEnhancement(_selectedMark.Top, _selectedMark.Index,
 						new SavedEnhancement(_selectedOption.EnhancementModel));
 
-					AppController.Instance.SaveFile.Save();
+					AppController.Instance.SaveGame();
 
 					BetweenScenariosEvents.EnhancementBoughtEvent.Fire(
 						new BetweenScenariosEvents.EnhancementBought.Parameters(_selectedCharacter, _selectedAbilityCard,
-							_selectedMark.EnhancementMark, _selectedOption.EnhancementModel, cost));
+							_selectedMark.EnhancementMark, _selectedOption.EnhancementModel, baseCost, cost));
 
 					UpdateSelectedCard(_selectedAbilityCard);
 					UpdateConfirmButton();
@@ -359,5 +385,11 @@ public partial class Enhancer : BetweenScenariosAction
 	private void OnSelectedPortraitChanged(BetweenScenariosCharacterPortrait portrait)
 	{
 		UpdateCardList();
+	}
+
+	private void OnEnhancementsUnlocked()
+	{
+		Button.SetVisible(true);
+		_exclamationMark.SetActive(true);
 	}
 }

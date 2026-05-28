@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Fractural.Tasks;
 
 public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
@@ -98,12 +98,24 @@ public class CaptainOfTheGuard : MonsterModel, IBossMonsterModel
 	public override string Name => "Captain of the Guard";
 
 	public override string AssetPath => "res://Content/Monsters/Boss/CaptainOfTheGuard";
+	public override string PortraitTexturePath => $"{AssetPath}/Portrait.tres";
 
 	public override int MaxStandeeCount => 1;
 
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
 	// IBossMonsterModel
+	public string GetSpecial1Description(Monster monster, RichTextParameters richTextParameters) =>
+		$"""
+		 {Icons.Inline(Icons.Heal, richTextParameters)}{2}, {Icons.Inline(Icons.Targets, richTextParameters)}all.
+		 """;
+
+	public string GetSpecial2Description(Monster monster, RichTextParameters richTextParameters) =>
+		$"""
+		 All allies add +{1}{Icons.Inline(Icons.Attack, richTextParameters)} to all attacks this round.
+		 {Icons.Inline(Icons.Attack, richTextParameters)}{monster.Stats.Attack + 1}.
+		 """;
+
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(HealAbility.Builder().WithHealValue(2).WithTarget(Target.TargetAll | Target.SelfOrAllies).Build())

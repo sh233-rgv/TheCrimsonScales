@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
@@ -10,18 +10,31 @@ public class GelatinousGiant : BloodOoze, IBossMonsterModel
 			{
 				Health = stats.Health * CharacterCount,
 				Traits = (stats.Traits ?? [])
-					.Append(new AllDamageImmunityTrait())
-					.Append(new AllNegativeConditionImmunityTrait())
-					.ToArray()
+				.Append(new AllDamageImmunityTrait())
+				.Append(new AllNegativeConditionImmunityTrait())
+				.ToArray()
 			})
 			.ToArray();
 
 	public override string Name => "Gelatinous Giant";
-	public override MonsterModel ParentMonsterModel => ModelDB.Monster<Ooze>();
+	public override MonsterModel ParentMonsterModel => ModelDB.Monster<BloodOoze>();
 
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
 	// IBossMonsterModel
+	public string GetSpecial1Description(Monster monster, RichTextParameters richTextParameters) =>
+		$"""
+		 {Icons.Inline(Icons.Move, richTextParameters)}{monster.Stats.Move}.
+		 Grant all Blood Oozes:
+		 {Icons.Inline(Icons.Attack, richTextParameters)}{monster.Stats.Attack - 1}, {Icons.Inline(Icons.Targets, richTextParameters)}1 adjacent enemy.
+		 """;
+
+	public string GetSpecial2Description(Monster monster, RichTextParameters richTextParameters) =>
+		$"""
+		 {Icons.Inline(Icons.Attack, richTextParameters)}{monster.Stats.Attack - 1}, {Icons.Inline(Icons.Targets, richTextParameters)}all enemies within {Icons.Inline(Icons.Range, richTextParameters)}3.
+		 All normal Blood Oozes suffer {Icons.Inline(Icons.Damage, richTextParameters)}1 and all elite Blood oozes suffer {Icons.Inline(Icons.Damage, richTextParameters)}2. Increase the Gelatinous Giant's current and maximum hit point value by X, where X is the total damage suffered by Blood Oozes this way.
+		 """;
+
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial1Abilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MonsterAbilityCardModel.MoveAbility(monster, +0)),

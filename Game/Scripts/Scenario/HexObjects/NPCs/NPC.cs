@@ -11,7 +11,6 @@ public partial class NPC : Figure, IEventSubscriber
 
 	private ActionState _turnActionState;
 
-
 	public string AssetPath { get; private set; }
 	public Initiative PermanentInitiative { get; private set; }
 
@@ -29,8 +28,8 @@ public partial class NPC : Figure, IEventSubscriber
 		_npcViewComponent = GetViewComponent<NPCViewComponent>();
 	}
 
-	public void Spawn(int health, string name, string assetPath, int initiative, List<Ability> abilities, string actionText, Alignment alignment,
-		Alignment enemies)
+	public async GDTask Spawn(int health, string name, string assetPath, int initiative, List<Ability> abilities,
+		TextHelper.LabelTextDelegate actionText, Alignment alignment)
 	{
 		_name = $"{name} - NPC";
 		PermanentInitiative = new Initiative()
@@ -41,8 +40,8 @@ public partial class NPC : Figure, IEventSubscriber
 		AssetPath = assetPath;
 
 		_outline.SetSelfModulate(Color.FromHtml("1778ff"));
-		_figureViewComponent.TurnStartPS.SetSelfModulate(Color.FromHtml("1778ff"));
-		_figureViewComponent.ActivePS.SetModulate(Color.FromHtml("1778ff"));
+		FigureViewComponent.TurnStartPS.SetSelfModulate(Color.FromHtml("1778ff"));
+		FigureViewComponent.ActivePS.SetModulate(Color.FromHtml("1778ff"));
 
 		_npcViewComponent.Sprite.SetTexture(MapIconTexture);
 		float textureWidth = MapIconTexture.GetWidth();
@@ -52,9 +51,9 @@ public partial class NPC : Figure, IEventSubscriber
 		SetHealth(health);
 
 		SetAlignment(alignment);
-		SetEnemies(enemies);
+		//SetEnemies(enemies);
 
-		GameController.Instance.Map.RegisterFigure(this);
+		await GameController.Instance.Map.RegisterFigure(this);
 
 		UpdateInitiative();
 
@@ -66,7 +65,7 @@ public partial class NPC : Figure, IEventSubscriber
 				parameters => parameters.Figure == this,
 				parameters =>
 				{
-					parameters.Add(new InfoTextExtraEffect.Parameters($"Performs:\n{actionText}"));
+					parameters.Add(new InfoTextExtraEffect.Parameters(textParameters => $"Performs:\n{actionText(textParameters)}"));
 				}
 			);
 		}

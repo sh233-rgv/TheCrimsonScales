@@ -32,9 +32,17 @@ public partial class Door : OverlayTile, IEventSubscriber
 
 	public override async GDTask Init(Hex originHex, int rotationIndex = 0, bool hexCanBeNull = false)
 	{
-		Show();
+		if(!IsDestroyed)
+		{
+			Show();
+		}
 
 		await base.Init(originHex, rotationIndex, hexCanBeNull);
+
+		if(IsDestroyed)
+		{
+			return;
+		}
 
 		Locked = _startsLocked;
 
@@ -42,7 +50,14 @@ public partial class Door : OverlayTile, IEventSubscriber
 			parameters => parameters.Hex == Hex,
 			async parameters =>
 			{
-				await Open(parameters.Figure);
+				if(parameters.Figure is Summon summon && Chieftain.GetMount(summon.CharacterOwner) == parameters.Figure)
+				{
+					await Open(summon.CharacterOwner);
+				}
+				else
+				{
+					await Open(parameters.Figure);
+				}
 			},
 			effectType: EffectType.MandatoryBeforeOptionals
 		);
@@ -60,6 +75,9 @@ public partial class Door : OverlayTile, IEventSubscriber
 	{
 		Opened = true;
 
+		await ScenarioEvents.DoorOpenedEvent.CreatePrompt(
+			new ScenarioEvents.DoorOpened.Parameters(this, potentialOpener));
+
 		ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this);
 
 		foreach(Room room in _roomsToOpen)
@@ -71,7 +89,7 @@ public partial class Door : OverlayTile, IEventSubscriber
 
 		HexObject corridor = _corridorScene.Instantiate<HexObject>();
 		GameController.Instance.Map.AddChild(corridor);
-		await corridor.Init(Hex);
+		await corridor.Init(Hex, RotationIndex);
 
 		await Destroy();
 	}

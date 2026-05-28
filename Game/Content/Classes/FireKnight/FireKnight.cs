@@ -15,9 +15,9 @@ public partial class FireKnight : Character
 
 	public bool PlacedLadder => Ladder.Hex != null;
 
-	public override void Spawn(SavedCharacter savedCharacter, int index)
+	public override async GDTask Spawn(SavedCharacter savedCharacter, int index)
 	{
-		base.Spawn(savedCharacter, index);
+		await base.Spawn(savedCharacter, index);
 
 		_fireKnightModel = (FireKnightModel)savedCharacter.ClassModel;
 
@@ -109,7 +109,7 @@ public partial class FireKnight : Character
 			effectButtonParameters: effectButtonParameters,
 			effectInfoViewParameters: effectInfoViewParameters);
 
-		ScenarioEvents.LongRestCardSelectionEvent.Subscribe(this, subscriber,
+		ScenarioEvents.LongRestStartedEvent.Subscribe(this, subscriber,
 			canApplyParameters => canApply(canApplyParameters.Character),
 			async applyParameters =>
 			{

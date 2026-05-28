@@ -46,7 +46,7 @@ public partial class EventOverlay : Control
 
 	public async GDTask DrawEventCard(EventType eventType, CancellationToken cancellationToken)
 	{
-		AppController.Instance.SaveFile.BlockSaving(this);
+		AppController.Instance.SaveManager.BlockSaving(this);
 
 		EventModel eventModel;
 		if(eventType == EventType.City)
@@ -136,24 +136,21 @@ public partial class EventOverlay : Control
 
 		_continueButton.SetActive(false);
 
-		bool hasNonImmediateReward = false;
-		List<EventReward> rewards = _chosenModel.GetRewards(savedEventState);
-		foreach(EventReward reward in rewards)
-		{
-			if(reward.Type == EventRewardType.Immediate)
-			{
-				await reward.ImmediateResolve();
-			}
-			else
-			{
-				hasNonImmediateReward = true;
-			}
-		}
+		List<SavedReward> rewards = _chosenModel.GetRewards(savedEventState);
+		await AppController.Instance.GiveRewards(BetweenScenariosController.Instance.SavedCampaign, rewards, showPopup: false,
+			cancellationToken: cancellationToken);
 
-		if(hasNonImmediateReward)
-		{
-			BetweenScenariosController.Instance.SavedCampaign.SavedEvents.AddSavedEventState(savedEventState);
-		}
+		// foreach(SavedReward reward in rewards)
+		// {
+		// 	if(reward.Type == RewardType.Immediate)
+		// 	{
+		// 		await reward.ImmediateResolve(BetweenScenariosController.Instance.SavedCampaign, cancellationToken);
+		// 	}
+		// 	else
+		// 	{
+		// 		BetweenScenariosController.Instance.SavedCampaign.SavedRewards.AddReward(reward);
+		// 	}
+		// }
 
 		EventResolveType eventResolveType = _chosenModel.GetEventResolveType(savedEventState);
 		if(eventResolveType == EventResolveType.ReturnCardToBottom)
@@ -168,8 +165,8 @@ public partial class EventOverlay : Control
 			}
 		}
 
-		AppController.Instance.SaveFile.UnblockSaving(this);
-		AppController.Instance.SaveFile.Save();
+		AppController.Instance.SaveManager.UnblockSaving(this);
+		AppController.Instance.SaveManager.SaveGame();
 
 		_background.TweenModulateAlpha(0f, 0.3f).Play();
 		await _rotatingCardView.TweenScale(0f, 0.3f).SetEasing(Easing.InBack).PlayAsync(cancellationToken: cancellationToken);

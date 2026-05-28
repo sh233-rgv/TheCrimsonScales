@@ -9,11 +9,12 @@ public partial class Treasure : LootableObject, IEventSubscriber
 	public int TreasureNumber = -1;
 
 	private Character _lootingCharacter;
+	private Func<Figure, bool> _canLootFunction;
+	private Func<Character, GDTask> _obtainLootFunction;
 
 	public bool Looted { get; private set; }
 
-	private Func<Character, GDTask> _obtainLootFunction;
-	public Func<Figure, bool> CanLootFunction = _ => true;
+	public bool IsGoal => TreasureNumber <= 0;
 
 	public override async GDTask Init(Hex originHex, int rotationIndex = 0, bool hexCanBeNull = false)
 	{
@@ -24,16 +25,23 @@ public partial class Treasure : LootableObject, IEventSubscriber
 			await Destroy(true);
 		}
 
-		if(TreasureNumber == -1)
+		if(IsGoal)
 		{
 			ScenarioCheckEvents.GenericInfoItemExtraEffectsCheckEvent.Subscribe(this,
 				parameters => parameters.HexObject == this,
 				parameters =>
 				{
-					parameters.Add(new InfoTextExtraEffect.Parameters("This treasure tile is a Goal tile, see special rules."));
+					parameters.Add(new InfoTextExtraEffect.Parameters(textParameters => "This treasure tile is a Goal tile, see special rules."));
 				}
 			);
 		}
+	}
+
+	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
+	{
+		await base.Destroy(immediately, forceDestroy);
+
+		ScenarioCheckEvents.GenericInfoItemExtraEffectsCheckEvent.Unsubscribe(this);
 	}
 
 	public void SetObtainLootFunction(Func<Character, GDTask> obtainLootFunction)
@@ -61,7 +69,12 @@ public partial class Treasure : LootableObject, IEventSubscriber
 
 	public override bool CanLoot(Figure lootObtainer)
 	{
-		return base.CanLoot(lootObtainer) && lootObtainer is Character && CanLootFunction(lootObtainer);
+		return base.CanLoot(lootObtainer) && lootObtainer is Character && (_canLootFunction == null || _canLootFunction(lootObtainer));
+	}
+
+	public void SetCanLootFunction(Func<Figure, bool> canLootFunction)
+	{
+		_canLootFunction = canLootFunction;
 	}
 
 	public override async GDTask Loot(Figure lootObtainer)
@@ -73,7 +86,10 @@ public partial class Treasure : LootableObject, IEventSubscriber
 		Looted = true;
 		_lootingCharacter = (Character)lootObtainer;
 
-		await _obtainLootFunction.Invoke(_lootingCharacter);
+		if(_obtainLootFunction != null)
+		{
+			await _obtainLootFunction.Invoke(_lootingCharacter);
+		}
 
 		GameController.Instance.EndEvent += OnScenarioEnd;
 	}

@@ -91,13 +91,15 @@
 	public class EnhancementBought : BetweenScenariosEvent<EnhancementBought.Parameters>
 	{
 		public class Parameters(
-			SavedCharacter buyer, SavedAbilityCard savedAbilityCard, EnhancementMark enhancementMark, EnhancementModel enhancementModel, int cost)
+			SavedCharacter buyer, SavedAbilityCard savedAbilityCard, EnhancementMark enhancementMark, EnhancementModel enhancementModel, int baseCost,
+			int cost)
 			: ParametersBase
 		{
 			public SavedCharacter Buyer { get; } = buyer;
 			public SavedAbilityCard SavedAbilityCard { get; } = savedAbilityCard;
 			public EnhancementMark EnhancementMark { get; } = enhancementMark;
 			public EnhancementModel EnhancementModel { get; } = enhancementModel;
+			public int BaseCost { get; } = baseCost;
 			public int Cost { get; } = cost;
 		}
 	}
@@ -120,4 +122,15 @@
 
 	private readonly DrawRoadEvent _drawRoadEvent = new DrawRoadEvent();
 	public static DrawRoadEvent DrawRoadEventEvent => BetweenScenariosController.Instance.Events._drawRoadEvent;
+
+	public class XPChanged : BetweenScenariosEvent<XPChanged.Parameters>
+	{
+		public class Parameters(SavedCharacter character) : ParametersBase
+		{
+			public SavedCharacter Character { get; } = character;
+		}
+	}
+
+	private readonly XPChanged _xpChanged = new XPChanged();
+	public static XPChanged XPChangedEvent => BetweenScenariosController.Instance.Events._xpChanged;
 }

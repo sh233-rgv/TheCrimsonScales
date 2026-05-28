@@ -74,17 +74,17 @@ public class FrostDemonAbilityCard3 : FrostDemonAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 2, duringAttackSubscriptions:
-		[
-			ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Ice],
-				applyFunction: async parameters =>
-				{
-					parameters.AbilityState.AbilityAdjustAttackValue(2);
-					parameters.AbilityState.AbilityAdjustRange(1);
-					//TODO: Adjust Range doesn't work properly with monster focusing
-					await GDTask.CompletedTask;
-				}
-			)
+		new MonsterAbilityCardAbility(AttackAbility(monster, extraDamage: +0, range: 2, extraRange: 
+				new(() => CheckElementConsumed(monster, [Element.Ice]) ? 1 : 0),
+			duringAttackSubscriptions: [
+				ConsumeElementCheckSubscription<ScenarioEvents.DuringAttack.Parameters>(monster, [Element.Ice],
+					applyFunction: async parameters =>
+					{
+						parameters.AbilityState.AbilityAdjustAttackValue(2);
+
+						await GDTask.CompletedTask;
+					}
+				)
 		])),
 	];
 
@@ -156,12 +156,11 @@ public class FrostDemonAbilityCard7 : FrostDemonAbilityCard
 	[
 		new MonsterAbilityCardAbility(ShieldAbility.Builder().WithShieldValue(2).Build()),
 		new MonsterAbilityCardAbility(MoveAbility(monster, +1)),
-		new MonsterAbilityCardAbility(OtherAbility.Builder()
-			.WithPerformAbility(async state =>
-			{
-				await AbilityCmd.SufferDamage(state, state.Performer, 1);
-			})
-			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<OtherAbility.State>([Element.Fire]))
+		new MonsterAbilityCardAbility(SufferDamageAbility.Builder()
+			.WithDamage(1)
+			.WithTarget(Target.Self)
+			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<SufferDamageAbility.State>([Element.Fire]))
+			.WithMandatory(true)
 			.Build())
 	];
 

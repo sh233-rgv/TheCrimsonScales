@@ -12,9 +12,9 @@ public class Scenario025 : ScenarioModel
 	private int _treasuresLooted;
 	private Hex _markerAHex;
 
-	public override async GDTask StartAfterFirstRoomRevealed()
+	public override async GDTask InitializeAfterFirstRoomRevealed()
 	{
-		await base.StartAfterFirstRoomRevealed();
+		await base.InitializeAfterFirstRoomRevealed();
 
 		_markerAHex = GameController.Instance.Map.GetMarker(Marker.Type.a).Hex;
 
@@ -88,8 +88,9 @@ public class Scenario025 : ScenarioModel
 			parameters => parameters.Figure == brightspark,
 			async _ =>
 			{
-				await ((CustomScenarioGoals)ScenarioGoals).Lose();
-			});
+				await AbilityCmd.Lose();
+			}
+		);
 
 		ScenarioEvents.FigureTurnEndingEvent.Subscribe(this,
 			ScenarioEvents.FigureTurnEnding.Subscription.ConsumeWildElement(
@@ -158,20 +159,21 @@ public class Scenario025 : ScenarioModel
 
 	private void UpdateScenarioText()
 	{
-		string text = $"""
-		               Loot {4 - _treasuresLooted} more Goal treasure tiles and keep the Brightspark alive to win this scenario.
+		string text =
+			$"""
+			 Loot {4 - _treasuresLooted} more Goal treasure tiles and keep the Brightspark alive to win this scenario.
 
-		               The Brightspark acts on Initiative 50 every turn, performing “{Icons.Inline(Icons.Move)}2, {Icons.Inline(Icons.Attack)}1” (using whichever modifier deck you prefer). For each Goal treasure tile you loot, the Brightspark gains the following benefit:
-		               First tile: Add +1{Icons.Inline(Icons.Move)} to all moves
-		               Second tile: Add +1{Icons.Inline(Icons.Attack)} to all attacks
-		               Third tile: Add {Icons.Inline(Icons.Jump)} to all moves
+			 The Brightspark acts on Initiative 50 every turn, performing “{Icons.Inline(Icons.Move)}2, {Icons.Inline(Icons.Attack)}1” (using whichever modifier deck you prefer). For each Goal treasure tile you loot, the Brightspark gains the following benefit:
+			 First tile: Add +1{Icons.Inline(Icons.Move)} to all moves
+			 Second tile: Add +1{Icons.Inline(Icons.Attack)} to all attacks
+			 Third tile: Add {Icons.Inline(Icons.Jump)} to all moves
 
-		               Additionally, the Brightspark can consume {Icons.Inline(Icons.WildElement)} at the end of its turn to perform {Icons.Inline(Icons.Heal)}2, self. This is optional and players determine if this is performed.
+			 Additionally, the Brightspark can consume {Icons.Inline(Icons.WildElement)} at the end of its turn to perform {Icons.Inline(Icons.Heal)}2, self. This is optional and players determine if this is performed.
 
-		               Whenever there are no monsters on the map, the Brightspark will move toward hex {Icons.InlineMarker(Marker.Type.a)}.
+			 Whenever there are no monsters on the map, the Brightspark will move toward hex {Icons.InlineMarker(Marker.Type.a)}.
 
-		               If the Brightspark is killed, the scenario is immediately lost.
-		               """;
+			 If the Brightspark is killed, the scenario is immediately lost.
+			 """;
 		GameController.Instance.SpecialRulesView.SetText(text);
 	}
 }
