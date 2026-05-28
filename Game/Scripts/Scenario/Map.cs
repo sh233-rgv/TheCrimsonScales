@@ -138,7 +138,7 @@ public partial class Map : Node2D
 	}
 
 	public async GDTask<NPC> CreateNPC(Vector2I coords, int health, string name, string assetPath, int initiative, List<Ability> abilities,
-		TextHelper.LabelTextDelegate actionText, Alignment alignment, Alignment enemies)
+		TextHelper.LabelTextDelegate actionText, Alignment alignment)
 	{
 		Hex hex = GetHex(coords);
 		NPC npcHexObject = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/NPC.tscn").Instantiate<NPC>();

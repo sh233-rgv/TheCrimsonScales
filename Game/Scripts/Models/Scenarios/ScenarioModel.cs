@@ -287,9 +287,8 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	}
 
 	public static async GDTask<NPC> SpawnNPC(Hex hex, int health, string name, string assetPath, int initiative, List<Ability> abilities,
-		TextHelper.LabelTextDelegate actionText, Alignment alignment = Alignment.Characters, Alignment enemies = Alignment.Enemies)
+		TextHelper.LabelTextDelegate actionText, Alignment alignment = Alignment.Characters)
 	{
-		return await GameController.Instance.Map.CreateNPC(hex.Coords, health, name, assetPath, initiative, abilities, actionText, alignment,
-			enemies);
+		return await GameController.Instance.Map.CreateNPC(hex.Coords, health, name, assetPath, initiative, abilities, actionText, alignment);
 	}
 }
