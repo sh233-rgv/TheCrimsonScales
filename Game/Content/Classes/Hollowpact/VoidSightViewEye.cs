@@ -22,7 +22,7 @@ public partial class VoidSightViewEye : Control
 		float animationSpeed = AppController.Instance.DeviceOptions.GetTimeScale(TimeScale.Gameplay);
 		_animationPlayer.SetSpeedScale(2f * animationSpeed);
 
-		this.DelayedCall(Close, 5f / animationSpeed);
+		this.DelayedCall(Close, 4f / animationSpeed);
 		// GTweenSequenceBuilder.New()
 		// 	.AppendTime(5f / animationSpeed)
 		// 	.AppendCallback(Close)

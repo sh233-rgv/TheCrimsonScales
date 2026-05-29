@@ -10,9 +10,6 @@ script = ExtResource("2_kxgny")
 _stepType = 3
 CannotBeDestroyed = true
 
-[node name="Sprite" parent="." index="1"]
+[node name="Sprite" parent="." index="1" unique_id=786075991]
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("3_kxgny")
-
-[node name="Icon" parent="OverlayTileViewComponent" index="0"]
-visible = false
