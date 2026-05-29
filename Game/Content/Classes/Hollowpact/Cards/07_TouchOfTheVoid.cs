@@ -13,9 +13,10 @@ public class TouchOfTheVoid : HollowpactCardModel<TouchOfTheVoid.CardTop, TouchO
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(VoidsightAbility.Builder().Build()),
+			new AbilityCardAbility(VoidsightAbilityBuilder().Build()),
+	
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(1)
+				.WithDamage(1, new AttackDiamond(this, new Vector2(0.51138884f, 0.28502214f)))
 				.WithConditions(Conditions.Stun)
 				.WithDuringAttackSubscription(LoseVoidEnergySubscription<ScenarioEvents.DuringAttack.Parameters>(1,
 					async parameters =>
@@ -48,8 +49,8 @@ public class TouchOfTheVoid : HollowpactCardModel<TouchOfTheVoid.CardTop, TouchO
 
 							await GDTask.CompletedTask;
 						});
-					
-					await GDTask.CompletedTask;
+
+					await AbilityCmd.RemoveCondition(state.Performer, Conditions.Muddle);
 				})
 				.WithOnDeactivate(async state =>
 				{

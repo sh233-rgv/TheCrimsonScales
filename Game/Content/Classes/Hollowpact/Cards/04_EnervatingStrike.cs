@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Godot;
 
 public class EnervatingStrike : HollowpactCardModel<EnervatingStrike.CardTop, EnervatingStrike.CardBottom>
 {
@@ -12,7 +13,7 @@ public class EnervatingStrike : HollowpactCardModel<EnervatingStrike.CardTop, En
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2)
+				.WithDamage(2, new AttackDiamond(this, new Vector2(0.6202777f, 0.18888888f)))
 				.WithDuringAttackSubscription(LoseVoidEnergySubscription<ScenarioEvents.DuringAttack.Parameters>(1,
 					async parameters =>
 					{
@@ -20,11 +21,11 @@ public class EnervatingStrike : HollowpactCardModel<EnervatingStrike.CardTop, En
 						parameters.AbilityState.AbilityAddCondition(Conditions.Muddle);
 						await AbilityCmd.GainXP(parameters.AbilityState.Performer, 1);
 					}, 
-					new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Disarm))}, {Icons.Inline(Icons.GetCondition(Conditions.Muddle))}")))
+					new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Poison1))}, {Icons.Inline(Icons.GetCondition(Conditions.Muddle))}")))
 				.Build()),
 			
 			new AbilityCardAbility(HealAbility.Builder()
-				.WithHealValue(2)
+				.WithHealValue(2, new HealDiamondPlus(this, new Vector2(0.49443346f, 0.39236656f)))
 				.WithTarget(Target.Self)
 				.Build()),
 		];
@@ -35,7 +36,7 @@ public class EnervatingStrike : HollowpactCardModel<EnervatingStrike.CardTop, En
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(4)
+				.WithDistance(4, new MoveCircle(this, new Vector2(0.5236556f, 0.656267f)))
 				.WithMoveType(MoveType.Jump)
 				.Build()),
 			
@@ -45,12 +46,7 @@ public class EnervatingStrike : HollowpactCardModel<EnervatingStrike.CardTop, En
 				.WithMandatory(true)
 				.Build()),
 			
-			new AbilityCardAbility(OtherAbility.Builder()
-				.WithPerformAbility(async state =>
-				{
-					await GainVoidEnergy(state, 2);
-					state.SetPerformed();
-				})
+			new AbilityCardAbility(GainVoidEnergyAbilityBuilder(2)
 				.Build()),
 		];
 		
