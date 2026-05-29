@@ -58,13 +58,13 @@
 		// ModelDB.BattleGoal<Sluggard>(),
 
 		// ModelDB.BattleGoal<Specialist>(),
-		// ModelDB.BattleGoal<Straggler>(),
+		ModelDB.BattleGoal<Straggler>(),
 		// ModelDB.BattleGoal<Streamliner>(),
 		// ModelDB.BattleGoal<Tormentor>(),
 		// ModelDB.BattleGoal<Vanguard>(),
-		// ModelDB.BattleGoal<Wallflower>(),
+		ModelDB.BattleGoal<Wallflower>(),
 		// ModelDB.BattleGoal<Wastrel>(),
-		// ModelDB.BattleGoal<Weakling>(),
+		ModelDB.BattleGoal<Weakling>(),
 		// ModelDB.BattleGoal<Workhorse>(),
 		// ModelDB.BattleGoal<Zealot>(),
 	];
