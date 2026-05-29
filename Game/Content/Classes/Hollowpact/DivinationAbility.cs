@@ -10,8 +10,8 @@ public class DivinationAbility : TargetedAbility<DivinationAbility.State, Single
 		public int CardsPlacedAtBottom = 0;
 	}
 
-	protected int _cardsToPeek;
-	protected int _maxCardsToPlaceAtBottom;
+	private int _cardsToPeek;
+	private int _maxCardsToPlaceAtBottom;
 
 	/// <summary>
 	/// A builder extending <see cref="TargetedAbility{T, TSingleTargetState}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods
@@ -87,19 +87,19 @@ public class DivinationAbility : TargetedAbility<DivinationAbility.State, Single
 							applyParameters.SetPlaceAtDeckTop();
 
 							await GDTask.CompletedTask;
-						}, 
+						},
 						effectType: EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.Triangle),
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Place the card at the top of the deck."));
 
-				ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription placeAtDeckBottomSubscription = 
+				ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription placeAtDeckBottomSubscription =
 					ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.New(applyFunction: async _ =>
 						{
 							applyParameters.SetPlaceAtDeckBottom();
 							abilityState.CardsPlacedAtBottom++;
-				
+
 							await GDTask.CompletedTask;
-						}, 
+						},
 						effectType: EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.EffectInfoViewTriangle),
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Place the card at the bottom of the deck."));

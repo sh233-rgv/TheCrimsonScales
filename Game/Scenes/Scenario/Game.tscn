@@ -86,6 +86,11 @@
 [ext_resource type="PackedScene" uid="uid://dqge1igxu7nf4" path="res://Scenes/Scenario/UI/GoalsViewGoal.tscn" id="71_m5nxw"]
 [ext_resource type="Script" uid="uid://da4wan5xkcn7v" path="res://Scripts/Scenario/UI/SpecialRulesView/SpecialRulesView.cs" id="72_dpg3j"]
 [ext_resource type="PackedScene" uid="uid://bdrvfcj24y2s1" path="res://Scenes/Scenario/UI/SpecialRulesViewRule.tscn" id="72_m5nxw"]
+[ext_resource type="Script" uid="uid://bsugsrtt18000" path="res://Content/Classes/Hollowpact/VoidSightViewEye.cs" id="87_ambid"]
+[ext_resource type="Script" uid="uid://dqq42jfkxnwti" path="res://Content/Classes/Hollowpact/VoidSightView.cs" id="87_jy8qd"]
+[ext_resource type="Texture2D" uid="uid://31a3dsjl7gfg" path="res://Content/Classes/Hollowpact/Voidsight/EyeMask.svg" id="88_jy8qd"]
+[ext_resource type="Texture2D" uid="uid://bumv44gdtn5wc" path="res://Content/Classes/Hollowpact/Voidsight/Pupil.svg" id="89_lv1i0"]
+[ext_resource type="Texture2D" uid="uid://c2sl4orcxuvbr" path="res://Content/Classes/Hollowpact/Voidsight/Eyelid.svg" id="90_8ytt2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fcllr"]
 shader = ExtResource("20_76yld")
@@ -139,6 +144,139 @@ font_size = 100
 [sub_resource type="LabelSettings" id="LabelSettings_hctre"]
 font = ExtResource("39_namyh")
 font_size = 50
+
+[sub_resource type="Animation" id="Animation_ambid"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Center:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Center/TopEyelid:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Center/Mask/PupilContainer/Pupil:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Center/TopEyelid:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_jy8qd"]
+resource_name = "open"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Center:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Center/TopEyelid:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5333334, 1.5333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Center/Mask/PupilContainer/Pupil:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5333334, 2, 3, 3.8000002),
+"transitions": PackedFloat32Array(1, 1, 0.45062527, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1e-05, 1e-05), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Center/TopEyelid:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.5333334, 1.8333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, -1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1.5, 2.2, 2.7333333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lv1i0"]
+_data = {
+&"RESET": SubResource("Animation_ambid"),
+&"open": SubResource("Animation_jy8qd")
+}
 
 [node name="Game" type="Node" unique_id=836903355 node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "SelectFigureView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "TeleportPath", "AOEView", "AOEButtonView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin", "ScreenDistortion", "MoveParent")]
 script = ExtResource("1_arwlr")
@@ -1688,6 +1826,70 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "(2, 2)"
 label_settings = SubResource("LabelSettings_hctre")
+
+[node name="VoidSightView" type="Control" parent="CanvasLayer/UI" unique_id=1810999053 node_paths=PackedStringArray("_eye")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("87_jy8qd")
+_eye = NodePath("Eye")
+
+[node name="Eye" type="Control" parent="CanvasLayer/UI/VoidSightView" unique_id=1424437254 node_paths=PackedStringArray("_pupil", "_pupilContainer", "_animationPlayer")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -520.0
+offset_right = 200.0
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+script = ExtResource("87_ambid")
+_pupil = NodePath("Center/Mask/PupilContainer/Pupil")
+_pupilContainer = NodePath("Center/Mask/PupilContainer")
+_animationPlayer = NodePath("AnimationPlayer")
+
+[node name="Center" type="Control" parent="CanvasLayer/UI/VoidSightView/Eye" unique_id=1968144586]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+mouse_filter = 2
+
+[node name="Mask" type="Sprite2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center" unique_id=757044333]
+clip_children = 1
+texture = ExtResource("88_jy8qd")
+
+[node name="PupilContainer" type="Node2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center/Mask" unique_id=2125868586]
+
+[node name="Pupil" type="Sprite2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center/Mask/PupilContainer" unique_id=1365392103]
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("89_lv1i0")
+
+[node name="Eyelid" type="Sprite2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center" unique_id=1877017526]
+texture = ExtResource("90_8ytt2")
+
+[node name="TopEyelid" type="Sprite2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center" unique_id=1588504299]
+visible = false
+texture = ExtResource("90_8ytt2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UI/VoidSightView/Eye" unique_id=1735508895]
+libraries/ = SubResource("AnimationLibrary_lv1i0")
+speed_scale = 4.0
 
 [editable path="HexPin/ScaleContainer/WorldButton"]
 [editable path="CanvasLayer/UI/ScenarioSetupButtonsView/StartScenario"]
