@@ -111,40 +111,6 @@ shader_parameter/vignette_strength = 0.8
 shader_parameter/dither_strength = 0.03
 shader_parameter/vignette_color = Color(0, 0, 0, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ijbs"]
-bg_color = Color(0.15808, 0.1111, 0.0785726, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_size = 5
-shadow_offset = Vector2(0, 3)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qbjvo"]
-bg_color = Color(0.15808, 0.1111, 0.0785726, 1)
-draw_center = false
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_size = 2
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akno6"]
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2qf5q"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_mdo4f"]
-font = ExtResource("39_namyh")
-font_size = 100
-
-[sub_resource type="LabelSettings" id="LabelSettings_hctre"]
-font = ExtResource("39_namyh")
-font_size = 50
-
 [sub_resource type="Animation" id="Animation_ambid"]
 length = 0.001
 tracks/0/type = "value"
@@ -157,7 +123,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -207,10 +173,37 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(1, 1)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Center/Mask/PupilContainer/Pupil:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_lv1i0"]
+resource_name = "close"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Center:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_jy8qd"]
 resource_name = "open"
-length = 4.0
+length = 10.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -271,14 +264,61 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(1, 1), Vector2(1.1, 1), Vector2(1, 1)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Center/Mask/PupilContainer/Pupil:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(4, 4.7, 5.233333, 5.9333334, 6.4, 7.233333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-70, 20), Vector2(-70, 20), Vector2(70, 20), Vector2(70, 20), Vector2(0, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lv1i0"]
 _data = {
 &"RESET": SubResource("Animation_ambid"),
+&"close": SubResource("Animation_lv1i0"),
 &"open": SubResource("Animation_jy8qd")
 }
 
-[node name="Game" type="Node" unique_id=836903355 node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "SelectFigureView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "TeleportPath", "AOEView", "AOEButtonView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin", "ScreenDistortion", "MoveParent")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ijbs"]
+bg_color = Color(0.15808, 0.1111, 0.0785726, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qbjvo"]
+bg_color = Color(0.15808, 0.1111, 0.0785726, 1)
+draw_center = false
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akno6"]
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2qf5q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mdo4f"]
+font = ExtResource("39_namyh")
+font_size = 100
+
+[sub_resource type="LabelSettings" id="LabelSettings_hctre"]
+font = ExtResource("39_namyh")
+font_size = 50
+
+[node name="Game" type="Node" unique_id=836903355 node_paths=PackedStringArray("CameraController", "CursorOverUIChecker", "CardSelectionView", "ShortRestView", "TreasureItemRewardView", "CardPlayView", "SelectFigureView", "ChoiceButtonsView", "CardSelectionButtonsView", "ScenarioSetupButtonsView", "UndoView", "MovePath", "TeleportPath", "AOEView", "AOEButtonView", "SufferDamageView", "PortraitView", "EffectSelectionView", "EffectInfoViewManager", "AMDDrawView", "HintTextView", "ElementsView", "ScenarioLostView", "ScenarioWonView", "Selector", "CharacterStartHexMoveIndicator", "HexPin", "ScreenDistortion", "MoveParent", "VoidSightView")]
 script = ExtResource("1_arwlr")
 CameraController = NodePath("CameraController")
 CursorOverUIChecker = NodePath("CanvasLayer/UI/CursorOverUIChecker")
@@ -309,6 +349,7 @@ CharacterStartHexMoveIndicator = NodePath("CanvasLayer/UI/CharacterStartHexMoveI
 HexPin = NodePath("HexPin")
 ScreenDistortion = NodePath("ScreenDistortion")
 MoveParent = NodePath("MoveParent")
+VoidSightView = NodePath("CanvasLayer/UI/VoidSightView")
 
 [node name="MoveParent" type="Node2D" parent="." unique_id=269034233]
 
@@ -661,106 +702,6 @@ offset_bottom = 50.0
 script = ExtResource("71_b23n0")
 _infoViewParent = NodePath(".")
 
-[node name="HintText" type="Control" parent="CanvasLayer/UI" unique_id=1605252079 node_paths=PackedStringArray("_container", "_label")]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("43_4rdk8")
-_container = NodePath("MarginContainer")
-_label = NodePath("MarginContainer/MarginContainer/RichTextLabel")
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/HintText" unique_id=2123184775]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -29.0
-offset_top = 240.0
-offset_right = 29.0
-offset_bottom = 299.0
-grow_horizontal = 2
-mouse_filter = 2
-
-[node name="Background" type="Panel" parent="CanvasLayer/UI/HintText/MarginContainer" unique_id=748902338]
-material = ExtResource("64_ldvfj")
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = ExtResource("56_4oqg7")
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/HintText/MarginContainer" unique_id=2136644970]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 6
-
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/UI/HintText/MarginContainer/MarginContainer" unique_id=540830307]
-layout_mode = 2
-mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("59_2qf5q")
-theme_override_font_sizes/normal_font_size = 50
-bbcode_enabled = true
-text = "Hi"
-fit_content = true
-autowrap_mode = 0
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="EffectSelectionView" type="Control" parent="CanvasLayer/UI" unique_id=677647038 node_paths=PackedStringArray("_effectParent")]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("32_07pbp")
-_effectParent = NodePath("Container")
-
-[node name="Container" type="HBoxContainer" parent="CanvasLayer/UI/EffectSelectionView" unique_id=2084703443]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 550.0
-offset_top = -300.0
-offset_right = -550.0
-offset_bottom = -200.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 2
-theme_override_constants/separation = 20
-alignment = 1
-
-[node name="EffectInfoViews" type="Control" parent="CanvasLayer/UI/EffectSelectionView" unique_id=211144663 node_paths=PackedStringArray("_infoViewParent")]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("20_nbwi6")
-_infoViewParent = NodePath("Views")
-
-[node name="Views" type="Control" parent="CanvasLayer/UI/EffectSelectionView/EffectInfoViews" unique_id=1300739356]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -300.0
-offset_bottom = -300.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 2
-
 [node name="CardPlayView" type="Control" parent="CanvasLayer/UI" unique_id=231110863 node_paths=PackedStringArray("_cards")]
 layout_mode = 1
 anchors_preset = 15
@@ -903,6 +844,80 @@ offset_bottom = 273.1
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
+
+[node name="VoidSightView" type="Control" parent="CanvasLayer/UI" unique_id=1810999053 node_paths=PackedStringArray("_overlay", "_eye")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("87_jy8qd")
+_overlay = NodePath("ColorRect")
+_eye = NodePath("Eye")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/UI/VoidSightView" unique_id=1556146257]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.3)
+
+[node name="Eye" type="Control" parent="CanvasLayer/UI/VoidSightView" unique_id=1424437254 node_paths=PackedStringArray("_pupil", "_pupilContainer", "_animationPlayer")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 160.0
+offset_right = 200.0
+offset_bottom = 560.0
+grow_horizontal = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+script = ExtResource("87_ambid")
+_pupil = NodePath("Center/Mask/PupilContainer/Pupil")
+_pupilContainer = NodePath("Center/Mask/PupilContainer")
+_animationPlayer = NodePath("AnimationPlayer")
+
+[node name="Center" type="Control" parent="CanvasLayer/UI/VoidSightView/Eye" unique_id=1968144586]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+mouse_filter = 2
+
+[node name="Mask" type="Sprite2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center" unique_id=757044333]
+clip_children = 1
+texture = ExtResource("88_jy8qd")
+
+[node name="PupilContainer" type="Node2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center/Mask" unique_id=2125868586]
+
+[node name="Pupil" type="Sprite2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center/Mask/PupilContainer" unique_id=1365392103]
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("89_lv1i0")
+
+[node name="Eyelid" type="Sprite2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center" unique_id=1877017526]
+texture = ExtResource("90_8ytt2")
+
+[node name="TopEyelid" type="Sprite2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center" unique_id=1588504299]
+visible = false
+texture = ExtResource("90_8ytt2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UI/VoidSightView/Eye" unique_id=1735508895]
+libraries/ = SubResource("AnimationLibrary_lv1i0")
+speed_scale = 4.0
 
 [node name="ChoiceButtonsView" type="Control" parent="CanvasLayer/UI" unique_id=1335285724 node_paths=PackedStringArray("_continueButton", "_skipButton")]
 visible = false
@@ -1217,6 +1232,106 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("34_dfaft")
 expand_mode = 1
+
+[node name="EffectSelectionView" type="Control" parent="CanvasLayer/UI" unique_id=677647038 node_paths=PackedStringArray("_effectParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("32_07pbp")
+_effectParent = NodePath("Container")
+
+[node name="Container" type="HBoxContainer" parent="CanvasLayer/UI/EffectSelectionView" unique_id=2084703443]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 550.0
+offset_top = -300.0
+offset_right = -550.0
+offset_bottom = -200.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="EffectInfoViews" type="Control" parent="CanvasLayer/UI/EffectSelectionView" unique_id=211144663 node_paths=PackedStringArray("_infoViewParent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("20_nbwi6")
+_infoViewParent = NodePath("Views")
+
+[node name="Views" type="Control" parent="CanvasLayer/UI/EffectSelectionView/EffectInfoViews" unique_id=1300739356]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -300.0
+offset_bottom = -300.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="HintText" type="Control" parent="CanvasLayer/UI" unique_id=1605252079 node_paths=PackedStringArray("_container", "_label")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("43_4rdk8")
+_container = NodePath("MarginContainer")
+_label = NodePath("MarginContainer/MarginContainer/RichTextLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/HintText" unique_id=2123184775]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -29.0
+offset_top = 240.0
+offset_right = 29.0
+offset_bottom = 299.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="Background" type="Panel" parent="CanvasLayer/UI/HintText/MarginContainer" unique_id=748902338]
+material = ExtResource("64_ldvfj")
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("56_4oqg7")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/HintText/MarginContainer" unique_id=2136644970]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 6
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/UI/HintText/MarginContainer/MarginContainer" unique_id=540830307]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("59_2qf5q")
+theme_override_font_sizes/normal_font_size = 50
+bbcode_enabled = true
+text = "Hi"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ElementsView" type="Control" parent="CanvasLayer/UI" unique_id=726648684 node_paths=PackedStringArray("_elements")]
 layout_mode = 1
@@ -1826,70 +1941,6 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "(2, 2)"
 label_settings = SubResource("LabelSettings_hctre")
-
-[node name="VoidSightView" type="Control" parent="CanvasLayer/UI" unique_id=1810999053 node_paths=PackedStringArray("_eye")]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("87_jy8qd")
-_eye = NodePath("Eye")
-
-[node name="Eye" type="Control" parent="CanvasLayer/UI/VoidSightView" unique_id=1424437254 node_paths=PackedStringArray("_pupil", "_pupilContainer", "_animationPlayer")]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -520.0
-offset_right = 200.0
-offset_bottom = -120.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset_ratio = Vector2(0.5, 0.5)
-mouse_filter = 2
-script = ExtResource("87_ambid")
-_pupil = NodePath("Center/Mask/PupilContainer/Pupil")
-_pupilContainer = NodePath("Center/Mask/PupilContainer")
-_animationPlayer = NodePath("AnimationPlayer")
-
-[node name="Center" type="Control" parent="CanvasLayer/UI/VoidSightView/Eye" unique_id=1968144586]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.8, 0.8)
-mouse_filter = 2
-
-[node name="Mask" type="Sprite2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center" unique_id=757044333]
-clip_children = 1
-texture = ExtResource("88_jy8qd")
-
-[node name="PupilContainer" type="Node2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center/Mask" unique_id=2125868586]
-
-[node name="Pupil" type="Sprite2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center/Mask/PupilContainer" unique_id=1365392103]
-scale = Vector2(1e-05, 1e-05)
-texture = ExtResource("89_lv1i0")
-
-[node name="Eyelid" type="Sprite2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center" unique_id=1877017526]
-texture = ExtResource("90_8ytt2")
-
-[node name="TopEyelid" type="Sprite2D" parent="CanvasLayer/UI/VoidSightView/Eye/Center" unique_id=1588504299]
-visible = false
-texture = ExtResource("90_8ytt2")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/UI/VoidSightView/Eye" unique_id=1735508895]
-libraries/ = SubResource("AnimationLibrary_lv1i0")
-speed_scale = 4.0
 
 [editable path="HexPin/ScaleContainer/WorldButton"]
 [editable path="CanvasLayer/UI/ScenarioSetupButtonsView/StartScenario"]

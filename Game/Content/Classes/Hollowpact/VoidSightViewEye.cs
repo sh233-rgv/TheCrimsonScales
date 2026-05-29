@@ -1,4 +1,6 @@
 ﻿using Godot;
+using GTweens.Builders;
+using GTweensGodot.Extensions;
 
 public partial class VoidSightViewEye : Control
 {
@@ -15,7 +17,21 @@ public partial class VoidSightViewEye : Control
 
 	public void Open()
 	{
+		_animationPlayer.Play("RESET");
 		_animationPlayer.Play("open");
+		float animationSpeed = AppController.Instance.DeviceOptions.GetTimeScale(TimeScale.Gameplay);
+		_animationPlayer.SetSpeedScale(2f * animationSpeed);
+
+		this.DelayedCall(Close, 5f / animationSpeed);
+		// GTweenSequenceBuilder.New()
+		// 	.AppendTime(5f / animationSpeed)
+		// 	.AppendCallback(Close)
+		// 	.Build().Play();
+	}
+
+	public void Close()
+	{
+		_animationPlayer.Play("close");
 	}
 
 	// public override void _Process(double delta)

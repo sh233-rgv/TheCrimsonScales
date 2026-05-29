@@ -203,7 +203,6 @@ public partial class ScenarioEvents
 		}
 	}
 
-
 	private readonly DuringHeal _duringHeal = new DuringHeal();
 	public static DuringHeal DuringHealEvent => GameController.Instance.ScenarioEvents._duringHeal;
 

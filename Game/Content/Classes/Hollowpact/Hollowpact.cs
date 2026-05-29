@@ -28,7 +28,7 @@ public partial class Hollowpact : Character
 				{
 					await AbilityCmd.AddCondition(null, this, ModelDB.Condition<Muddle>());
 				}
-				
+
 				if(_voidEnergyCount == 3)
 				{
 					await AbilityCmd.AddCondition(null, this, ModelDB.Condition<Wound>());
@@ -43,7 +43,7 @@ public partial class Hollowpact : Character
 
 	public static DivinationAbility.DivinationBuilder VoidsightAbilityBuilder()
 	{
-		return DivinationAbility.Builder().WithCardsToPeek(1).WithMaxCardsToPlaceAtBottom(1).WithTarget(Target.Self);
+		return DivinationAbility.Builder().WithCardsToPeek(1).WithMaxCardsToPlaceAtBottom(1).WithMandatory(true).WithTarget(Target.Self);
 	}
 
 	public static CreateObstacleAbility.CreateObstacleBuilder CreateVoidPitObstacleAbilityBuilder()

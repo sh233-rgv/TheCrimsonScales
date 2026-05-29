@@ -8,7 +8,7 @@
    version="1.1"
    id="svg5"
    inkscape:version="1.4 (86a8ad7, 2024-10-11)"
-   sodipodi:docname="Triangle.svg"
+   sodipodi:docname="UpsideDownTriangle.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,9 +25,9 @@
      inkscape:document-units="px"
      showgrid="true"
      inkscape:lockguides="true"
-     inkscape:zoom="1.588139"
-     inkscape:cx="109.24736"
-     inkscape:cy="172.84381"
+     inkscape:zoom="4.4919354"
+     inkscape:cx="124.55655"
+     inkscape:cy="134.79713"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="2869"
@@ -65,8 +65,8 @@
        inkscape:rounded="0"
        inkscape:randomized="0"
        d="m 196,8 -282,162.81278 0,-325.62556 z"
-       inkscape:transform-center-x="3.0299999e-06"
-       transform="matrix(0,-0.55319149,0.76161099,0,121.90711,148.42553)"
-       inkscape:transform-center-y="-26.000003" />
+       inkscape:transform-center-x="-1.13e-06"
+       transform="matrix(0,0.55319149,-0.76161099,0,134.09289,107.57447)"
+       inkscape:transform-center-y="26.000001" />
   </g>
 </svg>

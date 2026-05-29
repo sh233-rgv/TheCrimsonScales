@@ -77,6 +77,13 @@ public class DivinationAbility : TargetedAbility<DivinationAbility.State, Single
 
 	protected override async GDTask AfterTargetConfirmedBeforeConditionsApplied(State abilityState, Figure target)
 	{
+		if(!GameController.FastForward)
+		{
+			GameController.Instance.VoidSightView.Open();
+
+			await GDTask.DelayFastForwardable(2f);
+		}
+
 		ScenarioEvents.AMDCardPeekedEvent.Subscribe(abilityState, this,
 			canApplyParameters => canApplyParameters.AbilityState == abilityState,
 			async applyParameters =>
@@ -88,7 +95,7 @@ public class DivinationAbility : TargetedAbility<DivinationAbility.State, Single
 
 							await GDTask.CompletedTask;
 						},
-						effectType: EffectType.Selectable,
+						effectType: EffectType.SelectableMandatory,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.Triangle),
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Place the card at the top of the deck."));
 
@@ -100,8 +107,8 @@ public class DivinationAbility : TargetedAbility<DivinationAbility.State, Single
 
 							await GDTask.CompletedTask;
 						},
-						effectType: EffectType.Selectable,
-						effectButtonParameters: new IconEffectButton.Parameters(Icons.EffectInfoViewTriangle),
+						effectType: EffectType.SelectableMandatory,
+						effectButtonParameters: new IconEffectButton.Parameters(Icons.UpsideDownTriangle),
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"Place the card at the bottom of the deck."));
 
 				List<ScenarioEvents.GenericChoice.Subscription> subscriptions = [placeAtDeckTopSubscription];
@@ -119,5 +126,10 @@ public class DivinationAbility : TargetedAbility<DivinationAbility.State, Single
 		await GameController.Instance.AMDDrawView.PeekCards(abilityState, _cardsToPeek);
 
 		ScenarioEvents.AMDCardPeekedEvent.Unsubscribe(abilityState, this);
+
+		if(!GameController.FastForward)
+		{
+			GameController.Instance.VoidSightView.Close();
+		}
 	}
 }

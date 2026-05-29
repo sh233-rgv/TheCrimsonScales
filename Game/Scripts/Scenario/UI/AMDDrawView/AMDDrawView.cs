@@ -37,7 +37,7 @@ public partial class AMDDrawView : Control
 
 		UpdateDrawPileSize(deck);
 
-		await this.TweenPositionY(0f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardableAsync();
+		await this.TweenPositionY(-280f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardableAsync();
 		await GDTask.DelayFastForwardable(0.2f);
 
 		int index = 0;
@@ -64,7 +64,7 @@ public partial class AMDDrawView : Control
 			{
 				deck.MoveCardToTop(newCard);
 				index++;
-			} 
+			}
 			else if(amdCardDrawnParameters.PlaceAtDeckBottom)
 			{
 				deck.MoveCardToBottom(newCard);

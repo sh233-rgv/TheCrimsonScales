@@ -99,6 +99,10 @@ public partial class GameController : SceneController<GameController>
 	[Export]
 	public Node2D MoveParent { get; private set; }
 
+	// Dirty, should be instantiated by the Hollowpact, but I cba right now :)
+	[Export]
+	public VoidSightView VoidSightView { get; private set; }
+
 	private readonly Stopwatch _fastForwardStopwatch = new Stopwatch();
 
 	public GameSceneRequest SceneRequest { get; private set; }
