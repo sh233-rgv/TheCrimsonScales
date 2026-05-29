@@ -37,8 +37,9 @@ public class BorrowedVitality : HollowpactCardModel<BorrowedVitality.CardTop, Bo
 						parameters.AbilityState.AbilityAdjustHealValue(2);
 
 						await GainVoidEnergy(parameters.AbilityState, 2);
-					}, 
-					effectInfoViewParameters: new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Heal)}, +2{Icons.Inline(Hollowpact.VoidEnergy)}")))
+					},
+					effectInfoViewParameters: new TextEffectInfoView.Parameters(
+						$"+2{Icons.Inline(Icons.Heal)}, +2{Icons.Inline(Hollowpact.VoidEnergy)}")))
 				.Build())
 		];
 	}
@@ -50,7 +51,7 @@ public class BorrowedVitality : HollowpactCardModel<BorrowedVitality.CardTop, Bo
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3, new MoveCircle(this, new Vector2(0.6222222f, 0.7069444f)))
 				.Build()),
-			
+
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithTarget(Target.Self)

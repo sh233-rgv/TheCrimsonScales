@@ -62,7 +62,7 @@ public class SeverReality : HollowpactLevelUpCardModel<SeverReality.CardTop, Sev
 				.WithDistance(3, new TeleportCircle(this, new Vector2(0.63518906f, 0.76963305f)))
 				.WithConditionalAbilityCheck(async state =>
 				{
-					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1, 
+					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1,
 						new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Teleport)}3"));
 				})
 				.Build()),

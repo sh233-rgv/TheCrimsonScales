@@ -16,10 +16,10 @@ public class WitheringDeluge : HollowpactCardModel<WitheringDeluge.CardTop, With
 				.WithDamage(3, new AttackDiamond(this, new Vector2(0.37138885f, 0.22638887f)))
 				.WithConditions(Conditions.Wound1)
 				.WithAOEPattern(new AOEPattern([
-					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-					new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red)
-				]),
+						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red)
+					]),
 					new AOEHexMark(Vector2I.Zero.Add(Direction.SouthEast), this,
 						new Vector2(0.74861103f, 0.3691663f)))
 				.WithDuringAttackSubscription(LoseVoidEnergySubscription<ScenarioEvents.DuringAttack.Parameters>(2,
@@ -31,7 +31,7 @@ public class WitheringDeluge : HollowpactCardModel<WitheringDeluge.CardTop, With
 					new TextEffectInfoView.Parameters($"+2{Icons.Inline(Icons.Damage)}")))
 				.Build())
 		];
-		
+
 		public override int XP => 1;
 		public override bool Loss => true;
 	}
@@ -43,7 +43,7 @@ public class WitheringDeluge : HollowpactCardModel<WitheringDeluge.CardTop, With
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3, new MoveCircle(this, new Vector2(0.61638886f, 0.68749994f)))
 				.Build()),
-			
+
 			new AbilityCardAbility(CreateVoidPitObstacleAbilityBuilder()
 				.WithRange(2)
 				.WithOnAbilityEndedPerformed(GainVoidEnergy)

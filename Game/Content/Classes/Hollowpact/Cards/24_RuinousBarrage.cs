@@ -22,7 +22,7 @@ public class RuinousBarrage : HollowpactLevelUpCardModel<RuinousBarrage.CardTop,
 				.WithConditions(Conditions.Wound1)
 				.WithConditionalAbilityCheck(async state =>
 				{
-					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 2, 
+					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 2,
 						new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Attack)}6{Icons.Inline(Icons.GetCondition(Conditions.Wound1))}"));
 				})
 				.WithOnAbilityEndedPerformed(GainXP)
@@ -62,7 +62,7 @@ public class RuinousBarrage : HollowpactLevelUpCardModel<RuinousBarrage.CardTop,
 				.WithDistance(3)
 				.WithConditionalAbilityCheck(async state =>
 				{
-					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1, 
+					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1,
 						new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Teleport)}3"));
 				})
 				.Build()),

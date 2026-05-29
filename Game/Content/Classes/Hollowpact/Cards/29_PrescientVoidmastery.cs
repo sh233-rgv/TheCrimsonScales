@@ -26,8 +26,9 @@ public class PrescientVoidmastery : HollowpactLevelUpCardModel<PrescientVoidmast
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async otherState =>
 				{
-					ScenarioEvents.AbilityEndedEvent.Subscribe(otherState, this, 
-						abilityEndedParameters => abilityEndedParameters.Performer.EnemiesWith(otherState.Performer) && 
+					ScenarioEvents.AbilityEndedEvent.Subscribe(otherState, this,
+						abilityEndedParameters =>
+							abilityEndedParameters.Performer.EnemiesWith(otherState.Performer) &&
 							abilityEndedParameters.AbilityState is MoveAbility.State or TeleportAbility.State &&
 							RangeHelper.Distance(abilityEndedParameters.Performer.Hex, otherState.Performer.Hex) == 1,
 						async abilityEndedParameters =>
@@ -53,7 +54,8 @@ public class PrescientVoidmastery : HollowpactLevelUpCardModel<PrescientVoidmast
 
 												await GDTask.CompletedTask;
 											},
-											effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Disarm))}")
+											effectInfoViewParameters: new TextEffectInfoView.Parameters(
+												$"{Icons.Inline(Icons.GetCondition(Conditions.Disarm))}")
 										)
 									])
 									.WithCustomGetTargets((attackState, figures) =>
@@ -94,7 +96,7 @@ public class PrescientVoidmastery : HollowpactLevelUpCardModel<PrescientVoidmast
 						.Distinct()
 						.SelectMany(hex => hex.GetFigures())
 						.Except([state.Performer]);
-					
+
 					foreach(Figure figure in figures)
 					{
 						await AbilityCmd.SufferDamage(state, figure, 1, state.Performer);

@@ -20,10 +20,11 @@ public class EnervatingStrike : HollowpactCardModel<EnervatingStrike.CardTop, En
 						parameters.AbilityState.AbilityAddCondition(Conditions.Poison1);
 						parameters.AbilityState.AbilityAddCondition(Conditions.Muddle);
 						await AbilityCmd.GainXP(parameters.AbilityState.Performer, 1);
-					}, 
-					new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Poison1))}, {Icons.Inline(Icons.GetCondition(Conditions.Muddle))}")))
+					},
+					new TextEffectInfoView.Parameters(
+						$"{Icons.Inline(Icons.GetCondition(Conditions.Poison1))}, {Icons.Inline(Icons.GetCondition(Conditions.Muddle))}")))
 				.Build()),
-			
+
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2, new HealDiamondPlus(this, new Vector2(0.49443346f, 0.39236656f)))
 				.WithTarget(Target.Self)
@@ -39,17 +40,17 @@ public class EnervatingStrike : HollowpactCardModel<EnervatingStrike.CardTop, En
 				.WithDistance(4, new MoveCircle(this, new Vector2(0.5236556f, 0.656267f)))
 				.WithMoveType(MoveType.Jump)
 				.Build()),
-			
+
 			new AbilityCardAbility(SufferDamageAbility.Builder()
 				.WithDamage(2)
 				.WithTarget(Target.Any | Target.TargetAll)
 				.WithMandatory(true)
 				.Build()),
-			
+
 			new AbilityCardAbility(GainVoidEnergyAbilityBuilder(2)
 				.Build()),
 		];
-		
+
 		public override int XP => 2;
 		public override bool Loss => true;
 	}

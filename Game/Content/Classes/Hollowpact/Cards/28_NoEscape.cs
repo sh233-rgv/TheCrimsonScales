@@ -30,19 +30,18 @@ public class NoEscape : HollowpactLevelUpCardModel<NoEscape.CardTop, NoEscape.Ca
 
 						ScenarioEvents.FigureEnteredHexEvent.Subscribe(pullParameters.AbilityState, this,
 							enteredHexParameters => enteredHexParameters.Figure == pullParameters.AbilityState.Target &&
-								enteredHexParameters.Hex.HasHexObjectOfType<Obstacle>(),
+							                        enteredHexParameters.Hex.HasHexObjectOfType<Obstacle>(),
 							async enteredHexParameters =>
 							{
 								foreach(Obstacle obstacle in enteredHexParameters.Hex.GetHexObjectsOfType<Obstacle>())
 								{
 									await obstacle.Destroy();
 									await AbilityCmd.SufferDamage(enteredHexParameters.Figure, 3, pullParameters.Performer);
-									await AbilityCmd.AddConditions(pullParameters.AbilityState, enteredHexParameters.Figure, 
+									await AbilityCmd.AddConditions(pullParameters.AbilityState, enteredHexParameters.Figure,
 										[Conditions.Wound1, Conditions.Stun]);
 
 									await AbilityCmd.GainXP(pullParameters.Performer, 1);
 								}
-
 							});
 
 						await GDTask.CompletedTask;

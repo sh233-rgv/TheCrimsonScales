@@ -53,8 +53,8 @@ public class TendrilsOfNight : HollowpactLevelUpCardModel<TendrilsOfNight.CardTo
 					Hex hex = await AbilityCmd.SelectHex(state, list =>
 					{
 						list.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 6)
-												 .Where(hex => hex.GetHexObjectsOfType<Obstacle>()
-												 .Any(obstacle => !obstacle.CannotBeDestroyed)));
+							.Where(hex => hex.GetHexObjectsOfType<Obstacle>()
+								.Any(obstacle => !obstacle.CannotBeDestroyed)));
 					}, hintText: "Designate a hex within range 6 containing an obstacle.");
 
 					if(hex != null)
@@ -76,8 +76,9 @@ public class TendrilsOfNight : HollowpactLevelUpCardModel<TendrilsOfNight.CardTo
 				})
 				.WithConditionalAbilityCheck(async state =>
 				{
-					return await AbilityCmd.HasPerformedAbility(state, 0) && await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1, 
-						new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Teleport)} to the designated hex, then perform {Icons.Inline(Icons.Attack)}3, {Icons.Inline(Icons.GetCondition(Conditions.Poison1))}."));
+					return await AbilityCmd.HasPerformedAbility(state, 0) && await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1,
+						new TextEffectInfoView.Parameters(
+							$"{Icons.Inline(Icons.Teleport)} to the designated hex, then perform {Icons.Inline(Icons.Attack)}3, {Icons.Inline(Icons.GetCondition(Conditions.Poison1))}."));
 				})
 				.Build()),
 
@@ -92,6 +93,8 @@ public class TendrilsOfNight : HollowpactLevelUpCardModel<TendrilsOfNight.CardTo
 					async parameters =>
 					{
 						parameters.AbilityState.AbilityAddCondition(Conditions.Wound1);
+
+						await GDTask.CompletedTask;
 					},
 					new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Wound1))}")))
 				.Build()),

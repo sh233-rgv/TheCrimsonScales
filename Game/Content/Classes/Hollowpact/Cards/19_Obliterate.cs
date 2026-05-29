@@ -36,8 +36,8 @@ public class Obliterate : HollowpactLevelUpCardModel<Obliterate.CardTop, Obliter
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					foreach(Hex hex in state.UniqueTargetedFigures
-										.Where(figure => state.KilledTargets.Contains(figure))
-										.Select(figure => figure.Hex))
+						        .Where(figure => state.KilledTargets.Contains(figure))
+						        .Select(figure => figure.Hex))
 					{
 						await AbilityCmd.CreateObstacle(hex, "res://Content/Classes/Hollowpact/VoidPit.tscn");
 					}
@@ -77,7 +77,7 @@ public class Obliterate : HollowpactLevelUpCardModel<Obliterate.CardTop, Obliter
 
 						ScenarioEvents.FigureEnteredHexEvent.Subscribe(pushParameters.AbilityState, this,
 							enteredHexParameters => enteredHexParameters.Figure == pushParameters.AbilityState.Target &&
-								enteredHexParameters.Hex.HasHexObjectOfType<Obstacle>(),
+							                        enteredHexParameters.Hex.HasHexObjectOfType<Obstacle>(),
 							async enteredHexParameters =>
 							{
 								foreach(Obstacle obstacle in enteredHexParameters.Hex.GetHexObjectsOfType<Obstacle>())

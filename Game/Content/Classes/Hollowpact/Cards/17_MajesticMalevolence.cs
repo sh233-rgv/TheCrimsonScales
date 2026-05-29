@@ -31,12 +31,13 @@ public class MajesticMalevolence : HollowpactLevelUpCardModel<MajesticMalevolenc
 							}
 						}, EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters("res://Content/Classes/Hollowpact/cs-void-pit.png"),
-						effectInfoViewParameters: new TextEffectInfoView.Parameters("Perform the ability as if you were occupying a hex with a Void Pit"));
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							"Perform the ability as if you were occupying a hex with a Void Pit"));
 
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
-				{	
+				{
 					ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
@@ -74,8 +75,9 @@ public class MajesticMalevolence : HollowpactLevelUpCardModel<MajesticMalevolenc
 				.WithConditions(Conditions.Muddle)
 				.WithConditionalAbilityCheck(async state =>
 				{
-					return await AbilityCmd.HasPerformedAbility(state, 0) && await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 2, 
-						new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Attack)}3{Icons.Inline(Icons.GetCondition(Conditions.Muddle))}, {Icons.Inline(Icons.Targets)}1 enemy adjacent to the created Void Pit."));
+					return await AbilityCmd.HasPerformedAbility(state, 0) && await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 2,
+						new TextEffectInfoView.Parameters(
+							$"{Icons.Inline(Icons.Attack)}3{Icons.Inline(Icons.GetCondition(Conditions.Muddle))}, {Icons.Inline(Icons.Targets)}1 enemy adjacent to the created Void Pit."));
 				})
 				.WithCustomGetTargets((state, hexes) =>
 				{

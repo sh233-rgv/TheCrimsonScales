@@ -15,7 +15,7 @@ public class VoidStep : HollowpactCardModel<VoidStep.CardTop, VoidStep.CardBotto
 			new AbilityCardAbility(TeleportAbility.Builder()
 				.WithDistance(2)
 				.Build()),
-			
+
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.6183333f, 0.2861111f)))
 				.WithDuringAttackSubscription(LoseVoidEnergySubscription<ScenarioEvents.DuringAttack.Parameters>(1,
@@ -41,12 +41,12 @@ public class VoidStep : HollowpactCardModel<VoidStep.CardTop, VoidStep.CardBotto
 
 			new AbilityCardAbility(GainVoidEnergyAbilityBuilder()
 				.Build()),
-				
+
 			new AbilityCardAbility(TeleportAbility.Builder()
 				.WithDistance(4, new TeleportCircle(this, new Vector2(0.63587743f, 0.8666666f)))
 				.WithConditionalAbilityCheck(async state =>
 				{
-					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1, 
+					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1,
 						new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Teleport)}4"));
 				})
 				.Build()),

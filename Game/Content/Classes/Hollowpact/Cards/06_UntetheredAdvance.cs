@@ -28,7 +28,7 @@ public class UntetheredAdvance : HollowpactCardModel<UntetheredAdvance.CardTop, 
 					},
 					new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Damage)}")))
 				.Build()),
-			
+
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(2)
 				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Dark))
@@ -43,7 +43,7 @@ public class UntetheredAdvance : HollowpactCardModel<UntetheredAdvance.CardTop, 
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3, new MoveCircle(this, new Vector2(0.62167794f, 0.70833325f)))
 				.Build()),
-			
+
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
@@ -51,15 +51,15 @@ public class UntetheredAdvance : HollowpactCardModel<UntetheredAdvance.CardTop, 
 						{
 							list.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, range: 1)
 								.Where(hex => hex.GetHexObjectsOfType<Trap>().Any(hexObject => !hexObject.CannotBeDestroyed) ||
-								               hex.GetHexObjectsOfType<Obstacle>().Any(hexObject => !hexObject.CannotBeDestroyed)));
-						}, 
+								              hex.GetHexObjectsOfType<Obstacle>().Any(hexObject => !hexObject.CannotBeDestroyed)));
+						},
 						hintText: "Select an adjacent hex containing an obstacle or a trap.");
 
 					if(hex != null)
 					{
 						await hex.HexObjects.First(hexObject => hexObject is Trap or Obstacle).Destroy();
 						await GainVoidEnergy(state);
-						
+
 						state.SetPerformed();
 					}
 				})

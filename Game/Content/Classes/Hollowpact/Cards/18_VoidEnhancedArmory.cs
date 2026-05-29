@@ -42,16 +42,16 @@ public class VoidEnhancedArmory : HollowpactLevelUpCardModel<VoidEnhancedArmory.
 				{
 					// Effect to start immediately
 					await _attackSubscription(state, this);
-		
+
 					// Effect to start each following turn
-					ScenarioEvents.FigureTurnStartedEvent.Subscribe(state, this, 
+					ScenarioEvents.FigureTurnStartedEvent.Subscribe(state, this,
 						parameters => parameters.Figure == state.Performer,
 						async parameters =>
 						{
 							await _attackSubscription(state, this);
 						});
 
-					ScenarioEvents.RoundEndedEvent.Subscribe(state, this, 
+					ScenarioEvents.RoundEndedEvent.Subscribe(state, this,
 						parameters => true,
 						async parameters =>
 						{
@@ -71,8 +71,8 @@ public class VoidEnhancedArmory : HollowpactLevelUpCardModel<VoidEnhancedArmory.
 				.Build())
 		];
 
-		Func<OtherActiveAbility.State, HollowpactCardSide, GDTask> _attackSubscription = 
-			async (state, cardSide) => 
+		Func<OtherActiveAbility.State, HollowpactCardSide, GDTask> _attackSubscription =
+			async (state, cardSide) =>
 			{
 				ScenarioEvents.DuringAttackEvent.Subscribe(state, cardSide,
 					LoseVoidEnergySubscription<ScenarioEvents.DuringAttack.Parameters>(1,

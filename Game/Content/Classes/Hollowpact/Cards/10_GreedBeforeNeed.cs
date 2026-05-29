@@ -17,7 +17,7 @@ public class GreedBeforeNeed : HollowpactCardModel<GreedBeforeNeed.CardTop, Gree
 				.WithRange(1)
 				.WithOnAbilityEndedPerformed(GainVoidEnergy)
 				.Build()),
-			
+
 			new AbilityCardAbility(LootAbility.Builder()
 				.WithRange(1)
 				.Build())

@@ -27,10 +27,10 @@ public class ChannelTheVoid : HollowpactCardModel<ChannelTheVoid.CardTop, Channe
 							await AbilityCmd.GainXP(applyParameters.AbilityState.Performer, 1);
 						}, effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Shield)}")))
 				.Build()),
-			
+
 			new AbilityCardAbility(GainVoidEnergyAbilityBuilder().Build())
 		];
-		
+
 		public override bool Round => true;
 	}
 

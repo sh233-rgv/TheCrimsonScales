@@ -24,10 +24,10 @@ public class EnduringDarkness : HollowpactLevelUpCardModel<EnduringDarkness.Card
 					ScenarioEvents.RemoveConditionEvent.Subscribe(state, this,
 						parameters => parameters.Figure == state.Performer && parameters.ConditionModel == Conditions.Ward,
 						async parameters =>
-            			{
-            			    parameters.SetPrevented();
+						{
+							parameters.SetPrevented();
 							await AbilityCmd.GainXP(parameters.Figure, 1);
-            			});
+						});
 
 					await GDTask.CompletedTask;
 				})
@@ -38,7 +38,8 @@ public class EnduringDarkness : HollowpactLevelUpCardModel<EnduringDarkness.Card
 					await GDTask.CompletedTask;
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Dark,
-					effectInfoText: $"Whenever you do not have {Icons.Inline(Icons.GetCondition(Conditions.Regenerate))} this round, gain {Icons.Inline(Icons.GetCondition(Conditions.Regenerate))}."))
+					effectInfoText:
+					$"Whenever you do not have {Icons.Inline(Icons.GetCondition(Conditions.Regenerate))} this round, gain {Icons.Inline(Icons.GetCondition(Conditions.Regenerate))}."))
 				.Build()),
 
 			new AbilityCardAbility(GainVoidEnergyAbilityBuilder(2)

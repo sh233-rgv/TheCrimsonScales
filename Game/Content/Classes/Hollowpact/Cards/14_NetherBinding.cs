@@ -33,9 +33,9 @@ public class NetherBinding : HollowpactLevelUpCardModel<NetherBinding.CardTop, N
 				{
 					hexes.AddRange(state.ActionState.GetAbilityState<PushAbility.State>(0).Target.Hex.Neighbours.Where(hex => hex.IsEmpty()));
 				})
-				.WithOnAbilityEndedPerformed(async state => 
+				.WithOnAbilityEndedPerformed(async state =>
 				{
-					await GainVoidEnergy(state); 
+					await GainVoidEnergy(state);
 					await GainXP(state);
 				})
 				.Build()),
@@ -51,7 +51,7 @@ public class NetherBinding : HollowpactLevelUpCardModel<NetherBinding.CardTop, N
 				.WithFilterHexes((state, hex) => hex.Neighbours.Any(hex => hex.GetFigures().Any(figure => figure.AlliedWith(state.Performer))))
 				.WithConditionalAbilityCheck(async state =>
 				{
-					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1, 
+					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1,
 						new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Teleport)}5, end adjacent to an ally."));
 				})
 				.Build()),

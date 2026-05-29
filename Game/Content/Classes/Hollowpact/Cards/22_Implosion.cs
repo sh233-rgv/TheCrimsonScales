@@ -31,7 +31,7 @@ public class Implosion : HollowpactLevelUpCardModel<Implosion.CardTop, Implosion
 					Hex hex = await AbilityCmd.SelectHex(state, hexes =>
 					{
 						hexes.AddRange(GameController.Instance.Map.GetChildrenOfType<VoidPit>()
-											.Select(voidPit => voidPit.Hex));
+							.Select(voidPit => voidPit.Hex));
 					}, hintText: $"Select a hex with a Void Pit.");
 
 					if(hex == null)

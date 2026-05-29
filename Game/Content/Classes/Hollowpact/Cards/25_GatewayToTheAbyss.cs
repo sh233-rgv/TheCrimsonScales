@@ -23,24 +23,25 @@ public class GatewayToTheAbyss : HollowpactLevelUpCardModel<GatewayToTheAbyss.Ca
 				.WithConditions(Conditions.Wound1)
 				.WithConditionalAbilityCheck(async state =>
 				{
-					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 2, 
-						new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Attack)}3{Icons.Inline(Icons.GetCondition(Conditions.Wound1))}, {Icons.Inline(Icons.Targets)}all enemies adjacent to at least one Void Pit."));
+					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 2,
+						new TextEffectInfoView.Parameters(
+							$"{Icons.Inline(Icons.Attack)}3{Icons.Inline(Icons.GetCondition(Conditions.Wound1))}, {Icons.Inline(Icons.Targets)}all enemies adjacent to at least one Void Pit."));
 				})
 				.WithCustomGetTargets((state, figures) =>
 				{
 					figures.AddRange(GameController.Instance.Map.GetChildrenOfType<VoidPit>()
-											.SelectMany(voidPit => voidPit.Hex.Neighbours.SelectMany(hex => hex.GetFigures()))
-											.Where(figure => figure.EnemiesWith(state.Performer))
-											.Distinct());
+						.SelectMany(voidPit => voidPit.Hex.Neighbours.SelectMany(hex => hex.GetFigures()))
+						.Where(figure => figure.EnemiesWith(state.Performer))
+						.Distinct());
 				})
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					await GainXP(state);
 
 					IEnumerable<Figure> alliedFigures = GameController.Instance.Map.GetChildrenOfType<VoidPit>()
-												.SelectMany(voidPit => voidPit.Hex.Neighbours.SelectMany(hex => hex.GetFigures()))
-												.Where(figure => figure.AlliedWith(state.Performer))
-												.Distinct();
+						.SelectMany(voidPit => voidPit.Hex.Neighbours.SelectMany(hex => hex.GetFigures()))
+						.Where(figure => figure.AlliedWith(state.Performer))
+						.Distinct();
 
 					foreach(Figure figure in alliedFigures)
 					{
@@ -48,7 +49,6 @@ public class GatewayToTheAbyss : HollowpactLevelUpCardModel<GatewayToTheAbyss.Ca
 					}
 				})
 				.Build()),
-				
 		];
 
 		public override bool Loss => true;
@@ -79,7 +79,8 @@ public class GatewayToTheAbyss : HollowpactLevelUpCardModel<GatewayToTheAbyss.Ca
 								await GDTask.CompletedTask;
 							},
 							effectButtonParameters: new TextEffectButton.Parameters($"1{Icons.HintText(Hollowpact.VoidEnergy)}"),
-							effectInfoViewParameters: new TextEffectInfoView.Parameters($"Grant one adjacent ally: {Icons.Inline(Icons.Teleport)} to a hex within {Icons.Inline(Icons.Range)}5 of the Hollowpact."),
+							effectInfoViewParameters: new TextEffectInfoView.Parameters(
+								$"Grant one adjacent ally: {Icons.Inline(Icons.Teleport)} to a hex within {Icons.Inline(Icons.Range)}5 of the Hollowpact."),
 							effectType: EffectType.Selectable
 						),
 						ScenarioEvents.GenericChoice.Subscription.New(
@@ -94,7 +95,8 @@ public class GatewayToTheAbyss : HollowpactLevelUpCardModel<GatewayToTheAbyss.Ca
 								await GDTask.CompletedTask;
 							},
 							effectButtonParameters: new TextEffectButton.Parameters($"1{Icons.HintText(Hollowpact.VoidEnergy)}"),
-							effectInfoViewParameters: new TextEffectInfoView.Parameters($"Control one adjacent enemy: {Icons.Inline(Icons.Teleport)} to a hex within {Icons.Inline(Icons.Range)}5 of the Hollowpact."),
+							effectInfoViewParameters: new TextEffectInfoView.Parameters(
+								$"Control one adjacent enemy: {Icons.Inline(Icons.Teleport)} to a hex within {Icons.Inline(Icons.Range)}5 of the Hollowpact."),
 							effectType: EffectType.Selectable
 						),
 					], hintText: "Select an ability to perform:");
@@ -107,12 +109,12 @@ public class GatewayToTheAbyss : HollowpactLevelUpCardModel<GatewayToTheAbyss.Ca
 					TeleportAbility.Builder()
 						.WithCustomGetHexes((state, hexes) =>
 						{
-							hexes.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 5, 
-								includeOrigin: false, 
-								requiresLineOfSight: false, 
-								requiresHexesRevealed: true, 
-								allowDoors: true)
-							.Where(hex => hex.IsEmpty()));
+							hexes.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 5,
+									includeOrigin: false,
+									requiresLineOfSight: false,
+									requiresHexesRevealed: true,
+									allowDoors: true)
+								.Where(hex => hex.IsEmpty()));
 						})
 						.Build()
 				])
@@ -137,12 +139,12 @@ public class GatewayToTheAbyss : HollowpactLevelUpCardModel<GatewayToTheAbyss.Ca
 					TeleportAbility.Builder()
 						.WithCustomGetHexes((state, hexes) =>
 						{
-							hexes.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 5, 
-								includeOrigin: false, 
-								requiresLineOfSight: false, 
-								requiresHexesRevealed: true, 
-								allowDoors: false)
-							.Where(hex => hex.IsEmpty()));
+							hexes.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 5,
+									includeOrigin: false,
+									requiresLineOfSight: false,
+									requiresHexesRevealed: true,
+									allowDoors: false)
+								.Where(hex => hex.IsEmpty()));
 						})
 						.Build()
 				])

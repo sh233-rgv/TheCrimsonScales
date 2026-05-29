@@ -33,17 +33,17 @@ public class FindAnOpening : HollowpactCardModel<FindAnOpening.CardTop, FindAnOp
 						async parameters =>
 						{
 							parameters.SetRetaliateBlocked();
-							
+
 							await GDTask.CompletedTask;
 						}
 					);
-					
+
 					await GDTask.CompletedTask;
 				})
 				.WithOnAbilityEnded(async state =>
 				{
 					ScenarioEvents.RetaliateEvent.Unsubscribe(state, this);
-					
+
 					await GDTask.CompletedTask;
 				})
 				.Build())
@@ -59,19 +59,19 @@ public class FindAnOpening : HollowpactCardModel<FindAnOpening.CardTop, FindAnOp
 				.WithObstacleCount(2)
 				.WithOnAbilityEndedPerformed(GainVoidEnergy)
 				.Build()),
-			
+
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.2897222f, 0.802389f)))
 				.WithTargets(4)
 				.WithCustomGetTargets((state, list) =>
 				{
 					list.AddRange(GameController.Instance.Map.Figures
-							.Where(figure => RangeHelper.GetHexesInRange(figure.Hex, 1, includeOrigin: true, requiresLineOfSight: false)
-								.Any(hex => hex.GetHexObjectsOfType<Obstacle>().Any())));
+						.Where(figure => RangeHelper.GetHexesInRange(figure.Hex, 1, includeOrigin: true, requiresLineOfSight: false)
+							.Any(hex => hex.GetHexObjectsOfType<Obstacle>().Any())));
 				})
 				.Build()),
 		];
-		
+
 		public override int XP => 1;
 		public override bool Loss => true;
 	}

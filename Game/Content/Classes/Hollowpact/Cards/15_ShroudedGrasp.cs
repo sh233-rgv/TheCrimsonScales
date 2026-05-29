@@ -52,7 +52,8 @@ public class ShroudedGrasp : HollowpactLevelUpCardModel<ShroudedGrasp.CardTop, S
 
 					await GDTask.CompletedTask;
 
-					return pullState.Performed && pullState.UniqueTargetedFigures.Any(figure => RangeHelper.Distance(figure.Hex, state.Performer.Hex) == 1);
+					return pullState.Performed &&
+					       pullState.UniqueTargetedFigures.Any(figure => RangeHelper.Distance(figure.Hex, state.Performer.Hex) == 1);
 				})
 				.Build()),
 		];

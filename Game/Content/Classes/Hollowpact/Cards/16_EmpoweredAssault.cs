@@ -22,7 +22,7 @@ public class EmpoweredAssault : HollowpactLevelUpCardModel<EmpoweredAssault.Card
 				.WithDistance(2)
 				.WithConditionalAbilityCheck(async state =>
 				{
-					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1, 
+					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1,
 						new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Teleport)}2"));
 				})
 				.WithOnAbilityEndedPerformed(async state => await AbilityCmd.AddCondition(state, state.Performer, Conditions.Muddle))
@@ -47,7 +47,7 @@ public class EmpoweredAssault : HollowpactLevelUpCardModel<EmpoweredAssault.Card
 				.WithDistance(4, new TeleportCircle(this, new Vector2(0.6358215f, 0.79117787f)))
 				.WithConditionalAbilityCheck(async state =>
 				{
-					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1, 
+					return await LoseVoidEnergyConditionalAbilityCheck(state.Performer, 1,
 						new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Teleport)}4"));
 				})
 				.Build()),

@@ -44,7 +44,7 @@ public class EntropyUnleashed : HollowpactLevelUpCardModel<EntropyUnleashed.Card
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Damage)}"))
-					])
+				])
 				.Build()),
 		];
 	}
@@ -62,12 +62,14 @@ public class EntropyUnleashed : HollowpactLevelUpCardModel<EntropyUnleashed.Card
 				.WithCustomGetTargets((state, figures) =>
 				{
 					// Always add all the enemies in range
-					figures.AddRange(RangeHelper.GetFiguresInRange(state.Performer, state.AbilityRange).Where(figure => figure.EnemiesWith(state.Performer)));
+					figures.AddRange(RangeHelper.GetFiguresInRange(state.Performer, state.AbilityRange)
+						.Where(figure => figure.EnemiesWith(state.Performer)));
 
 					if(state.UniqueTargetedFigures.Any(figure => figure.EnemiesWith(state.Performer)))
 					{
 						// Add allies in range if an enemy was already targeted
-						figures.AddRange(RangeHelper.GetFiguresInRange(state.Performer, state.AbilityRange).Where(figure => figure.AlliedWith(state.Performer)));
+						figures.AddRange(RangeHelper.GetFiguresInRange(state.Performer, state.AbilityRange)
+							.Where(figure => figure.AlliedWith(state.Performer)));
 					}
 				})
 				.Build()),

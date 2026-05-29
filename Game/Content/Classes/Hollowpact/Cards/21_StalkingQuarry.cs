@@ -19,9 +19,9 @@ public class StalkingQuarry : HollowpactLevelUpCardModel<StalkingQuarry.CardTop,
 				.WithFilterHexes((state, teleportTargetHex) =>
 				{
 					return teleportTargetHex.Neighbours
-						.Any(potentialEnemyHex => 
+						.Any(potentialEnemyHex =>
 							potentialEnemyHex.GetFigures().Any(figure => figure.EnemiesWith(state.Performer))
-					 	&& !potentialEnemyHex.Neighbours.Any(otherFigureHex => otherFigureHex.HasHexObjectOfType<Figure>()));
+							&& !potentialEnemyHex.Neighbours.Any(otherFigureHex => otherFigureHex.HasHexObjectOfType<Figure>()));
 				})
 				.Build()),
 
@@ -45,7 +45,8 @@ public class StalkingQuarry : HollowpactLevelUpCardModel<StalkingQuarry.CardTop,
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Immobilize))}")
-					)])
+					)
+				])
 				.Build())
 		];
 	}
