@@ -53,7 +53,7 @@ public class Scenario053 : ScenarioModel
 
 		await AddGoal(new KillAllEnemiesScenarioGoal());
 
-		_somethingWillHappenRule = AddScenarioRule("Something will happen once all enemies in this room are killed.");
+		_somethingWillHappenRule = AddScenarioRule("Something will happen when all enemies in this room are dead.");
 
 		//TODO: Scenario has not been implemented yet!
 	}
