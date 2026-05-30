@@ -47,6 +47,8 @@ public class Scenario022 : ScenarioModel
 	public override int ScenarioNumber => 22;
 	public override string Name => "Imp Temple";
 
+	public override List<ScenarioLink> Links => [new ScenarioLink<Scenario020>()];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
 
 	public override string IntroductionText =>

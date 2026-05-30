@@ -8,6 +8,8 @@ public class Scenario044 : ScenarioModel
 	public override int ScenarioNumber => 44;
 	public override string Name => "Haunted Manor";
 
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<EventScenarioChain>();
 
 	public override string IntroductionText =>

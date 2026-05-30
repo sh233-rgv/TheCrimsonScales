@@ -9,6 +9,8 @@ public class Scenario036 : ScenarioModel
 	public override int ScenarioNumber => 36;
 	public override string Name => "Hunter’s Bounty";
 
+	public override List<ScenarioLink> Links => [new ScenarioLink<Scenario035>()];
+
 	protected override List<ScenarioRequirement> Requirements => [new PersonalQuestRequirement(ModelDB.PersonalQuest<BanditBanisher>())];
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<PersonalQuestScenarioChain>();
 

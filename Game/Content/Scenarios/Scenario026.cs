@@ -10,6 +10,8 @@ public class Scenario026 : ScenarioModel
 	public override int ScenarioNumber => 26;
 	public override string Name => "Thermal Stone Peak";
 
+	public override List<ScenarioLink> Links => [new ScenarioLink<Scenario023>(), new ScenarioLink<Scenario024>()];
+
 	protected override List<ScenarioRequirement> Requirements => [new PartyAchievementRequirement(PartyAchievement.FrozenWarrior, true)];
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<ChillyScenarioChain>();
 

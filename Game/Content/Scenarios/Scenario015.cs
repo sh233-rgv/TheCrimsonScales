@@ -8,6 +8,8 @@ public class Scenario015 : ScenarioModel
 	public override int ScenarioNumber => 15;
 	public override string Name => "Ambush of Beasts";
 
+	public override List<ScenarioLink> Links => [new ScenarioLink<Scenario012>()];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SailScenarioChain>();
 	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario016>()];
 

@@ -8,6 +8,8 @@ public class Scenario051 : ScenarioModel
 	public override int ScenarioNumber => 51;
 	public override string Name => "Rodent Warehouse";
 
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SideScenarioChain>();
 
 	public override string IntroductionText =>

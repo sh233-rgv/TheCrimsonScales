@@ -9,6 +9,8 @@ public class Scenario030 : ScenarioModel
 	public override int ScenarioNumber => 30;
 	public override string Name => "Undead Terrors";
 
+	public override List<ScenarioLink> Links => [new ScenarioLink<Scenario029>()];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<TaintedScenarioChain>();
 	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario032>()];
 

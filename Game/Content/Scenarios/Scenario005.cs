@@ -9,6 +9,8 @@ public class Scenario005 : ScenarioModel
 	public override int ScenarioNumber => 5;
 	public override string Name => "Blood of the Oozes";
 
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<InfectiousScenarioChain>();
 	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario006>()];
 

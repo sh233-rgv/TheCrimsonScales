@@ -10,6 +10,8 @@ public class Scenario052 : ScenarioModel
 	public override int ScenarioNumber => 52;
 	public override string Name => "Wishing Well";
 
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SideScenarioChain>();
 
 	public override string IntroductionText =>

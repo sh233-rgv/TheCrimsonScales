@@ -38,6 +38,8 @@ public class Scenario018 : ScenarioModel
 	public override int ScenarioNumber => 18;
 	public override string Name => "Grab and Go";
 
+	public override List<ScenarioLink> Links => [new ScenarioLink<Scenario017>()];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
 	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario020>(), new ScenarioConnection<Scenario021>()];
 

@@ -9,6 +9,8 @@ public class Scenario043 : ScenarioModel
 	public override int ScenarioNumber => 43;
 	public override string Name => "Mansion Maze";
 
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<EventScenarioChain>();
 
 	public override string IntroductionText =>

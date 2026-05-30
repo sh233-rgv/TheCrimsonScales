@@ -8,6 +8,8 @@ public class Scenario012 : ScenarioModel
 	public override int ScenarioNumber => 12;
 	public override string Name => "Uncovering the Source";
 
+	public override List<ScenarioLink> Links => [new ScenarioLink<Scenario011>()];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SailScenarioChain>();
 	public override IEnumerable<ScenarioConnection> Connections => [new ScenarioConnection<Scenario015>(true)];
 

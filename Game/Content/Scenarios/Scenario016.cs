@@ -34,6 +34,8 @@ public class Scenario016 : ScenarioModel
 	public override int ScenarioNumber => 16;
 	public override string Name => "Preto Krisanta";
 
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SailScenarioChain>();
 
 	public override string IntroductionText =>
