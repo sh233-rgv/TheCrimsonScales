@@ -829,7 +829,7 @@ public static class AbilityCmd
 
 		ScenarioCheckEvents.CanEnterCheck.Parameters canEnter =
 			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
-				new ScenarioCheckEvents.CanEnterCheck.Parameters(figure, destination));
+				new ScenarioCheckEvents.CanEnterCheck.Parameters(null, figure, destination));
 		if(!canEnter.CanEnter)
 		{
 			return false;

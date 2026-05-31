@@ -58,8 +58,14 @@ public class Scenario031 : ScenarioModel
 
 		int characterCount = GameController.Instance.CharacterManager.Characters.Count;
 
-		IEnumerable<Hex> aHexes = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.Hex);
-		IEnumerable<Hex> bHexes = GameController.Instance.Map.GetMarkers(Marker.Type.b).Select(marker => marker.Hex);
+		List<Hex> aHexes = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.Hex).ToList();
+		List<Hex> bHexes = GameController.Instance.Map.GetMarkers(Marker.Type.b).Select(marker => marker.Hex).ToList();
+		List<Hex> allMarkedHexes = new List<Hex>();
+		allMarkedHexes.AddRange(aHexes);
+		allMarkedHexes.AddRange(bHexes);
+
+		// List<MapTile> aMapTiles = aHexes.Select(hex => hex.MapTile).ToList();
+		// List<MapTile> bMapTiles = bHexes.Select(hex => hex.MapTile).ToList();
 
 		List<Hex> hexesToLink = new List<Hex>();
 		foreach((Vector2I coords, Hex hex) in GameController.Instance.Map.Hexes)
@@ -89,22 +95,76 @@ public class Scenario031 : ScenarioModel
 			}
 		);
 
+		ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(this,
+			parameters =>
+				parameters.Performer.Hex.MapTile != parameters.PotentialTarget?.Hex.MapTile,
+			parameters =>
+			{
+				parameters.SetCannotBeFocused();
+			}
+		);
+
+		ScenarioCheckEvents.CanBeTargetedCheckEvent.Subscribe(this,
+			parameters =>
+				parameters.Performer.Hex.MapTile != parameters.PotentialTarget?.Hex.MapTile,
+			parameters =>
+			{
+				parameters.SetCannotBeTargeted();
+			}
+		);
+
 		AddScenarioRule(textParameters =>
 			$"""
 			 The Dark Pit obstacles represent portals and cannot be destroyed. Hexes next to these portals are linked to other hexes next to portals on other map tiles, allowing characters to move between map tiles. Monsters cannot move onto map tiles unless otherwise stated in their abilities.
 			 """);
 
-		AddScenarioRule(textParameters =>
+		ScenarioRule teleportRule = AddScenarioRule(textParameters =>
 			$"""
 			 Figures can only interact with other figures if they are on the same map tile. Character and character summons cannot {Icons.Inline(Icons.Teleport, textParameters)} from one tile to another.
 			 """);
 
+		ScenarioCheckEvents.CanEnterCheckEvent.Subscribe(this, teleportRule,
+			parameters => parameters.PotentialAbilityState is TeleportAbility.State,
+			parameters =>
+			{
+				parameters.SetCanEnter(false);
+			}
+		);
+
+// 		_drakeSpawnRule = AddScenarioRule(textParameters =>
+// 			$"""
+// 			 At the end of each round if there are not at least {characterCount} map tiles occupied by characters, spawn one normal Rending Drake on the hex marked with the letter {Icons.InlineMarker(Marker.Type.a, textParameters)} on any unoccupied tile. If at least one character occupies a tile with the letter {Icons.InlineMarker(Marker.Type.a, textParameters)}, instead spawn one normal Spitting Drake on the hex marked with the letter {Icons.InlineMarker(Marker.Type.b, textParameters)} on any unoccupied tile.
+// 			 """);
 		_drakeSpawnRule = AddScenarioRule(textParameters =>
 			$"""
-			 At the end of each round if there are not at least {characterCount} map tiles occupied by characters, spawn one normal Rending Drake on the hex marked with the letter {Icons.InlineMarker(Marker.Type.a, textParameters)} on any unoccupied tile. If at least one character occupies a tile with the letter {Icons.InlineMarker(Marker.Type.a, textParameters)}, instead spawn one normal Spitting Drake on the hex marked with the letter {Icons.InlineMarker(Marker.Type.b, textParameters)} on any unoccupied tile.
+			 At the end of each round if there are not at least {characterCount} map tiles occupied by characters, spawn one normal Rending Drake on a hex marked {Icons.InlineMarker(Marker.Type.a, textParameters)} or {Icons.InlineMarker(Marker.Type.b, textParameters)} on any unoccupied tile.
 			 """);
 
 		_allEnemiesDeadRule = AddScenarioRule("Something will happen when all enemies are dead.");
+
+		ScenarioEvents.RoundEndedEvent.Subscribe(this, _drakeSpawnRule,
+			parameters =>
+				GameController.Instance.CharacterManager.Characters.Select(character => character.Hex.MapTile).Distinct().Count() < characterCount,
+			async parameters =>
+			{
+				// bool spawnTileA = true;
+				// foreach(Character character in GameController.Instance.CharacterManager.Characters)
+				// {
+				// 	if(aMapTiles.Any(mapTile => character.Hex.MapTile == mapTile))
+				// 	{
+				// 		spawnTileA = false;
+				// 		break;
+				// 	}
+				// }
+
+				// IEnumerable<MapTile> unoccupiedMapTiles = GameController.Instance.Map.Rooms[0].MapTiles.Where(mapTile =>
+				// 	GameController.Instance.CharacterManager.Characters.Any(character => character.Hex.MapTile != mapTile));
+				IEnumerable<Hex> unoccupiedMapTileMarkerHexes = allMarkedHexes.Where(hex =>
+					GameController.Instance.CharacterManager.Characters.All(character => character.Hex.MapTile != hex.MapTile));
+
+				await SpawnMonster(null, ModelDB.Monster<RendingDrake>(), MonsterType.Normal, unoccupiedMapTileMarkerHexes);
+			}
+		);
 
 		ScenarioEvents.FigureKilledEvent.Subscribe(this,
 			parameters =>
@@ -115,9 +175,13 @@ public class Scenario031 : ScenarioModel
 
 				//_allEnemiesDeadRule.Remove();
 
+				_drakeSpawnRule.Remove();
+
+				ScenarioEvents.RoundEndedEvent.Unsubscribe(this, _drakeSpawnRule);
+
 				_newSpawnRule = AddScenarioRule(textParameters =>
 					$"""
-					 At the end of the round, spawn one {(characterCount == 4 ? "elite" : "normal")} Harrower Infester at each hex marked {Icons.InlineMarker(Marker.Type.a, textParameters)} and one {(characterCount >= 3 ? "elite" : "normal")} Living Spirit next to each hex marked {Icons.InlineMarker(Marker.Type.b, textParameters)}.
+					 At the end of the round, spawn one {(characterCount == 4 ? "elite" : "normal")} Harrower Infester at each hex marked {Icons.InlineMarker(Marker.Type.a, textParameters)} and one {(characterCount >= 3 ? "elite" : "normal")} Living Spirit at each hex marked {Icons.InlineMarker(Marker.Type.b, textParameters)}.
 					 """);
 
 				ScenarioEvents.RoundEndedEvent.Subscribe(this,
@@ -126,8 +190,17 @@ public class Scenario031 : ScenarioModel
 					{
 						ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
 
-						//TODO: Spawn
-						//await SpawnMonster(null, ModelDB.Monster<InoxBodyguard>(), MonsterType.Boss, _markerDHex);
+						foreach(Hex aHex in aHexes)
+						{
+							await SpawnMonster(null, ModelDB.Monster<HarrowerInfester>(),
+								characterCount == 4 ? MonsterType.Elite : MonsterType.Normal, aHex);
+						}
+
+						foreach(Hex bHex in bHexes)
+						{
+							await SpawnMonster(null, ModelDB.Monster<LivingSpirit>(),
+								characterCount >= 3 ? MonsterType.Elite : MonsterType.Normal, bHex);
+						}
 
 						_newSpawnRule.Remove();
 
@@ -138,9 +211,11 @@ public class Scenario031 : ScenarioModel
 							{
 								ScenarioEvents.FigureKilledEvent.Unsubscribe(this);
 
+								_allEnemiesDeadRule.Remove();
+
 								_newSpawnRule = AddScenarioRule(textParameters =>
 									$"""
-									 At the end of the round, the Eternal Demon will spawn on a map tile occupied by the least amount of characters.
+									 At the end of the round, the Eternal Demon will spawn at a marked hex on a map tile occupied by the least amount of characters.
 									 """);
 
 								ScenarioEvents.RoundEndedEvent.Subscribe(this,
@@ -149,8 +224,32 @@ public class Scenario031 : ScenarioModel
 									{
 										ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
 
-										//TODO: Spawn
-										//await SpawnMonster(null, ModelDB.Monster<InoxBodyguard>(), MonsterType.Boss, _markerDHex);
+										List<Hex> lowestOccupyHexes = new List<Hex>();
+										int lowestCount = int.MaxValue;
+										foreach(Hex markedHex in allMarkedHexes)
+										{
+											int occupyCount = 0;
+											foreach(Character character in GameController.Instance.CharacterManager.Characters)
+											{
+												if(character.Hex.MapTile == markedHex.MapTile)
+												{
+													occupyCount++;
+												}
+											}
+
+											if(occupyCount == lowestCount)
+											{
+												lowestOccupyHexes.Add(markedHex);
+											}
+											else if(occupyCount < lowestCount)
+											{
+												lowestOccupyHexes.Clear();
+												lowestOccupyHexes.Add(markedHex);
+												lowestCount = occupyCount;
+											}
+										}
+
+										await SpawnMonster(null, ModelDB.Monster<EternalDemon>(), MonsterType.Boss, lowestOccupyHexes);
 
 										_newSpawnRule.Remove();
 									}

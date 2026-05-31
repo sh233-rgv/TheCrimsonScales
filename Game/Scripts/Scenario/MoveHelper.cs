@@ -406,7 +406,7 @@ public static class MoveHelper
 
 		ScenarioCheckEvents.CanEnterCheck.Parameters canEnter =
 			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
-				new ScenarioCheckEvents.CanEnterCheck.Parameters(performer, hex));
+				new ScenarioCheckEvents.CanEnterCheck.Parameters(abilityState, performer, hex));
 
 		if(!canEnter.CanEnter)
 		{
@@ -468,7 +468,7 @@ public static class MoveHelper
 
 		ScenarioCheckEvents.CanEnterCheck.Parameters canEnter =
 			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
-				new ScenarioCheckEvents.CanEnterCheck.Parameters(performer, hex));
+				new ScenarioCheckEvents.CanEnterCheck.Parameters(potentialAbilityState, performer, hex));
 
 		if(!canEnter.CanEnter)
 		{
