@@ -32,13 +32,13 @@ position = Vector2(-218.23842, 1134)
 position = Vector2(-218.2384, -378)
 
 [node name="CharacterStartHex2" parent="Map/Rooms/Room" index="5" unique_id=986042713 instance=ExtResource("4_eve0k")]
-position = Vector2(1527.6688, -378)
-
-[node name="CharacterStartHex3" parent="Map/Rooms/Room" index="6" unique_id=1414283171 instance=ExtResource("4_eve0k")]
 position = Vector2(1200.3112, 1323)
 
-[node name="CharacterStartHex4" parent="Map/Rooms/Room" index="7" unique_id=2110683385 instance=ExtResource("4_eve0k")]
+[node name="CharacterStartHex3" parent="Map/Rooms/Room" index="6" unique_id=1414283171 instance=ExtResource("4_eve0k")]
 position = Vector2(-327.35754, 1323)
+
+[node name="CharacterStartHex4" parent="Map/Rooms/Room" index="7" unique_id=2110683385 instance=ExtResource("4_eve0k")]
+position = Vector2(1527.6688, -378)
 
 [node name="MonsterSpawner" parent="Map/Rooms/Room" index="8" unique_id=286336762 instance=ExtResource("5_2ypf6")]
 MonsterModelId = "MONSTER_MODEL.RENDING_DRAKE"

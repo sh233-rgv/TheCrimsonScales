@@ -224,32 +224,32 @@ public class Scenario031 : ScenarioModel
 									{
 										ScenarioEvents.RoundEndedEvent.Unsubscribe(this);
 
-										List<Hex> lowestOccupyHexes = new List<Hex>();
-										int lowestCount = int.MaxValue;
-										foreach(Hex markedHex in allMarkedHexes)
-										{
-											int occupyCount = 0;
-											foreach(Character character in GameController.Instance.CharacterManager.Characters)
-											{
-												if(character.Hex.MapTile == markedHex.MapTile)
-												{
-													occupyCount++;
-												}
-											}
+										// List<Hex> lowestOccupyHexes = new List<Hex>();
+										// int lowestCount = int.MaxValue;
+										// foreach(Hex markedHex in allMarkedHexes)
+										// {
+										// 	int occupyCount = 0;
+										// 	foreach(Character character in GameController.Instance.CharacterManager.Characters)
+										// 	{
+										// 		if(character.Hex.MapTile == markedHex.MapTile)
+										// 		{
+										// 			occupyCount++;
+										// 		}
+										// 	}
+										//
+										// 	if(occupyCount == lowestCount)
+										// 	{
+										// 		lowestOccupyHexes.Add(markedHex);
+										// 	}
+										// 	else if(occupyCount < lowestCount)
+										// 	{
+										// 		lowestOccupyHexes.Clear();
+										// 		lowestOccupyHexes.Add(markedHex);
+										// 		lowestCount = occupyCount;
+										// 	}
+										// }
 
-											if(occupyCount == lowestCount)
-											{
-												lowestOccupyHexes.Add(markedHex);
-											}
-											else if(occupyCount < lowestCount)
-											{
-												lowestOccupyHexes.Clear();
-												lowestOccupyHexes.Add(markedHex);
-												lowestCount = occupyCount;
-											}
-										}
-
-										await SpawnMonster(null, ModelDB.Monster<EternalDemon>(), MonsterType.Boss, lowestOccupyHexes);
+										await SpawnMonster(null, ModelDB.Monster<EternalDemon>(), MonsterType.Boss, GetLeastOccupiedHexes());
 
 										_newSpawnRule.Remove();
 									}
@@ -266,5 +266,41 @@ public class Scenario031 : ScenarioModel
 				await GDTask.CompletedTask;
 			}
 		);
+	}
+
+	public static List<Hex> GetLeastOccupiedHexes()
+	{
+		List<Hex> aHexes = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.Hex).ToList();
+		List<Hex> bHexes = GameController.Instance.Map.GetMarkers(Marker.Type.b).Select(marker => marker.Hex).ToList();
+		List<Hex> allMarkedHexes = new List<Hex>();
+		allMarkedHexes.AddRange(aHexes);
+		allMarkedHexes.AddRange(bHexes);
+
+		List<Hex> lowestOccupiedHexes = new List<Hex>();
+		int lowestCount = int.MaxValue;
+		foreach(Hex markedHex in allMarkedHexes)
+		{
+			int occupyCount = 0;
+			foreach(Character character in GameController.Instance.CharacterManager.Characters)
+			{
+				if(character.Hex.MapTile == markedHex.MapTile)
+				{
+					occupyCount++;
+				}
+			}
+
+			if(occupyCount == lowestCount)
+			{
+				lowestOccupiedHexes.Add(markedHex);
+			}
+			else if(occupyCount < lowestCount)
+			{
+				lowestOccupiedHexes.Clear();
+				lowestOccupiedHexes.Add(markedHex);
+				lowestCount = occupyCount;
+			}
+		}
+
+		return lowestOccupiedHexes;
 	}
 }
