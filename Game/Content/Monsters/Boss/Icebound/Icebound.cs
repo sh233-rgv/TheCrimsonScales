@@ -22,8 +22,6 @@ public class Icebound : SavvasIceStorm, IBossMonsterModel
 	public override string Name => "Icebound";
 	public override MonsterModel ParentMonsterModel => ModelDB.Monster<SavvasIceStorm>();
 
-	private bool _summonElite;
-
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
 	// IBossMonsterModel
@@ -47,7 +45,9 @@ public class Icebound : SavvasIceStorm, IBossMonsterModel
 	[
 		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
 			.WithMonsterModel(CalculateMonsterModel(monster))
-			.WithMonsterType(CharacterCount >= 4 || (CharacterCount == 3 && _summonElite) ? MonsterType.Elite : MonsterType.Normal)
+			.WithMonsterType(CharacterCount >= 4 || (CharacterCount == 3 && monster.GetCustomValue<bool>("SummonElite"))
+				? MonsterType.Elite
+				: MonsterType.Normal)
 			.WithGetValidHexes((state, list) =>
 			{
 				Hex spawnHex = CalculateSpawnPoint(monster);
@@ -75,7 +75,8 @@ public class Icebound : SavvasIceStorm, IBossMonsterModel
 			})
 			.WithOnAbilityEndedPerformed(async state =>
 			{
-				_summonElite = !_summonElite;
+				monster.SetCustomValue("SummonElite", !monster.GetCustomValue<bool>("SummonElite"));
+				//_summonElite = !_summonElite;
 				await GDTask.CompletedTask;
 			})
 			.Build()),
