@@ -1725,4 +1725,10 @@ public static class AbilityCmd
 
 		return remainingElements;
 	}
+
+	public static void LinkHexes(Hex hex1, Hex hex2)
+	{
+		hex1.AddNeighbour(hex2);
+		hex2.AddNeighbour(hex1);
+	}
 }

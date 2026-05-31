@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public class Scenario031 : ScenarioModel
 {
@@ -49,11 +50,6 @@ public class Scenario031 : ScenarioModel
 	private ScenarioRule _drakeSpawnRule;
 	private ScenarioRule _newSpawnRule;
 
-	public override async GDTask StartOfScenarioEffects(Character character)
-	{
-		await AbilityCmd.AddCondition(null, character, Conditions.Immobilize);
-	}
-
 	public override async GDTask InitializeAfterFirstRoomRevealed()
 	{
 		await base.InitializeAfterFirstRoomRevealed();
@@ -65,9 +61,37 @@ public class Scenario031 : ScenarioModel
 		IEnumerable<Hex> aHexes = GameController.Instance.Map.GetMarkers(Marker.Type.a).Select(marker => marker.Hex);
 		IEnumerable<Hex> bHexes = GameController.Instance.Map.GetMarkers(Marker.Type.b).Select(marker => marker.Hex);
 
+		List<Hex> hexesToLink = new List<Hex>();
+		foreach((Vector2I coords, Hex hex) in GameController.Instance.Map.Hexes)
+		{
+			if(RangeHelper.GetHexesInRange(hex, 1, false).Any(otherHex => otherHex.HasHexObjectOfType<DarkPitObstacle>()))
+			{
+				hexesToLink.Add(hex);
+			}
+		}
+
+		foreach(Hex hex in hexesToLink)
+		{
+			foreach(Hex otherHex in hexesToLink)
+			{
+				if(hex.MapTile != otherHex.MapTile)
+				{
+					AbilityCmd.LinkHexes(hex, otherHex);
+				}
+			}
+		}
+
+		ScenarioCheckEvents.CanEnterCheckEvent.Subscribe(this,
+			parameters => parameters.Hex.HasHexObjectOfType<DarkPitObstacle>(),
+			parameters =>
+			{
+				parameters.SetCanEnter(false);
+			}
+		);
+
 		AddScenarioRule(textParameters =>
 			$"""
-			 The Dark Pit obstacles represent portals and cannot be destroyed. All portals are connected, allowing characters to move between map tiles. Monsters cannot move onto map tiles unless otherwise stated in their abilities.
+			 The Dark Pit obstacles represent portals and cannot be destroyed. Hexes next to these portals are linked to other hexes next to portals on other map tiles, allowing characters to move between map tiles. Monsters cannot move onto map tiles unless otherwise stated in their abilities.
 			 """);
 
 		AddScenarioRule(textParameters =>
