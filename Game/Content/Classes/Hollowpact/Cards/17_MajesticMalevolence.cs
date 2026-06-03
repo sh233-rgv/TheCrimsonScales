@@ -26,6 +26,7 @@ public class MajesticMalevolence : HollowpactLevelUpCardModel<MajesticMalevolenc
 								await targetedAbilityState.SetPerformHex(hexes =>
 								{
 									hexes.AddRange(GameController.Instance.Map.GetChildrenOfType<VoidPit>()
+										.Where(voidpit => !voidpit.IsDestroyed)
 										.Select(voidPit => voidPit.Hex));
 								});
 							}
@@ -33,6 +34,16 @@ public class MajesticMalevolence : HollowpactLevelUpCardModel<MajesticMalevolenc
 						effectButtonParameters: new IconEffectButton.Parameters("res://Content/Classes/Hollowpact/cs-void-pit.png"),
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(
 							"Perform the ability as if you were occupying a hex with a Void Pit"));
+
+					ScenarioEvents.ActionEndedEvent.Subscribe(state, this,
+						parameters => parameters.ActionState.Performer == state.Performer,
+						async parameters =>
+						{
+							ScenarioEvents.AbilityStartedEvent.Unsubscribe(state, this);
+							ScenarioEvents.ActionEndedEvent.Unsubscribe(state, this);
+
+							await GDTask.CompletedTask;
+						});
 
 					await GDTask.CompletedTask;
 				})
