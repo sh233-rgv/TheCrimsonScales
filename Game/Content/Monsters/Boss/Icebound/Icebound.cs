@@ -52,7 +52,7 @@ public class Icebound : SavvasIceStorm, IBossMonsterModel
 			{
 				Hex spawnHex = CalculateSpawnPoint(monster);
 				List<Hex> hexes = RangeHelper.GetHexesInRange(spawnHex, 100, requiresLineOfSight: false).ToList();
-				hexes.Shuffle(GameController.Instance.StateRNG);
+				hexes.Shuffle(GameController.Instance.VisualRNG);
 				hexes.Sort((otherHexA,
 					otherHexB) => RangeHelper.Distance(spawnHex,
 						otherHexA)
@@ -65,8 +65,7 @@ public class Icebound : SavvasIceStorm, IBossMonsterModel
 					return;
 				}
 
-				int distance = RangeHelper.Distance(spawnHex,
-					firstHex);
+				int distance = RangeHelper.Distance(spawnHex, firstHex);
 
 				list.AddRange(
 					hexes.Where(h => h.IsEmpty() &&

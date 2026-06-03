@@ -75,7 +75,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 								possibleEndHexes =>
 								{
 									List<Hex> hexes = RangeHelper.GetHexesInRange(characterToken.Hex, 100, requiresLineOfSight: false).ToList();
-									hexes.Shuffle(GameController.Instance.StateRNG);
+									hexes.Shuffle(GameController.Instance.VisualRNG);
 									hexes.Sort((otherHexA, otherHexB) => RangeHelper.Distance(characterToken.Hex, otherHexA)
 										.CompareTo(RangeHelper.Distance(characterToken.Hex, otherHexB)));
 									Hex firstHex = null;
