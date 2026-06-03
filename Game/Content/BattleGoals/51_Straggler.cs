@@ -11,6 +11,7 @@ public class Straggler : TheCrimsonScalesBattleGoal
 	{
 		ScenarioEvents.ShortRestStartedEvent.Subscribe(this,
 			parameters =>
+				!battleGoal.ProgressFull &&
 				parameters.Character == character,
 			async parameters =>
 			{

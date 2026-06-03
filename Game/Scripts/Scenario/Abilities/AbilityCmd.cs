@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Fractural.Tasks;
 using Godot;
 using GTweens.Easings;
@@ -17,6 +18,9 @@ public static class AbilityCmd
 
 	public static async GDTask LoseCard(AbilityCard card)
 	{
+		await ScenarioEvents.LostCardEvent.CreatePrompt(
+			new ScenarioEvents.LostCard.Parameters(card.Owner, card));
+
 		await card.RemoveFromActive();
 
 		if(card.Unrecoverable)
@@ -102,11 +106,11 @@ public static class AbilityCmd
 			return 0;
 		}
 
-		int finalDamage = sufferDamageParameters.CalculatedCurrentDamage;
+		int damageDealt = sufferDamageParameters.CalculatedCurrentDamage;
 
 		ScenarioEvents.JustBeforeSufferDamage.Parameters justBeforeSufferDamageParameters =
 			await ScenarioEvents.JustBeforeSufferDamageEvent.CreatePrompt(
-				new ScenarioEvents.JustBeforeSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters), target);
+				new ScenarioEvents.JustBeforeSufferDamage.Parameters(target, damageDealt, potentialAbilityState, sufferDamageParameters), target);
 
 		if(justBeforeSufferDamageParameters.Prevented)
 		{
@@ -115,7 +119,9 @@ public static class AbilityCmd
 
 		potentialAbilityState?.DamagedFigures.Add(target);
 
-		int newHealth = Mathf.Max(target.Health - finalDamage, 0);
+		int newHealth = Mathf.Max(target.Health - damageDealt, 0);
+
+		int damageSuffered = target.Health - newHealth;
 
 		target.SetHealth(newHealth);
 
@@ -131,13 +137,13 @@ public static class AbilityCmd
 			}
 		}
 
-		if(finalDamage > 0)
+		if(damageDealt > 0)
 		{
 			await ScenarioEvents.AfterSufferDamageEvent.CreatePrompt(
-				new ScenarioEvents.AfterSufferDamage.Parameters(target, finalDamage, potentialAbilityState, sufferDamageParameters), target);
+				new ScenarioEvents.AfterSufferDamage.Parameters(target, damageDealt, damageSuffered, potentialAbilityState, sufferDamageParameters), target);
 		}
 
-		return finalDamage;
+		return damageDealt;
 	}
 
 	public static async GDTask<int> SufferDamage(Figure target, int damage, Figure potentialDamageDealer, bool fromAttack = false)
@@ -223,13 +229,13 @@ public static class AbilityCmd
 		potentialAbilityState?.SetPerformed();
 	}
 
-	public static async GDTask RemoveCondition(Condition condition)
+	public static async GDTask RemoveCondition(Condition condition, AbilityState potentialAbilityState = null)
 	{
 		Figure target = condition.Owner;
 
 		ScenarioEvents.RemoveCondition.Parameters removeConditionParameters =
 			await ScenarioEvents.RemoveConditionEvent.CreatePrompt(
-				new ScenarioEvents.RemoveCondition.Parameters(condition), target);
+				new ScenarioEvents.RemoveCondition.Parameters(condition, potentialAbilityState), condition.Owner);
 
 
 		if(!removeConditionParameters.Prevented)
@@ -239,15 +245,15 @@ public static class AbilityCmd
 
 		ScenarioEvents.AfterRemoveCondition.Parameters afterRemoveConditionParameters =
 			await ScenarioEvents.AfterRemoveConditionEvent.CreatePrompt(
-				new ScenarioEvents.AfterRemoveCondition.Parameters(target, condition.ConditionModel), target);
+				new ScenarioEvents.AfterRemoveCondition.Parameters(target, condition.ConditionModel, potentialAbilityState), target);
 	}
 
-	public static async GDTask<bool> RemoveCondition(Figure target, ConditionModel conditionModel)
+	public static async GDTask<bool> RemoveCondition(Figure target, ConditionModel conditionModel, AbilityState potentialAbilityState = null)
 	{
 		Condition condition = target.GetCondition(conditionModel);
 		if(condition != null)
 		{
-			await RemoveCondition(condition);
+			await RemoveCondition(condition, potentialAbilityState);
 
 			return true;
 		}
@@ -267,7 +273,7 @@ public static class AbilityCmd
 					applyFunction: async applyParameters =>
 					{
 						potentialAbilityState?.SetPerformed();
-						await RemoveCondition(target, condition.ConditionModel);
+						await RemoveCondition(target, condition.ConditionModel, potentialAbilityState);
 					},
 					effectType: EffectType.SelectableMandatory,
 					effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(condition.ConditionModel)),
@@ -360,10 +366,13 @@ public static class AbilityCmd
 		await GDTask.CompletedTask;
 	}
 
-	public static async GDTask GainXP(Figure figure, int xp)
+	public static async GDTask GainXP(Figure figure, int xp, bool fromScenario = false)
 	{
 		if(figure is Character character)
 		{
+			await ScenarioEvents.GainedExperienceEvent.CreatePrompt(
+				new ScenarioEvents.GainedExperience.Parameters(figure, xp, fromScenario));
+
 			character.GainXP(xp);
 		}
 
@@ -662,11 +671,11 @@ public static class AbilityCmd
 	}
 
 	public static async GDTask EnterHex(AbilityState potentialAbilityState, Figure figure, Figure authority, Hex hex, bool triggerHexEffects,
-		bool setPosition)
+		bool setPosition, bool forcedMovement = false)
 	{
 		figure.SetOriginHexAndRotation(hex, setPosition: setPosition);
 
-		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(potentialAbilityState, figure),
+		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(potentialAbilityState, figure, forcedMovement),
 			authority);
 
 		HazardousTerrain hazardousTerrain = hex.GetHexObjectOfType<HazardousTerrain>();
@@ -708,7 +717,7 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask Teleport(AbilityState abilityState, Figure figure, Hex destination)
+	public static async GDTask Teleport(AbilityState abilityState, Figure figure, Hex destination, bool forcedMovement = false)
 	{
 		abilityState.SetPerformed();
 
@@ -730,7 +739,8 @@ public static class AbilityCmd
 			await GameController.Instance.ScreenDistortion.Appear(figure, animationSpeed, true).PlayFastForwardableAsync();
 		}
 
-		await EnterHex(abilityState, figure, abilityState.Authority, destination, true, true);
+		await EnterHex(abilityState, figure, abilityState.Authority, destination,
+			triggerHexEffects: true, setPosition: true, forcedMovement: forcedMovement);
 	}
 
 	public static GDTask<bool> TrySwap(Figure authority, Figure figureA, Figure figureB)
@@ -1603,8 +1613,13 @@ public static class AbilityCmd
 
 		Hex hexA = figureA.Hex;
 		Hex hexB = figureB.Hex;
-		await EnterHex(potentialAbilityState, figureB, authority, hexA, true, true);
-		await EnterHex(potentialAbilityState, figureA, authority, hexB, true, true);
+
+		await ExitHex(potentialAbilityState, figureA, authority);
+		await ExitHex(potentialAbilityState, figureB, authority);
+		await EnterHex(potentialAbilityState, figureB, authority, hexA,
+			triggerHexEffects: true, setPosition: true, forcedMovement: figureB.EnemiesWith(authority));
+		await EnterHex(potentialAbilityState, figureA, authority, hexB,
+			triggerHexEffects: true, setPosition: true, forcedMovement: figureA.EnemiesWith(authority));
 		potentialAbilityState?.SetPerformed();
 
 		return true;

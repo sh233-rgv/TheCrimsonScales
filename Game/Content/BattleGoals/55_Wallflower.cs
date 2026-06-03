@@ -14,10 +14,11 @@ public class Wallflower : TheCrimsonScalesBattleGoal
 	{
 		ScenarioEvents.FigureTurnEndedEvent.Subscribe(this,
 			parameters =>
+				!battleGoal.ProgressFull &&
 				parameters.Figure == character &&
 				character.Hex.Neighbours.Count == 6 && // This should check for wall lines
 				RangeHelper.GetHexesInRange(character.Hex, 1, false)
-					.All(hex => !hex.HasHexObjectOfType<Obstacle>() || !hex.HasHexObjectOfType<Objective>()),
+					.All(hex => !hex.HasHexObjectOfType<Obstacle>() && !hex.HasHexObjectOfType<Objective>()),
 			async parameters =>
 			{
 				battleGoal.AdjustProgress(1);

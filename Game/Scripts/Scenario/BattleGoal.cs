@@ -28,6 +28,11 @@ public class BattleGoal
 
 	public void AdjustProgress(int value)
 	{
+		if(value == 0)
+		{
+			return;
+		}
+
 		bool previouslyFullProgress = ProgressFull;
 
 		Progress += value;
@@ -38,6 +43,11 @@ public class BattleGoal
 		}
 
 		ProgressChangedEvent?.Invoke(this);
+	}
+
+	public void ResetProgress()
+	{
+		AdjustProgress(-Progress);
 	}
 
 	public async GDTask OnScenarioSetupPhaseCompleted()

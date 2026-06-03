@@ -1,4 +1,5 @@
-﻿using Fractural.Tasks;
+﻿using System.Linq;
+using Fractural.Tasks;
 
 public class Bully : TheCrimsonScalesBattleGoal
 {
@@ -11,8 +12,9 @@ public class Bully : TheCrimsonScalesBattleGoal
 	{
 		ScenarioEvents.FigureKilledEvent.Subscribe(this,
 			parameters =>
+				!battleGoal.ProgressFull &&
 				parameters.PotentialKiller == character &&
-				parameters.Figure.Conditions.Count >= 2,
+				parameters.Figure.Conditions.Count(condition => condition.ConditionModel.IsNegative) >= 2,
 			async parameters =>
 			{
 				battleGoal.AdjustProgress(1);

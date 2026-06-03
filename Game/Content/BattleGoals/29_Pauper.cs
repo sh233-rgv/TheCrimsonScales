@@ -13,6 +13,7 @@ public class Pauper : TheCrimsonScalesBattleGoal
 
 		ScenarioEvents.FigureTurnEndingEvent.Subscribe(this,
 			parameters =>
+				!battleGoal.ProgressFull &&
 				parameters.Figure == character,
 			async parameters =>
 			{
@@ -24,6 +25,7 @@ public class Pauper : TheCrimsonScalesBattleGoal
 
 		ScenarioEvents.FigureTurnEndedEvent.Subscribe(this,
 			parameters =>
+				!battleGoal.ProgressFull &&
 				parameters.Figure == character,
 			async parameters =>
 			{
@@ -35,6 +37,7 @@ public class Pauper : TheCrimsonScalesBattleGoal
 
 		ScenarioEvents.CoinLootedEvent.Subscribe(this,
 			parameters =>
+				!battleGoal.ProgressFull &&
 				endOfTurnLooting &&
 				parameters.LootObtainer == character,
 			async parameters =>

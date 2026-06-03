@@ -351,12 +351,13 @@ public partial class ScenarioEvents
 
 	public class RemoveCondition : ScenarioEvent<RemoveCondition.Parameters>
 	{
-		public class Parameters(Condition condition) : ParametersBase
+		public class Parameters(Condition condition, AbilityState potentialAbilityState) : ParametersBase
 		{
 			public Condition Condition { get; } = condition;
 
-			public Figure Figure => Condition.Owner;
-			public ConditionModel ConditionModel => Condition.ConditionModel;
+			public Figure Figure { get; } = condition.Owner;
+			public ConditionModel ConditionModel { get; } = condition.ConditionModel;
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 
 			public bool Prevented { get; private set; } = false;
 
@@ -372,10 +373,11 @@ public partial class ScenarioEvents
 
 	public class AfterRemoveCondition : ScenarioEvent<AfterRemoveCondition.Parameters>
 	{
-		public class Parameters(Figure figure, ConditionModel condition) : ParametersBase
+		public class Parameters(Figure figure, ConditionModel condition, AbilityState potentialAbilityState) : ParametersBase
 		{
 			public Figure Figure { get; } = figure;
 			public ConditionModel Condition { get; } = condition;
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 		}
 	}
 
@@ -539,10 +541,11 @@ public partial class ScenarioEvents
 
 	public class AfterSufferDamage : ScenarioEvent<AfterSufferDamage.Parameters>
 	{
-		public class Parameters(Figure figure, int damage, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
+		public class Parameters(Figure figure, int damageDealt, int damageSuffered, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
 		{
 			public Figure Figure { get; } = figure;
-			public int Damage { get; } = damage;
+			public int DamageDealt { get; } = damageDealt;
+			public int DamageSuffered { get; } = damageSuffered;
 			public AbilityState PotentialAbilityState { get; } = abilityState;
 			public SufferDamage.Parameters SufferDamageParameters { get; } = sufferDamageParameters;
 		}
@@ -694,10 +697,11 @@ public partial class ScenarioEvents
 
 	public class FigureEnteredHex : ScenarioEvent<FigureEnteredHex.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, Figure figure) : ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, Figure figure, bool forcedMovement) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Figure Figure { get; } = figure;
+			public bool ForcedMovement { get; } = forcedMovement;
 
 			public Hex Hex => Figure.Hex;
 		}
@@ -1087,11 +1091,12 @@ public partial class ScenarioEvents
 
 	public class AbilityCardSideEnded : ScenarioEvent<AbilityCardSideEnded.Parameters>
 	{
-		public class Parameters(AbilityCardSide abilityCardSide, Figure performer, CardState resultingState) : ParametersBase
+		public class Parameters(AbilityCardSide abilityCardSide, Figure performer, CardState resultingState, bool performed) : ParametersBase
 		{
 			public AbilityCardSide AbilityCardSide { get; } = abilityCardSide;
 			public Figure Performer { get; } = performer;
 			public CardState ResultingState { get; } = resultingState;
+			public bool Performed { get; } = performed;
 		}
 	}
 
@@ -1378,6 +1383,33 @@ public partial class ScenarioEvents
 
 	private readonly LootableObjectLooted _lootableObjectLooted = new LootableObjectLooted();
 	public static LootableObjectLooted LootableObjectLootedEvent => GameController.Instance.ScenarioEvents._lootableObjectLooted;
+
+	public class GainedExperience : ScenarioEvent<GainedExperience.Parameters>
+	{
+		public class Parameters(Figure experienceReceiver, int experienceAmount, bool fromScenario)
+			: ParametersBase
+		{
+			public Figure ExperienceReceiver { get; } = experienceReceiver;
+			public int ExperienceAmount { get; } = experienceAmount;
+			public bool FromScenario { get; } = fromScenario;
+		}
+	}
+
+	private readonly GainedExperience _gainedExperience = new GainedExperience();
+	public static GainedExperience GainedExperienceEvent => GameController.Instance.ScenarioEvents._gainedExperience;
+
+	public class LostCard : ScenarioEvent<LostCard.Parameters>
+	{
+		public class Parameters(Character character, AbilityCard card)
+			: ParametersBase
+		{
+			public Character Character { get; } = character;
+			public AbilityCard Card { get; } = card;
+		}
+	}
+
+	private readonly LostCard _lostCard = new LostCard();
+	public static LostCard LostCardEvent => GameController.Instance.ScenarioEvents._lostCard;
 
 	public class InflictConditionEventReward : ScenarioEvent<InflictConditionEventReward.Parameters>
 	{
