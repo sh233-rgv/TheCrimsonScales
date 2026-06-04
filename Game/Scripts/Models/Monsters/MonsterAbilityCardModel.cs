@@ -36,17 +36,18 @@ public abstract class MonsterAbilityCardModel : AbstractModel //, IDeckCard
 			.Build();
 	}
 
-	public static AttackAbility AttackAbility(Monster monster, 
-		DynamicInt<AttackAbility.State> extraDamage, 
+	public static AttackAbility AttackAbility(Monster monster,
+		DynamicInt<AttackAbility.State> extraDamage,
 		DynamicInt targets = null,
-		DynamicInt range = null, 
+		DynamicInt range = null,
 		DynamicInt extraRange = null,
-		DynamicRangeType rangeType = null, 
+		DynamicRangeType rangeType = null,
 		DynamicTarget target = null,
-		Hex targetHex = null, 
+		Hex targetHex = null,
 		bool requiresLineOfSight = true,
-		DynamicAOEPattern aoePattern = null, 
-		int push = 0, int pull = 0, int swing = 0, 
+		DynamicAOEPattern aoePattern = null,
+		int push = 0, int pull = 0, int swing = 0,
+		int minRange = 0,
 		DynamicInt<AttackAbility.State> pierce = null,
 		ConditionModel[] conditions = null,
 		Action<AttackAbility.State, List<Figure>> customGetTargets = null,
@@ -56,13 +57,14 @@ public abstract class MonsterAbilityCardModel : AbstractModel //, IDeckCard
 		List<ScenarioEvents.AttackAfterTargetConfirmed.Subscription> afterTargetConfirmedSubscriptions = null,
 		List<ScenarioEvents.AfterAttackPerformed.Subscription> afterAttackPerformedSubscriptions = null)
 	{
-		DynamicInt<AttackAbility.State> dynamicAttackValue = new(state => monster.Stats.Attack + extraDamage.GetValue(state));
+		DynamicInt<AttackAbility.State> dynamicAttackValue =
+			new DynamicInt<AttackAbility.State>(state => monster.Stats.Attack + extraDamage.GetValue(state));
 		DynamicInt dynamicTargets = targets ?? 1;
 		DynamicTarget dynamicTarget = target ?? Target.Enemies;
 
 		int defaultRange = monster.Stats.Range ?? 1;
-		DynamicInt dynamicRange = range ?? new(() => defaultRange + (extraRange?.GetValue() ?? 0));
-		DynamicRangeType dynamicRangeType = 
+		DynamicInt dynamicRange = range ?? new DynamicInt(() => defaultRange + (extraRange?.GetValue() ?? 0));
+		DynamicRangeType dynamicRangeType =
 			rangeType ?? new(() =>
 				aoePattern != null && aoePattern.GetValue() != null && aoePattern.GetValue().LocalHexes.Any(hex => hex.Type == AOEHexType.Gray)
 					? RangeType.Melee
@@ -73,6 +75,7 @@ public abstract class MonsterAbilityCardModel : AbstractModel //, IDeckCard
 			.WithTargets(dynamicTargets)
 			.WithRange(dynamicRange)
 			.WithRangeType(dynamicRangeType)
+			.WithMinRange(minRange)
 			.WithTarget(dynamicTarget)
 			.WithTargetHex(targetHex)
 			.WithRequiresLineOfSight(requiresLineOfSight)

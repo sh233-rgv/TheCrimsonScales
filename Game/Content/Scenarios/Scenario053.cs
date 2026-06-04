@@ -8,6 +8,7 @@ public class Scenario053 : ScenarioModel
 	public override int ScenarioNumber => 53;
 	public override string Name => "Cave of Currents";
 
+	protected override List<ScenarioRequirement> Requirements => [new ImpossibleRequirement()];
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SideScenarioChain>();
 
 	public override string IntroductionText =>
@@ -53,7 +54,7 @@ public class Scenario053 : ScenarioModel
 
 		await AddGoal(new KillAllEnemiesScenarioGoal());
 
-		_somethingWillHappenRule = AddScenarioRule("Something will happen once all enemies in this room are killed.");
+		_somethingWillHappenRule = AddScenarioRule("Something will happen when all enemies in this room are dead.");
 
 		//TODO: Scenario has not been implemented yet!
 	}

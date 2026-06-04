@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://cxwsuhlrx2yu2"]
+
+[ext_resource type="Texture2D" uid="uid://c5pesxr58kwfv" path="res://Content/Monsters/Boss/Selandre/Jekserah.jpg" id="1_pktuy"]
+
+[resource]
+atlas = ExtResource("1_pktuy")
+region = Rect2(3, 0, 200, 300)

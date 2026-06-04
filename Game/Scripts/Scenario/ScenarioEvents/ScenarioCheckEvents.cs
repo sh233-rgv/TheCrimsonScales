@@ -103,8 +103,9 @@ public partial class ScenarioCheckEvents
 
 	public class CanEnterCheck : ScenarioCheckEvent<CanEnterCheck.Parameters>
 	{
-		public class Parameters(Figure figure, Hex hex) : ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, Figure figure, Hex hex) : ParametersBase
 		{
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public Figure Figure { get; } = figure;
 			public Hex Hex { get; } = hex;
 

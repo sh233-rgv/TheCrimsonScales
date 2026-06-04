@@ -39,68 +39,6 @@ public abstract class DummyScenario : ScenarioModel
 	}
 }
 
-public class Scenario031 : ScenarioModel
-{
-	public override int ScenarioNumber => 31;
-
-	public override string ScenePath => "res://Content/Scenarios/Scenario002.tscn";
-	public override string Name => "TODO";
-
-	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
-	public override IEnumerable<ScenarioConnection> Connections => [];
-
-	public override string IntroductionText =>
-		"""
-		TODO
-		""";
-
-	public override string ConclusionText =>
-		"""
-		TODO
-		""";
-
-	public override List<MonsterModel> MonsterModels { get; } =
-	[
-		//TODO
-	];
-
-	public override List<SavedReward> Rewards { get; } =
-	[
-		//TODO
-	];
-}
-
-public class Scenario032 : ScenarioModel
-{
-	public override int ScenarioNumber => 32;
-
-	public override string ScenePath => "res://Content/Scenarios/Scenario002.tscn";
-	public override string Name => "TODO";
-
-	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<MainCampaignScenarioChain>();
-	public override IEnumerable<ScenarioConnection> Connections => [];
-
-	public override string IntroductionText =>
-		"""
-		TODO
-		""";
-
-	public override string ConclusionText =>
-		"""
-		TODO
-		""";
-
-	public override List<MonsterModel> MonsterModels { get; } =
-	[
-		//TODO
-	];
-
-	public override List<SavedReward> Rewards { get; } =
-	[
-		//TODO
-	];
-}
-
 public class Scenario034 : ScenarioModel
 {
 	public override int ScenarioNumber => 34;

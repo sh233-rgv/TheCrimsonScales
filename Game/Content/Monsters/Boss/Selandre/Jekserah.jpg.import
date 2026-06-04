@@ -2,22 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxmuyrunxl4nt"
-path.s3tc="res://.godot/imported/Artwork.jpg-da7d0fba3d681373b4fa7422613811d0.s3tc.ctex"
-path.etc2="res://.godot/imported/Artwork.jpg-da7d0fba3d681373b4fa7422613811d0.etc2.ctex"
+uid="uid://c5pesxr58kwfv"
+path="res://.godot/imported/Jekserah.jpg-501b2d4b2edd561718035bf3b2d2063e.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc", "etc2_astc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Scenarios/NPCs/Brightspark/Artwork.jpg"
-dest_files=["res://.godot/imported/Artwork.jpg-da7d0fba3d681373b4fa7422613811d0.s3tc.ctex", "res://.godot/imported/Artwork.jpg-da7d0fba3d681373b4fa7422613811d0.etc2.ctex"]
+source_file="res://Content/Monsters/Boss/Selandre/Jekserah.jpg"
+dest_files=["res://.godot/imported/Jekserah.jpg-501b2d4b2edd561718035bf3b2d2063e.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

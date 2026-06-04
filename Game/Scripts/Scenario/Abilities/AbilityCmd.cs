@@ -839,7 +839,7 @@ public static class AbilityCmd
 
 		ScenarioCheckEvents.CanEnterCheck.Parameters canEnter =
 			ScenarioCheckEvents.CanEnterCheckEvent.Fire(
-				new ScenarioCheckEvents.CanEnterCheck.Parameters(figure, destination));
+				new ScenarioCheckEvents.CanEnterCheck.Parameters(null, figure, destination));
 		if(!canEnter.CanEnter)
 		{
 			return false;
@@ -1739,5 +1739,11 @@ public static class AbilityCmd
 		}
 
 		return remainingElements;
+	}
+
+	public static void LinkHexes(Hex hex1, Hex hex2)
+	{
+		hex1.AddNeighbour(hex2);
+		hex2.AddNeighbour(hex1);
 	}
 }

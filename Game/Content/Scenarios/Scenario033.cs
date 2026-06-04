@@ -130,7 +130,7 @@ public class Scenario033 : ScenarioModel
 				await ShowText(
 					"With the initial wave of Inox defeated, you lift your head to assess the battlefield. It’s clear that this battle is not over yet. One large, very brutish Inox emerges from their front line. Covered in scars and battle wounds, he bangs his fist on his chest. His massive hands move to his mouth and with a shrill whistle vicious hounds charge into the open battlefield.");
 
-				_allEnemiesDeadRule = AddScenarioRule("Something will happen when all enemies are dead");
+				_allEnemiesDeadRule = AddScenarioRule("Something will happen when all enemies are dead.");
 
 				await SpawnMonster(null, ModelDB.Monster<Hound>(), MonsterType.Elite, _markerEHex);
 				await SpawnMonster(null, ModelDB.Monster<Hound>(), MonsterType.Elite, _markerEHex);

@@ -7,7 +7,7 @@ public class SavedPersonalQuests
 {
 	private static readonly PersonalQuestModel[] StartingPersonalQuestDeck =
 	[
-		ModelDB.PersonalQuest<ProtectAndServe>(),
+		//ModelDB.PersonalQuest<ProtectAndServe>(), // Scenario 34 not implemented yet
 		ModelDB.PersonalQuest<WeaponsSpecialist>(),
 		ModelDB.PersonalQuest<Experimentation>(),
 		ModelDB.PersonalQuest<ThrillSeeker>(),

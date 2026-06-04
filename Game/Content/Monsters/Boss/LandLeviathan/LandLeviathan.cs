@@ -21,8 +21,6 @@ public class LandLeviathan : DeepTerror, IBossMonsterModel
 	public override string Name => "Land Leviathan";
 	public override MonsterModel ParentMonsterModel => ModelDB.Monster<DeepTerror>();
 
-	private bool _summonBlackImp = true;
-
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
 	// IBossMonsterModel
@@ -64,8 +62,8 @@ public class LandLeviathan : DeepTerror, IBossMonsterModel
 	public IEnumerable<MonsterAbilityCardAbility> GetSpecial2Abilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
-			.WithMonsterModel(_summonBlackImp ? ModelDB.Monster<BlackImp>() : ModelDB.Monster<ForestImp>())
-			.WithMonsterType(_summonBlackImp
+			.WithMonsterModel(monster.GetCustomValue<bool>("SummonBlackImp") ? ModelDB.Monster<BlackImp>() : ModelDB.Monster<ForestImp>())
+			.WithMonsterType(monster.GetCustomValue<bool>("SummonBlackImp")
 				? ((CharacterCount >= 3) ? MonsterType.Elite : MonsterType.Normal)
 				: ((CharacterCount >= 4) ? MonsterType.Elite : MonsterType.Normal))
 			.WithGetValidHexes((state, hexes) =>
@@ -78,7 +76,7 @@ public class LandLeviathan : DeepTerror, IBossMonsterModel
 			})
 			.WithOnAbilityEndedPerformed(async state =>
 			{
-				_summonBlackImp = !_summonBlackImp;
+				monster.SetCustomValue("SummonBlackImp", !monster.GetCustomValue<bool>("SummonBlackImp"));
 				await GDTask.CompletedTask;
 			})
 			.Build()),

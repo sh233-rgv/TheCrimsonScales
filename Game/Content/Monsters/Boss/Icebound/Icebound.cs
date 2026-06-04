@@ -22,8 +22,6 @@ public class Icebound : SavvasIceStorm, IBossMonsterModel
 	public override string Name => "Icebound";
 	public override MonsterModel ParentMonsterModel => ModelDB.Monster<SavvasIceStorm>();
 
-	private bool _summonElite;
-
 	public override IEnumerable<MonsterAbilityCardModel> Deck => BossAbilityCard.Deck;
 
 	// IBossMonsterModel
@@ -47,12 +45,14 @@ public class Icebound : SavvasIceStorm, IBossMonsterModel
 	[
 		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
 			.WithMonsterModel(CalculateMonsterModel(monster))
-			.WithMonsterType(CharacterCount >= 4 || (CharacterCount == 3 && _summonElite) ? MonsterType.Elite : MonsterType.Normal)
+			.WithMonsterType(CharacterCount >= 4 || (CharacterCount == 3 && monster.GetCustomValue<bool>("SummonElite"))
+				? MonsterType.Elite
+				: MonsterType.Normal)
 			.WithGetValidHexes((state, list) =>
 			{
 				Hex spawnHex = CalculateSpawnPoint(monster);
 				List<Hex> hexes = RangeHelper.GetHexesInRange(spawnHex, 100, requiresLineOfSight: false).ToList();
-				hexes.Shuffle(GameController.Instance.StateRNG);
+				hexes.Shuffle(GameController.Instance.VisualRNG);
 				hexes.Sort((otherHexA,
 					otherHexB) => RangeHelper.Distance(spawnHex,
 						otherHexA)
@@ -65,8 +65,7 @@ public class Icebound : SavvasIceStorm, IBossMonsterModel
 					return;
 				}
 
-				int distance = RangeHelper.Distance(spawnHex,
-					firstHex);
+				int distance = RangeHelper.Distance(spawnHex, firstHex);
 
 				list.AddRange(
 					hexes.Where(h => h.IsEmpty() &&
@@ -75,7 +74,8 @@ public class Icebound : SavvasIceStorm, IBossMonsterModel
 			})
 			.WithOnAbilityEndedPerformed(async state =>
 			{
-				_summonElite = !_summonElite;
+				monster.SetCustomValue("SummonElite", !monster.GetCustomValue<bool>("SummonElite"));
+				//_summonElite = !_summonElite;
 				await GDTask.CompletedTask;
 			})
 			.Build()),
