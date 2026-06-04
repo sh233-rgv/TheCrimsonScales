@@ -1,10 +1,40 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using Fractural.Tasks;
-using Godot;
+using Newtonsoft.Json;
 
 public class Scenario032 : ScenarioModel
 {
+	[Serializable, JsonObject(MemberSerialization.OptIn)]
+	public class Scenario032Reward : SavedReward
+	{
+		public override RewardType Type => RewardType.Immediate;
+
+		public Scenario032Reward()
+		{
+		}
+
+		public override string GetLabelText(RichTextParameters textParameters) =>
+			$"Completed the Main Campaign!";
+
+		public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
+		{
+			await base.ImmediateResolve(savedCampaign, cancellationToken);
+
+			AppController.Instance.PopupManager.OpenPopupOnTop(new TextPopup.Request("Congratulations!",
+				"""
+				You've beaten the Main Campaign! Thank you so much for playing, we hope you enjoyed it.
+
+				If you have any thoughts, questions or feedback, please let us know!
+
+				For more information about the game, please visit: https://www.thecrimsonscales.com/
+				"""));
+
+			await GDTask.WaitWhile(() => AppController.Instance.PopupManager.IsPopupOpen<TextPopup.Request>(), cancellationToken: cancellationToken);
+		}
+	}
+
 	public override string ScenePath => "res://Content/Scenarios/Scenario032.tscn";
 
 	public override int ScenarioNumber => 32;
@@ -56,6 +86,7 @@ public class Scenario032 : ScenarioModel
 
 	public override List<SavedReward> Rewards =>
 	[
+		new Scenario032Reward()
 	];
 
 	public Monster AncientArtillery { get; private set; }
@@ -65,9 +96,7 @@ public class Scenario032 : ScenarioModel
 	{
 		await base.InitializeAfterFirstRoomRevealed();
 
-		await AddGoal(new KillSpecificEnemyTypeGoal(ModelDB.Monster<EternalDemon>()));
-
-		// int characterCount = GameController.Instance.CharacterManager.Characters.Count;
+		await AddGoal(new KillSpecificEnemyTypeGoal(ModelDB.Monster<Selandre>()));
 
 		MarkerBHex = GameController.Instance.Map.GetMarker(Marker.Type.b).Hex;
 	}
@@ -78,36 +107,40 @@ public class Scenario032 : ScenarioModel
 
 		if(roomRevealedParameters.Room == GameController.Instance.Map.Rooms[2])
 		{
+			AddScenarioRule("The Ancient Artillery cannot be targeted by enemies, and does not take turns.");
+
 			AncientArtillery = GameController.Instance.Map.GetMarker(Marker.Type.z).Hex.GetHexObjectOfType<Monster>();
+
+			ScenarioCheckEvents.CanTakeTurnCheckEvent.Subscribe(this, AncientArtillery,
+				parameters =>
+					parameters.Figure == AncientArtillery,
+				parameters =>
+				{
+					parameters.SetCannotTakeTurn();
+				}
+			);
+
+			ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(this, AncientArtillery,
+				parameters =>
+					parameters.PotentialTarget == AncientArtillery &&
+					parameters.Performer.EnemiesWith(AncientArtillery),
+				parameters =>
+				{
+					parameters.SetCannotBeFocused();
+				}
+			);
+
+			ScenarioCheckEvents.CanBeTargetedCheckEvent.Subscribe(this, AncientArtillery,
+				parameters =>
+					parameters.PotentialTarget == AncientArtillery &&
+					parameters.Performer.EnemiesWith(AncientArtillery),
+				parameters =>
+				{
+					parameters.SetCannotBeTargeted();
+				}
+			);
+
+			//TODO: Make artillery perform an attack after Selandre performs an attack
 		}
-
-		ScenarioCheckEvents.CanTakeTurnCheckEvent.Subscribe(this, AncientArtillery,
-			parameters =>
-				parameters.Figure == AncientArtillery,
-			parameters =>
-			{
-				parameters.SetCannotTakeTurn();
-			}
-		);
-
-		ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(this, AncientArtillery,
-			parameters =>
-				parameters.PotentialTarget == AncientArtillery &&
-				parameters.Performer.EnemiesWith(AncientArtillery),
-			parameters =>
-			{
-				parameters.SetCannotBeFocused();
-			}
-		);
-
-		ScenarioCheckEvents.CanBeTargetedCheckEvent.Subscribe(this, AncientArtillery,
-			parameters =>
-				parameters.PotentialTarget == AncientArtillery &&
-				parameters.Performer.EnemiesWith(AncientArtillery),
-			parameters =>
-			{
-				parameters.SetCannotBeTargeted();
-			}
-		);
 	}
 }

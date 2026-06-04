@@ -8,6 +8,7 @@ public class Scenario053 : ScenarioModel
 	public override int ScenarioNumber => 53;
 	public override string Name => "Cave of Currents";
 
+	protected override List<ScenarioRequirement> Requirements => [new ImpossibleRequirement()];
 	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SideScenarioChain>();
 
 	public override string IntroductionText =>

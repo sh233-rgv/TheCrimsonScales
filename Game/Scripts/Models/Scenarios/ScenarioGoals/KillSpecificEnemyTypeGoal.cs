@@ -4,20 +4,25 @@ public class KillSpecificEnemyTypeGoal : ScenarioGoal
 {
 	private readonly MonsterModel _monsterModel;
 	private readonly int? _specificCount;
+	private readonly TextHelper.LabelTextDelegate _customGetText;
 
-	public KillSpecificEnemyTypeGoal(MonsterModel monsterModel, int? specificCount = 1, int order = 1)
+	public KillSpecificEnemyTypeGoal(MonsterModel monsterModel, int? specificCount = 1, int order = 1,
+		TextHelper.LabelTextDelegate customGetText = null)
 		: base(order)
 	{
 		_monsterModel = monsterModel;
 		_specificCount = specificCount;
+		_customGetText = customGetText;
 	}
 
 	public override string GetLabelText(RichTextParameters textParameters) =>
-		_specificCount.HasValue
-			? _specificCount == 1
-				? $"Kill the {_monsterModel.Name}."
-				: $"Kill {_specificCount} {_monsterModel.Name} enemies."
-			: $"Kill all {_monsterModel.Name} enemies.";
+		_customGetText == null
+			? _specificCount.HasValue
+				? _specificCount == 1
+					? $"Kill the {_monsterModel.Name}."
+					: $"Kill {_specificCount} {_monsterModel.Name} enemies."
+				: $"Kill all {_monsterModel.Name} enemies."
+			: _customGetText(textParameters);
 
 	public override async GDTask Start()
 	{
