@@ -206,6 +206,7 @@ MonsterType4Characters = 1
 [node name="Marker2" parent="Map/Rooms/Room3" index="6" unique_id=303167840 instance=ExtResource("7_j3gus")]
 position = Vector2(0, -1134)
 MarkerType = 24
+_hideDuringPlay = true
 
 [node name="DarkFog1H" parent="Map/Doors" parent_id_path=PackedInt32Array(1045544097) index="0" unique_id=1627895093 instance=ExtResource("13_p71ek")]
 position = Vector2(982.07275, -189)

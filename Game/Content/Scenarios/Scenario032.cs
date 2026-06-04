@@ -59,6 +59,7 @@ public class Scenario032 : ScenarioModel
 	];
 
 	public Monster AncientArtillery { get; private set; }
+	public Hex MarkerBHex { get; private set; }
 
 	public override async GDTask InitializeAfterFirstRoomRevealed()
 	{
@@ -66,16 +67,47 @@ public class Scenario032 : ScenarioModel
 
 		await AddGoal(new KillSpecificEnemyTypeGoal(ModelDB.Monster<EternalDemon>()));
 
-		int characterCount = GameController.Instance.CharacterManager.Characters.Count;
+		// int characterCount = GameController.Instance.CharacterManager.Characters.Count;
+
+		MarkerBHex = GameController.Instance.Map.GetMarker(Marker.Type.b).Hex;
 	}
 
-	protected override async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters parameters)
+	protected override async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters roomRevealedParameters)
 	{
-		await base.OnRoomRevealed(parameters);
+		await base.OnRoomRevealed(roomRevealedParameters);
 
-		if(parameters.Room == GameController.Instance.Map.Rooms[2])
+		if(roomRevealedParameters.Room == GameController.Instance.Map.Rooms[2])
 		{
 			AncientArtillery = GameController.Instance.Map.GetMarker(Marker.Type.z).Hex.GetHexObjectOfType<Monster>();
 		}
+
+		ScenarioCheckEvents.CanTakeTurnCheckEvent.Subscribe(this, AncientArtillery,
+			parameters =>
+				parameters.Figure == AncientArtillery,
+			parameters =>
+			{
+				parameters.SetCannotTakeTurn();
+			}
+		);
+
+		ScenarioCheckEvents.CanBeFocusedCheckEvent.Subscribe(this, AncientArtillery,
+			parameters =>
+				parameters.PotentialTarget == AncientArtillery &&
+				parameters.Performer.EnemiesWith(AncientArtillery),
+			parameters =>
+			{
+				parameters.SetCannotBeFocused();
+			}
+		);
+
+		ScenarioCheckEvents.CanBeTargetedCheckEvent.Subscribe(this, AncientArtillery,
+			parameters =>
+				parameters.PotentialTarget == AncientArtillery &&
+				parameters.Performer.EnemiesWith(AncientArtillery),
+			parameters =>
+			{
+				parameters.SetCannotBeTargeted();
+			}
+		);
 	}
 }
