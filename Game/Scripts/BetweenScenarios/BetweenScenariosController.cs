@@ -86,13 +86,15 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		{
 			foreach(SavedCharacter savedCharacter in SavedCampaign.Characters)
 			{
-				savedCharacter.SavedPersonalQuest?.Model.OnBetweenScenariosEnded(savedCharacter);
+				savedCharacter.SavedPersonalQuest.Model?.OnBetweenScenariosEnded(savedCharacter);
 			}
 
 			foreach(SavedPartyGoal savedPartyGoal in SavedCampaign.SavedPartyGoals.PartyGoals)
 			{
 				savedPartyGoal.Model.OnBetweenScenariosEnded(savedPartyGoal);
 			}
+
+			SavedCampaign.CharactersChangedEvent -= OnCharactersChanged;
 		}
 
 		UnsubscribeCharacters();
@@ -494,6 +496,12 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 
 	private void OnXPChanged(SavedCharacter savedCharacter)
 	{
+		if(Instance == null)
+		{
+			Log.Warning("OnXPChanged is called in an invalid state, was an unsubscription forgotten?");
+			return;
+		}
+
 		BetweenScenariosEvents.XPChangedEvent.Fire(new BetweenScenariosEvents.XPChanged.Parameters(savedCharacter));
 	}
 }

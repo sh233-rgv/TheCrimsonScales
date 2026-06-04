@@ -28,6 +28,8 @@ public class AbsorbingLight : StarslingerCardModel<AbsorbingLight.CardTop, Absor
 							await GDTask.CompletedTask;
 						}
 					);
+
+					await GDTask.CompletedTask;
 				})
 				.WithOnAbilityEnded(async state =>
 				{
