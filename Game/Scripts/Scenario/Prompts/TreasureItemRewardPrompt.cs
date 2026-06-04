@@ -1,7 +1,6 @@
-﻿using System;
-
-public class TreasureItemRewardPrompt(Character lootingCharacter, ItemModel itemModel, EffectCollection effectCollection)
-	: Prompt<TreasureItemRewardPrompt.Answer>(effectCollection, () => $"{lootingCharacter.DisplayName} found: {itemModel.Name}")
+﻿public class TreasureItemRewardPrompt(Character lootingCharacter, ItemModel itemModel, EffectCollection effectCollection, bool itemDesign)
+	: Prompt<TreasureItemRewardPrompt.Answer>(effectCollection,
+		() => $"{lootingCharacter.DisplayName} found: {itemModel.Name}{(itemDesign ? " design" : "")}")
 {
 	public class Answer : PromptAnswer
 	{
@@ -13,7 +12,7 @@ public class TreasureItemRewardPrompt(Character lootingCharacter, ItemModel item
 	{
 		base.Enable();
 
-		GameController.Instance.TreasureItemRewardView.Open(lootingCharacter, itemModel);
+		GameController.Instance.TreasureItemRewardView.Open(itemModel);
 	}
 
 	protected override void Disable()

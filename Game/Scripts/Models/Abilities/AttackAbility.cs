@@ -13,18 +13,23 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 	public class State : TargetedAbilityState<SingleTargetState>
 	{
 		public List<Figure> KilledTargets { get; } = new List<Figure>();
+		public List<Figure> DamagedTargets { get; } = new List<Figure>();
+		public int DamageDealt { get; set; } = 0;
 
 		public int AbilityAttackValue { get; set; }
 		public int AbilityPierce { get; set; }
 		public bool AbilityHasAdvantage { get; set; }
 		public bool AbilityHasDisadvantage { get; set; }
 		public bool AbilityIgnoresAllShields { get; set; }
+		public bool AbilityDrawAMDCard { get; set; }
 
 		public int SingleTargetAttackValue { get; set; }
 		public int SingleTargetPierce { get; set; }
 		public bool SingleTargetHasAdvantage { get; set; }
 		public bool SingleTargetHasDisadvantage { get; set; }
 		public bool SingleTargetIgnoresAllShields { get; set; }
+		public bool SingleTargetDrawAMDCard { get; set; }
+		public bool IsSingleTarget => AbilityAOEPattern == null && AbilityTargets <= 1;
 
 		public void AbilityAdjustAttackValue(int amount)
 		{
@@ -61,6 +66,13 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 			SingleTargetIgnoresAllShields = true;
 		}
 
+		public void AbilitySetDrawAMDCard(bool drawAMDCard)
+		{
+			AbilityDrawAMDCard = drawAMDCard;
+
+			SingleTargetDrawAMDCard = drawAMDCard;
+		}
+
 		public void SingleTargetAdjustAttackValue(int amount)
 		{
 			SingleTargetAttackValue += amount;
@@ -85,6 +97,11 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		{
 			SingleTargetIgnoresAllShields = true;
 		}
+
+		public void SingleTargetSetDrawAMDCard(bool drawAMDCard)
+		{
+			SingleTargetDrawAMDCard = drawAMDCard;
+		}
 	}
 
 	public DynamicInt<State> Damage { get; protected set; }
@@ -92,6 +109,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 	public bool HasAdvantage { get; protected set; }
 	public bool HasDisadvantage { get; protected set; }
 	public bool IgnoresAllShields { get; protected set; }
+	public bool DrawAMDCards { get; protected set; } = true;
 
 	public List<ScenarioEvents.DuringAttack.Subscription> DuringAttackSubscriptions { get; protected set; } = [];
 
@@ -114,18 +132,20 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 	{
 		public interface IDamageStep
 		{
-			TBuilder WithDamage(DynamicInt<State> damage);
+			TBuilder WithDamage(DynamicInt<State> damage, params AttackEnhancementMark[] enhancementMarks);
 		}
 
-		public TBuilder WithDamage(DynamicInt<State> damage)
+		public TBuilder WithDamage(DynamicInt<State> damage, params AttackEnhancementMark[] enhancementMarks)
 		{
 			Obj.Damage = damage;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithPierce(DynamicInt<State> pierce)
+		public TBuilder WithPierce(DynamicInt<State> pierce, params PierceSquare[] enhancementMarks)
 		{
 			Obj.Pierce = pierce;
+			AddEnhancements(enhancementMarks);
 			return (TBuilder)this;
 		}
 
@@ -159,16 +179,22 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 			return (TBuilder)this;
 		}
 
-		public TBuilder WithDuringAttackSubscription(ScenarioEvents.DuringAttack.Subscription movementSubscription)
+		public TBuilder WithNoAMDCards()
 		{
-			Obj.DuringAttackSubscriptions.Add(movementSubscription);
+			Obj.DrawAMDCards = false;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithDuringAttackSubscription(ScenarioEvents.DuringAttack.Subscription duringAttackSubscription)
+		{
+			Obj.DuringAttackSubscriptions.Add(duringAttackSubscription);
 			return (TBuilder)this;
 		}
 
 		public TBuilder WithDuringAttackSubscriptions(
-			List<ScenarioEvents.DuringAttack.Subscription> movementSubscriptions)
+			List<ScenarioEvents.DuringAttack.Subscription> duringAttackSubscriptions)
 		{
-			Obj.DuringAttackSubscriptions = movementSubscriptions;
+			Obj.DuringAttackSubscriptions.AddRange(duringAttackSubscriptions);
 			return (TBuilder)this;
 		}
 
@@ -182,7 +208,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public TBuilder WithAfterTargetConfirmedSubscriptions(
 			List<ScenarioEvents.AttackAfterTargetConfirmed.Subscription> afterTargetConfirmedSubscriptions)
 		{
-			Obj.AfterTargetConfirmedSubscriptions = afterTargetConfirmedSubscriptions;
+			Obj.AfterTargetConfirmedSubscriptions.AddRange(afterTargetConfirmedSubscriptions);
 			return (TBuilder)this;
 		}
 
@@ -196,7 +222,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public TBuilder WithAfterAttackPerformedSubscriptions(
 			List<ScenarioEvents.AfterAttackPerformed.Subscription> afterAttackPerformedSubscriptions)
 		{
-			Obj.AfterAttackPerformedSubscriptions = afterAttackPerformedSubscriptions;
+			Obj.AfterAttackPerformedSubscriptions.AddRange(afterAttackPerformedSubscriptions);
 			return (TBuilder)this;
 		}
 	}
@@ -230,6 +256,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		abilityState.AbilityHasAdvantage = HasAdvantage;
 		abilityState.AbilityHasDisadvantage = HasDisadvantage;
 		abilityState.AbilityIgnoresAllShields = IgnoresAllShields;
+		abilityState.AbilityDrawAMDCard = DrawAMDCards;
 	}
 
 	protected override async GDTask StartPerform(State abilityState)
@@ -250,19 +277,6 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(AfterAttackPerformedSubscriptions);
 	}
 
-	// protected override async GDTask InitAbilityState(State abilityState)
-	// {
-	// 	await base.InitAbilityState(abilityState);
-	//
-	// 	abilityState.AbilityAttackValue = Damage.GetValue(abilityState);
-	// 	abilityState.AbilityPierce = Pierce.GetValue(abilityState);
-	// 	abilityState.AbilityHasAdvantage = HasAdvantage;
-	// 	abilityState.AbilityHasDisadvantage = HasDisadvantage;
-	//
-	// 	await ScenarioEvents.AttackAbilityStartEvent.CreatePrompt(
-	// 		new ScenarioEvents.AttackAbilityStart.Parameters(abilityState), abilityState);
-	// }
-
 	protected override void InitAbilityStateForSingleTarget(State abilityState)
 	{
 		base.InitAbilityStateForSingleTarget(abilityState);
@@ -272,6 +286,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		abilityState.SingleTargetHasAdvantage = abilityState.AbilityHasAdvantage;
 		abilityState.SingleTargetHasDisadvantage = abilityState.AbilityHasDisadvantage;
 		abilityState.SingleTargetIgnoresAllShields = abilityState.AbilityIgnoresAllShields;
+		abilityState.SingleTargetDrawAMDCard = abilityState.AbilityDrawAMDCard;
 	}
 
 	protected override EffectCollection CreateDuringTargetedAbilityEffectCollection(State abilityState)
@@ -281,19 +296,27 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 
 	protected override async GDTask AfterTargetConfirmedBeforeConditionsApplied(State abilityState, Figure target)
 	{
-		bool rangeDisadvantage = abilityState.SingleTargetRangeType == RangeType.Range &&
-		                         RangeHelper.Distance(abilityState.Performer.Hex, target.Hex) == 1;
-		if(rangeDisadvantage)
+		Hex[] performHexes = abilityState.AbilityPerformHex != null ? [abilityState.AbilityPerformHex] : abilityState.Performer.Hexes;
+		if(CheckRangeDisadvantage(performHexes, target.Hexes, abilityState.SingleTargetRangeType))
 		{
 			abilityState.SingleTargetSetHasDisadvantage();
 		}
 
-		await ScenarioEvents.AttackAfterTargetConfirmedEvent.CreatePrompt(
-			new ScenarioEvents.AttackAfterTargetConfirmed.Parameters(abilityState), abilityState);
+		ScenarioEvents.AttackAfterTargetConfirmed.Parameters attackAfterTargetConfirmedParameters =
+			await ScenarioEvents.AttackAfterTargetConfirmedEvent.CreatePrompt(
+				new ScenarioEvents.AttackAfterTargetConfirmed.Parameters(abilityState), abilityState);
 
-		await GameController.Instance.AMDDrawView.DrawCards(abilityState);
+		if(attackAfterTargetConfirmedParameters.CannotGainDisadvantage)
+		{
+			attackAfterTargetConfirmedParameters.AbilityState.SingleTargetHasDisadvantage = false;
+		}
 
-		int finalDamage = await AbilityCmd.SufferDamage(abilityState, target, abilityState.SingleTargetAttackValue);
+		if(attackAfterTargetConfirmedParameters.AbilityState.SingleTargetDrawAMDCard)
+		{
+			await GameController.Instance.AMDDrawView.DrawCards(abilityState);
+		}
+
+		int damageDealt = await AbilityCmd.SufferDamage(abilityState, target, abilityState.SingleTargetAttackValue, fromAttack: true);
 
 		if(!GameController.FastForward)
 		{
@@ -310,7 +333,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 
 			if(abilityState.SingleTargetRangeType == RangeType.Melee)
 			{
-				if(finalDamage > 0)
+				if(damageDealt > 0)
 				{
 					AppController.Instance.AudioController.PlayFastForwardable(SFX.GetSwordHit(), delay: 0.2f);
 				}
@@ -323,7 +346,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 			{
 				AppController.Instance.AudioController.PlayFastForwardable(SFX.GetBowAttack(), delay: 0f);
 
-				if(finalDamage > 0)
+				if(damageDealt > 0)
 				{
 					AppController.Instance.AudioController.PlayFastForwardable(SFX.GetBowHit(), delay: 0.2f);
 				}
@@ -333,7 +356,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 				}
 			}
 
-			if(finalDamage > 0)
+			if(damageDealt > 0)
 			{
 				GTweenSequenceBuilder.New()
 					.AppendTime(0.25f)
@@ -343,6 +366,12 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 			}
 
 			await GDTask.DelayFastForwardable(0.6f);
+		}
+
+		if(damageDealt > 0)
+		{
+			abilityState.DamageDealt += damageDealt;
+			abilityState.DamagedTargets.AddIfNew(target);
 		}
 
 		if(target.IsDead)
@@ -359,7 +388,8 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 
 		if(!retaliateParameters.RetaliateBlocked && retaliateParameters.Retaliate > 0)
 		{
-			await AbilityCmd.SufferDamage(null, abilityState.Performer, retaliateParameters.Retaliate);
+			await AbilityCmd.SufferDamage(abilityState.Performer, retaliateParameters.Retaliate,
+				potentialDamageDealer: retaliateParameters.RetaliatingFigure);
 		}
 
 		await ScenarioEvents.AfterAttackPerformedEvent.CreatePrompt(
@@ -369,5 +399,24 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 	protected override string DefaultTargetingHintText(State abilityState)
 	{
 		return $"Select a target for {Icons.HintText(Icons.Attack)}{abilityState.SingleTargetAttackValue}";
+	}
+
+	public static bool CheckRangeDisadvantage(Hex[] performerHexes, Hex[] targetHexes, RangeType rangeType)
+	{
+		if(rangeType == RangeType.Range)
+		{
+			foreach(Hex performerHex in performerHexes)
+			{
+				foreach(Hex targetHex in targetHexes)
+				{
+					if(RangeHelper.Distance(performerHex, targetHex) == 1)
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 }

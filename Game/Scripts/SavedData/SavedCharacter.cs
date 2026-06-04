@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 public class SavedCharacter
 {
 	[JsonProperty]
-	public string ClassModelId { get; set; }
+	public string ClassModelId { get; private set; }
 
 	[JsonProperty]
 	public int Level { get; private set; }
@@ -40,6 +40,24 @@ public class SavedCharacter
 	[JsonProperty]
 	public List<string> EquippedSmallItems { get; private set; }
 
+	[JsonProperty]
+	public int TotalAvailablePerkCount { get; private set; }
+
+	[JsonProperty]
+	public List<int> AcquiredPerkIndices { get; private set; } = new List<int>();
+
+	[JsonProperty]
+	public string[] DonationAMDCardIds { get; private set; }
+
+	[JsonProperty]
+	public int CheckmarkCount { get; private set; }
+
+	[JsonProperty]
+	public SavedPersonalQuest SavedPersonalQuest { get; private set; }
+
+	[JsonProperty]
+	public Guid Guid { get; private set; } = Guid.NewGuid();
+
 	public ClassModel ClassModel => ModelDB.GetById<ClassModel>(ClassModelId);
 
 	public event Action<SavedCharacter> GoldChangedEvent;
@@ -48,16 +66,21 @@ public class SavedCharacter
 	public event Action<SavedCharacter> NameChangedEvent;
 	public event Action<SavedCharacter> EquipmentChangedEvent;
 	public event Action<SavedCharacter> CardsChangedEvent;
+	public event Action<SavedCharacter> CheckmarkCountChangedEvent;
+	public event Action<SavedCharacter> PerksChangedEvent;
 
 	public SavedCharacter()
 	{
 	}
 
-	public SavedCharacter(ClassModel classModel, string name = "")
+	public SavedCharacter(ClassModel classModel, PersonalQuestModel personalQuestModel, string name = "")
 	{
 		ClassModelId = classModel.Id.ToString();
 		Level = 1;
-		AvailableAbilityCards = classModel.AbilityCards.Where(abilityCardModel => abilityCardModel.Level == 1).Select(abilityCardModel => new SavedAbilityCard(abilityCardModel)).ToList();
+		AvailableAbilityCards = classModel.AbilityCards
+			.Where(abilityCardModel => abilityCardModel.Level == 1)
+			.Select(abilityCardModel => new SavedAbilityCard(abilityCardModel))
+			.ToList();
 
 		HandAbilityCardIndices = new List<int>();
 		for(int i = 0; i < classModel.HandSize; i++)
@@ -69,6 +92,11 @@ public class SavedCharacter
 		Name = name;
 		EquippedBaseSlotItems = new string[5];
 		EquippedSmallItems = new List<string>();
+
+		if(personalQuestModel != null)
+		{
+			SavedPersonalQuest = new SavedPersonalQuest(personalQuestModel);
+		}
 	}
 
 	public void AddGold(int gold)
@@ -117,6 +145,7 @@ public class SavedCharacter
 		{
 			Level++;
 			LevelUpInProgress = true;
+			AddAvailablePerk();
 
 			LevelChangedEvent?.Invoke(this);
 		}
@@ -146,6 +175,37 @@ public class SavedCharacter
 	public void AddItem(ItemModel itemModel)
 	{
 		ItemIds.Add(itemModel.Id.ToString());
+	}
+
+	public bool HasItem(ItemModel itemModel)
+	{
+		return ItemIds.Contains(itemModel.Id.ToString());
+	}
+
+	public void RemoveItem(ItemModel itemModel)
+	{
+		UnequipItem(itemModel);
+		ItemIds.Remove(itemModel.Id.ToString());
+	}
+
+	public void SellItem(ItemModel itemModel, int sellPrice)
+	{
+		if(ItemIds.Remove(itemModel.Id.ToString()))
+		{
+			AddGold(sellPrice);
+		}
+	}
+
+	public void UnequipItem(ItemModel itemModel)
+	{
+		if(itemModel.ItemType == ItemType.Small)
+		{
+			EquippedSmallItems.Remove(itemModel.Id.ToString());
+		}
+		else if(EquippedBaseSlotItems[(int)itemModel.ItemType] == itemModel.Id.ToString())
+		{
+			SetEquippedBaseSlotItem(itemModel.ItemType, null);
+		}
 	}
 
 	public void SetName(string name)
@@ -200,6 +260,11 @@ public class SavedCharacter
 		return $"{Name}[img={{{iconSize}}}, color=#{ClassModel.PrimaryColor.ToHtml()}]{ClassModel.IconPath}[/img]";
 	}
 
+	public string GetNameAndIcon(RichTextParameters richTextParameters)
+	{
+		return $"{Name}[img={{{richTextParameters.FontSize}}}, color=#{ClassModel.PrimaryColor.ToHtml()}]{ClassModel.IconPath}[/img]";
+	}
+
 	public int GetSmallItemSlotCount()
 	{
 		int smallItemSlotCount = (Level + 1) / 2;
@@ -212,5 +277,100 @@ public class SavedCharacter
 		}
 
 		return smallItemSlotCount;
+	}
+
+	public void SetDonationAMDCardIds(string[] donationAMDCardIds)
+	{
+		DonationAMDCardIds = donationAMDCardIds;
+	}
+
+	public void AddCheckmark()
+	{
+		if(CheckmarkCount == 18)
+		{
+			// Max amount of checkmarks already earned
+			return;
+		}
+
+		CheckmarkCount++;
+
+		if(CheckmarkCount % 3 == 0)
+		{
+			AddAvailablePerk();
+		}
+
+		CheckmarkCountChangedEvent?.Invoke(this);
+	}
+
+	public void RemoveCheckmark()
+	{
+		if(CheckmarkCount % 3 == 0)
+		{
+			// Cannot remove checkmarks when at any threshold of getting a perk
+			return;
+		}
+
+		CheckmarkCount--;
+		CheckmarkCountChangedEvent?.Invoke(this);
+	}
+
+	public void AcquirePerk(int perkIndex)
+	{
+		if(!CanAcquirePerk(perkIndex))
+		{
+			return;
+		}
+
+		AcquiredPerkIndices.Add(perkIndex);
+
+		PerksChangedEvent?.Invoke(this);
+		ClassModel.Perks[perkIndex].OnPerkAcquired(this);
+	}
+
+	public int GetUsedPerkCount()
+	{
+		ClassModel classModel = ClassModel;
+
+		int perkBoxCount = 0;
+
+		foreach(int acquiredPerkIndex in AcquiredPerkIndices)
+		{
+			PerkModel perkModel = classModel.Perks[acquiredPerkIndex];
+			perkBoxCount += perkModel.PerkBoxCount;
+		}
+
+		return perkBoxCount;
+	}
+
+	public int GetAvailablePerkCount()
+	{
+		int usedPerkCount = GetUsedPerkCount();
+		return TotalAvailablePerkCount - usedPerkCount;
+	}
+
+	public void AddAvailablePerk()
+	{
+		TotalAvailablePerkCount++;
+	}
+
+	public bool GetPerkAcquired(int perkIndex)
+	{
+		return AcquiredPerkIndices.Contains(perkIndex);
+	}
+
+	public bool CanAcquirePerk(int perkIndex)
+	{
+		PerkModel perkModel = ClassModel.Perks[perkIndex];
+		return GetAvailablePerkCount() >= perkModel.PerkBoxCount && !GetPerkAcquired(perkIndex);
+	}
+
+	public bool GetCanRetire(SavedCampaign savedCampaign)
+	{
+		return SavedPersonalQuest != null && SavedPersonalQuest.Model.GetCanRetire(savedCampaign, SavedPersonalQuest.PersonalQuestData);
+	}
+
+	public bool CanAfford(int goldCost)
+	{
+		return Gold >= goldCost;
 	}
 }

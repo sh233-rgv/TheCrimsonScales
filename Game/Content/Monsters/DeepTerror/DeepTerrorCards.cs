@@ -115,32 +115,27 @@ public class DeepTerrorAbilityCard6 : DeepTerrorAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(AttackAbility(monster, -2, range: 6)),
-		new MonsterAbilityCardAbility(OtherAbility.Builder()
-			.WithPerformAbility(async state =>
+		new MonsterAbilityCardAbility(MonsterSummonAbility.Builder()
+			.WithMonsterModel(ModelDB.Monster<DeepTerror>())
+			.WithMonsterType(MonsterType.Normal)
+			.WithConditionalAbilityCheck(async state => await AbilityCmd.HasPerformedAbility(state, 0))
+			.WithGetValidHexes((state, hexes) =>
 			{
 				AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
 				foreach(Figure target in attackAbilityState.UniqueTargetedFigures)
 				{
-					Hex hex = await AbilityCmd.SelectHex(state, list =>
-					{
-						foreach(Hex neighbourHex in target.Hex.Neighbours)
-						{
-							if(neighbourHex.IsEmpty())
-							{
-								list.Add(neighbourHex);
-							}
-						}
-					});
+					RangeHelper.FindHexesInRange(target.Hex, 1, true, hexes);
+				}
 
-					if(hex != null && (await AbilityCmd.SummonMonster(ModelDB.Monster<DeepTerror>(), MonsterType.Normal, hex)) != null)
+				for(int i = hexes.Count - 1; i >= 0; i--)
+				{
+					if(!hexes[i].IsEmpty())
 					{
-						state.SetPerformed();
-						break;
+						hexes.RemoveAt(i);
 					}
 				}
 			})
-			.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-			.Build())
+			.Build()),
 	];
 }
 
@@ -152,7 +147,7 @@ public class DeepTerrorAbilityCard7 : DeepTerrorAbilityCard
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
 		new MonsterAbilityCardAbility(ConditionAbility.Builder()
-			.WithConditions(Conditions.Wound1, Conditions.Poison1)
+			.WithConditions([Conditions.Wound1, Conditions.Poison1])
 			.WithTarget(Target.Enemies | Target.TargetAll)
 			.Build()),
 		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 4)),

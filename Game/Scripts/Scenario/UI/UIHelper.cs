@@ -5,6 +5,7 @@ public static class UIHelper
 {
 	public static readonly Color SpentColor = Color.FromHtml("888888");
 	public static readonly Color LostColor = Color.FromHtml("f8625a");
+	public static readonly Color ActiveColor = Color.FromHtml("00dadb");
 
 	public static void SetCardMaterial(TextureRect textureRect, CardSelectionListCategoryType cardSelectionListCategoryType)
 	{
@@ -30,6 +31,10 @@ public static class UIHelper
 				grayscaleFactor = 1f;
 				break;
 			case CardSelectionListCategoryType.Lost:
+				grayscaleFactor = 1f;
+				modulateColor = LostColor;
+				break;
+			case CardSelectionListCategoryType.UnrecoverablyLost:
 				grayscaleFactor = 1f;
 				modulateColor = LostColor;
 				break;
@@ -63,8 +68,13 @@ public static class UIHelper
 				grayscaleFactor = 1f;
 				break;
 			case ItemState.Consumed:
+			case ItemState.UnrecoverablyConsumed:
 				grayscaleFactor = 1f;
 				modulateColor = LostColor;
+				break;
+			case ItemState.Active:
+			case ItemState.Using:
+				grayscaleFactor = -1.5f;
 				break;
 			default:
 				throw new ArgumentOutOfRangeException(nameof(itemState), itemState, null);

@@ -41,6 +41,30 @@ public partial class EquipItemPopup : Popup<EquipItemPopup.Request>
 	{
 		base.OnOpen();
 
+		UpdateView();
+	}
+
+	protected override void OnClosed()
+	{
+		base.OnClosed();
+
+		foreach(EquipItemPopupItem item in _items)
+		{
+			item.QueueFree();
+		}
+
+		_items.Clear();
+	}
+
+	private void UpdateView()
+	{
+		foreach(EquipItemPopupItem item in _items)
+		{
+			item.QueueFree();
+		}
+
+		_items.Clear();
+
 		foreach(string itemId in PopupRequest.SavedCharacter.ItemIds)
 		{
 			ItemModel itemModel = ModelDB.GetById<ItemModel>(itemId);
@@ -69,6 +93,7 @@ public partial class EquipItemPopup : Popup<EquipItemPopup.Request>
 			_itemParent.AddChild(item);
 			item.Init(itemModel);
 			item.PressedEvent += OnItemPressed;
+			item.SellPressedEvent += OnSellItemPressed;
 			_items.Add(item);
 		}
 
@@ -80,24 +105,7 @@ public partial class EquipItemPopup : Popup<EquipItemPopup.Request>
 			bool shouldScroll = targetSize < _itemParent.Size.X;
 			_scrollContainer.CustomMinimumSize = new Vector2(targetSize, shouldScroll ? 440f : 420f);
 			_scrollContainer.HorizontalScrollMode = shouldScroll ? ScrollContainer.ScrollMode.Auto : ScrollContainer.ScrollMode.Disabled;
-
-			this.DelayedCall(() =>
-			{
-				_panelContainer.PivotOffset = _panelContainer.Size * 0.5f;
-			});
 		});
-	}
-
-	protected override void OnClosed()
-	{
-		base.OnClosed();
-
-		foreach(EquipItemPopupItem item in _items)
-		{
-			item.QueueFree();
-		}
-
-		_items.Clear();
 	}
 
 	private void OnItemPressed(EquipItemPopupItem item)
@@ -105,6 +113,46 @@ public partial class EquipItemPopup : Popup<EquipItemPopup.Request>
 		PopupRequest.ItemSelectedEvent?.Invoke(PopupRequest.SlotIndex, item.ItemModel);
 
 		Close();
+	}
+
+	private void OnSellItemPressed(EquipItemPopupItem item)
+	{
+		int sellPrice = item.ItemModel.Cost / 2;
+
+		if(BetweenScenariosController.Instance != null)
+		{
+			BetweenScenariosEvents.CalculateItemSellPrice.Parameters parameters =
+				BetweenScenariosEvents.CalculateItemSellPriceEvent.Fire(
+					new BetweenScenariosEvents.CalculateItemSellPrice.Parameters(PopupRequest.SavedCharacter, item.ItemModel, sellPrice));
+
+			sellPrice = parameters.SellPrice;
+		}
+
+		AppController.Instance!.PopupManager.OpenPopupOnTop(new TextPopup.Request("Are you sure?",
+			$"Are you sure you want to sell {item.ItemModel.Name} for {Icons.Inline(Icons.Coins)}{sellPrice}?",
+			new TextButton.Parameters("Cancel",
+				() =>
+				{
+				}
+			),
+			new TextButton.Parameters("Sell",
+				() =>
+				{
+					PopupRequest.SavedCharacter.SellItem(item.ItemModel, sellPrice);
+
+					if(BetweenScenariosController.Instance != null)
+					{
+						BetweenScenariosEvents.ItemSoldEvent.Fire(
+							new BetweenScenariosEvents.ItemSold.Parameters(PopupRequest.SavedCharacter, item.ItemModel, sellPrice));
+					}
+
+					AppController.Instance.SaveGame();
+
+					UpdateView();
+				},
+				TextButton.ColorType.Red
+			)
+		));
 	}
 
 	private void OnCancelPressed()

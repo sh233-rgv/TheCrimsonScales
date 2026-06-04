@@ -1,92 +1,41 @@
 ﻿using Fractural.Tasks;
 using Godot;
 
-public abstract class ConditionModel : AbstractModel<ConditionModel>, IEventSubscriber
+public abstract class ConditionModel : AbstractModel
 {
 	public abstract string Name { get; }
 	public abstract string IconPath { get; }
-	public virtual bool CanStack => false;
-	public virtual bool CanBeUpgraded => false;
-	public virtual ConditionModel ImmunityCompareBaseCondition => IsMutable ? ImmutableInstance : this;
+	public abstract ConditionPolarity ConditionPolarity { get; }
+	public virtual bool CanBeAppliedMultipleTimesOnSingleTarget => false;
+	public virtual ConditionModel[] ImmunityCompareBaseConditions => [this];
 	public virtual bool RemovedAtEndOfTurn => false;
-	public virtual bool IsPositive => false;
-	public virtual bool IsNegative => !IsPositive;
+	public virtual bool ImmediatelyRemovedOnApply => false;
 	public virtual bool RemovedByHeal => false;
-	public virtual string ConditionAnimationScenePath => null;
-	public virtual bool ShowOnFigure => true;
+	public virtual ConditionModel BaseLevelCondition => this;
+	public virtual int UpgradableLevel => 1;
+	public virtual bool RequiresGiver => false;
+	public virtual bool Stackable => false;
+	public virtual bool ShouldShowOnFigure => true;
+	protected virtual string ConditionAnimationScenePath => null;
 
-	private bool _appliedDuringThisTurn;
+	public bool IsPositive => ConditionPolarity == ConditionPolarity.Positive;
+	public bool IsNegative => ConditionPolarity == ConditionPolarity.Negative;
 
-	protected Figure Owner { get; private set; }
-	public ConditionNode Node { get; private set; }
-
-	public virtual async GDTask Add(Figure target, ConditionNode node)
+	public virtual async GDTask OnAdded(Condition condition)
 	{
-		Owner = target;
-		Node = node;
-
-		if(target.TakingTurn)
-		{
-			_appliedDuringThisTurn = true;
-		}
-
-		ScenarioEvents.InflictConditionDuplicatesCheckEvent.Subscribe(this, DuplicatesCheckCanApply, DuplicatesCheckApply, EffectType.MandatoryBeforeOptionals);
-
-		if(RemovedAtEndOfTurn)
-		{
-			ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.Subscribe(this, TurnEndedCanApply, TurnEndedApply, EffectType.MandatoryBeforeOptionals);
-		}
-
 		if(!GameController.FastForward && ConditionAnimationScenePath != null)
 		{
 			PackedScene conditionScene = ResourceLoader.Load<PackedScene>(ConditionAnimationScenePath);
 			ConditionAnimation conditionAnimation = conditionScene.Instantiate<ConditionAnimation>();
 			GameController.Instance.Map.AddChild(conditionAnimation);
-			conditionAnimation.Init(target);
+			conditionAnimation.Init(condition.Owner);
 
-			await GDTask.Delay(0.5f);
+			await GDTask.DelayFastForwardable(0.5f);
 		}
 	}
 
-	public virtual GDTask Remove()
+	public virtual async GDTask OnRemoved(Condition condition)
 	{
-		ScenarioEvents.InflictConditionDuplicatesCheckEvent.Unsubscribe(this);
-		ScenarioEvents.FigureTurnEndedConditionsFallOffEvent.Unsubscribe(this);
-
-		return GDTask.CompletedTask;
-	}
-
-	protected virtual bool DuplicatesCheckCanApply(ScenarioEvents.InflictConditionDuplicatesCheck.Parameters parameters)
-	{
-		return !parameters.Prevented && parameters.Target == Owner && parameters.Condition.ImmutableInstance == ImmutableInstance;
-	}
-
-	private GDTask DuplicatesCheckApply(ScenarioEvents.InflictConditionDuplicatesCheck.Parameters parameters)
-	{
-		parameters.SetPrevented(true);
-
-		if(parameters.Target.TakingTurn)
-		{
-			_appliedDuringThisTurn = true;
-		}
-
-		return GDTask.CompletedTask;
-	}
-
-	private bool TurnEndedCanApply(ScenarioEvents.FigureTurnEndedConditionsFallOff.Parameters parameters)
-	{
-		return parameters.Figure == Owner;
-	}
-
-	private async GDTask TurnEndedApply(ScenarioEvents.FigureTurnEndedConditionsFallOff.Parameters parameters)
-	{
-		if(_appliedDuringThisTurn)
-		{
-			_appliedDuringThisTurn = false;
-		}
-		else
-		{
-			await AbilityCmd.RemoveCondition(Owner, ImmutableInstance);
-		}
+		await GDTask.CompletedTask;
 	}
 }

@@ -59,13 +59,15 @@ public partial class CardSelectionView : Control
 		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
 			[CardState.Playing], CardSelectionListCategoryType.Playing));
 		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
-			[CardState.Persistent, CardState.PersistentLoss, CardState.Round, CardState.RoundLoss], CardSelectionListCategoryType.Active));
+			[CardState.Persistent, CardState.PersistentLoss, CardState.PersistentNoDeactivate, CardState.Round, CardState.RoundLoss], CardSelectionListCategoryType.Active));
 		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
 			[CardState.Hand], CardSelectionListCategoryType.Hand));
 		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
 			[CardState.Discarded], CardSelectionListCategoryType.Discarded));
 		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
 			[CardState.Lost], CardSelectionListCategoryType.Lost));
+		cardCategoryParameters.Add(CreateCategoryParameters(cards, onCardPressed, onInitiativePressed,
+			[CardState.UnrecoverablyLost], CardSelectionListCategoryType.UnrecoverablyLost));
 
 		_cardSelectionList.Open(cardCategoryParameters, (cardA, cardB) => cardA.Model.Initiative.CompareTo(cardB.Model.Initiative));
 

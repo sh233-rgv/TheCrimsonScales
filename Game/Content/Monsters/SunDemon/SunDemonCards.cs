@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Godot;
+using Fractural.Tasks;
 
 public abstract class SunDemonAbilityCard : MonsterAbilityCardModel
 {
@@ -20,141 +21,143 @@ public abstract class SunDemonAbilityCard : MonsterAbilityCardModel
 
 public class SunDemonAbilityCard0 : SunDemonAbilityCard
 {
-	public override int Initiative => 65;
+	public override int Initiative => 17;
 	public override int CardIndex => 0;
+	public override bool Reshuffles => true;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 3, targets: 3, conditions: [Conditions.Curse])),
+		new MonsterAbilityCardAbility(HealAbility.Builder()
+			.WithHealValue(3)
+			.WithRange(3)
+			.WithAbilityStartedSubscription(ConsumeElementCheckSubscription<ScenarioEvents.AbilityStarted.Parameters>(monster, [Element.Light],
+				applyFunction: async parameters =>
+				{
+					((HealAbility.State)parameters.AbilityState).SetTarget(Target.Allies | Target.TargetAll);
+					await GDTask.CompletedTask;
+				}
+			))
+			.Build())
 	];
+
+	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
+		[CardElementConsumption.Consume(Element.Light)];
 }
 
 public class SunDemonAbilityCard1 : SunDemonAbilityCard
 {
-	public override int Initiative => 60;
+	public override int Initiative => 36;
 	public override int CardIndex => 1;
-	public override bool Reshuffles => true;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, pierce: 3,
-			aoePattern: new AOEPattern([
-				new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-				new AOEHex(new Vector2I(1, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(2, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(3, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(4, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(5, 0), AOEHexType.Red),
-			])
-		)),
+		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0, target: Target.Enemies | Target.TargetAll))
 	];
+
+	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
+		[CardElementInfusion.Infuse(Element.Light)];
 }
 
 public class SunDemonAbilityCard2 : SunDemonAbilityCard
 {
-	public override int Initiative => 60;
+	public override int Initiative => 36;
 	public override int CardIndex => 2;
-	public override bool Reshuffles => true;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, pierce: 3,
-			aoePattern: new AOEPattern([
-				new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-				new AOEHex(new Vector2I(1, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(2, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(3, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(4, 0), AOEHexType.Red),
-				new AOEHex(new Vector2I(5, 0), AOEHexType.Red),
-			])
-		)),
+		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0, target: Target.Enemies | Target.TargetAll))
 	];
+
+	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
+		[CardElementInfusion.Infuse(Element.Light)];
 }
 
 public class SunDemonAbilityCard3 : SunDemonAbilityCard
 {
-	public override int Initiative => 84;
+	public override int Initiative => 68;
 	public override int CardIndex => 3;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, target: Target.Enemies | Target.TargetAll)),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, range: 4, conditions: [Conditions.Wound1])),
+		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1))
 	];
+
+	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
+		[CardElementInfusion.Infuse(Element.Light)];
 }
 
 public class SunDemonAbilityCard4 : SunDemonAbilityCard
 {
-	public override int Initiative => 75;
+	public override int Initiative => 73;
 	public override int CardIndex => 4;
+	public override bool Reshuffles => true;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, conditions: [Conditions.Poison1])),
-		new MonsterAbilityCardAbility(AttackAbility(monster, -1, range: 5, conditions: [Conditions.Immobilize])),
+		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +1)),
+		new MonsterAbilityCardAbility(HealAbility.Builder()
+			.WithHealValue(3)
+			.WithTarget(Target.Self)
+			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<HealAbility.State>([Element.Light]))
+			.Build()),
 	];
+
+	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
+		[CardElementConsumption.Consume(Element.Light)];
 }
 
 public class SunDemonAbilityCard5 : SunDemonAbilityCard
 {
-	public override int Initiative => 75;
+	public override int Initiative => 95;
 	public override int CardIndex => 5;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, -2, target: Target.Enemies | Target.TargetAll, conditions: [Conditions.Disarm])),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 3, targets: 2)),
+		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 4, target: new(() =>
+			CheckElementConsumed(monster, [Element.Light]) ? Target.Enemies | Target.TargetAll : Target.Enemies)
+		)),
 	];
+
+	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
+		[CardElementConsumption.Consume(Element.Light)];
 }
 
 public class SunDemonAbilityCard6 : SunDemonAbilityCard
 {
-	public override int Initiative => 96;
+	public override int Initiative => 88;
 	public override int CardIndex => 6;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(AttackAbility(monster, -2, range: 6)),
-		new MonsterAbilityCardAbility(OtherAbility.Builder()
-			.WithPerformAbility(async state =>
-			{
-				AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
-				foreach(Figure target in attackAbilityState.UniqueTargetedFigures)
-				{
-					Hex hex = await AbilityCmd.SelectHex(state, list =>
-					{
-						foreach(Hex neighbourHex in target.Hex.Neighbours)
-						{
-							if(neighbourHex.IsEmpty())
-							{
-								list.Add(neighbourHex);
-							}
-						}
-					});
-
-					// if(hex != null && await GameController.Instance.Map.CreateMonster(ModelDB.Monster<SunDemon>(), MonsterType.Normal, hex.Coords, true))
-					// {
-					// 	state.SetPerformed();
-					// 	break;
-					// }
-				}
-			})
-			.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
+		new MonsterAbilityCardAbility(MoveAbility(monster, -1)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -1, target: Target.Enemies | Target.TargetAll)),
+		new MonsterAbilityCardAbility(ConditionAbility.Builder()
+			.WithConditions(Conditions.Muddle)
+			.WithTarget(Target.Self)
+			.WithConditionalAbilityCheck(ConsumeElementAbilityCheck<ConditionAbility.State>([Element.Dark]))
 			.Build())
 	];
+
+	public override IEnumerable<CardElementConsumption> ElementConsumptions { get; } =
+		[CardElementConsumption.Consume(Element.Dark)];
 }
 
 public class SunDemonAbilityCard7 : SunDemonAbilityCard
 {
-	public override int Initiative => 54;
+	public override int Initiative => 50;
 	public override int CardIndex => 7;
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
-		new MonsterAbilityCardAbility(ConditionAbility.Builder()
-			.WithConditions(Conditions.Wound1, Conditions.Poison1)
-			.WithTarget(Target.Enemies | Target.TargetAll)
-			.Build()),
-		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 4)),
+		new MonsterAbilityCardAbility(MoveAbility(monster, +0)),
+		new MonsterAbilityCardAbility(AttackAbility(monster, +0, range: 3)),
 	];
+
+	public override IEnumerable<CardElementInfusion> ElementInfusions { get; } =
+		[CardElementInfusion.ConsumeWild(Element.Light)];
 }
