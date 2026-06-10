@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://ckhapoqpn4a4f"]
+
+[ext_resource type="Texture2D" uid="uid://c7ju2yvxad3u6" path="res://Content/Scenarios/NPCs/Monk/Artwork.png" id="1_x0qux"]
+
+[resource]
+atlas = ExtResource("1_x0qux")
+region = Rect2(225, 180, 400, 600)

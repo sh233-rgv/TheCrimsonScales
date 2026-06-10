@@ -89,15 +89,94 @@ public class Scenario034 : ScenarioModel
 
 		await AddGoal(new KillAllEnemiesScenarioGoal(true));
 
+		foreach(Marker marker in GameController.Instance.Map.GetMarkers(Marker.Type.a))
+		{
+			NPC monk = await SpawnNPC(marker.Hex, 2 + CharacterCount + ScenarioLevel, "Sacred Monk",
+				"res://Content/Scenarios/NPCs/Monk", 99,
+				[
+					ConditionAbility.Builder()
+						.WithConditions(Conditions.Bless)
+						.WithTarget(Target.Allies | Target.TargetAll)
+						.WithRange(1)
+						.Build()
+				],
+				textParameters =>
+					$"""
+					 {Icons.InlineCondition(Conditions.Bless, textParameters)}{Icons.Inline(Icons.Targets, textParameters)}all allies {Icons.Inline(Icons.Range, textParameters)}1
+					 """);
+		}
+
 		//AddScenarioRule("The same pressure plate cannot be activated twice in a row.");
+	}
+
+	protected override async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters parameters)
+	{
+		await base.OnRoomRevealed(parameters);
+
+		if(parameters.Room == GameController.Instance.Map.Rooms[2])
+		{
+			foreach(Marker marker in GameController.Instance.Map.GetMarkers(Marker.Type.b))
+			{
+				NPC monk = await SpawnNPC(marker.Hex, 2 + CharacterCount + ScenarioLevel, "Holy Monk",
+					"res://Content/Scenarios/NPCs/Monk", 99,
+					[
+						HealAbility.Builder()
+							.WithHealValue(2)
+							.WithTarget(Target.Allies)
+							.WithRange(1)
+							.Build()
+					],
+					textParameters =>
+						$"""
+						 {Icons.Inline(Icons.Heal, textParameters)}1, {Icons.Inline(Icons.Targets, textParameters)}1 ally, {Icons.Inline(Icons.Range, textParameters)}1
+						 """);
+			}
+		}
+
+		if(parameters.Room == GameController.Instance.Map.Rooms[3])
+		{
+			foreach(Marker marker in GameController.Instance.Map.GetMarkers(Marker.Type.c))
+			{
+				NPC monk = await SpawnNPC(marker.Hex, 2 + CharacterCount + ScenarioLevel, "Revered Monk",
+					"res://Content/Scenarios/NPCs/Monk", 99,
+					[
+					],
+					textParameters =>
+						$"""
+						 No abilities.
+
+						 Each time an enemy within {Icons.Inline(Icons.Range, textParameters)}3 attacks this figure, the enemy gains {Icons.InlineCondition(Conditions.Curse, textParameters)} after the attack.
+						 """);
+			}
+
+			//TODO: Implement effect
+		}
+
+		if(parameters.Room == GameController.Instance.Map.Rooms[4])
+		{
+			foreach(Marker marker in GameController.Instance.Map.GetMarkers(Marker.Type.d))
+			{
+				NPC monk = await SpawnNPC(marker.Hex, 2 + CharacterCount + ScenarioLevel, "Ordained Monk",
+					"res://Content/Scenarios/NPCs/Monk", 99,
+					[
+						HealAbility.Builder()
+							.WithHealValue(1)
+							.WithTarget(Target.Self)
+							.Build()
+					],
+					textParameters =>
+						$"""
+						 {Icons.Inline(Icons.Heal, textParameters)}1, Self
+						 """);
+
+				await AbilityCmd.AddShield(monk, this, 1);
+			}
+		}
 	}
 
 	private async GDTask RemoveStartHex(List<CharacterStartHex> hexes, int index)
 	{
 		CharacterStartHex hex = hexes[index];
-
 		await hex.Destroy(true);
-		// hex.SetVisible(false);
-		// hex.QueueFree();
 	}
 }
