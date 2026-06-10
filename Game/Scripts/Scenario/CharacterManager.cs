@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 
 public class CharacterManager
@@ -13,7 +14,7 @@ public class CharacterManager
 
 	public async GDTask PlaceCharacters()
 	{
-		CharacterStartHexes = GameController.Instance.Map.GetChildrenOfType<CharacterStartHex>();
+		CharacterStartHexes = GameController.Instance.Map.GetChildrenOfType<CharacterStartHex>().Where(hex => hex.Visible).ToList();
 
 		// Place all characters
 		for(int i = 0; i < GameController.Instance.SavedCampaign.Characters.Count; i++)

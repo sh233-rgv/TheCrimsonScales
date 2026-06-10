@@ -80,7 +80,10 @@ public partial class InfoView : Control
 
 			foreach(HexObject hexObject in _visibleHex.HexObjects)
 			{
-				hexObject.AddInfoItemParameters(parametersList);
+				if(hexObject.Visible)
+				{
+					hexObject.AddInfoItemParameters(parametersList);
+				}
 			}
 
 			if(parametersList.Count > 0)
