@@ -12,8 +12,7 @@ public partial class EffectInfoViewManager : Control
 	{
 		RemoveInfoView(parent);
 
-		PackedScene buttonScene = ResourceLoader.Load<PackedScene>(parameters.ScenePath);
-		EffectInfoViewBase infoView = buttonScene.Instantiate<EffectInfoViewBase>();
+		EffectInfoViewBase infoView = SceneLoader.InstantiateScene<EffectInfoViewBase>(parameters.ScenePath);
 		_infoViewParent.AddChild(infoView);
 
 		infoView.Init(parent, parameters);

@@ -209,8 +209,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 				Traits = abilityState.Traits.ToArray()
 			};
 
-			PackedScene summonScene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Summon.tscn");
-			Summon summon = summonScene.Instantiate<Summon>();
+			Summon summon = SceneLoader.InstantiateScene<Summon>("res://Scenes/Scenario/Summon.tscn");
 			GameController.Instance.Map.AddChild(summon);
 			await summon.Init(targetedHex);
 			await summon.Spawn(summonStats, (Character)abilityState.Performer, abilityState.Name, _texturePath, _mapIconTexturePath);

@@ -24,7 +24,7 @@ public class SpiritCallerModel : ClassModel
 	public override Color PrimaryColor => Color.FromHtml("63bd57");
 	public override Color SecondaryColor => Color.FromHtml("a6ce39");
 
-	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/SpiritCaller.tscn");
+	public override PackedScene Scene => SceneLoader.LoadPackedScene($"{AssetPath}/SpiritCaller.tscn");
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[

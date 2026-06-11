@@ -68,8 +68,7 @@ public partial class CurrentActionViewManager : Control, IEventSubscriber
 
 	public void CreateActionView(CurrentActionViewParameters parameters)
 	{
-		PackedScene buttonScene = ResourceLoader.Load<PackedScene>(parameters.ScenePath);
-		CurrentActionViewBase currentActionView = buttonScene.Instantiate<CurrentActionViewBase>();
+		CurrentActionViewBase currentActionView = SceneLoader.InstantiateScene<CurrentActionViewBase>(parameters.ScenePath);
 		_infoViewParent.AddChild(currentActionView);
 
 		currentActionView.Init(parameters);

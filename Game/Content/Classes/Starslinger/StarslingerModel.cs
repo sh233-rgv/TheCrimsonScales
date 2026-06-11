@@ -24,7 +24,7 @@ public class StarslingerModel : ClassModel
 	public override Color PrimaryColor => Color.FromHtml("6762a1");
 	public override Color SecondaryColor => Color.FromHtml("3f3f3f");
 
-	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Starslinger.tscn");
+	public override PackedScene Scene => SceneLoader.LoadPackedScene($"{AssetPath}/Starslinger.tscn");
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[

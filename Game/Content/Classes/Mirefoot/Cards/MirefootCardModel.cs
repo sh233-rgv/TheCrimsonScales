@@ -14,7 +14,7 @@ public abstract class MirefootCardSide : AbilityCardSideModel<Character>
 {
 	protected async GDTask CreateDifficultTerrain(Hex hex)
 	{
-		PackedScene scene = ResourceLoader.Load<PackedScene>(
+		PackedScene scene = SceneLoader.LoadPackedScene(
 			GameController.Instance.StateRNG.Randf() > 0.5f
 				? "res://Content/Classes/Mirefoot/Bog1H.tscn"
 				: "res://Content/Classes/Mirefoot/BrokenLog1H.tscn");

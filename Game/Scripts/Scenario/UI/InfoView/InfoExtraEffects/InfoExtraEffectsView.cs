@@ -21,8 +21,7 @@ public partial class InfoExtraEffectsView : Control
 
 		foreach(InfoExtraEffectParameters parameters in parametersList)
 		{
-			PackedScene scene = ResourceLoader.Load<PackedScene>(parameters.ScenePath);
-			InfoExtraEffectBase extraEffect = scene.Instantiate<InfoExtraEffectBase>();
+			InfoExtraEffectBase extraEffect = SceneLoader.InstantiateScene<InfoExtraEffectBase>(parameters.ScenePath);
 			_effectParent.AddChild(extraEffect);
 			extraEffect.Init(parameters);
 			_extraEffects.Add(extraEffect);

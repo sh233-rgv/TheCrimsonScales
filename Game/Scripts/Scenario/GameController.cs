@@ -229,8 +229,7 @@ public partial class GameController : SceneController<GameController>
 		PromptManager = new PromptManager();
 		SyncedActionManager = new SyncedActionManager();
 
-		PackedScene scenarioScene = ResourceLoader.Load<PackedScene>(ScenarioModel.ScenePath);
-		Scenario = scenarioScene.Instantiate<Scenario>();
+		Scenario = SceneLoader.InstantiateScene<Scenario>(ScenarioModel.ScenePath);
 		AddChild(Scenario);
 		Scenario.Init();
 

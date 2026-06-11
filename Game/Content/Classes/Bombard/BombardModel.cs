@@ -24,7 +24,7 @@ public class BombardModel : ClassModel
 	public override Color PrimaryColor => Color.FromHtml("8c683b");
 	public override Color SecondaryColor => Color.FromHtml("948572");
 
-	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Bombard.tscn");
+	public override PackedScene Scene => SceneLoader.LoadPackedScene($"{AssetPath}/Bombard.tscn");
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[

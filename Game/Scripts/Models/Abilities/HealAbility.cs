@@ -198,8 +198,7 @@ public class HealAbility : TargetedAbility<HealAbility.State, HealAbility.HealAb
 		{
 			AppController.Instance.AudioController.PlayFastForwardable(SFX.Heal, delay: 0.0f);
 
-			PackedScene healEffectScene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Effects/HealEffect.tscn");
-			HealEffect healEffect = healEffectScene.Instantiate<HealEffect>();
+			HealEffect healEffect = SceneLoader.InstantiateScene<HealEffect>("res://Scenes/Scenario/Effects/HealEffect.tscn");
 			target.AddChild(healEffect);
 			healEffect.Init();
 

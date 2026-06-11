@@ -126,7 +126,7 @@ public partial class Map : Node2D
 		if(monsterType != MonsterType.None && monsterGroup.TryGetAvailableStandeeNumber(out int standeeNumber))
 		{
 			Hex hex = GetHex(coords);
-			Monster monsterHexObject = ResourceLoader.Load<PackedScene>(monsterModel.ScenePath).Instantiate<Monster>();
+			Monster monsterHexObject = SceneLoader.InstantiateScene<Monster>(monsterModel.ScenePath);
 			AddChild(monsterHexObject, true);
 			monsterHexObject.SetMonsterModel(monsterModel);
 			await monsterHexObject.Init(hex);
@@ -141,7 +141,7 @@ public partial class Map : Node2D
 		TextHelper.LabelTextDelegate actionText, Alignment alignment)
 	{
 		Hex hex = GetHex(coords);
-		NPC npcHexObject = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/NPC.tscn").Instantiate<NPC>();
+		NPC npcHexObject = SceneLoader.InstantiateScene<NPC>("res://Scenes/Scenario/NPC.tscn");
 		AddChild(npcHexObject, true);
 		await npcHexObject.Init(hex);
 		await npcHexObject.Spawn(health, name, assetPath, initiative, abilities, actionText, alignment);

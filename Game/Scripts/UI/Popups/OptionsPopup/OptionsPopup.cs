@@ -98,8 +98,7 @@ public partial class OptionsPopup : Popup<OptionsPopup.Request>
 
 	private void AddOption(OptionViewParameters parameters)
 	{
-		PackedScene scene = ResourceLoader.Load<PackedScene>(parameters.ScenePath);
-		OptionViewBase optionView = scene.Instantiate<OptionViewBase>();
+		OptionViewBase optionView = SceneLoader.InstantiateScene<OptionViewBase>(parameters.ScenePath);
 		_optionViewParent.AddChild(optionView);
 		optionView.Init(parameters);
 		_options.Add(optionView);

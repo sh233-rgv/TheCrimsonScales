@@ -368,7 +368,7 @@ public abstract partial class Figure : HexObject, IActionSource
 	public T AddEffectView<T>(HexObjectEffectViewParameters parameters)
 		where T : HexObjectEffectViewBase
 	{
-		HexObjectEffectViewBase effectView = ResourceLoader.Load<PackedScene>(parameters.ScenePath).Instantiate<HexObjectEffectViewBase>();
+		HexObjectEffectViewBase effectView = SceneLoader.InstantiateScene<HexObjectEffectViewBase>(parameters.ScenePath);
 		FigureViewComponent.EffectParent.AddChild(effectView);
 		effectView.Init(parameters);
 		Effects.Add(effectView);

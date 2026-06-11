@@ -24,7 +24,7 @@ public class FireKnightModel : ClassModel
 	public override Color PrimaryColor => Color.FromHtml("df391f");
 	public override Color SecondaryColor => Color.FromHtml("531724");
 
-	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/FireKnight.tscn");
+	public override PackedScene Scene => SceneLoader.LoadPackedScene($"{AssetPath}/FireKnight.tscn");
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[

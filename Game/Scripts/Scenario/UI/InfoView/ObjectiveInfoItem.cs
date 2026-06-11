@@ -20,8 +20,7 @@ public partial class ObjectiveInfoItem : FigureInfoItem<ObjectiveInfoItem.Parame
 
 		_objective = parameters.Objective;
 
-		PackedScene overlayTileScene = ResourceLoader.Load<PackedScene>(parameters.HexObject.SceneFilePath);
-		Objective instance = overlayTileScene.Instantiate<Objective>();
+		Objective instance = SceneLoader.InstantiateScene<Objective>(parameters.HexObject.SceneFilePath);
 		_sceneAnchor.AddChild(instance);
 		instance.SetScale(0.6f * (_objective.Hexes.Length > 1 ? 0.5f : 1f) * Vector2.One);
 		float xOffset = _objective.Hexes.Length > 1 ? -Map.HexWidth / (2 / instance.Scale.X) : 0;

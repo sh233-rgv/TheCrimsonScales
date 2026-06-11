@@ -20,7 +20,7 @@ public class RuinmawModel : ClassModel
 	public override Color PrimaryColor => Color.FromHtml("c9252c");
 	public override Color SecondaryColor => Color.FromHtml("833332");
 
-	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Ruinmaw.tscn");
+	public override PackedScene Scene => SceneLoader.LoadPackedScene($"{AssetPath}/Ruinmaw.tscn");
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[

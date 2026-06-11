@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Fractural.Tasks;
 using Godot;
 
 public partial class SceneLoader : Node
 {
+	private static readonly Dictionary<string, PackedScene> CachedScenes = new Dictionary<string, PackedScene>();
+
 	[Export]
 	private PackedScene _loadingScene;
 
@@ -48,9 +51,7 @@ public partial class SceneLoader : Node
 		await GDTask.Yield(cancellationToken);
 
 		// Add new scene
-		PackedScene packedScene = ResourceLoader.Load<PackedScene>(CurrentSceneRequest.ScenePath);
-
-		Node newScene = packedScene.Instantiate();
+		Node newScene = InstantiateScene<Node>(CurrentSceneRequest.ScenePath);
 		GetTree().Root.AddChild(newScene);
 		GetTree().CurrentScene = newScene;
 
@@ -67,5 +68,22 @@ public partial class SceneLoader : Node
 		loadingSceneController.QueueFree();
 
 		CurrentSceneRequest.Finish();
+	}
+
+	public static T InstantiateScene<T>(string path)
+		where T : Node
+	{
+		return LoadPackedScene(path).Instantiate<T>();
+	}
+
+	public static PackedScene LoadPackedScene(string path)
+	{
+		if(!CachedScenes.TryGetValue(path, out PackedScene packedScene))
+		{
+			packedScene = ResourceLoader.Load<PackedScene>(path, null, ResourceLoader.CacheMode.IgnoreDeep);
+			CachedScenes.Add(path, packedScene);
+		}
+
+		return packedScene;
 	}
 }

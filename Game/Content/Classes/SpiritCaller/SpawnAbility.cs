@@ -202,8 +202,7 @@ public class SpawnAbility : ActiveAbility<SpawnAbility.State>
 
 		if(targetedHex != null)
 		{
-			PackedScene spiritScene = ResourceLoader.Load<PackedScene>("res://Content/Classes/SpiritCaller/Spirit.tscn");
-			Spirit spirit = spiritScene.Instantiate<Spirit>();
+			Spirit spirit = SceneLoader.InstantiateScene<Spirit>("res://Content/Classes/SpiritCaller/Spirit.tscn");
 			GameController.Instance.Map.AddChild(spirit);
 			await spirit.Init(targetedHex);
 			await spirit.Spawn(abilityState.Health, abilityState.Move, abilityState.Attack, abilityState.Range, abilityState.Traits.ToArray(),

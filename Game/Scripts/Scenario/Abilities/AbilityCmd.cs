@@ -140,7 +140,8 @@ public static class AbilityCmd
 		if(damageDealt > 0)
 		{
 			await ScenarioEvents.AfterSufferDamageEvent.CreatePrompt(
-				new ScenarioEvents.AfterSufferDamage.Parameters(target, damageDealt, damageSuffered, potentialAbilityState, sufferDamageParameters), target);
+				new ScenarioEvents.AfterSufferDamage.Parameters(target, damageDealt, damageSuffered, potentialAbilityState, sufferDamageParameters),
+				target);
 		}
 
 		return damageDealt;
@@ -416,7 +417,7 @@ public static class AbilityCmd
 
 	public static async GDTask<Obstacle> CreateObstacle(Hex hex, string assetPath)
 	{
-		PackedScene scene = ResourceLoader.Load<PackedScene>(assetPath);
+		PackedScene scene = SceneLoader.LoadPackedScene(assetPath);
 
 		return await CreateOverlayTile<Obstacle>(hex, scene);
 	}
@@ -429,8 +430,7 @@ public static class AbilityCmd
 		List<Coin> coins = new List<Coin>();
 		for(int i = 0; i < spawnCoinCheckEventParameters.CoinsToSpawn; i++)
 		{
-			PackedScene scene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/Coin.tscn");
-			Coin coin = scene.Instantiate<Coin>();
+			Coin coin = SceneLoader.InstantiateScene<Coin>("res://Scenes/Scenario/Coin.tscn");
 			GameController.Instance.Map.AddChild(coin);
 			await coin.Init(hex);
 
@@ -564,7 +564,7 @@ public static class AbilityCmd
 	private static async GDTask<Trap> PlaceTrap(Hex hex, string assetPath = null,
 		int damage = 0, ConditionModel[] conditions = null)
 	{
-		PackedScene scene = ResourceLoader.Load<PackedScene>(assetPath ?? "res://Content/OverlayTiles/Traps/BearTrap1H.tscn");
+		PackedScene scene = SceneLoader.LoadPackedScene(assetPath ?? "res://Content/OverlayTiles/Traps/BearTrap1H.tscn");
 
 		return await CreateOverlayTile<Trap>(hex, scene, trap => ((Trap)trap).SetTrapValues(damage, conditions ?? []));
 	}
@@ -675,7 +675,8 @@ public static class AbilityCmd
 	{
 		figure.SetOriginHexAndRotation(hex, setPosition: setPosition);
 
-		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(potentialAbilityState, figure, forcedMovement),
+		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(
+			new ScenarioEvents.FigureEnteredHex.Parameters(potentialAbilityState, figure, forcedMovement),
 			authority);
 
 		HazardousTerrain hazardousTerrain = hex.GetHexObjectOfType<HazardousTerrain>();

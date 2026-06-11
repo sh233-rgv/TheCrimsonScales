@@ -73,7 +73,7 @@ public class MirefootAMDCards
 			{
 				Hex hex = await AbilityCmd.SelectHex(state, hexes => hexes.Add(state.Target.Hex),
 					hintText: "Place difficult terrain?");
-				PackedScene scene = ResourceLoader.Load<PackedScene>(
+				PackedScene scene = SceneLoader.LoadPackedScene(
 					GameController.Instance.StateRNG.Randf() > 0.5f
 						? "res://Content/Classes/Mirefoot/Bog1H.tscn"
 						: "res://Content/Classes/Mirefoot/BrokenLog1H.tscn");

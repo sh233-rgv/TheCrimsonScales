@@ -24,7 +24,7 @@ public class ChainguardModel : ClassModel
 	public override Color PrimaryColor => Color.FromHtml("ce6d30");
 	public override Color SecondaryColor => Color.FromHtml("1e1d1d");
 
-	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Chainguard.tscn");
+	public override PackedScene Scene => SceneLoader.LoadPackedScene($"{AssetPath}/Chainguard.tscn");
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[

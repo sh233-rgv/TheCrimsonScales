@@ -33,7 +33,7 @@ public class SphereOfCurrents : CS3Item
 					foreach(Hex hex in selectedHexes)
 					{
 						await AbilityCmd.CreateDifficultTerrain(hex,
-							ResourceLoader.Load<PackedScene>("res://Content/OverlayTiles/DifficultTerrain/Water1H.tscn"));
+							SceneLoader.LoadPackedScene("res://Content/OverlayTiles/DifficultTerrain/Water1H.tscn"));
 					}
 
 					foreach(Figure figure in RangeHelper.GetFiguresInRange(user, 3, requiresLineOfSight: false))

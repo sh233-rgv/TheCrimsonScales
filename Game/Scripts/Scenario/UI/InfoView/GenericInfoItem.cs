@@ -39,8 +39,7 @@ public partial class GenericInfoItem : InfoItem<GenericInfoItem.Parameters>
 		_titleLabel.SetText(parameters.Title);
 		_descriptionLabel.SetText(parameters.Description);
 
-		PackedScene overlayTileScene = ResourceLoader.Load<PackedScene>(parameters.HexObject.SceneFilePath);
-		Node2D instance = overlayTileScene.Instantiate<Node2D>();
+		Node2D instance = SceneLoader.InstantiateScene<Node2D>(parameters.HexObject.SceneFilePath);
 		_sceneAnchor.AddChild(instance);
 		instance.SetPosition(new Vector2(parameters.XOffset, parameters.YOffset));
 

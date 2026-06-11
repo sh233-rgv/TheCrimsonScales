@@ -16,8 +16,7 @@ public partial class TrapInfoItem : InfoItem<TrapInfoItem.Parameters>
 
 		Trap trap = parameters.HexObject;
 
-		PackedScene trapScene = ResourceLoader.Load<PackedScene>(trap.SceneFilePath);
-		Trap trapClone = trapScene.Instantiate<Trap>();
+		Trap trapClone = SceneLoader.InstantiateScene<Trap>(trap.SceneFilePath);
 		_tileParent.AddChild(trapClone);
 		trapClone.ScaledDamage = trap.ScaledDamage;
 		trapClone.CustomDamage = trap.CustomDamage;

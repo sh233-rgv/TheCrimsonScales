@@ -34,8 +34,7 @@ public partial class InfoViewPanel : Control
 				_dividers.Add(divider);
 			}
 
-			PackedScene packedScene = ResourceLoader.Load<PackedScene>(parameters.ScenePath);
-			InfoItemBase item = packedScene.Instantiate<InfoItemBase>();
+			InfoItemBase item = SceneLoader.InstantiateScene<InfoItemBase>(parameters.ScenePath);
 			_itemParent.AddChild(item);
 			item.Init(parameters);
 			_items.Add(item);

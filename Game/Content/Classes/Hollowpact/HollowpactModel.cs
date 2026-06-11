@@ -24,7 +24,7 @@ public class HollowpactModel : ClassModel
 	public override Color PrimaryColor => Color.FromHtml("a765a9");
 	public override Color SecondaryColor => Color.FromHtml("310f33");
 
-	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Hollowpact.tscn");
+	public override PackedScene Scene => SceneLoader.LoadPackedScene($"{AssetPath}/Hollowpact.tscn");
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[

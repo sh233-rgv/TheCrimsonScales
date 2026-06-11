@@ -119,7 +119,7 @@ public class Scenario026 : ScenarioModel
 
 					await AbilityCmd.RemoveAllChill(applyParameters.PotentialAbilityState.Performer);
 					await AbilityCmd.CreateDifficultTerrain(objective.Hex,
-						ResourceLoader.Load<PackedScene>("res://Content/OverlayTiles/DifficultTerrain/Water1H.tscn"));
+						SceneLoader.LoadPackedScene("res://Content/OverlayTiles/DifficultTerrain/Water1H.tscn"));
 					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(this, objective);
 					ScenarioEvents.FigureKilledEvent.Unsubscribe(this, objective);
 				}
@@ -163,7 +163,7 @@ public class Scenario026 : ScenarioModel
 					ActionState actionState = new ActionState(applyParameters.PotentialAbilityState.Performer, [heal]);
 					await actionState.Perform();
 					await AbilityCmd.CreateOverlayTile<HazardousTerrain>(objective.Hex,
-						ResourceLoader.Load<PackedScene>("res://Content/OverlayTiles/HazardousTerrain/HotCoals1H.tscn"));
+						SceneLoader.LoadPackedScene("res://Content/OverlayTiles/HazardousTerrain/HotCoals1H.tscn"));
 					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(this, objective);
 					ScenarioEvents.FigureKilledEvent.Unsubscribe(this, objective);
 				}

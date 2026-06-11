@@ -24,7 +24,7 @@ public class MirefootModel : ClassModel
 	public override Color PrimaryColor => Color.FromHtml("ef6b26");
 	public override Color SecondaryColor => Color.FromHtml("4b732e");
 
-	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Mirefoot.tscn");
+	public override PackedScene Scene => SceneLoader.LoadPackedScene($"{AssetPath}/Mirefoot.tscn");
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[

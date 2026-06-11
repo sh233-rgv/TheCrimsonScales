@@ -35,8 +35,7 @@ public partial class FireKnight : Character
 	{
 		await base.OnScenarioSetupCompleted();
 
-		PackedScene scene = ResourceLoader.Load<PackedScene>("res://Content/Classes/FireKnight/Ladder.tscn");
-		Ladder = scene.Instantiate<Ladder>();
+		Ladder = SceneLoader.InstantiateScene<Ladder>("res://Content/Classes/FireKnight/Ladder.tscn");
 		GameController.Instance.Map.AddChild(Ladder);
 		await Ladder.Init(null, hexCanBeNull: true);
 

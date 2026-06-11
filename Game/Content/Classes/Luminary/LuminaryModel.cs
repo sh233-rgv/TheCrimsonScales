@@ -24,7 +24,7 @@ public class LuminaryModel : ClassModel
 	public override Color PrimaryColor => Color.FromHtml("b289be");
 	public override Color SecondaryColor => Color.FromHtml("383f74");
 
-	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Luminary.tscn");
+	public override PackedScene Scene => SceneLoader.LoadPackedScene($"{AssetPath}/Luminary.tscn");
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[

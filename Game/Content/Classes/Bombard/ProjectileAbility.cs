@@ -152,8 +152,8 @@ public class ProjectileAbility : ActiveAbility<ProjectileAbility.State>
 			{
 				if(abilityState.ActionState.ActionSource is AbilityCardSide abilityCardSide)
 				{
-					BombardProjectileToken token = ResourceLoader.Load<PackedScene>("res://Content/Classes/Bombard/BombardProjectile.tscn")
-						.Instantiate<BombardProjectileToken>();
+					BombardProjectileToken token =
+						SceneLoader.InstantiateScene<BombardProjectileToken>("res://Content/Classes/Bombard/BombardProjectile.tscn");
 					GameController.Instance.Map.AddChild(token);
 					token.SetCardSide(abilityCardSide);
 

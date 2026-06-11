@@ -24,7 +24,7 @@ public class HierophantModel : ClassModel
 	public override Color PrimaryColor => Color.FromHtml("ddde8a");
 	public override Color SecondaryColor => Color.FromHtml("a9a5ad");
 
-	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Hierophant.tscn");
+	public override PackedScene Scene => SceneLoader.LoadPackedScene($"{AssetPath}/Hierophant.tscn");
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[

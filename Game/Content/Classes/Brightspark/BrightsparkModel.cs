@@ -24,7 +24,7 @@ public class BrightsparkModel : ClassModel
 	public override Color PrimaryColor => Color.FromHtml("e6dc8d");
 	public override Color SecondaryColor => Color.FromHtml("bcae52");
 
-	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Brightspark.tscn");
+	public override PackedScene Scene => SceneLoader.LoadPackedScene($"{AssetPath}/Brightspark.tscn");
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[

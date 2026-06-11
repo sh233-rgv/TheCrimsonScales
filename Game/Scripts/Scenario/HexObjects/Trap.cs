@@ -96,7 +96,7 @@ public partial class Trap : OverlayTile
 		{
 			foreach(ConditionModelResource conditionModelResource in ConditionModels)
 			{
-				TrapCondition condition = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/TrapCondition.tscn").Instantiate<TrapCondition>();
+				TrapCondition condition = SceneLoader.InstantiateScene<TrapCondition>("res://Scenes/Scenario/TrapCondition.tscn");
 				_trapViewComponent.ConditionContainer.AddChild(condition);
 				condition.Init(conditionModelResource.Model);
 				_conditions.Add(condition);

@@ -24,7 +24,7 @@ public class ChieftainModel : ClassModel
 	public override Color PrimaryColor => Color.FromHtml("76c7c3");
 	public override Color SecondaryColor => Color.FromHtml("5e7574");
 
-	public override PackedScene Scene => ResourceLoader.Load<PackedScene>($"{AssetPath}/Chieftain.tscn");
+	public override PackedScene Scene => SceneLoader.LoadPackedScene($"{AssetPath}/Chieftain.tscn");
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[

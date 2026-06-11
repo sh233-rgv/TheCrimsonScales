@@ -179,7 +179,7 @@ public class Scenario052 : ScenarioModel
 		foreach(Hex hex in hexes)
 		{
 			await AbilityCmd.CreateDifficultTerrain(hex,
-				ResourceLoader.Load<PackedScene>("res://Content/OverlayTiles/DifficultTerrain/Water1H.tscn"));
+				SceneLoader.LoadPackedScene("res://Content/OverlayTiles/DifficultTerrain/Water1H.tscn"));
 		}
 
 		ScenarioEvents.SufferDamageEvent.Subscribe(this,

@@ -32,8 +32,8 @@ public partial class EffectSelectionView : Control
 				continue;
 			}
 
-			PackedScene buttonScene = ResourceLoader.Load<PackedScene>(effect.Subscription.EffectButtonParameters.ScenePath);
-			EffectButtonBase effectSelectionEffect = buttonScene.Instantiate<EffectButtonBase>();
+			EffectButtonBase effectSelectionEffect =
+				SceneLoader.InstantiateScene<EffectButtonBase>(effect.Subscription.EffectButtonParameters.ScenePath);
 			_effectParent.AddChild(effectSelectionEffect);
 			effectSelectionEffect.Init(effect);
 			effectSelectionEffect.PressedEvent += OnEffectPressed;

@@ -25,8 +25,7 @@ public abstract class ConditionModel : AbstractModel
 	{
 		if(!GameController.FastForward && ConditionAnimationScenePath != null)
 		{
-			PackedScene conditionScene = ResourceLoader.Load<PackedScene>(ConditionAnimationScenePath);
-			ConditionAnimation conditionAnimation = conditionScene.Instantiate<ConditionAnimation>();
+			ConditionAnimation conditionAnimation = SceneLoader.InstantiateScene<ConditionAnimation>(ConditionAnimationScenePath);
 			GameController.Instance.Map.AddChild(conditionAnimation);
 			conditionAnimation.Init(condition.Owner);
 

@@ -16,7 +16,7 @@ public class Shackle : ConditionModel
 		await base.OnAdded(condition);
 
 		ShackleIndicator indicator =
-			ResourceLoader.Load<PackedScene>("res://Content/Classes/Chainguard/ShackleIndicator.tscn").Instantiate<ShackleIndicator>();
+			SceneLoader.InstantiateScene<ShackleIndicator>("res://Content/Classes/Chainguard/ShackleIndicator.tscn");
 		condition.Owner.AddChild(indicator);
 		indicator.Init();
 		condition.SetCustomValue("ShackleIndicator", indicator);

@@ -11,7 +11,7 @@ public class HexIndicatorManager
 
 	public HexIndicatorManager()
 	{
-		_hexIndicatorScene = ResourceLoader.Load<PackedScene>("res://Scenes/Scenario/HexIndicator.tscn");
+		_hexIndicatorScene = SceneLoader.LoadPackedScene("res://Scenes/Scenario/HexIndicator.tscn");
 	}
 
 	public void StartSettingIndicators()

@@ -37,7 +37,7 @@ public abstract class TotemReward : SavedReward, IEventSubscriber
 				if(hex != null)
 				{
 					Obstacle obstacle = await AbilityCmd.CreateOverlayTile<Obstacle>(hex,
-						ResourceLoader.Load<PackedScene>("res://Content/OverlayTiles/Obstacles/Totem1H.tscn"));
+						SceneLoader.LoadPackedScene("res://Content/OverlayTiles/Obstacles/Totem1H.tscn"));
 					OnTotemPlaced(obstacle);
 
 					ScenarioCheckEvents.GenericInfoItemExtraEffectsCheckEvent.Subscribe(this,

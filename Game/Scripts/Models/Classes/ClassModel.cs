@@ -21,7 +21,7 @@ public abstract class ClassModel : AbstractModel
 	public abstract List<PerkModel> Perks { get; }
 
 	public virtual XPLevelValues XPLevelValues => XPLevelValues.Default;
-	public abstract PackedScene Scene { get; } // => ResourceLoader.Load<PackedScene>($"{AssetPath}/{ClassName}.tscn");
+	public abstract PackedScene Scene { get; }
 	public virtual Texture2D PortraitTexture => ResourceLoader.Load<Texture2D>($"{AssetPath}/Portrait.tres");
 	public virtual Texture2D CharacterTokenTexture => ResourceLoader.Load<Texture2D>($"{AssetPath}/CharacterToken.png");
 	public virtual Texture2D MatFrontTexture => ResourceLoader.Load<Texture2D>($"{AssetPath}/MatFront.png");
