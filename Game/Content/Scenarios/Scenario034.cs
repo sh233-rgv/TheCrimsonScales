@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 
 public class Scenario034 : ScenarioModel
@@ -58,6 +59,12 @@ public class Scenario034 : ScenarioModel
 		new GainReputationReward(2),
 	];
 
+	private ScenarioRule _monksRule;
+	private ScenarioRule _emptyTileRule;
+
+	private MapTile _h3bMapTile;
+	private readonly List<NPC> _holyMonks = new List<NPC>();
+
 	public override async GDTask InitializeBeforeFirstRoomRevealed()
 	{
 		await base.InitializeBeforeFirstRoomRevealed();
@@ -89,6 +96,8 @@ public class Scenario034 : ScenarioModel
 
 		await AddGoal(new KillAllEnemiesScenarioGoal(true));
 
+		GameController.Instance.Map.Treasures[0].SetItemLoot(ModelDB.Item<WarPick>());
+
 		foreach(Marker marker in GameController.Instance.Map.GetMarkers(Marker.Type.a))
 		{
 			NPC monk = await SpawnNPC(marker.Hex, 2 + CharacterCount + ScenarioLevel, "Sacred Monk",
@@ -106,14 +115,33 @@ public class Scenario034 : ScenarioModel
 					 """);
 		}
 
-		//AddScenarioRule("The same pressure plate cannot be activated twice in a row.");
+		_monksRule = AddScenarioRule("When 3 monks die, the scenario is lost.");
+
+		int monksLeftCount = 3;
+		ScenarioEvents.FigureKilledEvent.Subscribe(this,
+			parameters =>
+				//parameters.Figure.DisplayName
+				parameters.Figure.DisplayName.Contains("Monk"),
+			async _ =>
+			{
+				monksLeftCount--;
+				_monksRule.SetText(textParameters => $"When {monksLeftCount} more monks die, the scenario is lost.");
+
+				if(monksLeftCount <= 0)
+				{
+					await AbilityCmd.Lose();
+				}
+			}
+		);
+
+		_h3bMapTile = GameController.Instance.Map.Rooms[2].MapTiles.First();
 	}
 
-	protected override async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters parameters)
+	protected override async GDTask OnRoomRevealed(ScenarioEvents.RoomRevealed.Parameters roomRevealedParameters)
 	{
-		await base.OnRoomRevealed(parameters);
+		await base.OnRoomRevealed(roomRevealedParameters);
 
-		if(parameters.Room == GameController.Instance.Map.Rooms[2])
+		if(roomRevealedParameters.Room == GameController.Instance.Map.Rooms[2])
 		{
 			foreach(Marker marker in GameController.Instance.Map.GetMarkers(Marker.Type.b))
 			{
@@ -130,10 +158,17 @@ public class Scenario034 : ScenarioModel
 						$"""
 						 {Icons.Inline(Icons.Heal, textParameters)}1, {Icons.Inline(Icons.Targets, textParameters)}1 ally, {Icons.Inline(Icons.Range, textParameters)}1
 						 """);
+
+				_holyMonks.Add(monk);
 			}
+
+			await ShowText(
+				"""
+				Moving further into the temple you see Inox smashing what you can only imagine are sacred relics, torching paintings and menacingly standing over the monks. You’ll need to be quick to ensure no further lives are lost.
+				""");
 		}
 
-		if(parameters.Room == GameController.Instance.Map.Rooms[3])
+		if(roomRevealedParameters.Room == GameController.Instance.Map.Rooms[3])
 		{
 			foreach(Marker marker in GameController.Instance.Map.GetMarkers(Marker.Type.c))
 			{
@@ -147,12 +182,43 @@ public class Scenario034 : ScenarioModel
 
 						 Each time an enemy within {Icons.Inline(Icons.Range, textParameters)}3 attacks this figure, the enemy gains {Icons.InlineCondition(Conditions.Curse, textParameters)} after the attack.
 						 """);
+
+				ScenarioEvents.AfterAttackPerformedEvent.Subscribe(monk, this,
+					parameters =>
+						parameters.AbilityState.Target == monk &&
+						RangeHelper.Distance(parameters.Performer.Hex, monk.Hex) <= 3,
+					async parameters =>
+					{
+						await AbilityCmd.AddCondition(null, parameters.Performer, Conditions.Curse);
+					}
+				);
 			}
 
-			//TODO: Implement effect
+			_emptyTileRule = AddScenarioRule("When the H3b map tile no longer contains enemies, all Holy Monks are removed.");
+
+			ScenarioEvents.FigureExitingHexEvent.Subscribe(this,
+				parameters => parameters.Hex.MapTile == _h3bMapTile,
+				async parameters =>
+				{
+					await CheckMapTileEmpty();
+				}
+			);
+
+			ScenarioEvents.FigureKilledEvent.Subscribe(this, _h3bMapTile,
+				parameters => parameters.Figure.Hex.MapTile == _h3bMapTile,
+				async parameters =>
+				{
+					await CheckMapTileEmpty();
+				}
+			);
+
+			await ShowText(
+				"""
+				Deeper into the temple, you arrive at a circular chamber. An altar with an ivory replica of the Great Tree stands in the center. Orgrum takes his axe and smashes through the sacred idol. There is a gasp from the monks in the room. “Ah, I need a good fight, these other city-dwellers are pathetic. Yalig, Dakra, let’s teach these wormlings a lesson!” two other Inox snarl as they approach.
+				""");
 		}
 
-		if(parameters.Room == GameController.Instance.Map.Rooms[4])
+		if(roomRevealedParameters.Room == GameController.Instance.Map.Rooms[4])
 		{
 			foreach(Marker marker in GameController.Instance.Map.GetMarkers(Marker.Type.d))
 			{
@@ -178,5 +244,27 @@ public class Scenario034 : ScenarioModel
 	{
 		CharacterStartHex hex = hexes[index];
 		await hex.Destroy(true);
+	}
+
+	private async GDTask CheckMapTileEmpty()
+	{
+		foreach(Figure figure in GameController.Instance.Map.Figures)
+		{
+			if(figure.Hex.MapTile == _h3bMapTile && figure.Alignment == Alignment.Monsters)
+			{
+				return;
+			}
+		}
+
+		ScenarioEvents.FigureExitingHexEvent.Unsubscribe(this);
+		ScenarioEvents.FigureKilledEvent.Unsubscribe(this, _h3bMapTile);
+
+		foreach(NPC holyMonk in _holyMonks)
+		{
+			await holyMonk.Destroy();
+			//await AbilityCmd.KillOrExhaust()
+		}
+
+		_emptyTileRule.Remove();
 	}
 }
