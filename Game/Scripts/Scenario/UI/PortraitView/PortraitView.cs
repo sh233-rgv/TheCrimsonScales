@@ -11,12 +11,15 @@ public partial class PortraitView : Control
 	[Export]
 	private PackedScene _npcPortraitScene;
 	[Export]
+	private PackedScene _summonPortraitScene;
+	[Export]
 	private Control _portraitParent;
 
 	public List<PortraitViewPortrait> Portraits { get; } = new List<PortraitViewPortrait>();
 	public List<PortraitViewCharacterPortrait> CharacterPortraits { get; } = new List<PortraitViewCharacterPortrait>();
 	public List<PortraitViewMonsterGroupPortrait> MonsterGroupPortraits { get; } = new List<PortraitViewMonsterGroupPortrait>();
 	public List<PortraitViewNPCPortrait> NPCPortraits { get; } = new List<PortraitViewNPCPortrait>();
+	public List<PortraitViewSummonPortrait> SummonPortraits { get; } = new List<PortraitViewSummonPortrait>();
 
 	public void Open()
 	{
@@ -89,6 +92,13 @@ public partial class PortraitView : Control
 
 			return portrait;
 		}
+		else if(figure is Summon summon)
+		{
+			PortraitViewSummonPortrait portrait = _summonPortraitScene.Instantiate<PortraitViewSummonPortrait>();
+			portrait.Init(summon);
+
+			return portrait;
+		}
 
 		return null;
 	}
@@ -124,6 +134,15 @@ public partial class PortraitView : Control
 			_portraitParent.AddChild(portrait);
 			Portraits.Add(portrait);
 			NPCPortraits.Add(portrait);
+
+			Reorder();
+		}
+		else if(figure is Summon summon)
+		{
+			PortraitViewSummonPortrait portrait = (PortraitViewSummonPortrait)CreatePortrait(figure);
+			_portraitParent.AddChild(portrait);
+			Portraits.Add(portrait);
+			SummonPortraits.Add(portrait);
 
 			Reorder();
 		}
@@ -168,6 +187,19 @@ public partial class PortraitView : Control
 			{
 				Portraits.Remove(portrait);
 				NPCPortraits.Remove(portrait);
+				portrait.Destroy();
+
+				Reorder();
+			}
+		}
+		else if(figure is Summon summon)
+		{
+			PortraitViewSummonPortrait portrait = SummonPortraits.FirstOrDefault(portrait => portrait.Summon == summon);
+
+			if(portrait != null)
+			{
+				Portraits.Remove(portrait);
+				SummonPortraits.Remove(portrait);
 				portrait.Destroy();
 
 				Reorder();
