@@ -282,19 +282,20 @@ public partial class GameController : SceneController<GameController>
 
 		if(@event is InputEventKey inputEventKey && inputEventKey.Pressed)
 		{
-			if(inputEventKey.Keycode == Key.P)
+			switch(inputEventKey.Keycode)
 			{
-				EditorPrintSaveGame();
-			}
-
-			if(inputEventKey.Keycode == Key.Backspace)
-			{
-				UndoManager.Undo();
-			}
-
-			if(inputEventKey.Keycode == Key.Escape)
-			{
-				OpenMenuPopup();
+				case Key.P:
+					EditorPrintSaveGame();
+					break;
+				case Key.Backspace:
+					UndoManager.Undo();
+					break;
+				case Key.Escape:
+					OpenMenuPopup();
+					break;
+				case Key.Tab:
+					OpenPartyInfoPopup();
+					break;
 			}
 		}
 	}
@@ -480,6 +481,20 @@ public partial class GameController : SceneController<GameController>
 		string title = $"{ScenarioModel.ScenarioNumber} - {ScenarioModel.Name}";
 		await AppController.Instance.StoryView.OpenAsync(title, "Conclusion", ScenarioModel.ConclusionText,
 			cancellationToken: CancellationToken);
+	}
+
+	public void OpenPartyInfoPopup()
+	{
+		this.DelayedCall(() =>
+		{
+			if(!AppController.Instance.PopupManager.IsPopupOpen())
+			{
+				AppController.Instance.PopupManager.RequestPopup(new PartyInfoPopup.Request
+				{
+					Characters = CharacterManager.Characters
+				});
+			}
+		});
 	}
 
 	private void EditorPrintSaveGame()

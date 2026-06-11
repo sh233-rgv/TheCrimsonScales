@@ -14,9 +14,6 @@ public partial class PartyButton : Control
 
 	private void OnPressed()
 	{
-		AppController.Instance.PopupManager.RequestPopup(new PartyInfoPopup.Request
-		{
-			Characters = GameController.Instance.CharacterManager.Characters
-		});
+		GameController.Instance.OpenPartyInfoPopup();
 	}
 }
