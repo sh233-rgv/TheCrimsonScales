@@ -107,9 +107,6 @@ public abstract partial class Figure : HexObject, IActionSource
 		OnShieldSubscriptionsChanged();
 		OnRetaliateSubscriptionsChanged();
 		OnFlyingSubscriptionsChanged();
-
-		await ScenarioEvents.FigureEnteredHexEvent.CreatePrompt(new ScenarioEvents.FigureEnteredHex.Parameters(null, this, false), this);
-		//await AbilityCmd.EnterHex(null, this, this, Hex, false, false);
 	}
 
 	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
