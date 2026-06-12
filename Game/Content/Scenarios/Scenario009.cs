@@ -78,7 +78,7 @@ public class Scenario009 : ScenarioModel
 		await AddGoal(new LootGoalTreasuresGoal());
 
 		_doorsLockedRule = AddScenarioRule("The doors are currently locked.");
-		_somethingWillHappenRule = AddScenarioRule("Something will happen when all enemies in this room are dead.");
+		_somethingWillHappenRule = AddScenarioRule("Something will happen when all revealed enemies are dead.");
 
 		foreach(Marker marker in GameController.Instance.Map.Markers)
 		{

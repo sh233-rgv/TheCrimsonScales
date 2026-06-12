@@ -233,12 +233,14 @@ position = Vector2(3055.3376, 756)
 position = Vector2(3273.5762, 756)
 
 [node name="Marker" parent="Map/Rooms/Room3/Water1H9" index="6" unique_id=1088282640 instance=ExtResource("10_51yk0")]
+_hideDuringPlay = true
 
 [node name="Water1H10" parent="Map/Rooms/Room3" index="22" unique_id=1933412204 instance=ExtResource("6_44rt0")]
 position = Vector2(2727.98, 1323)
 
 [node name="Marker" parent="Map/Rooms/Room3/Water1H10" index="6" unique_id=1875076713 instance=ExtResource("10_51yk0")]
 MarkerType = 1
+_hideDuringPlay = true
 
 [node name="Water1H11" parent="Map/Rooms/Room3" index="23" unique_id=1229992102 instance=ExtResource("6_44rt0")]
 position = Vector2(2946.2183, 1323)
@@ -259,6 +261,7 @@ position = Vector2(3164.4565, 1701)
 position = Vector2(3382.695, 1701)
 
 [node name="Marker" parent="Map/Rooms/Room3/Water1H16" index="6" unique_id=2097087432 instance=ExtResource("10_51yk0")]
+_hideDuringPlay = true
 
 [node name="Water1H17" parent="Map/Rooms/Room3" index="29" unique_id=1006124375 instance=ExtResource("6_44rt0")]
 position = Vector2(2509.7415, 1701)
@@ -270,6 +273,7 @@ position = Vector2(2400.6223, 1890)
 position = Vector2(2182.3838, 1890)
 
 [node name="Marker" parent="Map/Rooms/Room3/Water1H19" index="6" unique_id=734883372 instance=ExtResource("10_51yk0")]
+_hideDuringPlay = true
 
 [node name="Rubble1H" parent="Map/Rooms/Room3" index="32" unique_id=1105410943 instance=ExtResource("15_c67tl")]
 position = Vector2(2073.265, 1323)
@@ -290,7 +294,7 @@ position = Vector2(2291.5032, 1323)
 position = Vector2(3164.4568, 1323)
 
 [node name="MonsterSpawner" parent="Map/Rooms/Room3" index="38" unique_id=1133389266 instance=ExtResource("9_8moux")]
-position = Vector2(2400.6223, 1512)
+position = Vector2(2727.98, 1323)
 MonsterModelId = "WATER_SPIRIT.MORPHLING"
 MonsterType2Characters = 2
 MonsterType3Characters = 2
@@ -298,3 +302,16 @@ MonsterType4Characters = 2
 
 [node name="DarkFog1H" parent="Map/Doors" parent_id_path=PackedInt32Array(1045544097) index="0" unique_id=1627895093 instance=ExtResource("9_5wxix")]
 position = Vector2(982.07275, -189)
+_startsLocked = true
+
+[node name="Marker" parent="Map/Doors/DarkFog1H" index="7" unique_id=285465467 instance=ExtResource("10_51yk0")]
+MarkerType = 25
+_hideDuringPlay = true
+
+[node name="DarkFog1H2" parent="Map/Doors" parent_id_path=PackedInt32Array(1045544097) index="1" unique_id=2060550418 instance=ExtResource("9_5wxix")]
+position = Vector2(2073.2646, -189)
+_startsLocked = true
+
+[node name="Marker" parent="Map/Doors/DarkFog1H2" index="7" unique_id=242235998 instance=ExtResource("10_51yk0")]
+MarkerType = 26
+_hideDuringPlay = true
