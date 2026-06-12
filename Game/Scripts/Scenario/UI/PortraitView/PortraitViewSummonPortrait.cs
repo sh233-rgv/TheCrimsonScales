@@ -10,7 +10,7 @@
 
 		Summon = summon;
 
-		_portraitTexture.Texture = Summon.Texture;
+		_portraitTexture.SetTexture(Summon.PortraitTexture);
 
 		Summon.InitiativeChangedEvent += OnInitiativeChanged;
 
@@ -36,7 +36,7 @@
 
 	private void OnInitiativeChanged(Figure figure)
 	{
-		_initiativeLabel.Text = figure.Initiative.ToString();
+		_initiativeLabel.SetText(figure.Initiative.ToString());
 
 		GameController.Instance.PortraitView.Reorder();
 	}

@@ -24,7 +24,7 @@ public partial class SpiritInfoItem : FigureInfoItem<SpiritInfoItem.Parameters>
 
 		_spirit = parameters.Spirit;
 
-		_portraitTexture.SetTexture(_spirit.Texture);
+		_portraitTexture.SetTexture(_spirit.PortraitTexture);
 		_portraitBorder.SetSelfModulate(_spirit.OutlineColor);
 
 		_moveLabel.SetText(_spirit.Move?.ToString() ?? "-");

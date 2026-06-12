@@ -24,7 +24,7 @@ public partial class SummonInfoItem : FigureInfoItem<SummonInfoItem.Parameters>
 
 		_summon = parameters.Summon;
 
-		_portraitTexture.SetTexture(_summon.Texture);
+		_portraitTexture.SetTexture(_summon.PortraitTexture);
 		_portraitBorder.SetSelfModulate(_summon.OutlineColor);
 
 		_moveLabel.SetText(_summon.Stats.Move?.ToString() ?? "-");

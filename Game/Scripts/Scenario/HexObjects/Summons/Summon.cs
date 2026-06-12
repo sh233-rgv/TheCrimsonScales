@@ -12,7 +12,7 @@ public partial class Summon : Figure
 
 	public SummonStats Stats { get; private set; }
 	public Character CharacterOwner { get; private set; }
-	public Texture2D Texture { get; private set; }
+	public Texture2D PortraitTexture { get; private set; }
 	public int SummonIndex { get; private set; }
 
 	public override string DisplayName => _name;
@@ -28,7 +28,7 @@ public partial class Summon : Figure
 		_summonViewComponent = GetViewComponent<SummonViewComponent>();
 	}
 
-	public async GDTask Spawn(SummonStats stats, Character characterOwner, string name, string texturePath, string mapIconTexturePath)
+	public async GDTask Spawn(SummonStats stats, Character characterOwner, string name, string portraitTexturePath, string mapIconTexturePath)
 	{
 		Stats = stats;
 		CharacterOwner = characterOwner;
@@ -40,7 +40,7 @@ public partial class Summon : Figure
 
 		_summonViewComponent.StandeeNumberCircle.SetSelfModulate(OutlineColor);
 
-		Texture = ResourceLoader.Load<Texture2D>(texturePath);
+		PortraitTexture = ResourceLoader.Load<Texture2D>(portraitTexturePath);
 		Texture2D mapIconTexture = ResourceLoader.Load<Texture2D>(mapIconTexturePath);
 		_summonViewComponent.Sprite.SetTexture(mapIconTexture);
 		float textureWidth = mapIconTexture.GetWidth();

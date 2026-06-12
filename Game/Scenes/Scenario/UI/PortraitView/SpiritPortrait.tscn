@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c76bklx4vbh37"]
+
+[ext_resource type="PackedScene" uid="uid://dm5lmr3uhvlxy" path="res://Scenes/Scenario/UI/PortraitView/_PortraitViewPortrait.tscn" id="1_4le5q"]
+[ext_resource type="Script" uid="uid://cpp7r1d12xc00" path="res://Scripts/Scenario/UI/PortraitView/PortraitViewSpiritPortrait.cs" id="2_4le5q"]
+
+[node name="SpiritPortrait" unique_id=92774329 node_paths=PackedStringArray("_container", "_portraitTexture", "_initiativeLabel", "_betterButton", "_selectedIndicator") instance=ExtResource("1_4le5q")]
+script = ExtResource("2_4le5q")
+_container = NodePath("Container")
+_portraitTexture = NodePath("Container/BetterButton/Panel/Mask/TextureRect")
+_initiativeLabel = NodePath("Container/BetterButton/TextureRect/Label")
+_betterButton = NodePath("Container/BetterButton")
+_selectedIndicator = NodePath("SelectedIndicator")

@@ -48,6 +48,7 @@ public class SpawnAbility : ActiveAbility<SpawnAbility.State>
 	}
 
 	private string _texturePath;
+	private string _portraitTexturePath;
 	private string _mapIconTexturePath;
 	private Action<State, List<Hex>> _getValidHexes;
 	private bool _requestDiscardOrLoseAfterSpiritKilled = true;
@@ -96,6 +97,7 @@ public class SpawnAbility : ActiveAbility<SpawnAbility.State>
 		public IHealthStep WithTexturePath(string texturePath)
 		{
 			Obj._texturePath = texturePath;
+			Obj._portraitTexturePath = $"{texturePath.GetBaseName()}Portrait.tres";
 			Obj._mapIconTexturePath = $"{texturePath.GetBaseName()}MapIcon.tres";
 			return (TBuilder)this;
 		}
@@ -178,7 +180,8 @@ public class SpawnAbility : ActiveAbility<SpawnAbility.State>
 	protected override async GDTask Perform(State abilityState)
 	{
 		// Target a hex within range
-		Hex targetedHex = await AbilityCmd.SelectHex(abilityState, list =>
+		Hex targetedHex = await AbilityCmd.SelectHex(abilityState,
+			list =>
 			{
 				if(_getValidHexes == null)
 				{
@@ -206,7 +209,7 @@ public class SpawnAbility : ActiveAbility<SpawnAbility.State>
 			GameController.Instance.Map.AddChild(spirit);
 			await spirit.Init(targetedHex);
 			await spirit.Spawn(abilityState.Health, abilityState.Move, abilityState.Attack, abilityState.Range, abilityState.Traits.ToArray(),
-				(Character)abilityState.Performer, abilityState.Name, _texturePath, _mapIconTexturePath);
+				(Character)abilityState.Performer, abilityState.Name, _portraitTexturePath, _mapIconTexturePath);
 			abilityState.SetSpirit(spirit);
 
 			spirit.Scale = Vector2.Zero;

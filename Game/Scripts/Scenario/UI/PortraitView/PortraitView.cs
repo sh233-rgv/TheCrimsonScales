@@ -13,6 +13,8 @@ public partial class PortraitView : Control
 	[Export]
 	private PackedScene _summonPortraitScene;
 	[Export]
+	private PackedScene _spiritPortraitScene;
+	[Export]
 	private Control _portraitParent;
 
 	public List<PortraitViewPortrait> Portraits { get; } = new List<PortraitViewPortrait>();
@@ -20,6 +22,7 @@ public partial class PortraitView : Control
 	public List<PortraitViewMonsterGroupPortrait> MonsterGroupPortraits { get; } = new List<PortraitViewMonsterGroupPortrait>();
 	public List<PortraitViewNPCPortrait> NPCPortraits { get; } = new List<PortraitViewNPCPortrait>();
 	public List<PortraitViewSummonPortrait> SummonPortraits { get; } = new List<PortraitViewSummonPortrait>();
+	public List<PortraitViewSpiritPortrait> SpiritPortraits { get; } = new List<PortraitViewSpiritPortrait>();
 
 	public void Open()
 	{
@@ -99,6 +102,13 @@ public partial class PortraitView : Control
 
 			return portrait;
 		}
+		else if(figure is Spirit spirit)
+		{
+			PortraitViewSpiritPortrait portrait = _spiritPortraitScene.Instantiate<PortraitViewSpiritPortrait>();
+			portrait.Init(spirit);
+
+			return portrait;
+		}
 
 		return null;
 	}
@@ -143,6 +153,15 @@ public partial class PortraitView : Control
 			_portraitParent.AddChild(portrait);
 			Portraits.Add(portrait);
 			SummonPortraits.Add(portrait);
+
+			Reorder();
+		}
+		else if(figure is Spirit spirit)
+		{
+			PortraitViewSpiritPortrait portrait = (PortraitViewSpiritPortrait)CreatePortrait(figure);
+			_portraitParent.AddChild(portrait);
+			Portraits.Add(portrait);
+			SpiritPortraits.Add(portrait);
 
 			Reorder();
 		}
@@ -200,6 +219,19 @@ public partial class PortraitView : Control
 			{
 				Portraits.Remove(portrait);
 				SummonPortraits.Remove(portrait);
+				portrait.Destroy();
+
+				Reorder();
+			}
+		}
+		else if(figure is Spirit spirit)
+		{
+			PortraitViewSpiritPortrait portrait = SpiritPortraits.FirstOrDefault(portrait => portrait.Spirit == spirit);
+
+			if(portrait != null)
+			{
+				Portraits.Remove(portrait);
+				SpiritPortraits.Remove(portrait);
 				portrait.Destroy();
 
 				Reorder();

@@ -26,7 +26,7 @@ public partial class Spirit : Figure
 	public int? Attack { get; private set; }
 	public int? Range { get; private set; }
 	public Character CharacterOwner { get; private set; }
-	public Texture2D Texture { get; private set; }
+	public Texture2D PortraitTexture { get; private set; }
 	public int SpiritIndex { get; private set; }
 
 	public override string DisplayName => _name;
@@ -57,7 +57,7 @@ public partial class Spirit : Figure
 	}
 
 	public async GDTask Spawn(int health, int? move, int? attack, int? range, FigureTrait[] traits, Character characterOwner, string name,
-		string texturePath, string mapIconTexturePath)
+		string portraitTexturePath, string mapIconTexturePath)
 	{
 		HealthStat = health;
 		Move = move;
@@ -73,7 +73,7 @@ public partial class Spirit : Figure
 
 		_spiritViewComponent.StandeeNumberCircle.SetSelfModulate(OutlineColor);
 
-		Texture = ResourceLoader.Load<Texture2D>(texturePath);
+		PortraitTexture = ResourceLoader.Load<Texture2D>(portraitTexturePath);
 		Texture2D mapIconTexture = ResourceLoader.Load<Texture2D>(mapIconTexturePath);
 		_spiritViewComponent.Sprite.SetTexture(mapIconTexture);
 		float textureWidth = mapIconTexture.GetWidth();

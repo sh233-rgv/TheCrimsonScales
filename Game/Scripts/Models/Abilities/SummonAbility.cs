@@ -48,6 +48,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 	}
 
 	private string _texturePath;
+	private string _portraitTexturePath;
 	private string _mapIconTexturePath;
 	private Action<State, List<Hex>> _getValidHexes;
 
@@ -95,6 +96,7 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 		public IHealthStep WithTexturePath(string texturePath)
 		{
 			Obj._texturePath = texturePath;
+			Obj._portraitTexturePath = $"{texturePath.GetBaseName()}Portrait.tres";
 			Obj._mapIconTexturePath = $"{texturePath.GetBaseName()}MapIcon.tres";
 			return (TBuilder)this;
 		}
@@ -176,7 +178,8 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 	protected override async GDTask Perform(State abilityState)
 	{
 		// Target a hex within range
-		Hex targetedHex = await AbilityCmd.SelectHex(abilityState, list =>
+		Hex targetedHex = await AbilityCmd.SelectHex(abilityState,
+			list =>
 			{
 				if(_getValidHexes == null)
 				{
@@ -212,10 +215,10 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 			Summon summon = SceneLoader.InstantiateScene<Summon>("res://Scenes/Scenario/Summon.tscn");
 			GameController.Instance.Map.AddChild(summon);
 			await summon.Init(targetedHex);
-			await summon.Spawn(summonStats, (Character)abilityState.Performer, abilityState.Name, _texturePath, _mapIconTexturePath);
+			await summon.Spawn(summonStats, (Character)abilityState.Performer, abilityState.Name, _portraitTexturePath, _mapIconTexturePath);
 			abilityState.SetSummon(summon);
 
-			summon.Scale = Vector2.Zero;
+			summon.SetScale(Vector2.Zero);
 			await summon.TweenScale(1f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardableAsync();
 
 			ScenarioEvents.FigureKilledEvent.Subscribe(abilityState, this,
@@ -223,7 +226,8 @@ public class SummonAbility : ActiveAbility<SummonAbility.State>
 				async parameters =>
 				{
 					await abilityState.ActionState.RequestDiscardOrLose();
-				});
+				}
+			);
 
 			await Activate(abilityState);
 		}

@@ -48,6 +48,7 @@
 [ext_resource type="Texture2D" uid="uid://cpv5w6250wmii" path="res://Art/Icons/Elements/FireEmpty.svg" id="38_bytl6"]
 [ext_resource type="Script" uid="uid://dir5vjdxjac3n" path="res://Scripts/UI/BetterButton.cs" id="38_grpwx"]
 [ext_resource type="PackedScene" uid="uid://dopa5htc1ra5d" path="res://Scenes/Scenario/UI/PortraitView/SummonPortrait.tscn" id="38_lv1i0"]
+[ext_resource type="PackedScene" uid="uid://c76bklx4vbh37" path="res://Scenes/Scenario/UI/PortraitView/SpiritPortrait.tscn" id="39_8ytt2"]
 [ext_resource type="Texture2D" uid="uid://7j5gn7adtbco" path="res://Art/Icons/Elements/Fire.svg" id="39_gpo0a"]
 [ext_resource type="FontFile" uid="uid://c4k3lpnj0wc06" path="res://Fonts/PirataOne-Gloomhaven.ttf" id="39_namyh"]
 [ext_resource type="Texture2D" uid="uid://baxyetpl5ckux" path="res://Art/Icons/Elements/IceEmpty.svg" id="40_vfiu8"]
@@ -682,6 +683,7 @@ _characterPortraitScene = ExtResource("18_us76b")
 _monsterGroupPortraitScene = ExtResource("19_mtt54")
 _npcPortraitScene = ExtResource("37_dpg3j")
 _summonPortraitScene = ExtResource("38_lv1i0")
+_spiritPortraitScene = ExtResource("39_8ytt2")
 _portraitParent = NodePath("Container")
 
 [node name="Container" type="Control" parent="CanvasLayer/UI/PortraitView" unique_id=16633134]
