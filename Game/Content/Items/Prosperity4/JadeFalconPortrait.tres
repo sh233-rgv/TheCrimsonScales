@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://n16a46chafnm"]
+
+[ext_resource type="Texture2D" uid="uid://c36gmlce480yb" path="res://Content/Items/Prosperity4/JadeFalcon.png" id="1_4puyd"]
+
+[resource]
+atlas = ExtResource("1_4puyd")
+region = Rect2(100, 20, 530, 795)
