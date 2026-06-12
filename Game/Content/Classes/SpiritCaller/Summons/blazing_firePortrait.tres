@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://26e5gin1cmjw"]
+
+[ext_resource type="Texture2D" uid="uid://c6p7or3i2kcee" path="res://Content/Classes/SpiritCaller/Summons/blazing_fire.png" id="1_fej8x"]
+
+[resource]
+atlas = ExtResource("1_fej8x")
+region = Rect2(110, 20, 500, 750)

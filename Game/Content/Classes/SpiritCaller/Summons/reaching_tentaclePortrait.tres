@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://ctxwjdwkxexvw"]
+
+[ext_resource type="Texture2D" uid="uid://bdpwljnxgc400" path="res://Content/Classes/SpiritCaller/Summons/reaching_tentacle.png" id="1_wggva"]
+
+[resource]
+atlas = ExtResource("1_wggva")
+region = Rect2(120, 10, 500, 750)

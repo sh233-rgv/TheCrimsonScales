@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://c2x4q7iqgh6q3"]
+
+[ext_resource type="Texture2D" uid="uid://eempdrcqgdcw" path="res://Content/Classes/SpiritCaller/Summons/disembodied_goliath.png" id="1_0naa2"]
+
+[resource]
+atlas = ExtResource("1_0naa2")
+region = Rect2(110, 0, 500, 750)

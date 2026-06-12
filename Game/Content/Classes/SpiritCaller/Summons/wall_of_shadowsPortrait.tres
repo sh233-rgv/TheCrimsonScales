@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://dt5unpkbs7ux6"]
+
+[ext_resource type="Texture2D" uid="uid://evpjmupsyqg0" path="res://Content/Classes/SpiritCaller/Summons/wall_of_shadows.png" id="1_hrvd8"]
+
+[resource]
+atlas = ExtResource("1_hrvd8")
+region = Rect2(120, 10, 500, 750)

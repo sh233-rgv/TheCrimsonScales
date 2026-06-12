@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://cn6t40towyerp"]
+
+[ext_resource type="Texture2D" uid="uid://bdtm00ffcyy7o" path="res://Content/Classes/SpiritCaller/Summons/bat_cloud.png" id="1_6ihiu"]
+
+[resource]
+atlas = ExtResource("1_6ihiu")
+region = Rect2(110, 0, 500, 750)

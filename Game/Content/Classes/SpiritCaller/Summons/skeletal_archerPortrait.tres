@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://l8iitqym32vv"]
+
+[ext_resource type="Texture2D" uid="uid://bpitwwniw6e1i" path="res://Content/Classes/SpiritCaller/Summons/skeletal_archer.png" id="1_m8swa"]
+
+[resource]
+atlas = ExtResource("1_m8swa")
+region = Rect2(120, 0, 500, 750)

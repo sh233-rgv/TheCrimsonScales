@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://d3twro10d1447"]
+
+[ext_resource type="Texture2D" uid="uid://bm2icxp3uhdp1" path="res://Content/Classes/SpiritCaller/Summons/imbued_monolith.png" id="1_q7aqi"]
+
+[resource]
+atlas = ExtResource("1_q7aqi")
+region = Rect2(110, 110, 500, 500)
