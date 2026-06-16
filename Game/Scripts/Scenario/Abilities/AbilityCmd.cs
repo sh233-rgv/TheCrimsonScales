@@ -718,11 +718,13 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask Teleport(AbilityState abilityState, Figure figure, Hex destination, bool forcedMovement = false)
+	public static async GDTask Teleport(AbilityState potentialAbilityState, Figure figure, Hex destination, bool forcedMovement = false)
 	{
-		abilityState.SetPerformed();
+		potentialAbilityState?.SetPerformed();
 
-		await ExitHex(abilityState, figure, abilityState.Authority);
+		Figure authority = potentialAbilityState?.Authority ?? figure;
+
+		await ExitHex(potentialAbilityState, figure, authority);
 
 		const float animationSpeed = 1.4f;
 
@@ -740,7 +742,7 @@ public static class AbilityCmd
 			await GameController.Instance.ScreenDistortion.Appear(figure, animationSpeed, true).PlayFastForwardableAsync();
 		}
 
-		await EnterHex(abilityState, figure, abilityState.Authority, destination,
+		await EnterHex(potentialAbilityState, figure, authority, destination,
 			triggerHexEffects: true, setPosition: true, forcedMovement: forcedMovement);
 	}
 

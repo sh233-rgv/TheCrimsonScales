@@ -49,6 +49,8 @@ public class Scenario039 : ScenarioModel
 
 	public override async GDTask StartOfScenarioEffects(Character character)
 	{
+		await base.StartOfScenarioEffects(character);
+
 		await AbilityCmd.SufferDamage(character, 1, character);
 	}
 

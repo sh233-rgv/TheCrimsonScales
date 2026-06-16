@@ -76,6 +76,8 @@ public class Scenario010 : ScenarioModel
 
 	public override async GDTask StartOfScenarioEffects(Character character)
 	{
+		await base.StartOfScenarioEffects(character);
+
 		AbilityCard card = await AbilityCmd.SelectAbilityCard(character, CardState.Hand, true, hintText: "Select a card to discard");
 
 		if(card != null)

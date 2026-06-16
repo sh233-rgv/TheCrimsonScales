@@ -64,7 +64,7 @@ public class Scenario014 : ScenarioModel
 
 		_goal = await AddGoal(new CustomScenarioGoal(textParameters => "Kill 3 Cultists.", hasProgress: true, maxProgress: 3));
 
-		_somethingWillHappenRule = AddScenarioRule("Something will happen when all enemies in this room are killed.");
+		_somethingWillHappenRule = AddScenarioRule("Something will happen when all revealed enemies are dead.");
 
 		ScenarioEvents.FigureKilledEvent.Subscribe(this,
 			parameters => true,

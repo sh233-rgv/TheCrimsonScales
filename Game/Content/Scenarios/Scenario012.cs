@@ -46,6 +46,8 @@ public class Scenario012 : ScenarioModel
 
 	public override async GDTask StartOfScenarioEffects(Character character)
 	{
+		await base.StartOfScenarioEffects(character);
+
 		ItemModel item = await AbilityCmd.SelectItem(character, ItemState.Available, ItemType.Small,
 			hintText: $"Select one {Icons.HintText(Icons.GetItem(ItemType.Small))} to {Icons.HintText(Icons.LoseCard)}");
 

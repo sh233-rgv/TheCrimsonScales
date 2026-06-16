@@ -59,6 +59,8 @@ public class Scenario026 : ScenarioModel
 
 	public override async GDTask StartOfScenarioEffects(Character character)
 	{
+		await base.StartOfScenarioEffects(character);
+
 		await AbilityCmd.AddCondition(null, character, Conditions.Chill);
 	}
 
