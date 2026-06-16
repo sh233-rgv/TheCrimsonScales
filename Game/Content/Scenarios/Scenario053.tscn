@@ -240,7 +240,6 @@ position = Vector2(2727.98, 1323)
 
 [node name="Marker" parent="Map/Rooms/Room3/Water1H10" index="6" unique_id=1875076713 instance=ExtResource("10_51yk0")]
 MarkerType = 1
-_hideDuringPlay = true
 
 [node name="Water1H11" parent="Map/Rooms/Room3" index="23" unique_id=1229992102 instance=ExtResource("6_44rt0")]
 position = Vector2(2946.2183, 1323)

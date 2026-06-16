@@ -136,9 +136,92 @@ public class Scenario053 : ScenarioModel
 					hexes.Remove(hex);
 
 					await AbilityCmd.Teleport(null, character, hex, true);
+
+					await AbilityCmd.AddCondition(null, character, Conditions.Muddle);
 				}
 
 				tempRule.Remove();
+
+// 				AddScenarioRule(textParameters =>
+// 					$"""
+// 					 At the start of every round, place 2 water tiles closest to hex {Icons.InlineMarker(Marker.Type.b, textParameters)}, all allied figures that occupy a water tile suffer {Icons.Inline(Icons.Damage)}1 for each water tile that could not be placed this way. {Icons.InlineCondition(Conditions.Muddle, textParameters)} and {Icons.Inline(Icons.Pull, textParameters, ignoreParametersColor: true)} all allied figures that occupy a water tile 1 hex towards hex {Icons.InlineMarker(Marker.Type.b, textParameters)}.
+// 					 """);
+
+				AddScenarioRule(textParameters =>
+					$"""
+					 At the start of every round, place 2 water tiles closest to hex {Icons.InlineMarker(Marker.Type.b, textParameters)}, all allied figures that occupy a water tile suffer {Icons.Inline(Icons.Damage)}1 for each water tile that could not be placed this way.
+					 """);
+
+				AddScenarioRule(textParameters =>
+					$"""
+					 At the start of every round, all allied figures that occupy a water tile gain {Icons.InlineCondition(Conditions.Muddle, textParameters)}.
+					 """);
+
+				ScenarioEvents.RoundStartBeforeCardSelectionEvent.Subscribe(this,
+					roundStartParameters => true,
+					async roundStartParameters =>
+					{
+						List<Hex> closestHexes = new List<Hex>();
+
+						for(int i = 0; i < 2; i++)
+						{
+							Hex chosenHex = await AbilityCmd.SelectHex(GameController.Instance.CharacterManager.FirstAlive(),
+								list =>
+								{
+									List<Hex> possibleHexes = GameController.Instance.Map.Rooms[2].Hexes.Where(hex => hex.IsFeatureless()).ToList();
+									Hex bHex = GameController.Instance.Map.GetMarker(Marker.Type.b).Hex;
+
+									//int? minDistance = null;
+
+									//hexes.Shuffle(GameController.Instance.VisualRNG);
+									possibleHexes.Sort((otherHexA, otherHexB) =>
+										RangeHelper.Distance(bHex, otherHexA).CompareTo(RangeHelper.Distance(bHex, otherHexB)));
+									//Hex firstHex = possibleHexes.FirstOrDefault(hex => hex.IsEmpty() || (canHaveFeatures && hex.IsUnoccupied()));
+									Hex firstHex = possibleHexes.FirstOrDefault(); //hex => hex.IsEmpty() || (canHaveFeatures && hex.IsUnoccupied()));
+
+									if(firstHex == null)
+									{
+										return;
+									}
+
+									int distance = RangeHelper.Distance(bHex, firstHex);
+
+									// if(minDistance != null && distance > minDistance)
+									// {
+									// 	continue;
+									// }
+
+									// if(minDistance == null || distance < minDistance)
+									// {
+									// 	list.Clear();
+									// 	minDistance = distance;
+									// }
+
+									list.AddRange(possibleHexes.Where(hex => RangeHelper.Distance(bHex, hex) == distance));
+								},
+								true,
+								$"Select a hex to create a water tile"
+							);
+
+							if(chosenHex != null)
+							{
+								await AbilityCmd.CreateDifficultTerrain(chosenHex,
+									SceneLoader.LoadPackedScene("res://Content/OverlayTiles/DifficultTerrain/Water1H.tscn"));
+							}
+							else
+							{
+								// Each figure on a water tile suffers 1 damage if a water tile couldn't be placed
+								foreach(Figure figure in GameController.Instance.Map.Figures)
+								{
+									if(figure.Alignment == Alignment.Characters && figure.Hex.HasHexObjectOfType<Water>())
+									{
+										await AbilityCmd.SufferDamage(figure, 1, null);
+									}
+								}
+							}
+						}
+					}
+				);
 
 				await ShowText(
 					"""
