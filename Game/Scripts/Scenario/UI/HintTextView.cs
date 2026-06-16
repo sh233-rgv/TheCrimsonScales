@@ -22,6 +22,11 @@ public partial class HintTextView : Control
 
 	public void Open(string text)
 	{
+		if(Visible && _label.Text == text)
+		{
+			return;
+		}
+
 		SetVisible(true);
 		_label.SetText(text);
 
@@ -40,6 +45,11 @@ public partial class HintTextView : Control
 
 	public void Close(bool immediately = false)
 	{
+		if(!Visible)
+		{
+			return;
+		}
+
 		_scaleTween?.Kill();
 		if(immediately)
 		{

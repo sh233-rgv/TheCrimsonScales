@@ -15,7 +15,6 @@ public partial class ExclamationMark : Control
 		base._EnterTree();
 
 		SetVisible(false);
-		SetPivotOffset(Size * 0.5f);
 	}
 
 	public void SetActive(bool active)

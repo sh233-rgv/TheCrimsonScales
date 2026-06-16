@@ -210,6 +210,15 @@ public class ScenarioSetupPhase : ScenarioPhase
 		}
 
 		GameController.Instance.ScenarioSetupButtonsView.SetButtons(!hasUnfinishedCharacter);
+
+		if(hasUnfinishedCharacter)
+		{
+			GameController.Instance.HintTextView.Open("Select a battle goal for all characters.");
+		}
+		else
+		{
+			GameController.Instance.HintTextView.Close();
+		}
 	}
 
 	private void OnIndicatorPressed(HexIndicator hexIndicator)

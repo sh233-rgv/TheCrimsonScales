@@ -77,6 +77,7 @@ public partial class PortraitView : Control
 		if(figure is Monster monster)
 		{
 			PortraitViewMonsterGroupPortrait portrait = _monsterGroupPortraitScene.Instantiate<PortraitViewMonsterGroupPortrait>();
+			_portraitParent.AddChild(portrait);
 			portrait.Init(monster.MonsterGroup);
 
 			return portrait;
@@ -84,6 +85,7 @@ public partial class PortraitView : Control
 		else if(figure is Character character)
 		{
 			PortraitViewCharacterPortrait portrait = _characterPortraitScene.Instantiate<PortraitViewCharacterPortrait>();
+			_portraitParent.AddChild(portrait);
 			portrait.Init(character);
 
 			return portrait;
@@ -91,6 +93,7 @@ public partial class PortraitView : Control
 		else if(figure is NPC npc)
 		{
 			PortraitViewNPCPortrait portrait = _npcPortraitScene.Instantiate<PortraitViewNPCPortrait>();
+			_portraitParent.AddChild(portrait);
 			portrait.Init(npc);
 
 			return portrait;
@@ -98,6 +101,7 @@ public partial class PortraitView : Control
 		else if(figure is Summon summon)
 		{
 			PortraitViewSummonPortrait portrait = _summonPortraitScene.Instantiate<PortraitViewSummonPortrait>();
+			_portraitParent.AddChild(portrait);
 			portrait.Init(summon);
 
 			return portrait;
@@ -105,6 +109,7 @@ public partial class PortraitView : Control
 		else if(figure is Spirit spirit)
 		{
 			PortraitViewSpiritPortrait portrait = _spiritPortraitScene.Instantiate<PortraitViewSpiritPortrait>();
+			_portraitParent.AddChild(portrait);
 			portrait.Init(spirit);
 
 			return portrait;
@@ -122,7 +127,6 @@ public partial class PortraitView : Control
 			if(portrait == null)
 			{
 				portrait = (PortraitViewMonsterGroupPortrait)CreatePortrait(figure);
-				_portraitParent.AddChild(portrait);
 				Portraits.Add(portrait);
 				MonsterGroupPortraits.Add(portrait);
 
@@ -132,7 +136,6 @@ public partial class PortraitView : Control
 		else if(figure is Character character)
 		{
 			PortraitViewCharacterPortrait portrait = (PortraitViewCharacterPortrait)CreatePortrait(figure);
-			_portraitParent.AddChild(portrait);
 			Portraits.Add(portrait);
 			CharacterPortraits.Add(portrait);
 
@@ -141,7 +144,6 @@ public partial class PortraitView : Control
 		else if(figure is NPC npc)
 		{
 			PortraitViewNPCPortrait portrait = (PortraitViewNPCPortrait)CreatePortrait(figure);
-			_portraitParent.AddChild(portrait);
 			Portraits.Add(portrait);
 			NPCPortraits.Add(portrait);
 
@@ -150,7 +152,6 @@ public partial class PortraitView : Control
 		else if(figure is Summon summon)
 		{
 			PortraitViewSummonPortrait portrait = (PortraitViewSummonPortrait)CreatePortrait(figure);
-			_portraitParent.AddChild(portrait);
 			Portraits.Add(portrait);
 			SummonPortraits.Add(portrait);
 
@@ -159,7 +160,6 @@ public partial class PortraitView : Control
 		else if(figure is Spirit spirit)
 		{
 			PortraitViewSpiritPortrait portrait = (PortraitViewSpiritPortrait)CreatePortrait(figure);
-			_portraitParent.AddChild(portrait);
 			Portraits.Add(portrait);
 			SpiritPortraits.Add(portrait);
 

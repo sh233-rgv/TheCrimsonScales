@@ -1,5 +1,10 @@
-﻿public partial class PortraitViewCharacterPortrait : PortraitViewPortrait
+﻿using Godot;
+
+public partial class PortraitViewCharacterPortrait : PortraitViewPortrait
 {
+	[Export]
+	private ExclamationMark _exclamationMark;
+
 	public Character Character { get; private set; }
 
 	public override Initiative Initiative => Character.Initiative;
@@ -13,8 +18,11 @@
 		_portraitTexture.Texture = Character.PortraitTexture;
 
 		Character.InitiativeChangedEvent += OnInitiativeChanged;
+		Character.BattleGoalChangedEvent += OnBattleGoalChangedEvent;
 
 		OnInitiativeChanged(Character);
+
+		UpdateExclamationMark();
 	}
 
 	public override void Destroy()
@@ -24,6 +32,7 @@
 		if(Character != null)
 		{
 			Character.InitiativeChangedEvent -= OnInitiativeChanged;
+			Character.BattleGoalChangedEvent -= OnBattleGoalChangedEvent;
 		}
 	}
 
@@ -39,5 +48,17 @@
 		_initiativeLabel.Text = figure.Initiative.ToString();
 
 		GameController.Instance.PortraitView.Reorder();
+
+		UpdateExclamationMark();
+	}
+
+	private void OnBattleGoalChangedEvent(Character character)
+	{
+		UpdateExclamationMark();
+	}
+
+	private void UpdateExclamationMark()
+	{
+		_exclamationMark.SetActive(Character.SelectedBattleGoalModel == null);
 	}
 }

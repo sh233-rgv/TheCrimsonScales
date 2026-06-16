@@ -2,11 +2,24 @@
 
 [ext_resource type="PackedScene" uid="uid://dm5lmr3uhvlxy" path="res://Scenes/Scenario/UI/PortraitView/_PortraitViewPortrait.tscn" id="1_v8f6k"]
 [ext_resource type="Script" uid="uid://b3eqefkeih7nj" path="res://Scripts/Scenario/UI/PortraitView/PortraitViewCharacterPortrait.cs" id="2_ibija"]
+[ext_resource type="PackedScene" uid="uid://cw7b3ccvlqx53" path="res://Scenes/UI/ExclamationMark.tscn" id="3_jpgma"]
 
-[node name="CharacterPortrait" unique_id=92774329 node_paths=PackedStringArray("_container", "_portraitTexture", "_initiativeLabel", "_betterButton", "_selectedIndicator") instance=ExtResource("1_v8f6k")]
+[node name="CharacterPortrait" unique_id=92774329 node_paths=PackedStringArray("_exclamationMark", "_container", "_portraitTexture", "_initiativeLabel", "_betterButton", "_selectedIndicator") instance=ExtResource("1_v8f6k")]
 script = ExtResource("2_ibija")
+_exclamationMark = NodePath("Container/ExclamationMark")
 _container = NodePath("Container")
 _portraitTexture = NodePath("Container/BetterButton/Panel/Mask/TextureRect")
 _initiativeLabel = NodePath("Container/BetterButton/TextureRect/Label")
 _betterButton = NodePath("Container/BetterButton")
 _selectedIndicator = NodePath("SelectedIndicator")
+
+[node name="ExclamationMark" parent="Container" parent_id_path=PackedInt32Array(2105078430) index="1" unique_id=1973262968 instance=ExtResource("3_jpgma")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -22.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 22.0
+grow_horizontal = 0

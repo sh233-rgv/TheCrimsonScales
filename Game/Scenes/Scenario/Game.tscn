@@ -592,7 +592,6 @@ offset_right = 8.0
 offset_bottom = 24.0
 grow_horizontal = 0
 scale = Vector2(1.5, 1.5)
-pivot_offset = Vector2(16, 16)
 
 [node name="AOEButtonView" type="Control" parent="CanvasLayer/UI" unique_id=1660665315 node_paths=PackedStringArray("_buttonContainer", "_mirrorButton", "_rotateCounterClockwiseButton", "_rotateClockwiseButton")]
 visible = false
