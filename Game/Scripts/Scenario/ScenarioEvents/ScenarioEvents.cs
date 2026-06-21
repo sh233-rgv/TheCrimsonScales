@@ -141,9 +141,9 @@ public partial class ScenarioEvents
 
 	public class AMDCardPeeked : ScenarioEvent<AMDCardPeeked.Parameters>
 	{
-		public class Parameters(DivinationAbility.State abilityState, AMDCard amdCard)
-			: ParametersBase<DivinationAbility.State>(abilityState)
+		public class Parameters(AbilityState potentialAbilityState, AMDCard amdCard)	: ParametersBase
 		{
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public AMDCard AMDCard = amdCard;
 			public bool PlaceAtDeckTop { get; private set; } = false;
 			public bool PlaceAtDeckBottom { get; private set; } = false;
@@ -1397,19 +1397,6 @@ public partial class ScenarioEvents
 
 	private readonly GainedExperience _gainedExperience = new GainedExperience();
 	public static GainedExperience GainedExperienceEvent => GameController.Instance.ScenarioEvents._gainedExperience;
-
-	public class LostCard : ScenarioEvent<LostCard.Parameters>
-	{
-		public class Parameters(Character character, AbilityCard card)
-			: ParametersBase
-		{
-			public Character Character { get; } = character;
-			public AbilityCard Card { get; } = card;
-		}
-	}
-
-	private readonly LostCard _lostCard = new LostCard();
-	public static LostCard LostCardEvent => GameController.Instance.ScenarioEvents._lostCard;
 
 	public class InflictConditionEventReward : ScenarioEvent<InflictConditionEventReward.Parameters>
 	{
