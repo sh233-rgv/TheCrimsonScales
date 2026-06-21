@@ -84,7 +84,7 @@ public class SoulHarvest : SpiritCallerCardModel<SoulHarvest.CardTop, SoulHarves
 						}
 					}
 
-					AbilityCmd.ClearGenericChoiceCollection(subscriptions);
+					AbilityCmd.ClearGenericChoiceCollection(effectCollection);
 				})
 				.Build())
 		];

@@ -865,7 +865,7 @@ public static class AbilityCmd
 	{
 		EffectCollection effectCollection = GenericChoiceCollection(authority, subscriptions, canSelectMultiple: canSelectMultiple);
 		await ScenarioEvents.GenericChoiceEvent.CreatePrompt(effectCollection, authority, hintText);
-		ScenarioEvents.GenericChoiceEvent.Unsubscribe(subscriptions);
+		ClearGenericChoiceCollection(effectCollection);
 	}
 
 	public static EffectCollection GenericChoiceCollection(Figure authority, List<ScenarioEvents.GenericChoice.Subscription> subscriptions,
@@ -906,9 +906,12 @@ public static class AbilityCmd
 		return ScenarioEvents.GenericChoiceEvent.CreateEffectCollection(new ScenarioEvents.GenericChoice.Parameters(subscriber));
 	}
 
-	public static void ClearGenericChoiceCollection(List<ScenarioEvents.GenericChoice.Subscription> subscriptions)
+	public static void ClearGenericChoiceCollection(EffectCollection effectCollection)
 	{
-		ScenarioEvents.GenericChoiceEvent.Unsubscribe(subscriptions);
+		foreach(Effect effect in effectCollection.Effects)
+		{
+			ScenarioEvents.GenericChoiceEvent.Unsubscribe(effect.Subscription.Subscriber);
+		}
 	}
 
 	public static GDTask InfuseWildElement(AbilityState potentialAbilityState, Figure potentialInfuser = null)

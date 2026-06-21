@@ -374,11 +374,6 @@ public abstract class ScenarioEvent<T> : ScenarioEvent
 			}
 		}
 	}
-
-	public void ClearAllSubscriptions()
-	{
-		_subscriptions.Clear();
-	}
 }
 
 public abstract class ScenarioEvent
