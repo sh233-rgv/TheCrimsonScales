@@ -25,7 +25,10 @@ public class City48 : CityEventModel<City48.ChoiceA, City48.ChoiceB>
 			{
 				ScenarioEvents.AMDCardPeekedEvent.Subscribe(this,
 					canApplyParameters => true,
-					async applyParameters => {},
+					async applyParameters =>
+					{
+						await GDTask.CompletedTask;
+					},
 					effectType: EffectType.SelectableMandatory,
 					effectButtonParameters: new IconEffectButton.Parameters(character.ClassModel.IconPath),
 					effectInfoViewParameters: new TextEffectInfoView.Parameters($"{character.DisplayName} AMD cards, starting from the top.")
@@ -49,7 +52,10 @@ public class City48 : CityEventModel<City48.ChoiceA, City48.ChoiceB>
 
 			ScenarioEvents.AMDCardPeekedEvent.Subscribe(this,
 				canApplyParameters => true,
-				async applyParameters => {},
+				async applyParameters =>
+				{
+					await GDTask.CompletedTask;
+				},
 				effectButtonParameters: new IconEffectButton.Parameters(Icons.Cards),
 				effectInfoViewParameters: new TextEffectInfoView.Parameters("Monster AMD cards, starting from the top."),
 				effectType: EffectType.SelectableMandatory

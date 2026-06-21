@@ -17,8 +17,6 @@ public class City17 : CityEventModel<City17.ChoiceA, City17.ChoiceB>
 		public override string GetLabelText(RichTextParameters textParameters) =>
 			$"One player may return any Minor potion from their possession to the shop and receive a Major potion of the same type for free.";
 
-		private bool _minorPotionReturned = false;
-
 		private static bool IsMinorPotion(ItemModel itemModel) =>
 			itemModel == ModelDB.Item<MinorHealingPotion>() ||
 			itemModel == ModelDB.Item<MinorManaPotion>() ||

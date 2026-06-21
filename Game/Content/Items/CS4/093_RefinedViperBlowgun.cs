@@ -1,4 +1,6 @@
-﻿public class RefinedViperBlowgun : CS4Item
+﻿using Fractural.Tasks;
+
+public class RefinedViperBlowgun : CS4Item
 {
 	public override string Name => "Refined Viper Blowgun";
 	public override int ItemNumber => 93;
@@ -29,6 +31,8 @@
 									applyFunction: async parameters =>
 									{
 										parameters.AbilityState.AdjustTargets(1);
+
+										await GDTask.CompletedTask;
 									},
 									effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Targets)}")
 								)
