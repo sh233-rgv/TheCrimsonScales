@@ -4,7 +4,7 @@ using Godot;
 
 public partial class NPC : Figure, IEventSubscriber
 {
-	private NPCViewComponent _npcViewComponent;
+	private Sprite2D _sprite;
 	private string _name;
 	private readonly List<Ability> _abilities = new List<Ability>();
 	private AMDCardDeck _amdCardDeckOverride;
@@ -19,13 +19,13 @@ public partial class NPC : Figure, IEventSubscriber
 	public override AMDCardDeck AMDCardDeck => _amdCardDeckOverride ?? GameController.Instance.MonsterAMDCardDeck;
 	public virtual Texture2D PortraitTexture => ResourceLoader.Load<Texture2D>($"{AssetPath}/Portrait.tres");
 	public override Texture2D MapIconTexture => ResourceLoader.Load<Texture2D>($"{AssetPath}/MapIcon.tres");
-	public override Node2D Visual => _npcViewComponent.Sprite;
+	public override Node2D Visual => _sprite;
 
 	public override async GDTask Init(Hex originHex, int rotationIndex = 0, bool hexCanBeNull = false)
 	{
 		await base.Init(originHex, rotationIndex, hexCanBeNull);
 
-		_npcViewComponent = GetViewComponent<NPCViewComponent>();
+		_sprite = GetNode<Sprite2D>("Mask/Sprite2D");
 	}
 
 	public async GDTask Spawn(int health, string name, string assetPath, int initiative, List<Ability> abilities,
@@ -43,9 +43,9 @@ public partial class NPC : Figure, IEventSubscriber
 		FigureViewComponent.TurnStartPS.SetSelfModulate(Color.FromHtml("1778ff"));
 		FigureViewComponent.ActivePS.SetModulate(Color.FromHtml("1778ff"));
 
-		_npcViewComponent.Sprite.SetTexture(MapIconTexture);
+		_sprite.SetTexture(MapIconTexture);
 		float textureWidth = MapIconTexture.GetWidth();
-		_npcViewComponent.Sprite.SetScale(250f / textureWidth * Vector2.One);
+		_sprite.SetScale(250f / textureWidth * Vector2.One);
 
 		SetMaxHealth(health);
 		SetHealth(health);
