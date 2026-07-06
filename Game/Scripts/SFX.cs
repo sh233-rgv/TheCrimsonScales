@@ -60,6 +60,12 @@
 		return $"res://Audio/SFX/Footsteps/{stepType.ToString()} Land.wav";
 	}
 
+	public static string GetCardDraw()
+	{
+		int randomIndex = GameController.Instance.VisualRNG.RandiRange(1, 2);
+		return $"res://Audio/SFX/Cards/CardSlide{randomIndex}.wav";
+	}
+
 	public static string GetStep(Hex hex)
 	{
 		return GetStep(GetStepType(hex));
