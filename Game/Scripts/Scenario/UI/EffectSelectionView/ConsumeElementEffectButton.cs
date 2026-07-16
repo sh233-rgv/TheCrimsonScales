@@ -75,7 +75,7 @@ public partial class ConsumeElementEffectButton : EffectButton<ConsumeElementEff
 
 				string path = element.ConsumableElements.Equals(Elements.All)
 					? Icons.WildElement
-					: Icons.GetElement(element.ConsumableElements.First());
+					: Icons.GetElement(element.ConsumableElements.ToList());
 
 				textureRect.SetTexture(ResourceLoader.Load<Texture2D>(path));
 			}
