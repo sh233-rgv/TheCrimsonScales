@@ -76,10 +76,10 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 							}
 
 							//TODO: Change to work with the damage glow
-							if(applyParameters.AbilityState is TargetedAbilityState targetedAbilityState &&
-							   targetedAbilityState.GetRedAOEHexes().Any())
+							if(applyParameters.AbilityState is IAOEAbilityState aoeAbilityState &&
+							   aoeAbilityState.GetRedAOEHexes().Any())
 							{
-								foreach(Figure figure in targetedAbilityState.GetRedAOEHexes().SelectMany(hex => hex.GetHexObjectsOfType<Figure>())
+								foreach(Figure figure in aoeAbilityState.GetRedAOEHexes().SelectMany(hex => hex.GetHexObjectsOfType<Figure>())
 									        .Where(figure => figure.EnemiesWith(applyParameters.Performer)))
 								{
 									await AbilityCmd.SufferDamage(applyParameters.AbilityState, figure, 2);
@@ -90,10 +90,10 @@ public class OpticalRefraction : LuminaryCardModel<OpticalRefraction.CardTop, Op
 										.WithGetAbilities(grantAbilityState =>
 											[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()])
 										.WithTarget(Target.Allies | Target.TargetAll)
-										.WithCustomGetTargets((state, targets) =>
+										.WithCustomGetTargets((_, targets) =>
 										{
 											targets.AddRange(
-												targetedAbilityState.GetRedAOEHexes()
+												aoeAbilityState.GetRedAOEHexes()
 													.SelectMany(hex => hex.GetHexObjectsOfType<Figure>())
 											);
 										})

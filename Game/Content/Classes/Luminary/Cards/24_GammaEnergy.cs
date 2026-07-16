@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -25,41 +24,16 @@ public class GammaEnergy : LuminaryCardModel<GammaEnergy.CardTop, GammaEnergy.Ca
 
 		private Ability GlowAbility(List<Element> elements)
 		{
-			return OtherAbility.Builder()
-				.WithPerformAbility(async state =>
-				{
-					AOEPrompt.Answer aoeAnswer =
-						await PromptManager.Prompt(new AOEPrompt(state.Performer, new AOEPattern(
-								[
-									new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-									new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
-									new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-									new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-								]
-							), state.Performer.Hex, null, () => "Select the hexes for the area of effect", 1),
-							state.Authority);
-
-					if(aoeAnswer.Skipped)
-					{
-						return;
-					}
-
-					foreach(AOEHex aoeHex in aoeAnswer.AOEHexes)
-					{
-						Hex hex = GameController.Instance.Map.GetHex(aoeHex.Coords);
-
-						if(hex != null && aoeHex.Type.HasFlag(AOEHexType.Red))
-						{
-							foreach(Figure figure in hex.GetHexObjectsOfType<Figure>().Where(figure => figure.EnemiesWith(state.Performer)))
-							{
-								await AbilityCmd.SufferDamage(state, figure, 2);
-								state.SetPerformed();
-							}
-						}
-					}
-
-					await GDTask.CompletedTask;
-				})
+			return SufferDamageAbility.Builder()
+				.WithDamage(2)
+				.WithAOEPattern(new AOEPattern(
+					[
+						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthWest), AOEHexType.Red),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+						new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+					]
+				))
 				.WithOnAbilityStarted(async state =>
 				{
 					state.SetCustomValue(state.Performer, "Glow Ability", true);

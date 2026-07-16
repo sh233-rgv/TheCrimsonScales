@@ -40,7 +40,16 @@ public class CorrosiveCombustion : BrightsparkCardModel<CorrosiveCombustion.Card
 
 							await GDTask.CompletedTask;
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters("Increase the area of effect as shown")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetAOEPattern(new AOEPattern(
+							[
+								new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+								new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+								new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+								new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
+								new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
+								new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
+							]
+						)))}")
 					)
 				)
 				.Build()),
