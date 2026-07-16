@@ -42,6 +42,11 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 				}
 			}
 		}
+
+		public void AbilityAdjustRange(int amount)
+		{
+			AbilityRange += amount;
+		}
 	}
 
 	private static readonly List<Hex> HexCache = new List<Hex>();
@@ -209,7 +214,7 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 		{
 			List<AOEHex> aoeHexes;
 
-			//TODO: Add `during ability` scenario events to the aoe prompts so the range can be increased 
+			//TODO: Add `during ability` scenario events to the aoe prompts so the range can be increased
 			if(abilityState.Authority is Character)
 			{
 				AOEPrompt.Answer aoeAnswer =
