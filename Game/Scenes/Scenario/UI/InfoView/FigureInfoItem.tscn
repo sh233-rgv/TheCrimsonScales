@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://jflaun2fecvo" path="res://Art/Icons/Abilities/Health.svg" id="4_uplxl"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="5_gyvkv"]
 [ext_resource type="PackedScene" uid="uid://27n2d0vaa0s" path="res://Scenes/Scenario/UI/InfoView/FigureEffects/FigureInfoConditionsEffect.tscn" id="5_jfqbu"]
+[ext_resource type="PackedScene" uid="uid://dm4ul66rg7ey3" path="res://Scenes/Scenario/UI/AMDViewer/AMDViewerButton.tscn" id="7_bxli4"]
 [ext_resource type="PackedScene" uid="uid://bmmrjlw6yb3gg" path="res://Scenes/Scenario/UI/InfoView/InfoExtraEffects/InfoExtraEffectsView.tscn" id="7_e5o5d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ncvji"]
@@ -118,7 +119,12 @@ layout_mode = 2
 [node name="Label" parent="MarginContainer/Content/Effects/Applies/HBoxContainer" parent_id_path=PackedInt32Array(361993898, 517629473) index="0" unique_id=176725713]
 text = "Applies:"
 
-[node name="InfoExtraEffectsView" parent="MarginContainer/Content/Effects" index="4" unique_id=709550068 instance=ExtResource("7_e5o5d")]
+[node name="AMDViewer" parent="MarginContainer/Content/Effects" index="4" unique_id=1792582373 instance=ExtResource("7_bxli4")]
+visible = false
+custom_minimum_size = Vector2(0, 71)
+layout_mode = 2
+
+[node name="InfoExtraEffectsView" parent="MarginContainer/Content/Effects" index="5" unique_id=709550068 instance=ExtResource("7_e5o5d")]
 layout_mode = 2
 mouse_filter = 2
 

@@ -86,7 +86,8 @@ public partial class Character : Figure
 		for(int i = 0; i < ClassModel.Perks.Count; i++)
 		{
 			PerkModel perk = ClassModel.Perks[i];
-			if(SavedCharacter.GetPerkAcquired(i))
+			//if(SavedCharacter.GetPerkAcquired(i))
+			if(true)
 			{
 				bool success = true;
 				foreach(AMDCardModel amdCardModel in perk.CardsToRemove)

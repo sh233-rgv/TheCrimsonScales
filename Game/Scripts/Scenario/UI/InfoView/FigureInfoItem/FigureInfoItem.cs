@@ -20,6 +20,7 @@ public abstract partial class FigureInfoItem<T> : InfoItem<T>
 	private FigureInfoConditionsEffect _conditions;
 	private FigureInfoConditionsEffect _immunities;
 	private FigureInfoConditionsEffect _applies;
+	//private AMDViewerButton _amdViewerButton;
 
 	private InfoExtraEffectsView _infoExtraEffectsView;
 
@@ -40,10 +41,12 @@ public abstract partial class FigureInfoItem<T> : InfoItem<T>
 		_conditions = GetNode<FigureInfoConditionsEffect>("MarginContainer/Content/Effects/Conditions");
 		_immunities = GetNode<FigureInfoConditionsEffect>("MarginContainer/Content/Effects/Immunities");
 		_applies = GetNode<FigureInfoConditionsEffect>("MarginContainer/Content/Effects/Applies");
+		//_amdViewerButton = GetNode<AMDViewerButton>("MarginContainer/Content/Effects/AMDViewer");
 
 		_infoExtraEffectsView = GetNode<InfoExtraEffectsView>("MarginContainer/Content/Effects/InfoExtraEffectsView");
 
 		_figure = parameters.HexObject;
+		//_amdViewerButton.AMDViewer.AMDCardDeck = _figure.AMDCardDeck;
 
 		_titleLabel.SetText(_figure.DisplayName);
 

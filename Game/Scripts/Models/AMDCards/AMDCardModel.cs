@@ -9,6 +9,9 @@ public abstract class AMDCardModel : AbstractModel
 	public virtual string ToString(RichTextParameters richTextParameters) =>
 		GetBasicString(richTextParameters, Type, GetValue(null), conditionModels: GetConditionModels(null), rolling: GetRolling(null));
 
+	public virtual string GetSimpleString(RichTextParameters richTextParameters) => GetBasicString(richTextParameters, Type, GetValue(null),
+		conditionModels: GetConditionModels(null), rolling: GetRolling(null), isSimple: true);
+
 	protected abstract string GetTexturePath(AMDCardOwner owner);
 	protected abstract int AtlasIndex { get; }
 	protected abstract int ColumnCount { get; }
@@ -55,7 +58,7 @@ public abstract class AMDCardModel : AbstractModel
 	}
 
 	protected string GetBasicString(RichTextParameters richTextParameters, AMDCardType cardType, int? value,
-		List<ConditionModel> conditionModels = null, string extraText = null, bool rolling = false)
+		List<ConditionModel> conditionModels = null, string extraText = null, bool rolling = false, bool isSimple = false)
 	{
 		string returnValue = string.Empty;
 		string valueIcon;
@@ -87,33 +90,63 @@ public abstract class AMDCardModel : AbstractModel
 				// 	returnValue += ", ";
 				// }
 
-				returnValue += $" {Icons.Inline(Icons.GetCondition(conditionModel), richTextParameters, true)}";
+				if(!isSimple)
+				{
+					returnValue += " ";
+				}
+
+				returnValue += $"{Icons.Inline(Icons.GetCondition(conditionModel), richTextParameters, true)}";
 			}
 		}
 
 		if(Pierce.HasValue)
 		{
-			returnValue += $" {Icons.Inline(Icons.Pierce, richTextParameters, true)}{Pierce}";
+			if(!isSimple)
+			{
+				returnValue += " ";
+			}
+
+			returnValue += $"{Icons.Inline(Icons.Pierce, richTextParameters, true)}{Pierce}";
 		}
 
 		if(Push.HasValue)
 		{
-			returnValue += $" {Icons.Inline(Icons.Push, richTextParameters, true)}{Push}";
+			if(!isSimple)
+			{
+				returnValue += " ";
+			}
+
+			returnValue += $"{Icons.Inline(Icons.Push, richTextParameters, true)}{Push}";
 		}
 
 		if(Pull.HasValue)
 		{
-			returnValue += $" {Icons.Inline(Icons.Push, richTextParameters, true)}{Pull}";
+			if(!isSimple)
+			{
+				returnValue += " ";
+			}
+
+			returnValue += $"{Icons.Inline(Icons.Push, richTextParameters, true)}{Pull}";
 		}
 
 		if(Swing.HasValue)
 		{
-			returnValue += $" {Icons.Inline(Icons.Swing, richTextParameters, true)}{Swing}";
+			if(!isSimple)
+			{
+				returnValue += " ";
+			}
+
+			returnValue += $"{Icons.Inline(Icons.Swing, richTextParameters, true)}{Swing}";
 		}
 
 		if(extraText != null)
 		{
-			returnValue += $" “{extraText}”";
+			if(!isSimple)
+			{
+				returnValue += " ";
+			}
+
+			returnValue += $"“{extraText}”";
 		}
 
 		foreach(CardElementInfusion cardElementInfusion in ElementInfusions)
@@ -135,10 +168,20 @@ public abstract class AMDCardModel : AbstractModel
 
 		if(rolling)
 		{
-			returnValue += $" {Icons.Inline(Icons.Rolling, richTextParameters, true)}";
+			if(!isSimple)
+			{
+				returnValue += " ";
+			}
+
+			returnValue += $"{Icons.Inline(Icons.Rolling, richTextParameters, true)}";
 		}
 
 		return returnValue;
+	}
+
+	protected string GetSimpleString(RichTextParameters richTextParameters, int? value, string extraText = null)
+	{
+		return Icons.Inline(Icons.GetAMDValue((value >= 0 ? "+" : string.Empty) + value), richTextParameters, true) + extraText;
 	}
 
 	protected Character GetCharacter(AttackAbility.State state)
