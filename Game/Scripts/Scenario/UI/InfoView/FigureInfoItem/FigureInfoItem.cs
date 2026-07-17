@@ -46,7 +46,7 @@ public abstract partial class FigureInfoItem<T> : InfoItem<T>
 		_infoExtraEffectsView = GetNode<InfoExtraEffectsView>("MarginContainer/Content/Effects/InfoExtraEffectsView");
 
 		_figure = parameters.HexObject;
-		_amdViewerButton.AMDViewer.AMDCardDeck = _figure.AMDCardDeck;
+		_amdViewerButton.AMDCardDeck = _figure.AMDCardDeck;
 
 		_titleLabel.SetText(_figure.DisplayName);
 

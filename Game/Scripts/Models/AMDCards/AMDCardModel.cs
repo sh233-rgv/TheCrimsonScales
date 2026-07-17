@@ -156,6 +156,11 @@ public abstract class AMDCardModel : AbstractModel
 				continue;
 			}
 
+			if(!isSimple)
+			{
+				returnValue += " ";
+			}
+
 			if(cardElementInfusion.PossibleInfusedElements.Count == 1)
 			{
 				returnValue += Icons.Inline(Icons.GetElement(cardElementInfusion.PossibleInfusedElements[0]), richTextParameters, true);

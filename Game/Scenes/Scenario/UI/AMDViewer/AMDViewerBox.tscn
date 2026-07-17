@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://bq00tvvckr168"]
 
 [ext_resource type="Script" uid="uid://bgv72qveu4dqs" path="res://Scripts/Scenario/UI/AMDViewer/AMDViewerBox.cs" id="1_6hnvc"]
-[ext_resource type="PackedScene" uid="uid://clmxvajorw8kg" path="res://Scenes/Scenario/UI/AMDViewer/AMDViewerCount.tscn" id="2_8cwgh"]
+[ext_resource type="PackedScene" uid="uid://clmxvajorw8kg" path="res://Scenes/Scenario/UI/AMDViewer/AMDViewerDeckCount.tscn" id="2_b603l"]
+[ext_resource type="PackedScene" uid="uid://ddjmy747dtmb5" path="res://Scenes/Scenario/UI/AMDViewer/AMDViewerDiscardCount.tscn" id="3_i8tu2"]
 [ext_resource type="Material" uid="uid://cun442tgtvgh" path="res://Materials/UIBlur.tres" id="4_5sute"]
 [ext_resource type="StyleBox" uid="uid://dd1rndhea8oq5" path="res://Resources/BlurButton.tres" id="5_ywwm6"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="6_lp866"]
@@ -9,13 +10,15 @@
 [node name="Control" type="Control" unique_id=1792582373 node_paths=PackedStringArray("_label", "_countContainer")]
 custom_minimum_size = Vector2(120, 75)
 layout_mode = 3
+anchors_preset = 0
 offset_right = 120.0
 offset_bottom = 75.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6hnvc")
 _label = NodePath("Panel/RichTextLabel")
-_count = ExtResource("2_8cwgh")
+_deckCount = ExtResource("2_b603l")
+_discardCount = ExtResource("3_i8tu2")
 _countContainer = NodePath("Panel/HBoxContainer")
 
 [node name="Panel" type="Panel" parent="." unique_id=784803780]
@@ -27,7 +30,7 @@ mouse_filter = 2
 theme_override_styles/panel = ExtResource("5_ywwm6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel" unique_id=535745697]
-layout_mode = 2
+layout_mode = 0
 offset_left = 2.0
 offset_right = 118.0
 offset_bottom = 55.0

@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://ddjmy747dtmb5"]
+
+[ext_resource type="Material" uid="uid://cun442tgtvgh" path="res://Materials/UIBlur.tres" id="1_effpp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6hnvc"]
+bg_color = Color(0.105882, 0.105882, 0.12549, 0.705882)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.892922, 0.893193, 0.912186, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 10
+
+[node name="Control" type="Control" unique_id=1792582373]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 984.0
+offset_right = -1906.0
+offset_bottom = -90.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel2" type="Panel" parent="." unique_id=1621186220]
+material = ExtResource("1_effpp")
+layout_mode = 0
+offset_right = 12.0
+offset_bottom = 12.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6hnvc")

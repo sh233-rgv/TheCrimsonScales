@@ -52,7 +52,7 @@ public class FireKnightAMDCards
 	{
 		public override string GetSimpleString(RichTextParameters richTextParameters) =>
 			GetSimpleString(richTextParameters, +0,
-				$"{Icons.Inline(FireKnightCardSide.LadderIconPath, richTextParameters)}: {Icons.Inline(Icons.GetAMDValue("+2"))}");
+				$"{Icons.Inline(FireKnightCardSide.LadderIconPath, richTextParameters)}:{Icons.Inline(Icons.GetAMDValue("+2"))}");
 
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
