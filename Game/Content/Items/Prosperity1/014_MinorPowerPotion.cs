@@ -1,6 +1,6 @@
 using Fractural.Tasks;
 
-public class MinorPowerPotion : Prosperity1Item
+public class MinorPowerPotion : Prosperity1Item, IPotion, IMinorPotion
 {
 	public override string Name => "Minor Power Potion";
 	public override int ItemNumber => 14;

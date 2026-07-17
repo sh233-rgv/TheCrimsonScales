@@ -1,4 +1,4 @@
-public class IntoxicatingPotion : CS1Item
+public class IntoxicatingPotion : CS1Item, IPotion
 {
 	public override string Name => "Intoxicating Potion";
 	public override int ItemNumber => 29;
