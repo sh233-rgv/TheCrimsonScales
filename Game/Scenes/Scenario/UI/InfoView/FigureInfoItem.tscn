@@ -120,7 +120,6 @@ layout_mode = 2
 text = "Applies:"
 
 [node name="AMDViewer" parent="MarginContainer/Content/Effects" index="4" unique_id=1792582373 instance=ExtResource("7_bxli4")]
-visible = false
 custom_minimum_size = Vector2(0, 71)
 layout_mode = 2
 

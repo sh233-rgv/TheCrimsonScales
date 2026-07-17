@@ -17,6 +17,8 @@ public partial class AMDViewer : PopupPanel
 		base._Ready();
 
 		Unfocusable = true;
+		
+		Hide();
 	}
 
 	public void UpdateDeck()
