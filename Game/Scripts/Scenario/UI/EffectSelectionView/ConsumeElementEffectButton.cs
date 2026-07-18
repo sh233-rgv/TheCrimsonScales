@@ -34,8 +34,6 @@ public partial class ConsumeElementEffectButton : EffectButton<ConsumeElementEff
 	private Control _singleElementContainer;
 	[Export]
 	private TextureRect _singleElementTextureRect;
-	[Export]
-	private TextureRect _singleElementConsumeTextureRect;
 
 	[Export]
 	private Control _multipleElementsContainer;
