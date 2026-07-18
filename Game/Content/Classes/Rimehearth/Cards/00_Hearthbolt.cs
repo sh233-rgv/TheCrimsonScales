@@ -25,14 +25,14 @@ public class Hearthbolt : RimehearthCardModel<Hearthbolt.CardTop, Hearthbolt.Car
 						new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East).Add(Direction.SouthEast), AOEHexType.Red),
 					]
 				))
-				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.New(
+				.WithAbilityStartedSubscription(
+					ScenarioEvents.AbilityStarted.Subscription.New(
 						parameters => parameters.Performer.HasCondition(Conditions.Chill),
 						async parameters =>
 						{
 							await AbilityCmd.RemoveCondition(parameters.Performer, Conditions.Chill, parameters.AbilityState);
 
-							parameters.AbilityState.AbilityAdjustAttackValue(1);
+							((AttackAbility.State)parameters.AbilityState).AbilityAdjustAttackValue(1);
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}, EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Chill)),

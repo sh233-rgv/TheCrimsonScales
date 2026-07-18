@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Fractural.Tasks;
 using Godot;
 
 public class Kleptotherapy : RimehearthCardModel<Kleptotherapy.CardTop, Kleptotherapy.CardBottom>
@@ -22,17 +21,11 @@ public class Kleptotherapy : RimehearthCardModel<Kleptotherapy.CardTop, Kleptoth
 					ScenarioEvents.DuringAttack.Subscription.ConsumeElement([CardElementConsumption.ConsumeWild()],
 						applyFunction: async applyParameters =>
 						{
-							if(applyParameters.Performer.TryGetCondition(Conditions.Chill, out Condition chill))
-							{
-								applyParameters.AbilityState.AbilityAdjustAttackValue(chill.StackCount);
-							}
-
-							applyParameters.AbilityState.AbilitySetHasAdvantage();
+							await AbilityCmd.InfuseElement(applyParameters.AbilityState, [Element.Fire, Element.Ice]);
 
 							await AbilityCmd.GainXP(applyParameters.Performer, 1);
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters(
-							$"This attack is unaffected by {Icons.Inline(Icons.GetCondition(Conditions.Chill))}, advantage")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetElement([Element.Fire, Element.Ice]))}")
 					)
 				)
 				.Build()),
@@ -43,45 +36,21 @@ public class Kleptotherapy : RimehearthCardModel<Kleptotherapy.CardTop, Kleptoth
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(ConditionAbility.Builder()
-				.WithConditions(Conditions.Chill)
-				.WithTarget(Target.Self)
-				.WithMandatory(true)
-				.Build()),
-			new AbilityCardAbility(UseSlotAbility.Builder()
-				.WithOnActivate(async state =>
+			new AbilityCardAbility(LootAbility.Builder()
+				.WithRange(1)
+				.WithOnAbilityEndedPerformed(async state =>
 				{
-					ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
-						parameters => parameters.Performer == state.Performer,
-						async parameters =>
-						{
-							parameters.AbilityState.SingleTargetAdjustAttackValue(2 + state.GetCustomValue<int>(this, "IceConsumed"));
+					if(state.LootedCoinCount >= 2)
+					{
+						await AbilityCmd.InfuseElement(state, Element.Fire);
+					}
 
-							await GDTask.CompletedTask;
-						});
-
-					await GDTask.CompletedTask;
+					if(state.LootedCoinCount <= 2)
+					{
+						await AbilityCmd.InfuseElement(state, Element.Ice);
+					}
 				})
-				.WithOnDeactivate(async state =>
-				{
-					ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, this);
-
-					await GDTask.CompletedTask;
-				})
-				.WithUseSlot(new UseSlot(new Vector2(0.49901202f, 0.8941828f), GainXP))
-				.WithAbilityStartedSubscription(
-					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(Element.Ice,
-						applyFunction: async applyParameters =>
-						{
-							applyParameters.AbilityState.SetCustomValue(this, "IceConsumed", 1);
-							await GDTask.CompletedTask;
-						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+3{Icons.Inline(Icons.Attack)} instead")
-					)
-				)
 				.Build())
 		];
-
-		public override bool Persistent => true;
 	}
 }

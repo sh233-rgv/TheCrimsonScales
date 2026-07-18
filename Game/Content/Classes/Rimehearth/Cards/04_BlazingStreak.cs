@@ -57,7 +57,8 @@ public class BlazingStreak : RimehearthCardModel<BlazingStreak.CardTop, BlazingS
 				.Build()),
 			new AbilityCardAbility(RetaliateAbility.Builder()
 				.WithRetaliateValue(2)
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))
+				.WithConditionalAbilityCheck(state =>
+					AbilityCmd.AskConsumeElement(state.Performer, Element.Fire, effectInfoText: $"{Icons.Inline(Icons.Retaliate)}2"))
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					await AbilityCmd.GainXP(state.Performer, 1);

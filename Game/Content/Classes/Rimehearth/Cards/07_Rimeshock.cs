@@ -55,7 +55,7 @@ public class Rimeshock : RimehearthCardModel<Rimeshock.CardTop, Rimeshock.CardBo
 						{
 							parameters.AbilityState.SingleTargetAdjustAttackValue(2 + state.GetCustomValue<int>(this, "IceConsumed"));
 
-							await GDTask.CompletedTask;
+							await state.AdvanceUseSlot();
 						});
 
 					await GDTask.CompletedTask;

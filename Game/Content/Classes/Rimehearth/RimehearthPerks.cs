@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Fractural.Tasks;
 
-public class StarslingerPerks
+public class RimehearthPerks
 {
-	public abstract class StarslingerPerk : PerkModel
+	public abstract class RimehearthPerk : PerkModel
 	{
 	}
 
-	public class ReplaceOneMinusTwoWithOneMinusOneInvisibleSelf : StarslingerPerk
+	public class ReplaceOneMinusTwoWithOneMinusOneInvisibleSelf : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -20,7 +20,7 @@ public class StarslingerPerks
 		];
 	}
 
-	public class ReplaceOneMinusOneWithOnePlusZeroImmobilizeRolling : StarslingerPerk
+	public class ReplaceOneMinusOneWithOnePlusZeroImmobilizeRolling : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -33,7 +33,7 @@ public class StarslingerPerks
 		];
 	}
 
-	public class ReplaceOneMinusOneWithOnePlusZeroControlTargetMoveOneRolling : StarslingerPerk
+	public class ReplaceOneMinusOneWithOnePlusZeroControlTargetMoveOneRolling : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -46,7 +46,7 @@ public class StarslingerPerks
 		];
 	}
 
-	public class ReplaceTwoPlusZeroWithOnePlusOneLight : StarslingerPerk
+	public class ReplaceTwoPlusZeroWithOnePlusOneLight : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -60,7 +60,7 @@ public class StarslingerPerks
 		];
 	}
 
-	public class AddTwoPlusOneHealOneRangeThree : StarslingerPerk
+	public class AddTwoPlusOneHealOneRangeThree : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
@@ -69,7 +69,7 @@ public class StarslingerPerks
 		];
 	}
 
-	public class AddOnePlusOneIfYouAreUndamagedPlusThreeInstead : StarslingerPerk
+	public class AddOnePlusOneIfYouAreUndamagedPlusThreeInstead : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
@@ -77,7 +77,7 @@ public class StarslingerPerks
 		];
 	}
 
-	public class AddTwoPlusZeroHealOneRangeOneRolling : StarslingerPerk
+	public class AddTwoPlusZeroHealOneRangeOneRolling : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
@@ -86,7 +86,7 @@ public class StarslingerPerks
 		];
 	}
 
-	public class AddOnePlusZeroLootOneRolling : StarslingerPerk
+	public class AddOnePlusZeroLootOneRolling : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
@@ -94,7 +94,7 @@ public class StarslingerPerks
 		];
 	}
 
-	public class IgnoreScenarioEffectsAddOnePlusZeroDark : StarslingerPerk
+	public class IgnoreScenarioEffectsAddOnePlusZeroDark : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
@@ -104,7 +104,7 @@ public class StarslingerPerks
 		public override bool IgnoreScenarioEffects => true;
 	}
 
-	public class ReflectiveJourney : StarslingerPerk, IEventSubscriber
+	public class ReflectiveJourney : RimehearthPerk, IEventSubscriber
 	{
 		public override int PerkBoxCount => 2;
 		protected override string Title => "Reflective Journey";

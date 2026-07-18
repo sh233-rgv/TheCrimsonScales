@@ -5,7 +5,7 @@ public class RimehearthModel : ClassModel
 {
 	public override string Name => "Rimehearth";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.Medium;
-	public override int HandSize => 10;
+	public override int HandSize => 13;
 	public override Ancestry Ancestry => Ancestry.Savvas;
 
 	public override List<EventModel> UnlockEvents { get; } =
@@ -24,6 +24,20 @@ public class RimehearthModel : ClassModel
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
+		ModelDB.AbilityCard<Hearthbolt>(),
+		ModelDB.AbilityCard<BitingCold>(),
+		ModelDB.AbilityCard<Heatwave>(),
+		ModelDB.AbilityCard<ColdSnap>(),
+		ModelDB.AbilityCard<BlazingStreak>(),
+		ModelDB.AbilityCard<FrozenGrasp>(),
+		ModelDB.AbilityCard<ScorchedPath>(),
+		ModelDB.AbilityCard<Rimeshock>(),
+		ModelDB.AbilityCard<Kleptotherapy>(),
+		ModelDB.AbilityCard<Steamburst>(),
+
+		ModelDB.AbilityCard<WreathedInFlames>(),
+		ModelDB.AbilityCard<GlacialCocoon>(),
+		ModelDB.AbilityCard<Thermotherapy>(),
 	];
 
 	public override List<PerkModel> Perks { get; } =

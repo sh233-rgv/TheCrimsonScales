@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-public class StarslingerAMDCards
+public class RimehearthAMDCards
 {
-	public class MinusOneInvisibleSelf : StarslingerAMDCardModel
+	public class MinusOneInvisibleSelf : RimehearthAMDCardModel
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, -1,
@@ -17,7 +17,7 @@ public class StarslingerAMDCards
 		];
 	}
 
-	public class PlusZeroImmobilizeRolling : StarslingerAMDCardModel
+	public class PlusZeroImmobilizeRolling : RimehearthAMDCardModel
 	{
 		protected override int AtlasIndex => 1;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
@@ -25,7 +25,7 @@ public class StarslingerAMDCards
 		public override List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) => [Conditions.Immobilize];
 	}
 
-	public class PlusZeroControlTargetMoveOneRolling : StarslingerAMDCardModel
+	public class PlusZeroControlTargetMoveOneRolling : RimehearthAMDCardModel
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
@@ -50,14 +50,14 @@ public class StarslingerAMDCards
 		];
 	}
 
-	public class PlusOneLight : StarslingerAMDCardModel
+	public class PlusOneLight : RimehearthAMDCardModel
 	{
 		protected override int AtlasIndex => 5;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Light)];
 	}
 
-	public class PlusOneHealOneRangeThree : StarslingerAMDCardModel
+	public class PlusOneHealOneRangeThree : RimehearthAMDCardModel
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
@@ -72,7 +72,7 @@ public class StarslingerAMDCards
 		];
 	}
 
-	public class PlusOneIfYouAreUndamagedPlusThreeInstead : StarslingerAMDCardModel
+	public class PlusOneIfYouAreUndamagedPlusThreeInstead : RimehearthAMDCardModel
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
@@ -82,7 +82,7 @@ public class StarslingerAMDCards
 		public override int? GetValue(AttackAbility.State attackAbilityState) => attackAbilityState?.Performer.IsDamaged() == false ? +3 : +1;
 	}
 
-	public class PlusZeroHealOneRangeOneRolling : StarslingerAMDCardModel
+	public class PlusZeroHealOneRangeOneRolling : RimehearthAMDCardModel
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
@@ -98,7 +98,7 @@ public class StarslingerAMDCards
 		];
 	}
 
-	public class PlusZeroLootOneRolling : StarslingerAMDCardModel
+	public class PlusZeroLootOneRolling : RimehearthAMDCardModel
 	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
@@ -114,7 +114,7 @@ public class StarslingerAMDCards
 		];
 	}
 
-	public class PlusZeroDark : StarslingerAMDCardModel
+	public class PlusZeroDark : RimehearthAMDCardModel
 	{
 		protected override int AtlasIndex => 5;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
