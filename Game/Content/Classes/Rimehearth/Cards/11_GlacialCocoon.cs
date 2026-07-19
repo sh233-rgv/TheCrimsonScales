@@ -38,7 +38,7 @@ public class GlacialCocoon : RimehearthCardModel<GlacialCocoon.CardTop, GlacialC
 				{
 					foreach(Figure figure in state.Hexes
 						        .SelectMany(hex => hex.GetHexObjectsOfType<Figure>())
-						        .Where(f => state.Performer.AlliedWith(f) || state.Performer.EnemiesWith(f))
+						        .Where(figure => state.Performer.EnemiesWith(figure))
 						        .Distinct())
 					{
 						await AbilityCmd.AddCondition(state, figure, Conditions.Chill);
