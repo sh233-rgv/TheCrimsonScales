@@ -54,7 +54,7 @@ public class Thermotherapy : RimehearthCardModel<Thermotherapy.CardTop, Thermoth
 							ActionState actionState = new ActionState(parameters.Figure,
 							[
 								HealAbility.Builder().WithHealValue(3).WithTarget(Target.Self).Build(),
-								ConditionAbility.Builder().WithConditions(Conditions.Chill).WithTarget(Target.Self).WithMandatory(true).Build()
+								ConditionAbility.Builder().WithConditions(Conditions.Wound1).WithTarget(Target.Self).WithMandatory(true).Build()
 							]);
 							await actionState.Perform();
 

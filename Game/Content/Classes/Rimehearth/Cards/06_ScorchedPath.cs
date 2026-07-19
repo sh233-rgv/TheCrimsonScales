@@ -16,13 +16,13 @@ public class ScorchedPath : RimehearthCardModel<ScorchedPath.CardTop, ScorchedPa
 				.WithDistance(2, new MoveCircle(this, new Vector2(0.6214308f, 0.17829336f)))
 				.Build()),
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(2, new AttackDiamond(this, new Vector2(0.51037705f, 0.27700832f)))
+				.WithDamage(1, new AttackDiamond(this, new Vector2(0.51037705f, 0.27700832f), EnhancementCostType.MultiTarget))
 				.WithConditions(Conditions.Wound1)
-				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,
+				.WithAbilityStartedSubscription(
+					ScenarioEvents.AbilityStarted.Subscription.ConsumeElement(Element.Fire,
 						applyFunction: async applyParameters =>
 						{
-							applyParameters.AbilityState.AbilitySetAOEPattern(new AOEPattern(
+							((AttackAbility.State)applyParameters.AbilityState).AbilitySetAOEPattern(new AOEPattern(
 								[
 									new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 									new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
@@ -67,7 +67,8 @@ public class ScorchedPath : RimehearthCardModel<ScorchedPath.CardTop, ScorchedPa
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(2)
 				.WithTarget(Target.Self)
-				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire))
+				.WithConditionalAbilityCheck(state =>
+					AbilityCmd.AskConsumeElement(state.Performer, Element.Fire, effectInfoText: $"{Icons.Inline(Icons.Heal)}2"))
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					await AbilityCmd.GainXP(state.Performer, 1);

@@ -14,8 +14,8 @@ public class Steamburst : RimehearthCardModel<Steamburst.CardTop, Steamburst.Car
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(4, new AttackDiamond(this, new Vector2(0.61725044f, 0.16378893f)),
-					new AttackDiamond(this, new Vector2(0.70542216f, 0.16343491f)))
+				.WithDamage(4, new AttackDiamond(this, new Vector2(0.61725044f, 0.16378893f), EnhancementCostType.MultiTarget),
+					new AttackDiamond(this, new Vector2(0.70542216f, 0.16343491f), EnhancementCostType.MultiTarget))
 				.WithDuringAttackSubscriptions(
 					[
 						ScenarioEvents.DuringAttack.Subscription.ConsumeElement(Element.Fire,

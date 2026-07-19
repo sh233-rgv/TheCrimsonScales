@@ -17,6 +17,7 @@ public class Heatwave : RimehearthCardModel<Heatwave.CardTop, Heatwave.CardBotto
 				.WithPerformAbility(async state =>
 				{
 					await AbilityCmd.AddCondition(state, state.Performer, Conditions.Strengthen);
+					state.SetPerformed();
 				})
 				.WithConditionalAbilityCheck(async state =>
 				{

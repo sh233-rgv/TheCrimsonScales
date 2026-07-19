@@ -34,7 +34,7 @@ public class BitingCold : RimehearthCardModel<BitingCold.CardTop, BitingCold.Car
 				.WithOnAbilityEndedPerformed(async state =>
 				{
 					Figure target = state.UniqueTargetedFigures[0];
-					foreach(Figure figure in RangeHelper.GetFiguresInRange(target.Hex, 1).Where(figure => figure != target))
+					foreach(Figure figure in RangeHelper.GetFiguresInRange(target.Hex, 1, false))
 					{
 						await AbilityCmd.AddCondition(state, figure, Conditions.Chill);
 					}

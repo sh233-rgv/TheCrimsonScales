@@ -69,6 +69,7 @@ public class BlazingStreak : RimehearthCardModel<BlazingStreak.CardTop, BlazingS
 				.WithPerformAbility(async state =>
 				{
 					await AbilityCmd.AddCondition(state, state.Performer, Conditions.Wound1);
+					state.SetPerformed();
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 1))
 				.Build())
