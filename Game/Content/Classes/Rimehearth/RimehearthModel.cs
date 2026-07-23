@@ -38,6 +38,23 @@ public class RimehearthModel : ClassModel
 		ModelDB.AbilityCard<WreathedInFlames>(),
 		ModelDB.AbilityCard<GlacialCocoon>(),
 		ModelDB.AbilityCard<Thermotherapy>(),
+
+		ModelDB.AbilityCard<RapidFlux>(),
+		ModelDB.AbilityCard<Homeostasis>(),
+		ModelDB.AbilityCard<Frostbite>(),
+		ModelDB.AbilityCard<Bonechill>(),
+		ModelDB.AbilityCard<TorridBlast>(),
+		ModelDB.AbilityCard<SpreadingFlames>(),
+		ModelDB.AbilityCard<BulwarkOfEther>(),
+		ModelDB.AbilityCard<PressureSpike>(),
+		ModelDB.AbilityCard<SnapFreeze>(),
+		ModelDB.AbilityCard<Cryoseism>(),
+		ModelDB.AbilityCard<UnyieldingCharge>(),
+		ModelDB.AbilityCard<RagingFire>(),
+		ModelDB.AbilityCard<HeatTransfer>(),
+		ModelDB.AbilityCard<PressureWave>(),
+		ModelDB.AbilityCard<ThermalWeaving>(),
+		ModelDB.AbilityCard<ABalanceStruck>()
 	];
 
 	public override List<PerkModel> Perks { get; } =
