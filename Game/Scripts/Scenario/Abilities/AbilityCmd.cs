@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Fractural.Tasks;
 using Godot;
+using GTweens.Builders;
 using GTweens.Easings;
 using GTweensGodot.Extensions;
 
@@ -138,6 +139,31 @@ public static class AbilityCmd
 
 		if(damageDealt > 0)
 		{
+			if(!GameController.FastForward)
+			{
+				//TODO: Implement damage sound?
+				// AppController.Instance.AudioController.PlayFastForwardable(SFX.Heal, delay: 0.0f);
+
+				//TODO: Implement blood effect?
+				// HealEffect healEffect = SceneLoader.InstantiateScene<HealEffect>("res://Scenes/Scenario/Effects/HealEffect.tscn");
+				// target.AddChild(healEffect);
+				// healEffect.Init();
+
+				Color damageColor = Color.Color8(200, 20, 10);
+
+				target.Visual.SetSelfModulate(damageColor);
+				GTweenSequenceBuilder.New()
+					.AppendTime(0.1f)
+					.Append(target.Visual.TweenInstanceShaderPropertyFloat("tintFactor", 0.6f, 0.2f))
+					.AppendTime(0.1f)
+					.Append(target.Visual.TweenInstanceShaderPropertyFloat("tintFactor", 0f, 0.15f))
+					.AppendCallback(() =>
+					{
+						target.Visual.SetSelfModulate(Colors.White);
+					})
+					.Build().PlayFastForwardable();
+			}
+
 			await ScenarioEvents.AfterSufferDamageEvent.CreatePrompt(
 				new ScenarioEvents.AfterSufferDamage.Parameters(target, damageDealt, damageSuffered, potentialAbilityState, sufferDamageParameters),
 				target);
