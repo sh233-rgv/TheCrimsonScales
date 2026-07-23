@@ -28,6 +28,6 @@ public class AddCityReward : SavedReward
 	{
 		await base.ImmediateResolve(savedCampaign, cancellationToken);
 
-		savedCampaign.SavedEvents.AddCityEventToDeck(EventModel, BetweenScenariosController.Instance.RNG);
+		savedCampaign.SavedEvents.AddCityEventToDeck(EventModel, AppController.Instance.RNG);
 	}
 }

@@ -28,6 +28,6 @@ public class AddRoadReward : SavedReward
 	{
 		await base.ImmediateResolve(savedCampaign, cancellationToken);
 
-		savedCampaign.SavedEvents.AddRoadEventToDeck(EventModel, BetweenScenariosController.Instance.RNG);
+		savedCampaign.SavedEvents.AddRoadEventToDeck(EventModel, AppController.Instance.RNG);
 	}
 }
