@@ -1019,7 +1019,7 @@ public static class AbilityCmd
 
 		ScenarioEvents.ConsumeElement.Parameters consumeEventParameters =
 			await ScenarioEvents.ConsumeElementEvent.CreatePrompt(
-				new ScenarioEvents.ConsumeElement.Parameters(possibleElements), authority,
+				new ScenarioEvents.ConsumeElement.Parameters(possibleElements.ToList()), authority,
 				"Select element to consume");
 
 		ScenarioEvents.ConsumeElementEvent.Unsubscribe(authority, subscriber);

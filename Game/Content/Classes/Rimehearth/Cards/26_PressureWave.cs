@@ -50,10 +50,6 @@ public class PressureWave : RimehearthCardModel<PressureWave.CardTop, PressureWa
 							$"Remove {Icons.Inline(Icons.GetCondition(Conditions.Wound1))} and one {Icons.Inline(Icons.GetCondition(Conditions.Chill))} token from the target to add {Icons.Inline(Icons.GetCondition(Conditions.Brittle))}")))
 				.Build()),
 		];
-
-		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse([Element.Fire, Element.Ice])];
-		public override bool Persistent => true;
-		public override bool Loss => true;
 	}
 
 	public class CardBottom : RimehearthCardSide

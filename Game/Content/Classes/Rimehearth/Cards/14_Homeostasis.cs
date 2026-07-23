@@ -35,6 +35,7 @@ public class Homeostasis : RimehearthCardModel<Homeostasis.CardTop, Homeostasis.
 							async parameters =>
 							{
 								parameters.AbilityState.SetCustomValue(this, "GenerateFire", true);
+								await GDTask.CompletedTask;
 							}, EffectType.Selectable,
 							effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Chill)),
 							effectInfoViewParameters: new TextEffectInfoView.Parameters(
@@ -45,6 +46,7 @@ public class Homeostasis : RimehearthCardModel<Homeostasis.CardTop, Homeostasis.
 							async parameters =>
 							{
 								parameters.AbilityState.SetCustomValue(this, "GenerateIce", true);
+								await GDTask.CompletedTask;
 							}, EffectType.Selectable,
 							effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Wound1)),
 							effectInfoViewParameters: new TextEffectInfoView.Parameters(

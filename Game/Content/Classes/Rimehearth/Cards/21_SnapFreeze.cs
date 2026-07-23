@@ -62,6 +62,7 @@ public class SnapFreeze : RimehearthCardModel<SnapFreeze.CardTop, SnapFreeze.Car
 							ScenarioEvents.RoundEndedEvent.Unsubscribe(state, this);
 							await state.ActionState.RequestDiscardOrLose();
 						});
+
 					await GDTask.CompletedTask;
 				})
 				.Build())

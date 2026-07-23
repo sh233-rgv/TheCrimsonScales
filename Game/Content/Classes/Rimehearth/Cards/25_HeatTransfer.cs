@@ -36,8 +36,6 @@ public class HeatTransfer : RimehearthCardModel<HeatTransfer.CardTop, HeatTransf
 		];
 
 		public override IEnumerable<CardElementInfusion> Elements => [CardElementInfusion.Infuse([Element.Fire, Element.Ice])];
-		public override bool Persistent => true;
-		public override bool Loss => true;
 	}
 
 	public class CardBottom : RimehearthCardSide

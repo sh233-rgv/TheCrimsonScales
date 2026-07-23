@@ -141,7 +141,7 @@ public partial class ScenarioEvents
 
 	public class AMDCardPeeked : ScenarioEvent<AMDCardPeeked.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, AMDCard amdCard)	: ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, AMDCard amdCard) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public AMDCard AMDCard = amdCard;
@@ -541,7 +541,9 @@ public partial class ScenarioEvents
 
 	public class AfterSufferDamage : ScenarioEvent<AfterSufferDamage.Parameters>
 	{
-		public class Parameters(Figure figure, int damageDealt, int damageSuffered, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
+		public class Parameters(
+			Figure figure, int damageDealt, int damageSuffered, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters)
+			: ParametersBase
 		{
 			public Figure Figure { get; } = figure;
 			public int DamageDealt { get; } = damageDealt;
@@ -836,8 +838,9 @@ public partial class ScenarioEvents
 
 	public class FinishElementInfused : ScenarioEvent<FinishElementInfused.Parameters>
 	{
-		public class Parameters : ParametersBase
+		public class Parameters(Element infusedElement) : ParametersBase
 		{
+			public Element InfusedElement = infusedElement;
 		}
 	}
 
@@ -846,10 +849,10 @@ public partial class ScenarioEvents
 
 	public class ConsumeElement : ScenarioEvent<ConsumeElement.Parameters>
 	{
-		public class Parameters(IEnumerable<Element> elements)
+		public class Parameters(List<Element> elements)
 			: ParametersBase
 		{
-			public IEnumerable<Element> Elements { get; } = elements;
+			public List<Element> Elements { get; } = elements;
 
 			public bool Consumed { get; private set; }
 			public Element ConsumedElement { get; private set; }
@@ -858,6 +861,11 @@ public partial class ScenarioEvents
 			{
 				Consumed = true;
 				ConsumedElement = element;
+			}
+
+			public void AddPossibleConsume(Element element)
+			{
+				Elements.AddIfNew(element);
 			}
 		}
 	}
