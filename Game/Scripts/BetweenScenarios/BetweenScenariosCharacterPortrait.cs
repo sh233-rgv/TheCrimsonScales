@@ -268,6 +268,7 @@ public partial class BetweenScenariosCharacterPortrait : Control
 	{
 		AppController.Instance.PopupManager.RequestPopup(new EquipmentPopup.Request
 		{
+			SavedCampaign = BetweenScenariosController.Instance.SavedCampaign,
 			SavedCharacter = SavedCharacter
 		});
 	}

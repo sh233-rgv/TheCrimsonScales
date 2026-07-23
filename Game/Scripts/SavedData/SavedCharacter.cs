@@ -182,11 +182,11 @@ public class SavedCharacter
 		return ItemIds.Contains(itemModel.Id.ToString());
 	}
 
-	public void RemoveItem(ItemModel itemModel)
-	{
-		UnequipItem(itemModel);
-		ItemIds.Remove(itemModel.Id.ToString());
-	}
+	// public void RemoveItem(ItemModel itemModel)
+	// {
+	// 	UnequipItem(itemModel);
+	// 	ItemIds.Remove(itemModel.Id.ToString());
+	// }
 
 	public void SellItem(ItemModel itemModel, int sellPrice)
 	{

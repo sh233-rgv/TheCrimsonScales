@@ -5,6 +5,7 @@ public partial class EquipmentPopup : Popup<EquipmentPopup.Request>
 {
 	public class Request : PopupRequest
 	{
+		public SavedCampaign SavedCampaign { get; init; }
 		public SavedCharacter SavedCharacter { get; init; }
 	}
 
@@ -74,6 +75,7 @@ public partial class EquipmentPopup : Popup<EquipmentPopup.Request>
 	{
 		AppController.Instance.PopupManager.OpenPopupOnTop(new EquipItemPopup.Request
 		{
+			SavedCampaign = PopupRequest.SavedCampaign,
 			SavedCharacter = PopupRequest.SavedCharacter,
 			ItemType = equipment.ItemType,
 			SlotIndex = equipment.SlotIndex,
@@ -85,6 +87,7 @@ public partial class EquipmentPopup : Popup<EquipmentPopup.Request>
 	{
 		AppController.Instance.PopupManager.OpenPopupOnTop(new EquipItemPopup.Request
 		{
+			SavedCampaign = PopupRequest.SavedCampaign,
 			SavedCharacter = PopupRequest.SavedCharacter,
 			ItemType = equipment.ItemType,
 			SlotIndex = equipment.SlotIndex,
@@ -161,6 +164,7 @@ public partial class EquipmentPopup : Popup<EquipmentPopup.Request>
 				_smallItemsParent.RemoveChild(equipmentSlotToRemove);
 				equipmentSlotToRemove.QueueFree();
 			}
+
 			// Add missing small item slots
 			for(int i = _smallItemSlots.Count; i < newSmallItemSlotCount; i++)
 			{

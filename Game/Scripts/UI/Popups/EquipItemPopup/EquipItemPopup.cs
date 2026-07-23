@@ -6,6 +6,7 @@ public partial class EquipItemPopup : Popup<EquipItemPopup.Request>
 {
 	public class Request : PopupRequest
 	{
+		public SavedCampaign SavedCampaign { get; init; }
 		public SavedCharacter SavedCharacter { get; init; }
 		public ItemType ItemType { get; init; }
 		public int SlotIndex { get; init; }
@@ -139,6 +140,8 @@ public partial class EquipItemPopup : Popup<EquipItemPopup.Request>
 				() =>
 				{
 					PopupRequest.SavedCharacter.SellItem(item.ItemModel, sellPrice);
+					SavedItem savedItem = PopupRequest.SavedCampaign.GetSavedItem(item.ItemModel);
+					savedItem.AddStock(1);
 
 					if(BetweenScenariosController.Instance != null)
 					{
