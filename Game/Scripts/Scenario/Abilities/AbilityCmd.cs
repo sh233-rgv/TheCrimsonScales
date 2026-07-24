@@ -326,12 +326,23 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask RemoveAllChill(Figure target)
+	public static async GDTask<bool> RemoveChillStack(Figure target)
 	{
-		while(target.HasCondition(Conditions.Chill))
+		if(target.TryGetCondition(Conditions.Chill, out Condition chill))
 		{
-			await RemoveCondition(target, Conditions.Chill);
+			if(chill.StackCount > 1)
+			{
+				chill.AdjustStackCount(-1);
+			}
+			else
+			{
+				await RemoveCondition(chill);
+			}
+
+			return true;
 		}
+
+		return false;
 	}
 
 	public static async GDTask AddCharacterToken(AbilityState abilityState, Figure target, TextHelper.LabelTextDelegate getEffectText)

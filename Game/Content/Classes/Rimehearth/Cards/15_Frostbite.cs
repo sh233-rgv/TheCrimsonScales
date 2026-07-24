@@ -5,7 +5,7 @@ using Godot;
 public class Frostbite : RimehearthCardModel<Frostbite.CardTop, Frostbite.CardBottom>
 {
 	public override string Name => "Frostbite";
-	public override int Level => 1;
+	public override int Level => 3;
 	public override int Initiative => 62;
 	protected override int AtlasIndex => 15;
 

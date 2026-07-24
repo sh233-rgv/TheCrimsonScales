@@ -34,7 +34,7 @@ public class Homeostasis : RimehearthCardModel<Homeostasis.CardTop, Homeostasis.
 							parameters => parameters.Performer.HasCondition(Conditions.Chill),
 							async parameters =>
 							{
-								parameters.Performer.GetCondition(Conditions.Chill).AdjustStackCount(-1);
+								await AbilityCmd.RemoveChillStack(parameters.Performer);
 								parameters.AbilityState.SetCustomValue(this, "GenerateFire", true);
 
 								await GDTask.CompletedTask;

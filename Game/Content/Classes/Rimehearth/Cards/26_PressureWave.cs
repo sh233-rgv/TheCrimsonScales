@@ -38,8 +38,7 @@ public class PressureWave : RimehearthCardModel<PressureWave.CardTop, PressureWa
 						parameters => parameters.AbilityState.Target.HasCondition(Conditions.Chill) && parameters.AbilityState.Target.HasWound(),
 						async parameters =>
 						{
-							if(await AbilityCmd.RemoveCondition(parameters.AbilityState.Target, Conditions.Chill) &&
-							   await AbilityCmd.RemoveWound(parameters.AbilityState.Target))
+							if(await AbilityCmd.RemoveChillStack(parameters.Performer) & await AbilityCmd.RemoveWound(parameters.AbilityState.Target))
 							{
 								await AbilityCmd.AddCondition(parameters.AbilityState, parameters.AbilityState.Target, Conditions.Brittle);
 							}

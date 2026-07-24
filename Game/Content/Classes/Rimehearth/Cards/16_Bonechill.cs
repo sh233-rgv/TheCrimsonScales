@@ -6,7 +6,7 @@ using Godot;
 public class Bonechill : RimehearthCardModel<Bonechill.CardTop, Bonechill.CardBottom>
 {
 	public override string Name => "Bonechill";
-	public override int Level => 1;
+	public override int Level => 3;
 	public override int Initiative => 20;
 	protected override int AtlasIndex => 16;
 
@@ -18,6 +18,8 @@ public class Bonechill : RimehearthCardModel<Bonechill.CardTop, Bonechill.CardBo
 				.WithPerformAbility(async state =>
 				{
 					int chillCount = state.Performer.GetCondition(Conditions.Chill).StackCount;
+
+					await AbilityCmd.RemoveCondition(state.Performer, Conditions.Chill, state);
 
 					state.SetPerformed();
 

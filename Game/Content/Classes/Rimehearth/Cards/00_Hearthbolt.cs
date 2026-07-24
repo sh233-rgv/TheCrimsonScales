@@ -30,15 +30,7 @@ public class Hearthbolt : RimehearthCardModel<Hearthbolt.CardTop, Hearthbolt.Car
 						parameters => parameters.Performer.HasCondition(Conditions.Chill),
 						async parameters =>
 						{
-							Condition chill = parameters.Performer.GetCondition(Conditions.Chill);
-							if(chill.StackCount > 1)
-							{
-								chill.AdjustStackCount(-1);
-							}
-							else
-							{
-								await AbilityCmd.RemoveCondition(chill, parameters.AbilityState);
-							}
+							await AbilityCmd.RemoveChillStack(parameters.Performer);
 
 							((AttackAbility.State)parameters.AbilityState).AbilityAdjustAttackValue(1);
 
