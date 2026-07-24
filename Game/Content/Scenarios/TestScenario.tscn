@@ -97,7 +97,13 @@ MonsterModelId = "MONSTER_MODEL.EARTH_DEMON"
 MonsterType2Characters = 0
 MonsterType3Characters = 0
 
-[node name="MonsterSpawner2" parent="Map/Rooms/Room" index="24" unique_id=1311983852 instance=ExtResource("13_x5m5f")]
+[node name="MonsterSpawner3" parent="Map/Rooms/Room" index="24" unique_id=87020444 instance=ExtResource("13_x5m5f")]
+position = Vector2(-109.1192, -189)
+MonsterModelId = "MONSTER_MODEL.STONE_GOLEM"
+MonsterType2Characters = 0
+MonsterType3Characters = 0
+
+[node name="MonsterSpawner2" parent="Map/Rooms/Room" index="25" unique_id=1311983852 instance=ExtResource("13_x5m5f")]
 position = Vector2(0, -378)
 MonsterModelId = "MONSTER_MODEL.EARTH_DEMON"
 MonsterType2Characters = 0

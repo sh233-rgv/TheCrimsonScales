@@ -34,7 +34,9 @@ public class Homeostasis : RimehearthCardModel<Homeostasis.CardTop, Homeostasis.
 							parameters => parameters.Performer.HasCondition(Conditions.Chill),
 							async parameters =>
 							{
+								parameters.Performer.GetCondition(Conditions.Chill).AdjustStackCount(-1);
 								parameters.AbilityState.SetCustomValue(this, "GenerateFire", true);
+
 								await GDTask.CompletedTask;
 							}, EffectType.Selectable,
 							effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Chill)),
@@ -45,8 +47,9 @@ public class Homeostasis : RimehearthCardModel<Homeostasis.CardTop, Homeostasis.
 							parameters => parameters.Performer.HasWound(),
 							async parameters =>
 							{
+								await AbilityCmd.RemoveWound(parameters.Performer, parameters.AbilityState);
+
 								parameters.AbilityState.SetCustomValue(this, "GenerateIce", true);
-								await GDTask.CompletedTask;
 							}, EffectType.Selectable,
 							effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Wound1)),
 							effectInfoViewParameters: new TextEffectInfoView.Parameters(

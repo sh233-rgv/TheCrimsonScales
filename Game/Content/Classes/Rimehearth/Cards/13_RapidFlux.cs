@@ -21,8 +21,8 @@ public class RapidFlux : RimehearthCardModel<RapidFlux.CardTop, RapidFlux.CardBo
 				.WithAOEPattern(new AOEPattern(
 						[
 							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Empty),
-							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Empty)
+							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red)
 						]
 					),
 					new AOEHexMark(Vector2I.Zero.Add(Direction.NorthWest), this, new Vector2(0.5113291f, 0.3052632f)),
@@ -73,6 +73,7 @@ public class RapidFlux : RimehearthCardModel<RapidFlux.CardTop, RapidFlux.CardBo
 				})
 				.WithConditionalAbilityCheck(state => AbilityCmd.AskConsumeElement(state.Performer, Element.Fire,
 					effectInfoText: $"All attacks targeting you this round gain disadvantage, {Icons.Inline(Icons.GetElement(Element.Ice))}"))
+				.WithSkipConfirmation()
 				.Build()),
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
@@ -107,6 +108,7 @@ public class RapidFlux : RimehearthCardModel<RapidFlux.CardTop, RapidFlux.CardBo
 				.WithConditionalAbilityCheck(async state => !await AbilityCmd.HasPerformedAbility(state, 0) && await AbilityCmd.AskConsumeElement(
 					state.Performer, Element.Ice,
 					effectInfoText: $"All your attacks gain advantage this round, {Icons.Inline(Icons.GetElement(Element.Fire))}"))
+				.WithSkipConfirmation()
 				.Build()),
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3)

@@ -106,7 +106,7 @@
 	  "TotalAvailablePerkCount": 0,
 	  "AcquiredPerkIndices": [],
 	  "CheckmarkCount": 0,
-	  "Guid": "d2ca6cf8-3180-42dd-85e8-9f84987c42c3"
+	  "Guid": "42598482-bcf4-43d7-bb4b-e28be4eb21fe"
 	},
 	{
 	  "ClassModelId": "CLASS_MODEL.RIMEHEARTH_MODEL",
@@ -177,6 +177,16 @@
 		  "ModelId": "RIMEHEARTH_CARD_MODEL`2.THERMOTHERAPY",
 		  "SavedTopEnhancements": {},
 		  "SavedBottomEnhancements": {}
+		},
+		{
+		  "ModelId": "RIMEHEARTH_CARD_MODEL`2.FROSTBITE",
+		  "SavedTopEnhancements": {},
+		  "SavedBottomEnhancements": {}
+		},
+		{
+		  "ModelId": "RIMEHEARTH_CARD_MODEL`2.BONECHILL",
+		  "SavedTopEnhancements": {},
+		  "SavedBottomEnhancements": {}
 		}
 	  ],
 	  "HandAbilityCardIndices": [
@@ -192,7 +202,9 @@
 		9,
 		10,
 		11,
-		12
+		12,
+		13,
+		14
 	  ],
 	  "Gold": 30,
 	  "XP": 0,
@@ -209,7 +221,7 @@
 	  "TotalAvailablePerkCount": 0,
 	  "AcquiredPerkIndices": [],
 	  "CheckmarkCount": 0,
-	  "Guid": "cfc39835-3258-4394-b585-7bfe70cc1d8a"
+	  "Guid": "4fe3103f-23e5-4f25-b4c1-3347b8042e68"
 	}
   ],
   "RetiredCharacters": [],
@@ -327,7 +339,7 @@
 	}
   },
   "SavedScenario": {
-	"Id": "8a96b0e0-9c15-40ff-8f94-6aaf2ebb99a7",
+	"Id": "776b75fc-4013-4294-bdcf-35c06cfd585a",
 	"AppVersion": "0.5.0",
 	"ScenarioModelId": "SCENARIO_MODEL.TEST_SCENARIO",
 	"Seed": 0,
@@ -358,24 +370,231 @@
 		  {
 			"ChosenCardReferenceIds": [
 			  27,
-			  31
+			  30
 			],
 			"LongResting": false
 		  },
 		  {
 			"ChosenCardReferenceIds": [
-			  56,
-			  51
+			  57,
+			  53
 			],
 			"LongResting": false
 		  }
 		],
 		"CurrentPromptIndex": 0,
 		"SyncedActions": [],
-		"Completed": false
+		"Completed": true
+	  },
+	  {
+		"CharacterCardSelectionStates": [
+		  {
+			"ChosenCardReferenceIds": [
+			  31,
+			  34
+			],
+			"LongResting": false
+		  },
+		  {
+			"ChosenCardReferenceIds": [
+			  60,
+			  58
+			],
+			"LongResting": false
+		  }
+		],
+		"CurrentPromptIndex": 25,
+		"SyncedActions": [],
+		"Completed": true
 	  }
 	],
-	"PromptAnswers": []
+	"PromptAnswers": [
+	  {
+		"$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
+		"CardReferenceId": 57,
+		"AbilityCardSection": 0
+	  },
+	  {
+		"$type": "ConfirmPrompt+Answer, Game",
+		"Confirmed": true
+	  },
+	  {
+		"$type": "ConfirmPrompt+Answer, Game",
+		"Confirmed": true
+	  },
+	  {
+		"$type": "TargetSelectionPrompt+Answer, Game",
+		"FigureReferenceId": 24,
+		"ImmediateCompletion": true
+	  },
+	  {
+		"$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
+		"CardReferenceId": 53,
+		"AbilityCardSection": 1
+	  },
+	  {
+		"$type": "TargetSelectionPrompt+Answer, Game",
+		"FigureReferenceId": 24,
+		"ImmediateCompletion": true
+	  },
+	  {
+		"$type": "ScenarioEventPrompt+Answer, Game"
+	  },
+	  {
+		"$type": "ConfirmPrompt+Answer, Game",
+		"Confirmed": true
+	  },
+	  {
+		"$type": "MonsterMovePrompt+Answer, Game",
+		"Path": [
+		  {
+			"X": 0,
+			"Y": 0
+		  }
+		],
+		"MoveSpent": 1,
+		"ImmediateCompletion": true
+	  },
+	  {
+		"$type": "MonsterTargetSelectionPrompt+Answer, Game",
+		"FigureReferenceId": 24,
+		"ImmediateCompletion": true
+	  },
+	  {
+		"$type": "ScenarioEventPrompt+Answer, Game",
+		"SyncedAction": {
+		  "$type": "DeactivateActiveCardSyncedAction, Game",
+		  "AbilityCardReferenceId": 53,
+		  "OwnerCharacterIndex": 1,
+		  "PromptIndex": 10
+		}
+	  },
+	  {
+		"$type": "ScenarioEventPrompt+Answer, Game"
+	  },
+	  {
+		"$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
+		"CardReferenceId": 27,
+		"AbilityCardSection": 2
+	  },
+	  {
+		"$type": "TargetSelectionPrompt+Answer, Game",
+		"Skipped": true
+	  },
+	  {
+		"$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
+		"CardReferenceId": 30,
+		"AbilityCardSection": 3
+	  },
+	  {
+		"$type": "MovePrompt+Answer, Game",
+		"Path": [
+		  {
+			"X": -2,
+			"Y": 2
+		  },
+		  {
+			"X": -3,
+			"Y": 2
+		  }
+		],
+		"MoveSpent": 2
+	  },
+	  {
+		"$type": "ScenarioEventPrompt+Answer, Game"
+	  },
+	  {
+		"$type": "ScenarioEventPrompt+Answer, Game",
+		"SelectedEffectIndex": 4
+	  },
+	  {
+		"$type": "ScenarioEventPrompt+Answer, Game",
+		"ImmediateCompletion": true
+	  },
+	  {
+		"$type": "MonsterMovePrompt+Answer, Game",
+		"Path": [
+		  {
+			"X": 0,
+			"Y": -1
+		  }
+		],
+		"MoveSpent": 1,
+		"ImmediateCompletion": true
+	  },
+	  {
+		"$type": "MonsterAOEPrompt+Answer, Game",
+		"Skipped": true,
+		"ImmediateCompletion": true
+	  },
+	  {
+		"$type": "MonsterMovePrompt+Answer, Game",
+		"Skipped": true,
+		"ImmediateCompletion": true
+	  },
+	  {
+		"$type": "MonsterAOEPrompt+Answer, Game",
+		"AOEHexes": [
+		  {
+			"Coords": {
+			  "X": 1,
+			  "Y": -1
+			},
+			"Type": 2
+		  },
+		  {
+			"Coords": {
+			  "X": 1,
+			  "Y": 0
+			},
+			"Type": 1
+		  },
+		  {
+			"Coords": {
+			  "X": 0,
+			  "Y": 0
+			},
+			"Type": 1
+		  },
+		  {
+			"Coords": {
+			  "X": 0,
+			  "Y": 1
+			},
+			"Type": 1
+		  }
+		],
+		"ImmediateCompletion": true
+	  },
+	  {
+		"$type": "MonsterTargetSelectionPrompt+Answer, Game",
+		"FigureReferenceId": 24,
+		"ImmediateCompletion": true
+	  },
+	  {
+		"$type": "MonsterTargetSelectionPrompt+Answer, Game",
+		"Skipped": true,
+		"ImmediateCompletion": true
+	  },
+	  {
+		"$type": "AbilityCardSectionSelectionPrompt+Answer, Game",
+		"CardReferenceId": 58,
+		"AbilityCardSection": 1
+	  },
+	  {
+		"$type": "TargetSelectionPrompt+Answer, Game",
+		"FigureReferenceId": 24
+	  },
+	  {
+		"$type": "TargetSelectionPrompt+Answer, Game",
+		"FigureReferenceId": 24,
+		"ImmediateCompletion": true
+	  },
+	  {
+		"$type": "ConfirmPrompt+Answer, Game",
+		"Confirmed": true
+	  }
+	]
   },
   "CollectedPartyAchievements": [],
   "SanctuaryOfTheGreatOak": {
@@ -403,95 +622,95 @@
   },
   "SavedEvents": {
 	"CityEventDeckIds": [
-	  "CITY_EVENT_MODEL`2.CITY20",
-	  "CITY_EVENT_MODEL`2.CITY22",
+	  "CITY_EVENT_MODEL`2.CITY28",
 	  "CITY_EVENT_MODEL`2.CITY53",
-	  "CITY_EVENT_MODEL`2.CITY04",
-	  "CITY_EVENT_MODEL`2.CITY11",
-	  "CITY_EVENT_MODEL`2.CITY21",
-	  "CITY_EVENT_MODEL`2.CITY16",
 	  "CITY_EVENT_MODEL`2.CITY08",
-	  "CITY_EVENT_MODEL`2.CITY39",
-	  "CITY_EVENT_MODEL`2.CITY12",
-	  "CITY_EVENT_MODEL`2.CITY07",
+	  "CITY_EVENT_MODEL`2.CITY06",
+	  "CITY_EVENT_MODEL`2.CITY19",
 	  "CITY_EVENT_MODEL`2.CITY51",
-	  "CITY_EVENT_MODEL`2.CITY26",
-	  "CITY_EVENT_MODEL`2.CITY30",
-	  "CITY_EVENT_MODEL`2.CITY05",
-	  "CITY_EVENT_MODEL`2.CITY13",
-	  "CITY_EVENT_MODEL`2.CITY01",
 	  "CITY_EVENT_MODEL`2.CITY14",
-	  "CITY_EVENT_MODEL`2.CITY15",
-	  "CITY_EVENT_MODEL`2.CITY41",
-	  "CITY_EVENT_MODEL`2.CITY03",
+	  "CITY_EVENT_MODEL`2.CITY12",
+	  "CITY_EVENT_MODEL`2.CITY39",
+	  "CITY_EVENT_MODEL`2.CITY26",
+	  "CITY_EVENT_MODEL`2.CITY22",
+	  "CITY_EVENT_MODEL`2.CITY05",
+	  "CITY_EVENT_MODEL`2.CITY02",
+	  "CITY_EVENT_MODEL`2.CITY10",
+	  "CITY_EVENT_MODEL`2.CITY23",
+	  "CITY_EVENT_MODEL`2.CITY20",
 	  "CITY_EVENT_MODEL`2.CITY29",
 	  "CITY_EVENT_MODEL`2.CITY24",
-	  "CITY_EVENT_MODEL`2.CITY23",
-	  "CITY_EVENT_MODEL`2.CITY06",
-	  "CITY_EVENT_MODEL`2.CITY10",
+	  "CITY_EVENT_MODEL`2.CITY07",
 	  "CITY_EVENT_MODEL`2.CITY25",
-	  "CITY_EVENT_MODEL`2.CITY02",
-	  "CITY_EVENT_MODEL`2.CITY18",
-	  "CITY_EVENT_MODEL`2.CITY28",
+	  "CITY_EVENT_MODEL`2.CITY04",
+	  "CITY_EVENT_MODEL`2.CITY13",
 	  "CITY_EVENT_MODEL`2.CITY27",
+	  "CITY_EVENT_MODEL`2.CITY21",
 	  "CITY_EVENT_MODEL`2.CITY17",
-      "CITY_EVENT_MODEL`2.CITY19"
+	  "CITY_EVENT_MODEL`2.CITY01",
+	  "CITY_EVENT_MODEL`2.CITY11",
+	  "CITY_EVENT_MODEL`2.CITY16",
+	  "CITY_EVENT_MODEL`2.CITY03",
+	  "CITY_EVENT_MODEL`2.CITY41",
+	  "CITY_EVENT_MODEL`2.CITY18",
+	  "CITY_EVENT_MODEL`2.CITY30",
+      "CITY_EVENT_MODEL`2.CITY15"
 	],
 	"TopCityDeckQueueIds": [],
 	"RoadEventDeckIds": [
-	  "ROAD_EVENT_MODEL`2.ROAD01",
-	  "ROAD_EVENT_MODEL`2.ROAD14",
-	  "ROAD_EVENT_MODEL`2.ROAD03",
-	  "ROAD_EVENT_MODEL`2.ROAD22",
+	  "ROAD_EVENT_MODEL`2.ROAD11",
+	  "ROAD_EVENT_MODEL`2.ROAD27",
+	  "ROAD_EVENT_MODEL`2.ROAD16",
+	  "ROAD_EVENT_MODEL`2.ROAD15",
 	  "ROAD_EVENT_MODEL`2.ROAD08",
-	  "ROAD_EVENT_MODEL`2.ROAD17",
-	  "ROAD_EVENT_MODEL`2.ROAD12",
-	  "ROAD_EVENT_MODEL`2.ROAD06",
-	  "ROAD_EVENT_MODEL`2.ROAD25",
-	  "ROAD_EVENT_MODEL`2.ROAD04",
-	  "ROAD_EVENT_MODEL`2.ROAD28",
-	  "ROAD_EVENT_MODEL`2.ROAD13",
-	  "ROAD_EVENT_MODEL`2.ROAD10",
-	  "ROAD_EVENT_MODEL`2.ROAD41",
-	  "ROAD_EVENT_MODEL`2.ROAD26",
-	  "ROAD_EVENT_MODEL`2.ROAD30",
-	  "ROAD_EVENT_MODEL`2.ROAD07",
+	  "ROAD_EVENT_MODEL`2.ROAD20",
 	  "ROAD_EVENT_MODEL`2.ROAD29",
+	  "ROAD_EVENT_MODEL`2.ROAD13",
+	  "ROAD_EVENT_MODEL`2.ROAD04",
+	  "ROAD_EVENT_MODEL`2.ROAD21",
+	  "ROAD_EVENT_MODEL`2.ROAD12",
+	  "ROAD_EVENT_MODEL`2.ROAD05",
+	  "ROAD_EVENT_MODEL`2.ROAD28",
+	  "ROAD_EVENT_MODEL`2.ROAD01",
+	  "ROAD_EVENT_MODEL`2.ROAD19",
+	  "ROAD_EVENT_MODEL`2.ROAD06",
+	  "ROAD_EVENT_MODEL`2.ROAD07",
+	  "ROAD_EVENT_MODEL`2.ROAD30",
+	  "ROAD_EVENT_MODEL`2.ROAD25",
+	  "ROAD_EVENT_MODEL`2.ROAD10",
 	  "ROAD_EVENT_MODEL`2.ROAD09",
+	  "ROAD_EVENT_MODEL`2.ROAD51",
+	  "ROAD_EVENT_MODEL`2.ROAD41",
+	  "ROAD_EVENT_MODEL`2.ROAD03",
 	  "ROAD_EVENT_MODEL`2.ROAD02",
 	  "ROAD_EVENT_MODEL`2.ROAD53",
-	  "ROAD_EVENT_MODEL`2.ROAD11",
-	  "ROAD_EVENT_MODEL`2.ROAD16",
 	  "ROAD_EVENT_MODEL`2.ROAD24",
-	  "ROAD_EVENT_MODEL`2.ROAD20",
-	  "ROAD_EVENT_MODEL`2.ROAD21",
-	  "ROAD_EVENT_MODEL`2.ROAD51",
-	  "ROAD_EVENT_MODEL`2.ROAD23",
-	  "ROAD_EVENT_MODEL`2.ROAD05",
-	  "ROAD_EVENT_MODEL`2.ROAD19",
-	  "ROAD_EVENT_MODEL`2.ROAD27",
-	  "ROAD_EVENT_MODEL`2.ROAD15",
-      "ROAD_EVENT_MODEL`2.ROAD18"
+	  "ROAD_EVENT_MODEL`2.ROAD26",
+	  "ROAD_EVENT_MODEL`2.ROAD17",
+	  "ROAD_EVENT_MODEL`2.ROAD18",
+	  "ROAD_EVENT_MODEL`2.ROAD22",
+	  "ROAD_EVENT_MODEL`2.ROAD14",
+      "ROAD_EVENT_MODEL`2.ROAD23"
 	],
 	"TopRoadDeckQueueIds": [],
 	"CanDrawCityEvent": false
   },
   "SavedPersonalQuests": {
 	"PersonalQuestDeckIds": [
-	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.BANDIT_BANISHER",
-	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.CREATURES_IN_THE_NIGHT",
-	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.PREDATOR_AND_PREY",
-	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.NATURAL_SELECTION",
-	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.THE_PATH_OF_AGONY",
-	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.CONJURERS_HAND",
-	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.EXPERIMENTATION",
-	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.NO_REST_FOR_THE_WICKED",
 	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.LIMITLESS_SEARCHING",
 	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.EXPERIENCED_LEADER",
-	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.THRILL_SEEKER",
+	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.HEALTH_FIRST",
+	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.CREATURES_IN_THE_NIGHT",
+	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.NATURAL_SELECTION",
+	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.PREDATOR_AND_PREY",
 	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.CRUEL_DOMINION",
+	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.THRILL_SEEKER",
+	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.EXPERIMENTATION",
+	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.CONJURERS_HAND",
+	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.NO_REST_FOR_THE_WICKED",
+	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.THE_PATH_OF_AGONY",
 	  "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.TRAP_SETTER",
-      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.HEALTH_FIRST"
+      "THE_CRIMSON_SCALES_PERSONAL_QUEST`1.BANDIT_BANISHER"
 	]
   },
   "SavedPartyGoals": {

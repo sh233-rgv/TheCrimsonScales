@@ -5,7 +5,7 @@ public class RimehearthModel : ClassModel
 {
 	public override string Name => "Rimehearth";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.Medium;
-	public override int HandSize => 13;
+	public override int HandSize => 15;
 	public override Ancestry Ancestry => Ancestry.Savvas;
 
 	public override List<EventModel> UnlockEvents { get; } =

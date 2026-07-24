@@ -6,7 +6,7 @@ using Godot;
 public class Bonechill : RimehearthCardModel<Bonechill.CardTop, Bonechill.CardBottom>
 {
 	public override string Name => "Bonechill";
-	public override int Level => 3;
+	public override int Level => 1;
 	public override int Initiative => 20;
 	protected override int AtlasIndex => 16;
 
@@ -17,21 +17,22 @@ public class Bonechill : RimehearthCardModel<Bonechill.CardTop, Bonechill.CardBo
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					int chillRemoved = await AbilityCmd.RemoveAllChill(state.Performer);
+					int chillCount = state.Performer.GetCondition(Conditions.Chill).StackCount;
+
+					state.SetPerformed();
 
 					Figure figure = await AbilityCmd.SelectFigure(state,
 						figures => figures.AddRange(RangeHelper.GetFiguresInRange(state.Performer, 1)
-							.Where(figure => figure.EnemiesWith(state.Performer))));
+							.Where(figure => figure.EnemiesWith(state.Performer))),
+						hintText: () => $"Select a figure to give {Icons.Inline(Icons.GetCondition(Conditions.Chill))}");
 
 					if(figure != null)
 					{
-						for(int i = 0; i < chillRemoved; i++)
+						for(int i = 0; i < chillCount; i++)
 						{
 							await AbilityCmd.AddCondition(state, figure, Conditions.Chill);
 						}
 					}
-
-					state.SetPerformed();
 				})
 				.WithConditionalAbilityCheck(async state =>
 				{

@@ -16,7 +16,7 @@ public class HeatTransfer : RimehearthCardModel<HeatTransfer.CardTop, HeatTransf
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					if(await AbilityCmd.RemoveAllChill(state.Performer) > 0)
+					if(await AbilityCmd.RemoveCondition(state.Performer, Conditions.Chill, state))
 					{
 						state.SetPerformed();
 					}

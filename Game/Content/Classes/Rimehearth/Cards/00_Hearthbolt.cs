@@ -30,9 +30,18 @@ public class Hearthbolt : RimehearthCardModel<Hearthbolt.CardTop, Hearthbolt.Car
 						parameters => parameters.Performer.HasCondition(Conditions.Chill),
 						async parameters =>
 						{
-							await AbilityCmd.RemoveCondition(parameters.Performer, Conditions.Chill, parameters.AbilityState);
+							Condition chill = parameters.Performer.GetCondition(Conditions.Chill);
+							if(chill.StackCount > 1)
+							{
+								chill.AdjustStackCount(-1);
+							}
+							else
+							{
+								await AbilityCmd.RemoveCondition(chill, parameters.AbilityState);
+							}
 
 							((AttackAbility.State)parameters.AbilityState).AbilityAdjustAttackValue(1);
+
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}, EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Chill)),
