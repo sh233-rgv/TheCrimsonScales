@@ -24,7 +24,8 @@ public class SnapFreeze : RimehearthCardModel<SnapFreeze.CardTop, SnapFreeze.Car
 							parameters.AbilityState.AbilityAddCondition(Conditions.Chill);
 
 							await AbilityCmd.GainXP(parameters.Performer, 1);
-						}),
+						}, effectInfoViewParameters: new TextEffectInfoView.Parameters(
+							$"+1{Icons.Inline(Icons.Attack)}, {Icons.Inline(Icons.GetCondition(Conditions.Chill))}")),
 					ScenarioEvents.DuringAttack.Subscription.New(
 						parameters => parameters.Performer.HasWound(),
 						async parameters =>

@@ -44,6 +44,7 @@ public class HeatTransfer : RimehearthCardModel<HeatTransfer.CardTop, HeatTransf
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(4, new MoveCircle(this, new Vector2(0.5239462f, 0.7011389f)))
+				.WithMoveType(MoveType.Jump)
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>

@@ -28,13 +28,13 @@ public class RagingFire : RimehearthCardModel<RagingFire.CardTop, RagingFire.Car
 							parameters.AbilityState.AbilityAdjustAttackValue(2);
 
 							await state.AdvanceUseSlot();
-						});
+						}, canApplyMultipleTimesDuringSubscription: false);
 
 					await GDTask.CompletedTask;
 				})
 				.WithOnDeactivate(async state =>
 				{
-					ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(state, this);
+					ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
 				})
@@ -57,7 +57,7 @@ public class RagingFire : RimehearthCardModel<RagingFire.CardTop, RagingFire.Car
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(5, new MoveCircle(this, new Vector2(0.62115484f, 0.6229687f)))
+				.WithDistance(3, new MoveCircle(this, new Vector2(0.62115484f, 0.6229687f)))
 				.Build()),
 			new AbilityCardAbility(HealAbility.Builder()
 				.WithHealValue(3)

@@ -38,9 +38,10 @@ public class PressureWave : RimehearthCardModel<PressureWave.CardTop, PressureWa
 						parameters => parameters.AbilityState.Target.HasCondition(Conditions.Chill) && parameters.AbilityState.Target.HasWound(),
 						async parameters =>
 						{
-							if(await AbilityCmd.RemoveChillStack(parameters.Performer) & await AbilityCmd.RemoveWound(parameters.AbilityState.Target))
+							if(await AbilityCmd.RemoveChillStack(parameters.AbilityState.Target) &
+							   await AbilityCmd.RemoveWound(parameters.AbilityState.Target))
 							{
-								await AbilityCmd.AddCondition(parameters.AbilityState, parameters.AbilityState.Target, Conditions.Brittle);
+								parameters.AbilityState.SingleTargetAddCondition(Conditions.Brittle);
 							}
 						}, EffectType.Selectable,
 						effectButtonParameters: new TextEffectButton.Parameters(
@@ -77,7 +78,7 @@ public class PressureWave : RimehearthCardModel<PressureWave.CardTop, PressureWa
 				.WithTarget(Target.Self)
 				.WithConditionalAbilityCheck(async state =>
 				{
-					return !state.ActionState.GetAbilityState<HealAbility.State>(1).GetCustomValue<bool>(this, "FireConsumed") &&
+					return !state.ActionState.GetAbilityState<MoveAbility.State>(0).GetCustomValue<bool>(this, "FireConsumed") &&
 					       await AbilityCmd.AskConsumeElement(state.Performer, Element.Ice,
 						       effectInfoText: $"{Icons.Inline(Icons.GetCondition(Conditions.Strengthen))} self");
 				})

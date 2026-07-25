@@ -50,7 +50,6 @@ public class BulwarkOfEther : RimehearthCardModel<BulwarkOfEther.CardTop, Bulwar
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-
 					ScenarioEvents.SufferDamageEvent.Subscribe(state, this,
 						parameters =>
 							parameters.Figure == state.Performer && parameters.FromAttack && parameters.WouldSufferDamage,
@@ -60,19 +59,30 @@ public class BulwarkOfEther : RimehearthCardModel<BulwarkOfEther.CardTop, Bulwar
 
 							object subscriber = new object();
 
-							await AbilityCmd.AddRetaliate(state.Performer, subscriber, 3, 1,
-								customCanApplyParameters => customCanApplyParameters.AbilityState == parameters.PotentialAbilityState);
+							ScenarioEvents.RetaliateEvent.Subscribe(state, this,
+								canApplyParameters => canApplyParameters.RetaliatingFigure == state.Performer &&
+								                      RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, state.Performer.Hex) <= 1 &&
+								                      canApplyParameters.AbilityState == parameters.PotentialAbilityState,
+								async applyParameters =>
+								{
+									applyParameters.AdjustRetaliate(3);
+
+									await GDTask.CompletedTask;
+								}
+							);
 
 							ScenarioEvents.AfterAttackPerformedEvent.Subscribe(state, subscriber,
 								canApplyParameters => canApplyParameters.AbilityState == parameters.PotentialAbilityState,
 								async _ =>
 								{
-									AbilityCmd.RemoveRetaliate(state.Performer, subscriber);
+									ScenarioEvents.RetaliateEvent.Unsubscribe(state, this);
 									ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, subscriber);
 
 									await GDTask.CompletedTask;
 								}
 							);
+
+							await AbilityCmd.InfuseElement(state, [Element.Fire, Element.Ice]);
 
 							await state.AdvanceUseSlot();
 						}
