@@ -5,7 +5,7 @@ using Godot;
 public class ThermalWeaving : RimehearthCardModel<ThermalWeaving.CardTop, ThermalWeaving.CardBottom>
 {
 	public override string Name => "Thermal Weaving";
-	public override int Level => 1;
+	public override int Level => 9;
 	public override int Initiative => 32;
 	protected override int AtlasIndex => 27;
 
