@@ -7,20 +7,7 @@ public class RimehearthPerks
 	{
 	}
 
-	public class ReplaceOneMinusTwoWithOneMinusOneInvisibleSelf : RimehearthPerk
-	{
-		public override List<AMDCardModel> CardsToRemove { get; } =
-		[
-			ModelDB.AMDCard<MinusTwoAMDCard>()
-		];
-
-		public override List<AMDCardModel> CardsToAdd { get; } =
-		[
-			ModelDB.AMDCard<StarslingerAMDCards.MinusOneInvisibleSelf>()
-		];
-	}
-
-	public class ReplaceOneMinusOneWithOnePlusZeroImmobilizeRolling : RimehearthPerk
+	public class ReplaceOneMinusOneWithOnePlusZeroChill : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -29,11 +16,11 @@ public class RimehearthPerks
 
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<StarslingerAMDCards.PlusZeroImmobilizeRolling>()
+			ModelDB.AMDCard<RimehearthAMDCards.PlusZeroChill>()
 		];
 	}
 
-	public class ReplaceOneMinusOneWithOnePlusZeroControlTargetMoveOneRolling : RimehearthPerk
+	public class ReplaceOneMinusOneWithOnePlusZeroWoundRolling : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -42,11 +29,24 @@ public class RimehearthPerks
 
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<StarslingerAMDCards.PlusZeroControlTargetMoveOneRolling>()
+			ModelDB.AMDCard<RimehearthAMDCards.PlusZeroWoundRolling>()
 		];
 	}
 
-	public class ReplaceTwoPlusZeroWithOnePlusOneLight : RimehearthPerk
+	public class ReplaceOnePlusZeroWithOnePlusOneIce : RimehearthPerk
+	{
+		public override List<AMDCardModel> CardsToRemove { get; } =
+		[
+			ModelDB.AMDCard<PlusZeroAMDCard>()
+		];
+
+		public override List<AMDCardModel> CardsToAdd { get; } =
+		[
+			ModelDB.AMDCard<RimehearthAMDCards.PlusOneIce>()
+		];
+	}
+
+	public class ReplaceTwoPlusZeroWithTwoPlusZeroFireRolling : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -56,85 +56,118 @@ public class RimehearthPerks
 
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<StarslingerAMDCards.PlusOneLight>()
+			ModelDB.AMDCard<RimehearthAMDCards.PlusZeroFireRolling>(),
+			ModelDB.AMDCard<RimehearthAMDCards.PlusZeroFireRolling>()
 		];
 	}
 
-	public class AddTwoPlusOneHealOneRangeThree : RimehearthPerk
+	public class ReplaceOnePlusZeroWithOnePlusZeroHealThreeSelfWoundSelfRolling : RimehearthPerk
+	{
+		public override List<AMDCardModel> CardsToRemove { get; } =
+		[
+			ModelDB.AMDCard<PlusZeroAMDCard>()
+		];
+
+		public override List<AMDCardModel> CardsToAdd { get; } =
+		[
+			ModelDB.AMDCard<RimehearthAMDCards.PlusZeroHealThreeSelfWoundSelfRolling>()
+		];
+	}
+
+	public class ReplaceThreePlusThreeWithOnePlusOneRollingOnePlusOneWoundOnePlusOneHealOneSelf : RimehearthPerk
+	{
+		public override List<AMDCardModel> CardsToRemove { get; } =
+		[
+			ModelDB.AMDCard<PlusOneAMDCard>(),
+			ModelDB.AMDCard<PlusOneAMDCard>(),
+			ModelDB.AMDCard<PlusOneAMDCard>()
+		];
+
+		public override List<AMDCardModel> CardsToAdd { get; } =
+		[
+			ModelDB.AMDCard<RimehearthAMDCards.PlusOneRolling>(),
+			ModelDB.AMDCard<RimehearthAMDCards.PlusOneWound>(),
+			ModelDB.AMDCard<RimehearthAMDCards.PlusOneHealOneSelf>(),
+		];
+	}
+
+	public class ReplaceOnePlusTwoWithPlusOneThreeChill : RimehearthPerk
+	{
+		public override List<AMDCardModel> CardsToRemove { get; } =
+		[
+			ModelDB.AMDCard<PlusTwoAMDCard>()
+		];
+
+		public override List<AMDCardModel> CardsToAdd { get; } =
+		[
+			ModelDB.AMDCard<RimehearthAMDCards.PlusThreeChill>()
+		];
+	}
+
+	public class AddOnePlusTwoFireIce : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<StarslingerAMDCards.PlusOneHealOneRangeThree>(),
-			ModelDB.AMDCard<StarslingerAMDCards.PlusOneHealOneRangeThree>()
+			ModelDB.AMDCard<RimehearthAMDCards.PlusTwoFireIce>()
 		];
 	}
 
-	public class AddOnePlusOneIfYouAreUndamagedPlusThreeInstead : RimehearthPerk
+	public class AddOnePlusZeroBrittle : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<StarslingerAMDCards.PlusOneIfYouAreUndamagedPlusThreeInstead>()
+			ModelDB.AMDCard<RimehearthAMDCards.PlusZeroBrittle>()
 		];
 	}
 
-	public class AddTwoPlusZeroHealOneRangeOneRolling : RimehearthPerk
+	public class IgnoreItemMinusOneEffectsAddOnePlusZeroFireIceRolling : RimehearthPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<StarslingerAMDCards.PlusZeroHealOneRangeOneRolling>(),
-			ModelDB.AMDCard<StarslingerAMDCards.PlusZeroHealOneRangeOneRolling>()
-		];
-	}
-
-	public class AddOnePlusZeroLootOneRolling : RimehearthPerk
-	{
-		public override List<AMDCardModel> CardsToAdd { get; } =
-		[
-			ModelDB.AMDCard<StarslingerAMDCards.PlusZeroLootOneRolling>()
-		];
-	}
-
-	public class IgnoreScenarioEffectsAddOnePlusZeroDark : RimehearthPerk
-	{
-		public override List<AMDCardModel> CardsToAdd { get; } =
-		[
-			ModelDB.AMDCard<StarslingerAMDCards.PlusZeroDark>()
+			ModelDB.AMDCard<RimehearthAMDCards.PlusZeroFireIceRolling>()
 		];
 
-		public override bool IgnoreScenarioEffects => true;
+		public override bool IgnoreItemMinusOneEffects => true;
 	}
 
-	public class ReflectiveJourney : RimehearthPerk, IEventSubscriber
+	public class Icebreaker : RimehearthPerk
 	{
-		public override int PerkBoxCount => 2;
-		protected override string Title => "Reflective Journey";
+		protected override string Title => "Icebreaker";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
-			$"At the end of each of your long rests, {Icons.Inline(Icons.GetElement(Element.Light), richTextParameters)} or {Icons.Inline(Icons.GetElement(Element.Dark), richTextParameters)}. If you are undamaged, grant one ally: {Icons.Inline(Icons.Move, richTextParameters)}2.";
+			$"At the start of each scenario, you may either gain {Icons.InlineCondition(Conditions.Wound1, richTextParameters)} to {Icons.InlineElement(Element.Fire, richTextParameters)}, or gain {Icons.InlineCondition(Conditions.Chill, richTextParameters)} to {Icons.InlineElement(Element.Ice, richTextParameters)}.";
 
 		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 		{
 			await base.OnScenarioSetupPhaseCompleted(character);
 
-			ScenarioEvents.LongRestEndedEvent.Subscribe(this,
-				parameters => parameters.Character == character,
-				async parameters =>
-				{
-					await AbilityCmd.InfuseElement(null, [Element.Light, Element.Dark], character);
-					if(!character.IsDamaged())
+			ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription fireSubscription =
+				ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.New(
+					subscriptionParameters => true,
+					async subscriptionParameters =>
 					{
-						await new ActionState(character,
-						[
-							GrantAbility.Builder()
-								.WithAbilities(
-								[
-									MoveAbility.Builder().WithDistance(2).Build()
-								])
-								.WithRange(RangeHelper.InfiniteRange)
-								.Build()
-						]).Perform();
-					}
-				});
+						await AbilityCmd.AddCondition(null, character, Conditions.Wound1);
+						await AbilityCmd.InfuseElement(null, Element.Fire, character);
+					},
+					effectType: EffectType.Selectable,
+					effectButtonParameters: new TextEffectButton.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Wound1))}{Icons.Inline(Icons.GetElement(Element.Fire))}"),
+					effectInfoViewParameters: new TextEffectInfoView.Parameters($"Gain {Icons.Inline(Icons.GetCondition(Conditions.Wound1))} to {Icons.Inline(Icons.GetElement(Element.Fire))}")
+				);
+
+			ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription iceSubscription =
+				ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.New(
+					subscriptionParameters => true,
+					async subscriptionParameters =>
+					{
+						await AbilityCmd.AddCondition(null, character, Conditions.Chill);
+						await AbilityCmd.InfuseElement(null, Element.Ice, character);
+					},
+					effectType: EffectType.Selectable,
+					effectButtonParameters: new TextEffectButton.Parameters($"{Icons.Inline(Icons.GetCondition(Conditions.Chill))}{Icons.Inline(Icons.GetElement(Element.Ice))}"),
+					effectInfoViewParameters: new TextEffectInfoView.Parameters($"Gain {Icons.Inline(Icons.GetCondition(Conditions.Chill))} to {Icons.Inline(Icons.GetElement(Element.Ice))}")
+				);
+
+			await AbilityCmd.GenericChoice(character, [fireSubscription, iceSubscription]);
 		}
 	}
 }

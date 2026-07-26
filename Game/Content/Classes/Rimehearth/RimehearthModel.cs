@@ -59,5 +59,31 @@ public class RimehearthModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<RimehearthPerks.ReplaceOneMinusOneWithOnePlusZeroChill>(),
+		ModelDB.Perk<RimehearthPerks.ReplaceOneMinusOneWithOnePlusZeroChill>(),
+
+		ModelDB.Perk<RimehearthPerks.ReplaceOneMinusOneWithOnePlusZeroWoundRolling>(),
+		ModelDB.Perk<RimehearthPerks.ReplaceOneMinusOneWithOnePlusZeroWoundRolling>(),
+
+		ModelDB.Perk<RimehearthPerks.ReplaceOnePlusZeroWithOnePlusOneIce>(),
+		ModelDB.Perk<RimehearthPerks.ReplaceOnePlusZeroWithOnePlusOneIce>(),
+
+		ModelDB.Perk<RimehearthPerks.ReplaceTwoPlusZeroWithTwoPlusZeroFireRolling>(),
+
+		ModelDB.Perk<RimehearthPerks.ReplaceOnePlusZeroWithOnePlusZeroHealThreeSelfWoundSelfRolling>(),
+
+		ModelDB.Perk<RimehearthPerks.ReplaceThreePlusThreeWithOnePlusOneRollingOnePlusOneWoundOnePlusOneHealOneSelf>(),
+
+		ModelDB.Perk<RimehearthPerks.ReplaceOnePlusTwoWithPlusOneThreeChill>(),
+
+		ModelDB.Perk<RimehearthPerks.AddOnePlusTwoFireIce>(),
+		ModelDB.Perk<RimehearthPerks.AddOnePlusTwoFireIce>(),
+
+		ModelDB.Perk<RimehearthPerks.AddOnePlusZeroBrittle>(),
+
+		ModelDB.Perk<RimehearthPerks.IgnoreItemMinusOneEffectsAddOnePlusZeroFireIceRolling>(),
+
+		ModelDB.Perk<RimehearthPerks.Icebreaker>(),
+
 	];
 }
