@@ -63,7 +63,7 @@ public class LuminaryAMDCards
 
 	public class PlusZeroPerformPoisonAbility : LuminaryAMDCardModel
 	{
-		private AOEPattern _aoePattern = new AOEPattern(
+		private static readonly AOEPattern AOEPattern = new AOEPattern(
 		[
 			new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 			new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
@@ -74,7 +74,7 @@ public class LuminaryAMDCards
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText:
-				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Poison1), richTextParameters)} {Icons.InlineAOEPattern(_aoePattern, richTextParameters)}");
+				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Poison1), richTextParameters)} {Icons.InlineAOEPattern(AOEPattern, richTextParameters)}");
 
 		protected override int AtlasIndex => 8;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -83,7 +83,7 @@ public class LuminaryAMDCards
 		[
 			ConditionAbility.Builder()
 				.WithConditions(Conditions.Poison1)
-				.WithAOEPattern(_aoePattern)
+				.WithAOEPattern(AOEPattern)
 				.Build()
 		];
 	}

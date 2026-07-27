@@ -52,7 +52,7 @@ public static class Icons
 	public static string GetElement(List<Element> elements)
 	{
 		string elementString = "";
-		foreach(Element element in elements)
+		foreach(Element element in elements.Order())
 		{
 			elementString += element.ToString();
 		}

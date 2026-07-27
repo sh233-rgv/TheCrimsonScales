@@ -4,7 +4,7 @@ using Fractural.Tasks;
 public class LightTheWay : LuminaryCardModel<LightTheWay.CardTop, LightTheWay.CardBottom>
 {
 	public override string Name => "Light the Way";
-	public override int Level => 1;
+	public override int Level => 9;
 	public override int Initiative => 93;
 	protected override int AtlasIndex => 29;
 
