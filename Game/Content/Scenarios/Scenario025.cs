@@ -177,8 +177,9 @@ public class Scenario025 : ScenarioModel
 				applyFunction: async applyParameters =>
 				{
 					await new ActionState(brightspark, [HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()]).Perform();
-				}, EffectType.Selectable,
-				effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Heal)}2, self"))
+				},
+				canApplyMultipleTimesDuringSubscription: true,
+				effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.Heal)}2, self"), potentialConsumer: brightspark)
 		);
 
 		ScenarioEvents.FigureFoundFocusEvent.Subscribe(this,
