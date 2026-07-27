@@ -41,17 +41,17 @@ public partial class AMDViewerBox : Control
 
 	private void OnMouseEntered()
 	{
-		AMDViewerButton.ExtraDetailPanel.Popup();
+		AMDViewerButton.ExtraDetailView.Show();
 
-		Vector2 popupPosition = AMDViewerButton.GlobalPosition + new Vector2(-520, -60);
+		Vector2 popupPosition = AMDViewerButton.GlobalPosition + new Vector2(-525, -65);
 
-		AMDViewerButton.ExtraDetailPanel.Position = new Vector2I((int)popupPosition.X, (int)popupPosition.Y);
+		AMDViewerButton.ExtraDetailView.Position = new Vector2I((int)popupPosition.X, (int)popupPosition.Y);
 
 		AMDViewerButton.ExtraDetailLabel.SetText(_amdModel.ToString(AMDViewerButton.ExtraDetailLabel.GetRichTextParameters()));
 	}
 
 	private void OnMouseExited()
 	{
-		AMDViewerButton.ExtraDetailPanel.Hide();
+		AMDViewerButton.ExtraDetailView.Hide();
 	}
 }

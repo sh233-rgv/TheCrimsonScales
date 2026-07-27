@@ -8,25 +8,7 @@
 [ext_resource type="StyleBox" uid="uid://dd1rndhea8oq5" path="res://Resources/BlurButton.tres" id="6_tk7bd"]
 [ext_resource type="FontFile" uid="uid://d35yxf0dr4r86" path="res://Fonts/GermaniaOne-Regular.ttf" id="7_a61he"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jnfi5"]
-bg_color = Color(0.105882354, 0.105882354, 0.1254902, 0)
-border_color = Color(0.892922, 0.893193, 0.912186, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pc0m6"]
-bg_color = Color(0.105882354, 0.105882354, 0.1254902, 0)
-border_color = Color(0.892922, 0.893193, 0.912186, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-anti_aliasing = false
-
-[node name="Control" type="Control" unique_id=1792582373 node_paths=PackedStringArray("_amdButton", "_popupPanel", "_grid", "ExtraDetailPanel", "ExtraDetailLabel")]
+[node name="Control" type="Control" unique_id=1792582373 node_paths=PackedStringArray("_amdButton", "_amdView", "_grid", "ExtraDetailView", "ExtraDetailLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,39 +20,49 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_jnfi5")
 _amdButton = NodePath("Button")
-_popupPanel = NodePath("PopupPanel")
-_grid = NodePath("PopupPanel/GridContainer")
+_amdView = NodePath("Control")
+_grid = NodePath("Control/GridContainer")
 _amdViewerBox = ExtResource("2_qeqac")
-ExtraDetailPanel = NodePath("PopupPanel/ExtraDetailPanel")
-ExtraDetailLabel = NodePath("PopupPanel/ExtraDetailPanel/Panel/RichTextLabel")
+ExtraDetailView = NodePath("Control/Control")
+ExtraDetailLabel = NodePath("Control/Control/Panel/RichTextLabel")
 
-[node name="PopupPanel" type="PopupPanel" parent="." unique_id=460947252]
-oversampling_override = 1.0
-visible = true
-theme_override_styles/panel = SubResource("StyleBoxFlat_jnfi5")
+[node name="Control" type="Control" parent="." unique_id=627476190]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="GridContainer" type="GridContainer" parent="PopupPanel" unique_id=1236446641]
+[node name="GridContainer" type="GridContainer" parent="Control" unique_id=1236446641]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -8.75
+anchor_right = -8.75
 offset_right = 100.0
 offset_bottom = 100.0
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
 columns = 4
 
-[node name="ExtraDetailPanel" type="PopupPanel" parent="PopupPanel" unique_id=1137015507]
-oversampling_override = 1.0
-size = Vector2i(490, 60)
-theme_override_styles/panel = SubResource("StyleBoxFlat_pc0m6")
+[node name="Control" type="Control" parent="Control" unique_id=432685929]
+visible = false
+layout_mode = 1
+anchor_left = -8.75
+anchor_right = -8.75
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="Panel" type="Panel" parent="PopupPanel/ExtraDetailPanel" unique_id=1702746625]
+[node name="Panel" type="Panel" parent="Control/Control" unique_id=1702746625]
 material = ExtResource("5_pc0m6")
-offset_right = 490.0
+layout_mode = 0
+offset_right = 495.0
 offset_bottom = 60.0
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("6_tk7bd")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="PopupPanel/ExtraDetailPanel/Panel" unique_id=1205046633]
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/Control/Panel" unique_id=1205046633]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
-offset_right = 488.0
+offset_right = 493.0
 offset_bottom = 58.0
 mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("7_a61he")
@@ -115,9 +107,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 0.0
+offset_left = 106.0
 offset_top = 0.0
-offset_right = 107.0
+offset_right = 213.0
 offset_bottom = 72.0
 grow_horizontal = 1
 grow_vertical = 1

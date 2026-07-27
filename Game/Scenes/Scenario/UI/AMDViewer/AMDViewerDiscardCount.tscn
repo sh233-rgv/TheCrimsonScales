@@ -1,7 +1,5 @@
 [gd_scene format=3 uid="uid://ddjmy747dtmb5"]
 
-[ext_resource type="Material" uid="uid://cun442tgtvgh" path="res://Materials/UIBlur.tres" id="1_effpp"]
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6hnvc"]
 bg_color = Color(0.105882, 0.105882, 0.12549, 0.705882)
 border_width_left = 1
@@ -29,7 +27,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel2" type="Panel" parent="." unique_id=1621186220]
-material = ExtResource("1_effpp")
 layout_mode = 0
 offset_right = 12.0
 offset_bottom = 12.0

@@ -80,7 +80,11 @@ offset_bottom = 34.0
 grow_vertical = 1
 texture = ExtResource("4_uplxl")
 
-[node name="Effects" type="VBoxContainer" parent="MarginContainer/Content" parent_id_path=PackedInt32Array(1858054355) index="2" unique_id=333721468]
+[node name="AMDViewer" parent="MarginContainer/Content" parent_id_path=PackedInt32Array(1858054355) index="2" unique_id=1792582373 instance=ExtResource("7_bxli4")]
+custom_minimum_size = Vector2(0, 71)
+layout_mode = 2
+
+[node name="Effects" type="VBoxContainer" parent="MarginContainer/Content" parent_id_path=PackedInt32Array(1858054355) index="3" unique_id=333721468]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
@@ -119,11 +123,7 @@ layout_mode = 2
 [node name="Label" parent="MarginContainer/Content/Effects/Applies/HBoxContainer" parent_id_path=PackedInt32Array(361993898, 517629473) index="0" unique_id=176725713]
 text = "Applies:"
 
-[node name="AMDViewer" parent="MarginContainer/Content/Effects" index="4" unique_id=1792582373 instance=ExtResource("7_bxli4")]
-custom_minimum_size = Vector2(0, 71)
-layout_mode = 2
-
-[node name="InfoExtraEffectsView" parent="MarginContainer/Content/Effects" index="5" unique_id=709550068 instance=ExtResource("7_e5o5d")]
+[node name="InfoExtraEffectsView" parent="MarginContainer/Content/Effects" index="4" unique_id=709550068 instance=ExtResource("7_e5o5d")]
 layout_mode = 2
 mouse_filter = 2
 

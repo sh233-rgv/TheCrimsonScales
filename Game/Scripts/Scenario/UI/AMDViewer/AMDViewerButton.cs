@@ -15,7 +15,7 @@ public partial class AMDViewerButton : Control
 	private BetterButton _amdButton;
 
 	[Export]
-	private PopupPanel _popupPanel;
+	private Control _amdView;
 
 	[Export]
 	private GridContainer _grid;
@@ -24,12 +24,12 @@ public partial class AMDViewerButton : Control
 	private PackedScene _amdViewerBox;
 
 	[Export]
-	public PopupPanel ExtraDetailPanel;
+	public Control ExtraDetailView;
 
 	[Export]
 	public RichTextLabel ExtraDetailLabel;
 
-	public AMDCardDeck AMDCardDeck;
+	private AMDCardDeck AMDCardDeck;
 
 	private bool _lockedOpen;
 
@@ -41,11 +41,11 @@ public partial class AMDViewerButton : Control
 		_amdButton.MouseExited += OnMouseExited;
 		_amdButton.Pressed += OnButtonPressed;
 
-		_popupPanel.Unfocusable = true;
-		ExtraDetailPanel.Unfocusable = true;
+		_amdView.Hide();
+		ExtraDetailView.Hide();
 
-		_popupPanel.Hide();
-		ExtraDetailPanel.Hide();
+		_amdView.TopLevel = true;
+		ExtraDetailView.TopLevel = true;
 	}
 
 	private void OnMouseEntered()
@@ -57,7 +57,7 @@ public partial class AMDViewerButton : Control
 	{
 		if(!_lockedOpen)
 		{
-			_popupPanel.Hide();
+			_amdView.Hide();
 		}
 	}
 
@@ -71,14 +71,16 @@ public partial class AMDViewerButton : Control
 		}
 		else
 		{
-			_popupPanel.Hide();
+			_amdView.Hide();
 		}
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
 		if(!_lockedOpen)
+		{
 			return;
+		}
 
 		if(@event is InputEventMouseButton mouseEvent &&
 		   mouseEvent.ButtonIndex == MouseButton.Left &&
@@ -91,7 +93,7 @@ public partial class AMDViewerButton : Control
 			if(!clickedButton)
 			{
 				_lockedOpen = false;
-				_popupPanel.Hide();
+				_amdView.Hide();
 			}
 		}
 	}
@@ -100,11 +102,11 @@ public partial class AMDViewerButton : Control
 	{
 		UpdateDeck();
 
-		_popupPanel.Popup();
+		_amdView.Show();
 
-		Vector2 popupPosition = _amdButton.GlobalPosition + new Vector2(-520, 5);
+		Vector2 popupPosition = GlobalPosition + new Vector2(-170, 0);
 
-		_popupPanel.Position = new Vector2I((int)popupPosition.X, (int)popupPosition.Y);
+		_amdView.Position = new Vector2I((int)popupPosition.X, (int)popupPosition.Y);
 	}
 
 	public void UpdateDeck()
@@ -161,5 +163,10 @@ public partial class AMDViewerButton : Control
 			box.SetAMD(cardCount.Model, cardCount.DeckCount, cardCount.DiscardCount);
 			_grid.AddChild(box);
 		}
+	}
+
+	public void SetAMDCardDeck(AMDCardDeck deck)
+	{
+		AMDCardDeck = deck;
 	}
 }
