@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using Fractural.Tasks;
+﻿using System.Collections.Generic;
 using Godot;
 
 public class LuminaryAMDCards
 {
 	public class MinusTwoPerformGlowAbilityWithoutConsumingElement : LuminaryAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, -2, $"{Icons.Inline(LuminaryCardSide.GlowIconPath, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, -2,
 				extraText: $"Perform a {Icons.Inline(LuminaryCardSide.GlowIconPath, richTextParameters)} without consuming an element");
@@ -63,10 +64,22 @@ public class LuminaryAMDCards
 
 	public class PlusZeroPerformPoisonAbility : LuminaryAMDCardModel
 	{
-		//TODO: Some way to show what the actual area of effect is
+		private static readonly AOEPattern AOEPattern = new AOEPattern(
+		[
+			new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+			new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red)
+		]);
+
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.InlineCondition(Conditions.Poison1, richTextParameters)} {Icons.InlineAOEPattern(AOEPattern, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"Perform {Icons.Inline(Icons.GetCondition(Conditions.Poison1), richTextParameters)} area of effect ability");
+				extraText:
+				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Poison1), richTextParameters)} {Icons.InlineAOEPattern(AOEPattern, richTextParameters)}");
 
 		protected override int AtlasIndex => 8;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -75,19 +88,17 @@ public class LuminaryAMDCards
 		[
 			ConditionAbility.Builder()
 				.WithConditions(Conditions.Poison1)
-				.WithAOEPattern(new AOEPattern(
-				[
-					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-					new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-					new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red)
-				]))
+				.WithAOEPattern(AOEPattern)
 				.Build()
 		];
 	}
 
 	public class PlusOneHealOneSelfRolling : LuminaryAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1,
+				$"{Icons.Inline(Icons.Heal, richTextParameters)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, self", rolling: true);
@@ -104,6 +115,10 @@ public class LuminaryAMDCards
 
 	public class PlusZeroConsumeElementToInfuseElementRolling : LuminaryAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.InlineWildElement(richTextParameters)}:{Icons.InlineWildElement(richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"Consume {Icons.Inline(Icons.WildElement, richTextParameters)} to {Icons.Inline(Icons.WildElement, richTextParameters)}",

@@ -120,7 +120,8 @@ public partial class AMDViewerButton : Control
 
 		foreach(AMDCardModel amdModel in AMDCardDeck.DrawPile.Select(amd => amd.Model))
 		{
-			AMDCount modelCount = cardCounts.FirstOrDefault(cardCount => cardCount.Model == amdModel);
+			AMDCount modelCount = cardCounts.FirstOrDefault(cardCount =>
+				cardCount.Model.ToString(new RichTextParameters()) == amdModel.ToString(new RichTextParameters()));
 			if(modelCount == null)
 			{
 				cardCounts.Add(new AMDCount(amdModel, deckCount: 1));
@@ -133,7 +134,8 @@ public partial class AMDViewerButton : Control
 
 		foreach(AMDCardModel amdModel in AMDCardDeck.DiscardPile.Select(amd => amd.Model))
 		{
-			AMDCount modelCount = cardCounts.FirstOrDefault(cardCount => cardCount.Model == amdModel);
+			AMDCount modelCount = cardCounts.FirstOrDefault(cardCount =>
+				cardCount.Model.ToString(new RichTextParameters()) == amdModel.ToString(new RichTextParameters()));
 			if(modelCount == null)
 			{
 				cardCounts.Add(new AMDCount(amdModel, discardCount: 1));
