@@ -3,6 +3,8 @@ using Fractural.Tasks;
 
 public partial class Chainguard : Character
 {
+	public const string Trap = "res://Content/Classes/Chainguard/Traps/cs-trap.png";
+
 	public static Shackle Shackle { get; } = ModelDB.Condition<Shackle>();
 
 	// public async GDTask SetMaximumShackles(int maximumShackles)
@@ -38,8 +40,8 @@ public partial class Chainguard : Character
 
 	public static async GDTask RemoveAllExtraShackles(Figure shackler, int shacklesToKeep)
 	{
-		List<Figure> shackledFigures = GameController.Instance.Map.Figures.FindAll(
-			figure => figure.TryGetCondition(Shackle, out Condition condition) && condition.PotentialGiver == shackler);
+		List<Figure> shackledFigures = GameController.Instance.Map.Figures.FindAll(figure =>
+			figure.TryGetCondition(Shackle, out Condition condition) && condition.PotentialGiver == shackler);
 
 		int shacklesToRemove = shackledFigures.Count - shacklesToKeep;
 

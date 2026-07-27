@@ -29,7 +29,7 @@ public class FireKnightAMDCards
 	{
 		public override string GetSimpleString(RichTextParameters richTextParameters) =>
 			GetSimpleString(richTextParameters, +0,
-				$"{Icons.Inline(Icons.Heal, richTextParameters)}{Icons.Inline(Icons.Rolling, richTextParameters)}");
+				$"{Icons.Inline(Icons.Heal, richTextParameters)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
 
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
