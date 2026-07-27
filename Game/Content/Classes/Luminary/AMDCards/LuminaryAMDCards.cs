@@ -74,12 +74,12 @@ public class LuminaryAMDCards
 
 		public override string GetSimpleString(RichTextParameters richTextParameters) =>
 			GetSimpleString(richTextParameters, +0,
-				$"{Icons.InlineCondition(Conditions.Poison1, richTextParameters)} {Icons.InlineAOEPattern(AOEPattern, richTextParameters)}");
+				$"{Icons.InlineCondition(Conditions.Poison1, richTextParameters)} {Icons.InlineAOEPattern(AOEPattern, richTextParameters, 0.4f)}");
 
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText:
-				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Poison1), richTextParameters)} {Icons.InlineAOEPattern(AOEPattern, richTextParameters)}");
+				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Poison1), richTextParameters)} {Icons.InlineAOEPattern(AOEPattern, richTextParameters, 0.4f)}");
 
 		protected override int AtlasIndex => 8;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;

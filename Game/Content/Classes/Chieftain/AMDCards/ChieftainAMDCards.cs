@@ -99,7 +99,7 @@ public class ChieftainAMDCards
 	public class PlusZeroAddPlusOneForEachOfYourSummons : ChieftainAMDCardModel
 	{
 		public override string GetSimpleString(RichTextParameters richTextParameters) =>
-			GetSimpleString(richTextParameters, +0, $"+1{Icons.Inline(Icons.Attack)}");
+			GetSimpleString(richTextParameters, +0, $"+X{Icons.Inline(Icons.Attack)}");
 
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,

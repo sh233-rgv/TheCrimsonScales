@@ -19,6 +19,10 @@ public class MirefootAMDCards
 
 	public class PlusZeroPlusXWhereXIsTargetPoisonValue : MirefootAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"+X{Icons.Inline(Icons.Attack, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText:
@@ -59,6 +63,10 @@ public class MirefootAMDCards
 
 	public class PlusZeroCreateDifficultTerrainRolling : MirefootAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline("res://Content/Classes/Mirefoot/cs-broken-log.png", richTextParameters)}{Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"Create one 1-hex difficult terrain tile in the featureless hex occupied by the target",
@@ -89,6 +97,12 @@ public class MirefootAMDCards
 
 	public class PlusZeroWoundTwo : MirefootAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0, $"{Icons.InlineCondition(Conditions.Wound2, richTextParameters)}2");
+
+		public override string ToString(RichTextParameters richTextParameters) =>
+			$"{Icons.Inline(Icons.GetAMDValue("+0"), richTextParameters)} {Icons.InlineCondition(Conditions.Wound2, richTextParameters)}2";
+
 		protected override int AtlasIndex => 13;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) => [Conditions.Wound2];
@@ -96,6 +110,10 @@ public class MirefootAMDCards
 
 	public class PlusZeroIfOccupyingDifficultTerrainGainInvisibleRolling : MirefootAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline("res://Content/Classes/Mirefoot/cs-broken-log.png", richTextParameters)}:{Icons.InlineCondition(Conditions.Invisible, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText:
@@ -117,6 +135,10 @@ public class MirefootAMDCards
 
 	public class PlusZeroIfOccupyingDifficultTerrainPlusOneInsteadRolling : MirefootAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline("res://Content/Classes/Mirefoot/cs-broken-log.png", richTextParameters)}:{Icons.Inline(Icons.GetAMDValue("+1"), richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"If you are occupying difficult terrain, {Icons.Inline(Icons.GetAMDValue("+1"))} instead", rolling: true);
