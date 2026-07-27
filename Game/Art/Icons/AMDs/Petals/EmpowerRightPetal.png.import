@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cktdwxcvcju3k"
-path="res://.godot/imported/Heal.svg-26b04ed06bb9a19cfce95278923ef52a.ctex"
+uid="uid://beae7160d5wov"
+path="res://.godot/imported/EmpowerRightPetal.png-3d6c6e902a37f4755126d9aa2578689e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Icons/Abilities/Heal.svg"
-dest_files=["res://.godot/imported/Heal.svg-26b04ed06bb9a19cfce95278923ef52a.ctex"]
+source_file="res://Art/Icons/AMDs/Petals/EmpowerRightPetal.png"
+dest_files=["res://.godot/imported/EmpowerRightPetal.png-3d6c6e902a37f4755126d9aa2578689e.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

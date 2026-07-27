@@ -155,6 +155,7 @@ public partial class AMDViewerButton : Control
 				_ => 3
 			})
 			.ThenBy(count => count.Model.GetValue(null) ?? 0)
+			.ThenBy(count => count.Model.GetRolling(null))
 			.ThenBy(count => count.Model.ToString())
 			.ToList();
 

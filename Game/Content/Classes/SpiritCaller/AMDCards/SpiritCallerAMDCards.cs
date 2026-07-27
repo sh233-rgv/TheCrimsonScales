@@ -10,6 +10,10 @@ public class SpiritCallerAMDCards
 
 	public class PlusZeroPlusTwoIfSpiritAttacked : SpiritCallerAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline("res://Content/Classes/SpiritCaller/SpiritIcon.png", richTextParameters)}:{Icons.Inline(Icons.GetAMDValue("+2"))}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText:
@@ -47,13 +51,21 @@ public class SpiritCallerAMDCards
 	{
 		protected override int AtlasIndex => 9;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
+		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? Pierce => 3;
 	}
 
 	public class PlusZeroAddTargetRolling : SpiritCallerAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Targets, richTextParameters)}{Icons.Inline(Icons.Rolling, richTextParameters)}");
+
+		public override string ToString(RichTextParameters richTextParameters) =>
+			GetBasicString(richTextParameters, +0, extraText: $"+1{Icons.Inline(Icons.Targets, richTextParameters)}", rolling: true);
+
 		protected override int AtlasIndex => 11;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
+		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? AddedTargets => 1;
 	}

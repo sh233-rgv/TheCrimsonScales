@@ -3,10 +3,12 @@ using Fractural.Tasks;
 
 public class AdjacentEnemiesSufferSanctuaryCritAMDCard : SanctuaryCritAMDCardModel
 {
+	public override string GetSimpleString(RichTextParameters richTextParameters) =>
+		GetSimpleString(richTextParameters, AMDCardType.Crit, $"{Icons.Inline(Icons.Damage, richTextParameters)}1");
+
 	public override string ToString(RichTextParameters richTextParameters) =>
 		GetBasicString(richTextParameters, AMDCardType.Crit,
-			extraText: $"All enemies adjacent to the target suffer {Icons.Inline(Icons.Damage, richTextParameters)}1",
-			rolling: true);
+			extraText: $"All enemies adjacent to the target suffer {Icons.Inline(Icons.Damage, richTextParameters)}1");
 
 	protected override int AtlasIndex => 6;
 

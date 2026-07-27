@@ -43,7 +43,7 @@ public partial class AMDViewerBox : Control
 	{
 		AMDViewerButton.ExtraDetailView.Show();
 
-		Vector2 popupPosition = AMDViewerButton.GlobalPosition + new Vector2(-525, -65);
+		Vector2 popupPosition = AMDViewerButton.GlobalPosition + new Vector2(-520, -65);
 
 		AMDViewerButton.ExtraDetailView.Position = new Vector2I((int)popupPosition.X, (int)popupPosition.Y);
 

@@ -4,6 +4,9 @@ public class StarslingerAMDCards
 {
 	public class MinusOneInvisibleSelf : StarslingerAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, -1, $"{Icons.InlineCondition(Conditions.Invisible, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, -1,
 				extraText: $"{Icons.Inline(Icons.GetCondition(Conditions.Invisible), richTextParameters)}, self");
@@ -27,6 +30,10 @@ public class StarslingerAMDCards
 
 	public class PlusZeroControlTargetMoveOneRolling : StarslingerAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Move, richTextParameters)}1{Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"Control the target: {Icons.Inline(Icons.Move, richTextParameters)}1", rolling: true);
@@ -59,6 +66,9 @@ public class StarslingerAMDCards
 
 	public class PlusOneHealOneRangeThree : StarslingerAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1, $"{Icons.Inline(Icons.Heal, richTextParameters)}1");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.Range)}3");
@@ -74,6 +84,10 @@ public class StarslingerAMDCards
 
 	public class PlusOneIfYouAreUndamagedPlusThreeInstead : StarslingerAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1,
+				$"{Icons.Inline(Icons.Damage, richTextParameters)}:{Icons.Inline(Icons.GetAMDValue("+3"), richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText: $"If you are undamaged, {Icons.Inline(Icons.GetAMDValue("+3"), richTextParameters)} instead");
@@ -84,8 +98,12 @@ public class StarslingerAMDCards
 
 	public class PlusZeroHealOneRangeOneRolling : StarslingerAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Heal, richTextParameters)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +1,
+			GetBasicString(richTextParameters, +0,
 				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.Range)}1", rolling: true);
 
 		protected override int AtlasIndex => 11;
@@ -100,6 +118,10 @@ public class StarslingerAMDCards
 
 	public class PlusZeroLootOneRolling : StarslingerAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Loot, richTextParameters)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"{Icons.Inline(Icons.Loot, richTextParameters)}1", rolling: true);

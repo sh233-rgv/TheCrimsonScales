@@ -46,21 +46,26 @@ public abstract class AMDCardModel : AbstractModel
 	}
 
 	protected string GetBasicString(RichTextParameters richTextParameters, int value,
-		List<ConditionModel> conditionModels = null, string extraText = null, bool rolling = false)
+		List<ConditionModel> conditionModels = null, string extraText = null, bool rolling = false, string petals = null)
 	{
-		return GetBasicString(richTextParameters, AMDCardType.Value, value, conditionModels, extraText, rolling);
+		return GetBasicString(richTextParameters, AMDCardType.Value, value, conditionModels, extraText, rolling, petals);
 	}
 
 	protected string GetBasicString(RichTextParameters richTextParameters, AMDCardType cardType,
-		List<ConditionModel> conditionModels = null, string extraText = null, bool rolling = false)
+		List<ConditionModel> conditionModels = null, string extraText = null, bool rolling = false, string petals = null)
 	{
-		return GetBasicString(richTextParameters, cardType, null, conditionModels, extraText, rolling);
+		return GetBasicString(richTextParameters, cardType, null, conditionModels, extraText, rolling, petals);
 	}
 
 	protected string GetBasicString(RichTextParameters richTextParameters, AMDCardType cardType, int? value,
-		List<ConditionModel> conditionModels = null, string extraText = null, bool rolling = false, bool isSimple = false)
+		List<ConditionModel> conditionModels = null, string extraText = null, bool rolling = false, string petals = null, bool isSimple = false)
 	{
 		string returnValue = string.Empty;
+		if(petals != null)
+		{
+			returnValue += Icons.Inline($"res://Art/Icons/AMDs/Petals/{petals}LeftPetal.png", richTextParameters, true);
+		}
+
 		string valueIcon;
 
 		switch(cardType)
@@ -181,12 +186,57 @@ public abstract class AMDCardModel : AbstractModel
 			returnValue += $"{Icons.Inline(Icons.Rolling, richTextParameters, true)}";
 		}
 
+		if(petals != null)
+		{
+			returnValue += Icons.Inline($"res://Art/Icons/AMDs/Petals/{petals}RightPetal.png", richTextParameters, true);
+		}
+
 		return returnValue;
 	}
 
-	protected string GetSimpleString(RichTextParameters richTextParameters, int? value, string extraText = null)
+	protected string GetSimpleString(RichTextParameters richTextParameters, int value, string extraText = null, string petals = null)
 	{
-		return Icons.Inline(Icons.GetAMDValue((value >= 0 ? "+" : string.Empty) + value), richTextParameters, true) + extraText;
+		return GetSimpleString(richTextParameters, AMDCardType.Value, value, extraText, petals);
+	}
+
+	protected string GetSimpleString(RichTextParameters richTextParameters, AMDCardType cardType, string extraText = null, string petals = null)
+	{
+		return GetSimpleString(richTextParameters, cardType, null, extraText, petals);
+	}
+
+	protected string GetSimpleString(RichTextParameters richTextParameters, AMDCardType cardType, int? value, string extraText = null,
+		string petals = null)
+	{
+		string returnValue = string.Empty;
+		if(petals != null)
+		{
+			returnValue += Icons.Inline($"res://Art/Icons/AMDs/Petals/{petals}LeftPetal.png", richTextParameters, true);
+		}
+
+		string valueIcon;
+		switch(cardType)
+		{
+			case AMDCardType.Crit:
+				valueIcon = "2x";
+				break;
+			case AMDCardType.Null:
+				valueIcon = "null";
+				break;
+			case AMDCardType.Value:
+				valueIcon = $"{(value >= 0 ? "+" : string.Empty)}{value}";
+				break;
+			default:
+				throw new ArgumentOutOfRangeException(nameof(cardType), cardType, null);
+		}
+
+		returnValue += Icons.Inline(Icons.GetAMDValue(valueIcon), richTextParameters, true) + extraText;
+
+		if(petals != null)
+		{
+			returnValue += Icons.Inline($"res://Art/Icons/AMDs/Petals/{petals}RightPetal.png", richTextParameters, true);
+		}
+
+		return returnValue;
 	}
 
 	protected Character GetCharacter(AttackAbility.State state)
