@@ -107,7 +107,7 @@ public class ThermalWeaving : RimehearthCardModel<ThermalWeaving.CardTop, Therma
 							parameters.AdjustShield(2);
 						});
 
-					ScenarioEvents.ConsumeElementEvent.Subscribe(state, this,
+					ScenarioEvents.FinishElementConsumedEvent.Subscribe(state, this,
 						parameters => parameters.ConsumedElement is Element.Fire or Element.Ice,
 						async _ =>
 						{
@@ -140,7 +140,7 @@ public class ThermalWeaving : RimehearthCardModel<ThermalWeaving.CardTop, Therma
 				{
 					ScenarioEvents.RetaliateEvent.Unsubscribe(state, this);
 					ScenarioEvents.SufferDamageEvent.Unsubscribe(state, this);
-					ScenarioEvents.ConsumeElementEvent.Unsubscribe(state, this);
+					ScenarioEvents.FinishElementConsumedEvent.Unsubscribe(state, this);
 					ScenarioEvents.FinishElementInfusedEvent.Unsubscribe(state, this);
 					ScenarioCheckEvents.ShieldCheckEvent.Unsubscribe(state, this);
 					ScenarioCheckEvents.RetaliateCheckEvent.Unsubscribe(state, this);

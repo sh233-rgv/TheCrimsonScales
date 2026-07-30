@@ -43,17 +43,7 @@ public class ABalanceStruck : RimehearthCardModel<ABalanceStruck.CardTop, ABalan
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					ScenarioEvents.ConsumeElementEvent.Subscribe(state, this,
-						parameters => parameters.Elements.Count == 1 &&
-						               (parameters.Elements.First() == Element.Fire ||
-						                parameters.Elements.First() == Element.Ice),
-						async parameters =>
-						{
-							parameters.AddPossibleConsume(Element.Fire);
-							parameters.AddPossibleConsume(Element.Ice);
-
-							await GDTask.CompletedTask;
-						});
+					//TODO: Turn Fire and Ice Consume into Fire/Ice Consume
 
 					ScenarioEvents.FigureTurnEndingEvent.Subscribe(state, this,
 						parameters => parameters.Figure == state.Performer,
@@ -75,7 +65,6 @@ public class ABalanceStruck : RimehearthCardModel<ABalanceStruck.CardTop, ABalan
 				})
 				.WithOnDeactivate(async state =>
 				{
-					ScenarioEvents.ConsumeElementEvent.Unsubscribe(state, this);
 					ScenarioEvents.FigureTurnEndingEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
