@@ -1112,9 +1112,7 @@ public static class AbilityCmd
 			return false;
 		}
 
-		GameController.Instance.ElementManager.Consume(element);
-
-		await GDTask.CompletedTask;
+		await GameController.Instance.ElementManager.Consume(element);
 
 		return true;
 	}
