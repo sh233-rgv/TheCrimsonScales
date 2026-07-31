@@ -121,6 +121,7 @@ public partial class ScenarioSetupButtonsView : Control
 
 		AppController.Instance.PopupManager.RequestPopup(new EquipmentPopup.Request
 		{
+			SavedCampaign = GameController.Instance.SavedCampaign,
 			SavedCharacter = _selectedCharacter.SavedCharacter
 		});
 	}

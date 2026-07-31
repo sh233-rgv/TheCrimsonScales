@@ -35,6 +35,8 @@ public partial class AppController : SingletonNode<AppController>
 	// public SaveFile SaveFile { get; private set; }
 	public SaveManager SaveManager { get; private set; }
 
+	public RandomNumberGenerator RNG { get; private set; }
+
 	public DeviceSaveData DeviceSaveData => SaveManager.DeviceSaveFile.SaveData;
 	public CampaignSaveData CampaignSaveData => SaveManager.CampaignSaveFile?.SaveData;
 
@@ -62,6 +64,9 @@ public partial class AppController : SingletonNode<AppController>
 // 				Please always make sure to finish up a scenario before installing a new version of the application!
 // 				"""));
 // 		}
+
+		RNG = new RandomNumberGenerator();
+		RNG.Randomize();
 
 		DeviceOptions.FullScreen.ValueChangedEvent += OnFullScreenChanged;
 		OnFullScreenChanged(DeviceOptions.FullScreen.Value);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Fractural.Tasks;
 using Godot;
+using GTweens.Builders;
 using GTweens.Easings;
 using GTweensGodot.Extensions;
 
@@ -138,6 +139,31 @@ public static class AbilityCmd
 
 		if(damageDealt > 0)
 		{
+			if(!GameController.FastForward)
+			{
+				//TODO: Implement damage sound?
+				// AppController.Instance.AudioController.PlayFastForwardable(SFX.Heal, delay: 0.0f);
+
+				//TODO: Implement blood effect?
+				// HealEffect healEffect = SceneLoader.InstantiateScene<HealEffect>("res://Scenes/Scenario/Effects/HealEffect.tscn");
+				// target.AddChild(healEffect);
+				// healEffect.Init();
+
+				Color damageColor = Color.Color8(200, 20, 10);
+
+				target.Visual.SetSelfModulate(damageColor);
+				GTweenSequenceBuilder.New()
+					.AppendTime(0.1f)
+					.Append(target.Visual.TweenInstanceShaderPropertyFloat("tintFactor", 0.6f, 0.2f))
+					.AppendTime(0.1f)
+					.Append(target.Visual.TweenInstanceShaderPropertyFloat("tintFactor", 0f, 0.15f))
+					.AppendCallback(() =>
+					{
+						target.Visual.SetSelfModulate(Colors.White);
+					})
+					.Build().PlayFastForwardable();
+			}
+
 			await ScenarioEvents.AfterSufferDamageEvent.CreatePrompt(
 				new ScenarioEvents.AfterSufferDamage.Parameters(target, damageDealt, damageSuffered, potentialAbilityState, sufferDamageParameters),
 				target);
@@ -312,11 +338,18 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask RemoveAllChill(Figure target)
+	public static async GDTask RemoveChillStack(Figure target)
 	{
-		while(target.HasCondition(Conditions.Chill))
+		if(target.TryGetCondition(Conditions.Chill, out Condition chill))
 		{
-			await RemoveCondition(target, Conditions.Chill);
+			if(chill.StackCount > 1)
+			{
+				chill.AdjustStackCount(-1);
+			}
+			else
+			{
+				await RemoveCondition(chill);
+			}
 		}
 	}
 
@@ -745,24 +778,34 @@ public static class AbilityCmd
 			triggerHexEffects: true, setPosition: true, forcedMovement: forcedMovement);
 	}
 
-	public static GDTask<bool> TrySwap(Figure authority, Figure figureA, Figure figureB)
+	public static GDTask<bool> TrySwap(Figure authority, HexObject hexObjectA, HexObject hexObjectB)
 	{
-		return TrySwap(null, authority, figureA, figureB);
+		return TrySwap(null, authority, hexObjectA, hexObjectB);
 	}
 
-	public static GDTask<bool> TrySwap(AbilityState abilityState, Figure figureA, Figure figureB)
+	public static GDTask<bool> TrySwap(AbilityState abilityState, HexObject hexObjectA, HexObject hexObjectB)
 	{
-		return TrySwap(abilityState, abilityState.Authority, figureA, figureB);
+		return TrySwap(abilityState, abilityState.Authority, hexObjectA, hexObjectB);
 	}
 
-	public static bool CanSwap(Figure figureA, Figure figureB)
+	public static bool CanSwap(HexObject hexObjectA, HexObject hexObjectB)
 	{
-		if(figureA == figureB)
+		if(hexObjectA == hexObjectB)
 		{
 			return false;
 		}
 
-		return CanForceMoveTo(figureA, figureB.Hex) && CanForceMoveTo(figureB, figureA.Hex);
+		if(hexObjectA is Figure figureA && !CanForceMoveTo(figureA, hexObjectB.Hex))
+		{
+			return false;
+		}
+
+		if(hexObjectB is Figure figureB && !CanForceMoveTo(figureB, hexObjectA.Hex))
+		{
+			return false;
+		}
+
+		return true;
 
 		// if(figureA.Hex.TryGetHexObjectOfType(out Obstacle obstacle) &&
 		//    !ScenarioCheckEvents.FlyingCheckEvent.Fire(new ScenarioCheckEvents.FlyingCheck.Parameters(figureB)).HasFlying)
@@ -1105,9 +1148,7 @@ public static class AbilityCmd
 			return false;
 		}
 
-		GameController.Instance.ElementManager.Consume(element);
-
-		await GDTask.CompletedTask;
+		await GameController.Instance.ElementManager.Consume(element);
 
 		return true;
 	}
@@ -1617,28 +1658,50 @@ public static class AbilityCmd
 		return success;
 	}
 
-	private static async GDTask<bool> TrySwap(AbilityState potentialAbilityState, Figure authority, Figure figureA, Figure figureB)
+	private static async GDTask<bool> TrySwap(AbilityState potentialAbilityState, Figure authority, HexObject hexObjectA, HexObject hexObjectB)
 	{
-		if(!CanSwap(figureA, figureB))
+		if(!CanSwap(hexObjectA, hexObjectB))
 		{
 			return false;
 		}
 
 		if(!GameController.FastForward)
 		{
-			await GameController.Instance.ScreenDistortion.Swap(figureA, figureB, 1.4f).PlayFastForwardableAsync();
+			await GameController.Instance.ScreenDistortion.Swap(hexObjectA, hexObjectB, 1.4f).PlayFastForwardableAsync();
 		}
 
-		Hex hexA = figureA.Hex;
-		Hex hexB = figureB.Hex;
+		Hex hexA = hexObjectA.Hex;
+		Hex hexB = hexObjectB.Hex;
 
-		await ExitHex(potentialAbilityState, figureA, authority);
-		await ExitHex(potentialAbilityState, figureB, authority);
-		await EnterHex(potentialAbilityState, figureB, authority, hexA,
-			triggerHexEffects: true, setPosition: true, forcedMovement: figureB.EnemiesWith(authority));
-		await EnterHex(potentialAbilityState, figureA, authority, hexB,
-			triggerHexEffects: true, setPosition: true, forcedMovement: figureA.EnemiesWith(authority));
-		potentialAbilityState?.SetPerformed();
+		Figure figureA = hexObjectA as Figure;
+		Figure figureB = hexObjectB as Figure;
+
+		if(figureA != null)
+		{
+			await ExitHex(potentialAbilityState, figureA, authority);
+		}
+
+		if(figureB != null)
+		{
+			await ExitHex(potentialAbilityState, figureB, authority);
+			await EnterHex(potentialAbilityState, figureB, authority, hexA,
+				triggerHexEffects: true, setPosition: true, forcedMovement: figureB.EnemiesWith(authority));
+		}
+		else
+		{
+			hexObjectB.SetOriginHexAndRotation(hexA, setPosition: true);
+		}
+
+		if(figureA != null)
+		{
+			await EnterHex(potentialAbilityState, figureA, authority, hexB,
+				triggerHexEffects: true, setPosition: true, forcedMovement: figureA.EnemiesWith(authority));
+			potentialAbilityState?.SetPerformed();
+		}
+		else
+		{
+			hexObjectA.SetOriginHexAndRotation(hexB, setPosition: true);
+		}
 
 		return true;
 	}

@@ -1,6 +1,6 @@
 using Fractural.Tasks;
 
-public class MajorPowerPotion : Prosperity5Item
+public class MajorPowerPotion : Prosperity5Item, IPotion
 {
 	public override string Name => "Major Power Potion";
 	public override int ItemNumber => 41;

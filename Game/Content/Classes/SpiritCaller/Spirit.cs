@@ -94,9 +94,9 @@ public partial class Spirit : Figure
 						parameters.SetAlliedWith();
 						return;
 					}
-					else
+					else if(parameters.OtherFigure.Alignment is Alignment.Monsters or Alignment.Other)
 					{
-						parameters.SetAlliedWith();
+						parameters.SetEnemiesWith();
 						return;
 					}
 				}
@@ -174,6 +174,14 @@ public partial class Spirit : Figure
 				await UpdateInCorner(parameters.Figure);
 			}
 		);
+
+		ScenarioEvents.RetaliateEvent.Subscribe(this, CharacterOwner,
+			parameters => parameters.AbilityState.Performer == this,
+			async parameters =>
+			{
+				parameters.SetRetaliateBlocked();
+				await GDTask.CompletedTask;
+			});
 
 		ScenarioCheckEvents.FlyingCheckEvent.Subscribe(this, CharacterOwner,
 			parameters => parameters.Figure == this,
@@ -264,6 +272,7 @@ public partial class Spirit : Figure
 		ScenarioEvents.HexObjectDestroyedEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioEvents.FigureEnteredHexEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioEvents.FigureExitingHexEvent.Unsubscribe(this, CharacterOwner);
+		ScenarioEvents.RetaliateEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.FlyingCheckEvent.Unsubscribe(this, CharacterOwner);
 		ScenarioCheckEvents.CanBeFocusedCheckEvent.Unsubscribe(this, CharacterOwner);
 		//ScenarioCheckEvents.CanBeTargetedCheckEvent.Unsubscribe(this, CharacterOwner);

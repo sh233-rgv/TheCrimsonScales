@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cmjccetr5omo0"
-path="res://.godot/imported/Cards.jpg-ad44482020bcd101a112b0ffc282887d.ctex"
+uid="uid://3pl2o17wff0v"
+path="res://.godot/imported/FireLight.svg-cd42dc47418936401a68de7fed530b86.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Classes/Starslinger/Cards.jpg"
-dest_files=["res://.godot/imported/Cards.jpg-ad44482020bcd101a112b0ffc282887d.ctex"]
+source_file="res://Art/Icons/Elements/FireLight.svg"
+dest_files=["res://.godot/imported/FireLight.svg-cd42dc47418936401a68de7fed530b86.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

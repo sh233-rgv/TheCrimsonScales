@@ -17,13 +17,6 @@ public class City17 : CityEventModel<City17.ChoiceA, City17.ChoiceB>
 		public override string GetLabelText(RichTextParameters textParameters) =>
 			$"One player may return any Minor potion from their possession to the shop and receive a Major potion of the same type for free.";
 
-		private static bool IsMinorPotion(ItemModel itemModel) =>
-			itemModel == ModelDB.Item<MinorHealingPotion>() ||
-			itemModel == ModelDB.Item<MinorManaPotion>() ||
-			itemModel == ModelDB.Item<MinorPowerPotion>() ||
-			itemModel == ModelDB.Item<MinorStaminaPotion>() ||
-			itemModel == ModelDB.Item<MinorCurePotion>();
-
 		private static ItemModel GetAMajorVersionOfAMinorPotion(ItemModel itemModel)
 		{
 			if(itemModel == ModelDB.Item<MinorHealingPotion>())
@@ -54,7 +47,7 @@ public class City17 : CityEventModel<City17.ChoiceA, City17.ChoiceB>
 
 		protected override void CalculatePriceApplyFunction(BetweenScenariosEvents.CalculateItemSellPrice.Parameters parameters)
 		{
-			if(IsMinorPotion(parameters.ItemModel) && GetAMajorVersionOfAMinorPotion(parameters.ItemModel).ShopCount > 0)
+			if(parameters.ItemModel is IMinorPotion && GetAMajorVersionOfAMinorPotion(parameters.ItemModel).ShopCount > 0)
 			{
 				parameters.AdjustSellPrice(-parameters.SellPrice);
 			}
@@ -62,7 +55,7 @@ public class City17 : CityEventModel<City17.ChoiceA, City17.ChoiceB>
 
 		protected override void ItemSoldApplyFunction(BetweenScenariosEvents.ItemSold.Parameters parameters)
 		{
-			if(IsMinorPotion(parameters.ItemModel))
+			if(parameters.ItemModel is IMinorPotion)
 			{
 				ItemModel majorPotionModel = GetAMajorVersionOfAMinorPotion(parameters.ItemModel);
 

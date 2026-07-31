@@ -22,15 +22,20 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 			new AbilityCardAbility(OtherActiveAbility.Builder()
 				.WithOnActivate(async state =>
 				{
-					//TODO: Add visual (character token) to target(?)
-					AttackAbility.State attackAbilityState = state.ActionState.GetAbilityState<AttackAbility.State>(0);
+					Figure figure = state.ActionState.GetAbilityState<AttackAbility.State>(0).Target;
+
+					state.SetCustomValue(this, "Figure", figure);
+
+					await AbilityCmd.AddCharacterToken(state, figure, textParameters =>
+						$"The next time this enemy attacks an ally this round, the enemy suffers {Icons.Inline(Icons.Damage)}2.");
+
 					ScenarioEvents.AfterAttackPerformedEvent.Subscribe(state, this,
 						canApplyParameters =>
-							canApplyParameters.Performer == attackAbilityState.Target &&
+							canApplyParameters.Performer == figure &&
 							canApplyParameters.AbilityState.Target.AlliedWith(state.Performer),
 						async applyParameters =>
 						{
-							await AbilityCmd.SufferDamage(state, applyParameters.Performer, 2);
+							await AbilityCmd.SufferDamage(state, figure, 2);
 
 							await state.ActionState.RequestDiscardOrLose();
 						});
@@ -40,6 +45,8 @@ public class VengefulVeneration : HierophantLevelUpCardModel<VengefulVeneration.
 				.WithOnDeactivate(async state =>
 				{
 					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(state, this);
+
+					await AbilityCmd.RemoveCharacterToken(state, state.GetCustomValue<Figure>(this, "Figure"));
 
 					await GDTask.CompletedTask;
 				})

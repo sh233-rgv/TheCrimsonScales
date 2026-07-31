@@ -28,7 +28,12 @@ public class ColorfulWavelengths : LuminaryCardModel<ColorfulWavelengths.CardTop
 
 							await AbilityCmd.InfuseElement(parameters.AbilityState, Element.Ice);
 						},
-						effectInfoViewParameters: new TextEffectInfoView.Parameters("Add the shown area of effect")
+						effectInfoViewParameters: new TextEffectInfoView.Parameters($"{Icons.Inline(Icons.GetAOEPattern(new AOEPattern(
+						[
+							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Empty),
+							new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
+						])))}")
 					)
 				)
 				.WithDuringAttackSubscriptions(

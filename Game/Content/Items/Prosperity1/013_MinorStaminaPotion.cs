@@ -1,6 +1,6 @@
 using System.Linq;
 
-public class MinorStaminaPotion : Prosperity1Item
+public class MinorStaminaPotion : Prosperity1Item, IPotion, IMinorPotion
 {
 	public override string Name => "Minor Stamina Potion";
 	public override int ItemNumber => 13;

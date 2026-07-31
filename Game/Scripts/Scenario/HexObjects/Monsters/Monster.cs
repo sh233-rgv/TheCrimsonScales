@@ -86,7 +86,8 @@ public partial class Monster : Figure
 		FigureViewComponent.TurnStartPS.SelfModulate = TypeColor;
 		FigureViewComponent.ActivePS.Modulate = OutlineColor;
 		_monsterViewComponent.StandeeNumberCircle.SelfModulate = TypeColor;
-		_monsterViewComponent.StandeeNumberCircle.Visible = MonsterType != MonsterType.Boss;
+		_monsterViewComponent.StandeeNumberCircle.SetVisible(MonsterModel.MaxStandeeCount > 1);
+		_monsterViewComponent.StandeeNumberLabel.SetVisible(MonsterModel.MaxStandeeCount > 1);
 
 		Texture2D mapIconTexture = ResourceLoader.Load<Texture2D>(MonsterModel.MapIconTexturePath);
 		_staticSprite.SetTexture(mapIconTexture);

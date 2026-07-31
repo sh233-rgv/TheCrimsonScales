@@ -79,12 +79,7 @@ public class City19 : CityEventModel<City19.ChoiceA, City19.ChoiceB>
 		private bool CanGetFreePotion(ItemModel itemModel, SavedCharacter buyer)
 		{
 			return
-				!GetCustomValue<bool>(buyer.Guid.ToString()) &&
-				(itemModel == ModelDB.Item<MinorHealingPotion>() ||
-				 itemModel == ModelDB.Item<MinorManaPotion>() ||
-				 itemModel == ModelDB.Item<MinorPowerPotion>() ||
-				 itemModel == ModelDB.Item<MinorStaminaPotion>() ||
-				 itemModel == ModelDB.Item<MinorCurePotion>());
+				!GetCustomValue<bool>(buyer.Guid.ToString()) && itemModel is IMinorPotion;
 		}
 	}
 

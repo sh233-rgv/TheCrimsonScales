@@ -1,4 +1,4 @@
-public class MinorCurePotion : GHDesignsItem
+public class MinorCurePotion : GHDesignsItem, IPotion, IMinorPotion
 {
 	public override string Name => "Minor Cure Potion";
 	public override int ItemNumber => 89;

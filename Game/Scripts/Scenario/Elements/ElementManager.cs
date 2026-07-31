@@ -23,10 +23,10 @@ public class ElementManager
 		{
 			SetState(element, ElementState.Strong);
 			GameController.Instance.ElementsView.SetElementInfusing(element, false);
-		}
 
-		await ScenarioEvents.FinishElementInfusedEvent.CreatePrompt(
-			new ScenarioEvents.FinishElementInfused.Parameters());
+			await ScenarioEvents.FinishElementInfusedEvent.CreatePrompt(
+				new ScenarioEvents.FinishElementInfused.Parameters(element));
+		}
 
 		_infusing.Clear();
 	}
@@ -36,12 +36,15 @@ public class ElementManager
 		SetState(element, ElementState.Strong);
 
 		await ScenarioEvents.FinishElementInfusedEvent.CreatePrompt(
-			new ScenarioEvents.FinishElementInfused.Parameters());
+			new ScenarioEvents.FinishElementInfused.Parameters(element));
 	}
 
-	public void Consume(Element element)
+	public async GDTask Consume(Element element)
 	{
 		SetState(element, ElementState.Inert);
+
+		await ScenarioEvents.FinishElementConsumedEvent.CreatePrompt(
+			new ScenarioEvents.FinishElementConsumed.Parameters(element));
 	}
 
 	public void WaneAll()

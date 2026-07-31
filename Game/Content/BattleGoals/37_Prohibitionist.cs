@@ -12,20 +12,7 @@ public class Prohibitionist : TheCrimsonScalesBattleGoal
 		ScenarioEvents.ItemUseStartedEvent.Subscribe(this,
 			parameters =>
 				!battleGoal.ProgressFull &&
-				parameters.Performer == character &&
-					(parameters.Item == ModelDB.Item<MinorHealingPotion>() ||
-					 parameters.Item == ModelDB.Item<MinorManaPotion>() ||
-					 parameters.Item == ModelDB.Item<MinorPowerPotion>() ||
-					 parameters.Item == ModelDB.Item<MinorStaminaPotion>() ||
-					 parameters.Item == ModelDB.Item<MinorCurePotion>() ||
-					 parameters.Item == ModelDB.Item<MajorHealingPotion>() ||
-					 parameters.Item == ModelDB.Item<MajorManaPotion>() ||
-					 parameters.Item == ModelDB.Item<MajorPowerPotion>() ||
-					 parameters.Item == ModelDB.Item<MajorStaminaPotion>() ||
-					 parameters.Item == ModelDB.Item<MajorCurePotion>() ||
-					 parameters.Item == ModelDB.Item<SuperHealingPotion>() ||
-					 parameters.Item == ModelDB.Item<IntoxicatingPotion>() ||
-					 parameters.Item == ModelDB.Item<AlchemyPotion>()),
+				parameters.Performer == character && parameters.Item is IPotion,
 			async parameters =>
 			{
 				battleGoal.AdjustProgress(1);

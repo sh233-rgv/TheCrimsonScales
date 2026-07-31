@@ -5,7 +5,6 @@ using Fractural.Tasks;
 
 public class BrightsparkAMDCards
 {
-	//TODO: Check that everything looks right with the perks once brightspark is implemented
 	public class MinusTwoRecoverRandomCardFromDiscard : BrightsparkAMDCardModel
 	{
 		public override string GetSimpleString(RichTextParameters richTextParameters) =>

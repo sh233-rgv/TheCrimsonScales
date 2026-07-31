@@ -33,7 +33,7 @@ public abstract class TargetedAbilityState<TSingleTargetState> : TargetedAbility
 	}
 }
 
-public abstract class TargetedAbilityState : AbilityState, IConditionsAbilityState
+public abstract class TargetedAbilityState : AbilityState, IConditionsAbilityState, IAOEAbilityState
 {
 	public List<Figure> UniqueTargetedFigures { get; } = new List<Figure>();
 	public List<Hex> TargetedHexes { get; } = new List<Hex>();
@@ -542,7 +542,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 		{
 			List<AOEHex> aoeHexes;
 
-			//TODO: Add `during ability` scenario events to the aoe prompts so the range can be increased 
+			//TODO: Add `during ability` scenario events to the aoe prompts so the range can be increased
 			if(abilityState.Authority is Character)
 			{
 				AOEPrompt.Answer aoeAnswer =
