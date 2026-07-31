@@ -63,7 +63,7 @@ public class NoEscape : HollowpactLevelUpCardModel<NoEscape.CardTop, NoEscape.Ca
 		[
 			new AbilityCardAbility(CreateVoidPitObstacleAbilityBuilder()
 				.WithRange(4)
-				.WithObstacleCount(2)
+				.WithCount(2)
 				.Build()),
 
 			new AbilityCardAbility(TeleportAbility.Builder()

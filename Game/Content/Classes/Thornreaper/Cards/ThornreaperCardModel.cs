@@ -1,6 +1,5 @@
 ﻿using System;
 using Fractural.Tasks;
-using Godot;
 
 public abstract class ThornreaperCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : ThornreaperCardSide
@@ -15,4 +14,32 @@ public abstract class ThornreaperCardSide : AbilityCardSideModel
 {
 	protected static readonly Func<Figure, GDTask<bool>> ActionConsumeEarth =
 		async figure => await AbilityCmd.AskConsumeElement(figure, Element.Earth, effectInfoText: "Perform action");
+
+	protected static bool LightStrongOrWaning =>
+		GameController.Instance.ElementManager.GetState(Element.Light) is ElementState.Strong or ElementState.Waning;
+
+
+	protected static CreateOverlayTileAbility<ThornsThornreaper>.CreateOverlayTileBuilder CreateThornsAbilityBuilder()
+	{
+		return CreateOverlayTileAbility<ThornsThornreaper>.Builder()
+			.WithCustomAsset("res://Content/Classes/Thornreaper/ThornsThornreaper1H.tscn")
+			.WithCustomName("Thorns");
+	}
+
+	protected static OtherAbility InfuseElementIfLightAbility(Element element)
+	{
+		return OtherAbility.Builder()
+			.WithPerformAbility(async state =>
+			{
+				await AbilityCmd.InfuseElement(state, element);
+				state.SetPerformed();
+			})
+			.WithConditionalAbilityCheck(async _ =>
+			{
+				await GDTask.CompletedTask;
+
+				return LightStrongOrWaning;
+			})
+			.Build();
+	}
 }

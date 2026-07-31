@@ -26,7 +26,7 @@ public abstract class HollowpactCardSide : AbilityCardSideModel
 		return Hollowpact.VoidsightAbilityBuilder();
 	}
 
-	public static CreateObstacleAbility.CreateObstacleBuilder CreateVoidPitObstacleAbilityBuilder()
+	public static CreateOverlayTileAbility<Obstacle>.CreateOverlayTileBuilder CreateVoidPitObstacleAbilityBuilder()
 	{
 		return Hollowpact.CreateVoidPitObstacleAbilityBuilder();
 	}
@@ -75,7 +75,8 @@ public abstract class HollowpactCardSide : AbilityCardSideModel
 		return false;
 	}
 
-	protected static async GDTask<bool> LoseVoidEnergyConditionalAbilityCheck(Figure figure, int count, EffectInfoViewParameters effectInfoViewParameters)
+	protected static async GDTask<bool> LoseVoidEnergyConditionalAbilityCheck(Figure figure, int count,
+		EffectInfoViewParameters effectInfoViewParameters)
 	{
 		bool lostVoidEnergy = false;
 		await AbilityCmd.GenericChoice(figure,
@@ -87,7 +88,7 @@ public abstract class HollowpactCardSide : AbilityCardSideModel
 					LoseVoidEnergy(figure, count);
 					lostVoidEnergy = true;
 					await GDTask.CompletedTask;
-				}, 
+				},
 				EffectType.Selectable,
 				effectButtonParameters: new TextEffectButton.Parameters($"{count}{Icons.HintText(Hollowpact.VoidEnergy)}"),
 				effectInfoViewParameters: effectInfoViewParameters,
@@ -106,8 +107,8 @@ public abstract class HollowpactCardSide : AbilityCardSideModel
 			{
 				LoseVoidEnergy(parameters.BaseAbilityState.Performer, count);
 				await applyFunction(parameters);
-			}, 
-			EffectType.Selectable, 
+			},
+			EffectType.Selectable,
 			canApplyMultipleTimesDuringSubscription: false,
 			effectButtonParameters: new TextEffectButton.Parameters($"{count}{Icons.HintText(Hollowpact.VoidEnergy)}"),
 			effectInfoViewParameters: effectInfoViewParameters);

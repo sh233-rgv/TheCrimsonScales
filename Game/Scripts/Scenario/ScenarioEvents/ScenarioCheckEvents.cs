@@ -583,10 +583,16 @@ public partial class ScenarioCheckEvents
 			public Figure PotentialTarget { get; } = potentialTarget;
 
 			public int SortingInitiativeAdjustment { get; private set; } = 0;
+			public int? SortingInitiativeOverride { get; private set; }
 
-			public void AdjustTargetSortingInitiative(int adjutstment)
+			public void AdjustTargetSortingInitiative(int adjustment)
 			{
-				SortingInitiativeAdjustment = adjutstment;
+				SortingInitiativeAdjustment = adjustment;
+			}
+
+			public void SetSortingInitiative(int sortingInitiative)
+			{
+				SortingInitiativeOverride = sortingInitiative;
 			}
 		}
 	}

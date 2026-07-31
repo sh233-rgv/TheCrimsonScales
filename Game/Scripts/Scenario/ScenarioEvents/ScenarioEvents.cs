@@ -836,13 +836,25 @@ public partial class ScenarioEvents
 
 	public class FinishElementInfused : ScenarioEvent<FinishElementInfused.Parameters>
 	{
-		public class Parameters : ParametersBase
+		public class Parameters(Element infusedElement) : ParametersBase
 		{
+			public Element InfusedElement = infusedElement;
 		}
 	}
 
 	private readonly FinishElementInfused _finishElementInfused = new FinishElementInfused();
 	public static FinishElementInfused FinishElementInfusedEvent => GameController.Instance.ScenarioEvents._finishElementInfused;
+
+	public class FinishElementConsumed : ScenarioEvent<FinishElementConsumed.Parameters>
+	{
+		public class Parameters(Element consumedElement) : ParametersBase
+		{
+			public Element ConsumedElement = consumedElement;
+		}
+	}
+
+	private readonly FinishElementConsumed _finishElementConsumed = new FinishElementConsumed();
+	public static FinishElementConsumed FinishElementConsumedEvent => GameController.Instance.ScenarioEvents._finishElementConsumed;
 
 	public class ConsumeElement : ScenarioEvent<ConsumeElement.Parameters>
 	{

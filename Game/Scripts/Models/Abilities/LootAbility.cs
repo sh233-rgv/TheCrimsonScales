@@ -14,6 +14,14 @@ public class LootAbility : Ability<LootAbility.State>
 		public List<Hex> LootedHexes { get; } = new List<Hex>();
 		public int LootedCoinCount { get; set; }
 		public int TotalLootedCount { get; set; }
+		public Hex AbilityPerformHex { get; set; }
+
+		public Hex GetPerformHex => AbilityPerformHex ?? Performer.Hex;
+
+		public void SetPerformHex(Hex hex)
+		{
+			AbilityPerformHex = hex ?? Performer.Hex;
+		}
 	}
 
 	private Func<State, Figure> _customGetLootObtainer { get; set; }
@@ -79,7 +87,7 @@ public class LootAbility : Ability<LootAbility.State>
 
 		LootPrompt.Answer confirmAnswer = await PromptManager.Prompt(new LootPrompt(list =>
 		{
-			foreach(Hex hex in RangeHelper.GetHexesInRange(abilityState.Performer.Hex, Range))
+			foreach(Hex hex in RangeHelper.GetHexesInRange(abilityState.GetPerformHex, Range))
 			{
 				foreach(HexObject hexObject in hex.HexObjects)
 				{

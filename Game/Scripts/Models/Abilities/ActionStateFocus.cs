@@ -43,8 +43,7 @@ public partial class ActionState
 				{
 					Target target = attackAbility.TargetType.GetValue();
 
-					aiMoveParameters.Targets = target.HasFlag(Target.MustTargetSameWithAllTargets) ? 1 : 
-						attackAbility.Targets.GetValue();
+					aiMoveParameters.Targets = target.HasFlag(Target.MustTargetSameWithAllTargets) ? 1 : attackAbility.Targets.GetValue();
 					aiMoveParameters.TargetAll = target.HasFlag(Target.TargetAll);
 					aiMoveParameters.Range = attackAbility.Range.GetValue();
 					aiMoveParameters.RangeType = attackAbility.TypeOfRange.GetValue();
@@ -143,8 +142,9 @@ public partial class ActionState
 						ScenarioCheckEvents.PotentialTargetCheckEvent.Fire(
 							new ScenarioCheckEvents.PotentialTargetCheck.Parameters(Performer, potentialTarget));
 
-					int adjustedSortingInitiative =
-						potentialTarget.Initiative.SortingInitiative + potentialTargetCheckParameters.SortingInitiativeAdjustment;
+					int adjustedSortingInitiative = potentialTargetCheckParameters.SortingInitiativeOverride ??
+					                                potentialTarget.Initiative.SortingInitiative +
+					                                potentialTargetCheckParameters.SortingInitiativeAdjustment;
 					int distanceFromCurrentHex = RangeHelper.Distance(Performer.Hex, potentialTargetHex);
 					FocusNode newNode = new FocusNode(potentialTarget, node.NegativeHexEncounteredCount, node.MoveSpent,
 						distanceFromCurrentHex, adjustedSortingInitiative, node);

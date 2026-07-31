@@ -14,26 +14,17 @@ public class CoverOfGreen : ThornreaperCardModel<CoverOfGreen.CardTop, CoverOfGr
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(OtherActiveAbility.Builder()
-				.WithOnActivate(async state =>
-				{
-					ScenarioEvents.DuringAttackEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.Performer == state.Performer && !canApplyParameters.Performer.IsDamaged(),
-						async applyParameters =>
-						{
-							applyParameters.AbilityState.SingleTargetSetHasAdvantage();
-
-							await GDTask.CompletedTask;
-						});
-					await GDTask.CompletedTask;
-				})
-				.WithOnDeactivate(async state =>
-					{
-						ScenarioEvents.DuringAttackEvent.Unsubscribe(state, this);
-
-						await GDTask.CompletedTask;
-					}
-				)
+			new AbilityCardAbility(AttackAbility.Builder()
+				.WithDamage(3, new AttackSquare(this, new Vector2(0.37892142f, 0.3163435f)))
+				.WithAOEPattern(new AOEPattern(
+						[
+							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
+						]
+					), new AOEHexMark(Vector2I.Zero.Add(Direction.SouthWest), this, new Vector2(0.61454624f, 0.37839338f)),
+					new AOEHexMark(Vector2I.Zero.Add(Direction.East).Add(Direction.NorthEast), this, new Vector2(0.81409585f, 0.25540167f)))
 				.Build())
 		];
 
@@ -47,18 +38,20 @@ public class CoverOfGreen : ThornreaperCardModel<CoverOfGreen.CardTop, CoverOfGr
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.6216662f, 0.6884774f)))
+				.WithDistance(2, new MoveSquare(this, new Vector2(0.62115484f, 0.66129583f)))
 				.Build()),
-			new AbilityCardAbility(GrantAbility.Builder()
-				.WithAbilities(
-				[
-					MoveAbility.Builder()
-						.WithDistance(1, new MoveCircle(this, new Vector2(0.6216662f, 0.8459244f)))
-						.Build()
-				])
-				.WithRange(3)
-				.Build()
-			),
+			new AbilityCardAbility(ShieldAbility.Builder()
+				.WithShieldValue(1)
+				.WithAbilityPerformedSubscription(
+					ScenarioEvents.AbilityPerformed.Subscription.ConsumeElement(Element.Earth,
+						applyFunction: async parameters =>
+						{
+							await AbilityCmd.InfuseElement(parameters.AbilityState, Element.Earth);
+						},
+						effectInfoViewParameters: new TextEffectInfoView.Parameters(Icons.Inline(Icons.GetElement(Element.Earth)))))
+				.Build())
 		];
+
+		public override bool Round => true;
 	}
 }

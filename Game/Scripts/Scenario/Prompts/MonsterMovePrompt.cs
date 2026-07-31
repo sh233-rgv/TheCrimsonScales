@@ -354,6 +354,7 @@ public class MonsterMovePrompt(
 								new ScenarioCheckEvents.PotentialTargetCheck.Parameters(performer, potentialTarget));
 
 						int adjustedSortingInitiative =
+							potentialTargetCheckParameters.SortingInitiativeOverride ??
 							potentialTarget.Initiative.SortingInitiative + potentialTargetCheckParameters.SortingInitiativeAdjustment;
 						int distanceFromCurrentHex = RangeHelper.Distance(performer.Hex, potentialTargetHex);
 

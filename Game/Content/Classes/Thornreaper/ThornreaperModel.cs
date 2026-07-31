@@ -5,7 +5,7 @@ public class ThornreaperModel : ClassModel
 {
 	public override string Name => "Thornreaper";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.MediumHigh;
-	public override int HandSize => 11;
+	public override int HandSize => 16;
 	public override Ancestry Ancestry => Ancestry.Orchid;
 
 	public override List<EventModel> UnlockEvents { get; } =
@@ -24,6 +24,24 @@ public class ThornreaperModel : ClassModel
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
+		ModelDB.AbilityCard<CoverOfGreen>(),
+		ModelDB.AbilityCard<DawnsGift>(),
+		ModelDB.AbilityCard<EncasedInThorns>(),
+		ModelDB.AbilityCard<ExtendedBranch>(),
+		ModelDB.AbilityCard<JaggedClutch>(),
+		ModelDB.AbilityCard<LashingThorns>(),
+		ModelDB.AbilityCard<Midsummer>(),
+		ModelDB.AbilityCard<Photosynthesis>(),
+		ModelDB.AbilityCard<Overgrowth>(),
+		ModelDB.AbilityCard<Superradiance>(),
+		ModelDB.AbilityCard<ViolentSprout>(),
+
+		ModelDB.AbilityCard<BlackRose>(),
+		ModelDB.AbilityCard<SpikedEmbrace>(),
+		ModelDB.AbilityCard<Thornstride>(),
+
+		ModelDB.AbilityCard<OutwardSpurs>(),
+		ModelDB.AbilityCard<FloralBurst>(),
 	];
 
 	public override List<PerkModel> Perks { get; } =

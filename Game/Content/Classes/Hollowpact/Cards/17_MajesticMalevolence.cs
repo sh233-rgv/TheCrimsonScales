@@ -92,7 +92,7 @@ public class MajesticMalevolence : HollowpactLevelUpCardModel<MajesticMalevolenc
 				})
 				.WithCustomGetTargets((state, hexes) =>
 				{
-					Hex obstacleHex = state.ActionState.GetAbilityState<CreateObstacleAbility.State>(0).CreatedObstacles.First().Hex;
+					Hex obstacleHex = state.ActionState.GetAbilityState<CreateOverlayTileAbility<Obstacle>.State>(0).CreatedOverlayTiles.First().Hex;
 					hexes.AddRange(obstacleHex.Neighbours.SelectMany(hex => hex.GetFigures()));
 				})
 				.Build()),

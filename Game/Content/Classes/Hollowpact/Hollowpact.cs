@@ -46,12 +46,13 @@ public partial class Hollowpact : Character
 		return DivinationAbility.Builder().WithCardsToPeek(1).WithMaxCardsToPlaceAtBottom(1).WithMandatory(true).WithTarget(Target.Self);
 	}
 
-	public static CreateObstacleAbility.CreateObstacleBuilder CreateVoidPitObstacleAbilityBuilder()
+	public static CreateOverlayTileAbility<Obstacle>.CreateOverlayTileBuilder CreateVoidPitObstacleAbilityBuilder()
 	{
-		return CreateObstacleAbility.Builder()
+		return CreateOverlayTileAbility<Obstacle>.Builder()
 			.WithCustomAsset("res://Content/Classes/Hollowpact/VoidPit.tscn")
 			.WithCustomName("Void Pit");
 	}
+
 
 	public void GainVoidEnergy(int count = 1)
 	{
