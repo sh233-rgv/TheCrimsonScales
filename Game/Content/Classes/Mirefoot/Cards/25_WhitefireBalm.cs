@@ -40,8 +40,7 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 
 							object subscriber = new object();
 
-
-							await AbilityCmd.AddRetaliate(figure, subscriber, 2, 1,
+							await AbilityCmd.AddRetaliate(figure, subscriber, 3, 1,
 								customCanApplyParameters => customCanApplyParameters.AbilityState == parameters.PotentialAbilityState);
 
 							ScenarioEvents.AfterAttackPerformedEvent.Subscribe(state, subscriber,
@@ -54,6 +53,8 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 									await GDTask.CompletedTask;
 								}
 							);
+
+							await state.AdvanceUseSlot();
 						}
 					);
 
@@ -74,7 +75,6 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 							applyParameters.AddRetaliate(3, 1);
 						}
 					);
-					//TODO: Tie retliate and shield together
 
 					await GDTask.CompletedTask;
 				})

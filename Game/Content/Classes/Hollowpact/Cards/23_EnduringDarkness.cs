@@ -26,8 +26,10 @@ public class EnduringDarkness : HollowpactLevelUpCardModel<EnduringDarkness.Card
 						async parameters =>
 						{
 							parameters.SetPrevented();
-							await AbilityCmd.GainXP(parameters.Figure, 1);
+
+							await GDTask.CompletedTask;
 						});
+					await AbilityCmd.GainXP(state.Performer, 1);
 
 					await GDTask.CompletedTask;
 				})

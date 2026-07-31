@@ -69,18 +69,18 @@ public class SparklingGlow : LuminaryCardModel<SparklingGlow.CardTop, SparklingG
 						                        parameters.AbilityState.GetCustomValue<bool>(state.Performer, "Glow Ability"),
 						apply: async parameters =>
 						{
-							//TODO: Change to work with the damage glow
-							if(parameters.AbilityState is TargetedAbilityState targetedAbilityState && targetedAbilityState.GetRedAOEHexes().Any())
+							if(parameters.AbilityState is IAOEAbilityState aoeAbilityState &&
+							   aoeAbilityState.GetRedAOEHexes().Any())
 							{
 								ActionState actionState = new ActionState(state.Performer, [
 									GrantAbility.Builder()
 										.WithGetAbilities(grantAbilityState =>
 											[HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()])
 										.WithTarget(Target.Allies | Target.TargetAll)
-										.WithCustomGetTargets((state, targets) =>
+										.WithCustomGetTargets((_, targets) =>
 										{
 											targets.AddRange(
-												targetedAbilityState.GetRedAOEHexes()
+												aoeAbilityState.GetRedAOEHexes()
 													.SelectMany(hex => hex.GetHexObjectsOfType<Figure>())
 											);
 										})

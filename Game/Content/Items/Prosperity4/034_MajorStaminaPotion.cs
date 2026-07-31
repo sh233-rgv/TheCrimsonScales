@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class MajorStaminaPotion : Prosperity4Item
+public class MajorStaminaPotion : Prosperity4Item, IPotion
 {
 	public override string Name => "Major Stamina Potion";
 	public override int ItemNumber => 34;

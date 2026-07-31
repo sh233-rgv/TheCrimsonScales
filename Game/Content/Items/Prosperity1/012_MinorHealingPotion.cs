@@ -1,4 +1,4 @@
-public class MinorHealingPotion : Prosperity1Item
+public class MinorHealingPotion : Prosperity1Item, IPotion, IMinorPotion
 {
 	public override string Name => "Minor Healing Potion";
 	public override int ItemNumber => 12;

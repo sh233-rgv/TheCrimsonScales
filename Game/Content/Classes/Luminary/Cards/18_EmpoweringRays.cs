@@ -60,7 +60,6 @@ public class EmpoweringRays : LuminaryCardModel<EmpoweringRays.CardTop, Empoweri
 							}
 
 							await state.ActionState.RequestDiscardOrLose();
-							//TODO: Add Remove Immediately
 						});
 					await GDTask.CompletedTask;
 				})

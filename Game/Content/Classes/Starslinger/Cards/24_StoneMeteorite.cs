@@ -14,8 +14,8 @@ public class StoneMeteorite : StarslingerCardModel<StoneMeteorite.CardTop, Stone
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
-				.WithDamage(6, new AttackDiamond(this, new Vector2(0.45299226f, 0.19047385f)))
-				.WithRange(5, new RangeSquare(this, new Vector2(0.66311485f, 0.19015712f)))
+				.WithDamage(6, new AttackDiamond(this, new Vector2(0.45207182f, 0.17174517f)))
+				.WithRange(5, new RangeSquare(this, new Vector2(0.66363853f, 0.17124516f)))
 				.WithAbilityStartedSubscription(
 					ScenarioEvents.AbilityStarted.Subscription.New(
 						parameters => !parameters.Performer.IsDamaged(),

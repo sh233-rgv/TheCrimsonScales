@@ -92,7 +92,7 @@ public class Scenario011 : ScenarioModel
 			AddScenarioRule("Character and character summons cannot leave their starting tile and the obstacles on the map cannot be destroyed.");
 		_singleTargetAttackRule =
 			AddScenarioRule(textParameters =>
-				$"If a character performs a single-target melee attack while adjacent to an obstacle marked {Icons.InlineMarker(Marker.Type.a, textParameters)}, they may perform the attack as if they were occupying any hex marked {Icons.InlineMarker(Marker.Type.a, textParameters)}, targeting an enemy on another tile.");
+				$"If a character performs a single-target melee attack while adjacent to a barrel, they may perform the attack as if they were occupying any hex containing a barrel, targeting an enemy on another tile.");
 		_endOfFirstRoundRule = AddScenarioRule(
 			"At the end of the first round, one normal Inox guard and one elite Inox Archer will be spawned on each tile occupied by a character.");
 		_somethingWillHappenRule = AddScenarioRule("Something will happen when all revealed enemies are dead.");
