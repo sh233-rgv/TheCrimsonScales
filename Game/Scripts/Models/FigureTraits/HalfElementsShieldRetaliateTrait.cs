@@ -42,7 +42,7 @@ public class HalfElementsShieldRetaliateTrait : FigureTrait
 				await GDTask.CompletedTask;
 			});
 
-		ScenarioEvents.ConsumeElementEvent.Subscribe(figure, this,
+		ScenarioEvents.FinishElementConsumedEvent.Subscribe(figure, this,
 			canApplyParameters => true,
 			async applyParameters =>
 			{

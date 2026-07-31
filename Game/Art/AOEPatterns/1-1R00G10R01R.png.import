@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cmjccetr5omo0"
-path="res://.godot/imported/Cards.jpg-ad44482020bcd101a112b0ffc282887d.ctex"
+uid="uid://b2idkd0t7farx"
+path="res://.godot/imported/1-1R00G10R01R.png-77f1d2f447e7b96799b861b13e46aa20.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Classes/Starslinger/Cards.jpg"
-dest_files=["res://.godot/imported/Cards.jpg-ad44482020bcd101a112b0ffc282887d.ctex"]
+source_file="res://Art/AOEPatterns/1-1R00G10R01R.png"
+dest_files=["res://.godot/imported/1-1R00G10R01R.png-77f1d2f447e7b96799b861b13e46aa20.ctex"]
 
 [params]
 

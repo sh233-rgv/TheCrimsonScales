@@ -119,7 +119,7 @@ public class Scenario026 : ScenarioModel
 						_coldThermalStoneRule2.Remove();
 					}
 
-					await AbilityCmd.RemoveAllChill(applyParameters.PotentialAbilityState.Performer);
+					await AbilityCmd.RemoveCondition(applyParameters.PotentialAbilityState.Performer, Conditions.Chill);
 					await AbilityCmd.CreateDifficultTerrain(objective.Hex,
 						SceneLoader.LoadPackedScene("res://Content/OverlayTiles/DifficultTerrain/Water1H.tscn"));
 					ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(this, objective);
@@ -228,7 +228,7 @@ public class Scenario026 : ScenarioModel
 								return;
 							}
 
-							await AbilityCmd.RemoveAllChill(figure);
+							await AbilityCmd.RemoveCondition(figure, Conditions.Chill, state);
 						})
 						.Build()
 				]);

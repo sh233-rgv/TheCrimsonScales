@@ -76,7 +76,7 @@ public class Scenario023 : ScenarioModel
 								return;
 							}
 
-							await AbilityCmd.RemoveAllChill(figure);
+							await AbilityCmd.RemoveCondition(figure, Conditions.Chill, state);
 						})
 						.Build()
 				]);

@@ -58,9 +58,9 @@ public class LightTheWay : LuminaryCardModel<LightTheWay.CardTop, LightTheWay.Ca
 							await AbilityCmd.InfuseElement(state, [Element.Fire, Element.Light]);
 						}, EffectType.Selectable,
 						effectButtonParameters: new TextEffectButton.Parameters(
-							$"{Icons.Inline(Icons.GetElement(Element.Fire))} or {Icons.Inline(Icons.GetElement(Element.Light))}"),
+							$"{Icons.Inline(Icons.GetElement([Element.Fire, Element.Light]))}"),
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(
-							$"{Icons.Inline(Icons.GetElement(Element.Fire))} or {Icons.Inline(Icons.GetElement(Element.Light))}"));
+							$"{Icons.Inline(Icons.GetElement([Element.Fire, Element.Light]))}"));
 
 					await GDTask.CompletedTask;
 				})

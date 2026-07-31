@@ -137,7 +137,7 @@ public class Scenario024 : ScenarioModel
 								return;
 							}
 
-							await AbilityCmd.RemoveAllChill(figure);
+							await AbilityCmd.RemoveCondition(figure, Conditions.Chill, state);
 						})
 						.Build()
 				]);
@@ -203,7 +203,7 @@ public class Scenario024 : ScenarioModel
 				}
 			);
 
-			//Gain chill at end of round 
+			//Gain chill at end of round
 			ScenarioEvents.FigureTurnEndedEvent.Subscribe(this, _door1,
 				canApplyParameters =>
 				{

@@ -63,10 +63,18 @@ public class LuminaryAMDCards
 
 	public class PlusZeroPerformPoisonAbility : LuminaryAMDCardModel
 	{
-		//TODO: Some way to show what the actual area of effect is
+		private static readonly AOEPattern AOEPattern = new AOEPattern(
+		[
+			new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+			new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
+			new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red)
+		]);
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"Perform {Icons.Inline(Icons.GetCondition(Conditions.Poison1), richTextParameters)} area of effect ability");
+				extraText:
+				$"Perform {Icons.Inline(Icons.GetCondition(Conditions.Poison1), richTextParameters)} {Icons.InlineAOEPattern(AOEPattern, richTextParameters)}");
 
 		protected override int AtlasIndex => 8;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -75,13 +83,7 @@ public class LuminaryAMDCards
 		[
 			ConditionAbility.Builder()
 				.WithConditions(Conditions.Poison1)
-				.WithAOEPattern(new AOEPattern(
-				[
-					new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-					new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-					new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
-					new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red)
-				]))
+				.WithAOEPattern(AOEPattern)
 				.Build()
 		];
 	}

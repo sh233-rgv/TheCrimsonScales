@@ -8,7 +8,7 @@ using Fractural.Tasks;
 /// </summary>
 public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 {
-	public class State : AbilityState
+	public class State : AbilityState, IAOEAbilityState
 	{
 		public List<Figure> TargetedFigures { get; } = new List<Figure>();
 		public List<Figure> UniqueTargetedFigures { get; } = new List<Figure>();
@@ -209,7 +209,7 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 		{
 			List<AOEHex> aoeHexes;
 
-			//TODO: Add `during ability` scenario events to the aoe prompts so the range can be increased 
+			//TODO: Add `during ability` scenario events to the aoe prompts so the range can be increased
 			if(abilityState.Authority is Character)
 			{
 				AOEPrompt.Answer aoeAnswer =

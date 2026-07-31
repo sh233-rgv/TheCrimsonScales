@@ -338,11 +338,18 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask RemoveAllChill(Figure target)
+	public static async GDTask RemoveChillStack(Figure target)
 	{
-		while(target.HasCondition(Conditions.Chill))
+		if(target.TryGetCondition(Conditions.Chill, out Condition chill))
 		{
-			await RemoveCondition(target, Conditions.Chill);
+			if(chill.StackCount > 1)
+			{
+				chill.AdjustStackCount(-1);
+			}
+			else
+			{
+				await RemoveCondition(chill);
+			}
 		}
 	}
 
@@ -1141,9 +1148,7 @@ public static class AbilityCmd
 			return false;
 		}
 
-		GameController.Instance.ElementManager.Consume(element);
-
-		await GDTask.CompletedTask;
+		await GameController.Instance.ElementManager.Consume(element);
 
 		return true;
 	}

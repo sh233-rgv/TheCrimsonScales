@@ -1,6 +1,6 @@
 using System.Linq;
 
-public class AlchemyPotion : CS1Item
+public class AlchemyPotion : CS1Item, IPotion
 {
 	public override string Name => "Alchemy Potion";
 	public override int ItemNumber => 28;

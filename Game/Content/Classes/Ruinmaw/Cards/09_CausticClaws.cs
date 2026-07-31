@@ -49,7 +49,8 @@ public class CausticClaws : RuinmawCardModel<CausticClaws.CardTop, CausticClaws.
 				{
 					foreach(Figure figure in state.Hexes
 						        .SelectMany(hex => hex.GetHexObjectsOfType<Figure>())
-						        .Where(f => state.Performer.AlliedWith(f) || state.Performer.EnemiesWith(f)))
+						        .Where(f => state.Performer.AlliedWith(f) || state.Performer.EnemiesWith(f))
+						        .Distinct())
 					{
 						await AbilityCmd.AddCondition(state, figure, Conditions.Rupture);
 					}
