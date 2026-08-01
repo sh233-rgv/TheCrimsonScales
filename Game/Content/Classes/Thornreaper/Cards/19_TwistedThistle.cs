@@ -24,17 +24,16 @@ public class TwistedThistle : ThornreaperCardModel<TwistedThistle.CardTop, Twist
 							parameters.AbilityState.AbilityAdjustPush(1);
 
 							await GDTask.CompletedTask;
-						}))
+						}, canApplyMultipleTimesDuringSubscription: false))
 				.WithAOEPattern(new AOEPattern(
-						[
-							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-							new AOEHex(Vector2I.Zero.Add(Direction.West), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
-							new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
-						]
-					),
-					new AOEHexMark(Vector2I.Zero.Add(Direction.East), this, new Vector2(0.7636514f, 0.21440443f)))
+					[
+						new AOEHex(Vector2I.Zero, AOEHexType.Gray),
+						new AOEHex(Vector2I.Zero.Add(Direction.West), AOEHexType.Red),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+						new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red),
+						new AOEHex(Vector2I.Zero.Add(Direction.SouthEast), AOEHexType.Red),
+					]
+				), new AOEHexMark(Vector2I.Zero.Add(Direction.East), this, new Vector2(0.7636514f, 0.21440443f)))
 				.Build()),
 			new AbilityCardAbility(CreateThornsAbilityBuilder()
 				.WithCount(2)
@@ -85,17 +84,20 @@ public class TwistedThistle : ThornreaperCardModel<TwistedThistle.CardTop, Twist
 				)
 				.WithOnAbilityEndedPerformed(async state =>
 				{
-					List<HazardousTerrain> hazardousTerrainTiles = [];
-					foreach(Hex hex in state.Hexes)
+					List<OverlayTile> hazardousTerrainTiles = await AbilityCmd.SelectOverlayTiles(state,
+						overlayTiles => overlayTiles.AddRange(state.Hexes.SelectMany(hex =>
+							hex.GetHexObjectsOfType<HazardousTerrain>().Where(hazardousTerrain => !hazardousTerrain.CannotBeDestroyed))), 0,
+						int.MaxValue, false, "Select any number of hazardous terrain tiles to destroy");
+					state.SetCustomValue(this, "TilesDestroyed", hazardousTerrainTiles.Count);
+					foreach(OverlayTile hazardousTerrainTile in hazardousTerrainTiles)
 					{
-						if(hex.TryGetHexObjectOfType(out HazardousTerrain hazardousTerrain) && !hazardousTerrain.CannotBeDestroyed)
-						{
-							hazardousTerrainTiles.Add(hazardousTerrain);
-						}
+						await hazardousTerrainTile.Destroy();
 					}
-
-					List<Hex> hexes =
 				})
+				.Build()),
+			new AbilityCardAbility(RetaliateAbility.Builder()
+				.WithRetaliateValue(new DynamicInt<RetaliateAbility.State>(state =>
+					state.ActionState.GetAbilityState<MoveAbility.State>(0).GetCustomValue<int>(this, "TilesDestroyed")))
 				.Build())
 		];
 	}

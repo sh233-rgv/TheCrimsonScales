@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Fractural.Tasks;
 
 public abstract class ThornreaperCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
@@ -26,12 +27,16 @@ public abstract class ThornreaperCardSide : AbilityCardSideModel
 			.WithCustomName("Thorns");
 	}
 
-	protected static OtherAbility InfuseElementIfLightAbility(Element element)
+	protected static OtherAbility InfuseElementIfLightAbility(params Element[] elements)
 	{
 		return OtherAbility.Builder()
 			.WithPerformAbility(async state =>
 			{
-				await AbilityCmd.InfuseElement(state, element);
+				foreach(Element element in elements)
+				{
+					await AbilityCmd.InfuseElement(state, element);
+				}
+
 				state.SetPerformed();
 			})
 			.WithConditionalAbilityCheck(async _ =>

@@ -141,7 +141,7 @@ public partial class ScenarioEvents
 
 	public class AMDCardPeeked : ScenarioEvent<AMDCardPeeked.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, AMDCard amdCard)	: ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, AMDCard amdCard) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public AMDCard AMDCard = amdCard;
@@ -541,7 +541,9 @@ public partial class ScenarioEvents
 
 	public class AfterSufferDamage : ScenarioEvent<AfterSufferDamage.Parameters>
 	{
-		public class Parameters(Figure figure, int damageDealt, int damageSuffered, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
+		public class Parameters(
+			Figure figure, int damageDealt, int damageSuffered, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters)
+			: ParametersBase
 		{
 			public Figure Figure { get; } = figure;
 			public int DamageDealt { get; } = damageDealt;
@@ -855,17 +857,6 @@ public partial class ScenarioEvents
 
 	private readonly FinishElementInfused _finishElementInfused = new FinishElementInfused();
 	public static FinishElementInfused FinishElementInfusedEvent => GameController.Instance.ScenarioEvents._finishElementInfused;
-
-	public class FinishElementConsumed : ScenarioEvent<FinishElementConsumed.Parameters>
-	{
-		public class Parameters(Element consumedElement) : ParametersBase
-		{
-			public Element ConsumedElement = consumedElement;
-		}
-	}
-
-	private readonly FinishElementConsumed _finishElementConsumed = new FinishElementConsumed();
-	public static FinishElementConsumed FinishElementConsumedEvent => GameController.Instance.ScenarioEvents._finishElementConsumed;
 
 	public class ConsumeElement : ScenarioEvent<ConsumeElement.Parameters>
 	{

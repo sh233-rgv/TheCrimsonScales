@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
@@ -31,7 +30,13 @@ public class DawnsGift : ThornreaperCardModel<DawnsGift.CardTop, DawnsGift.CardB
 						}, EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters("res://Content/Classes/Thornreaper/toa-thorns.png"),
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(
-							"Perform the loot as if you were occupying the hex with the created hazardous terrain"))
+							$"{Icons.Inline(Icons.GetAOEPattern(new AOEPattern(
+								[
+									new AOEHex(Vector2I.Zero, AOEHexType.Empty),
+									new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+									new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.East), AOEHexType.Red)
+								]
+							)))}Perform the loot as if you were occupying the hex with the created hazardous terrain"))
 				)
 				.WithOnAbilityStarted(async state =>
 				{

@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://co1tcon7xucp" path="res://Content/OverlayTiles/Obstacles/Boulder3H.tscn" id="11_rv36e"]
 [ext_resource type="PackedScene" uid="uid://dlwnu4odsbcov" path="res://Scenes/Scenario/MonsterSpawner.tscn" id="13_x5m5f"]
 [ext_resource type="PackedScene" uid="uid://drwupkt4x7cbj" path="res://Scenes/Scenario/Coin.tscn" id="14_5d2e6"]
+[ext_resource type="Texture2D" uid="uid://gkm342ht1q3j" path="res://Art/Other/Outline1H.svg" id="14_vqxvv"]
 [ext_resource type="PackedScene" uid="uid://gi5tvly6t0i1" path="res://Scenes/Scenario/Marker.tscn" id="15_vqxvv"]
 
 [node name="Scenario" unique_id=744800020 instance=ExtResource("1_ewhex")]
@@ -101,6 +102,11 @@ position = Vector2(218.2384, 0)
 position = Vector2(0, -378)
 MonsterModelId = "MONSTER_MODEL.EARTH_DEMON"
 MonsterType2Characters = 0
+
+[node name="Outline2" type="Sprite2D" parent="Map/Rooms/Room/MonsterSpawner" index="4" unique_id=218517962]
+self_modulate = Color(0.85490197, 0.88235295, 0.50980395, 1)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("14_vqxvv")
 
 [node name="MonsterSpawner4" parent="Map/Rooms/Room" index="26" unique_id=2120851176 instance=ExtResource("13_x5m5f")]
 position = Vector2(-109.1192, -189)

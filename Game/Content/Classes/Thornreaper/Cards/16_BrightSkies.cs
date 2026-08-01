@@ -26,7 +26,7 @@ public class BrightSkies : ThornreaperCardModel<BrightSkies.CardTop, BrightSkies
 							parameters.AbilityState.AbilityAdjustPierce(1);
 
 							await AbilityCmd.InfuseElement(parameters.AbilityState, Element.Light);
-						}))
+						}, canApplyMultipleTimesDuringSubscription: false))
 				.Build())
 		];
 	}

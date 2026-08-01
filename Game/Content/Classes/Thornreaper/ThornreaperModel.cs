@@ -42,6 +42,12 @@ public class ThornreaperModel : ClassModel
 
 		ModelDB.AbilityCard<OutwardSpurs>(),
 		ModelDB.AbilityCard<FloralBurst>(),
+		ModelDB.AbilityCard<BrightSkies>(),
+		ModelDB.AbilityCard<WelcomeToTheJungle>(),
+		ModelDB.AbilityCard<PricklySituation>(),
+		ModelDB.AbilityCard<TwistedThistle>(),
+		ModelDB.AbilityCard<BarbedOnslaught>(),
+		ModelDB.AbilityCard<BranchedSlam>()
 	];
 
 	public override List<PerkModel> Perks { get; } =

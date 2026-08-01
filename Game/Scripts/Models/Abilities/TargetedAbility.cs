@@ -669,7 +669,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 
 			if(abilityState.AbilityAOEPattern != null)
 			{
-				if(abilityState.TargetedHexes.Count == abilityState.AbilityAOEPattern.LocalHexes.Count &&
+				if(abilityState.TargetedHexes.Count == abilityState.TargetedAOEHexes.Count &&
 				   targetsOutOfAOE == abilityState.AbilityTargets - 1)
 				{
 					break;

@@ -44,14 +44,9 @@ public class OutwardSpurs : ThornreaperCardModel<OutwardSpurs.CardTop, OutwardSp
 				.WithTarget(Target.TargetAll | Target.Enemies)
 				.Build()),
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(2, new MoveSquare(this, new Vector2(0.6696471f, 0.7556787f)))
-				.WithOnAbilityStarted(async state =>
-				{
-					SufferDamageAbility.State sufferDamageState = state.ActionState.GetAbilityState<SufferDamageAbility.State>(0);
-					state.AdjustMoveValue(sufferDamageState.UniqueTargetedFigures.Count);
-
-					await GDTask.CompletedTask;
-				})
+				.WithDistance(new DynamicInt<MoveAbility.State>(state =>
+						state.ActionState.GetAbilityState<SufferDamageAbility.State>(0).UniqueTargetedFigures.Count + 2),
+					new MoveSquare(this, new Vector2(0.6696471f, 0.7556787f)))
 				.Build())
 		];
 	}
