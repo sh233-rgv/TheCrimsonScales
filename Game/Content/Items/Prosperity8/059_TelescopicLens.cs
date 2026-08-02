@@ -16,7 +16,8 @@ public class TelescopicLens : Prosperity8Item
 		base.Subscribe();
 
 		SubscribeDuringAttack(
-			canApply: state => state.Performer == Owner,
+			canApply: state => state.Performer == Owner &&
+			                   state.AbilityRangeType == RangeType.Range,
 			apply: async state =>
 			{
 				await Use(async user =>
