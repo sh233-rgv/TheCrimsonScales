@@ -49,6 +49,7 @@ text = "3"
 
 [node name="BattleGoal" type="VBoxContainer" parent="MarginContainer/Content" parent_id_path=PackedInt32Array(1858054355) index="3" unique_id=886646671]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Title" type="Label" parent="MarginContainer/Content/BattleGoal" index="0" unique_id=193649202]
 layout_mode = 2
