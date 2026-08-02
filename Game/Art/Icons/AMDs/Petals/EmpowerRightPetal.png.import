@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cu2jgc8i15oku"
-path="res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.ctex"
+uid="uid://beae7160d5wov"
+path="res://.godot/imported/EmpowerRightPetal.png-3d6c6e902a37f4755126d9aa2578689e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Classes/SpiritCaller/AMDCards.jpg"
-dest_files=["res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.ctex"]
+source_file="res://Art/Icons/AMDs/Petals/EmpowerRightPetal.png"
+dest_files=["res://.godot/imported/EmpowerRightPetal.png-3d6c6e902a37f4755126d9aa2578689e.ctex"]
 
 [params]
 

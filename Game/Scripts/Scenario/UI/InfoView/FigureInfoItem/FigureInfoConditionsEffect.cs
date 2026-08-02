@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public partial class FigureInfoConditionsEffect : Control
@@ -12,7 +13,8 @@ public partial class FigureInfoConditionsEffect : Control
 
 	public void SetConditions(List<ConditionModel> conditionModels)
 	{
-		SetVisible(conditionModels.Count > 0);
+		List<ConditionModel> visibleConditionModels = conditionModels.Where(conditionModel => conditionModel.ShouldShowOnFigure).ToList();
+		SetVisible(visibleConditionModels.Count > 0);
 
 		this.DelayedCall(() =>
 		{
@@ -27,11 +29,11 @@ public partial class FigureInfoConditionsEffect : Control
 			const int iconWidth = 40;
 			const float preferredSpacing = 5f;
 			float workableWidth = fullWidth - iconWidth;
-			float preferredWidth = iconWidth * conditionModels.Count + preferredSpacing * (conditionModels.Count - 1);
+			float preferredWidth = iconWidth * visibleConditionModels.Count + preferredSpacing * (visibleConditionModels.Count - 1);
 
-			for(int i = 0; i < conditionModels.Count; i++)
+			for(int i = 0; i < visibleConditionModels.Count; i++)
 			{
-				ConditionModel conditionModel = conditionModels[i];
+				ConditionModel conditionModel = visibleConditionModels[i];
 				FigureInfoIcon figureInfoIcon = _iconScene.Instantiate<FigureInfoIcon>();
 				_iconParent.AddChild(figureInfoIcon);
 				figureInfoIcon.Init(conditionModel);
@@ -39,7 +41,7 @@ public partial class FigureInfoConditionsEffect : Control
 
 				if(preferredWidth > fullWidth)
 				{
-					float progress = (float)i / (conditionModels.Count - 1);
+					float progress = (float)i / (visibleConditionModels.Count - 1);
 					float position = progress * workableWidth;
 					figureInfoIcon.SetPosition(new Vector2(position, 0f));
 				}

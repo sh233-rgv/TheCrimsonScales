@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cu2jgc8i15oku"
-path="res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.ctex"
+uid="uid://c86fep4tgxe4t"
+path="res://.godot/imported/CurseLeftPetal.png-2551ac9a79943e3e199b36be01e78b61.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Classes/SpiritCaller/AMDCards.jpg"
-dest_files=["res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.ctex"]
+source_file="res://Art/Icons/AMDs/Petals/CurseLeftPetal.png"
+dest_files=["res://.godot/imported/CurseLeftPetal.png-2551ac9a79943e3e199b36be01e78b61.ctex"]
 
 [params]
 

@@ -2,9 +2,13 @@
 
 public class PartyAMDCard1 : PartyAMDCardModel
 {
+	public override string GetSimpleString(RichTextParameters richTextParameters) =>
+		GetSimpleString(richTextParameters, +0,
+			$"{Icons.Inline(Icons.Damage, richTextParameters)}{Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 	public override string ToString(RichTextParameters richTextParameters) =>
-		GetBasicString(richTextParameters, AMDCardType.Crit,
-			extraText: $"Target suffers {Icons.Inline(Icons.Damage)}1, {Icons.Inline(Icons.Heal, richTextParameters)}1, self",
+		GetBasicString(richTextParameters, +0,
+			extraText: $"Target suffers {Icons.Inline(Icons.Damage, richTextParameters)}1, {Icons.Inline(Icons.Heal, richTextParameters)}1, self",
 			rolling: true);
 
 	protected override int AtlasIndex => 0;

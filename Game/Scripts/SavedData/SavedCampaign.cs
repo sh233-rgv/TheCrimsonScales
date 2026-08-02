@@ -181,6 +181,10 @@ public class SavedCampaign
 		// 	30, savedCampaign.Characters[0].ClassModel, savedCampaign.Characters[0].SavedPersonalQuest.Model);
 
 		savedCampaign.Characters[0].AddGold(1000);
+		for(int i = 0; i <= 14; i++)
+		{
+			savedCampaign.Characters[0].AcquirePerk(i);
+		}
 
 		// SavedScenarioProgress testScenario = new SavedScenarioProgress();
 		// testScenario.Discover();

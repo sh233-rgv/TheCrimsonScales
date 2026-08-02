@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cu2jgc8i15oku"
-path="res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.ctex"
+uid="uid://1jh3oi415twd"
+path="res://.godot/imported/SpiritIcon.png-4487975145ebba39e73be85fdd900131.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Classes/SpiritCaller/AMDCards.jpg"
-dest_files=["res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.ctex"]
+source_file="res://Content/Classes/SpiritCaller/SpiritIcon.png"
+dest_files=["res://.godot/imported/SpiritIcon.png-4487975145ebba39e73be85fdd900131.ctex"]
 
 [params]
 

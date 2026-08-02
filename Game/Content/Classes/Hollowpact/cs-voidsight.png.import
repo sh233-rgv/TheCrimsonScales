@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cu2jgc8i15oku"
-path="res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.ctex"
+uid="uid://d0djciylwba2h"
+path="res://.godot/imported/cs-voidsight.png-8f58501944e50a39101d1eaadedfb707.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Content/Classes/SpiritCaller/AMDCards.jpg"
-dest_files=["res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.ctex"]
+source_file="res://Content/Classes/Hollowpact/cs-voidsight.png"
+dest_files=["res://.godot/imported/cs-voidsight.png-8f58501944e50a39101d1eaadedfb707.ctex"]
 
 [params]
 
