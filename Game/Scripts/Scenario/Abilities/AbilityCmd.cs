@@ -1691,10 +1691,12 @@ public static class AbilityCmd
 		Figure figureA = hexObjectA as Figure;
 		Figure figureB = hexObjectB as Figure;
 
+		object subscriber = new object();
+
 		if(figureA != null && figureB != null)
 		{
 			// Ignore figure to swap with
-			ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Subscribe(authority, hexObjectA,
+			ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Subscribe(authority, subscriber,
 				parameters =>
 					(parameters.Figure == figureA &&
 					 parameters.OtherFigure == figureB) ||
@@ -1712,7 +1714,7 @@ public static class AbilityCmd
 			return false;
 		}
 
-		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Unsubscribe(authority, hexObjectA);
+		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Unsubscribe(authority, subscriber);
 
 		if(!GameController.FastForward)
 		{
