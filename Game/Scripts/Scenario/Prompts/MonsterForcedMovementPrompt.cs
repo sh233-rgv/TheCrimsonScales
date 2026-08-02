@@ -42,7 +42,7 @@ public class MonsterForcedMovementPrompt(
 
 		foreach((Hex hex, ForcedMovementNode node) in _closedList)
 		{
-			if(!MoveHelper.CanStopAt(abilityState, target, hex))
+			if(!AbilityCmd.CanForceMoveTo(abilityState, target, hex))
 			{
 				continue;
 			}
@@ -91,6 +91,11 @@ public class MonsterForcedMovementPrompt(
 			_bestNodes.Clear();
 			foreach((Hex hex, ForcedMovementNode node) in _closedList)
 			{
+				if(!AbilityCmd.CanForceMoveTo(abilityState, target, hex))
+				{
+					continue;
+				}
+
 				if(node.MoveSpent > _bestSwing)
 				{
 					_bestSwing = node.MoveSpent;
