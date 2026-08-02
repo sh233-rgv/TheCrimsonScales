@@ -25,7 +25,7 @@ public class PricklySituation : ThornreaperCardModel<PricklySituation.CardTop, P
 						{
 							Hex hex = parameters.Performer.Hex;
 							List<Hex> path = [];
-							for(int i = RangeHelper.Distance(parameters.AbilityState.Target.Hex, parameters.Performer.Hex) - 1; i >= 0; i++)
+							for(int i = RangeHelper.Distance(parameters.AbilityState.Target.Hex, parameters.Performer.Hex) - 1; i >= 0; i--)
 							{
 								hex = await AbilityCmd.SelectHex(parameters.AbilityState,
 									hexes => hexes.AddRange(RangeHelper.GetHexesInRange(hex, 1, false).Where(possibleHex =>
@@ -39,7 +39,7 @@ public class PricklySituation : ThornreaperCardModel<PricklySituation.CardTop, P
 								if(hexInPath.IsFeatureless())
 								{
 									await AbilityCmd.CreateOverlayTile<ThornsThornreaper>(hexInPath,
-										SceneLoader.LoadPackedScene("res://Content/OverlayTiles/HazardousTerrain/HotCoals1H.tscn"));
+										SceneLoader.LoadPackedScene("res://Content/Classes/Thornreaper/ThornsThornreaper1H.tscn"));
 								}
 							}
 						}))

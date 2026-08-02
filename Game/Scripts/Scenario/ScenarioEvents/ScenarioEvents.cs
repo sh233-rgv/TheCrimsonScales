@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Fractural.Tasks;
 using Godot;
 
 public partial class ScenarioEvents
@@ -751,10 +752,16 @@ public partial class ScenarioEvents
 			public Figure Figure { get; } = figure;
 			public HazardousTerrain HazardousTerrain { get; } = hazardousTerrain;
 			public bool AffectedByHazardousTerrain { get; private set; } = affectedByHazardousTerrain;
+			public List<Func<Parameters, GDTask>> AfterHazardousTerrainDamage { get; private set; } = [];
 
 			public void SetAffectedByHazardousTerrain(bool affectedByHazardousTerrain)
 			{
 				AffectedByHazardousTerrain = affectedByHazardousTerrain;
+			}
+
+			public void AddAfterHazardousTerrainDamage(Func<Parameters, GDTask> afterHazardousTerrainDamage)
+			{
+				AfterHazardousTerrainDamage.Add(afterHazardousTerrainDamage);
 			}
 		}
 	}
@@ -866,9 +873,9 @@ public partial class ScenarioEvents
 			public IEnumerable<Element> Elements { get; } = elements;
 
 			public bool Consumed { get; private set; }
-			public Element ConsumedElement { get; private set; }
+			public Element? ConsumedElement { get; private set; }
 
-			public void SetConsumed(Element element)
+			public void SetConsumed(Element? element)
 			{
 				Consumed = true;
 				ConsumedElement = element;

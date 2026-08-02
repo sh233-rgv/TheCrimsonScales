@@ -2,7 +2,7 @@
 using Fractural.Tasks;
 using Godot;
 
-public class AbilityCardSide : IActionSource
+public class AbilityCardSide : IActionSource, IEventSubscriber
 {
 	public AbilityCard AbilityCard { get; }
 	public AbilityCardSideModel Model { get; }
@@ -16,14 +16,29 @@ public class AbilityCardSide : IActionSource
 
 	public async GDTask Perform(Figure performer)
 	{
+		if(Model.OnCardSideStarted != null)
+		{
+			ScenarioEvents.AbilityCardSideStartedEvent.Subscribe(this,
+				_ => true,
+				async parameters =>
+				{
+					if(!await Model.OnCardSideStarted(performer))
+					{
+						parameters.ForgoAction();
+					}
+				});
+		}
+
 		ScenarioEvents.AbilityCardSideStarted.Parameters startedParameters =
 			await ScenarioEvents.AbilityCardSideStartedEvent.CreatePrompt(
 				new ScenarioEvents.AbilityCardSideStarted.Parameters(this, performer));
 
+		ScenarioEvents.AbilityCardSideStartedEvent.Unsubscribe(this);
+
 		CardState resultingState = CardState.Discarded;
 		bool performed = false;
 
-		if(!startedParameters.ForgoneAction && (Model.OnCardSideStarted == null || await Model.OnCardSideStarted(performer)))
+		if(!startedParameters.ForgoneAction)
 		{
 			ActionState actionState = new ActionState(this, performer, Model.Abilities.Select(ability => ability.Ability).ToList(), //null,
 				onFirstActivateAbilityActivated: OnFirstActivateAbilityActivated, onDiscardOrLoseRequested: OnDiscardOrLoseRequested);

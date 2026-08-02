@@ -100,5 +100,7 @@ public class TwistedThistle : ThornreaperCardModel<TwistedThistle.CardTop, Twist
 					state.ActionState.GetAbilityState<MoveAbility.State>(0).GetCustomValue<int>(this, "TilesDestroyed")))
 				.Build())
 		];
+
+		public override bool Round => true;
 	}
 }

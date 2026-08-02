@@ -17,7 +17,7 @@ public class WelcomeToTheJungle : ThornreaperCardModel<WelcomeToTheJungle.CardTo
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3, new AttackSquare(this, new Vector2(0.49668384f, 0.17396124f)))
-				.WithConditions(Conditions.Muddle)
+				.WithPierce(2)
 				.WithAOEPattern(new AOEPattern(
 						[
 							new AOEHex(Vector2I.Zero, AOEHexType.Gray),

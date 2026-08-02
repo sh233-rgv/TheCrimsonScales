@@ -758,7 +758,13 @@ public static class AbilityCmd
 				if(hazardousTerrainParameters.AffectedByHazardousTerrain)
 				{
 					int damage = HazardousTerrain.DamageAmount;
-					await SufferDamage(potentialAbilityState, figure, damage);
+					if(await SufferDamage(potentialAbilityState, figure, damage) > 0)
+					{
+						foreach(Func<ScenarioEvents.HazardousTerrainTriggered.Parameters, GDTask> action in hazardousTerrainParameters.AfterHazardousTerrainDamage)
+						{
+							await action(hazardousTerrainParameters);
+						}
+					}
 				}
 			}
 		}
@@ -1090,7 +1096,7 @@ public static class AbilityCmd
 		object subscriber = new object();
 		ScenarioEvents.ConsumeElementEvent.Subscribe(authority, subscriber,
 			canApplyParameters =>
-				canApplyParameters.Elements.Contains(element) &&
+				!canApplyParameters.Consumed && canApplyParameters.Elements.Contains(element) &&
 				GameController.Instance.ElementManager.GetState(element) > ElementState.Inert &&
 				ScenarioCheckEvents.CanConsumeElementCheckEvent
 					.Fire(new ScenarioCheckEvents.CanConsumeElementCheck.Parameters(authority, element)).CanConsume,
