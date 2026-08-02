@@ -14,7 +14,7 @@ public partial class AMDViewerBox : Control
 	[Export]
 	private Container _countContainer;
 
-	public AMDViewerButton AMDViewerButton;
+	private AMDViewerButton _amdViewerButton;
 
 	private AMDCardModel _amdModel;
 
@@ -41,17 +41,22 @@ public partial class AMDViewerBox : Control
 
 	private void OnMouseEntered()
 	{
-		AMDViewerButton.ExtraDetailView.Show();
+		_amdViewerButton.ExtraDetailView.Show();
 
-		Vector2 popupPosition = AMDViewerButton.GlobalPosition + new Vector2(-520, -65);
+		Vector2 popupPosition = _amdViewerButton.GlobalPosition + new Vector2(-520, -65);
 
-		AMDViewerButton.ExtraDetailView.Position = new Vector2I((int)popupPosition.X, (int)popupPosition.Y);
+		_amdViewerButton.ExtraDetailView.Position = new Vector2I((int)popupPosition.X, (int)popupPosition.Y);
 
-		AMDViewerButton.ExtraDetailLabel.SetText(_amdModel.ToString(AMDViewerButton.ExtraDetailLabel.GetRichTextParameters()));
+		_amdViewerButton.ExtraDetailLabel.SetText(_amdModel.ToString(_amdViewerButton.ExtraDetailLabel.GetRichTextParameters()));
 	}
 
 	private void OnMouseExited()
 	{
-		AMDViewerButton.ExtraDetailView.Hide();
+		_amdViewerButton.ExtraDetailView.Hide();
+	}
+
+	public void SetAMDViewerButton(AMDViewerButton amdViewerButton)
+	{
+		_amdViewerButton = amdViewerButton;
 	}
 }

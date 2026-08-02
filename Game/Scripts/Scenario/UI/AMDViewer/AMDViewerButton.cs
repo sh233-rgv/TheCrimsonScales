@@ -29,7 +29,7 @@ public partial class AMDViewerButton : Control
 	[Export]
 	public RichTextLabel ExtraDetailLabel;
 
-	private AMDCardDeck AMDCardDeck;
+	private AMDCardDeck _amdCardDeck;
 
 	private bool _lockedOpen;
 
@@ -118,7 +118,7 @@ public partial class AMDViewerButton : Control
 
 		List<AMDCount> cardCounts = [];
 
-		foreach(AMDCardModel amdModel in AMDCardDeck.DrawPile.Select(amd => amd.Model))
+		foreach(AMDCardModel amdModel in _amdCardDeck.DrawPile.Select(amd => amd.Model))
 		{
 			AMDCount modelCount = cardCounts.FirstOrDefault(cardCount =>
 				cardCount.Model.ToString(new RichTextParameters()) == amdModel.ToString(new RichTextParameters()));
@@ -132,7 +132,7 @@ public partial class AMDViewerButton : Control
 			}
 		}
 
-		foreach(AMDCardModel amdModel in AMDCardDeck.DiscardPile.Select(amd => amd.Model))
+		foreach(AMDCardModel amdModel in _amdCardDeck.DiscardPile.Select(amd => amd.Model))
 		{
 			AMDCount modelCount = cardCounts.FirstOrDefault(cardCount =>
 				cardCount.Model.ToString(new RichTextParameters()) == amdModel.ToString(new RichTextParameters()));
@@ -162,7 +162,7 @@ public partial class AMDViewerButton : Control
 		foreach(AMDCount cardCount in sortedCards)
 		{
 			AMDViewerBox box = _amdViewerBox.Instantiate<AMDViewerBox>();
-			box.AMDViewerButton = this;
+			box.SetAMDViewerButton(this);
 			box.SetAMD(cardCount.Model, cardCount.DeckCount, cardCount.DiscardCount);
 			_grid.AddChild(box);
 		}
@@ -170,6 +170,6 @@ public partial class AMDViewerButton : Control
 
 	public void SetAMDCardDeck(AMDCardDeck deck)
 	{
-		AMDCardDeck = deck;
+		_amdCardDeck = deck;
 	}
 }
