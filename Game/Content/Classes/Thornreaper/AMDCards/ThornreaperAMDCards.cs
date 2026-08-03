@@ -2,27 +2,17 @@
 
 public class ThornreaperAMDCards
 {
-	public class MinusOneInvisibleSelf : ThornreaperAMDCardModel
+	public class PlusZero : ThornreaperAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, -1,
-				extraText: $"{Icons.Inline(Icons.GetCondition(Conditions.Invisible), richTextParameters)}, self");
-
 		protected override int AtlasIndex => 0;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => -1;
-
-		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
-		[
-			ConditionAbility.Builder().WithConditions(Conditions.Invisible).WithTarget(Target.Self).Build()
-		];
+		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 	}
 
-	public class PlusZeroImmobilizeRolling : ThornreaperAMDCardModel
+	public class PlusZeroPlusOneIfLightStrongOrWaningRolling : ThornreaperAMDCardModel
 	{
 		protected override int AtlasIndex => 1;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
-		public override List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) => [Conditions.Immobilize];
 	}
 
 	public class PlusZeroControlTargetMoveOneRolling : ThornreaperAMDCardModel
