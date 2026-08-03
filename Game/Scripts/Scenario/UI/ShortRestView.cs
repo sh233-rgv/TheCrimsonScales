@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using GTweens.Tweens;
 using GTweensGodot.Extensions;
 
 public partial class ShortRestView : Control
@@ -18,6 +19,8 @@ public partial class ShortRestView : Control
 	private Character _selectedCharacter;
 	private AbilityCard _abilityCard;
 
+	private GTween _tween;
+
 	public event Action<AbilityCard> ConfirmedEvent;
 	public event Action<AbilityCard> RedrawEvent;
 
@@ -31,7 +34,7 @@ public partial class ShortRestView : Control
 		_confirmButton.BetterButton.Pressed += OnConfirmPressed;
 
 		Hide();
-		this.TweenModulateAlpha(0f, 0f).Play(true);
+		_tween = this.TweenModulateAlpha(0f, 0f).Play(true);
 	}
 
 	public void Open(Character selectedCharacter, bool canRedraw)
@@ -44,8 +47,9 @@ public partial class ShortRestView : Control
 
 		_selectedCharacter = selectedCharacter;
 
+		_tween?.Kill();
 		Show();
-		this.TweenModulateAlpha(1f, 0.3f).Play();
+		_tween = this.TweenModulateAlpha(1f, 0.3f).Play();
 
 		_redrawButton.SetActive(canRedraw);
 		_confirmButton.SetActive(true);
@@ -63,7 +67,8 @@ public partial class ShortRestView : Control
 		_redrawButton.SetActive(false);
 		_confirmButton.SetActive(false);
 
-		this.TweenModulateAlpha(0f, 0.3f).OnComplete(Hide).Play();
+		_tween?.Kill();
+		_tween = this.TweenModulateAlpha(0f, 0.3f).OnComplete(Hide).Play();
 	}
 
 	private void OnRedrawPressed()

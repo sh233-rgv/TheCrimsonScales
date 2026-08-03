@@ -7,6 +7,9 @@ public class HierophantAMDCards
 {
 	public class MinusOneGivePrayerCard : HierophantAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, -1, "PRAY");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, -1,
 				extraText: "Give one ally one PRAYER card");
@@ -65,6 +68,9 @@ public class HierophantAMDCards
 
 	public class PlusOneGrantOneAllyShieldOne : HierophantAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1, $"{Icons.Inline(Icons.Shield, richTextParameters)}1");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText: $"Grant one ally {Icons.Inline(Icons.Shield, richTextParameters)}1");
@@ -99,6 +105,10 @@ public class HierophantAMDCards
 
 	public class PlusZeroHealOneAllyOrSelfRolling : HierophantAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Heal, richTextParameters)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText:

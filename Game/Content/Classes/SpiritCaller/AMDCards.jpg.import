@@ -2,22 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfum4if0i77s1"
-path.s3tc="res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.s3tc.ctex"
-path.etc2="res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.etc2.ctex"
+uid="uid://cu2jgc8i15oku"
+path="res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc", "etc2_astc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://Content/Classes/SpiritCaller/AMDCards.jpg"
-dest_files=["res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.s3tc.ctex", "res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.etc2.ctex"]
+dest_files=["res://.godot/imported/AMDCards.jpg-7b083ad0cf17f4d972805b69658268e9.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

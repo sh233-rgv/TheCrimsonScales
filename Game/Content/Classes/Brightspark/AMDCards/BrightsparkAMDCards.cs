@@ -7,6 +7,9 @@ public class BrightsparkAMDCards
 {
 	public class MinusTwoRecoverRandomCardFromDiscard : BrightsparkAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, -2, $"{Icons.Inline(Icons.RecoverCard, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, -2,
 				extraText: $"{Icons.Inline(Icons.RecoverCard, richTextParameters)} one random card from your discard pile");
@@ -38,6 +41,10 @@ public class BrightsparkAMDCards
 
 	public class PlusZeroConsumeElementForPlusTwo : BrightsparkAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.InlineWildElement(richTextParameters)}:{Icons.Inline(Icons.GetAMDValue("+2"), richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText:
@@ -64,6 +71,9 @@ public class BrightsparkAMDCards
 
 	public class PlusOneHealOneAllyRangeTwo : BrightsparkAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1, $"{Icons.Inline(Icons.Heal, richTextParameters)}1");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText:
@@ -80,6 +90,9 @@ public class BrightsparkAMDCards
 
 	public class PlusOneGrantOneAllyWithinRangeTwoShieldOne : BrightsparkAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1, $"{Icons.Inline(Icons.Shield, richTextParameters)}1");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText:
@@ -102,6 +115,10 @@ public class BrightsparkAMDCards
 
 	public class PlusZeroConsumeElementToInfuseElementRolling : BrightsparkAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.InlineWildElement(richTextParameters)}:{Icons.InlineWildElement(richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"Consume {Icons.Inline(Icons.WildElement, richTextParameters)} to {Icons.Inline(Icons.WildElement, richTextParameters)}",
@@ -122,6 +139,9 @@ public class BrightsparkAMDCards
 
 	public class PlusOneStrengthenAllyRangeTwo : BrightsparkAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1, $"{Icons.InlineCondition(Conditions.Strengthen, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText:
@@ -138,6 +158,10 @@ public class BrightsparkAMDCards
 
 	public class PlusZeroImmobilizeIceRolling : BrightsparkAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.InlineElement(Element.Ice, richTextParameters)}{Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		protected override int AtlasIndex => 14;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
@@ -181,6 +205,10 @@ public class BrightsparkAMDCards
 
 	public class PlusZeroPierceTwoFireRolling : BrightsparkAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.InlineElement(Element.Fire, richTextParameters)}{Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		protected override int AtlasIndex => 16;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;

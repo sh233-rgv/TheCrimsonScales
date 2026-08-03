@@ -2,10 +2,13 @@
 
 public class PartyAMDCard2 : PartyAMDCardModel
 {
+	public override string GetSimpleString(RichTextParameters richTextParameters) =>
+		GetSimpleString(richTextParameters, +0, $"{Icons.InlineCondition(Conditions.Strengthen, richTextParameters)}{Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 	public override string ToString(RichTextParameters richTextParameters) =>
-		GetBasicString(richTextParameters, AMDCardType.Crit,
+		GetBasicString(richTextParameters, +0,
 			conditionModels: [Conditions.Muddle],
-			extraText: $"{Icons.Inline(Icons.GetCondition(Conditions.Strengthen))}, self",
+			extraText: $"{Icons.InlineCondition(Conditions.Strengthen, richTextParameters)}, self",
 			rolling: true);
 
 	protected override int AtlasIndex => 4;

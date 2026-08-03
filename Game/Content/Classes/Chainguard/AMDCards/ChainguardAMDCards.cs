@@ -13,6 +13,10 @@ public class ChainguardAMDCards
 
 	public class PlusZeroIfTargetHasShacklePlusTwo : ChainguardAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.GetCondition(Chainguard.Shackle), richTextParameters)}:{Icons.Inline(Icons.GetAMDValue("+2"), richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText:
@@ -26,6 +30,10 @@ public class ChainguardAMDCards
 
 	public class PlusZeroShieldOneRolling : ChainguardAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Shield)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"{Icons.Inline(Icons.Shield, richTextParameters)}1", rolling: true);
@@ -42,6 +50,10 @@ public class ChainguardAMDCards
 
 	public class PlusZeroRetaliateOneRolling : ChainguardAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Retaliate)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"{Icons.Inline(Icons.Retaliate, richTextParameters)}1", rolling: true);
@@ -73,6 +85,10 @@ public class ChainguardAMDCards
 
 	public class PlusOneIfTargetHasShackleDisarm : ChainguardAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1,
+				$"{Icons.Inline(Icons.GetCondition(Chainguard.Shackle), richTextParameters)}:{Icons.InlineCondition(Conditions.Disarm, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText:
@@ -87,6 +103,9 @@ public class ChainguardAMDCards
 
 	public class PlusOneCreateDamageTwoTrap : ChainguardAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1, $"{Icons.Inline(Chainguard.Trap)}{Icons.Inline(Icons.Damage)}2");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText:
@@ -105,6 +124,10 @@ public class ChainguardAMDCards
 
 	public class PlusZeroHealOneSelfRolling : ChainguardAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Heal, richTextParameters)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, self", rolling: true);

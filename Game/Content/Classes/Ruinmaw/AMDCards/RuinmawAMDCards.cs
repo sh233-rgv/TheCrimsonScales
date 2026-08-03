@@ -20,6 +20,10 @@ public class RuinmawAMDCards
 
 	public class PlusOnePlusThreeInsteadIfTargetHasRuptureOrWound : RuinmawAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1,
+				$"{Icons.InlineCondition(Conditions.Wound1, richTextParameters)}:{Icons.Inline(Icons.GetAMDValue("+3"), richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText:
@@ -33,8 +37,12 @@ public class RuinmawAMDCards
 
 	public class PlusZeroHealOneEmpowerSelfRolling : RuinmawAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Heal, richTextParameters)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +1,
+			GetBasicString(richTextParameters, +0,
 				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.GetCondition(Ruinmaw.Empower))}, self",
 				rolling: true);
 
@@ -50,6 +58,9 @@ public class RuinmawAMDCards
 
 	public class PlusTwoIfThisAttackKillsTargetGainMoneyTokenDirectly : RuinmawAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +2, $"{Icons.Inline(Icons.Coins, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +2,
 				extraText: "If this attack kills the target, gain the money token directly");

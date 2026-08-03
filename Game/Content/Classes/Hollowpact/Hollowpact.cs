@@ -4,6 +4,8 @@ using Godot;
 public partial class Hollowpact : Character
 {
 	public const string VoidEnergy = "res://Content/Classes/Hollowpact/cs-void-energy.png";
+	public const string VoidPit = "res://Content/Classes/Hollowpact/cs-void-pit.png";
+	public const string Voidsight = "res://Content/Classes/Hollowpact/cs-voidsight.png";
 
 	[Export]
 	private VoidEnergyIndicator _voidEnergyIndicator;
