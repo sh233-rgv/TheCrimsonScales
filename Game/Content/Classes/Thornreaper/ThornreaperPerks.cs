@@ -7,7 +7,7 @@ public class ThornreaperPerks
 	{
 	}
 
-	public class ReplaceOneMinusTwoWithOneMinusOneInvisibleSelf : ThornreaperPerk
+	public class ReplaceOneMinusTwoWithOnePlusZero : ThornreaperPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -16,11 +16,11 @@ public class ThornreaperPerks
 
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<ThornreaperAMDCards.MinusOneInvisibleSelf>()
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZero>()
 		];
 	}
 
-	public class ReplaceOneMinusOneWithOnePlusZeroImmobilizeRolling : ThornreaperPerk
+	public class ReplaceOneMinusOneWithOnePlusZeroPlusOneIfLightStrongOrWaningRolling : ThornreaperPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -29,111 +29,117 @@ public class ThornreaperPerks
 
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroImmobilizeRolling>()
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroPlusOneIfLightStrongOrWaningRolling>()
 		];
 	}
 
-	public class ReplaceOneMinusOneWithOnePlusZeroControlTargetMoveOneRolling : ThornreaperPerk
-	{
-		public override List<AMDCardModel> CardsToRemove { get; } =
-		[
-			ModelDB.AMDCard<MinusOneAMDCard>()
-		];
-
-		public override List<AMDCardModel> CardsToAdd { get; } =
-		[
-			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroControlTargetMoveOneRolling>()
-		];
-	}
-
-	public class ReplaceTwoPlusZeroWithOnePlusOneLight : ThornreaperPerk
-	{
-		public override List<AMDCardModel> CardsToRemove { get; } =
-		[
-			ModelDB.AMDCard<PlusZeroAMDCard>(),
-			ModelDB.AMDCard<PlusZeroAMDCard>()
-		];
-
-		public override List<AMDCardModel> CardsToAdd { get; } =
-		[
-			ModelDB.AMDCard<ThornreaperAMDCards.PlusOneLight>()
-		];
-	}
-
-	public class AddTwoPlusOneHealOneRangeThree : ThornreaperPerk
+	public class AddThreePlusZeroPlusOneIfLightStrongOrWaningRolling : ThornreaperPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<ThornreaperAMDCards.PlusOneHealOneRangeThree>(),
-			ModelDB.AMDCard<ThornreaperAMDCards.PlusOneHealOneRangeThree>()
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroPlusOneIfLightStrongOrWaningRolling>(),
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroPlusOneIfLightStrongOrWaningRolling>(),
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroPlusOneIfLightStrongOrWaningRolling>()
 		];
 	}
 
-	public class AddOnePlusOneIfYouAreUndamagedPlusThreeInstead : ThornreaperPerk
+	public class AddTwoPlusZeroLightRolling : ThornreaperPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<ThornreaperAMDCards.PlusOneIfYouAreUndamagedPlusThreeInstead>()
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroLightRolling>(),
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroLightRolling>()
 		];
 	}
 
-	public class AddTwoPlusZeroHealOneRangeOneRolling : ThornreaperPerk
+	public class AddThreePlusZeroEarthIfLightStrongOrWaningRolling : ThornreaperPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroHealOneRangeOneRolling>(),
-			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroHealOneRangeOneRolling>()
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroEarthIfLightStrongOrWaningRolling>(),
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroEarthIfLightStrongOrWaningRolling>(),
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroEarthIfLightStrongOrWaningRolling>()
 		];
 	}
 
-	public class AddOnePlusZeroLootOneRolling : ThornreaperPerk
+	public class AddOnePlusZeroCreateHazardousTerrainWithinRangeOne : ThornreaperPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroLootOneRolling>()
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroCreateHazardousTerrainWithinRangeOne>()
 		];
 	}
 
-	public class IgnoreScenarioEffectsAddOnePlusZeroDark : ThornreaperPerk
+	public class AddOnePlusZeroOnNextAttackWhileOccupyingHazardousTerrainRetaliateThreeRolling : ThornreaperPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroDark>()
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroOnNextAttackWhileOccupyingHazardousTerrainRetaliateThreeRolling>()
 		];
-
-		public override bool IgnoreScenarioEffects => true;
 	}
 
-	public class ReflectiveJourney : ThornreaperPerk
+	public class AddOnePlusZeroOnNextAttackWhileOccupyingHazardousTerrainShieldThreeRolling : ThornreaperPerk
+	{
+		public override List<AMDCardModel> CardsToAdd { get; } =
+		[
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroOnNextAttackWhileOccupyingHazardousTerrainShieldThreeRolling>()
+		];
+	}
+
+	public class IgnoreItemMinusOneEffectsAddOnePlusZeroPlusOneIfLightStrongOrWaningRolling : ThornreaperPerk
+	{
+		public override List<AMDCardModel> CardsToAdd { get; } =
+		[
+			ModelDB.AMDCard<ThornreaperAMDCards.PlusZeroPlusOneIfLightStrongOrWaningRolling>()
+		];
+
+		public override bool IgnoreItemMinusOneEffects => true;
+	}
+
+	public class NaturesArmor : ThornreaperPerk
 	{
 		public override int PerkBoxCount => 2;
-		protected override string Title => "Reflective Journey";
+		protected override string Title => "Nature's Armor";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
-			$"At the end of each of your long rests, {Icons.Inline(Icons.GetElement(Element.Light), richTextParameters)} or {Icons.Inline(Icons.GetElement(Element.Dark), richTextParameters)}. If you are undamaged, grant one ally: {Icons.Inline(Icons.Move, richTextParameters)}2.";
+			$"Gain {Icons.Inline(Icons.Shield)}1 while you are occupying hazardous terrain.";
 
 		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 		{
 			await base.OnScenarioSetupPhaseCompleted(character);
 
-			ScenarioEvents.LongRestEndedEvent.Subscribe(this,
-				parameters => parameters.Character == character,
+			ScenarioEvents.SufferDamageEvent.Subscribe(this,
+				parameters => parameters.Figure == character && parameters.FromAttack &&
+				              parameters.Figure.Hex.HasHexObjectOfType<HazardousTerrain>(),
 				async parameters =>
 				{
-					await AbilityCmd.InfuseElement(null, [Element.Light, Element.Dark], character);
-					if(!character.IsDamaged())
-					{
-						await new ActionState(character,
-						[
-							GrantAbility.Builder()
-								.WithAbilities(
-								[
-									MoveAbility.Builder().WithDistance(2).Build()
-								])
-								.WithRange(RangeHelper.InfiniteRange)
-								.Build()
-						]).Perform();
-					}
+					parameters.AdjustShield(1);
+					await GDTask.CompletedTask;
+				});
+
+			ScenarioCheckEvents.ShieldCheckEvent.Subscribe(this,
+				parameters => parameters.Figure == character &&
+				              parameters.Figure.Hex.HasHexObjectOfType<HazardousTerrain>(),
+				parameters =>
+				{
+					parameters.AdjustShield(1);
+				});
+
+			ScenarioEvents.FigureEnteredHexEvent.Subscribe(this,
+				parameters => parameters.Figure == character,
+				async _ =>
+				{
+					ScenarioCheckEvents.ShieldCheckEvent.FireChangedEvent();
+
+					await GDTask.CompletedTask;
+				}, EffectType.Visuals);
+
+			ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(this,
+				parameters => parameters.Figure == character,
+				parameters =>
+				{
+					parameters.Add(new InfoTextExtraEffect.Parameters(_ =>
+						$"Gain {Icons.Inline(Icons.Shield)}1 while you are occupying hazardous terrain."));
 				});
 		}
 	}

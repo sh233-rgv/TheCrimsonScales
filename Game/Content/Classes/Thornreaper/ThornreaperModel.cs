@@ -5,7 +5,7 @@ public class ThornreaperModel : ClassModel
 {
 	public override string Name => "Thornreaper";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.MediumHigh;
-	public override int HandSize => 16;
+	public override int HandSize => 11;
 	public override Ancestry Ancestry => Ancestry.Orchid;
 
 	public override List<EventModel> UnlockEvents { get; } =
@@ -60,5 +60,28 @@ public class ThornreaperModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<ThornreaperPerks.ReplaceOneMinusTwoWithOnePlusZero>(),
+
+		ModelDB.Perk<ThornreaperPerks.ReplaceOneMinusOneWithOnePlusZeroPlusOneIfLightStrongOrWaningRolling>(),
+		ModelDB.Perk<ThornreaperPerks.ReplaceOneMinusOneWithOnePlusZeroPlusOneIfLightStrongOrWaningRolling>(),
+
+		ModelDB.Perk<ThornreaperPerks.AddThreePlusZeroPlusOneIfLightStrongOrWaningRolling>(),
+		ModelDB.Perk<ThornreaperPerks.AddThreePlusZeroPlusOneIfLightStrongOrWaningRolling>(),
+
+		ModelDB.Perk<ThornreaperPerks.AddTwoPlusZeroLightRolling>(),
+
+		ModelDB.Perk<ThornreaperPerks.AddThreePlusZeroEarthIfLightStrongOrWaningRolling>(),
+
+		ModelDB.Perk<ThornreaperPerks.AddOnePlusZeroCreateHazardousTerrainWithinRangeOne>(),
+
+		ModelDB.Perk<ThornreaperPerks.AddOnePlusZeroOnNextAttackWhileOccupyingHazardousTerrainRetaliateThreeRolling>(),
+		ModelDB.Perk<ThornreaperPerks.AddOnePlusZeroOnNextAttackWhileOccupyingHazardousTerrainRetaliateThreeRolling>(),
+
+		ModelDB.Perk<ThornreaperPerks.AddOnePlusZeroOnNextAttackWhileOccupyingHazardousTerrainShieldThreeRolling>(),
+		ModelDB.Perk<ThornreaperPerks.AddOnePlusZeroOnNextAttackWhileOccupyingHazardousTerrainShieldThreeRolling>(),
+
+		ModelDB.Perk<ThornreaperPerks.IgnoreItemMinusOneEffectsAddOnePlusZeroPlusOneIfLightStrongOrWaningRolling>(),
+
+		ModelDB.Perk<ThornreaperPerks.NaturesArmor>(),
 	];
 }

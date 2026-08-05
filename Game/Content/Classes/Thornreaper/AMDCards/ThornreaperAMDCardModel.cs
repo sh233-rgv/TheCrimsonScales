@@ -3,4 +3,7 @@
 	protected override string GetTexturePath(AMDCardOwner owner) => "res://Content/Classes/Thornreaper/AMDCards.jpg";
 	protected override int ColumnCount => 4;
 	protected override int RowCount => 4;
+
+	protected static bool LightStrongOrWaning =>
+		GameController.Instance.ElementManager.GetState(Element.Light) is ElementState.Strong or ElementState.Waning;
 }

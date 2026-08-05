@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Fractural.Tasks;
 
 public class ThornreaperAMDCards
 {
@@ -10,104 +13,104 @@ public class ThornreaperAMDCards
 
 	public class PlusZeroPlusOneIfLightStrongOrWaningRolling : ThornreaperAMDCardModel
 	{
-		protected override int AtlasIndex => 1;
-		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
-	}
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.InlineElement(Element.Light, richTextParameters)}:{Icons.Inline(Icons.GetAMDValue("+1"), richTextParameters)}");
 
-	public class PlusZeroControlTargetMoveOneRolling : ThornreaperAMDCardModel
-	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"Control the target: {Icons.Inline(Icons.Move, richTextParameters)}1", rolling: true);
+				extraText:
+				$"If {Icons.InlineElement(Element.Light, richTextParameters)} is strong or waning, {Icons.Inline(Icons.GetAMDValue("+1"), richTextParameters)} instead",
+				rolling: true);
 
-		protected override int AtlasIndex => 3;
+		protected override int AtlasIndex => 1;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
-
-		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
-		[
-			ControlAbility.Builder()
-				.WithAbilities(
-				[
-					MoveAbility.Builder().WithDistance(1).Build()
-				])
-				.WithCustomGetTargets((_, figures) =>
-				{
-					figures.Add(attackAbilityState.Target);
-				})
-				.Build()
-		];
+		public override int? GetValue(AttackAbility.State attackAbilityState) => LightStrongOrWaning ? +1 : +0;
 	}
 
-	public class PlusOneLight : ThornreaperAMDCardModel
+	public class PlusZeroLightRolling : ThornreaperAMDCardModel
 	{
-		protected override int AtlasIndex => 5;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
+		protected override int AtlasIndex => 9;
+		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
+		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Light)];
 	}
 
-	public class PlusOneHealOneRangeThree : ThornreaperAMDCardModel
+	public class PlusZeroEarthIfLightStrongOrWaningRolling : ThornreaperAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +1,
-				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.Range)}3");
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.InlineElement(Element.Light, richTextParameters)}:{Icons.InlineElement(Element.Light, richTextParameters)}");
 
-		protected override int AtlasIndex => 7;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
-
-		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
-		[
-			HealAbility.Builder().WithHealValue(1).WithRange(3).Build()
-		];
-	}
-
-	public class PlusOneIfYouAreUndamagedPlusThreeInstead : ThornreaperAMDCardModel
-	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +1,
-				extraText: $"If you are undamaged, {Icons.Inline(Icons.GetAMDValue("+3"), richTextParameters)} instead");
-
-		protected override int AtlasIndex => 9;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => attackAbilityState?.Performer.IsDamaged() == false ? +3 : +1;
-	}
-
-	public class PlusZeroHealOneRangeOneRolling : ThornreaperAMDCardModel
-	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +1,
-				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.Range)}1", rolling: true);
-
-		protected override int AtlasIndex => 11;
-		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
-
-		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
-		[
-			HealAbility.Builder().WithHealValue(1).WithRange(1).Build()
-		];
-	}
-
-	public class PlusZeroLootOneRolling : ThornreaperAMDCardModel
-	{
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"{Icons.Inline(Icons.Loot, richTextParameters)}1", rolling: true);
+				extraText:
+				$"If {Icons.InlineElement(Element.Light, richTextParameters)} is strong or waning, {Icons.InlineElement(Element.Light, richTextParameters)}",
+				rolling: true);
 
-		protected override int AtlasIndex => 13;
-		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
+		protected override int AtlasIndex => 11;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
-
-		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
-		[
-			LootAbility.Builder().WithRange(1).Build()
-		];
+		public override List<CardElementInfusion> ElementInfusions => LightStrongOrWaning ? [CardElementInfusion.Infuse(Element.Light)] : [];
 	}
 
-	public class PlusZeroDark : ThornreaperAMDCardModel
+	public class PlusZeroCreateHazardousTerrainWithinRangeOne : ThornreaperAMDCardModel
 	{
-		protected override int AtlasIndex => 5;
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline("res://Game/Content/Classes/Thornreaper/toa-thorns.png", richTextParameters)}");
+
+		public override string ToString(RichTextParameters richTextParameters) =>
+			GetBasicString(richTextParameters, +0,
+				extraText: $"Create one hazardous terrain tile in a featureless hex within {Icons.Inline(Icons.Range, richTextParameters)}1");
+
+		protected override int AtlasIndex => 13;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
-		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Dark)];
+
+		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
+			async (state, _) =>
+			{
+				Hex hex = await AbilityCmd.SelectHex(state,
+					hexes => hexes.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 1).Where(hex => hex.IsFeatureless())),
+					hintText: "Select a hex to create hazardous terrain");
+				if(hex != null)
+				{
+					await AbilityCmd.CreateOverlayTile<ThornsThornreaper>(hex,
+						SceneLoader.LoadPackedScene("res://Content/Classes/Thornreaper/ThornsThornreaper1H.tscn"));
+				}
+			};
+	}
+
+	public class PlusZeroOnNextAttackWhileOccupyingHazardousTerrainRetaliateThreeRolling : ThornreaperAMDCardModel
+	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Retaliate, richTextParameters)}3{Icons.Inline(Icons.Rolling, richTextParameters)}");
+
+		public override string ToString(RichTextParameters richTextParameters) =>
+			GetBasicString(richTextParameters, +0,
+				extraText:
+				$"Place this card in your active area. On the next attack targeting you while you are occupying hazardous terrain, discard this card to gain {Icons.Inline(Icons.Retaliate, richTextParameters)}3");
+
+		protected override int AtlasIndex => 14;
+		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
+
+		//TODO: Implement Retaliate
+	}
+
+	public class PlusZeroOnNextAttackWhileOccupyingHazardousTerrainShieldThreeRolling : ThornreaperAMDCardModel
+	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Shield, richTextParameters)}3{Icons.Inline(Icons.Rolling, richTextParameters)}");
+
+		public override string ToString(RichTextParameters richTextParameters) =>
+			GetBasicString(richTextParameters, +0,
+				extraText:
+				$"Place this card in your active area. On the next attack targeting you while you are occupying hazardous terrain, discard this card to gain {Icons.Inline(Icons.Shield, richTextParameters)}3");
+
+		protected override int AtlasIndex => 16;
+		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
+
+		//TODO: Implement Shield
 	}
 }
