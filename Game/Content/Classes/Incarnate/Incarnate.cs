@@ -15,36 +15,29 @@ public partial class Incarnate : Character, IHasEmpower, IHasEnfeeble
 	public static EnfeebleIncarnate Enfeeble { get; } = ModelDB.Condition<EnfeebleIncarnate>();
 
 	[Export]
-	private SatedIndicator _satedIndicator;
+	private IncarnateSpiritIndicator _spiritIndicator;
 
 	private bool _satedAppliedThisTurn;
 
-	public bool Sated { get; private set; }
+	public IncarnateSpirit Spirit { get; private set; }
 	public int RemainingEmpowerCount { get; set; } = 10;
 	public int RemainingEnfeebleCount { get; set; } = 10;
-
-	public event Func<Ruinmaw, GDTask> SateEvent;
 
 	public override async GDTask Spawn(SavedCharacter savedCharacter, int index)
 	{
 		await base.Spawn(savedCharacter, index);
 
-		_satedIndicator.Hide();
+		_spiritIndicator.Hide();
 	}
 
-	public async GDTask Sate()
+	public async GDTask SwitchSpirit(IncarnateSpirit spirit)
 	{
-		if(TakingTurn)
-		{
-			_satedAppliedThisTurn = true;
-		}
-
-		if(Sated)
+		if(Spirit == spirit)
 		{
 			return;
 		}
 
-		_satedIndicator.ShowAnimated();
+		_spiritIndicator.ShowAnimated();
 		object subscriber = new object();
 		ScenarioEvents.FigureTurnEndedEvent.Subscribe(this, subscriber,
 			canApplyParameters => canApplyParameters.Figure == this,
@@ -56,7 +49,7 @@ public partial class Incarnate : Character, IHasEmpower, IHasEnfeeble
 				}
 				else
 				{
-					_satedIndicator.HideAnimated();
+					_spiritIndicator.HideAnimated();
 
 					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(this, subscriber);
 					ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(this, subscriber);
@@ -73,7 +66,7 @@ public partial class Incarnate : Character, IHasEmpower, IHasEnfeeble
 			}
 		);
 
-		Sated = true;
+		Spirit = true;
 		if(SateEvent != null)
 		{
 			await SateEvent(this);
@@ -85,5 +78,10 @@ public partial class Incarnate : Character, IHasEmpower, IHasEnfeeble
 	public AMDCardModel CreateEmpower()
 	{
 		return ModelDB.AMDCard<IncarnateEmpowerAMDCard>();
+	}
+
+	public AMDCardModel CreateEnfeeble()
+	{
+		return ModelDB.AMDCard<incarnate>();
 	}
 }

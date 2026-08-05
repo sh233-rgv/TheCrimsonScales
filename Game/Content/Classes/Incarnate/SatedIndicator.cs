@@ -3,7 +3,7 @@ using GTweens.Builders;
 using GTweens.Easings;
 using GTweensGodot.Extensions;
 
-public partial class SatedIndicator : Node2D
+public partial class IncarnateSpiritIndicator : Node2D
 {
 	public void ShowAnimated()
 	{
