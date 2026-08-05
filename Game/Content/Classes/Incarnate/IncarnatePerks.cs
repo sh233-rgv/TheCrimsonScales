@@ -121,20 +121,13 @@ public class IncarnatePerks
 		protected override string Title => "A Lull in Hunger";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
-			$"Once each scenario, after you loot a money token, {Icons.Inline(Incarnate.SatedUpIconPath, richTextParameters)}.";
+			$"Once each scenario, after you loot a money toke.";
 
 		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 		{
 			await base.OnScenarioSetupPhaseCompleted(character);
 
-			ScenarioEvents.CoinLootedEvent.Subscribe(this,
-				parameters => parameters.LootObtainer == character,
-				async parameters =>
-				{
-					await IncarnateCardSide.SateIncarnate(character);
-				}, EffectType.Selectable,
-				effectButtonParameters: new IconEffectButton.Parameters(Incarnate.SatedUpIconPath),
-				effectInfoViewParameters: new TextEffectInfoView.Parameters(Icons.Inline(Incarnate.SatedUpIconPath)));
+
 		}
 	}
 
@@ -144,16 +137,13 @@ public class IncarnatePerks
 		protected override string Title => "Adrenaline Rush";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
-			$"Whenever you become {Icons.Inline(Incarnate.SatedIconPath, richTextParameters)}, gain {Icons.Inline(Icons.GetCondition(Conditions.Ward))}.";
+			$"Whenever you become, gain {Icons.Inline(Icons.GetCondition(Conditions.Ward))}.";
 
 		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 		{
 			await base.OnScenarioSetupPhaseCompleted(character);
 
-			if(character is Incarnate IncarnateCharacter)
-			{
-				IncarnateCharacter.SateEvent += async Incarnate => await AbilityCmd.AddCondition(null, Incarnate, Conditions.Ward);
-			}
+
 		}
 	}
 }

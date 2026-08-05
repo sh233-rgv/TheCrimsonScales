@@ -1,25 +1,24 @@
 [gd_scene format=3 uid="uid://cddptx6jnswl4"]
 
 [ext_resource type="PackedScene" uid="uid://drsppepfslnis" path="res://Scenes/Scenario/Character.tscn" id="1_y5f2d"]
-[ext_resource type="Script" uid="uid://cb7m4x6hapm4e" path="res://Content/Classes/Ruinmaw/Ruinmaw.cs" id="2_2cugh"]
+[ext_resource type="Script" uid="uid://sg8lhsmvrspk" path="res://Content/Classes/Incarnate/Incarnate.cs" id="2_6yvaq"]
 [ext_resource type="Texture2D" uid="uid://cgguw3tu864yn" path="res://Content/Classes/Ruinmaw/MapIcon.tres" id="3_advu7"]
 [ext_resource type="Texture2D" uid="uid://b0fsjg67humk5" path="res://Content/Classes/Ruinmaw/Animation.jpg" id="4_5iqky"]
 [ext_resource type="PackedScene" uid="uid://buebj414ucr8h" path="res://Content/Classes/Ruinmaw/SatedIndicator.tscn" id="5_dtqwb"]
 
-[node name="Ruinmaw" unique_id=1778313695 node_paths=PackedStringArray("_satedIndicator") instance=ExtResource("1_y5f2d")]
-script = ExtResource("2_2cugh")
-_satedIndicator = NodePath("SatedIndicator")
+[node name="Incarnate" unique_id=1778313695 instance=ExtResource("1_y5f2d")]
+script = ExtResource("2_6yvaq")
 
-[node name="Sprite2D" parent="Mask" index="0"]
+[node name="Sprite2D" parent="Mask" parent_id_path=PackedInt32Array(517148938) index="0" unique_id=1804687506]
 texture = ExtResource("3_advu7")
 
-[node name="AnimatedSpriteSheet2D" parent="Mask" index="1"]
+[node name="AnimatedSpriteSheet2D" parent="Mask" parent_id_path=PackedInt32Array(517148938) index="1" unique_id=825112643]
 texture = ExtResource("4_5iqky")
 hframes = 12
 vframes = 7
 _frameCount = 80
 
-[node name="Outline" parent="." index="2"]
+[node name="Outline" parent="." index="2" unique_id=517487183]
 self_modulate = Color(0.788235, 0.145098, 0.172549, 1)
 
 [node name="SatedIndicator" parent="." index="4" unique_id=579109723 instance=ExtResource("5_dtqwb")]
