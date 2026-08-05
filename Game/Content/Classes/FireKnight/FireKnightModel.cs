@@ -63,8 +63,8 @@ public class FireKnightModel : ClassModel
 
 	public override List<PerkModel> Perks { get; } =
 	[
-		ModelDB.Perk<FireKnightPerks.ReplaceOneMinusOneWithOnePlusOneStrengthenAlly>(),
-		ModelDB.Perk<FireKnightPerks.ReplaceOneMinusOneWithOnePlusOneStrengthenAlly>(),
+		ModelDB.Perk<FireKnightPerks.ReplaceOneMinusOneWithOnePlusZeroStrengthenAlly>(),
+		ModelDB.Perk<FireKnightPerks.ReplaceOneMinusOneWithOnePlusZeroStrengthenAlly>(),
 
 		ModelDB.Perk<FireKnightPerks.ReplaceOneMinusOneWithOnePlusZeroHealOneRangeOneRolling>(),
 		ModelDB.Perk<FireKnightPerks.ReplaceOneMinusOneWithOnePlusZeroHealOneRangeOneRolling>(),

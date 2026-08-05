@@ -6,13 +6,17 @@ public class HollowpactAMDCards
 {
 	public class PlusZeroVoidsight : HollowpactAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0, $"{Icons.Inline(Hollowpact.Voidsight, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"Voidsight");
+				extraText: $"{Icons.Inline(Hollowpact.Voidsight, richTextParameters)}");
 
 		protected override int AtlasIndex => 0;
 
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
+
 		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 		[
 			Hollowpact.VoidsightAbilityBuilder().Build()
@@ -21,6 +25,9 @@ public class HollowpactAMDCards
 
 	public class PlusThreeRegenerateSelf : HollowpactAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +3, $"{Icons.Inline(Icons.GetCondition(Conditions.Regenerate), richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +3,
 				extraText: $"{Icons.Inline(Icons.GetCondition(Conditions.Regenerate), richTextParameters)}, self");
@@ -28,6 +35,7 @@ public class HollowpactAMDCards
 		protected override int AtlasIndex => 3;
 
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +3;
+
 		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 		[
 			ConditionAbility.Builder().WithConditions(Conditions.Regenerate).WithTarget(Target.Self).Build()
@@ -44,6 +52,9 @@ public class HollowpactAMDCards
 
 	public class PlusOneVoidPitRangeTwo : HollowpactAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1, $"{Icons.Inline(Hollowpact.VoidPit, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText: $"Create a void pit in an empty hex within {Icons.Inline(Icons.Range, richTextParameters)}2");
@@ -51,6 +62,7 @@ public class HollowpactAMDCards
 		protected override int AtlasIndex => 9;
 
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
+
 		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 		[
 			Hollowpact.CreateVoidPitObstacleAbilityBuilder()
@@ -61,13 +73,18 @@ public class HollowpactAMDCards
 
 	public class PlusOneVoidEnergyRolling : HollowpactAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1, $"{Icons.Inline(Hollowpact.VoidEnergy, richTextParameters)}{Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText: $"{Icons.Inline(Hollowpact.VoidEnergy, richTextParameters)}", rolling: true);
+
 		protected override int AtlasIndex => 11;
 
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
+
 		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
 			async (state, _) =>
 			{
@@ -90,6 +107,9 @@ public class HollowpactAMDCards
 
 	public class PlusZeroHealTwoSelf : HollowpactAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0, $"{Icons.Inline(Icons.Heal, richTextParameters)}2");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}2, self");
@@ -97,6 +117,7 @@ public class HollowpactAMDCards
 		protected override int AtlasIndex => 14;
 
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
+
 		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 		[
 			HealAbility.Builder().WithHealValue(2).WithTarget(Target.Self).Build()
@@ -105,6 +126,9 @@ public class HollowpactAMDCards
 
 	public class PlusZeroWardSelf : HollowpactAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0, $"{Icons.Inline(Icons.GetCondition(Conditions.Ward), richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"{Icons.Inline(Icons.GetCondition(Conditions.Ward), richTextParameters)}, self");
@@ -112,6 +136,7 @@ public class HollowpactAMDCards
 		protected override int AtlasIndex => 16;
 
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
+
 		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 		[
 			ConditionAbility.Builder().WithConditions(Conditions.Ward).WithTarget(Target.Self).Build()

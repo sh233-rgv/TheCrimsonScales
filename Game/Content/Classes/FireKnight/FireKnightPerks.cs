@@ -7,7 +7,7 @@ public class FireKnightPerks
 	{
 	}
 
-	public class ReplaceOneMinusOneWithOnePlusOneStrengthenAlly : FireKnightPerk
+	public class ReplaceOneMinusOneWithOnePlusZeroStrengthenAlly : FireKnightPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -16,7 +16,7 @@ public class FireKnightPerks
 
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<FireKnightAMDCards.PlusOneStrengthenAlly>()
+			ModelDB.AMDCard<FireKnightAMDCards.PlusZeroStrengthenAlly>()
 		];
 	}
 

@@ -105,7 +105,6 @@ public class LuminaryPerks
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<LuminaryAMDCards.PlusZeroPerformPoisonAbility>(),
 			ModelDB.AMDCard<LuminaryAMDCards.PlusZeroPerformPoisonAbility>()
 		];
 	}
@@ -114,7 +113,6 @@ public class LuminaryPerks
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<LuminaryAMDCards.PlusOneHealOneSelfRolling>(),
 			ModelDB.AMDCard<LuminaryAMDCards.PlusOneHealOneSelfRolling>()
 		];
 	}

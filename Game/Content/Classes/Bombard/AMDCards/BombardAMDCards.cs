@@ -5,6 +5,10 @@ public class BombardAMDCards
 {
 	public class PlusZeroShieldOneRolling : BombardAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Shield, richTextParameters)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"{Icons.Inline(Icons.Shield, richTextParameters)}1",
@@ -22,6 +26,10 @@ public class BombardAMDCards
 
 	public class PlusZeroPlusThreeIfProjectile : BombardAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(BombardCardSide.ProjectileIconPath, richTextParameters)}:{Icons.Inline(Icons.GetAMDValue("+3"))}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText:
@@ -61,6 +69,9 @@ public class BombardAMDCards
 
 	public class PlusOneRetaliateOne : BombardAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1, $"{Icons.Inline(Icons.Retaliate, richTextParameters)}1");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText: $"{Icons.Inline(Icons.Retaliate, richTextParameters)}1, {Icons.Inline(Icons.Range, richTextParameters)}3");
@@ -76,6 +87,9 @@ public class BombardAMDCards
 
 	public class PlusZeroStrengthenSelf : BombardAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0, $"{Icons.InlineCondition(Conditions.Strengthen, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"{Icons.Inline(Icons.GetCondition(Conditions.Strengthen), richTextParameters)}, self");
@@ -98,6 +112,10 @@ public class BombardAMDCards
 
 	public class PlusZeroHealOneSelfRolling : BombardAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Heal, richTextParameters)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, self",
@@ -115,6 +133,9 @@ public class BombardAMDCards
 
 	public class PlusOnePullSelfTowardTarget : BombardAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1, $"{Icons.Inline(Icons.Pull, richTextParameters)}3");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText: $"{Icons.Inline(Icons.Pull, richTextParameters)}3, self, toward the target");

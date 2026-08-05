@@ -375,6 +375,7 @@ public partial class Character : Figure
 					{
 						await AbilityCmd.DiscardCard(roundCard);
 					}
+
 					break;
 				}
 

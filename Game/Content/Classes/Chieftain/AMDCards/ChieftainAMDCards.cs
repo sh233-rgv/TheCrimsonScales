@@ -14,6 +14,10 @@ public class ChieftainAMDCards
 
 	public class PlusZeroHealOneChieftain : ChieftainAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Heal, richTextParameters)}1");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText:
@@ -41,6 +45,10 @@ public class ChieftainAMDCards
 
 	public class PlusZeroHealTargetAllYourSummons : ChieftainAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Heal, richTextParameters)}1");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.Targets, richTextParameters)}all of your summons");
@@ -68,9 +76,8 @@ public class ChieftainAMDCards
 
 	public class MinusTwoBlessSelf : ChieftainAMDCardModel
 	{
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, -2,
-				extraText: $"{Icons.Inline(Icons.GetCondition(Conditions.Bless), richTextParameters)}, self");
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, -2, $"{Icons.InlineCondition(Conditions.Bless, richTextParameters)}");
 
 		protected override int AtlasIndex => 5;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => -2;
@@ -91,6 +98,9 @@ public class ChieftainAMDCards
 
 	public class PlusZeroAddPlusOneForEachOfYourSummons : ChieftainAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0, $"+X{Icons.Inline(Icons.Attack)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"Add +1{Icons.Inline(Icons.Attack, richTextParameters)} for each of your summons");
@@ -102,6 +112,9 @@ public class ChieftainAMDCards
 
 	public class PlusOneIfDrawnBySummonRolling : ChieftainAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1, $"{Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText: $"If this card is drawn by one of your summons, it is considered {Icons.Inline(Icons.Rolling, richTextParameters)}");

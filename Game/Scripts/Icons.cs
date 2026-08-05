@@ -100,11 +100,11 @@ public static class Icons
 		return $"res://Art/Markers/{markerType.ToString().Replace("_", string.Empty)}.png";
 	}
 
-	public static string InlineAOEPattern(AOEPattern aoePattern, RichTextParameters richTextParameters)
+	public static string InlineAOEPattern(AOEPattern aoePattern, RichTextParameters richTextParameters, float scale = 1)
 	{
 		string path = GetAOEPattern(aoePattern);
 		Texture2D aoePatternImage = ResourceLoader.Load<Texture2D>(path);
-		int overrideHeight = (richTextParameters.FontSize * aoePatternImage.GetHeight()) / 100;
+		int overrideHeight = (int)(richTextParameters.FontSize * scale * aoePatternImage.GetHeight() / 100);
 		return Inline(path, richTextParameters, true, overrideHeight: overrideHeight);
 	}
 

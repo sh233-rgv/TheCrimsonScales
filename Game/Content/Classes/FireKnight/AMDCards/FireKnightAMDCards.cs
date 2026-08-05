@@ -4,6 +4,9 @@ public class FireKnightAMDCards
 {
 	public class PlusZeroStrengthenAlly : FireKnightAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0, $"{Icons.InlineCondition(Conditions.Strengthen, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText:
@@ -24,6 +27,10 @@ public class FireKnightAMDCards
 
 	public class PlusZeroHealOneRangeOneRolling : FireKnightAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(Icons.Heal, richTextParameters)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.Range, richTextParameters)}1", rolling: true);
@@ -43,6 +50,10 @@ public class FireKnightAMDCards
 
 	public class PlusZeroIfYouAreOnLadderPlusTwoInstead : FireKnightAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(FireKnightCardSide.LadderIconPath, richTextParameters)}:{Icons.Inline(Icons.GetAMDValue("+2"))}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
 				extraText:
@@ -84,6 +95,9 @@ public class FireKnightAMDCards
 
 	public class PlusOneStrengthenAlly : FireKnightAMDCardModel
 	{
+		public override string GetSimpleString(RichTextParameters richTextParameters) =>
+			GetSimpleString(richTextParameters, +1, $"{Icons.InlineCondition(Conditions.Strengthen, richTextParameters)}");
+
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
 				extraText:
