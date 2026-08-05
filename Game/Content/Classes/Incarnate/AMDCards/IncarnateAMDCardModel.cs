@@ -1,4 +1,4 @@
-﻿public abstract class RuinmawAMDCardModel : AMDCardModel
+﻿public abstract class IncarnateAMDCardModel : AMDCardModel
 {
 	protected override string GetTexturePath(AMDCardOwner owner) => "res://Content/Classes/Ruinmaw/AMDCards.jpg";
 	protected override int ColumnCount => 3;

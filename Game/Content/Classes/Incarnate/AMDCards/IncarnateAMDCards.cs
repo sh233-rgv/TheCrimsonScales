@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
 
-public class RuinmawAMDCards
+public class IncarnateAMDCards
 {
-	public class PlusZeroRupture : RuinmawAMDCardModel
+	public class PlusZeroRupture : IncarnateAMDCardModel
 	{
 		protected override int AtlasIndex => 0;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) => [Conditions.Rupture];
 	}
 
-	public class PlusZeroWound : RuinmawAMDCardModel
+	public class PlusZeroWound : IncarnateAMDCardModel
 	{
 		protected override int AtlasIndex => 1;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 		public override List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) => [Conditions.Wound1];
 	}
 
-	public class PlusOnePlusThreeInsteadIfTargetHasRuptureOrWound : RuinmawAMDCardModel
+	public class PlusOnePlusThreeInsteadIfTargetHasRuptureOrWound : IncarnateAMDCardModel
 	{
 		public override string GetSimpleString(RichTextParameters richTextParameters) =>
 			GetSimpleString(richTextParameters, +1,
@@ -35,7 +35,7 @@ public class RuinmawAMDCards
 			attackAbilityState?.Target.HasWound() == true || attackAbilityState?.Target.HasCondition(Conditions.Rupture) == true ? +3 : +1;
 	}
 
-	public class PlusZeroHealOneEmpowerSelfRolling : RuinmawAMDCardModel
+	public class PlusZeroHealOneEmpowerSelfRolling : IncarnateAMDCardModel
 	{
 		public override string GetSimpleString(RichTextParameters richTextParameters) =>
 			GetSimpleString(richTextParameters, +0,
@@ -43,7 +43,7 @@ public class RuinmawAMDCards
 
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.GetCondition(Ruinmaw.Empower))}, self",
+				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.GetCondition(Incarnate.Empower))}, self",
 				rolling: true);
 
 		protected override int AtlasIndex => 3;
@@ -52,11 +52,11 @@ public class RuinmawAMDCards
 
 		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 		[
-			HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).WithConditions(Ruinmaw.Empower).Build()
+			HealAbility.Builder().WithHealValue(1).WithTarget(Target.Self).WithConditions(Incarnate.Empower).Build()
 		];
 	}
 
-	public class PlusTwoIfThisAttackKillsTargetGainMoneyTokenDirectly : RuinmawAMDCardModel
+	public class PlusTwoIfThisAttackKillsTargetGainMoneyTokenDirectly : IncarnateAMDCardModel
 	{
 		public override string GetSimpleString(RichTextParameters richTextParameters) =>
 			GetSimpleString(richTextParameters, +2, $"{Icons.Inline(Icons.Coins, richTextParameters)}");
