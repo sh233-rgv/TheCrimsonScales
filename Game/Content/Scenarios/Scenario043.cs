@@ -126,10 +126,16 @@ public class Scenario043 : ScenarioModel
 							.Where(hex => hex.IsEmpty() || (hex.IsUnoccupied() && hex.GetHexObjectOfType<Trap>() != null)));
 					}, "Select a boulder to move");
 
-				movedToHex.GetHexObjectOfType<Trap>()?.Destroy();
-				foreach(Coin coin in movedToHex.GetHexObjectsOfType<Coin>())
+				if(movedToHex != null)
 				{
-					await coin.Destroy();
+					foreach(Trap trap in movedToHex.GetHexObjectsOfType<Trap>())
+					{
+						await trap.Destroy();
+					}
+					foreach(Coin coin in movedToHex.GetHexObjectsOfType<Coin>())
+					{
+						await coin.Destroy();
+					}
 				}
 			},
 			EffectType.Selectable,
