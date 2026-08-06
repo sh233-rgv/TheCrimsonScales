@@ -28,7 +28,7 @@ public partial class AbilityCardViewCharacterToken : Control
 		Control parent = GetParent<Control>();
 		_normalizedPosition = position;
 		Position = _normalizedPosition * parent.Size - 0.5f * Size;
-		if(count > 1)
+		if(count > 0)
 		{
 			_countLabel.SetText(count.ToString());
 			_countLabel.Show();

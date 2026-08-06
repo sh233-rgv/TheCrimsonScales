@@ -15,15 +15,15 @@ grow_vertical = 2
 script = ExtResource("1_ybs26")
 _cards = ExtResource("2_u76aj")
 _columnCount = 5
-_rowCount = 3
+_rowCount = 4
 _cardContainer = NodePath("CardContainer")
 _cardTextureRect = NodePath("CardContainer/TextureRect")
 _markerContainer = NodePath("Marker")
 
 [node name="CardContainer" type="Control" parent="." unique_id=1956068207]
 anchors_preset = 0
-offset_right = 343.0
-offset_bottom = 389.0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="TextureRect" type="TextureRect" parent="CardContainer" unique_id=1901051091]
 layout_mode = 1
