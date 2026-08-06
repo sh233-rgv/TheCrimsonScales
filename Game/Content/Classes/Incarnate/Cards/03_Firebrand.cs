@@ -36,20 +36,25 @@ public class Firebrand : IncarnateCardModel<Firebrand.CardTop, Firebrand.CardBot
 
 	public class CardBottom : IncarnateCardSide
 	{
+		private AttackDiamond _attackEnhancementMark;
+
+		protected override void InitExtraEnhancements()
+		{
+			base.InitExtraEnhancements();
+
+			_attackEnhancementMark = new AttackDiamond(this, new Vector2(0.66363853f, 0.7911358f));
+		}
+
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.62153083f, 0.6562558f)))
+			new AbilityCardAbility(AttackAbility.Builder()
+				.WithDamage(2)
 				.Build()),
-			new AbilityCardAbility(ConditionAbility.Builder()
-				.WithConditions(Conditions.Rupture)
+			new AbilityCardAbility(GrantAbility.Builder()
+				.WithAbilities(AttackAbility.Builder().WithDamage(2, _attackEnhancementMark).Build())
 				.WithRange(1)
-				.WithConditionalAbilityCheck(state => InSpirit(state, IncarnateSpirit.Reaver))
-				.WithOnAbilityEndedPerformed(async state =>
-				{
-					await AbilityCmd.GainXP(state.Performer, 1);
-				})
-				.Build())
+				.WithConditionalAbilityCheck(state => InSpirit(state, IncarnateSpirit.Conqueror))
+				.Build()),
 		];
 
 		protected override IEnumerable<IncarnateSpirit> SwitchSpiritChoices => [IncarnateSpirit.Reaver];
