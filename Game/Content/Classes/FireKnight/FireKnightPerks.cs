@@ -152,6 +152,7 @@ public class FireKnightPerks
 				{
 					await AbilityCmd.InfuseElement(null, Element.Fire, character);
 					disadvantage = true;
+					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(this);
 				});
 
 			ScenarioEvents.DoorOpenedEvent.Subscribe(this,

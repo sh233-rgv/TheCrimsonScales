@@ -65,7 +65,7 @@ public class Flashover : FireKnightLevelUpCardModel<Flashover.CardTop, Flashover
 				.WithOnDeactivate(async state =>
 				{
 					ScenarioEvents.FigureKilledEvent.Unsubscribe(state, this);
-					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(state, this);
+					ScenarioEvents.FigureTurnEndingEvent.Unsubscribe(state, this);
 
 					await GDTask.CompletedTask;
 				})
