@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Fractural.Tasks;
+using Godot;
 
 /// <summary>
 /// An <see cref="ActiveAbility{T}"/> that does not neatly fit any other dedicated ability implementation.
@@ -9,12 +10,20 @@ public class OtherActiveAbility : ActiveAbility<OtherActiveAbility.State>
 {
 	public class State : ActiveAbilityState
 	{
+		public int CharacterTokens { get; private set; }
+		public Vector2 CharacterTokenPosition { get; set; }
+
+		public void AdjustCharacterTokens(int amount)
+		{
+			CharacterTokens += amount;
+		}
 	}
 
 	public Func<State, GDTask> OnActivate { get; private set; }
 	public Func<State, GDTask> OnDeactivate { get; private set; }
 
 	public bool SkipConfimation { get; private set; }
+	public Vector2 CharacterTokenPosition { get; private set; }
 
 	/// <summary>
 	/// A builder extending <see cref="ActiveAbility{T}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods
@@ -55,6 +64,12 @@ public class OtherActiveAbility : ActiveAbility<OtherActiveAbility.State>
 			Obj.SkipConfimation = true;
 			return (TBuilder)this;
 		}
+
+		public TBuilder WithCharacterTokenPosition(Vector2 position)
+		{
+			Obj.CharacterTokenPosition = position;
+			return (TBuilder)this;
+		}
 	}
 
 	/// <summary>
@@ -76,6 +91,13 @@ public class OtherActiveAbility : ActiveAbility<OtherActiveAbility.State>
 	}
 
 	public OtherActiveAbility() { }
+
+	protected override void InitializeState(State abilityState)
+	{
+		base.InitializeState(abilityState);
+
+		abilityState.CharacterTokenPosition = CharacterTokenPosition;
+	}
 
 	protected override async GDTask Perform(State abilityState)
 	{
