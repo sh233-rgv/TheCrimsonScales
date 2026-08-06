@@ -30,7 +30,8 @@ public class TelescopicLens : Prosperity8Item
 					ScenarioEvents.AbilityStartedEvent.Subscribe(this, subscriber,
 						parameters =>
 							parameters.AbilityState.ActionState == state.ActionState &&
-							parameters.AbilityState is AttackAbility.State,
+							parameters.AbilityState is AttackAbility.State &&
+							state.AbilityRangeType == RangeType.Range,
 						async parameters =>
 						{
 							AttackAbility.State attackAbilityState = ((AttackAbility.State)parameters.AbilityState);
