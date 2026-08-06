@@ -19,7 +19,7 @@ public class Firebrand : IncarnateCardModel<Firebrand.CardTop, Firebrand.CardBot
 				.WithDamage(1)
 				.WithTarget(Target.TargetAll | Target.Enemies)
 				.WithRange(1)
-				.WithConditionalAbilityCheck()
+				//.WithConditionalAbilityCheck()
 				.Build())
 		];
 

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
 
-public class A : IncarnateCardModel<A.CardTop, A.CardBottom>
+public class StripFlesh : IncarnateCardModel<StripFlesh.CardTop, StripFlesh.CardBottom>
 {
 	public override string Name => "Strip Flesh";
 	public override int Level => 1;
