@@ -19,11 +19,19 @@ public class Firebrand : IncarnateCardModel<Firebrand.CardTop, Firebrand.CardBot
 				.WithDamage(1)
 				.WithTarget(Target.TargetAll | Target.Enemies)
 				.WithRange(1)
-				//.WithConditionalAbilityCheck()
+				.WithConditionalAbilityCheck(state => InSpirit(state, IncarnateSpirit.Reaver))
+				.WithOnAbilityEndedPerformed(async state =>
+				{
+					await AbilityCmd.InfuseElement(state, Element.Fire);
+				})
+				.Build()),
+			new AbilityCardAbility(RetaliateAbility.Builder()
+				.WithRetaliateValue(1, new RetaliateDiamondPlus(this, new Vector2(0.61930263f, 0.3556787f)))
 				.Build())
 		];
 
-		protected override IEnumerable<IncarnateSpirit> SwitchSpiritChoices => [IncarnateSpirit.Reaver];
+		protected override IEnumerable<IncarnateSpirit> SwitchSpiritChoices => [IncarnateSpirit.Conqueror];
+		public override bool Round => true;
 	}
 
 	public class CardBottom : IncarnateCardSide
@@ -44,6 +52,7 @@ public class Firebrand : IncarnateCardModel<Firebrand.CardTop, Firebrand.CardBot
 				.Build())
 		];
 
-		protected override IEnumerable<IncarnateSpirit> SwitchSpiritChoices => [IncarnateSpirit.Ritualist];
+		protected override IEnumerable<IncarnateSpirit> SwitchSpiritChoices => [IncarnateSpirit.Reaver];
+		public override int XP => 1;
 	}
 }
