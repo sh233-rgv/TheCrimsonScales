@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public partial class Incarnate : Character, IHasEmpower, IHasEnfeeble
 {
@@ -6,11 +9,22 @@ public partial class Incarnate : Character, IHasEmpower, IHasEnfeeble
 	public const string ConquerorIconPath = "res://Content/Classes/Incarnate/Conqueror.svg";
 	public const string ReaverIconPath = "res://Content/Classes/Incarnate/Reaver.svg";
 
+	public static readonly Dictionary<IncarnateSpirit, string> SpiritIconPaths = new Dictionary<IncarnateSpirit, string>
+	{
+		{ IncarnateSpirit.Ritualist, RitualistIconPath },
+		{ IncarnateSpirit.Conqueror, ConquerorIconPath },
+		{ IncarnateSpirit.Reaver, ReaverIconPath },
+	};
+
 	public static EmpowerIncarnate Empower { get; } = ModelDB.Condition<EmpowerIncarnate>();
 	public static EnfeebleIncarnate Enfeeble { get; } = ModelDB.Condition<EnfeebleIncarnate>();
 
-	//[Export]
-	//private IncarnateSpiritIndicator _spiritIndicator;
+	[Export]
+	private Sprite2D _ritualistIndicator;
+	[Export]
+	private Sprite2D _conquerorIndicator;
+	[Export]
+	private Sprite2D _reaverIndicator;
 
 	private bool _satedAppliedThisTurn;
 
@@ -18,41 +32,71 @@ public partial class Incarnate : Character, IHasEmpower, IHasEnfeeble
 	public int RemainingEmpowerCount { get; set; } = 10;
 	public int RemainingEnfeebleCount { get; set; } = 10;
 
-	public async GDTask SwitchSpirit(IncarnateSpirit spirit)
+	public override async GDTask Spawn(SavedCharacter savedCharacter, int index)
+	{
+		await base.Spawn(savedCharacter, index);
+
+		object subscriber = new object();
+		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(this, subscriber,
+			parameters => parameters.Figure == this,
+			parameters =>
+			{
+				parameters.Add(new InfoTextExtraEffect.Parameters(_ =>
+					$"{Icons.Inline($"res://Content/Classes/Incarnate/{Spirit}.svg")}"));
+			}
+		);
+	}
+
+	public async GDTask ChooseSpirit(IEnumerable<IncarnateSpirit> choices)
+	{
+		IEnumerable<IncarnateSpirit> incarnateSpirits = choices.ToList();
+		if(incarnateSpirits.Count() == 1)
+		{
+			await SwitchSpirit(incarnateSpirits.First());
+		}
+
+		List<ScenarioEvents.GenericChoice.Subscription> subscriptions = [];
+		foreach(IncarnateSpirit spirit in incarnateSpirits)
+		{
+			subscriptions.Add(ScenarioEvents.GenericChoice.Subscription.New(
+				applyFunction: async _ =>
+				{
+					await SwitchSpirit(spirit);
+				},
+				effectType: EffectType.SelectableMandatory,
+				effectButtonParameters: new IconEffectButton.Parameters(SpiritIconPaths[spirit]),
+				effectInfoViewParameters: new TextEffectInfoView.Parameters(
+					$"{Icons.Inline(SpiritIconPaths[spirit])}")
+			));
+		}
+
+		await AbilityCmd.GenericChoice(this, subscriptions, hintText: "Select a condition to remove");
+	}
+
+	private async GDTask SwitchSpirit(IncarnateSpirit spirit)
 	{
 		if(Spirit == spirit)
 		{
 			return;
 		}
 
-		object subscriber = new object();
-		ScenarioEvents.FigureTurnEndedEvent.Subscribe(this, subscriber,
-			canApplyParameters => canApplyParameters.Figure == this,
-			async _ =>
-			{
-				if(_satedAppliedThisTurn)
-				{
-					_satedAppliedThisTurn = false;
-				}
-				else
-				{
-
-					ScenarioEvents.FigureTurnEndedEvent.Unsubscribe(this, subscriber);
-					ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Unsubscribe(this, subscriber);
-				}
-
-				await GDTask.CompletedTask;
-			});
-		ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(this, subscriber,
-			parameters => parameters.Figure == this,
-			parameters =>
-			{
-				parameters.Add(new InfoTextExtraEffect.Parameters(_ =>
-					$"{Icons.Inline("res://Content/Classes/Ruinmaw/RuinmawSated.png")}"));
-			}
-		);
-
 		Spirit = spirit;
+		_ritualistIndicator.Hide();
+		_reaverIndicator.Hide();
+		_conquerorIndicator.Hide();
+
+		switch(Spirit)
+		{
+			case IncarnateSpirit.Ritualist:
+				_ritualistIndicator.Show();
+				break;
+			case IncarnateSpirit.Conqueror:
+				_conquerorIndicator.Show();
+				break;
+			case IncarnateSpirit.Reaver:
+				_reaverIndicator.Show();
+				break;
+		}
 
 		await GDTask.CompletedTask;
 	}
