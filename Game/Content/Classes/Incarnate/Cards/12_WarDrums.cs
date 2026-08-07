@@ -21,7 +21,7 @@ public class WarDrums : IncarnateCardModel<WarDrums.CardTop, WarDrums.CardBottom
 						              RangeHelper.Distance(parameters.Performer.Hex, state.Performer.Hex) <= 2,
 						async parameters =>
 						{
-							if(parameters.Performer.AlliedWith(parameters.Performer))
+							if(state.Performer.AlliedWith(parameters.Performer))
 							{
 								parameters.AbilityState.SingleTargetAdjustAttackValue(1);
 							}

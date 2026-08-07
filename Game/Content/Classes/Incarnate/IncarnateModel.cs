@@ -34,10 +34,11 @@ public class IncarnateModel : ClassModel
 		ModelDB.AbilityCard<PakhsLunge>(),
 		ModelDB.AbilityCard<WarbornsShout>(),
 		ModelDB.AbilityCard<GolsTonic>(),
-
 		ModelDB.AbilityCard<HandsOfThreeTribes>(),
+
 		ModelDB.AbilityCard<AncestralBlade>(),
 		ModelDB.AbilityCard<WarDrums>(),
+		ModelDB.AbilityCard<WieldedMemory>(),
 	];
 
 	public override List<PerkModel> Perks { get; } =

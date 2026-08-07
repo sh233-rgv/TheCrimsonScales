@@ -19,8 +19,8 @@ public class WarbornsShout : IncarnateCardModel<WarbornsShout.CardTop, WarbornsS
 				.WithAOEPattern(new AOEPattern(
 						[
 							new AOEHex(Vector2I.Zero, AOEHexType.Gray),
-							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Empty),
-							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Empty),
+							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast), AOEHexType.Red),
+							new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
 							new AOEHex(Vector2I.Zero.Add(Direction.NorthEast).Add(Direction.NorthEast), AOEHexType.Red),
 							new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.NorthEast), AOEHexType.Red),
 							new AOEHex(Vector2I.Zero.Add(Direction.East).Add(Direction.East), AOEHexType.Red),
@@ -34,7 +34,7 @@ public class WarbornsShout : IncarnateCardModel<WarbornsShout.CardTop, WarbornsS
 				.WithTarget(Target.Allies | Target.TargetAll)
 				.WithCustomGetTargets((abilityState, list) =>
 				{
-					AttackAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<AttackAbility.State>(0);
+					ConditionAbility.State attackAbilityState = abilityState.ActionState.GetAbilityState<ConditionAbility.State>(0);
 
 					list.AddRange(attackAbilityState
 						.GetRedAOEHexes()

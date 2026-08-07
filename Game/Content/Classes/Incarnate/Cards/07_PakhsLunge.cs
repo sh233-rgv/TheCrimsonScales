@@ -15,13 +15,12 @@ public class PakhsLunge : IncarnateCardModel<PakhsLunge.CardTop, PakhsLunge.Card
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3, new AttackDiamond(this, new Vector2(0.61930263f, 0.23157895f), EnhancementCostType.MultiTarget))
-				.WithDuringAttackSubscriptions(
-				[
-					ScenarioEvents.DuringAttack.Subscription.New(
+				.WithAbilityStartedSubscription(
+					ScenarioEvents.AbilityStarted.Subscription.New(
 						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Ritualist),
 						async parameters =>
 						{
-							parameters.AbilityState.AbilitySetAOEPattern(new AOEPattern(
+							((AttackAbility.State)parameters.AbilityState).AbilitySetAOEPattern(new AOEPattern(
 								[
 									new AOEHex(Vector2I.Zero, AOEHexType.Gray),
 									new AOEHex(Vector2I.Zero.Add(Direction.East), AOEHexType.Red),
@@ -30,7 +29,8 @@ public class PakhsLunge : IncarnateCardModel<PakhsLunge.CardTop, PakhsLunge.Card
 							));
 
 							await GDTask.CompletedTask;
-						}),
+						}))
+				.WithDuringAttackSubscription(
 					ScenarioEvents.DuringAttack.Subscription.New(
 						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Conqueror),
 						async parameters =>
@@ -38,8 +38,7 @@ public class PakhsLunge : IncarnateCardModel<PakhsLunge.CardTop, PakhsLunge.Card
 							parameters.AbilityState.AbilityAdjustPush(2);
 
 							await AbilityCmd.GainXP(parameters.Performer, 1);
-						}),
-				])
+						}))
 				.Build())
 		];
 	}
