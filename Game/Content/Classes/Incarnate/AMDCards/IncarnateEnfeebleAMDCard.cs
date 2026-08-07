@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public class IncarnateEnfeebleAMDCard : EmpowerAMDCard
 {
 	public override string GetSimpleString(RichTextParameters richTextParameters) =>
-		GetSimpleString(richTextParameters, -1, $"{Icons.InlineCondition(Conditions.Muddle, richTextParameters)}");
+		GetSimpleString(richTextParameters, -1, $"{Icons.InlineCondition(Conditions.Muddle, richTextParameters)}", petals: "Enfeeble");
 
 	public override string ToString(RichTextParameters richTextParameters) =>
 		GetBasicString(richTextParameters, -1, extraText: $"{Icons.InlineCondition(Conditions.Muddle, richTextParameters)}, self",

@@ -5,7 +5,7 @@ public class IncarnateModel : ClassModel
 {
 	public override string Name => "Incarnate";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.High;
-	public override int HandSize => 11;
+	public override int HandSize => 14;
 	public override Ancestry Ancestry => Ancestry.Inox;
 
 	public override List<EventModel> UnlockEvents { get; } =
@@ -24,6 +24,20 @@ public class IncarnateModel : ClassModel
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
+		ModelDB.AbilityCard<AncientBanner>(),
+		ModelDB.AbilityCard<FarseersPilum>(),
+		ModelDB.AbilityCard<VitalTether>(),
+		ModelDB.AbilityCard<Firebrand>(),
+		ModelDB.AbilityCard<TomegsShieldArm>(),
+		ModelDB.AbilityCard<VaskasCunning>(),
+		ModelDB.AbilityCard<MakusDeadlyAim>(),
+		ModelDB.AbilityCard<PakhsLunge>(),
+		ModelDB.AbilityCard<WarbornsShout>(),
+		ModelDB.AbilityCard<GolsTonic>(),
+
+		ModelDB.AbilityCard<HandsOfThreeTribes>(),
+		ModelDB.AbilityCard<AncestralBlade>(),
+		ModelDB.AbilityCard<WarDrums>(),
 	];
 
 	public override List<PerkModel> Perks { get; } =

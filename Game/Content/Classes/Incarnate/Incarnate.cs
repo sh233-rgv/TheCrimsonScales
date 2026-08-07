@@ -28,7 +28,7 @@ public partial class Incarnate : Character, IHasEmpower, IHasEnfeeble
 
 	private bool _satedAppliedThisTurn;
 
-	public IncarnateSpirit Spirit { get; private set; }
+	public IncarnateSpirit? Spirit { get; private set; }
 	public int RemainingEmpowerCount { get; set; } = 10;
 	public int RemainingEnfeebleCount { get; set; } = 10;
 
@@ -47,12 +47,20 @@ public partial class Incarnate : Character, IHasEmpower, IHasEnfeeble
 		);
 	}
 
+	public override async GDTask OnScenarioSetupCompleted()
+	{
+		await base.OnScenarioSetupCompleted();
+
+		await ChooseSpirit([IncarnateSpirit.Ritualist, IncarnateSpirit.Conqueror, IncarnateSpirit.Reaver]);
+	}
+
 	public async GDTask ChooseSpirit(IEnumerable<IncarnateSpirit> choices)
 	{
 		IEnumerable<IncarnateSpirit> incarnateSpirits = choices.ToList();
 		if(incarnateSpirits.Count() == 1)
 		{
 			await SwitchSpirit(incarnateSpirits.First());
+			return;
 		}
 
 		List<ScenarioEvents.GenericChoice.Subscription> subscriptions = [];
@@ -70,7 +78,7 @@ public partial class Incarnate : Character, IHasEmpower, IHasEnfeeble
 			));
 		}
 
-		await AbilityCmd.GenericChoice(this, subscriptions, hintText: "Select a condition to remove");
+		await AbilityCmd.GenericChoice(this, subscriptions, hintText: "Select a spirit");
 	}
 
 	private async GDTask SwitchSpirit(IncarnateSpirit spirit)

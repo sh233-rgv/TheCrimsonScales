@@ -183,13 +183,13 @@ public partial class GameController : SceneController<GameController>
 
 			if(string.IsNullOrEmpty(DefaultSavedGame))
 			{
-				savedCampaign = SavedCampaign.Test(true);
+				savedCampaign = SavedCampaign.Test();
 				float characterLevelSum = savedCampaign.Characters.Sum(character => character.Level);
 				savedCampaign.SetSavedScenario(new SavedScenario
 				{
 					Id = Guid.NewGuid(),
 					AppVersion = AppController.Instance.DeviceSaveData.AppVersion,
-					ScenarioModelId = ModelDB.Scenario<Scenario011>().Id.ToString(),
+					ScenarioModelId = ModelDB.Scenario<TestScenario>().Id.ToString(),
 					//Seed = GD.RandRange(0, int.MaxValue),
 					Seed = 0,
 					ScenarioLevel =

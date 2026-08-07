@@ -56,7 +56,7 @@ public class TomegsShieldArm : IncarnateCardModel<TomegsShieldArm.CardTop, Tomeg
 				.Build())
 		];
 
-		protected override IEnumerable<IncarnateSpirit> SwitchSpiritChoices => [IncarnateSpirit.Reaver];
+		protected override IEnumerable<IncarnateSpirit> SwitchSpiritChoices => [IncarnateSpirit.Conqueror];
 		public override int XP => 1;
 		public override bool Round => true;
 	}
