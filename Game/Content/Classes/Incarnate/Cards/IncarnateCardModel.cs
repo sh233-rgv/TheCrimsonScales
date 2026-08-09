@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public abstract class IncarnateCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : IncarnateCardSide
@@ -26,7 +25,7 @@ public abstract class IncarnateCardSide : AbilityCardSideModel
 		}
 	}
 
-	protected static bool InSpirit(Figure figure, IncarnateSpirit spirit)
+	public static bool InSpirit(Figure figure, IncarnateSpirit spirit)
 	{
 		if(figure is Incarnate incarnate)
 		{
@@ -47,7 +46,7 @@ public abstract class IncarnateCardSide : AbilityCardSideModel
 		return false;
 	}
 
-	private static async GDTask ChooseSpirit(Figure figure, IEnumerable<IncarnateSpirit> spiritChoices)
+	public static async GDTask ChooseSpirit(Figure figure, IEnumerable<IncarnateSpirit> spiritChoices)
 	{
 		if(figure is Incarnate incarnate)
 		{
@@ -55,5 +54,14 @@ public abstract class IncarnateCardSide : AbilityCardSideModel
 		}
 
 		await GDTask.CompletedTask;
+	}
+
+	protected static ScenarioEvent<T>.Subscription InSpiritSubscription<T>(IncarnateSpirit spirit,
+		ScenarioEvent<T>.ApplyFunction applyFunction = null)
+		where T : ScenarioEvent.ParametersBaseWithAbilityState
+	{
+		return ScenarioEvent<T>.Subscription.New(parameters => InSpirit(parameters.BaseAbilityState.Performer, spirit), applyFunction,
+			EffectType.MandatoryBeforeOptionals, 0,
+			false);
 	}
 }

@@ -17,8 +17,7 @@ public class MakusDeadlyAim : IncarnateCardModel<MakusDeadlyAim.CardTop, MakusDe
 				.WithDamage(3, new AttackDiamond(this, new Vector2(0.61930263f, 0.23157895f)))
 				.WithDuringAttackSubscriptions(
 				[
-					ScenarioEvents.DuringAttack.Subscription.New(
-						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Ritualist),
+					InSpiritSubscription<ScenarioEvents.DuringAttack.Parameters>(IncarnateSpirit.Ritualist,
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustRange(2);
@@ -26,14 +25,13 @@ public class MakusDeadlyAim : IncarnateCardModel<MakusDeadlyAim.CardTop, MakusDe
 
 							await AbilityCmd.GainXP(parameters.Performer, 1);
 						}),
-					ScenarioEvents.DuringAttack.Subscription.New(
-						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Reaver),
+					InSpiritSubscription<ScenarioEvents.DuringAttack.Parameters>(IncarnateSpirit.Reaver,
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustPierce(2);
 
 							await GDTask.CompletedTask;
-						}),
+						})
 				])
 				.Build())
 		];

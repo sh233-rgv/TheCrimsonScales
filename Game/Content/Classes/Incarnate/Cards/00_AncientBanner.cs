@@ -40,26 +40,26 @@ public class AncientBanner : IncarnateCardModel<AncientBanner.CardTop, AncientBa
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3, _moveEnhancementMark)
 				.WithDuringMovementSubscription(
-					ScenarioEvents.DuringMovement.Subscription.New(
-						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Ritualist),
+					InSpiritSubscription<ScenarioEvents.DuringMovement.Parameters>(IncarnateSpirit.Ritualist,
 						async parameters =>
 						{
 							parameters.AbilityState.AdjustMoveValue(2);
 
 							await GDTask.CompletedTask;
 						}))
+				.WithConditionalAbilityCheck(async state => !await InSpirit(state, IncarnateSpirit.Conqueror))
 				.Build()),
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3, _attackEnhancementMark)
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.New(
-						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Reaver),
+					InSpiritSubscription<ScenarioEvents.DuringAttack.Parameters>(IncarnateSpirit.Reaver,
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(2);
 
 							await GDTask.CompletedTask;
 						}))
+				.WithConditionalAbilityCheck(async state => !await InSpirit(state, IncarnateSpirit.Conqueror))
 				.Build())
 		];
 

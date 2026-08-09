@@ -8,6 +8,7 @@ public partial class Incarnate : Character, IHasEmpower, IHasEnfeeble
 	public const string RitualistIconPath = "res://Content/Classes/Incarnate/Ritualist.svg";
 	public const string ConquerorIconPath = "res://Content/Classes/Incarnate/Conqueror.svg";
 	public const string ReaverIconPath = "res://Content/Classes/Incarnate/Reaver.svg";
+	public const string ThreeSpiritIconPath = "res://Content/Classes/Incarnate/ThreeSpirit.png";
 
 	public static readonly Dictionary<IncarnateSpirit, string> SpiritIconPaths = new Dictionary<IncarnateSpirit, string>
 	{
@@ -56,8 +57,10 @@ public partial class Incarnate : Character, IHasEmpower, IHasEnfeeble
 
 	public async GDTask ChooseSpirit(IEnumerable<IncarnateSpirit> choices)
 	{
-		IEnumerable<IncarnateSpirit> incarnateSpirits = choices.ToList();
-		if(incarnateSpirits.Count() == 1)
+		List<IncarnateSpirit> incarnateSpirits = (await ScenarioEvents.ChangeIncarnateSpiritEvent.CreatePrompt(
+			new ScenarioEvents.ChangeIncarnateSpirit.Parameters(this, choices.ToList()))).SpiritChoices;
+
+		if(incarnateSpirits.Count == 1)
 		{
 			await SwitchSpirit(incarnateSpirits.First());
 			return;
@@ -106,7 +109,8 @@ public partial class Incarnate : Character, IHasEmpower, IHasEnfeeble
 				break;
 		}
 
-		await GDTask.CompletedTask;
+		await ScenarioEvents.IncarnateSpiritChangedEvent.CreatePrompt(
+			new ScenarioEvents.IncarnateSpiritChanged.Parameters(this));
 	}
 
 	public AMDCardModel CreateEmpower()

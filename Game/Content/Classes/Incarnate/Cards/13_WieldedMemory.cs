@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Fractural.Tasks;
+using System.Linq;
 using Godot;
 
 public class WieldedMemory : IncarnateCardModel<WieldedMemory.CardTop, WieldedMemory.CardBottom>
@@ -15,27 +15,17 @@ public class WieldedMemory : IncarnateCardModel<WieldedMemory.CardTop, WieldedMe
 		[
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3, new AttackDiamond(this, new Vector2(0.6191026f, 0.24412134f)))
-				.WithOnAbilityStarted(async state =>
-				{
-					ScenarioEvents.ItemStateChangedEvent.Subscribe(state, this,
-						canApplyParameters => canApplyParameters.Item.Owner == state.Performer &&
-						                      canApplyParameters.Item.ItemType is ItemType.OneHand or ItemType.TwoHands,
-						async applyParameters =>
+				.WithAfterTargetConfirmedSubscription(
+					ScenarioEvents.AttackAfterTargetConfirmed.Subscription.New(
+						parameters => parameters.AbilityState.ItemsUsed.Any(itemModel =>
+							itemModel.ItemType is ItemType.OneHand or ItemType.TwoHands && itemModel.Owner == parameters.Performer),
+						async parameters =>
 						{
-							state.AbilityAdjustAttackValue(2);
-							await AbilityCmd.GainXP(state.Performer, 1);
-							ScenarioEvents.ItemStateChangedEvent.Unsubscribe(state, this);
-						}
-					);
-					await GDTask.CompletedTask;
-				})
-				.WithOnAbilityEnded(async abilityState =>
-					{
-						ScenarioEvents.ItemStateChangedEvent.Unsubscribe(abilityState, this);
+							//TODO: Need to expand when you get +attack for multi-target attacks
+							parameters.AbilityState.SingleTargetAdjustAttackValue(2);
 
-						await GDTask.CompletedTask;
-					}
-				)
+							await AbilityCmd.GainXP(parameters.Performer, 1);
+						}))
 				.Build())
 		];
 	}

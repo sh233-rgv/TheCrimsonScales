@@ -17,8 +17,7 @@ public class FarseersPilum : IncarnateCardModel<FarseersPilum.CardTop, FarseersP
 				.WithDamage(5)
 				.WithRange(5)
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.New(
-						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Ritualist),
+					InSpiritSubscription<ScenarioEvents.DuringAttack.Parameters>(IncarnateSpirit.Ritualist,
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAddCondition(Incarnate.Enfeeble);

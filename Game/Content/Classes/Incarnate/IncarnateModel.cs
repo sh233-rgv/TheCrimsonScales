@@ -5,7 +5,7 @@ public class IncarnateModel : ClassModel
 {
 	public override string Name => "Incarnate";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.High;
-	public override int HandSize => 14;
+	public override int HandSize => 11;
 	public override Ancestry Ancestry => Ancestry.Inox;
 
 	public override List<EventModel> UnlockEvents { get; } =
@@ -39,10 +39,52 @@ public class IncarnateModel : ClassModel
 		ModelDB.AbilityCard<AncestralBlade>(),
 		ModelDB.AbilityCard<WarDrums>(),
 		ModelDB.AbilityCard<WieldedMemory>(),
+
+		ModelDB.AbilityCard<TheGraveBeckons>(),
+		ModelDB.AbilityCard<MatriarchsDominance>(),
+		ModelDB.AbilityCard<KousFavor>(),
+		ModelDB.AbilityCard<VengeanceOfAksut>(),
+		ModelDB.AbilityCard<MemoryOfTheHunt>(),
+		ModelDB.AbilityCard<AloneInTheEnd>(),
+		ModelDB.AbilityCard<BloodOfChampions>(),
+		ModelDB.AbilityCard<TheArmsOfOxcepi>(),
+		ModelDB.AbilityCard<HafsReverence>(),
+		ModelDB.AbilityCard<AwnusRetribution>(),
+		ModelDB.AbilityCard<SavvasCoreglassKnife>(),
+		ModelDB.AbilityCard<RemnantsOfTheBroken>(),
+		ModelDB.AbilityCard<WillOfTheHuntress>(),
+		ModelDB.AbilityCard<GiftOfTheDying>(),
+		ModelDB.AbilityCard<VadisLastStand>(),
+		ModelDB.AbilityCard<AukotusDefiantResolve>()
 	];
 
 	public override List<PerkModel> Perks { get; } =
 	[
+		ModelDB.Perk<IncarnatePerks.ReplaceOneMinusTwoWithOnePlusZeroRitualistConquerorReaverRolling>(),
 
+		ModelDB.Perk<IncarnatePerks.ReplaceOneMinusOneWithOnePlusZeroPierceTwoFireRolling>(),
+
+		ModelDB.Perk<IncarnatePerks.ReplaceOneMinusOneWithOnePlusZeroPushOneAirRolling>(),
+
+		ModelDB.Perk<IncarnatePerks.ReplaceOneMinusOneWithOnePlusZeroShieldOneEarthRolling>(),
+
+		ModelDB.Perk<IncarnatePerks.ReplaceOnePlusZeroWithOnePlusOneRitualistEnfeebleConquerorEmpowerSelf>(),
+		ModelDB.Perk<IncarnatePerks.ReplaceOnePlusZeroWithOnePlusOneRitualistEnfeebleConquerorEmpowerSelf>(),
+
+		ModelDB.Perk<IncarnatePerks.ReplaceOnePlusZeroWithOnePlusOneRitualistEnfeebleReaverRupture>(),
+		ModelDB.Perk<IncarnatePerks.ReplaceOnePlusZeroWithOnePlusOneRitualistEnfeebleReaverRupture>(),
+
+		ModelDB.Perk<IncarnatePerks.ReplaceOnePlusZeroWithOnePlusOneConquerorEmpowerSelfReaverRupture>(),
+		ModelDB.Perk<IncarnatePerks.ReplaceOnePlusZeroWithOnePlusOneConquerorEmpowerSelfReaverRupture>(),
+
+		ModelDB.Perk<IncarnatePerks.AddOnePlusZeroRecoverOneOrTwoHandItemRolling>(),
+
+		ModelDB.Perk<IncarnatePerks.IgnoreItemMinusOneEffectsRemoveOneMinusOne>(),
+
+		ModelDB.Perk<IncarnatePerks.NonAMD1>(),
+
+		ModelDB.Perk<IncarnatePerks.NonAMD2>(),
+
+		ModelDB.Perk<IncarnatePerks.NonAMD3>(),
 	];
 }

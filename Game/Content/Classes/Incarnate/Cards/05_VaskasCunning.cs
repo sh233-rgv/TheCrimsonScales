@@ -17,23 +17,21 @@ public class VaskasCunning : IncarnateCardModel<VaskasCunning.CardTop, VaskasCun
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.61930263f, 0.23157895f)))
 				.WithDuringAttackSubscriptions(
 				[
-					ScenarioEvents.DuringAttack.Subscription.New(
-						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Conqueror),
+					InSpiritSubscription<ScenarioEvents.DuringAttack.Parameters>(IncarnateSpirit.Conqueror,
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAddCondition(Conditions.Disarm);
 
 							await GDTask.CompletedTask;
 						}),
-					ScenarioEvents.DuringAttack.Subscription.New(
-						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Reaver),
+					InSpiritSubscription<ScenarioEvents.DuringAttack.Parameters>(IncarnateSpirit.Reaver,
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustAttackValue(1);
 							parameters.AbilityState.AbilityAddCondition(Conditions.Rupture);
 
 							await AbilityCmd.GainXP(parameters.Performer, 1);
-						}),
+						})
 				])
 				.Build())
 		];

@@ -10,7 +10,7 @@ public class IncarnateEmpowerAMDCard : EmpowerAMDCard
 		GetBasicString(richTextParameters, +1, extraText: $"{Icons.InlineCondition(Conditions.Strengthen, richTextParameters)}, self", rolling: true,
 			petals: "Empower");
 
-	protected override string GetTexturePath(AMDCardOwner owner) => "res://Content/Classes/Incarnate/AMDCards/AMDCards.png";
+	protected override string GetTexturePath(AMDCardOwner owner) => "res://Content/Classes/Incarnate/AMDCards.jpg";
 
 	//TODO: Update card texture
 	protected override int ColumnCount => 3;

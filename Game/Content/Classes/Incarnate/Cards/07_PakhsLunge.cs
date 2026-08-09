@@ -16,8 +16,7 @@ public class PakhsLunge : IncarnateCardModel<PakhsLunge.CardTop, PakhsLunge.Card
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(3, new AttackDiamond(this, new Vector2(0.61930263f, 0.23157895f), EnhancementCostType.MultiTarget))
 				.WithAbilityStartedSubscription(
-					ScenarioEvents.AbilityStarted.Subscription.New(
-						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Ritualist),
+					InSpiritSubscription<ScenarioEvents.AbilityStarted.Parameters>(IncarnateSpirit.Ritualist,
 						async parameters =>
 						{
 							((AttackAbility.State)parameters.AbilityState).AbilitySetAOEPattern(new AOEPattern(
@@ -31,8 +30,7 @@ public class PakhsLunge : IncarnateCardModel<PakhsLunge.CardTop, PakhsLunge.Card
 							await GDTask.CompletedTask;
 						}))
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.New(
-						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Conqueror),
+					InSpiritSubscription<ScenarioEvents.DuringAttack.Parameters>(IncarnateSpirit.Conqueror,
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustPush(2);
@@ -50,8 +48,7 @@ public class PakhsLunge : IncarnateCardModel<PakhsLunge.CardTop, PakhsLunge.Card
 			new AbilityCardAbility(MoveAbility.Builder()
 				.WithDistance(3, new MoveCircle(this, new Vector2(0.4159727f, 0.70249313f)))
 				.WithDuringMovementSubscription(
-					ScenarioEvents.DuringMovement.Subscription.New(
-						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Ritualist),
+					InSpiritSubscription<ScenarioEvents.DuringMovement.Parameters>(IncarnateSpirit.Ritualist,
 						async parameters =>
 						{
 							parameters.AbilityState.AdjustMoveValue(1);

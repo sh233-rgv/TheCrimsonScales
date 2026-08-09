@@ -17,8 +17,7 @@ public class VitalTether : IncarnateCardModel<VitalTether.CardTop, VitalTether.C
 				.WithRange(3)
 				.WithPull(1)
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.New(
-						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Ritualist),
+					InSpiritSubscription<ScenarioEvents.DuringAttack.Parameters>(IncarnateSpirit.Ritualist,
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAdjustRange(1);

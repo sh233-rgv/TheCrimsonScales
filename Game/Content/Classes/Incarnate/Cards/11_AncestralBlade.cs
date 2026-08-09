@@ -41,8 +41,7 @@ public class AncestralBlade : IncarnateCardModel<AncestralBlade.CardTop, Ancestr
 				.WithRange(2)
 				.WithRangeType(RangeType.Melee)
 				.WithDuringAttackSubscription(
-					ScenarioEvents.DuringAttack.Subscription.New(
-						parameters => InSpirit(parameters.Performer, IncarnateSpirit.Reaver),
+					InSpiritSubscription<ScenarioEvents.DuringAttack.Parameters>(IncarnateSpirit.Reaver,
 						async parameters =>
 						{
 							parameters.AbilityState.AbilityAddCondition(Conditions.Rupture);

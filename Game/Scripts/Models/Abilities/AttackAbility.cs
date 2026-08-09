@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 using GTweens.Builders;
@@ -14,6 +15,8 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 	{
 		public List<Figure> KilledTargets { get; } = new List<Figure>();
 		public List<Figure> DamagedTargets { get; } = new List<Figure>();
+		public List<ItemModel> ItemsUsed { get; } = [];
+
 		public int DamageDealt { get; set; } = 0;
 
 		public int AbilityAttackValue { get; set; }
@@ -101,6 +104,11 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		public void SingleTargetSetDrawAMDCard(bool drawAMDCard)
 		{
 			SingleTargetDrawAMDCard = drawAMDCard;
+		}
+
+		public void AddItemUsed(ItemModel item)
+		{
+			ItemsUsed.Add(item);
 		}
 	}
 
@@ -263,6 +271,15 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 	{
 		await base.StartPerform(abilityState);
 
+		ScenarioEvents.ItemUseEndedEvent.Subscribe(abilityState, this,
+			_ => true,
+			async parameters =>
+			{
+				abilityState.AddItemUsed(parameters.Item);
+
+				await GDTask.CompletedTask;
+			});
+
 		ScenarioEvents.DuringAttackEvent.Subscribe(abilityState, this, DuringAttackSubscriptions);
 		ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(abilityState, this, AfterTargetConfirmedSubscriptions);
 		ScenarioEvents.AfterAttackPerformedEvent.Subscribe(abilityState, this, AfterAttackPerformedSubscriptions);
@@ -272,6 +289,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 	{
 		await base.EndPerform(abilityState);
 
+		ScenarioEvents.ItemUseEndedEvent.Unsubscribe(abilityState, this);
 		ScenarioEvents.DuringAttackEvent.Unsubscribe(DuringAttackSubscriptions);
 		ScenarioEvents.AttackAfterTargetConfirmedEvent.Unsubscribe(AfterTargetConfirmedSubscriptions);
 		ScenarioEvents.AfterAttackPerformedEvent.Unsubscribe(AfterAttackPerformedSubscriptions);

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class IncarnateEnfeebleAMDCard : EmpowerAMDCard
+public class IncarnateEnfeebleAMDCard : EnfeebleAMDCard
 {
 	public override string GetSimpleString(RichTextParameters richTextParameters) =>
 		GetSimpleString(richTextParameters, -1, $"{Icons.InlineCondition(Conditions.Muddle, richTextParameters)}", petals: "Enfeeble");
@@ -9,7 +9,7 @@ public class IncarnateEnfeebleAMDCard : EmpowerAMDCard
 		GetBasicString(richTextParameters, -1, extraText: $"{Icons.InlineCondition(Conditions.Muddle, richTextParameters)}, self",
 			petals: "Enfeeble");
 
-	protected override string GetTexturePath(AMDCardOwner owner) => "res://Content/Classes/Incarnate/AMDCards/AMDCards.png";
+	protected override string GetTexturePath(AMDCardOwner owner) => "res://Content/Classes/Incarnate/AMDCards.jpg";
 
 	//TODO: Update card texture
 	protected override int ColumnCount => 3;
