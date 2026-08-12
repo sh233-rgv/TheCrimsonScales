@@ -162,7 +162,7 @@ public class SavedCampaign
 		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), null, "Moerasvoet");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), ModelDB.PersonalQuest<ExperiencedLeader>(), "Beschieter");
 		//savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), ModelDB.PersonalQuest<SpiritualGainsPersonalQuest>(), "Opperpriester");
-		savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), null, "Vuur Knecht");
+		savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), ModelDB.PersonalQuest<AnAdderDivides>(), "Vuur Knecht");
 		// savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), null, "Ketting Garde");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), null, "Dierenzitter");
 		// savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), ModelDB.PersonalQuest<AnAdderDivides>(), "Opperpriester");
