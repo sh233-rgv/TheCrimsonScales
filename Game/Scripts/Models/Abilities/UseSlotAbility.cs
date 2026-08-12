@@ -7,10 +7,10 @@ using Fractural.Tasks;
 /// </summary>
 public class UseSlotAbility : ActiveAbility<UseSlotAbility.State>
 {
-	public class State : ActiveAbilityState
+	public class State : ActiveAbilityState, IUseSlotsAbilityState
 	{
-		public List<UseSlot> Slots { get; private set; }
-		public int UseSlotIndex { get; private set; }
+		public List<UseSlot> Slots { get; set; }
+		public int UseSlotIndex { get; set; }
 
 		public void SetSlots(List<UseSlot> slots)
 		{
