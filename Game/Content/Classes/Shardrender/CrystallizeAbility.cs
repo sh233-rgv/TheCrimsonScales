@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 
 /// <summary>
@@ -7,10 +7,44 @@ using Fractural.Tasks;
 /// </summary>
 public class CrystallizeAbility : ActiveAbility<CrystallizeAbility.State>
 {
-	public class State : ActiveAbilityState
+	public class State : ActiveAbilityState, IUseSlotsAbilityState
 	{
+		public bool DiscardOtherCrystallize { get; set; }
+		public List<UseSlot> Slots { get; set; }
+		public int UseSlotIndex { get; set; }
 
+		public void SetSlots(List<UseSlot> slots)
+		{
+			Slots = slots;
+		}
+
+		public async GDTask AdvanceUseSlot()
+		{
+			UseSlot from = Slots[UseSlotIndex];
+
+			if(from.OnExit != null)
+			{
+				await from.OnExit.Invoke(this);
+			}
+
+			UseSlotIndex++;
+
+			if(UseSlotIndex >= Slots.Count)
+			{
+				await ActionState.RequestDiscardOrLose();
+			}
+		}
+
+		public async GDTask MoveBackUseSlot()
+		{
+			UseSlotIndex--;
+
+			await GDTask.CompletedTask;
+		}
 	}
+
+	public List<UseSlot> UseSlots { get; private set; } = [];
+	public bool DiscardOtherCrystallize { get; private set; } = true;
 
 	/// <summary>
 	/// A builder extending <see cref="ActiveAbility{T}.AbstractBuilder{TBuilder, TAbility}"/> with setter methods
@@ -18,10 +52,27 @@ public class CrystallizeAbility : ActiveAbility<CrystallizeAbility.State>
 	/// </summary>
 	/// <typeparam name="TBuilder"></typeparam> Any builder extending this AbstractBuilder.
 	/// <typeparam name="TAbility"></typeparam> Any ability extending CrystallizeAbility.
-	public new class AbstractBuilder<TBuilder, TAbility> : ActiveAbility<State>.AbstractBuilder<TBuilder, TAbility>
+	public new class AbstractBuilder<TBuilder, TAbility> : ActiveAbility<State>.AbstractBuilder<TBuilder, TAbility>,
+		AbstractBuilder<TBuilder, TAbility>.IUseSlotsStep
 		where TBuilder : AbstractBuilder<TBuilder, TAbility>
 		where TAbility : CrystallizeAbility, new()
 	{
+		public interface IUseSlotsStep
+		{
+			TBuilder WithUseSlots(List<UseSlot> useSlots);
+		}
+
+		public TBuilder WithUseSlots(List<UseSlot> useSlots)
+		{
+			Obj.UseSlots = useSlots;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithDiscardOtherCrystallize(bool discardOtherCrystallize)
+		{
+			Obj.DiscardOtherCrystallize = discardOtherCrystallize;
+			return (TBuilder)this;
+		}
 	}
 
 	/// <summary>
@@ -31,6 +82,15 @@ public class CrystallizeAbility : ActiveAbility<CrystallizeAbility.State>
 	public class CrystallizeBuilder : AbstractBuilder<CrystallizeBuilder, CrystallizeAbility>
 	{
 		internal CrystallizeBuilder() { }
+	}
+
+	/// <summary>
+	/// A convenience method that returns an instance of CrystallizeBuilder.
+	/// </summary>
+	/// <returns></returns>
+	public static CrystallizeBuilder.IUseSlotsStep Builder()
+	{
+		return new CrystallizeBuilder();
 	}
 
 	public CrystallizeAbility() { }
@@ -44,13 +104,34 @@ public class CrystallizeAbility : ActiveAbility<CrystallizeAbility.State>
 	{
 		await base.Activate(abilityState);
 
+		abilityState.SetSlots(UseSlots);
+		abilityState.DiscardOtherCrystallize = DiscardOtherCrystallize;
+
+		if(DiscardOtherCrystallize)
+		{
+			ActionState actionState = ((Character)abilityState.Performer).Cards
+				.SelectMany(card => card.ActiveActionStates)
+				.FirstOrDefault(actionState => actionState.AbilityStates.Any(state =>
+					state is State crystallizeState && crystallizeState != abilityState && crystallizeState.DiscardOtherCrystallize));
+
+			if(actionState != null)
+			{
+				await actionState.RequestDiscardOrLose();
+			}
+		}
+
 		ScenarioEvents.JustBeforeSufferDamageEvent.Subscribe(abilityState, this,
-			parameters => parameters.Prevented);
+			parameters => !parameters.Prevented && parameters.Damage > 0,
+			async _ =>
+			{
+				await abilityState.AdvanceUseSlot();
+			}, canApplyMultipleTimesInEffectCollection: true);
 	}
 
 	protected override async GDTask Deactivate(State abilityState)
 	{
 		await base.Deactivate(abilityState);
-	}
 
+		ScenarioEvents.JustBeforeSufferDamageEvent.Unsubscribe(abilityState, this);
+	}
 }

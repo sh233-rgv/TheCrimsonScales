@@ -18,17 +18,15 @@ public class ShardrenderModel : ClassModel
 
 	public override string AssetPath => "res://Content/Classes/Shardrender";
 	public override Color PrimaryColor => Color.FromHtml("f7ce65");
-	public override Color SecondaryColor => Color.FromHtml("87702a"); //TODO
+	public override Color SecondaryColor => Color.FromHtml("87702a");
 
 	public override PackedScene Scene => SceneLoader.LoadPackedScene($"{AssetPath}/Shardrender.tscn");
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
-
 	];
 
 	public override List<PerkModel> Perks { get; } =
 	[
-
 	];
 }
