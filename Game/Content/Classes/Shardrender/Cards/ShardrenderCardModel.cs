@@ -115,11 +115,11 @@ public abstract class ShardrenderCardSide : AbilityCardSideModel
 
 				await applyFunction(parameters);
 			}, EffectType.Selectable, canApplyMultipleTimesDuringSubscription: canApplyMultipleTimesDuringSubscription,
-			effectButtonParameters: new TextEffectButton.Parameters($"{Icons.HintText(CrystallizeForwardIconPath)}"),
+			effectButtonParameters: new IconEffectButton.Parameters(CrystallizeForwardIconPath),
 			effectInfoViewParameters: effectInfoViewParameters);
 	}
 
-	private Dictionary<AbilityCard, CrystallizeAbility.State> GetActiveCrystallizeStates(Character character)
+	protected Dictionary<AbilityCard, CrystallizeAbility.State> GetActiveCrystallizeStates(Character character)
 	{
 		Dictionary<AbilityCard, CrystallizeAbility.State> possibilities = [];
 		foreach(AbilityCard card in character.Cards)
@@ -139,5 +139,43 @@ public abstract class ShardrenderCardSide : AbilityCardSideModel
 		}
 
 		return possibilities;
+	}
+
+	protected async GDTask<bool> AdvanceCrystallizeConditionalAbilityCheck(Figure figure, EffectInfoViewParameters effectInfoViewParameters)
+	{
+		Dictionary<AbilityCard, CrystallizeAbility.State> possibilities =
+			GetActiveCrystallizeStates(figure as Character);
+		if(possibilities.Count == 0)
+		{
+			return false;
+		}
+
+		bool movedCrystallizeForward = false;
+		await AbilityCmd.GenericChoice(figure,
+			[
+				ScenarioEvents.GenericChoice.Subscription.New(
+					_ => true,
+					async _ =>
+					{
+						if(possibilities.Count == 1)
+						{
+							await possibilities.First().Value.AdvanceUseSlot();
+						}
+						else
+						{
+							AbilityCard abilityCard = await AbilityCmd.SelectAbilityCard(figure,
+								cards => cards.AddRange(possibilities.Keys), null, true,
+								hintText: $"Select a {Icons.HintText(CrystallizeIconPath)} to move the character token backward one slot.");
+
+							await possibilities[abilityCard].AdvanceUseSlot();
+						}
+
+						movedCrystallizeForward = true;
+						await GDTask.CompletedTask;
+					}, EffectType.Selectable,
+					effectButtonParameters: new IconEffectButton.Parameters(CrystallizeForwardIconPath),
+					effectInfoViewParameters: effectInfoViewParameters)
+			], hintText: $"{Icons.HintText(CrystallizeForwardIconPath)} to perform ability?");
+		return movedCrystallizeForward;
 	}
 }

@@ -49,7 +49,7 @@ public static class AbilityCmd
 		await card.SetCardState(CardState.Hand);
 	}
 
-	public static OtherActiveAbility AllOpposingAttacksGainDisadvantageActiveAbility()
+	public static OtherActiveAbility AllOpposingAttacksGainDisadvantageActiveAbility(bool round = true)
 	{
 		return OtherActiveAbility.Builder()
 			.WithOnActivate(async state =>
@@ -72,7 +72,8 @@ public static class AbilityCmd
 				ScenarioCheckEvents.FigureInfoItemExtraEffectsCheckEvent.Subscribe(state, state.Performer,
 					parameters => state.Performer == parameters.Figure,
 					parameters => parameters.Add(
-						new InfoTextExtraEffect.Parameters(textParameters => "All attacks targeting this figure this round gain disadvantage."))
+						new InfoTextExtraEffect.Parameters(textParameters =>
+							$"All attacks targeting this figure {(round ? "this round" : "")} gain disadvantage."))
 				);
 
 				await GDTask.CompletedTask;
