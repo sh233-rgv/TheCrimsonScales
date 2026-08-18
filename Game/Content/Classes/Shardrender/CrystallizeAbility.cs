@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 /// <summary>
 /// An <see cref="ActiveAbility{T}"/> that has a number of uses before it is discarded/lost.
@@ -31,6 +32,8 @@ public class CrystallizeAbility : ActiveAbility<CrystallizeAbility.State>
 
 			if(UseSlotIndex >= Slots.Count)
 			{
+				await ScenarioEvents.CrystallizeOffLastSlotEvent.CreatePrompt(
+					new ScenarioEvents.CrystallizeOffLastSlot.Parameters(Performer));
 				await ActionState.RequestDiscardOrLose();
 			}
 		}
@@ -97,7 +100,7 @@ public class CrystallizeAbility : ActiveAbility<CrystallizeAbility.State>
 
 	protected override async GDTask Perform(State abilityState)
 	{
-		await AskConfirmAndActivate(abilityState);
+		await Activate(abilityState);
 	}
 
 	protected override async GDTask Activate(State abilityState)
@@ -120,18 +123,21 @@ public class CrystallizeAbility : ActiveAbility<CrystallizeAbility.State>
 			}
 		}
 
-		ScenarioEvents.JustBeforeSufferDamageEvent.Subscribe(abilityState, this,
-			parameters => !parameters.Prevented && parameters.Damage > 0,
-			async _ =>
+		ScenarioEvents.SufferDamageEvent.Subscribe(abilityState, this,
+			parameters => parameters.WouldSufferDamage && parameters.FromAttack && parameters.Figure == abilityState.Performer &&
+			              abilityState.UseSlotIndex < abilityState.Slots.Count,
+			async parameters =>
 			{
+				parameters.AdjustFinalDamageAdjustment(-1);
+
 				await abilityState.AdvanceUseSlot();
-			}, canApplyMultipleTimesInEffectCollection: true);
+			}, EffectType.MandatoryAfterOptionals, 1000, canApplyMultipleTimesInEffectCollection: true);
 	}
 
 	protected override async GDTask Deactivate(State abilityState)
 	{
 		await base.Deactivate(abilityState);
 
-		ScenarioEvents.JustBeforeSufferDamageEvent.Unsubscribe(abilityState, this);
+		ScenarioEvents.SufferDamageEvent.Unsubscribe(abilityState, this);
 	}
 }

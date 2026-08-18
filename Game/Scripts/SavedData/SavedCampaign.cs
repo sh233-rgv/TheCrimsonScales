@@ -162,7 +162,7 @@ public class SavedCampaign
 		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), null, "Moerasvoet");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), ModelDB.PersonalQuest<ExperiencedLeader>(), "Beschieter");
 		//savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), ModelDB.PersonalQuest<SpiritualGainsPersonalQuest>(), "Opperpriester");
-		savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), null, "Vuur Knecht");
+		savedCampaign.AddCharacter(ModelDB.Class<ShardrenderModel>(), null, "Vuur Knecht");
 		// savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), null, "Ketting Garde");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), null, "Dierenzitter");
 		// savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), ModelDB.PersonalQuest<AnAdderDivides>(), "Opperpriester");
@@ -173,6 +173,7 @@ public class SavedCampaign
 
 		//savedCampaign.Characters[0].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<FalconFigurine>());
+		savedCampaign.Characters[1].SetEquippedSmallSlotItem(0, ModelDB.Item<FalconFigurine>());
 		//savedCampaign.Characters[1].SetEquippedSmallSlotItem(0, ModelDB.Item<ScrollOfCharisma>());
 		//savedCampaign.Characters[1].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[0].AddItem(ModelDB.Item<PoisonDagger>());
@@ -181,10 +182,6 @@ public class SavedCampaign
 		// 	30, savedCampaign.Characters[0].ClassModel, savedCampaign.Characters[0].SavedPersonalQuest.Model);
 
 		savedCampaign.Characters[0].AddGold(1000);
-		for(int i = 0; i <= 14; i++)
-		{
-			savedCampaign.Characters[0].AcquirePerk(i);
-		}
 
 		// SavedScenarioProgress testScenario = new SavedScenarioProgress();
 		// testScenario.Discover();

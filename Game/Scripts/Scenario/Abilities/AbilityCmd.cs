@@ -111,7 +111,9 @@ public static class AbilityCmd
 			await ScenarioEvents.JustBeforeSufferDamageEvent.CreatePrompt(
 				new ScenarioEvents.JustBeforeSufferDamage.Parameters(target, damageDealt, potentialAbilityState, sufferDamageParameters), target);
 
-		if(justBeforeSufferDamageParameters.Prevented)
+		damageDealt = justBeforeSufferDamageParameters.Damage;
+
+		if(justBeforeSufferDamageParameters.Prevented || damageDealt == 0)
 		{
 			return 0;
 		}
@@ -210,9 +212,10 @@ public static class AbilityCmd
 		return conditionModel.ImmunityCompareBaseConditions.Contains(immunityConditionModel);
 	}
 
-	public static GDTask AddCondition(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel)
+	public static GDTask AddCondition(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel,
+		Figure potentialConditionGiver = null)
 	{
-		return AddConditions(potentialAbilityState, target, [conditionModel]);
+		return AddConditions(potentialAbilityState, target, [conditionModel], potentialConditionGiver);
 	}
 
 	public static async GDTask AddConditions(AbilityState potentialAbilityState, Figure target, List<ConditionModel> conditionModels,

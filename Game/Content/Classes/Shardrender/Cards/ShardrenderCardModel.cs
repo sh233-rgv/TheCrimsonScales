@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public abstract class ShardrenderCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : ShardrenderCardSide
@@ -17,69 +18,73 @@ public abstract class ShardrenderCardSide : AbilityCardSideModel
 	public const string CrystallizeIconPath = "res://Content/Classes/Shardrender/Crystallize.svg";
 	public const string CrystallizeForwardIconPath = "res://Content/Classes/Shardrender/CrystallizeForward.svg";
 
-	protected OtherAbility.OtherBuilder MoveCharacterTokenBackAbility(DynamicInt<OtherAbility.State> count, bool canBeDifferent = true)
+	protected static OtherAbility.OtherBuilder MoveCharacterTokenBackAbility(DynamicInt<OtherAbility.State> count, bool canBeDifferent = true)
 	{
 		return OtherAbility.Builder()
 			.WithPerformAbility(async state =>
 			{
-				Dictionary<AbilityCard, CrystallizeAbility.State> possibilities = GetActiveCrystallizeStates(state.Performer as Character);
-
-				int actualCount = count.GetValue(state);
-
-				if(possibilities.Count == 0 || actualCount == 0)
+				if(await MoveCharacterTokenBack(state.Performer as Character, count.GetValue(state), canBeDifferent))
 				{
-					return;
-				}
-
-				if(possibilities.Count == 1)
-				{
-					await MoveCharacterTokenBack(possibilities.Values.First(), actualCount);
 					state.SetPerformed();
-
-					return;
-				}
-
-				if(canBeDifferent)
-				{
-					CrystallizeAbility.State higherCount = possibilities.Values.MaxBy(crystallizeState => crystallizeState.UseSlotIndex);
-					CrystallizeAbility.State lowerCount = possibilities.Values.MinBy(crystallizeState => crystallizeState.UseSlotIndex);
-					while(actualCount > lowerCount.UseSlotIndex)
-					{
-						await higherCount.MoveBackUseSlot();
-						higherCount = possibilities.Values.MaxBy(crystallizeState => crystallizeState.UseSlotIndex);
-						lowerCount = possibilities.Values.MinBy(crystallizeState => crystallizeState.UseSlotIndex);
-						actualCount--;
-						state.SetPerformed();
-					}
-
-					for(int i = 0; i < actualCount; i++)
-					{
-						AbilityCard abilityCard = await AbilityCmd.SelectAbilityCard(state.Performer,
-							cards => cards.AddRange(possibilities.Keys), null,
-							hintText: $"Select a {Icons.HintText(CrystallizeIconPath)} to move the character token backward one slot.");
-						if(abilityCard != null)
-						{
-							await possibilities[abilityCard].MoveBackUseSlot();
-							state.SetPerformed();
-						}
-					}
-				}
-				else
-				{
-					AbilityCard abilityCard = await AbilityCmd.SelectAbilityCard(state.Performer,
-						cards => cards.AddRange(possibilities.Keys), null,
-						hintText:
-						$"Select a {Icons.HintText(CrystallizeIconPath)} to move the character token backward {actualCount} slot{(actualCount > 1 ? "s" : "")}.");
-					if(abilityCard != null)
-					{
-						await MoveCharacterTokenBack(possibilities[abilityCard], count.GetValue(state));
-						state.SetPerformed();
-					}
 				}
 			});
 	}
 
-	private async GDTask MoveCharacterTokenBack(CrystallizeAbility.State state, int count)
+	public static async GDTask<bool> MoveCharacterTokenBack(Character character, int count, bool canBeDifferent = true)
+	{
+		Dictionary<AbilityCard, CrystallizeAbility.State> possibilities = GetActiveCrystallizeStates(character);
+
+		if(possibilities.Count == 0 || count == 0)
+		{
+			return false;
+		}
+
+		if(possibilities.Count == 1)
+		{
+			await MoveSingleCharacterTokenBack(possibilities.Values.First(), count);
+
+			return true;
+		}
+
+		if(canBeDifferent)
+		{
+			CrystallizeAbility.State higherCount = possibilities.Values.MaxBy(crystallizeState => crystallizeState.UseSlotIndex);
+			CrystallizeAbility.State lowerCount = possibilities.Values.MinBy(crystallizeState => crystallizeState.UseSlotIndex);
+			while(count > lowerCount.UseSlotIndex)
+			{
+				await higherCount.MoveBackUseSlot();
+				higherCount = possibilities.Values.MaxBy(crystallizeState => crystallizeState.UseSlotIndex);
+				lowerCount = possibilities.Values.MinBy(crystallizeState => crystallizeState.UseSlotIndex);
+				count--;
+			}
+
+			for(int i = 0; i < count; i++)
+			{
+				AbilityCard abilityCard = await AbilityCmd.SelectAbilityCard(character,
+					cards => cards.AddRange(possibilities.Keys), null,
+					hintText: $"Select a {Icons.HintText(CrystallizeIconPath)} to move the character token backward one slot.");
+				if(abilityCard != null)
+				{
+					await possibilities[abilityCard].MoveBackUseSlot();
+				}
+			}
+		}
+		else
+		{
+			AbilityCard abilityCard = await AbilityCmd.SelectAbilityCard(character,
+				cards => cards.AddRange(possibilities.Keys), null,
+				hintText:
+				$"Select a {Icons.HintText(CrystallizeIconPath)} to move the character token backward {count} slot{(count > 1 ? "s" : "")}.");
+			if(abilityCard != null)
+			{
+				await MoveSingleCharacterTokenBack(possibilities[abilityCard], count);
+			}
+		}
+
+		return true;
+	}
+
+	private static async GDTask MoveSingleCharacterTokenBack(CrystallizeAbility.State state, int count)
 	{
 		for(int i = 0; i < count; i++)
 		{
@@ -90,12 +95,12 @@ public abstract class ShardrenderCardSide : AbilityCardSideModel
 		}
 	}
 
-	protected ScenarioEvent<T>.Subscription AdvanceCrystallizeSubscription<T>(Func<T, GDTask> applyFunction,
+	protected static ScenarioEvent<T>.Subscription AdvanceCrystallizeSubscription<T>(Func<T, GDTask> applyFunction,
 		EffectInfoViewParameters effectInfoViewParameters, bool canApplyMultipleTimesDuringSubscription = false)
 		where T : ScenarioEvent.ParametersBaseWithAbilityState
 	{
 		return ScenarioEvent<T>.Subscription.New(
-			parameters => GetActiveCrystallizeStates(parameters.BaseAbilityState.Performer as Character).Any(),
+			parameters => GetActiveCrystallizeStates(parameters.BaseAbilityState.Performer as Character).Count != 0,
 			async parameters =>
 			{
 				Dictionary<AbilityCard, CrystallizeAbility.State> possibilities =
@@ -119,7 +124,7 @@ public abstract class ShardrenderCardSide : AbilityCardSideModel
 			effectInfoViewParameters: effectInfoViewParameters);
 	}
 
-	protected Dictionary<AbilityCard, CrystallizeAbility.State> GetActiveCrystallizeStates(Character character)
+	public static Dictionary<AbilityCard, CrystallizeAbility.State> GetActiveCrystallizeStates(Character character)
 	{
 		Dictionary<AbilityCard, CrystallizeAbility.State> possibilities = [];
 		foreach(AbilityCard card in character.Cards)
@@ -130,7 +135,7 @@ public abstract class ShardrenderCardSide : AbilityCardSideModel
 				{
 					CrystallizeAbility.State crystallizeState = (CrystallizeAbility.State)
 						activeActionState.AbilityStates.FirstOrDefault(abilityState => abilityState is CrystallizeAbility.State);
-					if(crystallizeState != null && crystallizeState.UseSlotIndex > 0)
+					if(crystallizeState != null)
 					{
 						possibilities[card] = crystallizeState;
 					}
@@ -141,7 +146,7 @@ public abstract class ShardrenderCardSide : AbilityCardSideModel
 		return possibilities;
 	}
 
-	protected async GDTask<bool> AdvanceCrystallizeConditionalAbilityCheck(Figure figure, EffectInfoViewParameters effectInfoViewParameters)
+	protected static async GDTask<bool> AdvanceCrystallizeConditionalAbilityCheck(Figure figure, EffectInfoViewParameters effectInfoViewParameters)
 	{
 		Dictionary<AbilityCard, CrystallizeAbility.State> possibilities =
 			GetActiveCrystallizeStates(figure as Character);

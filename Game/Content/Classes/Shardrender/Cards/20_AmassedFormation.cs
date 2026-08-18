@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public class AmassedFormation : ShardrenderCardModel<AmassedFormation.CardTop, AmassedFormation.CardBottom>
@@ -12,16 +13,31 @@ public class AmassedFormation : ShardrenderCardModel<AmassedFormation.CardTop, A
 	{
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
-			new AbilityCardAbility(AbilityCmd.AllOpposingAttacksGainDisadvantageActiveAbility(false)),
-			new AbilityCardAbility(CrystallizeAbility.Builder()
-				.WithUseSlots(
-					[
-						new UseSlot(new Vector2(0.16452652f, 0.37396124f)),
-						new UseSlot(new Vector2(0.37168446f, 0.37396124f)),
-						new UseSlot(new Vector2(0.578171f, 0.37396124f)),
-						new UseSlot(new Vector2(0.78882915f, 0.37396124f))
-					]
-				)
+			new AbilityCardAbility(OtherAbility.Builder()
+				.WithPerformAbility(async state =>
+				{
+					AbilityCard abilityCard = await AbilityCmd.SelectAbilityCard((Character)state.Performer, CardState.Lost,
+						canSelectFunc: abilityCard =>
+							abilityCard.Top.Model.Abilities.Any(abilityCardAbility => abilityCardAbility.Ability is CrystallizeAbility) ||
+							abilityCard.Bottom.Model.Abilities.Any(abilityCardAbility => abilityCardAbility.Ability is CrystallizeAbility),
+						hintText: $"Select a card with a {Icons.HintText(CrystallizeIconPath)} action to play");
+					if(abilityCard != null)
+					{
+						if(abilityCard.Top.Model.Abilities.Any(abilityCardAbility => abilityCardAbility.Ability is CrystallizeAbility))
+						{
+							await abilityCard.Top.Perform(state.Performer);
+						}
+						else
+						{
+							await abilityCard.Bottom.Perform(state.Performer);
+						}
+
+						state.SetPerformed();
+					}
+				})
+				.Build()),
+			new AbilityCardAbility(ShieldAbility.Builder()
+				.WithShieldValue(3)
 				.Build())
 		];
 

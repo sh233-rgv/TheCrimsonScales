@@ -1,42 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Fractural.Tasks;
+using Godot;
 
-public class StarslingerAMDCards
+public class ShardrenderAMDCards
 {
-	public class MinusOneInvisibleSelf : StarslingerAMDCardModel
+	public class PlusZero : ShardrenderAMDCardModel
 	{
-		public override string GetSimpleString(RichTextParameters richTextParameters) =>
-			GetSimpleString(richTextParameters, -1, $"{Icons.InlineCondition(Conditions.Invisible, richTextParameters)}");
-
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, -1,
-				extraText: $"{Icons.Inline(Icons.GetCondition(Conditions.Invisible), richTextParameters)}, self");
-
 		protected override int AtlasIndex => 0;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => -1;
-
-		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
-		[
-			ConditionAbility.Builder().WithConditions(Conditions.Invisible).WithTarget(Target.Self).Build()
-		];
+		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 	}
 
-	public class PlusZeroImmobilizeRolling : StarslingerAMDCardModel
+	public class PlusOne : ShardrenderAMDCardModel
 	{
 		protected override int AtlasIndex => 1;
-		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
-		public override List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) => [Conditions.Immobilize];
+		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 	}
 
-	public class PlusZeroControlTargetMoveOneRolling : StarslingerAMDCardModel
+	public class PlusZeroShieldOneRolling : ShardrenderAMDCardModel
 	{
 		public override string GetSimpleString(RichTextParameters richTextParameters) =>
 			GetSimpleString(richTextParameters, +0,
-				$"{Icons.Inline(Icons.Move, richTextParameters)}1{Icons.Inline(Icons.Rolling, richTextParameters)}");
+				$"{Icons.Inline(Icons.Shield, richTextParameters)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
 
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +0,
-				extraText: $"Control the target: {Icons.Inline(Icons.Move, richTextParameters)}1", rolling: true);
+				extraText: $"{Icons.Inline(Icons.Shield, richTextParameters)}1",
+				rolling: true);
 
 		protected override int AtlasIndex => 3;
 		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
@@ -44,102 +35,103 @@ public class StarslingerAMDCards
 
 		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
 		[
-			ControlAbility.Builder()
-				.WithAbilities(
-				[
-					MoveAbility.Builder().WithDistance(1).Build()
-				])
-				.WithCustomGetTargets((_, figures) =>
-				{
-					figures.Add(attackAbilityState.Target);
-				})
-				.Build()
+			ShieldAbility.Builder().WithShieldValue(1).Build()
 		];
 	}
 
-	public class PlusOneLight : StarslingerAMDCardModel
-	{
-		protected override int AtlasIndex => 5;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
-		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Light)];
-	}
-
-	public class PlusOneHealOneRangeThree : StarslingerAMDCardModel
+	public class PlusZeroMoveCharacterTokenOnCrystallizeBackwardOneSlot : ShardrenderAMDCardModel
 	{
 		public override string GetSimpleString(RichTextParameters richTextParameters) =>
-			GetSimpleString(richTextParameters, +1, $"{Icons.Inline(Icons.Heal, richTextParameters)}1");
+			GetSimpleString(richTextParameters, +0,
+				$"{Icons.Inline(ShardrenderCardSide.CrystallizeIconPath, richTextParameters)}");
 
 		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +1,
-				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.Range)}3");
+			GetBasicString(richTextParameters, +0,
+				extraText:
+				$"Move the character token on one of your {Icons.Inline(ShardrenderCardSide.CrystallizeIconPath, richTextParameters)} abilities backward one slot");
 
-		protected override int AtlasIndex => 7;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
+		protected override int AtlasIndex => 5;
+		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
 
-		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
-		[
-			HealAbility.Builder().WithHealValue(1).WithRange(3).Build()
-		];
+		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
+			async (_, potentialDeckOwner) =>
+			{
+				await MoveCharacterTokenBack(potentialDeckOwner as Character, 1);
+			};
 	}
 
-	public class PlusOneIfYouAreUndamagedPlusThreeInstead : StarslingerAMDCardModel
+	public class PlusOneIfAttackHasPiercePlusTwoInsteadRolling : ShardrenderAMDCardModel
 	{
 		public override string GetSimpleString(RichTextParameters richTextParameters) =>
 			GetSimpleString(richTextParameters, +1,
-				$"{Icons.Inline(Icons.Damage, richTextParameters)}:{Icons.Inline(Icons.GetAMDValue("+3"), richTextParameters)}");
+				$"{Icons.Inline(Icons.Pierce, richTextParameters)}:{Icons.Inline(Icons.GetAMDValue("+2"), richTextParameters)}");
 
 		public override string ToString(RichTextParameters richTextParameters) =>
 			GetBasicString(richTextParameters, +1,
-				extraText: $"If you are undamaged, {Icons.Inline(Icons.GetAMDValue("+3"), richTextParameters)} instead");
+				extraText:
+				$"If the attack has {Icons.Inline(Icons.Pierce, richTextParameters)}, {Icons.Inline(Icons.GetAMDValue("+2"), richTextParameters)} instead",
+				rolling: true);
 
 		protected override int AtlasIndex => 9;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => attackAbilityState?.Performer.IsDamaged() == false ? +3 : +1;
+		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
+
+		public override int? GetValue(AttackAbility.State attackAbilityState)
+		{
+			return attackAbilityState?.SingleTargetPierce > 0 ? +2 : +1;
+		}
 	}
 
-	public class PlusZeroHealOneRangeOneRolling : StarslingerAMDCardModel
+	public class PlusOneAdvanceCrystallizePlusOneAttack : ShardrenderAMDCardModel
 	{
 		public override string GetSimpleString(RichTextParameters richTextParameters) =>
-			GetSimpleString(richTextParameters, +0,
-				$"{Icons.Inline(Icons.Heal, richTextParameters)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
+			GetSimpleString(richTextParameters, +1,
+				$"{Icons.Inline(ShardrenderCardSide.CrystallizeForwardIconPath, richTextParameters)}:+1");
 
 		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText: $"{Icons.Inline(Icons.Heal, richTextParameters)}1, {Icons.Inline(Icons.Range)}1", rolling: true);
+			GetBasicString(richTextParameters, +1,
+				extraText:
+				$"{Icons.Inline(ShardrenderCardSide.CrystallizeForwardIconPath, richTextParameters)}: +1{Icons.Inline(Icons.Attack, richTextParameters)}");
 
 		protected override int AtlasIndex => 11;
-		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
+		public override int? GetValue(AttackAbility.State attackAbilityState) => +1;
 
-		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
-		[
-			HealAbility.Builder().WithHealValue(1).WithRange(1).Build()
-		];
+		public override Func<AttackAbility.State, Figure, GDTask> GetExtraEffects() =>
+			async (state, potentialDeckOwner) =>
+			{
+				await AbilityCmd.GenericChoice(state.Authority,
+				[
+					ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription.New(
+						_ => ShardrenderCardSide.GetActiveCrystallizeStates(potentialDeckOwner as Character).Count != 0,
+						async _ =>
+						{
+							Dictionary<AbilityCard, CrystallizeAbility.State> possibilities =
+								ShardrenderCardSide.GetActiveCrystallizeStates(potentialDeckOwner as Character);
+							if(possibilities.Count == 1)
+							{
+								await possibilities.First().Value.AdvanceUseSlot();
+							}
+							else
+							{
+								AbilityCard abilityCard = await AbilityCmd.SelectAbilityCard(potentialDeckOwner,
+									cards => cards.AddRange(possibilities.Keys), null, true,
+									hintText:
+									$"Select a {Icons.HintText(ShardrenderCardSide.CrystallizeIconPath)} to move the character token backward one slot.");
+
+								await possibilities[abilityCard].AdvanceUseSlot();
+							}
+
+							state.SingleTargetAdjustAttackValue(1);
+						}, EffectType.Selectable,
+						effectButtonParameters: new IconEffectButton.Parameters(ShardrenderCardSide.CrystallizeForwardIconPath),
+						effectInfoViewParameters: new TextEffectInfoView.Parameters($"+1{Icons.Inline(Icons.Attack)}"))
+				]);
+			};
 	}
 
-	public class PlusZeroLootOneRolling : StarslingerAMDCardModel
+	public class PlusZeroBrittle : ShardrenderAMDCardModel
 	{
-		public override string GetSimpleString(RichTextParameters richTextParameters) =>
-			GetSimpleString(richTextParameters, +0,
-				$"{Icons.Inline(Icons.Loot, richTextParameters)}1 {Icons.Inline(Icons.Rolling, richTextParameters)}");
-
-		public override string ToString(RichTextParameters richTextParameters) =>
-			GetBasicString(richTextParameters, +0,
-				extraText: $"{Icons.Inline(Icons.Loot, richTextParameters)}1", rolling: true);
-
 		protected override int AtlasIndex => 13;
-		public override bool GetRolling(AttackAbility.State attackAbilityState) => true;
 		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
-
-		public override List<Ability> GetAbilities(AttackAbility.State attackAbilityState) =>
-		[
-			LootAbility.Builder().WithRange(1).Build()
-		];
-	}
-
-	public class PlusZeroDark : StarslingerAMDCardModel
-	{
-		protected override int AtlasIndex => 5;
-		public override int? GetValue(AttackAbility.State attackAbilityState) => +0;
-		public override List<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Dark)];
+		public override List<ConditionModel> GetConditionModels(AttackAbility.State attackAbilityState) => [Conditions.Brittle];
 	}
 }

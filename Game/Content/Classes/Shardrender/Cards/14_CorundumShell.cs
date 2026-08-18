@@ -5,7 +5,7 @@ using Godot;
 public class CorundumShell : ShardrenderCardModel<CorundumShell.CardTop, CorundumShell.CardBottom>
 {
 	public override string Name => "Corundum Shell";
-	public override int Level => 1;
+	public override int Level => 2;
 	public override int Initiative => 28;
 	protected override int AtlasIndex => 14;
 

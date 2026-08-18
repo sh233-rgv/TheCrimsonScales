@@ -17,6 +17,7 @@ public class SerratedRazor : ShardrenderCardModel<SerratedRazor.CardTop, Serrate
 			new AbilityCardAbility(AttackAbility.Builder()
 				.WithDamage(2, new AttackDiamond(this, new Vector2(0.45011973f, 0.23802714f)))
 				.WithConditions(Conditions.Wound1)
+				.WithPierce(1)
 				.WithDuringAttackSubscription(
 					AdvanceCrystallizeSubscription<ScenarioEvents.DuringAttack.Parameters>(async parameters =>
 					{

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 
 public class ShardrenderPerks
@@ -7,7 +8,7 @@ public class ShardrenderPerks
 	{
 	}
 
-	public class ReplaceOneMinusTwoWithOneMinusOneInvisibleSelf : ShardrenderPerk
+	public class ReplaceOneMinusTwoWithOnePlusZero : ShardrenderPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -16,11 +17,11 @@ public class ShardrenderPerks
 
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<ShardrenderAMDCards.MinusOneInvisibleSelf>()
+			ModelDB.AMDCard<ShardrenderAMDCards.PlusZero>()
 		];
 	}
 
-	public class ReplaceOneMinusOneWithOnePlusZeroImmobilizeRolling : ShardrenderPerk
+	public class ReplaceOneMinusOneWithOnePlusOne : ShardrenderPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -29,11 +30,11 @@ public class ShardrenderPerks
 
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<ShardrenderAMDCards.PlusZeroImmobilizeRolling>()
+			ModelDB.AMDCard<ShardrenderAMDCards.PlusOne>()
 		];
 	}
 
-	public class ReplaceOneMinusOneWithOnePlusZeroControlTargetMoveOneRolling : ShardrenderPerk
+	public class ReplaceOneMinusOneWithOnePlusZeroShieldOneRolling : ShardrenderPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -42,11 +43,11 @@ public class ShardrenderPerks
 
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<ShardrenderAMDCards.PlusZeroControlTargetMoveOneRolling>()
+			ModelDB.AMDCard<ShardrenderAMDCards.PlusZeroShieldOneRolling>()
 		];
 	}
 
-	public class ReplaceTwoPlusZeroWithOnePlusOneLight : ShardrenderPerk
+	public class ReplaceTwoPlusZeroWithTwoPlusZeroMoveCharacterTokenOnCrystallizeBackwardOneSlot : ShardrenderPerk
 	{
 		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
@@ -56,85 +57,134 @@ public class ShardrenderPerks
 
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<ShardrenderAMDCards.PlusOneLight>()
+			ModelDB.AMDCard<ShardrenderAMDCards.PlusZeroMoveCharacterTokenOnCrystallizeBackwardOneSlot>(),
+			ModelDB.AMDCard<ShardrenderAMDCards.PlusZeroMoveCharacterTokenOnCrystallizeBackwardOneSlot>(),
 		];
 	}
 
-	public class AddTwoPlusOneHealOneRangeThree : ShardrenderPerk
+	public class ReplaceOnePlusZeroWithOnePlusOneIfAttackHasPiercePlusTwoInstead : ShardrenderPerk
+	{
+		public override List<AMDCardModel> CardsToRemove { get; } =
+		[
+			ModelDB.AMDCard<PlusZeroAMDCard>()
+		];
+
+		public override List<AMDCardModel> CardsToAdd { get; } =
+		[
+			ModelDB.AMDCard<ShardrenderAMDCards.PlusOneIfAttackHasPiercePlusTwoInsteadRolling>(),
+		];
+	}
+
+
+	public class AddTwoPlusOneAdvanceCrystallizePlusOneAttack : ShardrenderPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<ShardrenderAMDCards.PlusOneHealOneRangeThree>(),
-			ModelDB.AMDCard<ShardrenderAMDCards.PlusOneHealOneRangeThree>()
+			ModelDB.AMDCard<ShardrenderAMDCards.PlusOneAdvanceCrystallizePlusOneAttack>(),
+			ModelDB.AMDCard<ShardrenderAMDCards.PlusOneAdvanceCrystallizePlusOneAttack>()
 		];
 	}
 
-	public class AddOnePlusOneIfYouAreUndamagedPlusThreeInstead : ShardrenderPerk
+	public class AddPlusZeroBrittle : ShardrenderPerk
 	{
 		public override List<AMDCardModel> CardsToAdd { get; } =
 		[
-			ModelDB.AMDCard<ShardrenderAMDCards.PlusOneIfYouAreUndamagedPlusThreeInstead>()
+			ModelDB.AMDCard<ShardrenderAMDCards.PlusZeroBrittle>()
 		];
 	}
 
-	public class AddTwoPlusZeroHealOneRangeOneRolling : ShardrenderPerk
+	public class IgnoreItemMinusOneEffectsRemovePlusZero : ShardrenderPerk
 	{
-		public override List<AMDCardModel> CardsToAdd { get; } =
+		public override List<AMDCardModel> CardsToRemove { get; } =
 		[
-			ModelDB.AMDCard<ShardrenderAMDCards.PlusZeroHealOneRangeOneRolling>(),
-			ModelDB.AMDCard<ShardrenderAMDCards.PlusZeroHealOneRangeOneRolling>()
-		];
-	}
-
-	public class AddOnePlusZeroLootOneRolling : ShardrenderPerk
-	{
-		public override List<AMDCardModel> CardsToAdd { get; } =
-		[
-			ModelDB.AMDCard<ShardrenderAMDCards.PlusZeroLootOneRolling>()
-		];
-	}
-
-	public class IgnoreScenarioEffectsAddOnePlusZeroDark : ShardrenderPerk
-	{
-		public override List<AMDCardModel> CardsToAdd { get; } =
-		[
-			ModelDB.AMDCard<ShardrenderAMDCards.PlusZeroDark>()
+			ModelDB.AMDCard<PlusZeroAMDCard>()
 		];
 
-		public override bool IgnoreScenarioEffects => true;
+		public override bool IgnoreItemMinusOneEffects => true;
 	}
 
-	public class ReflectiveJourney : ShardrenderPerk, IEventSubscriber
+	public class InvigoratingMeditation : ShardrenderPerk
 	{
-		public override int PerkBoxCount => 2;
-		protected override string Title => "Reflective Journey";
+		protected override string Title => "Invigorating Meditation";
 
 		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
-			$"At the end of each of your long rests, {Icons.Inline(Icons.GetElement(Element.Light), richTextParameters)} or {Icons.Inline(Icons.GetElement(Element.Dark), richTextParameters)}. If you are undamaged, grant one ally: {Icons.Inline(Icons.Move, richTextParameters)}2.";
+			$"Whenever you long rest, gain {Icons.InlineCondition(Conditions.Regenerate, richTextParameters)}.";
 
 		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
 		{
 			await base.OnScenarioSetupPhaseCompleted(character);
 
-			ScenarioEvents.LongRestEndedEvent.Subscribe(this,
+			ScenarioEvents.LongRestStartedEvent.Subscribe(this,
 				parameters => parameters.Character == character,
+				async _ =>
+				{
+					await AbilityCmd.AddCondition(null, character, Conditions.Regenerate, character);
+				});
+
+			await GDTask.CompletedTask;
+		}
+	}
+
+	public class Solidify : ShardrenderPerk
+	{
+		protected override string Title => "Solidify";
+
+		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
+			$"Once each scenario, when you would suffer {Icons.Inline(Icons.Damage, richTextParameters)} from an attack, gain {Icons.Inline(Icons.Shield, richTextParameters)}3 for that attack.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
+		{
+			await base.OnScenarioSetupPhaseCompleted(character);
+
+			ScenarioEvents.SufferDamageEvent.Subscribe(this,
+				parameters => parameters.FromAttack && parameters.Figure == character && parameters.WouldSufferDamage,
 				async parameters =>
 				{
-					await AbilityCmd.InfuseElement(null, [Element.Light, Element.Dark], character);
-					if(!character.IsDamaged())
-					{
-						await new ActionState(character,
-						[
-							GrantAbility.Builder()
-								.WithAbilities(
-								[
-									MoveAbility.Builder().WithDistance(2).Build()
-								])
-								.WithRange(RangeHelper.InfiniteRange)
-								.Build()
-						]).Perform();
-					}
-				});
+					parameters.AdjustShield(2);
+
+					ScenarioEvents.SufferDamageEvent.Unsubscribe(this);
+
+					await GDTask.CompletedTask;
+				}, EffectType.Selectable,
+				effectButtonParameters: new IconEffectButton.Parameters(Icons.Shield),
+				effectInfoViewParameters: new TextEffectInfoView.Parameters($"Use Solidify to gain {Icons.Inline(Icons.Shield)}3"));
+
+			await GDTask.CompletedTask;
+		}
+	}
+
+	public class TakeShape : ShardrenderPerk
+	{
+		public override int PerkBoxCount => 2;
+		protected override string Title => "Take Shape";
+
+		public override string GetNonAMDDescription(RichTextParameters richTextParameters) =>
+			$"At the start of each scenario, you may play a level 1 card from your hand to perform a {Icons.Inline(ShardrenderCardSide.CrystallizeIconPath, richTextParameters)} action of the card and gain {Icons.Inline(Icons.InlineCondition(Conditions.Ward, richTextParameters))}.";
+
+		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
+		{
+			await base.OnScenarioSetupPhaseCompleted(character);
+
+			AbilityCard abilityCard = await AbilityCmd.SelectAbilityCard(character, CardState.Hand,
+				canSelectFunc: abilityCard => abilityCard.Model.Level == 1 &&
+				                              abilityCard.Top.Model.Abilities.Any(abilityCardAbility =>
+					                              abilityCardAbility.Ability is CrystallizeAbility) ||
+				                              abilityCard.Bottom.Model.Abilities.Any(abilityCardAbility =>
+					                              abilityCardAbility.Ability is CrystallizeAbility),
+				hintText: $"Select a level 1 card with a {Icons.HintText(ShardrenderCardSide.CrystallizeIconPath)} action to play");
+			if(abilityCard != null)
+			{
+				if(abilityCard.Top.Model.Abilities.Any(abilityCardAbility => abilityCardAbility.Ability is CrystallizeAbility))
+				{
+					await abilityCard.Top.Perform(character);
+				}
+				else
+				{
+					await abilityCard.Bottom.Perform(character);
+				}
+			}
+
+			await AbilityCmd.AddCondition(null, character, Conditions.Ward, character);
 		}
 	}
 }

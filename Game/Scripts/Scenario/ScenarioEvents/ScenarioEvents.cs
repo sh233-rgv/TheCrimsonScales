@@ -141,7 +141,7 @@ public partial class ScenarioEvents
 
 	public class AMDCardPeeked : ScenarioEvent<AMDCardPeeked.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, AMDCard amdCard)	: ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, AMDCard amdCard) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public AMDCard AMDCard = amdCard;
@@ -411,12 +411,13 @@ public partial class ScenarioEvents
 			public AbilityState PotentialAbilityState { get; }
 			public Figure Figure { get; }
 			public Figure PotentialDamageDealer { get; }
-			public int InitialDamage { get; }
+			public int InitialDamage { get; private set; }
 
 			public int CalculatedCurrentDamage { get; private set; }
 
 			public int Shield { get; private set; } = 0;
 			public int UnpierceableShield { get; private set; } = 0;
+			public int FinalDamageAdjustment { get; private set; }
 
 			public bool DamagePrevented { get; private set; }
 
@@ -481,6 +482,21 @@ public partial class ScenarioEvents
 				CalculateCurrentDamage();
 			}
 
+			public void AdjustAttackValue(int amount)
+			{
+				((AttackAbility.State)PotentialAbilityState).SingleTargetAdjustAttackValue(amount);
+				InitialDamage += amount;
+
+				CalculateCurrentDamage();
+			}
+
+			public void AdjustFinalDamageAdjustment(int amount)
+			{
+				FinalDamageAdjustment += amount;
+
+				CalculateCurrentDamage();
+			}
+
 			private void CalculateCurrentDamage()
 			{
 				if(DamagePrevented)
@@ -510,7 +526,7 @@ public partial class ScenarioEvents
 					finalDamage /= 2;
 				}
 
-				CalculatedCurrentDamage = finalDamage;
+				CalculatedCurrentDamage = finalDamage + FinalDamageAdjustment;
 			}
 		}
 	}
@@ -541,7 +557,9 @@ public partial class ScenarioEvents
 
 	public class AfterSufferDamage : ScenarioEvent<AfterSufferDamage.Parameters>
 	{
-		public class Parameters(Figure figure, int damageDealt, int damageSuffered, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
+		public class Parameters(
+			Figure figure, int damageDealt, int damageSuffered, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters)
+			: ParametersBase
 		{
 			public Figure Figure { get; } = figure;
 			public int DamageDealt { get; } = damageDealt;
