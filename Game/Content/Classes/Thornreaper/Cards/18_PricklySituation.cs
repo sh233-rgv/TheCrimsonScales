@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 using Godot;
-using Range = Godot.Range;
 
 public class PricklySituation : ThornreaperCardModel<PricklySituation.CardTop, PricklySituation.CardBottom>
 {
@@ -34,13 +33,14 @@ public class PricklySituation : ThornreaperCardModel<PricklySituation.CardTop, P
 								path.Add(hex);
 							}
 
-							foreach(Hex hexInPath in path)
+							path.RemoveAll(pathHex => !pathHex.IsFeatureless());
+
+							List<Hex> hexes = await AbilityCmd.SelectHexes(parameters.AbilityState, hexes => hexes.AddRange(path), 0, path.Count,
+								true, "Select hexes to create thorns");
+
+							foreach(Hex hexInPath in hexes)
 							{
-								if(hexInPath.IsFeatureless())
-								{
-									await AbilityCmd.CreateOverlayTile<ThornsThornreaper>(hexInPath,
-										SceneLoader.LoadPackedScene("res://Content/Classes/Thornreaper/ThornsThornreaper1H.tscn"));
-								}
+								await CreateThorns(parameters.Performer, hexInPath);
 							}
 						}))
 				.Build())

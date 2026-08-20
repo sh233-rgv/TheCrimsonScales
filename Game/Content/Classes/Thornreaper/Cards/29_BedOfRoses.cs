@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
@@ -25,10 +24,14 @@ public class BedOfRoses : ThornreaperCardModel<BedOfRoses.CardTop, BedOfRoses.Ca
 				{
 					ScenarioEvents.RoundEndedEvent.Subscribe(state, this,
 						_ => true,
-						async parameters =>
+						async _ =>
 						{
-							await AbilityCmd.CreateOverlayTile<ThornsThornreaper>(state.Performer.Hex,
-								SceneLoader.LoadPackedScene("res://Content/Classes/Thornreaper/ThornsThornreaper1H.tscn"));
+							List<Hex> hexes = await AbilityCmd.SelectHexes(state, hexes => hexes.Add(state.Performer.Hex), 0, 1, true,
+								"Create thorns in the hex you occupy?");
+							if(hexes.Count > 0)
+							{
+								await CreateThorns(state.Performer, state.Performer.Hex);
+							}
 						});
 
 					await GDTask.CompletedTask;
@@ -55,19 +58,19 @@ public class BedOfRoses : ThornreaperCardModel<BedOfRoses.CardTop, BedOfRoses.Ca
 				{
 					ScenarioEvents.HazardousTerrainTriggeredEvent.Subscribe(state, this,
 						parameters => parameters.Figure.EnemiesWith(state.Performer),
-							async parameters =>
+						async parameters =>
+						{
+							parameters.AddAfterHazardousTerrainDamage(async triggerParameters =>
 							{
-								parameters.AddAfterHazardousTerrainDamage(async triggerParameters =>
+								if(triggerParameters.Figure.Health <= 5)
 								{
-									if(triggerParameters.Figure.Health <= 5)
-									{
-										await AbilityCmd.KillOrExhaust(state, triggerParameters.Figure);
-										await state.AdvanceUseSlot();
-									}
-								});
-
-								await GDTask.CompletedTask;
+									await AbilityCmd.KillOrExhaust(state, triggerParameters.Figure);
+									await state.AdvanceUseSlot();
+								}
 							});
+
+							await GDTask.CompletedTask;
+						});
 
 					await GDTask.CompletedTask;
 				})

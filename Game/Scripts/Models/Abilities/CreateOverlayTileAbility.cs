@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 /// <summary>
 /// An <see cref="Ability{T}"/> that allows a figure to create an Overlay Tile of a specific kind in an empty hex
@@ -20,7 +19,8 @@ public class CreateOverlayTileAbility<T> : Ability<CreateOverlayTileAbility<T>.S
 	public string AssetPath = "res://Content/OverlayTiles/Obstacles/Boulder1H.tscn";
 	public string OverlayTileName = "Obstacle";
 
-	public Action<State, List<Hex>> CustomSelectHexes { get; private set; } = null;
+	public Action<State, List<Hex>> CustomSelectHexes { get; private set; }
+	public Func<Figure, GDTask> BeforePlacingTile { get; private set; }
 	public bool Mandatory = false;
 
 	/// <summary>
@@ -48,6 +48,12 @@ public class CreateOverlayTileAbility<T> : Ability<CreateOverlayTileAbility<T>.S
 		public TBuilder WithCustomSelectHexes(Action<State, List<Hex>> selectHexes)
 		{
 			Obj.CustomSelectHexes = selectHexes;
+			return (TBuilder)this;
+		}
+
+		public TBuilder WithBeforePlacingTile(Func<Figure, GDTask> beforePlacingTile)
+		{
+			Obj.BeforePlacingTile = beforePlacingTile;
 			return (TBuilder)this;
 		}
 
@@ -100,14 +106,9 @@ public class CreateOverlayTileAbility<T> : Ability<CreateOverlayTileAbility<T>.S
 					}
 					else
 					{
-						if(typeof(Obstacle).IsAssignableFrom(typeof(T)))
-						{
-							list.AddRange(RangeHelper.GetHexesInRange(abilityState.Performer.Hex, Range).Where(hex => hex.IsEmpty()));
-						}
-						else
-						{
-							list.AddRange(RangeHelper.GetHexesInRange(abilityState.Performer.Hex, Range).Where(hex => hex.IsFeatureless()));
-						}
+						list.AddRange(typeof(Obstacle).IsAssignableFrom(typeof(T))
+							? RangeHelper.GetHexesInRange(abilityState.Performer.Hex, Range).Where(hex => hex.IsEmpty())
+							: RangeHelper.GetHexesInRange(abilityState.Performer.Hex, Range).Where(hex => hex.IsFeatureless()));
 					}
 
 					for(int j = list.Count - 1; j >= 0; j--)
@@ -126,6 +127,11 @@ public class CreateOverlayTileAbility<T> : Ability<CreateOverlayTileAbility<T>.S
 			if(hex == null)
 			{
 				return;
+			}
+
+			if(BeforePlacingTile != null)
+			{
+				await BeforePlacingTile(abilityState.Authority);
 			}
 
 			abilityState.CreatedOverlayTiles.Add(await AbilityCmd.CreateOverlayTile<T>(hex, SceneLoader.LoadPackedScene(AssetPath)));

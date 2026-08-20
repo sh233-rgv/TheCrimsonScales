@@ -71,11 +71,10 @@ public class ThornreaperAMDCards
 			{
 				Hex hex = await AbilityCmd.SelectHex(state,
 					hexes => hexes.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 1).Where(hex => hex.IsFeatureless())),
-					hintText: "Select a hex to create hazardous terrain");
+					hintText: "Select a hex to create thorns");
 				if(hex != null)
 				{
-					await AbilityCmd.CreateOverlayTile<ThornsThornreaper>(hex,
-						SceneLoader.LoadPackedScene("res://Content/Classes/Thornreaper/ThornsThornreaper1H.tscn"));
+					await ThornreaperCardSide.CreateThorns(state.Performer, hex);
 				}
 			};
 	}
