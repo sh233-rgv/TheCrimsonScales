@@ -14,12 +14,12 @@ public class ViolentShatter : ShardrenderCardModel<ViolentShatter.CardTop, Viole
 		[
 			new AbilityCardAbility(SufferDamageAbility.Builder()
 				.WithDamage(2)
-				.WithTarget(Target.Enemies | Target.Enemies)
+				.WithTarget(Target.TargetAll | Target.Enemies)
 				.WithRange(3)
 				.Build()),
 			new AbilityCardAbility(ConditionAbility.Builder()
 				.WithConditions([Conditions.Wound1, Conditions.Brittle])
-				.WithTarget(Target.Enemies | Target.Enemies)
+				.WithTarget(Target.TargetAll | Target.Enemies)
 				.WithRange(3)
 				.Build())
 		];

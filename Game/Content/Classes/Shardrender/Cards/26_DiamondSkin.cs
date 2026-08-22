@@ -44,7 +44,9 @@ public class DiamondSkin : ShardrenderCardModel<DiamondSkin.CardTop, DiamondSkin
 						parameters => parameters.Figure == state.Performer && parameters.ConditionModel == Conditions.Ward,
 						async parameters =>
 						{
-							await AbilityCmd.AddCondition(state, parameters.Figure, Conditions.Ward);
+							parameters.SetPrevented();
+
+							await GDTask.CompletedTask;
 						});
 					await AbilityCmd.AddCondition(state, state.Performer, Conditions.Ward);
 

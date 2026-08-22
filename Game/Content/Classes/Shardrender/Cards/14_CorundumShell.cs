@@ -36,7 +36,7 @@ public class CorundumShell : ShardrenderCardModel<CorundumShell.CardTop, Corundu
 		protected override List<AbilityCardAbility> GetAbilities() =>
 		[
 			new AbilityCardAbility(MoveAbility.Builder()
-				.WithDistance(3, new MoveCircle(this, new Vector2(0.62153083f, 0.6489074f)))
+				.WithDistance(2, new MoveCircle(this, new Vector2(0.62153083f, 0.6489074f)))
 				.Build()),
 			new AbilityCardAbility(MoveCharacterTokenBackAbility(1).Build()),
 			new AbilityCardAbility(OtherActiveAbility.Builder()

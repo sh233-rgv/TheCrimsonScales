@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public class PerforatingBore : ShardrenderCardModel<PerforatingBore.CardTop, PerforatingBore.CardBottom>
 {
@@ -21,8 +21,9 @@ public class PerforatingBore : ShardrenderCardModel<PerforatingBore.CardTop, Per
 					{
 						Figure figure = await AbilityCmd.SelectFigure(parameters.AbilityState, figures =>
 						{
-							figures.AddRange(RangeHelper.GetFiguresInRange(parameters.AbilityState.Target, 1, false));
-						});
+							figures.AddRange(RangeHelper.GetFiguresInRange(parameters.AbilityState.Target, 1, false)
+								.Where(figure => parameters.Performer.EnemiesWith(figure)));
+						}, hintText: () => $"Select an enemy to suffer {Icons.Inline(Icons.Damage)}1");
 						if(figure != null)
 						{
 							await AbilityCmd.SufferDamage(parameters.AbilityState, figure, 1);

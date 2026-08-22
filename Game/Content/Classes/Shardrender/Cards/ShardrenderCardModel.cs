@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public abstract class ShardrenderCardModel<TTop, TBottom> : AbilityCardModel<TTop, TBottom>
 	where TTop : ShardrenderCardSide
@@ -113,7 +112,7 @@ public abstract class ShardrenderCardSide : AbilityCardSideModel
 				{
 					AbilityCard abilityCard = await AbilityCmd.SelectAbilityCard(parameters.BaseAbilityState.Performer,
 						cards => cards.AddRange(possibilities.Keys), null, true,
-						hintText: $"Select a {Icons.HintText(CrystallizeIconPath)} to move the character token backward one slot.");
+						hintText: $"Select a {Icons.HintText(CrystallizeIconPath)} to move the character token forward one slot.");
 
 					await possibilities[abilityCard].AdvanceUseSlot();
 				}

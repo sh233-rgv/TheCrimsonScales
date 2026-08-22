@@ -54,7 +54,7 @@ public class SeismicShockwave : ShardrenderCardModel<SeismicShockwave.CardTop, S
 				.WithTarget(Target.TargetAll | Target.Enemies)
 				.WithRange(1)
 				.WithConditionalAbilityCheck(state => AdvanceCrystallizeConditionalAbilityCheck(state.Performer,
-					new TextEffectInfoView.Parameters($"Control the target of the attack ability: {Icons.Inline(Icons.Move)}1")))
+					new TextEffectInfoView.Parameters($"All adjacent enemies suffer {Icons.Inline(Icons.Damage)}1")))
 				.Build())
 		];
 	}

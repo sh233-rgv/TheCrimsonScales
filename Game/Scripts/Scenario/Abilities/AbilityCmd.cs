@@ -73,7 +73,7 @@ public static class AbilityCmd
 					parameters => state.Performer == parameters.Figure,
 					parameters => parameters.Add(
 						new InfoTextExtraEffect.Parameters(textParameters =>
-							$"All attacks targeting this figure {(round ? "this round" : "")} gain disadvantage."))
+							$"All attacks targeting this figure {(round ? "this round " : "")}gain disadvantage."))
 				);
 
 				await GDTask.CompletedTask;

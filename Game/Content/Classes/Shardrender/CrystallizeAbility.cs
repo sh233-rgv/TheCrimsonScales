@@ -123,6 +123,7 @@ public class CrystallizeAbility : ActiveAbility<CrystallizeAbility.State>
 			}
 		}
 
+		//TODO: Make it so that you can choose when there are multiple
 		ScenarioEvents.SufferDamageEvent.Subscribe(abilityState, this,
 			parameters => parameters.WouldSufferDamage && parameters.FromAttack && parameters.Figure == abilityState.Performer &&
 			              abilityState.UseSlotIndex < abilityState.Slots.Count,

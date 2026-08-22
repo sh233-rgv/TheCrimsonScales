@@ -58,7 +58,11 @@ public class TurbulentAbsorption : ShardrenderCardModel<TurbulentAbsorption.Card
 					await AbilityCmd.GainXP(state.Performer, 1);
 					state.SetPerformed();
 				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+					return state.ActionState.GetAbilityState<AttackAbility.State>(0).KilledTargets.Count > 0;
+				})
 				.Build())
 		];
 	}
@@ -70,44 +74,6 @@ public class TurbulentAbsorption : ShardrenderCardModel<TurbulentAbsorption.Card
 			new AbilityCardAbility(ShieldAbility.Builder()
 				.WithShieldValue(2)
 				.WithCustomCanApply(parameters => parameters.Figure.HasCondition(Conditions.Ward))
-				.Build()),
-			new AbilityCardAbility(OtherActiveAbility.Builder()
-				.WithOnActivate(async state =>
-				{
-					ScenarioCheckEvents.ShieldCheckEvent.Subscribe(state, this,
-						parameters => parameters.Figure == state.Performer && !parameters.Figure.HasCondition(Conditions.Ward),
-						parameters =>
-						{
-							parameters.AdjustShield(-state.ActionState.GetAbilityState<ShieldAbility.State>(0).ShieldValue);
-						});
-					ScenarioEvents.AfterRemoveConditionEvent.Subscribe(state, this,
-						parameters => parameters.Condition is Ward,
-						async _ =>
-						{
-							ScenarioCheckEvents.ShieldCheckEvent.FireChangedEvent();
-
-							await GDTask.CompletedTask;
-						}, EffectType.Visuals);
-					ScenarioEvents.ConditionAddedEvent.Subscribe(state, this,
-						parameters => parameters.ConditionModel is Ward,
-						async _ =>
-						{
-							ScenarioCheckEvents.ShieldCheckEvent.FireChangedEvent();
-
-							await GDTask.CompletedTask;
-						}, EffectType.Visuals);
-
-					await GDTask.CompletedTask;
-				})
-				.WithOnDeactivate(async state =>
-				{
-					ScenarioEvents.AfterRemoveConditionEvent.Unsubscribe(state, this);
-					ScenarioEvents.ConditionAddedEvent.Unsubscribe(state, this);
-					ScenarioCheckEvents.ShieldCheckEvent.Unsubscribe(state, this);
-					await GDTask.CompletedTask;
-				})
-				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
-				.WithMandatory(true)
 				.Build()),
 			//Retaliate 0 ability for other things that care about retaliate abilities being performed
 			new AbilityCardAbility(RetaliateAbility.Builder()
@@ -140,7 +106,7 @@ public class TurbulentAbsorption : ShardrenderCardModel<TurbulentAbsorption.Card
 					ScenarioEvents.SufferDamageEvent.Unsubscribe(state, this);
 					await GDTask.CompletedTask;
 				})
-				.WithMandatory(true)
+				.WithSkipConfirmation()
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 2))
 				.Build())
 		];

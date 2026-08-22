@@ -5,7 +5,7 @@ public class ShardrenderModel : ClassModel
 {
 	public override string Name => "Shardrender";
 	public override MaxHealthValues MaxHealthValues => MaxHealthValues.LowMedium;
-	public override int HandSize => 14;
+	public override int HandSize => 11;
 	public override Ancestry Ancestry => Ancestry.Orchid;
 
 	public override List<EventModel> UnlockEvents { get; } =

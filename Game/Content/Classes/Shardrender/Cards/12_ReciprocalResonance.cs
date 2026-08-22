@@ -18,7 +18,7 @@ public class ReciprocalResonance : ShardrenderCardModel<ReciprocalResonance.Card
 				{
 					ScenarioEvents.AbilityPerformedEvent.Subscribe(state, this,
 						//TODO: Include push/pull? Not sure if they actually would proc this
-						parameters => parameters.AbilityState is MoveAbility.State moveState &&
+						parameters => parameters.AbilityState is MoveAbility.State &&
 						              state.Performer.EnemiesWith(parameters.Performer) &&
 						              RangeHelper.Distance(parameters.Performer.Hex, state.Performer.Hex) <= 1,
 						async parameters =>
