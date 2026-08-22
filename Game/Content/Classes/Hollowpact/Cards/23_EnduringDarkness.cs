@@ -25,7 +25,7 @@ public class EnduringDarkness : HollowpactLevelUpCardModel<EnduringDarkness.Card
 						parameters => parameters.Figure == state.Performer && parameters.ConditionModel == Conditions.Ward,
 						async parameters =>
 						{
-							await AbilityCmd.AddCondition(state, parameters.Figure, Conditions.Ward);
+							parameters.SetPrevented();
 
 							await GDTask.CompletedTask;
 						});
