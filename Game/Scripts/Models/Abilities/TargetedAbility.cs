@@ -633,7 +633,10 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 
 			abilityState.SetPerformed();
 
-			await AfterTargetConfirmedBeforeConditionsApplied(abilityState, target);
+			if(!await AfterTargetConfirmedBeforeConditionsApplied(abilityState, target))
+			{
+				continue;
+			}
 
 			await ApplyConditions(abilityState, target, abilityState.SingleTargetConditionModels);
 
@@ -698,9 +701,11 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 		return null;
 	}
 
-	protected virtual async GDTask AfterTargetConfirmedBeforeConditionsApplied(T abilityState, Figure target)
+	protected virtual async GDTask<bool> AfterTargetConfirmedBeforeConditionsApplied(T abilityState, Figure target)
 	{
 		await GDTask.CompletedTask;
+
+		return true;
 	}
 
 	protected virtual async GDTask AfterConditionsApplied(T abilityState, Figure target)

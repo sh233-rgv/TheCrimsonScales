@@ -294,7 +294,7 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		return ScenarioEvents.DuringAttackEvent.CreateEffectCollection(new ScenarioEvents.DuringAttack.Parameters(abilityState));
 	}
 
-	protected override async GDTask AfterTargetConfirmedBeforeConditionsApplied(State abilityState, Figure target)
+	protected override async GDTask<bool> AfterTargetConfirmedBeforeConditionsApplied(State abilityState, Figure target)
 	{
 		Hex[] performHexes = abilityState.AbilityPerformHex != null ? [abilityState.AbilityPerformHex] : abilityState.Performer.Hexes;
 		if(CheckRangeDisadvantage(performHexes, target.Hexes, abilityState.SingleTargetRangeType))
@@ -305,6 +305,11 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		ScenarioEvents.AttackAfterTargetConfirmed.Parameters attackAfterTargetConfirmedParameters =
 			await ScenarioEvents.AttackAfterTargetConfirmedEvent.CreatePrompt(
 				new ScenarioEvents.AttackAfterTargetConfirmed.Parameters(abilityState), abilityState);
+
+		if(attackAfterTargetConfirmedParameters.Prevented)
+		{
+			return false;
+		}
 
 		if(attackAfterTargetConfirmedParameters.CannotGainDisadvantage)
 		{
@@ -378,6 +383,8 @@ public class AttackAbility : TargetedAbility<AttackAbility.State, SingleTargetSt
 		{
 			abilityState.KilledTargets.Add(target);
 		}
+
+		return true;
 	}
 
 	protected override async GDTask AfterEffects(State abilityState, Figure target)

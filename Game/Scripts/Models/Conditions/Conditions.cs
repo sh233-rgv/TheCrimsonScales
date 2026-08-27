@@ -34,6 +34,7 @@ public static class Conditions
 	public static Ward Ward { get; } = ModelDB.Condition<Ward>();
 
 	public static Infect Infect { get; } = ModelDB.Condition<Infect>();
+	public static Dodge Dodge { get; } = ModelDB.Condition<Dodge>();
 
 	public static Safeguard Safeguard { get; } = ModelDB.Condition<Safeguard>();
 

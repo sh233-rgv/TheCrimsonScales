@@ -89,10 +89,11 @@ public class ConditionAbility : TargetedAbility<ConditionAbility.State, SingleTa
 		ScenarioEvents.ConditionAfterTargetConfirmedEvent.Unsubscribe(AfterTargetConfirmedSubscriptions);
 	}
 
-	protected override async GDTask AfterTargetConfirmedBeforeConditionsApplied(State abilityState, Figure target)
+	protected override async GDTask<bool> AfterTargetConfirmedBeforeConditionsApplied(State abilityState, Figure target)
 	{
 		await ScenarioEvents.ConditionAfterTargetConfirmedEvent.CreatePrompt(
 			new ScenarioEvents.ConditionAfterTargetConfirmed.Parameters(abilityState), abilityState);
+		return true;
 	}
 
 	protected override string DefaultTargetingHintText(State abilityState)

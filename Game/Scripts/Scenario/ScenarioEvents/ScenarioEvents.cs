@@ -93,11 +93,17 @@ public partial class ScenarioEvents
 	{
 		public class Parameters(AttackAbility.State abilityState) : ParametersBase<AttackAbility.State>(abilityState)
 		{
-			public bool CannotGainDisadvantage { get; private set; } = false;
+			public bool CannotGainDisadvantage { get; private set; }
+			public bool Prevented { get; private set; }
 
 			public void SetCannotGainDisadvantage()
 			{
 				CannotGainDisadvantage = true;
+			}
+
+			public void SetPrevented()
+			{
+				Prevented = true;
 			}
 		}
 	}
@@ -141,7 +147,7 @@ public partial class ScenarioEvents
 
 	public class AMDCardPeeked : ScenarioEvent<AMDCardPeeked.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, AMDCard amdCard)	: ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, AMDCard amdCard) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public AMDCard AMDCard = amdCard;
@@ -541,7 +547,9 @@ public partial class ScenarioEvents
 
 	public class AfterSufferDamage : ScenarioEvent<AfterSufferDamage.Parameters>
 	{
-		public class Parameters(Figure figure, int damageDealt, int damageSuffered, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
+		public class Parameters(
+			Figure figure, int damageDealt, int damageSuffered, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters)
+			: ParametersBase
 		{
 			public Figure Figure { get; } = figure;
 			public int DamageDealt { get; } = damageDealt;
@@ -1467,4 +1475,16 @@ public partial class ScenarioEvents
 
 	private readonly AddMinusOnesEventReward _addMinusOnesEventReward = new AddMinusOnesEventReward();
 	public static AddMinusOnesEventReward AddMinusOnesEventRewardEvent => GameController.Instance.ScenarioEvents._addMinusOnesEventReward;
+
+	public class DodgeUsed : ScenarioEvent<DodgeUsed.Parameters>
+	{
+		public class Parameters(Figure figure)
+			: ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+		}
+	}
+
+	private readonly DodgeUsed _dodgeUsed = new DodgeUsed();
+	public static DodgeUsed DodgeUsedEvent => GameController.Instance.ScenarioEvents._dodgeUsed;
 }
