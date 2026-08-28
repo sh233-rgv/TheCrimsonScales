@@ -26,7 +26,7 @@ public partial class TempestSpark : LootableObject, IEventSubscriber
 
 	public override bool CanLoot(Figure lootObtainer)
 	{
-		return lootObtainer is Tempest;
+		return lootObtainer is Tempest tempest && tempest.SparkCount < 5;
 	}
 
 	public override void AddInfoItemParameters(List<InfoItemParameters> parametersList)

@@ -1487,4 +1487,21 @@ public partial class ScenarioEvents
 
 	private readonly DodgeUsed _dodgeUsed = new DodgeUsed();
 	public static DodgeUsed DodgeUsedEvent => GameController.Instance.ScenarioEvents._dodgeUsed;
+
+	public class DodgeDiscardCard : ScenarioEvent<DodgeDiscardCard.Parameters>
+	{
+		public class Parameters(Figure figure) : ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+			public bool DiscardCard { get; private set; } = true;
+
+			public void SetDiscardCard(bool discardCard)
+			{
+				DiscardCard = discardCard;
+			}
+		}
+	}
+
+	private readonly DodgeDiscardCard _dodgeDiscardCard = new DodgeDiscardCard();
+	public static DodgeDiscardCard DodgeDiscardCardEvent => GameController.Instance.ScenarioEvents._dodgeDiscardCard;
 }

@@ -55,6 +55,16 @@ public abstract class TempestCardSide : AbilityCardSideModel
 		return false;
 	}
 
+	public static int SparkCount(Figure figure)
+	{
+		if(figure is Tempest tempest)
+		{
+			return tempest.SparkCount;
+		}
+
+		return 0;
+	}
+
 	protected static async GDTask<bool> LoseSparksConditionalAbilityCheck(Figure figure, int count, EffectInfoViewParameters effectInfoViewParameters)
 	{
 		bool lostSparks = false;
@@ -77,19 +87,37 @@ public abstract class TempestCardSide : AbilityCardSideModel
 	}
 
 	protected static ScenarioEvent<T>.Subscription LoseSparksSubscription<T>(int count, Func<T, GDTask> applyFunction,
-		EffectInfoViewParameters effectInfoViewParameters)
+		EffectInfoViewParameters effectInfoViewParameters, Func<T, bool> canApplyFunction = null,
+		bool canApplyMultipleTimesDuringSubscription = false)
 		where T : ScenarioEvent.ParametersBaseWithAbilityState
 	{
 		return ScenarioEvent<T>.Subscription.New(
-			parameters => HasXSparks(parameters.BaseAbilityState.Performer, count),
+			parameters => (canApplyFunction == null || canApplyFunction.Invoke(parameters)) &&
+			              HasXSparks(parameters.BaseAbilityState.Performer, count),
 			async parameters =>
 			{
 				LoseSparks(parameters.BaseAbilityState.Performer, count);
 				await applyFunction(parameters);
 			},
 			EffectType.Selectable,
-			canApplyMultipleTimesDuringSubscription: false,
+			canApplyMultipleTimesDuringSubscription: canApplyMultipleTimesDuringSubscription,
 			effectButtonParameters: new TextEffectButton.Parameters($"{count}{Icons.HintText(Tempest.SparkIconPath)}"),
+			effectInfoViewParameters: effectInfoViewParameters);
+	}
+
+	protected static ScenarioEvent<T>.Subscription LoseSparksConsumeElementSubscription<T>(int count, Element element, Func<T, GDTask> applyFunction,
+		EffectInfoViewParameters effectInfoViewParameters)
+		where T : ScenarioEvent.ParametersBaseWithAbilityState
+	{
+		return ScenarioEvent<T>.Subscription.ConsumeElement(element,
+			parameters => HasXSparks(parameters.BaseAbilityState.Performer, count),
+			async parameters =>
+			{
+				LoseSparks(parameters.BaseAbilityState.Performer, count);
+				await applyFunction.Invoke(parameters);
+			},
+			effectButtonParameters: new TextEffectButton.Parameters(
+				$"{count}{Icons.HintText(Tempest.SparkIconPath)}{Icons.HintText(Icons.GetElement(element))}"),
 			effectInfoViewParameters: effectInfoViewParameters);
 	}
 }

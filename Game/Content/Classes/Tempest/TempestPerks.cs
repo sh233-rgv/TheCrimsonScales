@@ -136,11 +136,11 @@ public class TempestPerks
 			await base.OnScenarioSetupPhaseCompleted(character);
 
 			ScenarioEvents.ShortRestStartedEvent.Subscribe(this,
-				parameters => parameters.Character == character && character is Tempest tempest && tempest.HasXSparks(1),
+				parameters => parameters.Character == character && TempestCardSide.HasXSparks(character, 1),
 				async parameters =>
 				{
 					Tempest tempest = (Tempest)parameters.Character;
-					tempest.LoseSparks();
+					TempestCardSide.LoseSparks(character);
 					Figure figure = await AbilityCmd.SelectFigure(tempest,
 						figures => figures.AddRange(RangeHelper.GetFiguresInRange(tempest, 2, false).Where(figure => tempest.EnemiesWith(figure))),
 						hintText: () => $"Select an enemy to suffer {Icons.Inline(Icons.Damage)}1");
