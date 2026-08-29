@@ -64,12 +64,12 @@ public class FlashOfLightning : TempestCardModel<FlashOfLightning.CardTop, Flash
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.DodgeUsedEvent.Subscribe(state, this,
-						parameters => parameters.Figure == state.Performer,
+						parameters => parameters.DodgeUser == state.Performer,
 						async parameters =>
 						{
 							await AbilityCmd.InfuseElement(state, Element.Light);
 
-							await AbilityCmd.AddCondition(state, parameters.Figure, Conditions.Strengthen);
+							await AbilityCmd.AddCondition(state, parameters.DodgeUser, Conditions.Strengthen);
 
 							await state.AdvanceUseSlot();
 						});

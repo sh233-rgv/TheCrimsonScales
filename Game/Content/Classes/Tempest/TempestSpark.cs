@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Fractural.Tasks;
 
-public partial class TempestSpark : LootableObject, IEventSubscriber
+public partial class TempestSpark : LootableObject
 {
 	private bool IsFirstSpark => Hex.GetHexObjectOfType<TempestSpark>() == this;
 

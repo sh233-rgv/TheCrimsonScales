@@ -65,6 +65,8 @@ public class EnergySiphon : TempestCardModel<EnergySiphon.CardTop, EnergySiphon.
 				.WithUseSlot(new UseSlot(new Vector2(0.50056416f, 0.4249685f), GainXP))
 				.Build())
 		];
+
+		public override bool Persistent => true;
 	}
 
 	public class CardBottom : TempestCardSide

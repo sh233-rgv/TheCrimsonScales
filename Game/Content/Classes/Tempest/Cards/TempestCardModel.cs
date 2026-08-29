@@ -69,21 +69,35 @@ public abstract class TempestCardSide : AbilityCardSideModel
 	{
 		bool lostSparks = false;
 		await AbilityCmd.GenericChoice(figure,
-		[
-			ScenarioEvents.GenericChoice.Subscription.New(
-				_ => HasXSparks(figure, count),
-				async _ =>
-				{
-					LoseSparks(figure, count);
-					lostSparks = true;
-					await GDTask.CompletedTask;
-				},
-				EffectType.Selectable,
-				effectButtonParameters: new TextEffectButton.Parameters($"{count}{Icons.HintText(Tempest.SparkIconPath)}"),
-				effectInfoViewParameters: effectInfoViewParameters,
-				canApplyMultipleTimesDuringSubscription: false)
-		]);
+			[
+				ScenarioEvents.GenericChoice.Subscription.New(
+					_ => HasXSparks(figure, count),
+					async _ =>
+					{
+						LoseSparks(figure, count);
+						lostSparks = true;
+						await GDTask.CompletedTask;
+					},
+					EffectType.Selectable,
+					effectButtonParameters: new TextEffectButton.Parameters($"{count}{Icons.HintText(Tempest.SparkIconPath)}"),
+					effectInfoViewParameters: effectInfoViewParameters,
+					canApplyMultipleTimesDuringSubscription: false)
+			], hintText: $"Spend {count}{Icons.HintText(Tempest.SparkIconPath)}?");
 		return lostSparks;
+	}
+
+	protected static async GDTask<bool> LoseSparksConsumeElementConditionalAbilityCheck(Figure figure, int count, Element element,
+		string effectInfoText)
+	{
+		if(HasXSparks(figure, count) && await AbilityCmd.AskConsumeElement(figure, Element.Air,
+			   effectInfoText: effectInfoText ?? $"Consume {Icons.Inline(Icons.GetElement(element))}",
+			   hintText: $"Spend {count}{Icons.HintText(Tempest.SparkIconPath)} and consume {Icons.HintText(Icons.GetElement(element))}?"))
+		{
+			LoseSparks(figure, count);
+			return true;
+		}
+
+		return false;
 	}
 
 	protected static ScenarioEvent<T>.Subscription LoseSparksSubscription<T>(int count, Func<T, GDTask> applyFunction,

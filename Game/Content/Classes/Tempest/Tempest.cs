@@ -4,6 +4,7 @@ using Godot;
 public partial class Tempest : Character
 {
 	public const string SparkIconPath = "res://Content/Classes/Tempest/Spark.svg";
+	public const string SparkTokenIconPath = "res://Content/Classes/Tempest/SparkToken.png";
 
 	[Export]
 	private SparkIndicator _sparkIndicator;

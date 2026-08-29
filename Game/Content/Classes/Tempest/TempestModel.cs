@@ -24,6 +24,39 @@ public class TempestModel : ClassModel
 
 	public override List<AbilityCardModel> AbilityCards { get; } =
 	[
+		ModelDB.AbilityCard<FlashOfLightning>(),
+		ModelDB.AbilityCard<StaticShock>(),
+		ModelDB.AbilityCard<VoltaicBurst>(),
+		ModelDB.AbilityCard<ElectromagneticPulse>(),
+		ModelDB.AbilityCard<ScorchingArcbolt>(),
+		ModelDB.AbilityCard<BreakneckBlitz>(),
+		ModelDB.AbilityCard<EnergySiphon>(),
+		ModelDB.AbilityCard<BreakneckBlitz>(),
+		ModelDB.AbilityCard<EnergySiphon>(),
+		ModelDB.AbilityCard<ChanneledEnergy>(),
+		ModelDB.AbilityCard<SurgingStorm>(),
+		ModelDB.AbilityCard<SwiftStrike>(),
+
+		ModelDB.AbilityCard<Lightbender>(),
+		ModelDB.AbilityCard<AerialDominance>(),
+		ModelDB.AbilityCard<NimbleResilience>(),
+
+		ModelDB.AbilityCard<Arcblast>(),
+		ModelDB.AbilityCard<HardTarget>(),
+		ModelDB.AbilityCard<AirCurrent>(),
+		ModelDB.AbilityCard<ElectricCurrent>(),
+		ModelDB.AbilityCard<ArcReaction>(),
+		ModelDB.AbilityCard<RejuvenatingCharge>(),
+		ModelDB.AbilityCard<StormyRetribution>(),
+		ModelDB.AbilityCard<SparkConduit>(),
+		ModelDB.AbilityCard<ElectrostaticBypass>(),
+		ModelDB.AbilityCard<JetstreamGust>(),
+		ModelDB.AbilityCard<RadiantExplosion>(),
+		ModelDB.AbilityCard<RushingWind>(),
+		ModelDB.AbilityCard<Hurricane>(),
+		ModelDB.AbilityCard<ShockTherapy>(),
+		ModelDB.AbilityCard<StormLightning>(),
+		ModelDB.AbilityCard<ProtectiveGale>(),
 	];
 
 	public override List<PerkModel> Perks { get; } =

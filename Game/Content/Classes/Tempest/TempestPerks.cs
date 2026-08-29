@@ -167,10 +167,10 @@ public class TempestPerks
 			await base.OnScenarioSetupPhaseCompleted(character);
 
 			ScenarioEvents.DodgeUsedEvent.Subscribe(this,
-				parameters => parameters.Figure == character,
+				parameters => parameters.DodgeUser == character,
 				async parameters =>
 				{
-					if(parameters.Figure is Tempest tempest)
+					if(parameters.DodgeUser is Tempest tempest)
 					{
 						tempest.GainSparks();
 					}

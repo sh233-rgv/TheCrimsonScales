@@ -30,6 +30,9 @@ public class Dodge : ConditionModel
 				   .Fire(new ScenarioCheckEvents.ImmunitiesVisualCheck.Parameters(parameters.AbilityState.Performer)).Immunities
 				   .Any(conditionModel => conditionModel is Stun or Disarm))
 				{
+					condition.Flash();
+					await AbilityCmd.RemoveCondition(condition, parameters.AbilityState);
+
 					List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
 					[
 						ScenarioEvents.GenericChoice.Subscription.New(
@@ -50,7 +53,8 @@ public class Dodge : ConditionModel
 								}
 
 								parameters.SetPrevented();
-								await ScenarioEvents.DodgeUsedEvent.CreatePrompt(new ScenarioEvents.DodgeUsed.Parameters(condition.Owner));
+								await ScenarioEvents.DodgeUsedEvent.CreatePrompt(
+									new ScenarioEvents.DodgeUsed.Parameters(condition.Owner, parameters.Performer));
 
 								await GDTask.CompletedTask;
 							}, EffectType.Selectable,
@@ -63,7 +67,8 @@ public class Dodge : ConditionModel
 							async _ =>
 							{
 								parameters.SetPrevented();
-								await ScenarioEvents.DodgeUsedEvent.CreatePrompt(new ScenarioEvents.DodgeUsed.Parameters(condition.Owner));
+								await ScenarioEvents.DodgeUsedEvent.CreatePrompt(
+									new ScenarioEvents.DodgeUsed.Parameters(condition.Owner, parameters.Performer));
 
 								await GDTask.CompletedTask;
 							}, EffectType.Selectable,
@@ -75,8 +80,6 @@ public class Dodge : ConditionModel
 					await AbilityCmd.GenericChoice(parameters.Performer, subscriptions,
 						hintText: $"Apply {Icons.HintText(Icons.GetCondition(Conditions.Dodge))}?");
 				}
-
-				await AbilityCmd.RemoveCondition(condition, parameters.AbilityState);
 			});
 	}
 

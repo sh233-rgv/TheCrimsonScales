@@ -1478,10 +1478,10 @@ public partial class ScenarioEvents
 
 	public class DodgeUsed : ScenarioEvent<DodgeUsed.Parameters>
 	{
-		public class Parameters(Figure figure)
-			: ParametersBase
+		public class Parameters(Figure dodgeUser, Figure attacker) : ParametersBase
 		{
-			public Figure Figure { get; } = figure;
+			public Figure DodgeUser { get; } = dodgeUser;
+			public Figure Attacker { get; } = attacker;
 		}
 	}
 

@@ -23,24 +23,20 @@ public class ChanneledEnergy : TempestCardModel<ChanneledEnergy.CardTop, Channel
 						{
 							parameters.AbilityState.SetAbilityCustomTargets((_, figures) =>
 							{
-								foreach(Hex hex in GameController.Instance.Map.GetChildrenOfType<TempestSpark>().Select(spark => spark.Hex))
-								{
-									foreach(Figure figure in hex.GetFigures().Where(figure => parameters.Performer.EnemiesWith(figure)))
-									{
-										figures.AddIfNew(figure);
-									}
-								}
+								figures.AddRange(GameController.Instance.Map.Hexes.Select(hex => hex.Value)
+									.Where(hex => hex.HasHexObjectOfType<TempestSpark>())
+									.SelectMany(hex => hex.GetFigures().Where(figure => parameters.Performer.EnemiesWith(figure))));
 							});
-
 							await GDTask.CompletedTask;
 						},
 						effectInfoViewParameters: new TextEffectInfoView.Parameters(
-							$"{Icons.Inline(Icons.Targets)}1 enemy adjacent to a {Tempest.SparkIconPath} instead")))
+							$"{Icons.Inline(Icons.Targets)}1 enemy adjacent to a {Tempest.SparkTokenIconPath}")))
 				.Build()),
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
 					LoseSparks(state.Performer);
+					state.SetPerformed();
 
 					await GDTask.CompletedTask;
 				})

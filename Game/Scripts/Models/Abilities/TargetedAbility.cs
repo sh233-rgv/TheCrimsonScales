@@ -61,6 +61,7 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 	public int SingleTargetPush { get; set; }
 	public int SingleTargetPull { get; set; }
 	public int SingleTargetSwing { get; set; }
+	public Hex SingleTargetForcedMovementOriginHex { get; set; }
 
 	public abstract Figure Target { get; }
 
@@ -298,6 +299,11 @@ public abstract class TargetedAbilityState : AbilityState, IConditionsAbilitySta
 	public void SingleTargetAdjustSwing(int amount)
 	{
 		SingleTargetSwing += amount;
+	}
+
+	public void SingleTargetSetForcedMovementOriginHex(Hex hex)
+	{
+		SingleTargetForcedMovementOriginHex = hex;
 	}
 }
 
@@ -645,21 +651,24 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 			// Pull
 			if(!performer.IsDestroyed && !target.IsDestroyed && abilityState.SingleTargetPull > 0)
 			{
-				await ForcedMovement(abilityState, abilityState.GetPerformHex, target, abilityState.SingleTargetPull, ForcedMovementType.Pull,
+				await ForcedMovement(abilityState, abilityState.SingleTargetForcedMovementOriginHex, target, abilityState.SingleTargetPull,
+					ForcedMovementType.Pull,
 					() => $"Select a path to {Icons.HintText(Icons.Pull)}{abilityState.SingleTargetPull} target");
 			}
 
 			// Push
 			if(!performer.IsDestroyed && !target.IsDestroyed && abilityState.SingleTargetPush > 0)
 			{
-				await ForcedMovement(abilityState, abilityState.GetPerformHex, target, abilityState.SingleTargetPush, ForcedMovementType.Push,
+				await ForcedMovement(abilityState, abilityState.SingleTargetForcedMovementOriginHex, target, abilityState.SingleTargetPush,
+					ForcedMovementType.Push,
 					() => $"Select a path to {Icons.HintText(Icons.Push)}{abilityState.SingleTargetPush} target");
 			}
 
 			// Swing
 			if(!performer.IsDestroyed && !target.IsDestroyed && abilityState.SingleTargetSwing > 0)
 			{
-				await ForcedMovement(abilityState, abilityState.GetPerformHex, target, abilityState.SingleTargetSwing, ForcedMovementType.Swing,
+				await ForcedMovement(abilityState, abilityState.SingleTargetForcedMovementOriginHex, target, abilityState.SingleTargetSwing,
+					ForcedMovementType.Swing,
 					() => $"Select a path to {Icons.HintText(Icons.Swing)}{abilityState.SingleTargetSwing} target");
 			}
 
@@ -694,6 +703,7 @@ public abstract class TargetedAbility<T, TSingleTargetState> : Ability<T>, ITarg
 		abilityState.SingleTargetPush = abilityState.AbilityPush;
 		abilityState.SingleTargetPull = abilityState.AbilityPull;
 		abilityState.SingleTargetSwing = abilityState.AbilitySwing;
+		abilityState.SingleTargetForcedMovementOriginHex = abilityState.GetPerformHex;
 	}
 
 	protected virtual EffectCollection CreateDuringTargetedAbilityEffectCollection(T abilityState)
