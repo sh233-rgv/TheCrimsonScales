@@ -1619,7 +1619,7 @@ public static class AbilityCmd
 		ScenarioEvents.SufferDamageEvent.Unsubscribe(figure, subscriber);
 	}
 
-	public static async GDTask AddRetaliate(Figure figure, object subscriber, int retaliateValue, int range,
+	public static async GDTask AddRetaliate(Figure figure, object subscriber, int retaliateValue, int range, int minRange = 0,
 		Func<ScenarioEvents.Retaliate.Parameters, bool> customCanApply = null, bool customCanApplyReplaceFully = false)
 	{
 		ScenarioCheckEvents.RetaliateCheckEvent.Subscribe(figure, subscriber,
@@ -1634,9 +1634,10 @@ public static class AbilityCmd
 		ScenarioEvents.RetaliateEvent.Subscribe(figure, subscriber,
 			canApplyParameters =>
 			{
+				int dist = RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, figure.Hex);
 				bool canApply =
 					canApplyParameters.RetaliatingFigure == figure &&
-					RangeHelper.Distance(canApplyParameters.AbilityState.Performer.Hex, figure.Hex) <= range;
+					dist <= range && dist >= minRange;
 
 				if(customCanApply != null)
 				{

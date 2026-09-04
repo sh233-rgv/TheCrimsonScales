@@ -41,7 +41,8 @@ public class WhitefireBalm : MirefootCardModel<WhitefireBalm.CardTop, WhitefireB
 							object subscriber = new object();
 
 							await AbilityCmd.AddRetaliate(figure, subscriber, 3, 1,
-								customCanApplyParameters => customCanApplyParameters.AbilityState == parameters.PotentialAbilityState);
+								customCanApply: customCanApplyParameters =>
+									customCanApplyParameters.AbilityState == parameters.PotentialAbilityState);
 
 							ScenarioEvents.AfterAttackPerformedEvent.Subscribe(state, subscriber,
 								canApplyParameters => canApplyParameters.AbilityState == parameters.PotentialAbilityState,

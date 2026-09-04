@@ -453,6 +453,7 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 
 	private string DefaultTargetingHintText(State abilityState)
 	{
+		GameController.Instance.CharacterManager
 		return $"Select a target to suffer {Icons.HintText(Icons.Damage)}{Damage.GetValue(abilityState)}";
 	}
 }

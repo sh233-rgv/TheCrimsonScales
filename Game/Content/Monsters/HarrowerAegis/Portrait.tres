@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://dow43lvkji6ec"]
+
+[ext_resource type="Texture2D" uid="uid://d7l0ylkan488" path="res://Content/Monsters/WaterSpirit/water-spirit.png" id="1_phcgd"]
+
+[resource]
+atlas = ExtResource("1_phcgd")
+region = Rect2(200, 150, 300, 450)
