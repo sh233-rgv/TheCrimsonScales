@@ -147,6 +147,11 @@ public class SavedCharacter
 			LevelUpInProgress = true;
 			AddAvailablePerk();
 
+			if(Level == 5)
+			{
+				GameController.Instance.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ClassModel.SoloScenarioModel).Discover();
+			}
+
 			LevelChangedEvent?.Invoke(this);
 		}
 	}

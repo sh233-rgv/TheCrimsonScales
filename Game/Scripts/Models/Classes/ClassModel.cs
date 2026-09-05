@@ -12,6 +12,8 @@ public abstract class ClassModel : AbstractModel
 	public abstract Ancestry Ancestry { get; }
 	public abstract List<EventModel> UnlockEvents { get; }
 	public abstract List<EventModel> RetirementEvents { get; }
+	public virtual SoloScenarioModel SoloScenarioModel { get; }
+	//TODO: Make abstract
 
 	public abstract string AssetPath { get; }
 	public abstract Color PrimaryColor { get; }
