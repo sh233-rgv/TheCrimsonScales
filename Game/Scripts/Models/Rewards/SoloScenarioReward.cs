@@ -29,12 +29,13 @@ public class SoloScenarioReward : SavedReward
 	{
 		await base.ImmediateResolve(savedCampaign, cancellationToken);
 
-		GD.Print(GameController.Instance.CharacterManager.Characters.Count);
 		AppController.Instance.PopupManager.RequestPopup(new SoloScenarioRewardPopup.Request()
 		{
 			ItemModel = ItemModel,
 			SavedCharacter = GameController.Instance.CharacterManager.Characters[0].SavedCharacter
 		});
+
+		GameController.Instance.CharacterManager.Characters[0].SavedCharacter.SetSoloScenarioCompleted();
 
 		await GDTask.WaitWhile(() => AppController.Instance.PopupManager.IsPopupOpen<SoloScenarioRewardPopup.Request>(),
 			cancellationToken: cancellationToken);

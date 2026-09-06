@@ -12,7 +12,7 @@ public class SoloScenarioRequirement : ScenarioRequirement
 	public override bool GetMet(SavedCampaign savedCampaign)
 	{
 		SavedCharacter savedCharacter = savedCampaign.Characters.FirstOrDefault(character => character.ClassModel == _classModel);
-		return savedCharacter != null && savedCharacter.Level >= 5;
+		return savedCharacter != null && savedCharacter.Level >= 5 && !savedCharacter.SoloScenarioCompleted;
 	}
 
 	public override string NotMetMessage(SavedCampaign savedCampaign)
@@ -20,6 +20,8 @@ public class SoloScenarioRequirement : ScenarioRequirement
 		SavedCharacter savedCharacter = savedCampaign.Characters.FirstOrDefault(character => character.ClassModel == _classModel);
 		return savedCharacter == null
 			? $"You require a {_classModel.Name} character to play its solo scenario"
-			: $"You require {_classModel.Name} to be at least level 5 to play its solo scenario";
+			: savedCharacter.SoloScenarioCompleted
+				? $"{_classModel.Name} has already completed their solo scenario."
+				: $"You require {_classModel.Name} to be at least level 5 to play its solo scenario";
 	}
 }

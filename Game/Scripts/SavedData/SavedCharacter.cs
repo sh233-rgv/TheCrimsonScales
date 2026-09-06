@@ -59,6 +59,8 @@ public class SavedCharacter
 	[JsonProperty]
 	public Guid Guid { get; private set; } = Guid.NewGuid();
 
+	public bool SoloScenarioCompleted { get; private set; }
+
 	public ClassModel ClassModel => ModelDB.GetById<ClassModel>(ClassModelId);
 
 	public event Action<SavedCharacter> GoldChangedEvent;
@@ -408,5 +410,10 @@ public class SavedCharacter
 	public bool CanAfford(int goldCost)
 	{
 		return Gold >= goldCost;
+	}
+
+	public void SetSoloScenarioCompleted()
+	{
+		SoloScenarioCompleted = true;
 	}
 }
