@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Fractural.Tasks;
 using Godot;
 using Newtonsoft.Json;
 
@@ -139,21 +140,51 @@ public class SavedCharacter
 		return false;
 	}
 
-	public void TryLevelUp()
+	public async GDTask<bool> TryLevelUp(SavedCampaign savedCampaign)
 	{
 		if(CheckCanLevelUp())
 		{
+			if(!BetweenScenariosController.Instance.InGloomhaven)
+			{
+				AppController.Instance.PopupManager.RequestPopup(new TextPopup.Request("Not currently in Gloomhaven",
+					"You have just completed a scenario that is linked to at least one other scenario. Would you like to return to Gloomhaven instead?",
+					new TextButton.Parameters("Cancel",
+						() =>
+						{
+						}
+					),
+					new TextButton.Parameters("Back to Gloomhaven",
+						() =>
+						{
+							BetweenScenariosController.Instance.ReturnToGloomhaven();
+						},
+						TextButton.ColorType.Green,
+						width: 400
+					)
+				));
+				return false;
+			}
+
 			Level++;
 			LevelUpInProgress = true;
 			AddAvailablePerk();
 
 			if(Level == 5)
 			{
-				GameController.Instance.SavedCampaign.SavedScenarioProgresses.GetScenarioProgress(ClassModel.SoloScenarioModel).Discover();
+				ScenarioModel soloScenarioModel = ModelDB.GetById<SoloScenarioModel>(ClassModel.SoloScenarioModelId);
+				if(soloScenarioModel != null)
+				{
+					await AppController.Instance.GiveRewards(savedCampaign,
+						[new UnlockScenarioReward(soloScenarioModel)],
+						cancellationToken: BetweenScenariosController.Instance.DestroyCancellationToken);
+					AppController.Instance.SaveGame();
+				}
 			}
 
 			LevelChangedEvent?.Invoke(this);
 		}
+
+		return true;
 	}
 
 	public void AddLevelUpCard(AbilityCardModel abilityCardModel)

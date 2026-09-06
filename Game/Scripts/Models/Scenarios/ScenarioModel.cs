@@ -48,7 +48,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 		{
 			if(!requirement.GetMet(savedCampaign))
 			{
-				notMetMessage = requirement.NotMetMessage();
+				notMetMessage = requirement.NotMetMessage(savedCampaign);
 				return false;
 			}
 		}

@@ -21,7 +21,5 @@ public class TestCard : BombardCardModel<TestCard.CardTop, TestCard.CardBottom>
 		[
 			new AbilityCardAbility(MoveAbility.Builder().WithDistance(100).WithMoveType(MoveType.Jump).Build())
 		];
-
-		public override int XP => 210;
 	}
 }

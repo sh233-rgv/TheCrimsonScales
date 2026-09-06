@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bydyjse4862lq"]
+[gd_scene format=3 uid="uid://b4kpw7mji3lu"]
 
 [ext_resource type="PackedScene" uid="uid://cifjwk1lx2x1h" path="res://Scenes/Scenario/Scenario.tscn" id="1_0bb0e"]
 [ext_resource type="Script" uid="uid://bbtc25ohouat7" path="res://Scripts/Scenario/Room.cs" id="2_fr273"]
@@ -132,68 +132,82 @@ _hideDuringPlay = true
 [node name="Boulder1H" parent="Map/Rooms/Room" index="23" unique_id=62786519 instance=ExtResource("17_24cto")]
 position = Vector2(763.8344, -567)
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="Boulder1H2" parent="Map/Rooms/Room" index="24" unique_id=61553310 instance=ExtResource("17_24cto")]
 position = Vector2(763.8344, 567)
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="Boulder1H3" parent="Map/Rooms/Room" index="25" unique_id=1822573407 instance=ExtResource("17_24cto")]
 position = Vector2(-763.8344, 567)
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="Boulder1H4" parent="Map/Rooms/Room" index="26" unique_id=472901544 instance=ExtResource("17_24cto")]
 position = Vector2(-763.8344, -567)
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="Boulder2H" parent="Map/Rooms/Room" index="27" unique_id=302673582 instance=ExtResource("5_reini")]
 position = Vector2(545.59595, -189)
 rotation = -2.0943952
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="Boulder2H2" parent="Map/Rooms/Room" index="28" unique_id=1471661309 instance=ExtResource("5_reini")]
 position = Vector2(436.4768, 378)
 rotation = -1.0471976
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="Boulder2H3" parent="Map/Rooms/Room" index="29" unique_id=1365573471 instance=ExtResource("5_reini")]
 position = Vector2(-545.59595, 189)
 rotation = 1.0471976
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="Boulder2H4" parent="Map/Rooms/Room" index="30" unique_id=1614626889 instance=ExtResource("5_reini")]
 position = Vector2(-436.4768, -378)
 rotation = 2.0943952
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="WallSection2H" parent="Map/Rooms/Room" index="31" unique_id=1839609018 instance=ExtResource("6_n3ugy")]
 position = Vector2(218.2384, -378)
 rotation = 3.1415927
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="WallSection2H2" parent="Map/Rooms/Room" index="32" unique_id=1686260960 instance=ExtResource("6_n3ugy")]
 position = Vector2(436.4768, 0)
 rotation = 4.1887903
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="WallSection2H3" parent="Map/Rooms/Room" index="33" unique_id=671076489 instance=ExtResource("6_n3ugy")]
 position = Vector2(218.2384, 378)
 rotation = 5.2359877
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="WallSection2H4" parent="Map/Rooms/Room" index="34" unique_id=65013344 instance=ExtResource("6_n3ugy")]
 position = Vector2(-218.2384, 378)
 rotation = 12.566371
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="WallSection2H5" parent="Map/Rooms/Room" index="35" unique_id=1861243442 instance=ExtResource("6_n3ugy")]
 position = Vector2(-436.4768, 0)
 rotation = 13.613568
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="WallSection2H6" parent="Map/Rooms/Room" index="36" unique_id=739696859 instance=ExtResource("6_n3ugy")]
 position = Vector2(-218.2384, -378)
 rotation = 14.660766
 CannotBeDestroyed = true
+CannotBeMoved = true
 
 [node name="CharacterStartHex" parent="Map/Rooms/Room" index="37" unique_id=1635315779 instance=ExtResource("11_nxxge")]
 

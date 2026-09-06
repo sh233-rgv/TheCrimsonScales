@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
+using GTweens.Easings;
+using GTweensGodot.Extensions;
 
 public class Scenario056 : SoloScenarioModel
 {
@@ -13,33 +16,17 @@ public class Scenario056 : SoloScenarioModel
 
 	public override string IntroductionText =>
 		"""
-		It is a fine day, and you are walking through the Old Docks with, as usual, one eye out for potential trouble and the other for opportunity.
+		Before yesterday the title of First Sergeant of the Bombard didn’t exist but today it’s something to be proud of. After recently being appointed to lead the artillery division of Gloomhaven’s defenses, you make your way along the Northern Wall to inspect the recent installations.
 
-		As you round a corner you find a loud argument taking place between one of the warehouse managers and a furious Councilman Raksani. His normally polished exterior has well and truly slipped, and the wealthy merchant is furiously jabbing a chubby, ringed finger at the defensive dock worker.
+		You’re feeling fairly confident about your latest machination ARCS, otherwise known as Automated Rotational Cannon System. What’s the best way to be in more places at once, firing more cannons at once? That’s easy, build a clockwork device that can do it all. After recent Inox raids, the city is investing heavily in new technology. You’re hoping today’s display will show them Quatryls have a place on the battlefield.
 
-		“Infested! Absolutely infested! I can’t sell any of it! And what exactly am I paying your extortionate security fees for? Sort this out—I want it spotless by the time I return, and then we will talk about how you are going to compensate me!”
+		With the pull of one lever ARCS begins to creak, groan and eventually hum. Large chains pull the cannons along the outer wall. Small arms mechanically reach to the fuse, ignite and prepare for the combustion. It seems to be running smoothly with a few test shots hitting targets out in the distant field. There’s a crack and then a whoosh.
 
-		Councilman Raksani turns on his heel and nearly walks into you. Embarrassed and extremely red in the face, he mumbles some kind of greeting and apology in one, and hurries off. The warehouse manager watches him go, shaking his head slightly and massaging his temples. You ask him lightly if there is a problem, and he turns his gaze towards you.
-
-		“Vermlings!” replies the man. “Couldn’t have picked a worse unit to get into. He’s a bit… particular,” he elaborates, nodding in the direction that Councilman Raksani departed. You look at each other. This definitely qualifies as opportunity.
-
-		You respond that you can clear the warehouse out for him, and that it wouldn’t take too long, as long as he had some extra funds for a short-notice rodent contractor.
-
-		The hassled dock worker reaches inside his cloak and throws you a pouch of gold. “Here you are, and same again if you clear them out before his Lordship gets back”.
-
-		You smile and head inside, when he calls to you: “He thinks everything’s been eaten or something, so help yourself to anything you find lying about too.”
-
-		Your smile grows. This is turning into a very good day
+		Suddenly, the little alarm bell begins ringing just before steam bursts through the one exhaust valve. ARCS changes it’s trajectory aiming back at the city! If this causes any damage, your title of First Sergeant will be a very short-lived one.
 		""";
 
 	public override string ConclusionText =>
-		"""
-		The Vermlings didn’t give up easily, but you rounded them up in the end. You throw the bodies in the filthy dock, pocket a few nice trinkets you come across and claim your bonus from the (notably more relaxed) warehouse manager.
-
-		You are just leaving when Councilman Raksani returns. Looking at his now unoccupied unit and then at you, he says “By the Oak, I don’t know how you did that, but well done!” Casting a hard look at the dock worker, he continues “I’m glad there’s still some hard-working, honest folk about.” It’s not a phrase you often hear yourself described as, but you’ll take it—and the gold he slips you as a thank you.
-
-		A very good day indeed.
-		""";
+		"It’s heartbreaking to see months of labor turned into heaps of metal debris. Out of the plumes of smoke a cog rolls across the stones before falling with a clang. Its clear ARCS will need much more testing before it’s ready but at least Gloomhaven sustained no major damage.";
 
 	public override List<MonsterModel> MonsterModels { get; } =
 	[
@@ -49,10 +36,10 @@ public class Scenario056 : SoloScenarioModel
 
 	public override List<SavedReward> Rewards =>
 	[
-		//TODO
+		new SoloScenarioReward(ModelDB.Item<ChainCannon>())
 	];
 
-	private List<Hex> _path = [];
+	private readonly List<Hex> _path = [];
 
 	public override async GDTask InitializeAfterFirstRoomRevealed()
 	{
@@ -62,6 +49,16 @@ public class Scenario056 : SoloScenarioModel
 
 		_path.AddRange(GameController.Instance.Map.GetMarkers(Marker.Type.b).Select(marker => marker.Hex));
 
+
+		AddScenarioRule("The obstacles in this scenario cannot be moved or destroyed.");
+		List<ScenarioRule> artilleryRules =
+		[
+			AddScenarioRule(
+				"The Ancient Artillery are affixed to a rotating conveyor system. At the beginning of each round, each Ancient Artillery moves one hex clockwise, regardless of any negative conditions."),
+			AddScenarioRule(textParameters =>
+				$"All Ancient Artillery have a base {Icons.Inline(Icons.Range, textParameters)} value of 4.")
+		];
+
 		ScenarioEvents.FigureKilledEvent.Subscribe(this,
 			_ => KillAllEnemiesScenarioGoal.GetVisibleEnemyCount(true) == 0,
 			async _ =>
@@ -70,6 +67,14 @@ public class Scenario056 : SoloScenarioModel
 				{
 					await SpawnMonster(null, ModelDB.Monster<StoneGolem>(), MonsterType.Normal, marker.Hex);
 				}
+
+				foreach(ScenarioRule scenarioRule in artilleryRules)
+				{
+					scenarioRule.Remove();
+				}
+
+				AddScenarioRule(textParameters =>
+					$"The Stone Golems perform all melee attacks as if they were {Icons.Inline(Icons.Range, textParameters)}3 attacks.");
 			});
 
 		ScenarioEvents.DuringAttackEvent.Subscribe(this,
@@ -98,7 +103,19 @@ public class Scenario056 : SoloScenarioModel
 
 					Hex hex = currentIndex == _path.Count - 1 ? _path[0] : _path[currentIndex + 1];
 
+
 					await AbilityCmd.ExitHex(null, figure, null);
+
+					Node2D moveParent = GameController.Instance.MoveParent;
+					Node2D previousParent = figure.GetParent<Node2D>();
+					moveParent.SetGlobalPosition(figure.Hex.GlobalPosition);
+					figure.Reparent(moveParent);
+					await moveParent.TweenGlobalPosition(hex.GlobalPosition, 0.2f).PlayFastForwardableAsync();
+
+					figure.Reparent(previousParent);
+
+					await moveParent.TweenGlobalPosition(hex.GlobalPosition, 0.3f).SetEasing(Easing.OutSine).PlayFastForwardableAsync();
+
 					await AbilityCmd.EnterHex(null, figure, null, hex, true, true);
 				}
 			});
