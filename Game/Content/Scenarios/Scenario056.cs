@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
-using Godot;
 using GTweens.Easings;
 using GTweensGodot.Extensions;
 
@@ -106,15 +105,8 @@ public class Scenario056 : SoloScenarioModel
 
 					await AbilityCmd.ExitHex(null, figure, null);
 
-					Node2D moveParent = GameController.Instance.MoveParent;
-					Node2D previousParent = figure.GetParent<Node2D>();
-					moveParent.SetGlobalPosition(figure.Hex.GlobalPosition);
-					figure.Reparent(moveParent);
-					await moveParent.TweenGlobalPosition(hex.GlobalPosition, 0.2f).PlayFastForwardableAsync();
-
-					figure.Reparent(previousParent);
-
-					await moveParent.TweenGlobalPosition(hex.GlobalPosition, 0.3f).SetEasing(Easing.OutSine).PlayFastForwardableAsync();
+					await figure.TweenGlobalPosition(hex.GlobalPosition, 0.3f).SetEasing(Easing.OutSine).PlayFastForwardableAsync();
+					await GDTask.DelayFastForwardable(0.03f);
 
 					await AbilityCmd.EnterHex(null, figure, null, hex, true, true);
 				}

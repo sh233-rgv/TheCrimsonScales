@@ -530,8 +530,11 @@ public class SavedCampaign
 		foreach(string itemId in savedCharacter.ItemIds)
 		{
 			ItemModel itemModel = ModelDB.GetById<ItemModel>(itemId);
-			SavedItem savedItem = GetSavedItem(itemModel);
-			savedItem.AddStock(1);
+			if(!itemModel.IsSolo)
+			{
+				SavedItem savedItem = GetSavedItem(itemModel);
+				savedItem.AddStock(1);
+			}
 		}
 
 		// Return temporary AMD cards

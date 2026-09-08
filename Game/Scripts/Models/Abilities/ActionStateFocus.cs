@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -43,8 +44,7 @@ public partial class ActionState
 				{
 					Target target = attackAbility.TargetType.GetValue();
 
-					aiMoveParameters.Targets = target.HasFlag(Target.MustTargetSameWithAllTargets) ? 1 : 
-						attackAbility.Targets.GetValue();
+					aiMoveParameters.Targets = target.HasFlag(Target.MustTargetSameWithAllTargets) ? 1 : attackAbility.Targets.GetValue();
 					aiMoveParameters.TargetAll = target.HasFlag(Target.TargetAll);
 					aiMoveParameters.Range = attackAbility.Range.GetValue();
 					aiMoveParameters.RangeType = attackAbility.TypeOfRange.GetValue();
@@ -63,10 +63,13 @@ public partial class ActionState
 
 	public async GDTask<(Figure, Hex)> GetFocus(AbilityState abilityState)
 	{
+		ScenarioCheckEvents.FigureFocusCheck.Parameters figureFocusCheckParameters =
+			ScenarioCheckEvents.FigureFocusCheckEvent.Fire(
+				new ScenarioCheckEvents.FigureFocusCheck.Parameters(abilityState));
 		if(!_focusDetermined || (_cachedFocus != null && _cachedFocus.IsDead))
 		{
 			_focusDetermined = true;
-			_cachedFocus = await DetermineFocus();
+			_cachedFocus = await DetermineFocus(figureFocusCheckParameters);
 		}
 
 		ScenarioEvents.FigureFoundFocus.Parameters figureFoundFocusEventParameters =
@@ -77,8 +80,19 @@ public partial class ActionState
 	}
 
 	// TODO: Change this to a prompt of sorts, to ensure this is saved
-	private async GDTask<Figure> DetermineFocus()
+	private async GDTask<Figure> DetermineFocus(ScenarioCheckEvents.FigureFocusCheck.Parameters figureFocusCheckParameters)
 	{
+		if(figureFocusCheckParameters.FocusFigure != null && !figureFocusCheckParameters.FocusFigure.IsDead)
+		{
+			return figureFocusCheckParameters.FocusFigure;
+		}
+
+		List<Figure> mostDamaged = null;
+		if(figureFocusCheckParameters.FocusMostDamage)
+		{
+			mostDamaged = GameController.Instance.Map.Figures.GroupBy(figure => figure.MaxHealth - figure.Health).MaxBy(group => group.Key).ToList();
+		}
+
 		AIMoveParameters aiMoveParameters = GetAIMoveParameters();
 
 		int range = aiMoveParameters.Range; // focusParameters.Range ?? ((Stats.Range ?? 1) + focusParameters.ExtraRange);
@@ -125,7 +139,17 @@ public partial class ActionState
 
 				foreach(Figure potentialTarget in potentialTargetHex.GetHexObjectsOfType<Figure>())
 				{
-					if(!Performer.EnemiesWith(potentialTarget))
+					if(!Authority.EnemiesWith(potentialTarget) || Performer == potentialTarget)
+					{
+						continue;
+					}
+
+					if(figureFocusCheckParameters.FocusCondition != null && potentialTarget.HasCondition(figureFocusCheckParameters.FocusCondition))
+					{
+						continue;
+					}
+
+					if(mostDamaged != null && !mostDamaged.Contains(potentialTarget))
 					{
 						continue;
 					}
@@ -155,7 +179,7 @@ public partial class ActionState
 					else
 					{
 						FocusNode previousBestNode = bestFocusNodes[0];
-						CompareResult compareResult = newNode.CompareTo(previousBestNode);
+						CompareResult compareResult = newNode.CompareTo(previousBestNode, figureFocusCheckParameters);
 						switch(compareResult)
 						{
 							case CompareResult.Better:

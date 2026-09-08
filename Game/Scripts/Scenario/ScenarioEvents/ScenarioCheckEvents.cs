@@ -754,4 +754,41 @@ public partial class ScenarioCheckEvents
 
 	private readonly DrawBattleGoalsCheck _drawBattleGoalsCheck = new DrawBattleGoalsCheck();
 	public static DrawBattleGoalsCheck DrawBattleGoalsCheckEvent => GameController.Instance.ScenarioCheckEvents._drawBattleGoalsCheck;
+
+	public class FigureFocusCheck : ScenarioCheckEvent<FigureFocusCheck.Parameters>
+	{
+		public class Parameters(AbilityState abilityState) : ParametersBase
+		{
+			public AbilityState AbilityState { get; } = abilityState;
+			public ActionState ActionState { get; } = abilityState.ActionState;
+
+			public bool FocusFarthest { get; private set; }
+			public Figure FocusFigure { get; private set; }
+			public ConditionModel FocusCondition { get; private set; }
+			public bool FocusMostDamage { get; private set; }
+
+			public void SetFocusCondition(ConditionModel conditionModel)
+			{
+				FocusCondition = conditionModel;
+			}
+
+			public void SetFocusMostDamage()
+			{
+				FocusMostDamage = true;
+			}
+
+			public void SetFocusFarthest()
+			{
+				FocusFarthest = true;
+			}
+
+			public void SetFocusFigure(Figure figure)
+			{
+				FocusFigure = figure;
+			}
+		}
+	}
+
+	private readonly FigureFocusCheck _FigureFocusCheck = new FigureFocusCheck();
+	public static FigureFocusCheck FigureFocusCheckEvent => GameController.Instance.ScenarioCheckEvents._FigureFocusCheck;
 }

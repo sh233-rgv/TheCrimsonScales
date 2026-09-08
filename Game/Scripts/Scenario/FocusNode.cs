@@ -17,8 +17,9 @@
 		MoveNode = moveNode;
 	}
 
-	public CompareResult CompareTo(FocusNode other)
+	public CompareResult CompareTo(FocusNode other, ScenarioCheckEvents.FigureFocusCheck.Parameters figureFocusCheckParameters = null)
 	{
+		bool focusFarthest = figureFocusCheckParameters?.FocusFarthest == true;
 		if(NegativeHexEncounteredCount > other.NegativeHexEncounteredCount)
 		{
 			return CompareResult.Worse;
@@ -31,22 +32,22 @@
 
 		if(MoveSpent > other.MoveSpent)
 		{
-			return CompareResult.Worse;
+			return focusFarthest ? CompareResult.Better : CompareResult.Worse;
 		}
 
 		if(other.MoveSpent > MoveSpent)
 		{
-			return CompareResult.Better;
+			return focusFarthest ? CompareResult.Worse : CompareResult.Better;
 		}
 
 		if(RangeFromCurrentHex > other.RangeFromCurrentHex)
 		{
-			return CompareResult.Worse;
+			return focusFarthest ? CompareResult.Better : CompareResult.Worse;
 		}
 
 		if(other.RangeFromCurrentHex > RangeFromCurrentHex)
 		{
-			return CompareResult.Better;
+			return focusFarthest ? CompareResult.Worse : CompareResult.Better;
 		}
 
 		if(Initiative > other.Initiative)

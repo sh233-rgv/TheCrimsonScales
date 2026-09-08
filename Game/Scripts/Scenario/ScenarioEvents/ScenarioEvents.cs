@@ -141,7 +141,7 @@ public partial class ScenarioEvents
 
 	public class AMDCardPeeked : ScenarioEvent<AMDCardPeeked.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, AMDCard amdCard)	: ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, AMDCard amdCard) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public AMDCard AMDCard = amdCard;
@@ -541,7 +541,9 @@ public partial class ScenarioEvents
 
 	public class AfterSufferDamage : ScenarioEvent<AfterSufferDamage.Parameters>
 	{
-		public class Parameters(Figure figure, int damageDealt, int damageSuffered, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
+		public class Parameters(
+			Figure figure, int damageDealt, int damageSuffered, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters)
+			: ParametersBase
 		{
 			public Figure Figure { get; } = figure;
 			public int DamageDealt { get; } = damageDealt;
@@ -1084,16 +1086,23 @@ public partial class ScenarioEvents
 
 	public class AbilityCardSideStarted : ScenarioEvent<AbilityCardSideStarted.Parameters>
 	{
-		public class Parameters(AbilityCardSide abilityCardSide, Figure performer) : ParametersBase
+		public class Parameters(AbilityCardSide abilityCardSide, Figure performer, List<Ability> abilities) : ParametersBase
 		{
 			public AbilityCardSide AbilityCardSide { get; } = abilityCardSide;
 			public Figure Performer { get; } = performer;
+			public List<Ability> Abilities { get; } = abilities;
 
 			public bool ForgoneAction { get; private set; }
 
 			public void ForgoAction()
 			{
 				ForgoneAction = true;
+			}
+
+			public void SetAbilities(List<Ability> abilities)
+			{
+				Abilities.Clear();
+				abilities.AddRange(abilities);
 			}
 		}
 	}

@@ -497,7 +497,7 @@ public static class AbilityCmd
 		return await GameController.Instance.Map.CreateMonster(monsterModel, monsterType, hex.Coords, false, monsterLevel, alignment);
 	}
 
-	public static async GDTask<T> CreateOverlayTile<T>(Hex hex, PackedScene scene, Action<OverlayTile> onInstantiate = null)
+	public static async GDTask<T> CreateOverlayTile<T>(Hex hex, PackedScene scene, Action<T> onInstantiate = null)
 		where T : OverlayTile
 	{
 		if(!hex.IsFeatureless())
@@ -506,7 +506,7 @@ public static class AbilityCmd
 			return null;
 		}
 
-		OverlayTile overlayTile = scene.Instantiate<OverlayTile>();
+		T overlayTile = scene.Instantiate<T>();
 		GameController.Instance.Map.AddChild(overlayTile);
 		onInstantiate?.Invoke(overlayTile);
 		await overlayTile.Init(hex);
@@ -517,7 +517,7 @@ public static class AbilityCmd
 		await ScenarioEvents.OverlayTileCreatedEvent.CreatePrompt(
 			new ScenarioEvents.OverlayTileCreated.Parameters(overlayTile));
 
-		return (T)overlayTile;
+		return overlayTile;
 	}
 
 	public static async GDTask<Hex> RelocateOverlayTile(AbilityState state, Action<List<OverlayTile>> selectOverlayTiles,

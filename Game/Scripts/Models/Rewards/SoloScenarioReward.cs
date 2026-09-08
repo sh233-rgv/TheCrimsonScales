@@ -1,16 +1,10 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Fractural.Tasks;
 using Godot;
-using Newtonsoft.Json;
 
-[Serializable, JsonObject(MemberSerialization.OptIn)]
 public class SoloScenarioReward : SavedReward
 {
-	[JsonProperty]
-	private string _itemModelId;
-
-	private ItemModel ItemModel => ModelDB.GetById<ItemModel>(_itemModelId);
+	private ItemModel[] _itemModels;
 
 	public override RewardType Type => RewardType.Immediate;
 
@@ -18,22 +12,56 @@ public class SoloScenarioReward : SavedReward
 	{
 	}
 
-	public SoloScenarioReward(ItemModel itemModel)
+	public SoloScenarioReward(params ItemModel[] itemModels)
 	{
-		_itemModelId = itemModel.Id.ToString();
+		_itemModels = itemModels;
 	}
 
-	public override string GetLabelText(RichTextParameters textParameters) => $"Gain 1 '{ItemModel.Name}' or gain 1 perk mark.";
+	public override string GetLabelText(RichTextParameters textParameters)
+	{
+		string text = "";
+		for(int i = 0; i < _itemModels.Length; i++)
+		{
+			if(i == 0)
+			{
+				text += "G";
+			}
+			else
+			{
+				text += "g";
+			}
+
+			text += $"ain 1 '{_itemModels[i].Name}' or ";
+		}
+
+		return text + "gain 1 perk mark.";
+	}
 
 	public override async GDTask ImmediateResolve(SavedCampaign savedCampaign, CancellationToken cancellationToken)
 	{
 		await base.ImmediateResolve(savedCampaign, cancellationToken);
 
-		AppController.Instance.PopupManager.RequestPopup(new SoloScenarioRewardPopup.Request()
+		switch(_itemModels.Length)
 		{
-			ItemModel = ItemModel,
-			SavedCharacter = GameController.Instance.CharacterManager.Characters[0].SavedCharacter
-		});
+			case 1:
+				AppController.Instance.PopupManager.RequestPopup(new SoloScenarioRewardPopup.Request()
+				{
+					ItemModel = _itemModels[0],
+					SavedCharacter = GameController.Instance.CharacterManager.Characters[0].SavedCharacter
+				});
+				break;
+			case 2:
+				AppController.Instance.PopupManager.RequestPopup(new SoloScenarioRewardTwoItemsPopup.Request()
+				{
+					ItemModel1 = _itemModels[0],
+					ItemModel2 = _itemModels[1],
+					SavedCharacter = GameController.Instance.CharacterManager.Characters[0].SavedCharacter
+				});
+				break;
+			default:
+				Log.Error("More than two item models in solo scenario reward! Not yet implemented.");
+				break;
+		}
 
 		GameController.Instance.CharacterManager.Characters[0].SavedCharacter.SetSoloScenarioCompleted();
 
