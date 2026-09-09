@@ -59,7 +59,10 @@ public class Scenario059 : SoloScenarioModel
 		AddScenarioRule(
 			"Mounting follows all of the Orchid Chieftain’s rules for Mount. While the figure is mounted, it will not attempt to move off of its mount. The mounting figure cannot be targeted or focused on with any abilities until its mount has died.");
 
-		ScenarioRule scoutRule = AddScenarioRule("The Vermling Scout is considered to be mounted on the Giant Viper.");
+		ScenarioRule scoutRule = AddScenarioRule("The Vermling Scouts are considered to be mounted on the Giant Vipers.");
+
+		ScenarioRule spawnRule = AddScenarioRule(textParameters =>
+			$"At the end of the second round, spawn one normal Vermling Scout and one elite Giant Viper at {Icons.InlineMarker(Marker.Type.a, textParameters)}.");
 
 		ScenarioRule somethingWillHappenRule1 = AddScenarioRule("After the second round, when all enemies are dead, something will happen.");
 
@@ -67,6 +70,7 @@ public class Scenario059 : SoloScenarioModel
 			parameters => parameters.RoundNumber == 2,
 			async _ =>
 			{
+				spawnRule.Remove();
 				await SpawnMonsterAndMount<GiantViper, VermlingScout>(_markerAHex);
 
 				ScenarioEvents.FigureKilledEvent.Subscribe(this,
@@ -82,7 +86,7 @@ public class Scenario059 : SoloScenarioModel
 							"You destroy the two Vermlings and their viper mounts when you hear howling in the distance. Another Vermling, this time riding a large wolf-like creature, comes careering through the undergrowth. He is either screaming a battle-cry, or just screaming in terror—it’s hard to tell.");
 
 						ScenarioRule houndRule = AddScenarioRule("The Vermling Shaman is considered to be mounted on the Hound.");
-						ScenarioRule somethingWillHappenRule2 = AddScenarioRule("When all enemies are dead, something will happen.");
+						ScenarioRule somethingWillHappenRule2 = AddScenarioRule("Something will happen when all enemies are dead.");
 
 						await SpawnMonsterAndMount<Hound, VermlingShaman>(GameController.Instance.Map.GetMarker(Marker.Type.b).Hex);
 

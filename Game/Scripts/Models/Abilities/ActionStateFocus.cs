@@ -79,6 +79,11 @@ public partial class ActionState
 		return (figureFoundFocusEventParameters.Focus, figureFoundFocusEventParameters.FocusHex);
 	}
 
+	public Figure GetCurrentFocus()
+	{
+		return _cachedFocus;
+	}
+
 	// TODO: Change this to a prompt of sorts, to ensure this is saved
 	private async GDTask<Figure> DetermineFocus(ScenarioCheckEvents.FigureFocusCheck.Parameters figureFocusCheckParameters)
 	{

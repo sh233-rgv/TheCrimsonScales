@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Fractural.Tasks;
-using Godot;
 
 public abstract class AestherAshbladeAbilityCard : MonsterAbilityCardModel
 {
@@ -159,6 +159,28 @@ public class AestherAshbladeAbilityCard7 : AestherAshbladeAbilityCard
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
+		new MonsterAbilityCardAbility(TeleportAbility.Builder()
+			.WithCustomGetHexes((state, finalHexes) =>
+			{
+				List<Hex> hexes = RangeHelper.GetHexesInRange(state.ActionState.GetCurrentFocus().Hex, 100, requiresLineOfSight: false)
+					.Where(hex => hex.IsUnoccupied()).ToList();
+
+				hexes.Shuffle(GameController.Instance.VisualRNG);
+				hexes.Sort((otherHexA, otherHexB) =>
+					RangeHelper.Distance(state.Performer.Hex, otherHexA).CompareTo(RangeHelper.Distance(state.Performer.Hex, otherHexB)));
+				Hex firstHex = hexes.FirstOrDefault();
+
+				if(firstHex == null)
+				{
+					return;
+				}
+
+				int distance = RangeHelper.Distance(state.Performer.Hex, firstHex);
+
+				finalHexes.AddRange(hexes.Where(hex => RangeHelper.Distance(state.Performer.Hex, hex) == distance));
+			})
+			.Build()),
+		new MonsterAbilityCardAbility(AttackAbility(monster, -2))
 	];
 
 	public override IEnumerable<CardElementInfusion> ElementInfusions => [CardElementInfusion.Infuse(Element.Dark)];
