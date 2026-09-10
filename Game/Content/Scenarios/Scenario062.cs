@@ -58,7 +58,7 @@ public class Scenario062 : SoloScenarioModel
 	{
 		await base.InitializeAfterFirstRoomRevealed();
 
-		_goal = new CustomScenarioGoal(_ => "Cleanse your Voidheart", maxProgress: 1);
+		_goal = await AddGoal(new CustomScenarioGoal(_ => "Cleanse your Voidheart", maxProgress: 1));
 
 		Hollowpact hollowpact = (Hollowpact)GameController.Instance.CharacterManager.Characters.First(character => character is Hollowpact);
 		hollowpact.GainVoidEnergy();

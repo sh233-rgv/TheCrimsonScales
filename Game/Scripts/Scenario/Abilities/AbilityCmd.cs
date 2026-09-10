@@ -287,29 +287,42 @@ public static class AbilityCmd
 		return false;
 	}
 
-	public static async GDTask RemoveOneNegativeCondition(AbilityState potentialAbilityState, Figure target)
+	public static async GDTask<Condition> RemoveOneCondition(AbilityState potentialAbilityState, Figure target,
+		Func<ConditionModel, bool> filterConditions = null, Figure authority = null)
 	{
+		authority ??= target;
 		List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
 			new List<ScenarioEvent<ScenarioEvents.GenericChoice.Parameters>.Subscription>();
+
+		Condition removedCondition = null;
 		foreach(Condition condition in target.Conditions)
 		{
-			if(condition.ConditionModel.ConditionPolarity == ConditionPolarity.Negative)
+			if(filterConditions != null && !filterConditions(condition.ConditionModel))
 			{
-				subscriptions.Add(ScenarioEvents.GenericChoice.Subscription.New(
-					applyFunction: async applyParameters =>
-					{
-						potentialAbilityState?.SetPerformed();
-						await RemoveCondition(target, condition.ConditionModel, potentialAbilityState);
-					},
-					effectType: EffectType.SelectableMandatory,
-					effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(condition.ConditionModel)),
-					effectInfoViewParameters: new TextEffectInfoView.Parameters(
-						$"Remove {Icons.Inline(Icons.GetCondition(condition.ConditionModel))}")
-				));
+				continue;
 			}
+
+			subscriptions.Add(ScenarioEvents.GenericChoice.Subscription.New(
+				applyFunction: async applyParameters =>
+				{
+					potentialAbilityState?.SetPerformed();
+					await RemoveCondition(target, condition.ConditionModel, potentialAbilityState);
+					removedCondition = condition;
+				},
+				effectType: EffectType.SelectableMandatory,
+				effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(condition.ConditionModel)),
+				effectInfoViewParameters: new TextEffectInfoView.Parameters(
+					$"Remove {Icons.Inline(Icons.GetCondition(condition.ConditionModel))}")
+			));
 		}
 
-		await GenericChoice(target, subscriptions, hintText: "Select a condition to remove");
+		await GenericChoice(authority, subscriptions, hintText: "Select a condition to remove");
+		return removedCondition;
+	}
+
+	public static async GDTask RemoveOneNegativeCondition(AbilityState potentialAbilityState, Figure target)
+	{
+		await RemoveOneCondition(potentialAbilityState, target, conditionModel => conditionModel.IsNegative);
 	}
 
 	public static async GDTask<int> RemoveAllNegativeConditions(Figure target)
@@ -604,7 +617,8 @@ public static class AbilityCmd
 		return SelectHexes(state.Authority, getValidHexes, minSelectionCount, maxSelectionCount, autoSelectIfMaxCountIsValidCount, hintText);
 	}
 
-	public static async GDTask<List<Hex>> SelectHexes(Figure authority, Action<List<Hex>> getValidHexes, int minSelectionCount, int maxSelectionCount,
+	public static async GDTask<List<Hex>> SelectHexes(Figure authority, Action<List<Hex>> getValidHexes, int minSelectionCount,
+		int maxSelectionCount,
 		bool autoSelectIfMaxCountIsValidCount, string hintText)
 	{
 		HexSelectionPrompt.Answer answer = await PromptManager.Prompt(
@@ -614,7 +628,8 @@ public static class AbilityCmd
 		return answer.Skipped ? [] : answer.CoordSets.Select(coords => GameController.Instance.Map.GetHex(coords)).ToList();
 	}
 
-	public static GDTask<Hex> SelectHex(AbilityState state, Action<List<Hex>> getValidHexes, bool mandatory = false, string hintText = "Select a hex")
+	public static GDTask<Hex> SelectHex(AbilityState state, Action<List<Hex>> getValidHexes, bool mandatory = false,
+		string hintText = "Select a hex")
 	{
 		return SelectHex(state.Authority, getValidHexes, mandatory, hintText);
 	}
@@ -650,7 +665,8 @@ public static class AbilityCmd
 		return GameController.Instance.ReferenceManager.Get<Figure>(targetAnswer.FigureReferenceId);
 	}
 
-	public static GDTask<OverlayTile> SelectOverlayTile(AbilityState state, Action<List<OverlayTile>> getValidOverlayTiles, bool mandatory = false,
+	public static GDTask<OverlayTile> SelectOverlayTile(AbilityState state, Action<List<OverlayTile>> getValidOverlayTiles,
+		bool mandatory = false,
 		string hintText = "Select a hex")
 	{
 		return SelectOverlayTile(state.Authority, getValidOverlayTiles, mandatory, hintText);
@@ -688,7 +704,8 @@ public static class AbilityCmd
 
 		return answer.Skipped
 			? []
-			: answer.OverlayTileReferenceIds.Select(referenceId => GameController.Instance.ReferenceManager.Get<OverlayTile>(referenceId)).ToList();
+			: answer.OverlayTileReferenceIds.Select(referenceId => GameController.Instance.ReferenceManager.Get<OverlayTile>(referenceId))
+				.ToList();
 	}
 
 	public static async GDTask<AbilityCard> SelectAbilityCard(Character character, CardState? requiredCardState, bool mandatory = false,
@@ -698,7 +715,8 @@ public static class AbilityCmd
 			.FirstOrDefault();
 	}
 
-	public static async GDTask<AbilityCard> SelectAbilityCard(Figure authority, Action<List<AbilityCard>> getAllCards, CardState? requiredCardState,
+	public static async GDTask<AbilityCard> SelectAbilityCard(Figure authority, Action<List<AbilityCard>> getAllCards,
+		CardState? requiredCardState,
 		bool mandatory = false, EffectCollection effectCollection = null, string hintText = "Select a card")
 	{
 		CardSelectionPrompt.Answer answer = await PromptManager.Prompt(new CardSelectionPrompt(getAllCards,
@@ -1085,7 +1103,8 @@ public static class AbilityCmd
 		return AskConsumeElement(authority, Elements.All, mandatory);
 	}
 
-	public static async GDTask<Element?> AskConsumeElement(Figure authority, IReadOnlyCollection<Element> possibleElements, bool mandatory = false)
+	public static async GDTask<Element?> AskConsumeElement(Figure authority, IReadOnlyCollection<Element> possibleElements,
+		bool mandatory = false)
 	{
 		object subscriber = new object();
 
@@ -1226,7 +1245,8 @@ public static class AbilityCmd
 		await GDTask.CompletedTask;
 	}
 
-	public static async GDTask<ItemModel> SelectItem(Character characterAndAuthority, ItemState requiredItemState, ItemType? requiredItemType = null,
+	public static async GDTask<ItemModel> SelectItem(Character characterAndAuthority, ItemState requiredItemState,
+		ItemType? requiredItemType = null,
 		string hintText = "Select an item")
 	{
 		List<ScenarioEvents.GenericChoice.Subscription> subscriptions

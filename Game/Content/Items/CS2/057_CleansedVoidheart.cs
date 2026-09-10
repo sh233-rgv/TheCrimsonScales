@@ -7,7 +7,7 @@ public class CleansedVoidheart : CS2Item
 	public override int ItemNumber => 57;
 	public override int ShopCount => 1;
 	public override int Cost => 0;
-	public override ItemType ItemType => ItemType.Small;
+	public override ItemType ItemType => ItemType.Body;
 	public override ItemUseType ItemUseType => ItemUseType.Always;
 	public override bool IsSolo => true;
 
