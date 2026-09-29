@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public partial class ScenarioCheckEvents
 {
@@ -779,25 +780,7 @@ public partial class ScenarioCheckEvents
 			public AbilityState AbilityState { get; } = abilityState;
 			public ActionState ActionState { get; } = abilityState.ActionState;
 
-			public bool FocusFarthest { get; private set; }
 			public Figure FocusFigure { get; private set; }
-			public ConditionModel FocusCondition { get; private set; }
-			public bool FocusMostDamage { get; private set; }
-
-			public void SetFocusCondition(ConditionModel conditionModel)
-			{
-				FocusCondition = conditionModel;
-			}
-
-			public void SetFocusMostDamage()
-			{
-				FocusMostDamage = true;
-			}
-
-			public void SetFocusFarthest()
-			{
-				FocusFarthest = true;
-			}
 
 			public void SetFocusFigure(Figure figure)
 			{
@@ -806,6 +789,24 @@ public partial class ScenarioCheckEvents
 		}
 	}
 
-	private readonly FigureFocusCheck _FigureFocusCheck = new FigureFocusCheck();
-	public static FigureFocusCheck FigureFocusCheckEvent => GameController.Instance.ScenarioCheckEvents._FigureFocusCheck;
+	private readonly FigureFocusCheck _figureFocusCheck = new FigureFocusCheck();
+	public static FigureFocusCheck FigureFocusCheckEvent => GameController.Instance.ScenarioCheckEvents._figureFocusCheck;
+
+	public class CanBeGivenCardCheck : ScenarioCheckEvent<CanBeGivenCardCheck.Parameters>
+	{
+		public class Parameters(Figure figure, Action<List<AbilityCard>> abilityCard) : ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+			public Action<List<AbilityCard>> GetAbilityCards { get; } = abilityCard;
+			public bool CanBeGivenCard { get; private set; } = figure is Character;
+
+			public void SetCanBeGivenCard()
+			{
+				CanBeGivenCard = true;
+			}
+		}
+	}
+
+	private readonly CanBeGivenCardCheck _canBeGivenCardCheck = new CanBeGivenCardCheck();
+	public static CanBeGivenCardCheck CanBeGivenCardCheckEvent => GameController.Instance.ScenarioCheckEvents._canBeGivenCardCheck;
 }

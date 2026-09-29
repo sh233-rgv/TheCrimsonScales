@@ -64,7 +64,7 @@ public class Scenario059 : SoloScenarioModel
 		ScenarioRule spawnRule = AddScenarioRule(textParameters =>
 			$"At the end of the second round, spawn one normal Vermling Scout and one elite Giant Viper at {Icons.InlineMarker(Marker.Type.a, textParameters)}.");
 
-		ScenarioRule somethingWillHappenRule1 = AddScenarioRule("After the second round, when all enemies are dead, something will happen.");
+		ScenarioRule somethingWillHappenRule1 = AddScenarioRule("Something will happen when all enemies are dead after the second round.");
 
 		ScenarioEvents.RoundEndedEvent.Subscribe(this,
 			parameters => parameters.RoundNumber == 2,

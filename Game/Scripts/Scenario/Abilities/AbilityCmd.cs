@@ -1085,17 +1085,24 @@ public static class AbilityCmd
 	{
 		potentialInfuser ??= potentialAbilityState?.Performer;
 
-		if(immediately)
-		{
-			await GameController.Instance.ElementManager.InfuseImmediately(element);
-		}
-		else
-		{
-			GameController.Instance.ElementManager.StartInfuse(element);
-		}
+		ScenarioEvents.InfuseElement.Parameters infuseElementParameters =
+			await ScenarioEvents.InfuseElementEvent.CreatePrompt(
+				new ScenarioEvents.InfuseElement.Parameters(element, potentialAbilityState, potentialInfuser));
 
-		await ScenarioEvents.ElementInfusedEvent.CreatePrompt(
-			new ScenarioEvents.ElementInfused.Parameters(potentialAbilityState, element, potentialInfuser));
+		if(infuseElementParameters.CanInfuse)
+		{
+			if(immediately)
+			{
+				await GameController.Instance.ElementManager.InfuseImmediately(element);
+			}
+			else
+			{
+				GameController.Instance.ElementManager.StartInfuse(element);
+			}
+
+			await ScenarioEvents.ElementInfusedEvent.CreatePrompt(
+				new ScenarioEvents.ElementInfused.Parameters(potentialAbilityState, element, potentialInfuser));
+		}
 	}
 
 	public static GDTask<Element?> AskConsumeWildElement(Figure authority, bool mandatory = false)
@@ -1120,7 +1127,7 @@ public static class AbilityCmd
 				async applyParameters =>
 				{
 					applyParameters.SetConsumed(possibleElement);
-					await TryConsumeElement(possibleElement);
+					await TryConsumeElement(possibleElement, authority);
 				},
 				mandatory ? EffectType.SelectableMandatory : EffectType.Selectable, 0, false, false,
 				new ConsumeElementEffectButton.Parameters(possibleElement),
@@ -1150,7 +1157,7 @@ public static class AbilityCmd
 			async applyParameters =>
 			{
 				applyParameters.SetConsumed(element);
-				await TryConsumeElement(element);
+				await TryConsumeElement(element, authority);
 			},
 			mandatory ? EffectType.SelectableMandatory : EffectType.Selectable, 0, false, false,
 			new ConsumeElementEffectButton.Parameters(element),
@@ -1178,7 +1185,7 @@ public static class AbilityCmd
 		{
 			foreach(Element element in possibilities[0])
 			{
-				await TryConsumeElement(element);
+				await TryConsumeElement(element, authority);
 			}
 
 			return possibilities[0];
@@ -1219,21 +1226,25 @@ public static class AbilityCmd
 
 			foreach(Element element in chosenConsumption)
 			{
-				await TryConsumeElement(element);
+				await TryConsumeElement(element, authority);
 			}
 
 			return chosenConsumption;
 		}
 	}
 
-	public static async GDTask<bool> TryConsumeElement(Element element)
+	public static async GDTask<bool> TryConsumeElement(Element element, Figure consumer)
 	{
 		if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert)
 		{
 			return false;
 		}
 
-		await GameController.Instance.ElementManager.Consume(element);
+		if((await ScenarioEvents.WouldConsumeElementEvent.CreatePrompt(
+			   new ScenarioEvents.WouldConsumeElement.Parameters(element, consumer), consumer)).Consume)
+		{
+			await GameController.Instance.ElementManager.Consume(element);
+		}
 
 		return true;
 	}

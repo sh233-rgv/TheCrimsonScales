@@ -277,7 +277,8 @@ public partial class BetweenScenariosCharacterPortrait : Control
 	{
 		AppController.Instance.PopupManager.RequestPopup(new CardSelectionPopup.Request
 		{
-			SavedCharacter = SavedCharacter
+			SavedCharacter = SavedCharacter,
+			ScenarioModel = null
 		});
 	}
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
+using Godot;
 
 public abstract class AestherAshbladeAbilityCard : MonsterAbilityCardModel
 {
@@ -155,7 +156,9 @@ public class AestherAshbladeAbilityCard7 : AestherAshbladeAbilityCard
 	public override int Initiative => 02;
 	public override int CardIndex => 7;
 
-	public override Action<ScenarioCheckEvents.FigureFocusCheck.Parameters, Monster> AdjustFocus => (parameters, _) => parameters.SetFocusFarthest();
+	public override Action<ScenarioCheckEvents.FigureFocusCheck.Parameters, Monster> AdjustFocus => (parameters, _) =>
+		parameters.SetFocusFigure(GameController.Instance.Map.Figures.Where(figure => figure.EnemiesWith(parameters.ActionState.Performer))
+			.MaxBy(figure => figure.Initiative.SortingInitiative));
 
 	public override IEnumerable<MonsterAbilityCardAbility> GetAbilities(Monster monster) =>
 	[
@@ -166,8 +169,11 @@ public class AestherAshbladeAbilityCard7 : AestherAshbladeAbilityCard
 					.Where(hex => hex.IsUnoccupied()).ToList();
 
 				hexes.Shuffle(GameController.Instance.VisualRNG);
+
+				//First find the closest hexes to the focus
 				hexes.Sort((otherHexA, otherHexB) =>
-					RangeHelper.Distance(state.Performer.Hex, otherHexA).CompareTo(RangeHelper.Distance(state.Performer.Hex, otherHexB)));
+					RangeHelper.Distance(state.ActionState.GetCurrentFocus().Hex, otherHexA)
+						.CompareTo(RangeHelper.Distance(state.ActionState.GetCurrentFocus().Hex, otherHexB)));
 				Hex firstHex = hexes.FirstOrDefault();
 
 				if(firstHex == null)
@@ -175,9 +181,30 @@ public class AestherAshbladeAbilityCard7 : AestherAshbladeAbilityCard
 					return;
 				}
 
-				int distance = RangeHelper.Distance(state.Performer.Hex, firstHex);
+				int distance = RangeHelper.Distance(state.ActionState.GetCurrentFocus().Hex, firstHex);
 
-				finalHexes.AddRange(hexes.Where(hex => RangeHelper.Distance(state.Performer.Hex, hex) == distance));
+				hexes.RemoveAll(hex => RangeHelper.Distance(state.ActionState.GetCurrentFocus().Hex, hex) != distance);
+
+				//Then, of the hexes closest to the focus, find the ones closest to this figure's position
+				hexes.Sort((otherHexA, otherHexB) =>
+					RangeHelper.Distance(state.Performer.Hex, otherHexA)
+						.CompareTo(RangeHelper.Distance(state.Performer.Hex, otherHexB)));
+				firstHex = hexes.FirstOrDefault();
+
+				if(firstHex == null)
+				{
+					return;
+				}
+
+				distance = RangeHelper.Distance(state.Performer.Hex, firstHex);
+
+				hexes.RemoveAll(hex => RangeHelper.Distance(state.Performer.Hex, hex) != distance);
+
+				finalHexes.AddRange(hexes);
+			})
+			.WithOnAbilityStarted(async state =>
+			{
+				await state.ActionState.GetFocus(state);
 			})
 			.Build()),
 		new MonsterAbilityCardAbility(AttackAbility(monster, -2))

@@ -19,7 +19,6 @@
 
 	public CompareResult CompareTo(FocusNode other, ScenarioCheckEvents.FigureFocusCheck.Parameters figureFocusCheckParameters = null)
 	{
-		bool focusFarthest = figureFocusCheckParameters?.FocusFarthest == true;
 		if(NegativeHexEncounteredCount > other.NegativeHexEncounteredCount)
 		{
 			return CompareResult.Worse;
@@ -32,22 +31,22 @@
 
 		if(MoveSpent > other.MoveSpent)
 		{
-			return focusFarthest ? CompareResult.Better : CompareResult.Worse;
+			return CompareResult.Worse;
 		}
 
 		if(other.MoveSpent > MoveSpent)
 		{
-			return focusFarthest ? CompareResult.Worse : CompareResult.Better;
+			return CompareResult.Better;
 		}
 
 		if(RangeFromCurrentHex > other.RangeFromCurrentHex)
 		{
-			return focusFarthest ? CompareResult.Better : CompareResult.Worse;
+			return CompareResult.Worse;
 		}
 
 		if(other.RangeFromCurrentHex > RangeFromCurrentHex)
 		{
-			return focusFarthest ? CompareResult.Worse : CompareResult.Better;
+			return CompareResult.Better;
 		}
 
 		if(Initiative > other.Initiative)

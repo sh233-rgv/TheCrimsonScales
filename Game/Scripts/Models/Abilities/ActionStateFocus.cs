@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
@@ -87,15 +86,11 @@ public partial class ActionState
 	// TODO: Change this to a prompt of sorts, to ensure this is saved
 	private async GDTask<Figure> DetermineFocus(ScenarioCheckEvents.FigureFocusCheck.Parameters figureFocusCheckParameters)
 	{
-		if(figureFocusCheckParameters.FocusFigure != null && !figureFocusCheckParameters.FocusFigure.IsDead)
+		if(figureFocusCheckParameters.FocusFigure != null && !figureFocusCheckParameters.FocusFigure.IsDead && ScenarioCheckEvents
+			   .CanBeFocusedCheckEvent.Fire(new ScenarioCheckEvents.CanBeFocusedCheck.Parameters(Performer, figureFocusCheckParameters.FocusFigure))
+			   .CanBeFocused)
 		{
 			return figureFocusCheckParameters.FocusFigure;
-		}
-
-		List<Figure> mostDamaged = null;
-		if(figureFocusCheckParameters.FocusMostDamage)
-		{
-			mostDamaged = GameController.Instance.Map.Figures.GroupBy(figure => figure.MaxHealth - figure.Health).MaxBy(group => group.Key).ToList();
 		}
 
 		AIMoveParameters aiMoveParameters = GetAIMoveParameters();
@@ -145,16 +140,6 @@ public partial class ActionState
 				foreach(Figure potentialTarget in potentialTargetHex.GetHexObjectsOfType<Figure>())
 				{
 					if(!Authority.EnemiesWith(potentialTarget) || Performer == potentialTarget)
-					{
-						continue;
-					}
-
-					if(figureFocusCheckParameters.FocusCondition != null && potentialTarget.HasCondition(figureFocusCheckParameters.FocusCondition))
-					{
-						continue;
-					}
-
-					if(mostDamaged != null && !mostDamaged.Contains(potentialTarget))
 					{
 						continue;
 					}

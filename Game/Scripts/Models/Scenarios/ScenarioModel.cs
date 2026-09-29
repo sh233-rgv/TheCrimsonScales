@@ -26,6 +26,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 	public abstract List<MonsterModel> MonsterModels { get; }
 	public abstract List<SavedReward> Rewards { get; }
+	public virtual IEnumerable<AbilityCardModel> UnpickableCardModels { get; } = [];
 
 	public virtual string BGMPath => "res://Audio/BGM/Floral-Woods.ogg";
 	public virtual string BGSPath => null;
@@ -146,24 +147,24 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 	}
 
 	protected async GDTask<Monster> SpawnMonster(Figure potentialAuthority, MonsterModel monsterModel, MonsterType monsterType, Hex spawnHex,
-		int? monsterLevel = null, Alignment alignment = Alignment.Monsters, Alignment enemies = Alignment.Characters, bool canHaveFeatures = false)
+		int? monsterLevel = null, Alignment alignment = Alignment.Monsters, bool canHaveFeatures = false)
 	{
-		return await SpawnMonster(potentialAuthority, monsterModel, monsterType, [spawnHex], monsterLevel, alignment, enemies, canHaveFeatures);
+		return await SpawnMonster(potentialAuthority, monsterModel, monsterType, [spawnHex], monsterLevel, alignment, canHaveFeatures);
 	}
 
 	protected async GDTask<Monster> SpawnMonster(Figure potentialAuthority, MonsterModel monsterModel, MonsterType monsterType,
 		IEnumerable<Hex> spawnHexes,
-		int? monsterLevel = null, Alignment alignment = Alignment.Monsters, Alignment enemies = Alignment.Characters, bool canHaveFeatures = false)
+		int? monsterLevel = null, Alignment alignment = Alignment.Monsters, bool canHaveFeatures = false)
 	{
-		return await SpawnOrSummonMonster(potentialAuthority, monsterModel, monsterType, spawnHexes, true, monsterLevel, alignment, enemies,
+		return await SpawnOrSummonMonster(potentialAuthority, monsterModel, monsterType, spawnHexes, true, monsterLevel, alignment,
 			canHaveFeatures);
 	}
 
 	protected async GDTask<Monster> SummonMonster(Figure potentialAuthority, MonsterModel monsterModel, MonsterType monsterType,
 		IEnumerable<Hex> spawnHexes,
-		int? monsterLevel = null, Alignment alignment = Alignment.Monsters, Alignment enemies = Alignment.Characters, bool canHaveFeatures = false)
+		int? monsterLevel = null, Alignment alignment = Alignment.Monsters, bool canHaveFeatures = false)
 	{
-		return await SpawnOrSummonMonster(potentialAuthority, monsterModel, monsterType, spawnHexes, false, monsterLevel, alignment, enemies,
+		return await SpawnOrSummonMonster(potentialAuthority, monsterModel, monsterType, spawnHexes, false, monsterLevel, alignment,
 			canHaveFeatures);
 	}
 
@@ -218,7 +219,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 	private async GDTask<Monster> SpawnOrSummonMonster(Figure potentialAuthority, MonsterModel monsterModel, MonsterType monsterType,
 		IEnumerable<Hex> spawnHexes, bool spawn,
-		int? monsterLevel = null, Alignment alignment = Alignment.Monsters, Alignment enemies = Alignment.Characters, bool canHaveFeatures = false)
+		int? monsterLevel = null, Alignment alignment = Alignment.Monsters, bool canHaveFeatures = false)
 	{
 		spawnHexes = spawnHexes.ToList();
 		potentialAuthority ??= GameController.Instance.CharacterManager.FirstAlive();
