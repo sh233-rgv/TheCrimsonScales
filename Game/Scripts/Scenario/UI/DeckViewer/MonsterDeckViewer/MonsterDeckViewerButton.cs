@@ -14,9 +14,11 @@ public partial class MonsterDeckViewerButton : DeckViewerButton<MonsterAbilityCa
 	{
 		base.SetCardDeck(deck);
 
+		MonsterAbilityCardModel model = deck.DrawPile.First().Model;
+
 		_monsterDeckBackTexture.SetTexture(AtlasTextureHelper.CreateAtlasTexture(
-			8, 3, 3,
-			ResourceLoader.Load<Texture2D>(deck.DrawPile.First().Model.CardsAtlasPath)));
+			model.RowCount * model.ColumnCount - 1, model.RowCount, model.ColumnCount,
+			ResourceLoader.Load<Texture2D>(model.CardsAtlasPath)));
 	}
 
 	public override bool CardCountAvailable(CardCount cardCount, MonsterAbilityCard card)
