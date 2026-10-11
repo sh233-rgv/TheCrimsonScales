@@ -80,7 +80,7 @@ public class Scenario007 : ScenarioModel
 			$"Once per round, when a character ends their turn on a water tile marked {Icons.InlineMarker(Marker.Type.a, textParameters)}, the water tile is removed and various things might happen, such as monsters spawning and conditions being applied to the character. The water tiles cannot be removed in any other way.");
 
 		List<int> tokenNumbers = new List<int>();
-		for(int i = 0; i < 12; i++)
+		for(int i = 1; i <= 12; i++)
 		{
 			tokenNumbers.Add(i);
 		}
