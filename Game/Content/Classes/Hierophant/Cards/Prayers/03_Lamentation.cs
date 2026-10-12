@@ -23,7 +23,7 @@ public class Lamentation : HierophantPrayerCardModel<Lamentation.CardTopBottom, 
 							await state.ActionState.RequestDiscardOrLose();
 						}, EffectType.Selectable,
 						effectButtonParameters: new IconEffectButton.Parameters(Icons.Damage),
-						effectInfoViewParameters: new TextEffectInfoView.Parameters("Lose Lamentation to negate the damage"));
+						effectInfoViewParameters: new AbilityCardEffectInfoView.Parameters(GetAbilityCardSide(state)));
 
 					await GDTask.CompletedTask;
 				})
