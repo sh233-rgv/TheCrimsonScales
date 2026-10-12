@@ -263,6 +263,7 @@ public class SavedCampaign
 	{
 		SavedCharacter character = new SavedCharacter(classModel, personalQuestModel, name);
 		Characters.Add(character);
+		ProsperityLevelUp(character);
 
 		CharactersChangedEvent?.Invoke();
 	}
@@ -339,9 +340,26 @@ public class SavedCampaign
 			// New prosperity level, unlock new items
 			UnlockItems(newProsperityLevel);
 			ProsperityLevelChangedEvent?.Invoke(newProsperityLevel);
+
+			foreach(SavedCharacter character in Characters)
+			{
+				ProsperityLevelUp(character);
+			}
 		}
 
 		ProsperityChangedEvent?.Invoke();
+	}
+
+	private void ProsperityLevelUp(SavedCharacter character)
+	{
+		// Currently have this set to the unofficial recommended rule of (P+1)/2, round up
+		// Let me know if you want it set to the official rule of P/2, round up
+		GD.Print(character.ClassModel.XPLevelValues.Values[GetProsperityLevel()/2]);
+		GD.Print(GetProsperityLevel()/2 + 1);
+		if(character.XP < character.ClassModel.XPLevelValues.Values[GetProsperityLevel()/2 - 1])
+		{
+			character.AddXP(character.ClassModel.XPLevelValues.Values[GetProsperityLevel()/2 - 1] - character.XP);
+		}
 	}
 
 	public int GetProsperityLevel()
