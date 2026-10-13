@@ -50,7 +50,8 @@ public partial class MainMenuController : SceneController<MainMenuController>
 		SavedCampaign savedCampaign = AppController.Instance.CampaignSaveData.SavedCampaign;
 		if(savedCampaign.SavedScenario == null)
 		{
-			AppController.Instance.SceneLoader.RequestSceneChange(new BetweenScenariosSceneRequest(savedCampaign));
+			AppController.Instance.SceneLoader.RequestSceneChange(new BetweenScenariosSceneRequest(savedCampaign,
+				removedSavedScenario: AppController.Instance.SaveManager.CampaignSaveFile.RemovedSavedScenario));
 		}
 		else
 		{
