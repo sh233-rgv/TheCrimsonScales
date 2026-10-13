@@ -1,7 +1,7 @@
 [gd_resource type="AtlasTexture" format=3 uid="uid://bku4qqkqlgdnh"]
 
-[ext_resource type="Texture2D" uid="uid://chno406bjkieo" path="res://Content/Classes/FireKnight/DrakeFiend.jpg" id="1_efgrl"]
+[ext_resource type="Texture2D" uid="uid://bmdgfvyn7251y" path="res://Content/Classes/FireKnight/DrakeFiend2.jpg" id="1_m3udr"]
 
 [resource]
-atlas = ExtResource("1_efgrl")
+atlas = ExtResource("1_m3udr")
 region = Rect2(50, 40, 600, 900)
