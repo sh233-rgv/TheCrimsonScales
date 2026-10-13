@@ -167,7 +167,7 @@ public class Scenario007 : ScenarioModel
 							 All enemies perform “{Icons.Inline(Icons.Heal, textParameters)}3, Self” and add +1{Icons.Inline(Icons.Move, textParameters)} to all their Move abilities this round.
 							 """);
 
-						foreach(Figure figure in GameController.Instance.Map.Figures)
+						foreach(Figure figure in GameController.Instance.Map.Figures.ToList())
 						{
 							if(character.EnemiesWith(figure))
 							{
@@ -212,7 +212,7 @@ public class Scenario007 : ScenarioModel
 
 						if(character.Cards.Any(card => card.CardState == CardState.Discarded && card.OriginalOwner == character))
 						{
-							IEnumerable<AbilityCard> cards =
+							List<AbilityCard> cards =
 								await AbilityCmd.SelectAbilityCards(character, CardState.Discarded, 1, 2, card => true,
 									hintText: "Select up to 2 discarded cards to recover");
 
@@ -646,8 +646,9 @@ public class Scenario007 : ScenarioModel
 				{
 					await AbilityCmd.SufferDamage(otherCharacter, 2, otherCharacter);
 
-					foreach(Summon summon in otherCharacter.Summons)
+					for(int i = otherCharacter.Summons.Count - 1; i >= 0; i--)
 					{
+						Summon summon = otherCharacter.Summons[i];
 						await AbilityCmd.SufferDamage(summon, 2, summon);
 					}
 				}
