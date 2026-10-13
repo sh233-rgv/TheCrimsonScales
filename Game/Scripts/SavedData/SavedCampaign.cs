@@ -372,9 +372,12 @@ public class SavedCampaign
 	{
 		// Currently have this set to the unofficial recommended rule of (P+1)/2, round up
 		// The official rule is P/2, round up
-		if(character.XP < character.ClassModel.XPLevelValues.Values[GetProsperityLevel() / 2 - 1])
+		int prosperityLevel = GetProsperityLevel();
+		int targetLevel = (prosperityLevel + 2) / 2;
+
+		if(character.XP < character.ClassModel.XPLevelValues.Values[targetLevel - 1])
 		{
-			character.AddXP(character.ClassModel.XPLevelValues.Values[GetProsperityLevel() / 2 - 1] - character.XP);
+			character.AddXP(character.ClassModel.XPLevelValues.Values[targetLevel - 1] - character.XP);
 		}
 	}
 
