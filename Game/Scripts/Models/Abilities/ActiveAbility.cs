@@ -6,7 +6,7 @@ public abstract class ActiveAbilityState : AbilityState
 {
 	private Func<ActiveAbilityState, GDTask> _onDeactivate;
 
-	public int CharacterTokens { get; set; }
+	public int CharacterTokens { get; private set; }
 	public Vector2 CharacterTokenPosition { get; set; }
 
 	public void SetOnDeactivate(Func<ActiveAbilityState, GDTask> onDeactivate)

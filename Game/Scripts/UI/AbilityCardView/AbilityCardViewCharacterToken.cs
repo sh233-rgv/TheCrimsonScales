@@ -27,12 +27,9 @@ public partial class AbilityCardViewCharacterToken : Control
 		_textureRect.Texture = texture;
 		Control parent = GetParent<Control>();
 		_normalizedPosition = position;
-		Position = _normalizedPosition * parent.Size - 0.5f * Size;
-		if(count > 0)
-		{
-			_countLabel.SetText(count.ToString());
-			_countLabel.Show();
-		}
+		SetPosition(_normalizedPosition * parent.Size - 0.5f * Size);
+		_countLabel.SetVisible(count > 0);
+		_countLabel.SetText(count.ToString());
 	}
 
 	public override void _Process(double delta)
