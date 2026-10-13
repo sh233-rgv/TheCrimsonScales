@@ -115,6 +115,20 @@ public class SavedCampaign
 		}
 	}
 
+	// Collection of all party and benched characters
+	public IEnumerable<SavedCharacter> AllNonRetiredCharacters
+	{
+		get
+		{
+			foreach(SavedCharacter character in Characters)
+			{
+				yield return character;
+			}
+
+			//TODO: Benched characters
+		}
+	}
+
 	public ScenarioModel CompletedScenarioModel => ModelDB.GetById<ScenarioModel>(CompletedScenarioModelId);
 
 	public event Action CharactersChangedEvent;
@@ -161,8 +175,8 @@ public class SavedCampaign
 
 		//savedCampaign.AddCharacter(ModelDB.Class<MirefootModel>(), null, "Moerasvoet");
 		//savedCampaign.AddCharacter(ModelDB.Class<BombardModel>(), ModelDB.PersonalQuest<ExperiencedLeader>(), "Beschieter");
-		//savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), ModelDB.PersonalQuest<SpiritualGainsPersonalQuest>(), "Opperpriester");
 		savedCampaign.AddCharacter(ModelDB.Class<FireKnightModel>(), ModelDB.PersonalQuest<AnAdderDivides>(), "Vuur Knecht");
+		savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), ModelDB.PersonalQuest<NaturalSelection>(), "Opperpriester");
 		// savedCampaign.AddCharacter(ModelDB.Class<ChainguardModel>(), null, "Ketting Garde");
 		//savedCampaign.AddCharacter(ModelDB.Class<ChieftainModel>(), null, "Dierenzitter");
 		// savedCampaign.AddCharacter(ModelDB.Class<HierophantModel>(), ModelDB.PersonalQuest<AnAdderDivides>(), "Opperpriester");
@@ -172,7 +186,7 @@ public class SavedCampaign
 		//savedCampaign.AddCharacter(ModelDB.Class<RuinmawModel>(), null, "Ruineerkaak");
 
 		//savedCampaign.Characters[0].AddItem(ModelDB.Item<MinorManaPotion>());
-		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<FalconFigurine>());
+		savedCampaign.Characters[0].SetEquippedSmallSlotItem(0, ModelDB.Item<OrbOfRetribution>());
 		//savedCampaign.Characters[1].SetEquippedSmallSlotItem(0, ModelDB.Item<ScrollOfCharisma>());
 		//savedCampaign.Characters[1].AddItem(ModelDB.Item<MinorManaPotion>());
 		savedCampaign.Characters[0].AddItem(ModelDB.Item<PoisonDagger>());
@@ -193,6 +207,7 @@ public class SavedCampaign
 		savedCampaign.SetCustomValue("IntroductionSeen", true);
 
 		savedCampaign.GodMode = godMode;
+		savedCampaign.EnhancementsUnlocked = true;
 
 		return savedCampaign;
 	}
@@ -273,7 +288,10 @@ public class SavedCampaign
 		ReturnCards(savedCharacter);
 
 		// Return personal quest
-		SavedPersonalQuests.AddPersonalQuest(savedCharacter.SavedPersonalQuest.Model);
+		if(savedCharacter.SavedPersonalQuest != null)
+		{
+			SavedPersonalQuests.AddPersonalQuest(savedCharacter.SavedPersonalQuest.Model);
+		}
 
 		Characters.Remove(savedCharacter);
 
@@ -353,12 +371,10 @@ public class SavedCampaign
 	private void ProsperityLevelUp(SavedCharacter character)
 	{
 		// Currently have this set to the unofficial recommended rule of (P+1)/2, round up
-		// Let me know if you want it set to the official rule of P/2, round up
-		GD.Print(character.ClassModel.XPLevelValues.Values[GetProsperityLevel()/2]);
-		GD.Print(GetProsperityLevel()/2 + 1);
-		if(character.XP < character.ClassModel.XPLevelValues.Values[GetProsperityLevel()/2 - 1])
+		// The official rule is P/2, round up
+		if(character.XP < character.ClassModel.XPLevelValues.Values[GetProsperityLevel() / 2 - 1])
 		{
-			character.AddXP(character.ClassModel.XPLevelValues.Values[GetProsperityLevel()/2 - 1] - character.XP);
+			character.AddXP(character.ClassModel.XPLevelValues.Values[GetProsperityLevel() / 2 - 1] - character.XP);
 		}
 	}
 
