@@ -375,9 +375,13 @@ public class SavedCampaign
 		int prosperityLevel = GetProsperityLevel();
 		int targetLevel = (prosperityLevel + 2) / 2;
 
-		if(character.XP < character.ClassModel.XPLevelValues.Values[targetLevel - 1])
+		if(targetLevel > 1)
 		{
-			character.AddXP(character.ClassModel.XPLevelValues.Values[targetLevel - 1] - character.XP);
+			int prosperityXP = character.ClassModel.XPLevelValues.Values[targetLevel - 2];
+			if(character.XP < prosperityXP)
+			{
+				character.AddXP(prosperityXP - character.XP);
+			}
 		}
 	}
 
