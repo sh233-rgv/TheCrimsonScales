@@ -153,10 +153,10 @@ public class ToxicImpAbilityCard6 : ToxicImpAbilityCard
 		new MonsterAbilityCardAbility(AttackAbility(monster, extraDamage: -1)
 			.WithAfterAttackPerformedSubscription(
 				ScenarioEvents.AfterAttackPerformed.Subscription.New(
-					parameters => parameters.AbilityState.SingleTargetState.Target == monster,
+					parameters => parameters.AbilityState.Target == monster,
 					async parameters =>
 					{
-						await AbilityCmd.AddCondition(null, parameters.Performer, Conditions.Infect);
+						await AbilityCmd.AddCondition(null, parameters.Performer, Conditions.Infect, parameters.AbilityState.Target);
 					}
 				))
 			.Build())

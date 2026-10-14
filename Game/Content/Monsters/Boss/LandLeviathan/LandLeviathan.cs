@@ -93,8 +93,8 @@ public class LandLeviathan : DeepTerror, IBossMonsterModel
 			.WithRange(5)
 			.WithCustomGetTargets((state, targets) =>
 			{
-				targets.AddRange(RangeHelper.GetFiguresInRange(state.Performer, 100)
-					.Where(figure => figure is Monster monsterFigure && monsterFigure.MonsterModel is Imp));
+				targets.AddRange(RangeHelper.GetFiguresInRange(state.Performer, 5)
+					.Where(figure => figure is Monster monster && monster.MonsterModel is Imp));
 			})
 			.Build())
 	];
