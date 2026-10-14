@@ -6,6 +6,12 @@ using Godot;
 
 public partial class Character : Figure
 {
+	public class LongRestActionSource : IActionSource
+	{
+	}
+
+	public readonly LongRestActionSource _longRestActionSource = new LongRestActionSource();
+
 	private Sprite2D _staticSprite;
 	private AnimatedSpriteSheet2D _animatedSprite;
 
@@ -238,7 +244,7 @@ public partial class Character : Figure
 			return new Initiative()
 			{
 				MainInitiative = 99,
-				SortingInitiative = 99 * 10000000 + 99999
+				SortingInitiative = 99 * 10000000 + 99999 + Index * 100
 			};
 		}
 
