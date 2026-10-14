@@ -2,14 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
-public class Scenario066 : SoloScenarioModel
+public class Scenario066 : ScenarioModel, ISoloScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario066.tscn";
 
 	public override int ScenarioNumber => 66;
 	public override string Name => "Otherworldly Strangers";
-	public override ClassModel ClassModel => ModelDB.Class<StarslingerModel>();
+	public ClassModel ClassModel => ModelDB.Class<StarslingerModel>();
 	protected override List<ScenarioRequirement> Requirements { get; } = [new SoloScenarioRequirement(ModelDB.Class<StarslingerModel>())];
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SoloScenarioChain>();
 
 	public override string IntroductionText =>
 		"""

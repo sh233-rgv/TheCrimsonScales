@@ -2,14 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
-public class Scenario064 : SoloScenarioModel
+public class Scenario064 : ScenarioModel, ISoloScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario064.tscn";
 
 	public override int ScenarioNumber => 64;
 	public override string Name => "Glowing Crystals";
-	public override ClassModel ClassModel => ModelDB.Class<LuminaryModel>();
+	public ClassModel ClassModel => ModelDB.Class<LuminaryModel>();
 	protected override List<ScenarioRequirement> Requirements { get; } = [new SoloScenarioRequirement(ModelDB.Class<LuminaryModel>())];
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SoloScenarioChain>();
 
 	public override string IntroductionText =>
 		"""

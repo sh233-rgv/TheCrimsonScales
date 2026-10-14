@@ -4,14 +4,16 @@ using Fractural.Tasks;
 using GTweens.Easings;
 using GTweensGodot.Extensions;
 
-public class Scenario056 : SoloScenarioModel
+public class Scenario056 : ScenarioModel, ISoloScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario056.tscn";
 
 	public override int ScenarioNumber => 56;
 	public override string Name => "Disarm the Machine";
-	public override ClassModel ClassModel => ModelDB.Class<BombardModel>();
+	public ClassModel ClassModel => ModelDB.Class<BombardModel>();
 	protected override List<ScenarioRequirement> Requirements { get; } = [new SoloScenarioRequirement(ModelDB.Class<BombardModel>())];
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SoloScenarioChain>();
 
 	public override string IntroductionText =>
 		"""

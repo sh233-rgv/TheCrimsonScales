@@ -4,14 +4,16 @@ using Fractural.Tasks;
 using Godot;
 using GTweens.Easings;
 
-public class Scenario060 : SoloScenarioModel
+public class Scenario060 : ScenarioModel, ISoloScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario060.tscn";
 
 	public override int ScenarioNumber => 60;
 	public override string Name => "Through the Fire and the Flames";
-	public override ClassModel ClassModel => ModelDB.Class<FireKnightModel>();
+	public ClassModel ClassModel => ModelDB.Class<FireKnightModel>();
 	protected override List<ScenarioRequirement> Requirements { get; } = [new SoloScenarioRequirement(ModelDB.Class<FireKnightModel>())];
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SoloScenarioChain>();
 
 	public override string IntroductionText =>
 		"""

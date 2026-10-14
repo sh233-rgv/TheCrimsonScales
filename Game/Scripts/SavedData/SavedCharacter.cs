@@ -173,7 +173,7 @@ public class SavedCharacter
 
 			if(Level == 5)
 			{
-				ScenarioModel soloScenarioModel = ModelDB.GetById<SoloScenarioModel>(ClassModel.SoloScenarioModelId);
+				ScenarioModel soloScenarioModel = ModelDB.GetById<ScenarioModel>(ClassModel.SoloScenarioModelId);
 				if(soloScenarioModel != null)
 				{
 					await AppController.Instance.GiveRewards(savedCampaign,

@@ -19,7 +19,7 @@ public class CharacterManager
 		// Place all characters
 
 		List<SavedCharacter> savedCharacters = [];
-		if(GameController.Instance.ScenarioModel is SoloScenarioModel soloScenarioModel)
+		if(GameController.Instance.ScenarioModel is ISoloScenarioModel soloScenarioModel)
 		{
 			savedCharacters.Add(
 				GameController.Instance.SavedCampaign.Characters.First(character => character.ClassModel == soloScenarioModel.ClassModel));

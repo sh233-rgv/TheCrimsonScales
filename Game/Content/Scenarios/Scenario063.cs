@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using Fractural.Tasks;
 
-public class Scenario063 : SoloScenarioModel
+public class Scenario063 : ScenarioModel, ISoloScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario063.tscn";
 
 	public override int ScenarioNumber => 63;
 	public override string Name => "A Cornered Viper";
-	public override ClassModel ClassModel => ModelDB.Class<MirefootModel>();
+	public ClassModel ClassModel => ModelDB.Class<MirefootModel>();
 	protected override List<ScenarioRequirement> Requirements { get; } = [new SoloScenarioRequirement(ModelDB.Class<MirefootModel>())];
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SoloScenarioChain>();
 
 	public override string IntroductionText =>
 		"""

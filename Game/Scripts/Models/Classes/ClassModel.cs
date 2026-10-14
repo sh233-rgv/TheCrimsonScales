@@ -29,5 +29,5 @@ public abstract class ClassModel : AbstractModel
 	public virtual string IconPath => $"{AssetPath}/Icon.svg";
 	public virtual Texture2D IconTexture => ResourceLoader.Load<Texture2D>(IconPath);
 	public virtual bool HasAnimatedSprite => true;
-	public string SoloScenarioModelId => $"SOLO_SCENARIO_MODEL.SCENARIO{SoloScenarioModelNumber:D3}";
+	public string SoloScenarioModelId => $"SCENARIO_MODEL.SCENARIO{SoloScenarioModelNumber:D3}";
 }

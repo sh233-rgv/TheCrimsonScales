@@ -5,14 +5,16 @@ using Godot;
 using GTweens.Easings;
 using GTweensGodot.Extensions;
 
-public class Scenario059 : SoloScenarioModel
+public class Scenario059 : ScenarioModel, ISoloScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario059.tscn";
 
 	public override int ScenarioNumber => 59;
 	public override string Name => "Forest Invaders";
-	public override ClassModel ClassModel => ModelDB.Class<ChieftainModel>();
+	public ClassModel ClassModel => ModelDB.Class<ChieftainModel>();
 	protected override List<ScenarioRequirement> Requirements { get; } = [new SoloScenarioRequirement(ModelDB.Class<ChieftainModel>())];
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SoloScenarioChain>();
 
 	public override string IntroductionText =>
 		"""

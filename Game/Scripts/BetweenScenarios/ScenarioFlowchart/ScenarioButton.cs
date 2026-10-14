@@ -31,7 +31,7 @@ public partial class ScenarioButton : Control
 	public ScenarioButtonOutline ScenarioButtonOutline { get; private set; }
 
 	public string ModelId => $"SCENARIO_MODEL.SCENARIO{ScenarioNumber:D3}";
-	public ScenarioModel Model => ModelDB.GetById<ScenarioModel>($"{(_solo ? "SOLO_" : "")}{ModelId}");
+	public ScenarioModel Model => ModelDB.GetById<ScenarioModel>(ModelId);
 
 	public override void _Ready()
 	{

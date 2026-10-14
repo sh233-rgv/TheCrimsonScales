@@ -193,7 +193,7 @@ public partial class GameController : SceneController<GameController>
 					//Seed = GD.RandRange(0, int.MaxValue),
 					Seed = 0,
 					ScenarioLevel =
-						(ScenarioModel is SoloScenarioModel soloScenarioModel
+						(ScenarioModel is ISoloScenarioModel soloScenarioModel
 							? Mathf.CeilToInt(
 								savedCampaign.Characters.First(character => character.ClassModel == soloScenarioModel.ClassModel).Level / 2f)
 							: Mathf.CeilToInt((characterLevelSum / savedCampaign.Characters.Count) / 2f)) +

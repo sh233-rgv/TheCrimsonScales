@@ -2,14 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
-public class Scenario065 : SoloScenarioModel
+public class Scenario065 : ScenarioModel, ISoloScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario065.tscn";
 
 	public override int ScenarioNumber => 65;
 	public override string Name => "Beyond the Grave";
-	public override ClassModel ClassModel => ModelDB.Class<SpiritCallerModel>();
+	public ClassModel ClassModel => ModelDB.Class<SpiritCallerModel>();
 	protected override List<ScenarioRequirement> Requirements { get; } = [new SoloScenarioRequirement(ModelDB.Class<SpiritCallerModel>())];
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SoloScenarioChain>();
 
 	public override string IntroductionText =>
 		"""

@@ -363,7 +363,7 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 			}
 		}
 
-		if(InGloomhaven && ModelDB.GetById<ScenarioModel>(SavedCampaign.CompletedScenarioModelId) is not SoloScenarioModel)
+		if(InGloomhaven && ModelDB.GetById<ScenarioModel>(SavedCampaign.CompletedScenarioModelId) is not ISoloScenarioModel)
 		{
 			await ReturnToGloomhavenSequence(cancellationToken);
 		}
@@ -438,7 +438,7 @@ public partial class BetweenScenariosController : SceneController<BetweenScenari
 		SavedCampaign savedCampaign = SavedCampaign;
 		float characterLevelSum = savedCampaign.Characters.Sum(character => character.Level);
 		int scenarioLevel =
-			(scenarioModel is SoloScenarioModel soloScenarioModel
+			(scenarioModel is ISoloScenarioModel soloScenarioModel
 				? Mathf.CeilToInt(savedCampaign.Characters.First(character => character.ClassModel == soloScenarioModel.ClassModel).Level / 2f)
 				: Mathf.CeilToInt((characterLevelSum / savedCampaign.Characters.Count) / 2f)) +
 			(AppController.Instance.CampaignOptions == null

@@ -4,14 +4,16 @@ using System.Linq;
 using Fractural.Tasks;
 using Godot;
 
-public class Scenario061 : SoloScenarioModel
+public class Scenario061 : ScenarioModel, ISoloScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario061.tscn";
 
 	public override int ScenarioNumber => 61;
 	public override string Name => "Archaic Preservation";
-	public override ClassModel ClassModel => ModelDB.Class<HierophantModel>();
+	public ClassModel ClassModel => ModelDB.Class<HierophantModel>();
 	protected override List<ScenarioRequirement> Requirements { get; } = [new SoloScenarioRequirement(ModelDB.Class<HierophantModel>())];
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SoloScenarioChain>();
 
 	public override string IntroductionText =>
 		"""

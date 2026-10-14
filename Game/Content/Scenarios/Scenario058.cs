@@ -2,14 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
-public class Scenario058 : SoloScenarioModel
+public class Scenario058 : ScenarioModel, ISoloScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario058.tscn";
 
 	public override int ScenarioNumber => 58;
 	public override string Name => "Penitentiary Lockdown";
-	public override ClassModel ClassModel => ModelDB.Class<ChainguardModel>();
+	public ClassModel ClassModel => ModelDB.Class<ChainguardModel>();
 	protected override List<ScenarioRequirement> Requirements { get; } = [new SoloScenarioRequirement(ModelDB.Class<ChainguardModel>())];
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SoloScenarioChain>();
 
 	public override string IntroductionText =>
 		"""

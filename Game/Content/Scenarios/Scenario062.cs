@@ -2,14 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Fractural.Tasks;
 
-public class Scenario062 : SoloScenarioModel
+public class Scenario062 : ScenarioModel, ISoloScenarioModel
 {
 	public override string ScenePath => "res://Content/Scenarios/Scenario062.tscn";
 
 	public override int ScenarioNumber => 62;
 	public override string Name => "Hollow Redemption";
-	public override ClassModel ClassModel => ModelDB.Class<HollowpactModel>();
+	public ClassModel ClassModel => ModelDB.Class<HollowpactModel>();
 	protected override List<ScenarioRequirement> Requirements { get; } = [new SoloScenarioRequirement(ModelDB.Class<HollowpactModel>())];
+	public override List<ScenarioLink> Links => [GloomhavenLink.Instance];
+	public override ScenarioChain ScenarioChain => ModelDB.ScenarioChain<SoloScenarioChain>();
 
 	public override string IntroductionText =>
 		"""
