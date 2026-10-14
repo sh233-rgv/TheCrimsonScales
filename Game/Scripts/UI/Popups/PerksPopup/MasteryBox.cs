@@ -1,6 +1,7 @@
 ﻿using Godot;
 
-public class MasteryBox : Control
+public partial class MasteryBox : Control
 {
-
+	[Export]
+	public TextureRect Checkmark;
 }

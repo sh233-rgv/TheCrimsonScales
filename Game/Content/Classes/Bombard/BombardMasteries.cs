@@ -10,16 +10,16 @@ public class BombardMasteries
 
 	public class Mastery1 : BombardMastery
 	{
-		private Dictionary<AbilityCardSide, int> _projectileSides = [];
-
 		public override string Description =>
 			$"In a single scenario, successfully resolve 4 different {Icons.Inline(BombardCardSide.ProjectileIconPath)} abilities twice each.";
 
 		public override int MaxProgress => 4;
 
-		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
+		public override async GDTask OnScenarioSetupPhaseCompleted(Mastery mastery, Character character)
 		{
-			await base.OnScenarioSetupPhaseCompleted(character);
+			await base.OnScenarioSetupPhaseCompleted(mastery, character);
+
+			Dictionary<AbilityCardSide, int> projectileSides = [];
 
 			ScenarioEvents.AbilityPerformedEvent.Subscribe(this,
 				parameters => parameters.Performer == character &&
@@ -28,26 +28,19 @@ public class BombardMasteries
 				async parameters =>
 				{
 					AbilityCardSide cardSide = (AbilityCardSide)parameters.AbilityState.ActionState.ActionSource;
-					if(_projectileSides.ContainsKey(cardSide))
+					if(projectileSides.ContainsKey(cardSide))
 					{
-						if(_projectileSides[cardSide] == 1)
+						if(projectileSides[cardSide] == 1)
 						{
-							await AdjustProgress();
-							_projectileSides[cardSide]++;
+							await mastery.AdjustProgress();
+							projectileSides[cardSide]++;
 						}
 					}
 					else
 					{
-						_projectileSides.Add(cardSide, 1);
+						projectileSides.Add(cardSide, 1);
 					}
 				});
-		}
-
-		public override async GDTask OnScenarioCompleted(Character character)
-		{
-			await base.OnScenarioCompleted(character);
-
-			_projectileSides.Clear();
 		}
 	}
 
@@ -58,15 +51,15 @@ public class BombardMasteries
 
 		public override int MaxProgress => 5;
 
-		public override async GDTask OnScenarioSetupPhaseCompleted(Character character)
+		public override async GDTask OnScenarioSetupPhaseCompleted(Mastery mastery, Character character)
 		{
-			await base.OnScenarioSetupPhaseCompleted(character);
+			await base.OnScenarioSetupPhaseCompleted(mastery, character);
 
 			ScenarioEvents.AfterAttackPerformedEvent.Subscribe(this,
 				parameters => parameters.AbilityState.Target == character,
 				async parameters =>
 				{
-					await AdjustProgress();
+					await mastery.AdjustProgress();
 				});
 
 			ScenarioEvents.AfterSufferDamageEvent.Subscribe(this,
@@ -79,7 +72,7 @@ public class BombardMasteries
 						                       retaliateParameters.Retaliate <= parameters.DamageSuffered,
 						async retaliateParameters =>
 						{
-							await SetFailed(true);
+							await mastery.SetTemporarilyFailed(true);
 						}, order: 1000);
 
 					await GDTask.CompletedTask;

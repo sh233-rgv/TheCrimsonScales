@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://ddxxos0ekiudq"]
 
+[ext_resource type="Script" uid="uid://dbt3itmug3kc1" path="res://Scripts/UI/Popups/PerksPopup/MasteryBox.cs" id="1_a4b1y"]
 [ext_resource type="Texture2D" uid="uid://bj03vc6rpjr3f" path="res://Art/Icons/Other/CheckMark.svg" id="1_welnr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lxurl"]
@@ -14,7 +15,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="MasteryBox" type="Control" unique_id=1315527475]
+[node name="MasteryBox" type="Control" unique_id=1315527475 node_paths=PackedStringArray("Checkmark")]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 3
 anchors_preset = 0
@@ -22,6 +23,8 @@ offset_right = 80.0
 offset_bottom = 80.0
 size_flags_vertical = 4
 mouse_filter = 2
+script = ExtResource("1_a4b1y")
+Checkmark = NodePath("Outline/MarginContainer/Checkmark")
 
 [node name="Outline" type="Panel" parent="." unique_id=1901167651]
 layout_mode = 1
