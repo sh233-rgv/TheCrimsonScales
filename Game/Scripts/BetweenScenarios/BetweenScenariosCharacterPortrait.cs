@@ -292,7 +292,7 @@ public partial class BetweenScenariosCharacterPortrait : Control
 
 	private async GDTask OnLevelUpPressed()
 	{
-		SavedCharacter.TryLevelUp();
+		await SavedCharacter.TryLevelUp(_savedCampaign);
 
 		AppController.Instance.PopupManager.RequestPopup(new LevelUpCardSelectionPopup.Request
 		{
