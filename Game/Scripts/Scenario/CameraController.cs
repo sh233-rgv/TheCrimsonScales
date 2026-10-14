@@ -138,11 +138,16 @@ public partial class CameraController : Node
 			return;
 		}
 
+		if(!AppController.Instance.DeviceOptions.ScreenShakeEnabled.Value)
+		{
+			return;
+		}
+
 		this.DelayedCall(() =>
 		{
 			const float maxIntensity = 30;
 			_shakeIntensity += intensity;
-			Mathf.Min(_shakeIntensity, maxIntensity);
+			_shakeIntensity = Mathf.Min(_shakeIntensity, maxIntensity);
 		}, delay);
 	}
 

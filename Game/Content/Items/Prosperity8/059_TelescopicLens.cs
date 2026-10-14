@@ -16,7 +16,8 @@ public class TelescopicLens : Prosperity8Item
 		base.Subscribe();
 
 		SubscribeDuringAttack(
-			canApply: state => state.Performer == Owner,
+			canApply: state => state.Performer == Owner &&
+			                   state.AbilityRangeType == RangeType.Range,
 			apply: async state =>
 			{
 				await Use(async user =>
@@ -29,11 +30,12 @@ public class TelescopicLens : Prosperity8Item
 					ScenarioEvents.AbilityStartedEvent.Subscribe(this, subscriber,
 						parameters =>
 							parameters.AbilityState.ActionState == state.ActionState &&
-							parameters.AbilityState is AttackAbility.State,
+							parameters.AbilityState is AttackAbility.State &&
+							state.AbilityRangeType == RangeType.Range,
 						async parameters =>
 						{
 							AttackAbility.State attackAbilityState = ((AttackAbility.State)parameters.AbilityState);
-							attackAbilityState.AbilityAdjustRange(1);
+							attackAbilityState.AbilityAdjustRange(2);
 
 							await GDTask.CompletedTask;
 						}

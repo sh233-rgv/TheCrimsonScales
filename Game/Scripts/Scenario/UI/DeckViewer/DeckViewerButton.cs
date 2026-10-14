@@ -44,6 +44,15 @@ public abstract partial class DeckViewerButton<T> : Control
 
 		_view.TopLevel = true;
 		ExtraDetailView.TopLevel = true;
+
+		GameController.Instance.HexPin.ActiveChangedEvent += OnHexPinActiveChangedEvent;
+	}
+
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+
+		GameController.Instance.HexPin.ActiveChangedEvent -= OnHexPinActiveChangedEvent;
 	}
 
 	private void OnMouseEntered()
@@ -148,6 +157,14 @@ public abstract partial class DeckViewerButton<T> : Control
 	public virtual void SetCardDeck(CardDeck<T> deck)
 	{
 		_cardDeck = deck;
+	}
+
+	private void OnHexPinActiveChangedEvent(bool active)
+	{
+		MouseFilter = active
+			? MouseFilterEnum.Stop
+			: MouseFilterEnum.Ignore;
+		_button.MouseFilter = MouseFilter;
 	}
 
 	public abstract bool CardCountAvailable(CardCount cardCount, T card);

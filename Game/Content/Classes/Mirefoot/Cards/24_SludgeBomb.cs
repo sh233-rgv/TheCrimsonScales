@@ -52,37 +52,37 @@ public class SludgeBomb : MirefootCardModel<SludgeBomb.CardTop, SludgeBomb.CardB
 			new AbilityCardAbility(OtherAbility.Builder()
 				.WithPerformAbility(async state =>
 				{
-					//TODO: Change to selecting the actual overlay tiles as opposed to the hexes
-					List<Hex> selectedHexes = await AbilityCmd.SelectHexes(state,
-						list => list.AddRange(RangeHelper.GetHexesInRange(state.Performer.Hex, 1)
-							.Where(hex => hex.HasHexObjectOfType<DifficultTerrain>())), 0, 4, false,
+					List<OverlayTile> selectedDifficultTerrain = await AbilityCmd.SelectOverlayTiles(state,
+						list => list.AddRange(RangeHelper.GetOverlayTilesInRange<DifficultTerrain>(state.Performer, 1)
+							.Where(difficultTerrain => !difficultTerrain.CannotBeDestroyed)), 0, 4, false,
 						"Destroy up to 4 adjacent difficult terrain tiles");
-					foreach(Hex hex in selectedHexes)
+					foreach(OverlayTile difficultTerrain in selectedDifficultTerrain)
 					{
-						await AbilityCmd.DestroyDifficultTerrain(hex.GetHexObjectOfType<DifficultTerrain>());
+						await AbilityCmd.DestroyDifficultTerrain((DifficultTerrain)difficultTerrain);
 						state.SetPerformed();
 					}
 
-					state.SetCustomValue(this, "DestroyedDifficultTerrain", selectedHexes.Count);
+					state.SetCustomValue(this, "DestroyedDifficultTerrain", selectedDifficultTerrain.Count);
 				})
 				.Build()),
 			new AbilityCardAbility(UseSlotAbility.Builder()
 				.WithOnActivate(async state =>
 				{
 					ScenarioEvents.AttackAfterTargetConfirmedEvent.Subscribe(state, this,
-						parameters =>
-							parameters.Performer == state.Performer,
+						parameters => parameters.Performer == state.Performer,
 						async parameters =>
 						{
-							ConditionModel conditionModel = state.ActionState.GetAbilityState<OtherAbility.State>(0)
-									.GetCustomValue<int>(this, "DestroyedDifficultTerrain") switch
-								{
-									1 => Conditions.Poison1,
-									2 => Conditions.Poison2,
-									3 => Conditions.Poison3,
-									4 => Conditions.Poison4,
-									_ => throw new ArgumentOutOfRangeException()
-								};
+							int count = state.ActionState.GetAbilityState<OtherAbility.State>(0)
+								.GetCustomValue<int>(this, "DestroyedDifficultTerrain");
+							state.AdjustCharacterTokens(count);
+							ConditionModel conditionModel = count switch
+							{
+								1 => Conditions.Poison1,
+								2 => Conditions.Poison2,
+								3 => Conditions.Poison3,
+								4 => Conditions.Poison4,
+								_ => throw new ArgumentOutOfRangeException()
+							};
 
 							parameters.AbilityState.SingleTargetAddCondition(conditionModel);
 							await state.AdvanceUseSlot();
@@ -99,6 +99,7 @@ public class SludgeBomb : MirefootCardModel<SludgeBomb.CardTop, SludgeBomb.CardB
 					}
 				)
 				.WithUseSlot(new UseSlot(new Vector2(0.4989973f, 0.88249975f), GainXP))
+				.WithCharacterTokenPosition(new Vector2(0.8412582f, 0.6587258f))
 				.WithConditionalAbilityCheck(state => AbilityCmd.HasPerformedAbility(state, 0))
 				.Build())
 		];
