@@ -3,11 +3,7 @@ using Fractural.Tasks;
 
 public class ChainguardMasteries
 {
-	public abstract class ChainguardMastery : MasteryModel
-	{
-	}
-
-	public class Mastery1 : ChainguardMastery
+	public class Mastery1 : MasteryModel
 	{
 		public override string Description => $"Give {Icons.Inline(Icons.GetCondition(Chainguard.Shackle))} to 30 different enemies.";
 
@@ -31,10 +27,10 @@ public class ChainguardMasteries
 		}
 	}
 
-	public class Mastery2 : ChainguardMastery
+	public class Mastery2 : MasteryModel
 	{
 		public override string Description =>
-			$"Cause enemies with {Icons.Inline(Icons.GetCondition(Chainguard.Shackle))} to suffer at least {Icons.Inline(Icons.Damage)}20 in a single round.";
+			$"Deal at least {Icons.Inline(Icons.Damage)}20 to enemies with {Icons.Inline(Icons.GetCondition(Chainguard.Shackle))} in a single round.";
 
 		public override int MaxProgress => 20;
 
@@ -47,7 +43,7 @@ public class ChainguardMasteries
 				              character.EnemiesWith(parameters.Figure) && parameters.Figure.HasCondition(Chainguard.Shackle),
 				async parameters =>
 				{
-					mastery.AdjustProgress(parameters.DamageSuffered);
+					mastery.AdjustProgress(parameters.DamageDealt);
 					await GDTask.CompletedTask;
 				});
 

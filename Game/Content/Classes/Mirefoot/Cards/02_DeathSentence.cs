@@ -38,7 +38,7 @@ public class DeathSentence : MirefootCardModel<DeathSentence.CardTop, DeathSente
 						async applyParameters =>
 						{
 							DifficultTerrain difficultTerrain = applyParameters.Hex.GetHexObjectOfType<DifficultTerrain>();
-							await AbilityCmd.DestroyDifficultTerrain(difficultTerrain);
+							await AbilityCmd.DestroyDifficultTerrain(difficultTerrain, state);
 						});
 
 					await GDTask.CompletedTask;

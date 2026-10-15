@@ -4,11 +4,7 @@ using Fractural.Tasks;
 
 public class BombardMasteries
 {
-	public abstract class BombardMastery : MasteryModel
-	{
-	}
-
-	public class Mastery1 : BombardMastery
+	public class Mastery1 : MasteryModel
 	{
 		public override string Description =>
 			$"In a single scenario, successfully resolve 4 different {Icons.Inline(BombardCardSide.ProjectileIconPath)} abilities twice each.";
@@ -46,7 +42,7 @@ public class BombardMasteries
 		}
 	}
 
-	public class Mastery2 : BombardMastery
+	public class Mastery2 : MasteryModel
 	{
 		public override string Description =>
 			$"For an entire scenario, deal more {Icons.Inline(Icons.Damage)} with {Icons.Inline(Icons.Retaliate)} than you suffer whenever you are attacked, and be targeted by at least 5 attacks.";

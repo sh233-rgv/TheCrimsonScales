@@ -48,11 +48,14 @@ public partial class ScenarioEvents
 
 	public class HexObjectDestroyed : ScenarioEvent<HexObjectDestroyed.Parameters>
 	{
-		public class Parameters(HexObject hexObject, bool immediately, bool forceDestroy) : ParametersBase
+		public class Parameters(
+			HexObject hexObject, bool immediately, bool forceDestroy, AbilityState potentialAbilityState, Figure potentialDestroyer) : ParametersBase
 		{
 			public HexObject HexObject { get; } = hexObject;
 			public bool Immediately { get; } = immediately;
 			public bool ForceDestroy { get; } = forceDestroy;
+			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
+			public Figure PotentialDestroyer { get; } = potentialDestroyer;
 		}
 	}
 
@@ -840,8 +843,8 @@ public partial class ScenarioEvents
 	{
 		public class Parameters(Element consumedElement, Figure potentialConsumer) : ParametersBase
 		{
-			public Element ConsumedElement = consumedElement;
-			public Figure PotentialConsumer = potentialConsumer;
+			public Element ConsumedElement { get; } = consumedElement;
+			public Figure PotentialConsumer { get; } = potentialConsumer;
 		}
 	}
 
@@ -1480,4 +1483,16 @@ public partial class ScenarioEvents
 
 	private readonly UseSlotAdvanced _useSlotAdvanced = new UseSlotAdvanced();
 	public static UseSlotAdvanced UseSlotAdvancedEvent => GameController.Instance.ScenarioEvents._useSlotAdvanced;
+
+	public class AbilityCardGiven : ScenarioEvent<AbilityCardGiven.Parameters>
+	{
+		public class Parameters(Figure cardGiver, Figure cardReceiver) : ParametersBase
+		{
+			public Figure CardGiver { get; } = cardGiver;
+			public Figure CardReceiver { get; } = cardReceiver;
+		}
+	}
+
+	private readonly AbilityCardGiven _abilityCardGiven = new AbilityCardGiven();
+	public static AbilityCardGiven AbilityCardGivenEvent => GameController.Instance.ScenarioEvents._abilityCardGiven;
 }

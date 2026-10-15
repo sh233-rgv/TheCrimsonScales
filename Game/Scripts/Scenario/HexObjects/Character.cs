@@ -141,9 +141,10 @@ public partial class Character : Figure
 		OnAnimatedCharactersChanged(AppController.Instance.DeviceOptions.AnimatedCharacters.Value);
 	}
 
-	public override async GDTask Destroy(bool immediately = false, bool forceDestroy = false)
+	public override async GDTask Destroy(AbilityState potentialAbilityState = null,
+		Figure potentialDestroyer = null, bool immediately = false, bool forceDestroy = false)
 	{
-		await base.Destroy(immediately, forceDestroy);
+		await base.Destroy(potentialAbilityState, potentialDestroyer, immediately, forceDestroy);
 
 		if(GameController.Instance.CharacterManager.Characters.All(character => character.IsDestroyed))
 		{
@@ -153,7 +154,7 @@ public partial class Character : Figure
 		for(int index = Summons.Count - 1; index >= 0; index--)
 		{
 			Summon summon = Summons[index];
-			await summon.Destroy(immediately, forceDestroy);
+			await summon.Destroy(immediately: immediately, forceDestroy: forceDestroy);
 		}
 
 		// Make sure items can no longer trigger by setting their owner to null

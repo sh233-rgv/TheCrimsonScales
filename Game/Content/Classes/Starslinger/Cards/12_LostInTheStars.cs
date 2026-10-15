@@ -107,7 +107,7 @@ public class LostInTheStars : StarslingerCardModel<LostInTheStars.CardTop, LostI
 								}, true, "Select a hex to return to"
 							);
 
-							await characterToken.Destroy();
+							await characterToken.Destroy(state);
 
 							if(!GameController.FastForward)
 							{

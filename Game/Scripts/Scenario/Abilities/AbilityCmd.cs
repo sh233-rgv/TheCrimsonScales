@@ -192,7 +192,7 @@ public static class AbilityCmd
 
 		if(!beforeFigureKilledParameters.Prevented)
 		{
-			await target.Destroy();
+			await target.Destroy(potentialAbilityState, potentialKiller);
 
 			await ScenarioEvents.FigureKilledEvent.CreatePrompt(
 				new ScenarioEvents.FigureKilled.Parameters(potentialAbilityState, target, potentialKiller), target);
@@ -417,30 +417,32 @@ public static class AbilityCmd
 		await GDTask.CompletedTask;
 	}
 
-	public static async GDTask<bool> TryDestroyObstacle(Obstacle obstacle)
+	public static async GDTask<bool> TryDestroyObstacle(Obstacle obstacle, AbilityState potentialAbilityState = null,
+		Figure potentialDestroyer = null)
 	{
 		if(!obstacle.CannotBeDestroyed)
 		{
-			await obstacle.Destroy();
+			await obstacle.Destroy(potentialAbilityState, potentialDestroyer);
 			return true;
 		}
 
 		return false;
 	}
 
-	public static async GDTask DestroyDifficultTerrain(DifficultTerrain difficultTerrain)
+	public static async GDTask DestroyDifficultTerrain(DifficultTerrain difficultTerrain, AbilityState potentialAbilityState = null,
+		Figure potentialDestroyer = null)
 	{
 		if(!difficultTerrain.CannotBeDestroyed)
 		{
-			await difficultTerrain.Destroy();
+			await difficultTerrain.Destroy(potentialAbilityState, potentialDestroyer);
 		}
 	}
 
-	public static async GDTask DisarmTrap(Trap trap, Figure potentialDisarmer)
+	public static async GDTask DisarmTrap(Trap trap, AbilityState potentialAbilityState = null, Figure potentialDisarmer = null)
 	{
 		if(!trap.CannotBeDestroyed)
 		{
-			await trap.Disarm();
+			await trap.Disarm(potentialAbilityState, potentialDisarmer);
 
 			await ScenarioEvents.TrapDisarmedEvent.CreatePrompt(
 				new ScenarioEvents.TrapDisarmed.Parameters(trap, potentialDisarmer));

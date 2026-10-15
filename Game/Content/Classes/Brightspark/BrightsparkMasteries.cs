@@ -3,11 +3,7 @@ using Fractural.Tasks;
 
 public class BrightsparkMasteries
 {
-	public abstract class BrightsparkMastery : MasteryModel
-	{
-	}
-
-	public class Mastery1 : BrightsparkMastery
+	public class Mastery1 : MasteryModel
 	{
 		public override string Description => "For an entire scenario, infuse or consume an element on each of your turns.";
 
@@ -54,7 +50,7 @@ public class BrightsparkMasteries
 		}
 	}
 
-	public class Mastery2 : BrightsparkMastery
+	public class Mastery2 : MasteryModel
 	{
 		public override string Description =>
 			"In a single scenario, move your character token off of the last slot of 6 different persistent abilities.";

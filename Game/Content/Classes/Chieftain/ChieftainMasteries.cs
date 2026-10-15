@@ -3,11 +3,7 @@ using Fractural.Tasks;
 
 public class ChieftainMasteries
 {
-	public abstract class ChieftainMastery : MasteryModel
-	{
-	}
-
-	public class Mastery1 : ChieftainMastery
+	public class Mastery1 : MasteryModel
 	{
 		public override string Description => "For an entire scenario, end each of your turns mounted on a summon you summoned on the first round.";
 
@@ -47,31 +43,36 @@ public class ChieftainMasteries
 		}
 	}
 
-	public class Mastery2 : ChieftainMastery
+	public class Mastery2 : MasteryModel
 	{
-		public override string Description =>
-			$"Cause enemies with {Icons.Inline(Icons.GetCondition(Chainguard.Shackle))} to suffer at least {Icons.Inline(Icons.Damage)}20 in a single round.";
+		public override string Description => "In a single scenario, perform at least two actions mounted on each of six different summons.";
 
-		public override int MaxProgress => 20;
+		public override int MaxProgress => 6;
 
 		public override async GDTask OnScenarioSetupPhaseCompleted(Mastery mastery, Character character)
 		{
 			await base.OnScenarioSetupPhaseCompleted(mastery, character);
 
-			ScenarioEvents.AfterSufferDamageEvent.Subscribe(this,
-				parameters => parameters.SufferDamageParameters.PotentialDamageDealer == character &&
-				              character.EnemiesWith(parameters.Figure) && parameters.Figure.HasCondition(Chainguard.Shackle),
-				async parameters =>
-				{
-					mastery.AdjustProgress(parameters.DamageSuffered);
-					await GDTask.CompletedTask;
-				});
+			Dictionary<Summon, int> mountedSides = [];
 
-			ScenarioEvents.RoundEndedEvent.Subscribe(this,
-				_ => !mastery.ProgressFull,
+			ScenarioEvents.AbilityCardSideEndedEvent.Subscribe(this,
+				parameters => parameters.Performer == character && Chieftain.GetIsMounted(character),
 				async _ =>
 				{
-					mastery.ResetProgress();
+					Summon mount = (Summon)Chieftain.GetMount(character);
+					if(mountedSides.ContainsKey(mount))
+					{
+						if(mountedSides[mount] == 1)
+						{
+							mastery.AdjustProgress();
+							mountedSides[mount]++;
+						}
+					}
+					else
+					{
+						mountedSides.Add(mount, 1);
+					}
+
 					await GDTask.CompletedTask;
 				});
 		}

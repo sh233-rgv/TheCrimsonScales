@@ -23,9 +23,14 @@ public class Mastery
 
 	public void AdjustProgress(int num = 1)
 	{
+		SetProgress(Progress + num);
+	}
+
+	public void SetProgress(int num)
+	{
 		if(!TemporarilyFailed)
 		{
-			Progress = Math.Max(Model.MaxProgress, Progress + num);
+			Progress = Math.Max(Model.MaxProgress, num);
 
 			ProgressChangedEvent?.Invoke(this);
 		}
@@ -33,7 +38,7 @@ public class Mastery
 
 	public void ResetProgress()
 	{
-		AdjustProgress(-Progress);
+		SetProgress(0);
 	}
 
 	public void SetTemporarilyFailed(bool failed)
