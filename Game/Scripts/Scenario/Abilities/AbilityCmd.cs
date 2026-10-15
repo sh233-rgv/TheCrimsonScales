@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Fractural.Tasks;
 using Godot;
 using GTweens.Builders;
@@ -214,9 +213,10 @@ public static class AbilityCmd
 		return conditionModel.ImmunityCompareBaseConditions.Contains(immunityConditionModel);
 	}
 
-	public static GDTask AddCondition(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel)
+	public static GDTask AddCondition(AbilityState potentialAbilityState, Figure target, ConditionModel conditionModel,
+		Figure potentialConditionGiver = null)
 	{
-		return AddConditions(potentialAbilityState, target, [conditionModel]);
+		return AddConditions(potentialAbilityState, target, [conditionModel], potentialConditionGiver);
 	}
 
 	public static async GDTask AddConditions(AbilityState potentialAbilityState, Figure target, List<ConditionModel> conditionModels,
@@ -274,9 +274,8 @@ public static class AbilityCmd
 			await target.RemoveCondition(condition);
 		}
 
-		ScenarioEvents.AfterRemoveCondition.Parameters afterRemoveConditionParameters =
-			await ScenarioEvents.AfterRemoveConditionEvent.CreatePrompt(
-				new ScenarioEvents.AfterRemoveCondition.Parameters(target, condition.ConditionModel, potentialAbilityState), target);
+		await ScenarioEvents.AfterRemoveConditionEvent.CreatePrompt(
+			new ScenarioEvents.AfterRemoveCondition.Parameters(target, condition.ConditionModel, potentialAbilityState), target);
 	}
 
 	public static async GDTask<bool> RemoveCondition(Figure target, ConditionModel conditionModel, AbilityState potentialAbilityState = null)
@@ -636,7 +635,7 @@ public static class AbilityCmd
 		string hintText = "Select a hex")
 	{
 		HexSelectionPrompt.Answer answer = await PromptManager.Prompt(
-			new HexSelectionPrompt(getValidHexes, false, null, () => hintText, mandatory ? 1 : 0, 1), authority);
+			new HexSelectionPrompt(getValidHexes, false, null, () => hintText, mandatory ? 1 : 0), authority);
 
 		return answer.Skipped ? null : answer.CoordSets.Select(coords => GameController.Instance.Map.GetHex(coords)).FirstOrDefault();
 	}
@@ -674,7 +673,7 @@ public static class AbilityCmd
 		string hintText = "Select a hex")
 	{
 		OverlayTileSelectionPrompt.Answer answer = await PromptManager.Prompt(
-			new OverlayTileSelectionPrompt(getValidOverlayTiles, false, null, () => hintText, mandatory ? 1 : 0, 1), authority);
+			new OverlayTileSelectionPrompt(getValidOverlayTiles, false, null, () => hintText, mandatory ? 1 : 0), authority);
 
 		return answer.Skipped
 			? null
