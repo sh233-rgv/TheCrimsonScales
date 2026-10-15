@@ -32,7 +32,7 @@ public class BombardMasteries
 					{
 						if(projectileSides[cardSide] == 1)
 						{
-							await mastery.AdjustProgress();
+							mastery.AdjustProgress();
 							projectileSides[cardSide]++;
 						}
 					}
@@ -40,6 +40,8 @@ public class BombardMasteries
 					{
 						projectileSides.Add(cardSide, 1);
 					}
+
+					await GDTask.CompletedTask;
 				});
 		}
 	}
@@ -57,9 +59,10 @@ public class BombardMasteries
 
 			ScenarioEvents.AfterAttackPerformedEvent.Subscribe(this,
 				parameters => parameters.AbilityState.Target == character,
-				async parameters =>
+				async _ =>
 				{
-					await mastery.AdjustProgress();
+					mastery.AdjustProgress();
+					await GDTask.CompletedTask;
 				});
 
 			ScenarioEvents.AfterSufferDamageEvent.Subscribe(this,
@@ -70,9 +73,10 @@ public class BombardMasteries
 						retaliateParameters => retaliateParameters.RetaliatingFigure == character &&
 						                       retaliateParameters.AbilityState == parameters.PotentialAbilityState &&
 						                       retaliateParameters.Retaliate <= parameters.DamageSuffered,
-						async retaliateParameters =>
+						async _ =>
 						{
-							await mastery.SetTemporarilyFailed(true);
+							mastery.SetTemporarilyFailed(true);
+							await GDTask.CompletedTask;
 						}, order: 1000);
 
 					await GDTask.CompletedTask;

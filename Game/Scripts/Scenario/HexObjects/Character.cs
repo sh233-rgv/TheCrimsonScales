@@ -56,6 +56,8 @@ public partial class Character : Figure
 
 	public event Action<Character> BattleGoalChangedEvent;
 	public event Action<Character> BattleGoalProgressChangedEvent;
+	public event Action<Character> Mastery1ProgressChangedEvent;
+	public event Action<Character> Mastery2ProgressChangedEvent;
 	public event Action<Character> ShortRestedEvent;
 	public event Action<Character> CoinsChangedEvent;
 	public event Action<Character> XPChangedEvent;
@@ -723,6 +725,21 @@ public partial class Character : Figure
 			await BattleGoal.OnScenarioSetupPhaseCompleted();
 		}
 
+		Mastery mastery1 = SavedCharacter.Masteries[0];
+		Mastery mastery2 = SavedCharacter.Masteries[1];
+
+		if(!mastery1.Completed)
+		{
+			await mastery1.Model.OnScenarioSetupPhaseCompleted(mastery1, this);
+			mastery1.ProgressChangedEvent += OnMastery1ProgressChanged;
+		}
+
+		if(!mastery2.Completed)
+		{
+			await mastery2.Model.OnScenarioSetupPhaseCompleted(mastery2, this);
+			mastery2.ProgressChangedEvent += OnMastery2ProgressChanged;
+		}
+
 		await GDTask.CompletedTask;
 	}
 
@@ -735,6 +752,16 @@ public partial class Character : Figure
 	private void OnBattleGoalProgressChanged(BattleGoal battleGoal)
 	{
 		BattleGoalProgressChangedEvent?.Invoke(this);
+	}
+
+	private void OnMastery1ProgressChanged(Mastery mastery)
+	{
+		Mastery1ProgressChangedEvent?.Invoke(this);
+	}
+
+	private void OnMastery2ProgressChanged(Mastery mastery)
+	{
+		Mastery2ProgressChangedEvent?.Invoke(this);
 	}
 
 	public override void AddInfoItemParameters(List<InfoItemParameters> parametersList)

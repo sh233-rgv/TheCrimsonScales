@@ -1,42 +1,67 @@
 ﻿using System;
-using Fractural.Tasks;
+using Godot;
 
 public class Mastery
 {
+	public static readonly Color CompletedColor = Color.FromHtml("548d57");
+	public static readonly Color FailedColor = Color.FromHtml("d0483c");
+
 	public int Progress { get; private set; }
 	public bool TemporarilyFailed { get; private set; }
-	public bool TemporarilyCompleted { get; private set; }
 	public bool Completed { get; set; }
-
 	public MasteryModel Model { get; }
 
-	public event Action ProgressChangedEvent;
+	public float NormalizedProgress => (float)Progress / Model.MaxProgress;
+	public bool ProgressFull => Progress >= Model.MaxProgress;
+
+	public event Action<Mastery> ProgressChangedEvent;
 
 	public Mastery(MasteryModel model)
 	{
 		Model = model;
 	}
 
-	public async GDTask AdjustProgress(int num = 1)
+	public void AdjustProgress(int num = 1)
 	{
 		if(!TemporarilyFailed)
 		{
 			Progress = Math.Max(Model.MaxProgress, Progress + num);
-			if(Progress == Model.MaxProgress)
-			{
-				TemporarilyCompleted = true;
-			}
 
-			ProgressChangedEvent?.Invoke();
+			ProgressChangedEvent?.Invoke(this);
 		}
-
-		await GDTask.CompletedTask;
 	}
 
-	public async GDTask SetTemporarilyFailed(bool failed)
+	public void ResetProgress()
+	{
+		AdjustProgress(-Progress);
+	}
+
+	public void SetTemporarilyFailed(bool failed)
 	{
 		TemporarilyFailed = failed;
-		ProgressChangedEvent?.Invoke();
-		await GDTask.CompletedTask;
+		ProgressChangedEvent?.Invoke(this);
+	}
+
+	public void Complete(SavedCharacter savedCharacter)
+	{
+		if(!Completed)
+		{
+			Completed = true;
+			savedCharacter.AddAvailablePerk();
+		}
+	}
+
+	public void OnScenarioCompleted(SavedCharacter savedCharacter, ScenarioResult scenarioResult)
+	{
+		if(scenarioResult is ScenarioResult.Win && !TemporarilyFailed && ProgressFull)
+		{
+			Complete(savedCharacter);
+		}
+
+		if(Model.SingleScenario)
+		{
+			ResetProgress();
+			SetTemporarilyFailed(false);
+		}
 	}
 }

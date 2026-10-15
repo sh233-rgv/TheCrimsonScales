@@ -13,7 +13,7 @@ public partial class PerksPopupMastery : Control
 	{
 		Mastery = mastery;
 
-		_description.SetText(mastery.Model.ToString());
+		_description.SetText(mastery.Model.Description);
 
 		_masteryBox.Checkmark.SetVisible(mastery.Completed);
 	}

@@ -141,7 +141,7 @@ public partial class ScenarioEvents
 
 	public class AMDCardPeeked : ScenarioEvent<AMDCardPeeked.Parameters>
 	{
-		public class Parameters(AbilityState potentialAbilityState, AMDCard amdCard)	: ParametersBase
+		public class Parameters(AbilityState potentialAbilityState, AMDCard amdCard) : ParametersBase
 		{
 			public AbilityState PotentialAbilityState { get; } = potentialAbilityState;
 			public AMDCard AMDCard = amdCard;
@@ -541,7 +541,9 @@ public partial class ScenarioEvents
 
 	public class AfterSufferDamage : ScenarioEvent<AfterSufferDamage.Parameters>
 	{
-		public class Parameters(Figure figure, int damageDealt, int damageSuffered, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters) : ParametersBase
+		public class Parameters(
+			Figure figure, int damageDealt, int damageSuffered, AbilityState abilityState, SufferDamage.Parameters sufferDamageParameters)
+			: ParametersBase
 		{
 			public Figure Figure { get; } = figure;
 			public int DamageDealt { get; } = damageDealt;
@@ -836,9 +838,10 @@ public partial class ScenarioEvents
 
 	public class FinishElementConsumed : ScenarioEvent<FinishElementConsumed.Parameters>
 	{
-		public class Parameters(Element consumedElement) : ParametersBase
+		public class Parameters(Element consumedElement, Figure potentialConsumer) : ParametersBase
 		{
 			public Element ConsumedElement = consumedElement;
+			public Figure PotentialConsumer = potentialConsumer;
 		}
 	}
 
@@ -1467,4 +1470,14 @@ public partial class ScenarioEvents
 
 	private readonly AddMinusOnesEventReward _addMinusOnesEventReward = new AddMinusOnesEventReward();
 	public static AddMinusOnesEventReward AddMinusOnesEventRewardEvent => GameController.Instance.ScenarioEvents._addMinusOnesEventReward;
+
+	public class UseSlotAdvanced : ScenarioEvent<UseSlotAdvanced.Parameters>
+	{
+		public class Parameters(UseSlotAbility.State abilityState) : ParametersBase<UseSlotAbility.State>(abilityState)
+		{
+		}
+	}
+
+	private readonly UseSlotAdvanced _useSlotAdvanced = new UseSlotAdvanced();
+	public static UseSlotAdvanced UseSlotAdvancedEvent => GameController.Instance.ScenarioEvents._useSlotAdvanced;
 }

@@ -1082,7 +1082,7 @@ public static class AbilityCmd
 				async applyParameters =>
 				{
 					applyParameters.SetConsumed(possibleElement);
-					await TryConsumeElement(possibleElement);
+					await TryConsumeElement(possibleElement, authority);
 				},
 				mandatory ? EffectType.SelectableMandatory : EffectType.Selectable, 0, false, false,
 				new ConsumeElementEffectButton.Parameters(possibleElement),
@@ -1112,7 +1112,7 @@ public static class AbilityCmd
 			async applyParameters =>
 			{
 				applyParameters.SetConsumed(element);
-				await TryConsumeElement(element);
+				await TryConsumeElement(element, authority);
 			},
 			mandatory ? EffectType.SelectableMandatory : EffectType.Selectable, 0, false, false,
 			new ConsumeElementEffectButton.Parameters(element),
@@ -1140,7 +1140,7 @@ public static class AbilityCmd
 		{
 			foreach(Element element in possibilities[0])
 			{
-				await TryConsumeElement(element);
+				await TryConsumeElement(element, authority);
 			}
 
 			return possibilities[0];
@@ -1181,21 +1181,21 @@ public static class AbilityCmd
 
 			foreach(Element element in chosenConsumption)
 			{
-				await TryConsumeElement(element);
+				await TryConsumeElement(element, authority);
 			}
 
 			return chosenConsumption;
 		}
 	}
 
-	public static async GDTask<bool> TryConsumeElement(Element element)
+	public static async GDTask<bool> TryConsumeElement(Element element, Figure potentialConsumer = null)
 	{
 		if(GameController.Instance.ElementManager.GetState(element) == ElementState.Inert)
 		{
 			return false;
 		}
 
-		await GameController.Instance.ElementManager.Consume(element);
+		await GameController.Instance.ElementManager.Consume(element, potentialConsumer);
 
 		return true;
 	}
