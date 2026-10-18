@@ -151,7 +151,7 @@ public partial class MenuPopup : Popup<MenuPopup.Request>
 
 		string exitText =
 			AppController.Instance.SceneLoader.CurrentSceneRequest is GameSceneRequest
-				? "If your game is updated between when you save and when you start the game next the scenario progress will be lost due to Early Access version incompatibilities. You can prevent this by disabling auto-update for this game in Steam."
+				? "If the game is updated between when you save and when you start the game next time, the scenario progress will be lost due to Early Access version incompatibilities.\nYou can prevent this by disabling auto-update for this game in Steam."
 				: "Would you like to save and exit?";
 
 		AppController.Instance.PopupManager.OpenPopupOnTop(
