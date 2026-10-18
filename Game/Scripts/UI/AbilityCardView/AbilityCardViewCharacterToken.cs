@@ -19,6 +19,11 @@ public partial class AbilityCardViewCharacterToken : Control
 
 	public void Init(Texture2D texture, UseSlot useSlot)
 	{
+		if(!useSlot.NormalizedPosition.HasValue)
+		{
+			return;
+		}
+
 		Init(texture, useSlot.NormalizedPosition!.Value);
 	}
 
