@@ -148,12 +148,11 @@ public partial class MenuPopup : Popup<MenuPopup.Request>
 				GetTree().Quit();
 			}));
 		}
-		
-		string exitText = "Would you like to save?";
-		if (AppController.Instance.SceneLoader.CurrentSceneRequest is GameSceneRequest)
-		{
-			 exitText = "If your game is updated between when you save and when you start the game next the scenario progress will be lost due to early access version incompatibilities. You can prevent this by disabling auto-update for this game.";
-		}
+
+		string exitText =
+			AppController.Instance.SceneLoader.CurrentSceneRequest is GameSceneRequest
+				? "If your game is updated between when you save and when you start the game next the scenario progress will be lost due to Early Access version incompatibilities. You can prevent this by disabling auto-update for this game in Steam."
+				: "Would you like to save and exit?";
 
 		AppController.Instance.PopupManager.OpenPopupOnTop(
 			new TextPopup.Request("Save and Exit", exitText, textButtonParametersList.ToArray()));
