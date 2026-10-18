@@ -102,8 +102,8 @@ public class Scenario039 : ScenarioModel
 
 		AddScenarioRule(textParameters =>
 			$"""
-			 Ghost Vipers add +1{Icons.Inline(Icons.Attack)} to each attack targeting a figure that has {Icons.Inline(Icons.GetCondition(Conditions.Poison1), textParameters)}.
-			 Whenever a Ghost Viper would give {Icons.Inline(Icons.GetCondition(Conditions.Immobilize), textParameters)} to a figure, that figure does not gain {Icons.Inline(Icons.GetCondition(Conditions.Immobilize), textParameters)} and gains {Icons.Inline(Icons.GetCondition(Conditions.Muddle), textParameters)} instead.
+			 Ghost Vipers add +1{Icons.Inline(Icons.Attack, textParameters)} to each attack targeting a figure that has {Icons.InlineCondition(Conditions.Poison1, textParameters)}.
+			 Whenever a Ghost Viper would give {Icons.InlineCondition(Conditions.Immobilize, textParameters)} to a figure, that figure does not gain {Icons.InlineCondition(Conditions.Immobilize, textParameters)} and gains {Icons.InlineCondition(Conditions.Muddle, textParameters)} instead.
 			 """);
 
 		ScenarioRule timingRule = AddScenarioRule("Something will happen at the end of the third round.");
@@ -222,7 +222,7 @@ public class Scenario039 : ScenarioModel
 					EffectType.Selectable,
 					effectButtonParameters: new IconEffectButton.Parameters(Icons.GetCondition(Conditions.Poison1)),
 					effectInfoViewParameters: new TextEffectInfoView.Parameters(
-						$"Remove {Icons.GetCondition(Conditions.Poison1)} from self or one adjacent ally")
+						$"Remove {Icons.Inline(Icons.GetCondition(Conditions.Poison1))} from self or one adjacent ally")
 				);
 
 				ScenarioEvents.RoundStartBeforeCardSelectionEvent.Subscribe(this,
@@ -250,7 +250,7 @@ public class Scenario039 : ScenarioModel
 				);
 
 				AddScenarioRule(textParameters =>
-					$"Any character may forgo a top or bottom action to remove {Icons.Inline(Icons.GetCondition(Conditions.Poison1), textParameters)} from themselves or one adjacent ally.");
+					$"Any character may forgo a top or bottom action to remove {Icons.InlineCondition(Conditions.Poison1, textParameters)} from themselves or one adjacent ally.");
 
 				switch(GameController.Instance.CharacterManager.Characters.Count)
 				{

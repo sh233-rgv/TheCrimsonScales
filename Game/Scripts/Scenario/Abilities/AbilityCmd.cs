@@ -702,14 +702,17 @@ public static class AbilityCmd
 	}
 
 	public static async GDTask<AbilityCard> SelectAbilityCard(Character character, CardState? requiredCardState, bool mandatory = false,
-		Func<AbilityCard, bool> canSelectFunc = null, EffectCollection effectCollection = null, string hintText = "Select a card", bool autoSelectIfAllCanBeSelected = false)
+		Func<AbilityCard, bool> canSelectFunc = null, EffectCollection effectCollection = null, string hintText = "Select a card",
+		bool autoSelectIfAllCanBeSelected = false)
 	{
-		return (await SelectAbilityCards(character, requiredCardState, mandatory ? 1 : 0, 1, canSelectFunc, effectCollection, hintText, autoSelectIfAllCanBeSelected))
+		return (await SelectAbilityCards(character, requiredCardState, mandatory ? 1 : 0, 1, canSelectFunc, effectCollection, hintText,
+				autoSelectIfAllCanBeSelected))
 			.FirstOrDefault();
 	}
 
 	public static async GDTask<AbilityCard> SelectAbilityCard(Figure authority, Action<List<AbilityCard>> getAllCards, CardState? requiredCardState,
-		bool mandatory = false, EffectCollection effectCollection = null, string hintText = "Select a card", bool autoSelectIfAllCanBeSelected = false)
+		bool mandatory = false, EffectCollection effectCollection = null, string hintText = "Select a card",
+		bool autoSelectIfAllCanBeSelected = false)
 	{
 		CardSelectionPrompt.Answer answer = await PromptManager.Prompt(new CardSelectionPrompt(getAllCards,
 			requiredCardState, mandatory ? 1 : 0, 1, effectCollection, () => hintText, autoSelectIfAllCanBeSelected), authority);
@@ -923,7 +926,10 @@ public static class AbilityCmd
 			canSwap = false;
 		}
 
-		ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Unsubscribe(figureA, figureB);
+		if(figureA != null && figureB != null)
+		{
+			ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Unsubscribe(figureA, figureB);
+		}
 
 		return canSwap;
 	}

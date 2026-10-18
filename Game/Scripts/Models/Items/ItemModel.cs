@@ -96,6 +96,17 @@ public abstract class ItemModel : AbstractModel<ItemModel>, IActionSource
 		TrySubscribe();
 	}
 
+	public void OnOwnerDestroyed(Character character)
+	{
+		if(character != Owner)
+		{
+			Log.Error("Item doesn't belong to this character.");
+			return;
+		}
+
+		Unsubscribe();
+	}
+
 	public async GDTask SetItemState(ItemState state)
 	{
 		if(state == ItemState)
@@ -520,7 +531,7 @@ public abstract class ItemModel : AbstractModel<ItemModel>, IActionSource
 
 	protected ActionState GetActionState(Figure performer, Ability[] abilities)
 	{
-		ActionState actionState = new ActionState(this, performer, abilities, //null, 
+		ActionState actionState = new ActionState(this, performer, abilities, //null,
 			onFirstActivateAbilityActivated: OnFirstActivateAbilityActivated, onDiscardOrLoseRequested: OnDiscardOrLoseRequested);
 
 		return actionState;
