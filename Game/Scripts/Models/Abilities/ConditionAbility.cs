@@ -97,7 +97,7 @@ public class ConditionAbility : TargetedAbility<ConditionAbility.State, SingleTa
 	protected override string DefaultTargetingHintText(State abilityState)
 	{
 		string conditonIconsText = string.Empty;
-		foreach(ConditionModel conditionModel in abilityState.AbilityConditionModels)
+		foreach(ConditionModel conditionModel in abilityState.SingleTargetConditionModels)
 		{
 			conditonIconsText += Icons.HintText(Icons.GetCondition(conditionModel));
 		}
