@@ -291,6 +291,20 @@ public static class AbilityCmd
 		return false;
 	}
 
+	public static async GDTask<bool> RemoveWound(Figure target, AbilityState potentialAbilityState = null)
+	{
+		return await RemoveCondition(target, Conditions.Wound1, potentialAbilityState) |
+		       await RemoveCondition(target, Conditions.Wound2, potentialAbilityState);
+	}
+
+	public static async GDTask<bool> RemovePoison(Figure target, AbilityState potentialAbilityState = null)
+	{
+		return await RemoveCondition(target, Conditions.Poison1, potentialAbilityState) |
+		       await RemoveCondition(target, Conditions.Poison2, potentialAbilityState) |
+		       await RemoveCondition(target, Conditions.Poison3, potentialAbilityState) |
+		       await RemoveCondition(target, Conditions.Poison4, potentialAbilityState);
+	}
+
 	public static async GDTask RemoveOneNegativeCondition(AbilityState potentialAbilityState, Figure target)
 	{
 		List<ScenarioEvents.GenericChoice.Subscription> subscriptions =
@@ -342,7 +356,7 @@ public static class AbilityCmd
 		}
 	}
 
-	public static async GDTask RemoveChillStack(Figure target)
+	public static async GDTask<bool> RemoveChillStack(Figure target)
 	{
 		if(target.TryGetCondition(Conditions.Chill, out Condition chill))
 		{
@@ -354,7 +368,11 @@ public static class AbilityCmd
 			{
 				await RemoveCondition(chill);
 			}
+
+			return true;
 		}
+
+		return false;
 	}
 
 	public static async GDTask AddCharacterToken(AbilityState abilityState, Figure target, TextHelper.LabelTextDelegate getEffectText)
@@ -1096,7 +1114,7 @@ public static class AbilityCmd
 
 		ScenarioEvents.ConsumeElement.Parameters consumeEventParameters =
 			await ScenarioEvents.ConsumeElementEvent.CreatePrompt(
-				new ScenarioEvents.ConsumeElement.Parameters(possibleElements), authority,
+				new ScenarioEvents.ConsumeElement.Parameters(possibleElements.ToList()), authority,
 				"Select element to consume");
 
 		ScenarioEvents.ConsumeElementEvent.Unsubscribe(authority, subscriber);

@@ -42,6 +42,11 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 				}
 			}
 		}
+
+		public void AbilityAdjustRange(int amount)
+		{
+			AbilityRange += amount;
+		}
 	}
 
 	private static readonly List<Hex> HexCache = new List<Hex>();
