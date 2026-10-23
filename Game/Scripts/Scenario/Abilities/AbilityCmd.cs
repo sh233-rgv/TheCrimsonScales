@@ -1902,4 +1902,43 @@ public static class AbilityCmd
 		hex1.AddNeighbour(hex2);
 		hex2.AddNeighbour(hex1);
 	}
+
+	public static bool HexesInStraightLine(Hex startHex, List<Hex> hexes, int? minRequiredInLine = null)
+	{
+		minRequiredInLine ??= hexes.Count;
+		if(hexes.Count < minRequiredInLine)
+		{
+			return false;
+		}
+
+		if(minRequiredInLine <= 1)
+		{
+			return true;
+		}
+
+		Vector2I direction = hexes[0].Coords - startHex.Coords;
+		int lineLength = 1;
+
+		for(int i = 1; i < hexes.Count; i++)
+		{
+			Vector2I currentDirection = hexes[i].Coords - hexes[i - 1].Coords;
+
+			if(currentDirection == direction)
+			{
+				lineLength++;
+
+				if(lineLength >= minRequiredInLine)
+				{
+					return true;
+				}
+			}
+			else
+			{
+				direction = currentDirection;
+				lineLength = 1;
+			}
+		}
+
+		return false;
+	}
 }

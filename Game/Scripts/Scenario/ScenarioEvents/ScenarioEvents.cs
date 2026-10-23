@@ -93,11 +93,17 @@ public partial class ScenarioEvents
 	{
 		public class Parameters(AttackAbility.State abilityState) : ParametersBase<AttackAbility.State>(abilityState)
 		{
-			public bool CannotGainDisadvantage { get; private set; } = false;
+			public bool CannotGainDisadvantage { get; private set; }
+			public bool Prevented { get; private set; }
 
 			public void SetCannotGainDisadvantage()
 			{
 				CannotGainDisadvantage = true;
+			}
+
+			public void SetPrevented()
+			{
+				Prevented = true;
 			}
 		}
 	}
@@ -1501,4 +1507,33 @@ public partial class ScenarioEvents
 
 	private readonly AddMinusOnesEventReward _addMinusOnesEventReward = new AddMinusOnesEventReward();
 	public static AddMinusOnesEventReward AddMinusOnesEventRewardEvent => GameController.Instance.ScenarioEvents._addMinusOnesEventReward;
+
+	public class DodgeUsed : ScenarioEvent<DodgeUsed.Parameters>
+	{
+		public class Parameters(Figure dodgeUser, Figure attacker) : ParametersBase
+		{
+			public Figure DodgeUser { get; } = dodgeUser;
+			public Figure Attacker { get; } = attacker;
+		}
+	}
+
+	private readonly DodgeUsed _dodgeUsed = new DodgeUsed();
+	public static DodgeUsed DodgeUsedEvent => GameController.Instance.ScenarioEvents._dodgeUsed;
+
+	public class DodgeDiscardCard : ScenarioEvent<DodgeDiscardCard.Parameters>
+	{
+		public class Parameters(Figure figure) : ParametersBase
+		{
+			public Figure Figure { get; } = figure;
+			public bool DiscardCard { get; private set; } = true;
+
+			public void SetDiscardCard(bool discardCard)
+			{
+				DiscardCard = discardCard;
+			}
+		}
+	}
+
+	private readonly DodgeDiscardCard _dodgeDiscardCard = new DodgeDiscardCard();
+	public static DodgeDiscardCard DodgeDiscardCardEvent => GameController.Instance.ScenarioEvents._dodgeDiscardCard;
 }

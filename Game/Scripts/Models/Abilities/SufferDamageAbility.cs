@@ -46,6 +46,10 @@ public class SufferDamageAbility : Ability<SufferDamageAbility.State>
 		public void AbilityAdjustRange(int amount)
 		{
 			AbilityRange += amount;
+		public void AdjustAbilityDamage(int damage)
+		{
+			AbilityDamage += damage;
+			SingleTargetDamage += damage;
 		}
 	}
 
