@@ -36,7 +36,7 @@ public class RemnantsOfTheBroken : IncarnateCardModel<RemnantsOfTheBroken.CardTo
 					}
 
 					state.SetCustomValue(this, "Figure", figure);
-					state.AbilityAdjustDamageValue(ScenarioCheckEvents.ShieldCheckEvent
+					state.AdjustAbilityDamage(ScenarioCheckEvents.ShieldCheckEvent
 						.Fire(new ScenarioCheckEvents.ShieldCheck.Parameters(state.GetCustomValue<Figure>(this, "Figure"))).Shield);
 					return true;
 				})
