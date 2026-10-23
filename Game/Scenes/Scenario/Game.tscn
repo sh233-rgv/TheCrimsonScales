@@ -1894,6 +1894,7 @@ _startActive = true
 text = "Return to Town"
 
 [node name="ScenarioWonView" type="Control" parent="CanvasLayer/UI" unique_id=722758123 node_paths=PackedStringArray("_undoButton", "_continueButton")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
