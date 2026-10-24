@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Fractural.Tasks;
 using Godot;
 using GTweens.Easings;
@@ -13,12 +13,22 @@ public partial class AMDDrawView : Control
 	private PackedScene _amdDrawCardscene;
 	[Export]
 	private Control _deckAnchor;
-	[Export]
-	private Control _discardAnchor;
+
 	[Export]
 	private Control _discardContainer;
 	[Export]
+	private Control _discardAnchor;
+	[Export]
 	private TextureRect _discardTopCardTextureRect;
+
+	[Export]
+	private Control _secondTerminal;
+	[Export]
+	private Control _secondTerminalContainer;
+	[Export]
+	private Control _secondTerminalAnchor;
+	[Export]
+	private TextureRect _secondTerminalTextureRect;
 
 	public override void _Ready()
 	{
@@ -51,7 +61,7 @@ public partial class AMDDrawView : Control
 
 			AMDDrawCard drawCard = _amdDrawCardscene.Instantiate<AMDDrawCard>();
 			AddChild(drawCard);
-			await drawCard.DrawCard(newCard, _deckAnchor, _discardAnchor);
+			await drawCard.DrawCard(newCard, _deckAnchor, _discardAnchor, 1f);
 
 			_discardContainer.Visible = true;
 			_discardTopCardTextureRect.Texture = newCard.GetTexture();
@@ -89,6 +99,9 @@ public partial class AMDDrawView : Control
 		_discardContainer.Visible = deck.DiscardPile.Count > 0;
 		_discardTopCardTextureRect.Texture = deck.DiscardPile.Count > 0 ? deck.DiscardPile[^1].GetTexture() : null;
 
+		_secondTerminal.SetVisible(attackAbilityState.SingleTargetHasAdvantage != attackAbilityState.SingleTargetHasDisadvantage);
+		_secondTerminalContainer.Visible = false;
+
 		UpdateDrawPileSize(deck);
 		UpdateDiscardPileSize(deck);
 
@@ -106,14 +119,22 @@ public partial class AMDDrawView : Control
 
 			AMDDrawCard drawCard = _amdDrawCardscene.Instantiate<AMDDrawCard>();
 			AddChild(drawCard);
-			await drawCard.DrawCard(newCard, _deckAnchor, _discardAnchor);
+			await drawCard.DrawCard(newCard, _deckAnchor, terminalCardValue == null ? _discardAnchor : _secondTerminalAnchor,
+				terminalCardValue == null ? 1f : 1.5f);
 
 			//TODO: If reshuffled, visualize that
 
-			UpdateDiscardPileSize(deck);
-
-			_discardContainer.Visible = true;
-			_discardTopCardTextureRect.Texture = newCard.GetTexture();
+			if(terminalCardValue == null)
+			{
+				UpdateDiscardPileSize(deck);
+				_discardContainer.Visible = true;
+				_discardTopCardTextureRect.Texture = newCard.GetTexture();
+			}
+			else
+			{
+				_secondTerminalContainer.Visible = true;
+				_secondTerminalTextureRect.Texture = newCard.GetTexture();
+			}
 
 			// A drawn card can be overridden by an item or ability
 			AMDCardValue newCardValue = await newCard.Draw(attackAbilityState);
@@ -231,6 +252,10 @@ public partial class AMDDrawView : Control
 		}
 
 		await terminalCardValue.Apply(attackAbilityState);
+	}
+
+	private async GDTask DecideAmbiguity()
+	{
 	}
 
 	private void UpdateDrawPileSize(AMDCardDeck deck)

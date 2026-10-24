@@ -1104,8 +1104,7 @@ mouse_filter = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="AMDDrawView" type="Control" parent="CanvasLayer/UI" unique_id=515860131 node_paths=PackedStringArray("_deckAnchor", "_discardAnchor", "_discardContainer", "_discardTopCardTextureRect")]
-visible = false
+[node name="AMDDrawView" type="Control" parent="CanvasLayer/UI" unique_id=515860131 node_paths=PackedStringArray("_deckAnchor", "_discardContainer", "_discardAnchor", "_discardTopCardTextureRect", "_secondTerminal", "_secondTerminalContainer", "_secondTerminalAnchor", "_secondTerminalTextureRect")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1115,12 +1114,30 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("44_j1euc")
 _amdDrawCardscene = ExtResource("45_bopvg")
-_deckAnchor = NodePath("Deck/CardAnchor")
-_discardAnchor = NodePath("Discard/CardAnchor")
-_discardContainer = NodePath("Discard")
-_discardTopCardTextureRect = NodePath("Discard/CardAnchor/Mask/TextureRect")
+_deckAnchor = NodePath("HBoxContainer/Deck/CardAnchor")
+_discardContainer = NodePath("HBoxContainer/Discard/Container")
+_discardAnchor = NodePath("HBoxContainer/Discard/Container/CardAnchor")
+_discardTopCardTextureRect = NodePath("HBoxContainer/Discard/Container/CardAnchor/Mask/TextureRect")
+_secondTerminal = NodePath("HBoxContainer/SecondTerminal")
+_secondTerminalContainer = NodePath("HBoxContainer/SecondTerminal/Container")
+_secondTerminalAnchor = NodePath("HBoxContainer/SecondTerminal/Container/CardAnchor")
+_secondTerminalTextureRect = NodePath("HBoxContainer/SecondTerminal/Container/CardAnchor/Mask/TextureRect")
 
-[node name="Deck" type="Control" parent="CanvasLayer/UI/AMDDrawView" unique_id=1365380714]
+[node name="RollingPile" type="Control" parent="CanvasLayer/UI/AMDDrawView" unique_id=1971955825]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -120.0
+offset_right = 180.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/AMDDrawView" unique_id=1568430640]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -1129,13 +1146,19 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -410.0
 offset_top = -290.0
-offset_right = -50.0
+offset_right = 410.0
 offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="Deck" type="Control" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer" unique_id=1020046327]
+custom_minimum_size = Vector2(360, 240)
+layout_mode = 2
 mouse_filter = 2
 
-[node name="Shadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/Deck" unique_id=1930160282]
+[node name="Shadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Deck" unique_id=80636291]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1145,7 +1168,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7ijbs")
 
-[node name="CardAnchor" type="Control" parent="CanvasLayer/UI/AMDDrawView/Deck" unique_id=1212099771]
+[node name="CardAnchor" type="Control" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Deck" unique_id=2055681963]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1154,7 +1177,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TopCardShadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/Deck/CardAnchor" unique_id=1519664910]
+[node name="TopCardShadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Deck/CardAnchor" unique_id=853738480]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1164,7 +1187,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qbjvo")
 
-[node name="Mask" type="Panel" parent="CanvasLayer/UI/AMDDrawView/Deck/CardAnchor" unique_id=196981479]
+[node name="Mask" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Deck/CardAnchor" unique_id=1092850888]
 clip_children = 1
 layout_mode = 1
 anchors_preset = 15
@@ -1175,7 +1198,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_akno6")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/AMDDrawView/Deck/CardAnchor/Mask" unique_id=52850444]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Deck/CardAnchor/Mask" unique_id=1366659811]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1186,22 +1209,21 @@ mouse_filter = 2
 texture = ExtResource("34_dfaft")
 expand_mode = 1
 
-[node name="Discard" type="Control" parent="CanvasLayer/UI/AMDDrawView" unique_id=2112197146]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 50.0
-offset_top = -290.0
-offset_right = 410.0
-offset_bottom = -50.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="Discard" type="Control" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer" unique_id=1433077860]
+custom_minimum_size = Vector2(360, 240)
+layout_mode = 2
 mouse_filter = 2
 
-[node name="Shadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/Discard" unique_id=1966839248]
+[node name="Container" type="Control" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard" unique_id=2136759780]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Shadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container" unique_id=348045854]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1211,7 +1233,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7ijbs")
 
-[node name="CardAnchor" type="Control" parent="CanvasLayer/UI/AMDDrawView/Discard" unique_id=268289797]
+[node name="CardAnchor" type="Control" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container" unique_id=561551710]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1220,7 +1242,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TopCardShadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/Discard/CardAnchor" unique_id=1770903785]
+[node name="TopCardShadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container/CardAnchor" unique_id=1512723936]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1230,7 +1252,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qbjvo")
 
-[node name="Mask" type="Panel" parent="CanvasLayer/UI/AMDDrawView/Discard/CardAnchor" unique_id=669611772]
+[node name="Mask" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container/CardAnchor" unique_id=704806106]
 clip_children = 1
 layout_mode = 1
 anchors_preset = 15
@@ -1241,7 +1263,72 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_akno6")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/AMDDrawView/Discard/CardAnchor/Mask" unique_id=1425301614]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container/CardAnchor/Mask" unique_id=336341930]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("34_dfaft")
+expand_mode = 1
+
+[node name="SecondTerminal" type="Control" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer" unique_id=774895434]
+custom_minimum_size = Vector2(360, 240)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Container" type="Control" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal" unique_id=1523772742]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Shadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container" unique_id=978830370]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7ijbs")
+
+[node name="CardAnchor" type="Control" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container" unique_id=346559218]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopCardShadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container/CardAnchor" unique_id=423990947]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qbjvo")
+
+[node name="Mask" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container/CardAnchor" unique_id=419617389]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_akno6")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container/CardAnchor/Mask" unique_id=213362780]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
