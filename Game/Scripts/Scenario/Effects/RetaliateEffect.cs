@@ -60,7 +60,7 @@ public partial class RetaliateEffect : Node2D
 
 		if(_shakeFigure)
 		{
-			_figure.SetPosition(_figurePosition + new Vector2(GD.Randf(), GD.Randf()) * 8f);
+			_figure.SetPosition(_figurePosition + new Vector2(GD.Randf() - 0.5f, GD.Randf() - 0.5f) * 8f);
 		}
 	}
 
