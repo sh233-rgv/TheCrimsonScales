@@ -1104,7 +1104,7 @@ mouse_filter = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="AMDDrawView" type="Control" parent="CanvasLayer/UI" unique_id=515860131 node_paths=PackedStringArray("_deckAnchor", "_discardContainer", "_discardAnchor", "_discardTopCardTextureRect", "_secondTerminal", "_secondTerminalContainer", "_secondTerminalAnchor", "_secondTerminalTextureRect")]
+[node name="AMDDrawView" type="Control" parent="CanvasLayer/UI" unique_id=515860131 node_paths=PackedStringArray("_deckAnchor", "_discardContainer", "_discardAnchor", "_discardTopCardTextureRect", "FirstTerminalButton", "_secondTerminal", "_secondTerminalContainer", "_secondTerminalAnchor", "_secondTerminalTextureRect", "SecondTerminalButton")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1116,12 +1116,14 @@ script = ExtResource("44_j1euc")
 _amdDrawCardscene = ExtResource("45_bopvg")
 _deckAnchor = NodePath("HBoxContainer/Deck/CardAnchor")
 _discardContainer = NodePath("HBoxContainer/Discard/Container")
-_discardAnchor = NodePath("HBoxContainer/Discard/Container/CardAnchor")
-_discardTopCardTextureRect = NodePath("HBoxContainer/Discard/Container/CardAnchor/Mask/TextureRect")
+_discardAnchor = NodePath("HBoxContainer/Discard/Container/BetterButton/CardAnchor")
+_discardTopCardTextureRect = NodePath("HBoxContainer/Discard/Container/BetterButton/CardAnchor/Mask/TextureRect")
+FirstTerminalButton = NodePath("HBoxContainer/Discard/Container/BetterButton")
 _secondTerminal = NodePath("HBoxContainer/SecondTerminal")
 _secondTerminalContainer = NodePath("HBoxContainer/SecondTerminal/Container")
-_secondTerminalAnchor = NodePath("HBoxContainer/SecondTerminal/Container/CardAnchor")
-_secondTerminalTextureRect = NodePath("HBoxContainer/SecondTerminal/Container/CardAnchor/Mask/TextureRect")
+_secondTerminalAnchor = NodePath("HBoxContainer/SecondTerminal/Container/BetterButton/CardAnchor")
+_secondTerminalTextureRect = NodePath("HBoxContainer/SecondTerminal/Container/BetterButton/CardAnchor/Mask/TextureRect")
+SecondTerminalButton = NodePath("HBoxContainer/SecondTerminal/Container/BetterButton")
 
 [node name="RollingPile" type="Control" parent="CanvasLayer/UI/AMDDrawView" unique_id=1971955825]
 layout_mode = 1
@@ -1136,6 +1138,7 @@ offset_right = 180.0
 offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/AMDDrawView" unique_id=1568430640]
 layout_mode = 1
@@ -1223,7 +1226,102 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Shadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container" unique_id=348045854]
+[node name="BetterButton" type="BaseButton" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container" unique_id=1038661607]
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+oversampling_with_scale = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+custom_minimum_size = Vector2(0, 0)
+custom_maximum_size = Vector2(-1, -1)
+propagate_maximum_size = false
+clip_contents = false
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+pivot_offset_ratio = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+offset_transform_enabled = false
+offset_transform_position = Vector2(0, 0)
+offset_transform_position_ratio = Vector2(0, 0)
+offset_transform_scale = Vector2(1, 1)
+offset_transform_rotation = 0.0
+offset_transform_pivot = Vector2(0, 0)
+offset_transform_pivot_ratio = Vector2(0.5, 0.5)
+offset_transform_visual_only = true
+localize_numeral_system = true
+layout_direction = 0
+translation_context = &""
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+focus_behavior_recursive = 0
+mouse_filter = 0
+mouse_behavior_recursive = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+accessibility_name = ""
+accessibility_description = ""
+accessibility_live = 0
+accessibility_controls_nodes = Array[NodePath]([])
+accessibility_described_by_nodes = Array[NodePath]([])
+accessibility_labeled_by_nodes = Array[NodePath]([])
+accessibility_flow_to_nodes = Array[NodePath]([])
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = ExtResource("38_grpwx")
+metadata/_custom_type_script = "uid://dir5vjdxjac3n"
+
+[node name="Shadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container/BetterButton" unique_id=348045854]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1233,7 +1331,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7ijbs")
 
-[node name="CardAnchor" type="Control" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container" unique_id=561551710]
+[node name="CardAnchor" type="Control" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container/BetterButton" unique_id=561551710]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1242,7 +1340,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TopCardShadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container/CardAnchor" unique_id=1512723936]
+[node name="TopCardShadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container/BetterButton/CardAnchor" unique_id=1512723936]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1252,7 +1350,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qbjvo")
 
-[node name="Mask" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container/CardAnchor" unique_id=704806106]
+[node name="Mask" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container/BetterButton/CardAnchor" unique_id=704806106]
 clip_children = 1
 layout_mode = 1
 anchors_preset = 15
@@ -1263,7 +1361,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_akno6")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container/CardAnchor/Mask" unique_id=336341930]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/Discard/Container/BetterButton/CardAnchor/Mask" unique_id=336341930]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1288,7 +1386,102 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Shadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container" unique_id=978830370]
+[node name="BetterButton" type="BaseButton" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container" unique_id=750178974]
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+oversampling_with_scale = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+custom_minimum_size = Vector2(0, 0)
+custom_maximum_size = Vector2(-1, -1)
+propagate_maximum_size = false
+clip_contents = false
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+pivot_offset_ratio = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+offset_transform_enabled = false
+offset_transform_position = Vector2(0, 0)
+offset_transform_position_ratio = Vector2(0, 0)
+offset_transform_scale = Vector2(1, 1)
+offset_transform_rotation = 0.0
+offset_transform_pivot = Vector2(0, 0)
+offset_transform_pivot_ratio = Vector2(0.5, 0.5)
+offset_transform_visual_only = true
+localize_numeral_system = true
+layout_direction = 0
+translation_context = &""
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+focus_behavior_recursive = 0
+mouse_filter = 0
+mouse_behavior_recursive = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+accessibility_name = ""
+accessibility_description = ""
+accessibility_live = 0
+accessibility_controls_nodes = Array[NodePath]([])
+accessibility_described_by_nodes = Array[NodePath]([])
+accessibility_labeled_by_nodes = Array[NodePath]([])
+accessibility_flow_to_nodes = Array[NodePath]([])
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = ExtResource("38_grpwx")
+metadata/_custom_type_script = "uid://dir5vjdxjac3n"
+
+[node name="Shadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container/BetterButton" unique_id=978830370]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1298,7 +1491,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7ijbs")
 
-[node name="CardAnchor" type="Control" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container" unique_id=346559218]
+[node name="CardAnchor" type="Control" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container/BetterButton" unique_id=346559218]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1307,7 +1500,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TopCardShadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container/CardAnchor" unique_id=423990947]
+[node name="TopCardShadow" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container/BetterButton/CardAnchor" unique_id=423990947]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1317,7 +1510,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qbjvo")
 
-[node name="Mask" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container/CardAnchor" unique_id=419617389]
+[node name="Mask" type="Panel" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container/BetterButton/CardAnchor" unique_id=419617389]
 clip_children = 1
 layout_mode = 1
 anchors_preset = 15
@@ -1328,7 +1521,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_akno6")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container/CardAnchor/Mask" unique_id=213362780]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/AMDDrawView/HBoxContainer/SecondTerminal/Container/BetterButton/CardAnchor/Mask" unique_id=213362780]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

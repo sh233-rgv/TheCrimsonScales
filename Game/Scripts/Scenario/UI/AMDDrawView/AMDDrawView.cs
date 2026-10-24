@@ -20,6 +20,8 @@ public partial class AMDDrawView : Control
 	private Control _discardAnchor;
 	[Export]
 	private TextureRect _discardTopCardTextureRect;
+	[Export]
+	public BetterButton FirstTerminalButton;
 
 	[Export]
 	private Control _secondTerminal;
@@ -29,12 +31,17 @@ public partial class AMDDrawView : Control
 	private Control _secondTerminalAnchor;
 	[Export]
 	private TextureRect _secondTerminalTextureRect;
+	[Export]
+	public BetterButton SecondTerminalButton;
 
 	public override void _Ready()
 	{
 		base._Ready();
 
 		Position = new Vector2(0, OpenDistance);
+
+		FirstTerminalButton.SetEnabled(false, false);
+		SecondTerminalButton.SetEnabled(false, false);
 
 		Hide();
 	}
@@ -44,6 +51,8 @@ public partial class AMDDrawView : Control
 		AMDCardDeck deck = targetDeck;
 
 		Show();
+
+		_secondTerminal.SetVisible(false);
 
 		UpdateDrawPileSize(deck);
 
@@ -96,6 +105,7 @@ public partial class AMDDrawView : Control
 		AMDCardDeck deck = attackAbilityState.Performer.AMDCardDeck;
 
 		Show();
+
 		_discardContainer.Visible = deck.DiscardPile.Count > 0;
 		_discardTopCardTextureRect.Texture = deck.DiscardPile.Count > 0 ? deck.DiscardPile[^1].GetTexture() : null;
 
@@ -105,7 +115,7 @@ public partial class AMDDrawView : Control
 		UpdateDrawPileSize(deck);
 		UpdateDiscardPileSize(deck);
 
-		await this.TweenPositionY(0f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardableAsync();
+		await this.TweenPositionY(-120f, 0.3f).SetEasing(Easing.OutBack).PlayFastForwardableAsync();
 		await GDTask.DelayFastForwardable(0.2f);
 
 		AMDCardValue terminalCardValue = null;
@@ -183,13 +193,17 @@ public partial class AMDDrawView : Control
 					}
 					else if(!currentTerminalExtraEffect && newTerminalExtraEffect)
 					{
-						//Choice
-						//terminal = terminal;
+						if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+						{
+							await DecideAmbiguity();
+						}
 					}
 					else if(currentTerminalExtraEffect && newTerminalExtraEffect)
 					{
-						//Choice
-						//terminal = terminal;
+						if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+						{
+							await DecideAmbiguity();
+						}
 					}
 					else //if(!currentTerminalExtraEffect && !newTerminalExtraEffect)
 					{
@@ -201,7 +215,10 @@ public partial class AMDDrawView : Control
 					if(currentTerminalExtraEffect && !newTerminalExtraEffect)
 					{
 						//Choice
-						//terminal = terminal;
+						if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+						{
+							await DecideAmbiguity();
+						}
 					}
 					else if(!currentTerminalExtraEffect && newTerminalExtraEffect)
 					{
@@ -209,8 +226,10 @@ public partial class AMDDrawView : Control
 					}
 					else if(currentTerminalExtraEffect && newTerminalExtraEffect)
 					{
-						//Choice
-						//terminal = terminal;
+						if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+						{
+							await DecideAmbiguity();
+						}
 					}
 					else //if(!currentTerminalExtraEffect && !newTerminalExtraEffect)
 					{
@@ -229,17 +248,30 @@ public partial class AMDDrawView : Control
 					}
 					else if(currentTerminalExtraEffect && newTerminalExtraEffect)
 					{
-						//Choice
-						//terminal = terminal;
+						if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+						{
+							await DecideAmbiguity();
+						}
 					}
 					else //if(!currentTerminalExtraEffect && !newTerminalExtraEffect)
 					{
-						//terminal = terminal;
+						// Exact same card
 					}
 				}
 
 				await GDTask.DelayFastForwardable(0.5f);
 				break;
+
+				async GDTask DecideAmbiguity()
+				{
+					AMDCardSelectionPrompt.Answer answer =
+						await PromptManager.Prompt(new AMDCardSelectionPrompt(null, () => "Select AMD card to use"), attackAbilityState.Authority);
+
+					if(!answer.FirstTerminalSelected)
+					{
+						terminalCardValue = newCardValue;
+					}
+				}
 			}
 		}
 
@@ -252,10 +284,6 @@ public partial class AMDDrawView : Control
 		}
 
 		await terminalCardValue.Apply(attackAbilityState);
-	}
-
-	private async GDTask DecideAmbiguity()
-	{
 	}
 
 	private void UpdateDrawPileSize(AMDCardDeck deck)
