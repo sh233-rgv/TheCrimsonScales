@@ -1,6 +1,7 @@
 ﻿using Godot;
 using GTweens.Builders;
 using GTweens.Easings;
+using GTweens.Tweens;
 using GTweensGodot.Extensions;
 
 public partial class RetaliateEffect : Node2D
@@ -14,6 +15,9 @@ public partial class RetaliateEffect : Node2D
 	private Vector2 _figurePosition;
 	private int _zIndex;
 
+	private GTween _tweenA;
+	private GTween _tweenB;
+
 	public void Init(Figure figure)
 	{
 		_figure = figure;
@@ -24,7 +28,7 @@ public partial class RetaliateEffect : Node2D
 
 		_figure.SetZIndex(_zIndex + 100);
 
-		GTweenSequenceBuilder.New()
+		_tweenA = GTweenSequenceBuilder.New()
 			.AppendCallback(() => _shakeFigure = true)
 			.Append(_figure.TweenScale(0.95f, 0.15f).SetEasing(Easing.OutQuad))
 			.AppendTime(0.2f)
@@ -34,9 +38,9 @@ public partial class RetaliateEffect : Node2D
 				_figure.SetPosition(_figurePosition);
 			})
 			.Append(_figure.TweenScale(1f, 0.15f).SetEasing(Easing.OutBack))
-			.Build().Play();
+			.Build().PlayFastForwardable();
 
-		GTweenSequenceBuilder.New()
+		_tweenB = GTweenSequenceBuilder.New()
 			.AppendTime(0.4f)
 			.Append(this.TweenScale(1.6f, 0.3f).SetEasing(Easing.OutQuad))
 			.Append(this.TweenScale(1.5f, 0.15f).SetEasing(Easing.InQuad))
@@ -46,7 +50,7 @@ public partial class RetaliateEffect : Node2D
 			{
 				_figure.SetZIndex(_zIndex);
 			})
-			.Build().Play();
+			.Build().PlayFastForwardable();
 
 		this.DelayedCall(QueueFree, 3f);
 	}
@@ -59,5 +63,13 @@ public partial class RetaliateEffect : Node2D
 		{
 			_figure.SetPosition(_figurePosition + new Vector2(GD.Randf(), GD.Randf()) * 8f);
 		}
+	}
+
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+
+		_tweenA?.Kill();
+		_tweenB?.Kill();
 	}
 }
