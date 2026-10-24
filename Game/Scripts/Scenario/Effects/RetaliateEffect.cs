@@ -2,7 +2,6 @@
 using GTweens.Builders;
 using GTweens.Easings;
 using GTweens.Tweens;
-using GTweensGodot.Extensions;
 
 public partial class RetaliateEffect : Node2D
 {
@@ -45,7 +44,7 @@ public partial class RetaliateEffect : Node2D
 			.Append(this.TweenScale(1.6f, 0.3f).SetEasing(Easing.OutQuad))
 			.Append(this.TweenScale(1.5f, 0.15f).SetEasing(Easing.InQuad))
 			.AppendTime(0.5f)
-			.Append(this.TweenScale(1f, 0.2f).SetEasing(Easing.InBack))
+			.Append(this.TweenScale(1f, 0.35f).SetEasing(Easing.InBack))
 			.AppendCallback(() =>
 			{
 				_figure.SetZIndex(_zIndex);
