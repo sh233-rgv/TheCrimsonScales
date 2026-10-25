@@ -185,92 +185,102 @@ public partial class AMDDrawView : Control
 				int newTerminalScore = newCardValue.GetAttackModifierValue(attackAbilityState);
 				bool newTerminalExtraEffect = newCardValue.GetHasExtraEffects(attackAbilityState);
 
-				if(currentTerminalScore > newTerminalScore)
+				//TODO: The code below does seem to work, but it can cause desyncs if the player adjusts their settings. Need to change this so the prompt contains the full check and checks the option there
+				// if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character &&
+				//    AppController.Instance.DeviceOptions.DecideAMDWithAdvantage.Value)
+				// {
+				// 	// If the relevant option is enabled, always allow the player to decide between the AMD cards
+				// 	await DecideAmbiguity();
+				// }
+				// else
 				{
-					if(currentTerminalExtraEffect && !newTerminalExtraEffect)
+					if(currentTerminalScore > newTerminalScore)
 					{
-						terminalCardValue = attackAbilityState.SingleTargetHasAdvantage ? terminalCardValue : newCardValue;
-					}
-					else if(!currentTerminalExtraEffect && newTerminalExtraEffect)
-					{
-						if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+						if(currentTerminalExtraEffect && !newTerminalExtraEffect)
 						{
-							await DecideAmbiguity();
+							terminalCardValue = attackAbilityState.SingleTargetHasAdvantage ? terminalCardValue : newCardValue;
+						}
+						else if(!currentTerminalExtraEffect && newTerminalExtraEffect)
+						{
+							if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+							{
+								await DecideAmbiguity();
+							}
+						}
+						else if(currentTerminalExtraEffect && newTerminalExtraEffect)
+						{
+							if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+							{
+								await DecideAmbiguity();
+							}
+						}
+						else //if(!currentTerminalExtraEffect && !newTerminalExtraEffect)
+						{
+							terminalCardValue = attackAbilityState.SingleTargetHasAdvantage ? terminalCardValue : newCardValue;
 						}
 					}
-					else if(currentTerminalExtraEffect && newTerminalExtraEffect)
+					else if(currentTerminalScore < newTerminalScore)
 					{
-						if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+						if(currentTerminalExtraEffect && !newTerminalExtraEffect)
 						{
-							await DecideAmbiguity();
+							//Choice
+							if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+							{
+								await DecideAmbiguity();
+							}
+						}
+						else if(!currentTerminalExtraEffect && newTerminalExtraEffect)
+						{
+							terminalCardValue = attackAbilityState.SingleTargetHasAdvantage ? newCardValue : terminalCardValue;
+						}
+						else if(currentTerminalExtraEffect && newTerminalExtraEffect)
+						{
+							if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+							{
+								await DecideAmbiguity();
+							}
+						}
+						else //if(!currentTerminalExtraEffect && !newTerminalExtraEffect)
+						{
+							terminalCardValue = attackAbilityState.SingleTargetHasAdvantage ? newCardValue : terminalCardValue;
 						}
 					}
-					else //if(!currentTerminalExtraEffect && !newTerminalExtraEffect)
+					else //if(currentTerminalScore == newTerminalScore)
 					{
-						terminalCardValue = attackAbilityState.SingleTargetHasAdvantage ? terminalCardValue : newCardValue;
-					}
-				}
-				else if(currentTerminalScore < newTerminalScore)
-				{
-					if(currentTerminalExtraEffect && !newTerminalExtraEffect)
-					{
-						//Choice
-						if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+						if(currentTerminalExtraEffect && !newTerminalExtraEffect)
 						{
-							await DecideAmbiguity();
+							terminalCardValue = attackAbilityState.SingleTargetHasAdvantage ? terminalCardValue : newCardValue;
 						}
-					}
-					else if(!currentTerminalExtraEffect && newTerminalExtraEffect)
-					{
-						terminalCardValue = attackAbilityState.SingleTargetHasAdvantage ? newCardValue : terminalCardValue;
-					}
-					else if(currentTerminalExtraEffect && newTerminalExtraEffect)
-					{
-						if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+						else if(!currentTerminalExtraEffect && newTerminalExtraEffect)
 						{
-							await DecideAmbiguity();
+							terminalCardValue = attackAbilityState.SingleTargetHasAdvantage ? newCardValue : terminalCardValue;
 						}
-					}
-					else //if(!currentTerminalExtraEffect && !newTerminalExtraEffect)
-					{
-						terminalCardValue = attackAbilityState.SingleTargetHasAdvantage ? newCardValue : terminalCardValue;
-					}
-				}
-				else //if(currentTerminalScore == newTerminalScore)
-				{
-					if(currentTerminalExtraEffect && !newTerminalExtraEffect)
-					{
-						terminalCardValue = attackAbilityState.SingleTargetHasAdvantage ? terminalCardValue : newCardValue;
-					}
-					else if(!currentTerminalExtraEffect && newTerminalExtraEffect)
-					{
-						terminalCardValue = attackAbilityState.SingleTargetHasAdvantage ? newCardValue : terminalCardValue;
-					}
-					else if(currentTerminalExtraEffect && newTerminalExtraEffect)
-					{
-						if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+						else if(currentTerminalExtraEffect && newTerminalExtraEffect)
 						{
-							await DecideAmbiguity();
+							if(attackAbilityState.SingleTargetHasAdvantage && attackAbilityState.Authority is Character)
+							{
+								await DecideAmbiguity();
+							}
 						}
-					}
-					else //if(!currentTerminalExtraEffect && !newTerminalExtraEffect)
-					{
-						// Exact same card
+						else //if(!currentTerminalExtraEffect && !newTerminalExtraEffect)
+						{
+							// Exact same card
+						}
 					}
 				}
 
 				await GDTask.DelayFastForwardable(0.5f);
 				break;
+			}
 
-				async GDTask DecideAmbiguity()
+			async GDTask DecideAmbiguity()
+			{
+				AMDCardSelectionPrompt.Answer answer =
+					await PromptManager.Prompt(new AMDCardSelectionPrompt(null, () => "Select AMD card to use"), attackAbilityState.Authority);
+
+				if(!answer.FirstTerminalSelected)
 				{
-					AMDCardSelectionPrompt.Answer answer =
-						await PromptManager.Prompt(new AMDCardSelectionPrompt(null, () => "Select AMD card to use"), attackAbilityState.Authority);
-
-					if(!answer.FirstTerminalSelected)
-					{
-						terminalCardValue = newCardValue;
-					}
+					terminalCardValue = newCardValue;
 				}
 			}
 		}

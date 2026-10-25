@@ -1105,6 +1105,7 @@ theme_override_constants/separation = 20
 alignment = 1
 
 [node name="AMDDrawView" type="Control" parent="CanvasLayer/UI" unique_id=515860131 node_paths=PackedStringArray("_deckAnchor", "_discardContainer", "_discardAnchor", "_discardTopCardTextureRect", "FirstTerminalButton", "_secondTerminal", "_secondTerminalContainer", "_secondTerminalAnchor", "_secondTerminalTextureRect", "SecondTerminalButton")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
