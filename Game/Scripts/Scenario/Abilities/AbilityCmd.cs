@@ -90,6 +90,11 @@ public static class AbilityCmd
 	public static async GDTask<int> SufferDamage(AbilityState potentialAbilityState, Figure target, int damage,
 		Figure potentialDamageDealer = null, bool fromAttack = false)
 	{
+		if(target.Health == 0)
+		{
+			return 0;
+		}
+
 		potentialDamageDealer ??= potentialAbilityState?.Authority;
 
 		ScenarioEvents.SufferDamage.Parameters sufferDamageParameters =
@@ -639,13 +644,16 @@ public static class AbilityCmd
 	}
 
 	public static GDTask<Figure> SelectFigure(AbilityState state, Action<List<Figure>> getValidTargets, bool mandatory = false,
-		bool autoSelectIfOne = true, bool autoSkipIfNone = false, bool autoConfirmIfOne = false, EffectCollection effectCollection = null, Func<string> hintText = null)
+		bool autoSelectIfOne = true, bool autoSkipIfNone = false, bool autoConfirmIfOne = false, EffectCollection effectCollection = null,
+		Func<string> hintText = null)
 	{
-		return SelectFigure(state.Authority, getValidTargets, mandatory, autoSelectIfOne, autoSkipIfNone, autoConfirmIfOne, effectCollection, hintText);
+		return SelectFigure(state.Authority, getValidTargets, mandatory, autoSelectIfOne, autoSkipIfNone, autoConfirmIfOne, effectCollection,
+			hintText);
 	}
 
 	public static async GDTask<Figure> SelectFigure(Figure authority, Action<List<Figure>> getValidTargets, bool mandatory = false,
-		bool autoSelectIfOne = true, bool autoSkipIfNone = false, bool autoConfirmIfOne = false, EffectCollection effectCollection = null, Func<string> hintText = null)
+		bool autoSelectIfOne = true, bool autoSkipIfNone = false, bool autoConfirmIfOne = false, EffectCollection effectCollection = null,
+		Func<string> hintText = null)
 	{
 		TargetSelectionPrompt.Answer targetAnswer = await PromptManager.Prompt(
 			new TargetSelectionPrompt(getValidTargets, autoSelectIfOne, autoSkipIfNone, autoConfirmIfOne, mandatory, effectCollection,
@@ -1043,7 +1051,7 @@ public static class AbilityCmd
 			));
 		}
 
-		await GenericChoice(potentialInfuser, subscriptions);
+		await GenericChoice(potentialInfuser ?? GameController.Instance.CharacterManager.FirstAlive(), subscriptions);
 
 		return element;
 	}
