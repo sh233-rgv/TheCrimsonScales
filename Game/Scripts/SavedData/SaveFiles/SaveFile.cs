@@ -8,7 +8,8 @@ using FileAccess = Godot.FileAccess;
 public abstract class SaveFile<TSaveData>
 	where TSaveData : SaveData, new()
 {
-	private readonly string _path;
+	private readonly string _normalPath;
+	private readonly string _backupPath;
 
 	public TSaveData SaveData { get; private set; }
 
@@ -18,37 +19,34 @@ public abstract class SaveFile<TSaveData>
 
 	public SaveFile(string path)
 	{
-		_path = path + ".save";
+		_normalPath = path + ".save";
+		_backupPath = path + "-backup.save";
 
-		if(FileAccess.FileExists(_path))
+		TSaveData saveData = null;
+		if(!TryLoad(_normalPath, ref saveData, out bool corruptedNormal))
 		{
-			try
+			if(!TryLoad(_backupPath, ref saveData, out bool corruptedBackup))
 			{
-				string json = FileAccess.GetFileAsString(_path);
-				json = Migrate(json);
-				SaveData = JsonConvert.DeserializeObject<TSaveData>(json, SaveManager.JsonSerializerSettings);
-			}
-			catch(Exception e)
-			{
-				Log.Warning(e);
-				SaveData = null;
-
-				AppController.Instance.DelayedCall(() =>
+				if(corruptedNormal)
 				{
-					string fileName = Path.GetFileNameWithoutExtension(_path);
-					AppController.Instance.PopupManager.RequestPopup(
-						new TextPopup.Request("Save file issue",
-							$"The save file `{fileName}` was corrupted! It has been replaced with a new save file.\nWe're very sorry for the inconvenience."));
-					Save();
-				});
+					AppController.Instance.DelayedCall(() =>
+					{
+						string fileName = Path.GetFileNameWithoutExtension(_normalPath);
+						AppController.Instance.PopupManager.RequestPopup(
+							new TextPopup.Request("Save file issue",
+								$"The save file `{fileName}` was corrupted! It has been replaced with a new save file.\nWe're very sorry for the inconvenience."));
+						Save();
+					});
+				}
+
+				NewSaveData();
+				saveData = SaveData;
 			}
 		}
 
-		if(SaveData == null)
-		{
-			NewSaveData();
-		}
+		SaveData = saveData;
 	}
+
 
 	public void Save()
 	{
@@ -60,10 +58,11 @@ public abstract class SaveFile<TSaveData>
 		SaveData.AppVersion = GetVersion();
 		SaveData.LastSaved = DateTime.Now;
 
-		using FileAccess file = FileAccess.Open(_path, FileAccess.ModeFlags.Write);
-
-		string json = JsonConvert.SerializeObject(SaveData, SaveManager.JsonSerializerSettings);
-		file.StoreLine(json);
+		if(TrySave(_normalPath))
+		{
+			// Only save a backup save file if the save succeeded
+			TrySave(_backupPath);
+		}
 	}
 
 	public void NewSaveData()
@@ -101,5 +100,50 @@ public abstract class SaveFile<TSaveData>
 		json = JsonConvert.SerializeObject(saveData, SaveManager.JsonSerializerSettings);
 
 		return json;
+	}
+
+	private bool TrySave(string path)
+	{
+		try
+		{
+			using FileAccess file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+
+			string json = JsonConvert.SerializeObject(SaveData, SaveManager.JsonSerializerSettings);
+			file.StoreLine(json);
+
+			return true;
+		}
+		catch(Exception e)
+		{
+			Log.Warning(e);
+
+			return false;
+		}
+	}
+
+	private bool TryLoad(string path, ref TSaveData saveData, out bool corrupted)
+	{
+		corrupted = false;
+
+		if(FileAccess.FileExists(path))
+		{
+			try
+			{
+				string json = FileAccess.GetFileAsString(path);
+				json = Migrate(json);
+				saveData = JsonConvert.DeserializeObject<TSaveData>(json, SaveManager.JsonSerializerSettings);
+
+				return true;
+			}
+			catch(Exception e)
+			{
+				Log.Warning(e);
+
+				corrupted = true;
+				return false;
+			}
+		}
+
+		return false;
 	}
 }
