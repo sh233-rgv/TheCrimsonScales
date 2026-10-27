@@ -906,10 +906,12 @@ public static class AbilityCmd
 		Figure figureA = hexObjectA as Figure;
 		Figure figureB = hexObjectB as Figure;
 
+		object subscriber = new object();
+
 		if(figureA != null && figureB != null)
 		{
 			// Ignore figure to swap with
-			ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Subscribe(figureA, figureB,
+			ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Subscribe(figureA, subscriber,
 				parameters =>
 					(parameters.Figure == figureA &&
 					 parameters.OtherFigure == figureB) ||
@@ -936,7 +938,7 @@ public static class AbilityCmd
 
 		if(figureA != null && figureB != null)
 		{
-			ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Unsubscribe(figureA, figureB);
+			ScenarioCheckEvents.CanStopMoveAtHexWithFigureCheckEvent.Unsubscribe(figureA, subscriber);
 		}
 
 		return canSwap;
