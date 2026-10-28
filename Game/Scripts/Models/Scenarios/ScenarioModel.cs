@@ -26,6 +26,7 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 
 	public abstract List<MonsterModel> MonsterModels { get; }
 	public abstract List<SavedReward> Rewards { get; }
+	public virtual List<ScenarioEffect> ScenarioEffects { get; } = [];
 
 	public virtual string BGMPath => "res://Audio/BGM/Floral-Woods.ogg";
 	public virtual string BGSPath => null;
@@ -81,11 +82,6 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 			}, order: 1000000
 		);
 
-		await GDTask.CompletedTask;
-	}
-
-	public virtual async GDTask StartOfScenarioEffects(Character character)
-	{
 		await GDTask.CompletedTask;
 	}
 
@@ -255,7 +251,8 @@ public abstract class ScenarioModel : AbstractModel<ScenarioModel>, IEventSubscr
 					}
 
 					list.AddRange(hexes.Where(hex =>
-						(hex.IsEmpty() || canHaveFeatures && hex.IsUnoccupied() && !hex.HasHexObjectOfType<Obstacle>()) && RangeHelper.Distance(spawnHex, hex) == distance)
+						(hex.IsEmpty() || canHaveFeatures && hex.IsUnoccupied() && !hex.HasHexObjectOfType<Obstacle>()) &&
+						RangeHelper.Distance(spawnHex, hex) == distance)
 					);
 				}
 			},

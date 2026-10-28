@@ -1,19 +1,20 @@
-﻿// using System;
-//
-// public class AllStartWithConditionScenarioEffect : ScenarioEffect
-// {
-// 	private ConditionModel[] _conditions;
-//
-// 	public AllStartWithConditionScenarioEffect(params ConditionModel[] conditions)
-// 	{
-// 		_conditions = conditions;
-// 	}
-//
-// 	public override string GetDescription(RichTextParameters richTextParameters) => $"All characters gain {Icons.InlineCondition()}";
-//
-// 	public override void Activate(Character character)
-// 	{
-// 		throw new NotImplementedException();
-// 	}
-// }
+﻿using System.Linq;
+using Fractural.Tasks;
 
+public class AllStartWithConditionScenarioEffect : ScenarioEffect
+{
+	private readonly ConditionModel[] _conditionModels;
+
+	public AllStartWithConditionScenarioEffect(params ConditionModel[] conditionModels)
+	{
+		_conditionModels = conditionModels;
+	}
+
+	public override string GetDescription(RichTextParameters textParameters) =>
+		$"All characters gain {Icons.InlineConditions(_conditionModels, textParameters)}.";
+
+	public override async GDTask Activate(Character character)
+	{
+		await AbilityCmd.AddConditions(null, character, _conditionModels.ToList());
+	}
+}

@@ -1,6 +1,8 @@
-﻿public abstract class ScenarioEffect
-{
-	public abstract string GetDescription(RichTextParameters richTextParameters);
+﻿using Fractural.Tasks;
 
-	public abstract void Activate(Character character);
+public abstract class ScenarioEffect
+{
+	public abstract string GetDescription(RichTextParameters textParameters);
+
+	public abstract GDTask Activate(Character character);
 }

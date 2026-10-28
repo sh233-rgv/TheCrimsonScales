@@ -92,10 +92,17 @@ public class ScenarioSetupPhase : ScenarioPhase
 		foreach(Character character in GameController.Instance.CharacterManager.Characters)
 		{
 			await character.OnScenarioSetupCompleted();
-			if(ScenarioCheckEvents.ApplyScenarioEffectsCheckEvent.Fire(new ScenarioCheckEvents.ApplyScenarioEffectsCheck.Parameters(character))
-			   .CanApply)
+		}
+
+		foreach(ScenarioEffect scenarioEffect in GameController.Instance.ScenarioModel.ScenarioEffects)
+		{
+			foreach(Character character in GameController.Instance.CharacterManager.Characters)
 			{
-				await GameController.Instance.ScenarioModel.StartOfScenarioEffects(character);
+				if(ScenarioCheckEvents.ApplyScenarioEffectsCheckEvent.Fire(new ScenarioCheckEvents.ApplyScenarioEffectsCheck.Parameters(character))
+				   .CanApply)
+				{
+					await scenarioEffect.Activate(character);
+				}
 			}
 		}
 
