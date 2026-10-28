@@ -106,6 +106,8 @@ public class ScenarioSetupPhase : ScenarioPhase
 			}
 		}
 
+		await GameController.Instance.ScenarioModel.OnScenarioEffectsPerformed();
+
 		foreach(SavedPartyGoal savedPartyGoal in GameController.Instance.SavedCampaign.SavedPartyGoals.PartyGoals)
 		{
 			await savedPartyGoal.Model.OnScenarioSetupPhaseCompleted(savedPartyGoal);
