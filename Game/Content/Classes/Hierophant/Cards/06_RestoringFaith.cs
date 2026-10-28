@@ -109,15 +109,19 @@ public class RestoringFaith : HierophantCardModel<RestoringFaith.CardTop, Restor
 							}
 						}
 					}
-
-					await GDTask.CompletedTask;
 				})
-				.WithConditionalAbilityCheck(async state => GameController.Instance.CharacterManager.Characters.Except([state.Performer])
-					.Any(figure => figure is Character character && !character.IsDead && character.Cards
-						.Any(card => card.CardState == CardState.Persistent && card.Top.Model is HierophantPrayerCardSide && card.ActiveActionStates
-							.Any(actionState => actionState.AbilityStates
-								.Any(abilityState =>
-									abilityState is UseSlotAbility.State useSlotAbilityState && useSlotAbilityState.UseSlotIndex > 0)))))
+				.WithConditionalAbilityCheck(async state =>
+				{
+					await GDTask.CompletedTask;
+
+					return GameController.Instance.CharacterManager.Characters.Except([state.Performer])
+						.Any(figure => figure is Character character && !character.IsDead && character.Cards
+							.Any(card => card.CardState == CardState.Persistent && card.Top.Model is HierophantPrayerCardSide && card
+								.ActiveActionStates
+								.Any(actionState => actionState.AbilityStates
+									.Any(abilityState =>
+										abilityState is UseSlotAbility.State useSlotAbilityState && useSlotAbilityState.UseSlotIndex > 0))));
+				})
 				.Build())
 		];
 	}
