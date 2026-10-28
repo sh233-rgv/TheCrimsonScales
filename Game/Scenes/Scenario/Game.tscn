@@ -1011,6 +1011,7 @@ self_modulate = Color(1, 1, 1, 1)
 show_behind_parent = false
 top_level = false
 clip_children = 0
+oversampling_with_scale = 0
 light_mask = 1
 visibility_layer = 1
 z_index = 0
@@ -1020,9 +1021,10 @@ texture_filter = 0
 texture_repeat = 0
 material = null
 use_parent_material = false
-clip_contents = false
 custom_minimum_size = Vector2(0, 0)
-layout_direction = 0
+custom_maximum_size = Vector2(-1, -1)
+propagate_maximum_size = false
+clip_contents = false
 layout_mode = 1
 anchors_preset = 15
 anchor_left = 0.0
@@ -1042,7 +1044,17 @@ pivot_offset_ratio = Vector2(0, 0)
 size_flags_horizontal = 1
 size_flags_vertical = 1
 size_flags_stretch_ratio = 1.0
+offset_transform_enabled = false
+offset_transform_position = Vector2(0, 0)
+offset_transform_position_ratio = Vector2(0, 0)
+offset_transform_scale = Vector2(1, 1)
+offset_transform_rotation = 0.0
+offset_transform_pivot = Vector2(0, 0)
+offset_transform_pivot_ratio = Vector2(0.5, 0.5)
+offset_transform_visual_only = true
 localize_numeral_system = true
+layout_direction = 0
+translation_context = &""
 tooltip_text = ""
 tooltip_auto_translate_mode = 0
 focus_neighbor_left = NodePath("")
@@ -1573,6 +1585,7 @@ self_modulate = Color(1, 1, 1, 1)
 show_behind_parent = false
 top_level = false
 clip_children = 0
+oversampling_with_scale = 0
 light_mask = 1
 visibility_layer = 1
 z_index = 0
@@ -1582,9 +1595,10 @@ texture_filter = 0
 texture_repeat = 0
 material = null
 use_parent_material = false
-clip_contents = false
 custom_minimum_size = Vector2(0, 0)
-layout_direction = 0
+custom_maximum_size = Vector2(-1, -1)
+propagate_maximum_size = false
+clip_contents = false
 layout_mode = 1
 anchors_preset = 15
 anchor_left = 0.0
@@ -1604,7 +1618,17 @@ pivot_offset_ratio = Vector2(0, 0)
 size_flags_horizontal = 1
 size_flags_vertical = 1
 size_flags_stretch_ratio = 1.0
+offset_transform_enabled = false
+offset_transform_position = Vector2(0, 0)
+offset_transform_position_ratio = Vector2(0, 0)
+offset_transform_scale = Vector2(1, 1)
+offset_transform_rotation = 0.0
+offset_transform_pivot = Vector2(0, 0)
+offset_transform_pivot_ratio = Vector2(0.5, 0.5)
+offset_transform_visual_only = true
 localize_numeral_system = true
+layout_direction = 0
+translation_context = &""
 tooltip_text = ""
 tooltip_auto_translate_mode = 0
 focus_neighbor_left = NodePath("")
@@ -1684,6 +1708,7 @@ self_modulate = Color(1, 1, 1, 1)
 show_behind_parent = false
 top_level = false
 clip_children = 0
+oversampling_with_scale = 0
 light_mask = 1
 visibility_layer = 1
 z_index = 0
@@ -1693,9 +1718,10 @@ texture_filter = 0
 texture_repeat = 0
 material = null
 use_parent_material = false
-clip_contents = false
 custom_minimum_size = Vector2(0, 0)
-layout_direction = 0
+custom_maximum_size = Vector2(-1, -1)
+propagate_maximum_size = false
+clip_contents = false
 layout_mode = 1
 anchors_preset = 15
 anchor_left = 0.0
@@ -1715,7 +1741,17 @@ pivot_offset_ratio = Vector2(0, 0)
 size_flags_horizontal = 1
 size_flags_vertical = 1
 size_flags_stretch_ratio = 1.0
+offset_transform_enabled = false
+offset_transform_position = Vector2(0, 0)
+offset_transform_position_ratio = Vector2(0, 0)
+offset_transform_scale = Vector2(1, 1)
+offset_transform_rotation = 0.0
+offset_transform_pivot = Vector2(0, 0)
+offset_transform_pivot_ratio = Vector2(0.5, 0.5)
+offset_transform_visual_only = true
 localize_numeral_system = true
+layout_direction = 0
+translation_context = &""
 tooltip_text = ""
 tooltip_auto_translate_mode = 0
 focus_neighbor_left = NodePath("")
@@ -1780,7 +1816,7 @@ layout_mode = 2
 texture = ExtResource("69_b2ul3")
 expand_mode = 1
 
-[node name="ScenarioLostView" type="Control" parent="CanvasLayer/UI" unique_id=1166739896 node_paths=PackedStringArray("_retryButton", "_returnToTownButton")]
+[node name="ScenarioLostView" type="Control" parent="CanvasLayer/UI" unique_id=1166739896 node_paths=PackedStringArray("_undoButton", "_retryButton", "_returnToTownButton")]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -1789,8 +1825,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("43_vn1gt")
-_retryButton = NodePath("Retry")
-_returnToTownButton = NodePath("ReturnToTown")
+_undoButton = NodePath("HBoxContainer/Undo")
+_retryButton = NodePath("HBoxContainer/Retry")
+_returnToTownButton = NodePath("HBoxContainer/ReturnToTown")
 
 [node name="Background" type="ColorRect" parent="CanvasLayer/UI/ScenarioLostView" unique_id=704371925]
 layout_mode = 1
@@ -1816,27 +1853,47 @@ label_settings = SubResource("LabelSettings_mdo4f")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Retry" parent="CanvasLayer/UI/ScenarioLostView" unique_id=611575934 instance=ExtResource("29_4v2ql")]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/ScenarioLostView" unique_id=1624588872]
 layout_mode = 1
-offset_left = -310.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
 offset_top = -250.0
-offset_right = -10.0
+offset_right = 20.0
 offset_bottom = -150.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 20
+alignment = 1
 
-[node name="Label" parent="CanvasLayer/UI/ScenarioLostView/Retry/BetterButton/Panel" parent_id_path=PackedInt32Array(611575934, 1664087955) index="0" unique_id=1161890966]
+[node name="Undo" parent="CanvasLayer/UI/ScenarioLostView/HBoxContainer" unique_id=82874565 instance=ExtResource("29_4v2ql")]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+_startActive = true
+
+[node name="Label" parent="CanvasLayer/UI/ScenarioLostView/HBoxContainer/Undo/BetterButton/Panel" parent_id_path=PackedInt32Array(82874565, 1664087955) index="0" unique_id=1161890966]
+text = "Undo"
+
+[node name="Retry" parent="CanvasLayer/UI/ScenarioLostView/HBoxContainer" unique_id=2033901443 instance=ExtResource("29_4v2ql")]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+_startActive = true
+
+[node name="Label" parent="CanvasLayer/UI/ScenarioLostView/HBoxContainer/Retry/BetterButton/Panel" parent_id_path=PackedInt32Array(2033901443, 1664087955) index="0" unique_id=1161890966]
 text = "Replay"
 
-[node name="ReturnToTown" parent="CanvasLayer/UI/ScenarioLostView" unique_id=905364201 instance=ExtResource("29_4v2ql")]
-layout_mode = 1
-offset_left = 10.0
-offset_top = -250.0
-offset_right = 310.0
-offset_bottom = -150.0
+[node name="ReturnToTown" parent="CanvasLayer/UI/ScenarioLostView/HBoxContainer" unique_id=1653905658 instance=ExtResource("29_4v2ql")]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+_startActive = true
 
-[node name="Label" parent="CanvasLayer/UI/ScenarioLostView/ReturnToTown/BetterButton/Panel" parent_id_path=PackedInt32Array(905364201, 1664087955) index="0" unique_id=1161890966]
+[node name="Label" parent="CanvasLayer/UI/ScenarioLostView/HBoxContainer/ReturnToTown/BetterButton/Panel" parent_id_path=PackedInt32Array(1653905658, 1664087955) index="0" unique_id=1161890966]
 text = "Return to Town"
 
-[node name="ScenarioWonView" type="Control" parent="CanvasLayer/UI" unique_id=722758123 node_paths=PackedStringArray("_continueButton")]
+[node name="ScenarioWonView" type="Control" parent="CanvasLayer/UI" unique_id=722758123 node_paths=PackedStringArray("_undoButton", "_continueButton")]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -1845,7 +1902,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("44_7vhok")
-_continueButton = NodePath("ContinueButton")
+_undoButton = NodePath("HBoxContainer/Undo")
+_continueButton = NodePath("HBoxContainer/ContinueButton")
 
 [node name="Background" type="ColorRect" parent="CanvasLayer/UI/ScenarioWonView" unique_id=1935944811]
 layout_mode = 1
@@ -1871,12 +1929,36 @@ label_settings = SubResource("LabelSettings_mdo4f")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ContinueButton" parent="CanvasLayer/UI/ScenarioWonView" unique_id=1682459466 instance=ExtResource("29_4v2ql")]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/ScenarioWonView" unique_id=572340059]
 layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
 offset_top = -250.0
+offset_right = 20.0
 offset_bottom = -150.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 20
+alignment = 1
 
-[node name="Label" parent="CanvasLayer/UI/ScenarioWonView/ContinueButton/BetterButton/Panel" parent_id_path=PackedInt32Array(1682459466, 1664087955) index="0" unique_id=1161890966]
+[node name="Undo" parent="CanvasLayer/UI/ScenarioWonView/HBoxContainer" unique_id=987819709 instance=ExtResource("29_4v2ql")]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+_startActive = true
+
+[node name="Label" parent="CanvasLayer/UI/ScenarioWonView/HBoxContainer/Undo/BetterButton/Panel" parent_id_path=PackedInt32Array(987819709, 1664087955) index="0" unique_id=1161890966]
+text = "Undo"
+
+[node name="ContinueButton" parent="CanvasLayer/UI/ScenarioWonView/HBoxContainer" unique_id=1682459466 instance=ExtResource("29_4v2ql")]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+_startActive = true
+
+[node name="Label" parent="CanvasLayer/UI/ScenarioWonView/HBoxContainer/ContinueButton/BetterButton/Panel" parent_id_path=PackedInt32Array(1682459466, 1664087955) index="0" unique_id=1161890966]
 text = "Continue"
 
 [node name="CharacterStartHexMoveIndicator" type="Control" parent="CanvasLayer/UI" unique_id=1411136690 node_paths=PackedStringArray("_icon", "_line2D")]
@@ -1968,6 +2050,8 @@ label_settings = SubResource("LabelSettings_hctre")
 [editable path="CanvasLayer/UI/ElementsView/Elements/Dark"]
 [editable path="CanvasLayer/UI/CardSelectionView"]
 [editable path="CanvasLayer/UI/CardSelectionView/MarginContainer/Container/CardSelectionList"]
-[editable path="CanvasLayer/UI/ScenarioLostView/Retry"]
-[editable path="CanvasLayer/UI/ScenarioLostView/ReturnToTown"]
-[editable path="CanvasLayer/UI/ScenarioWonView/ContinueButton"]
+[editable path="CanvasLayer/UI/ScenarioLostView/HBoxContainer/Undo"]
+[editable path="CanvasLayer/UI/ScenarioLostView/HBoxContainer/Retry"]
+[editable path="CanvasLayer/UI/ScenarioLostView/HBoxContainer/ReturnToTown"]
+[editable path="CanvasLayer/UI/ScenarioWonView/HBoxContainer/Undo"]
+[editable path="CanvasLayer/UI/ScenarioWonView/HBoxContainer/ContinueButton"]
